@@ -1,0 +1,19 @@
+{
+  "name": "Playfully.org",
+  "version": "0.0.0",
+  "homepage": "http://playfully.org/",
+  "authors": [
+    "Gregg Hartling <gregg@incrediblylifelike.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16"
+  }
+}
