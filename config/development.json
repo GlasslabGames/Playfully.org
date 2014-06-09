@@ -3,6 +3,6 @@
   "PORT": 3000,
   "SERVER_MODE": "dev",
   "VERSION": "0.0.1",
-  "PUBLIC_DIRECTORY": "/public",
+  "PUBLIC_DIRECTORY": "/dist",
   "LOGGING_FORMAT": "dev"
 }

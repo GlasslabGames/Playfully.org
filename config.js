@@ -6,10 +6,10 @@
 var config,
     env = (process.env.NODE_ENV ? process.env.NODE_ENV : 'development');
 
-var config_file = './config/' + env + '.json';
+var configFile = './config/' + env + '.json';
 
 try {
-  config = require(config_file);
+  config = require(configFile);
 }
 catch (err) {
   if (err.code && err.code === 'MODULE_NOT_FOUND') {

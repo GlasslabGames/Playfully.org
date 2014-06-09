@@ -1,12 +1,11 @@
-/* jshint es5:true */
 
 var express = require('express'),
     bodyParser = require('body-parser'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
     errorhandler = require('errorhandler'),
-    methodOverride = require('method-override');
-    serveStatic = require('serve-static');
+    methodOverride = require('method-override'),
+    serveStatic = require('serve-static'),
     http = require('http'),
     path = require('path'),
     config = require('./config');
@@ -19,7 +18,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 app.set('layout', 'layout');
 
-app.use(favicon(path.join(__dirname, config.PUBLIC_DIRECTORY) + '/favicon.ico'));
+// app.use(favicon(path.join(__dirname, config.PUBLIC_DIRECTORY) + '/favicon.ico'));
 app.use(logger({format: config.LOGGING_FORMAT}));
 app.use(bodyParser());
 app.use(errorhandler());

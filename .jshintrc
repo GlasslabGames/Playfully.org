@@ -1,0 +1,33 @@
+{
+  "nomen": false,
+  "curly": true,
+  "camelcase": true,
+  "eqeqeq": false,
+  "newcap": true,
+  "undef": true,
+  "trailing": true,
+  "strict": true,
+  "latedef": true,
+  "indent": false,
+  "quotmark": false,
+  "smarttabs": true,
+  "globals": {
+      "window": true,
+      "document": true,
+      "navigator": true,
+      "__dirname": true,
+      "angular": true,
+      "define": true,
+      "require": true,
+      "requirejs": true,
+      "process": true,
+      "history": true,
+      "module": true,
+      "console": true,
+      "describe": true,
+      "beforeEach": true,
+      "expect": true,
+      "it": true,
+      "Image": true
+  }
+}
