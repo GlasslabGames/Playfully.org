@@ -25,6 +25,13 @@ module.exports = function(grunt) {
       }
     },
 
+    uglify: {
+      options: {
+        banner: '/**\n' +
+        ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' + ' */\n\n'
+      }
+    },
+
     useminPrepare: {
       html: 'src/index.html',
       options: {
@@ -56,6 +63,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   // grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -70,6 +78,6 @@ module.exports = function(grunt) {
     ['jshint', 'clean:build', 'copy:build']);
 
   grunt.registerTask('compile',
-    ['clean:dist', 'useminPrepare', 'concat', 'uglify', 'copy:compile', 'usemin']);
+    ['clean:dist', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'copy:compile', 'usemin']);
 
 };
