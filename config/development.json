@@ -1,8 +1,0 @@
-{
-  "HOST": "127.0.01",
-  "PORT": 3000,
-  "SERVER_MODE": "dev",
-  "VERSION": "0.0.1",
-  "PUBLIC_DIRECTORY": "/dist",
-  "LOGGING_FORMAT": "dev"
-}

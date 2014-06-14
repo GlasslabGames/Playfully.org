@@ -9,5 +9,16 @@ Playfully.org web site.
 Installation
 ------------
 
-1. `npm install`
-2. `npm start`
+Make sure you have Node.js installed.
+
+1. git clone git@github.com:GlasslabGames/Playfully.org.git
+2. cd Playfully.org
+3. sudo npm -g install grunt-cli karma bower
+4. npm install
+5. bower install
+6. grunt watch
+
+
+
+
+

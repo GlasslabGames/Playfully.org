@@ -6,8 +6,9 @@
 
 .DS_Store
 .tmp
-/node_modules
-/npm-debug.log
+node_modules
+npm-debug.log
 build
 dist
+vendor
 bower_components

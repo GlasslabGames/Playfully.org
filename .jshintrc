@@ -28,6 +28,8 @@
       "beforeEach": true,
       "expect": true,
       "it": true,
-      "Image": true
+      "Image": true,
+      "BaseController": true,
+      "Class": true
   }
 }

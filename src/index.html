@@ -1,37 +1,75 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html ng-app="playfully" ng-controller="AppCtrl">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Playfully.org</title>
-    <meta name="description" content="">
+    <title ng-bind="pageTitle"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- build:css css/style.min.css -->
-      <link rel="stylesheet" href="./normalize.css">
-      <link rel="stylesheet" href="./app.css">
-    <!-- endbuild -->
+    <!-- font awesome from BootstrapCDN -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
   </head>
   <body>
-    <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-  
-    <h1>Playfully.org</h1>
-    <h2>A cool thing</h2>
+    <div class="container">
+      <div class="navbar navbar-default">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
+            ng-click="menuCollapsed = ! menuCollapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="navbar-brand">
+            Playfully 
+            <!--small>
+              <a href="http://github.com/ngbp/ngbp/blob/v<%= version %>-release/CHANGELOG.md">
+                v<%= version %>
+              </a>
+            </small-->
+          </div>
+        </div>
+        <div class="collapse navbar-collapse" collapse="menuCollapsed">
+          <ul class="nav navbar-nav navbar-left">
+            <li ui-sref-active="active">
+              <a href ui-sref="home">
+                <i class="fa fa-home"></i>
+                Home
+              </a>
+            </li>
+            <li ui-sref-active="active">
+              <a href ui-sref="about">
+                <i class="fa fa-play-circle"></i>
+                Games
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-right">
+            <button type="button" class="btn btn-default navbar-btn">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- build:js js/libs.min.js -->
-      <script src="../bower_components/underscore/underscore.js"></script>
-      <script src="../bower_components/angular/angular.js"></script>
-    <!-- endbuild -->
+    <div class="container" ui-view="main">
+    </div>
 
-    <!-- build:js js/playfully.min.js -->
-      <script src="./app.js"></script>
-      <script src="./app-controller.js"></script>
-    <!-- endbuild -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <ul class="nav nav-pills">
+            <li><a href="#">Support</a></li>
+            <li><a href="#">GlassLab</a></li>
+            <li><a href="#">Legal</a></li>
+            <li><a href="#">Developer</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
   </body>
 </html>
 

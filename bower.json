@@ -1,6 +1,6 @@
 {
-  "name": "Playfully.org",
-  "version": "0.0.0",
+  "name": "playfully",
+  "version": "0.0.1",
   "homepage": "http://playfully.org/",
   "authors": [
     "Gregg Hartling <gregg@incrediblylifelike.com>"
@@ -13,7 +13,13 @@
     "test",
     "tests"
   ],
-  "dependencies": {
-    "angular": "~1.2.16"
-  }
+  "devDependencies": {
+    "underscore": "~1.6",
+    "angular": "~1.2",
+    "angular-mocks": "~1.2",
+    "bootstrap": "~3.1",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-router": "~0.2"
+  },
+  "dependencies": {}
 }
