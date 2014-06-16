@@ -1,0 +1,13 @@
+<div>
+  <div ng-show="isAuthenticated()">
+    Welcome back, 
+    <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>!
+    <button type="button" class="btn btn-default navbar-btn btn-logout"
+      data-ng-click="logout()">Log out</button>
+  </div>
+
+  <div ng-hide="isAuthenticated()">
+    <button type="button" class="btn btn-default navbar-btn btn-login"
+      data-ng-click="login()">Sign in</button>
+  </div>
+</div>

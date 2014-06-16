@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h3 class="modal-title">Sign In</h3>
+</div>
+
+<form class="modal-body login-form" ng-submit="login()">
+
+  <div class="alert alert-warning" ng-show="authReason">
+    {{authReason}}
+  </div>
+  <div class="alert alert-error" ng-show="authError">
+    {{authError}}
+  </div>
+  <div class="alert alert-info">Please enter your login details</div>
+
+  <div class="form-group">
+    <label for="credentials-email">Email address or screen name</label>
+    <input type="text" class="form-control" id="credentials-username" placeholder="Enter email or screen name" required autofocus ng-model="credentials.username">
+  </div>
+  <div class="form-group">
+    <label for="credentials-password">Password</label>
+    <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+  </div>
+</form>
+
+<div class="modal-footer">
+  <input type="submit" class="btn btn-success" ng-click="login()" value="Sign In">
+  <button class="btn btn-default" ng-click="cancelLogin()">Cancel</button>
+</div>

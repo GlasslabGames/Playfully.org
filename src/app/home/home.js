@@ -16,7 +16,7 @@ angular.module( 'playfully.home', [
 })
 
 .controller( 'HomeCtrl', function HomeController( $scope ) {
-  console.log("Got to here");
+
 });
 
 

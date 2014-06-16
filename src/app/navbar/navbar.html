@@ -1,0 +1,34 @@
+<div class="navbar navbar-default" data-ng-controller="NavbarCtrl">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
+      ng-click="menuCollapsed = ! menuCollapsed">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <div class="navbar-brand">
+      Playfully 
+    </div>
+  </div>
+  <div class="collapse navbar-collapse" collapse="menuCollapsed">
+    <ul class="nav navbar-nav navbar-left">
+      <li ui-sref-active="active">
+        <a href ui-sref="home">
+          <i class="fa fa-home"></i>
+          Home
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href ui-sref="about">
+          <i class="fa fa-play-circle"></i>
+          Games
+        </a>
+      </li>
+    </ul>
+    <div class="navbar-right">
+      <login-navbar></login-navbar>
+    </div>
+  </div>
+</div>
+

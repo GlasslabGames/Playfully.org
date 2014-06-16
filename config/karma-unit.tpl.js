@@ -9,6 +9,8 @@ module.exports = function ( karma ) {
      * This is the list of file patterns to load into the browser during testing.
      */
     files: [
+      'vendor/jquery/dist/jquery.min.js',
+      'vendor/jasmine-jquery/lib/jasmine-jquery.js',
       <% scripts.forEach( function ( file ) { %>'<%= file %>',
       <% }); %>
       'src/**/*.js',
@@ -16,9 +18,10 @@ module.exports = function ( karma ) {
     exclude: [
       'src/assets/**/*.js'
     ],
-    frameworks: [ 'jasmine' ],
+    frameworks: [ 'jasmine'],
     plugins: [ 'karma-jasmine', 'karma-firefox-launcher'],
-    preprocessors: { },
+    preprocessors: { 
+    },
 
     /**
      * How to report, by default.
@@ -32,6 +35,8 @@ module.exports = function ( karma ) {
     port: 9018,
     runnerPort: 9100,
     urlRoot: '/',
+
+    logLevel: karma.LOG_DEBUG,
 
     /** 
      * Disable file watching by default.
