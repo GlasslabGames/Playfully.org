@@ -17,7 +17,14 @@ angular.module( 'playfully', [
   UserService.requestCurrentUser();
 })
 
+/**
+* This is the root controller for the application
+*
+* @class AppCtrl
+* @constructor
+*/
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
+
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;

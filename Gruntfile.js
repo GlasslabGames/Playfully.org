@@ -11,6 +11,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-karma');
@@ -183,25 +184,6 @@ module.exports = function ( grunt ) {
       }
     },
 
-    /**
-     * `grunt coffee` compiles the CoffeeScript sources. To work well with the
-     * rest of the build, we have a separate compilation task for sources and
-     * specs so they can go to different places. For example, we need the
-     * sources to live with the rest of the copied JavaScript so we can include
-     * it in the final build, but we don't want to include our specs there.
-     */
-    // coffee: {
-    //   source: {
-    //     options: {
-    //       bare: true
-    //     },
-    //     expand: true,
-    //     cwd: '.',
-    //     src: [ '<%= app_files.coffee %>' ],
-    //     dest: '<%= build_dir %>',
-    //     ext: '.js'
-    //   }
-    // },
 
     /**
      * `ng-min` annotates the sources before minifying. That is, it allows us
@@ -286,23 +268,6 @@ module.exports = function ( grunt ) {
       globals: {}
     },
 
-    /**
-     * `coffeelint` does the same as `jshint`, but for CoffeeScript.
-     * CoffeeScript is not the default in ngBoilerplate, so we're just using
-     * the defaults here.
-     */
-    // coffeelint: {
-    //   src: {
-    //     files: {
-    //       src: [ '<%= app_files.coffee %>' ]
-    //     }
-    //   },
-    //   test: {
-    //     files: {
-    //       src: [ '<%= app_files.coffeeunit %>' ]
-    //     }
-    //   }
-    // },
 
     /**
      * HTML2JS is a Grunt plugin that takes all of your template files and
@@ -347,6 +312,25 @@ module.exports = function ( grunt ) {
       },
       continuous: {
         singleRun: true
+      }
+    },
+
+    /**
+     * Configuration for YUIDoc, which automatically generates documentation
+     * for the application based on comments in the source code.
+     *
+     * See: http://yui.github.io/yuidoc/
+     */
+    yuidoc: {
+      compile: {
+        name: '<%= pkg.name %>',
+        description: '<%= pkg.description %>',
+        version: '<%= pkg.version %>',
+        url: '<%= pkg.homepage %>',
+        options: {
+          paths: 'src/',
+          outdir: 'build/docs'
+        }
       }
     },
 
@@ -449,16 +433,6 @@ module.exports = function ( grunt ) {
         tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
       },
 
-      /**
-       * When our CoffeeScript source files change, we want to run lint them and
-       * run our unit tests.
-       */
-      // coffeesrc: {
-      //   files: [ 
-      //     '<%= app_files.coffee %>'
-      //   ],
-      //   tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs' ]
-      // },
 
       /**
        * When assets are changed, copy them. Note that this will *not* copy new
@@ -512,19 +486,6 @@ module.exports = function ( grunt ) {
         }
       },
 
-      /**
-       * When a CoffeeScript unit test file changes, we only want to lint it and
-       * run the unit tests. We don't want to do any live reloading.
-       */
-      // coffeeunit: {
-      //   files: [
-      //     '<%= app_files.coffeeunit %>'
-      //   ],
-      //   tasks: [ 'coffeelint:test', 'karma:unit:run' ],
-      //   options: {
-      //     livereload: false
-      //   }
-      // }
     }
   };
 

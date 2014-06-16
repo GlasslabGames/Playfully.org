@@ -2,6 +2,14 @@ angular.module('user', [
   'user.login'    
 ])
 
+
+/**
+* This is the service for interacting with user methods.
+*
+* @class UserService
+* @constructor
+*/
+
 .factory('UserService', function( $rootScope, $q, $modal, $http, $location ) {
   var _modalInstance;
 

@@ -15,6 +15,12 @@ angular.module( 'playfully.home', [
   });
 })
 
+/**
+* This is the controller for the Playfully.org home page
+*
+* @class HomeCtrl
+* @constructor
+*/
 .controller( 'HomeCtrl', function HomeController( $scope ) {
 
 });
