@@ -1,8 +1,6 @@
 <div class="text-center">
-  <h1>Playfully</h1>
-  <p class="lead">
-    A platform to deliver rich student learning and
-    assessment through digital games
+  <h1 data-ng-bind="'home.pagetitle' | translate"></h1>
+  <p class="lead" data-ng-bind="'home.tagline' | translate">
   </p>
 </div>
 
@@ -62,51 +60,43 @@
 </div>
 
 <div class="text-center">
-  <p><button type="button" class="btn btn-default btn-lg">Register Now!</button></p>
+  <p>
+    <button type="button" class="btn btn-default btn-lg"
+     data-ng-bind="'home.register.button' | translate"></button>
+  </p>
+  <p data-ng-bind="'home.register.description' | translate"></p>
   &nbsp;
   <p>
-    <h3>Why Use Playfully</h3>
+    <h3 data-ng-bind="'home.about.intro.title' | translate"></h3>
   </p>
 </div>
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu enim in turps vulputate aliquet. Sed solicitudin tellus lacus, ac bibendum tellus laoreet ut. Mauris egectas ipsum id pretium sclerisque. Nullam suscipit henderit bibendum Quisque dapibus velit vel ligula aliquam, egat volutpat.
-</p>
-<p>
-  &nbsp;
-</p>
+<p data-ng-bind="'home.about.intro.description' | translate"></p>
+
+<p>&nbsp;</p>
+
 <div class="row">
   <div class="col-md-4">
     <div class="text-center">
       <i class="fa fa-thumb-tack gl-icon-large"></i>
-      <h4>Curated Games</h4>
+      <h4 data-ng-bind="'home.about.section1.title' | translate"></h4>
     </div>
-    <ul>
-      <li>Marketing Bullet 1</li>
-      <li>Marketing Bullet 2</li>
-      <li>Marketing Bullet 3</li>
-    </ul>
+    <p data-ng-bind="'home.about.section1.description' | translate"></p>
   </div>
+
   <div class="col-md-4">
     <div class="text-center">
       <i class="fa fa-bar-chart-o gl-icon-large"></i>
-      <h4>Real-Time Data</h4>
+      <h4 data-ng-bind="'home.about.section2.title' | translate"></h4>
     </div>
-    <ul>
-      <li>Marketing Bullet 1</li>
-      <li>Marketing Bullet 2</li>
-      <li>Marketing Bullet 3</li>
-    </ul>
+    <p data-ng-bind="'home.about.section2.description' | translate"></p>
   </div>
+
   <div class="col-md-4">
     <div class="text-center">
       <i class="fa fa-users gl-icon-large"></i>
-      <h4>Engaged User Community</h4>
+      <h4 data-ng-bind="'home.about.section3.title' | translate"></h4>
     </div>
-    <ul>
-      <li>Marketing Bullet 1</li>
-      <li>Marketing Bullet 2</li>
-      <li>Marketing Bullet 3</li>
-    </ul>
+    <p data-ng-bind="'home.about.section3.description' | translate"></p>
   </div>
 </div>

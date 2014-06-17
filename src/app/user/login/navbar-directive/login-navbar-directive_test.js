@@ -1,18 +1,20 @@
 describe( 'Navbar login directive', function() {
-  var $scope, elem, elemScope, UserService, $httpBackend;
+  var $scope, elem, elemScope, UserService, $httpBackend, $translate;
 
   var userInfo = { firstName: 'John', lastName: 'Snow' };
 
   beforeEach(function() {
     module('user');
     module('ui.bootstrap.modal');
+    module('pascalprecht.translate');
     module('user.login.navbar');
     module('user/login/navbar-directive/login-navbar-directive.html');
   });
 
-  beforeEach(inject(function ($compile, $rootScope, _UserService_, $httpBackend) {
+  beforeEach(inject(function ($compile, $rootScope, _UserService_, $httpBackend, _$translate_) {
     UserService = _UserService_;
     $scope = $rootScope;
+    $translate = _$translate_;
     elem = angular.element('<login-navbar></login-navbar>');
     $compile(elem)($rootScope);
     angular.element(document.body).append(elem);
@@ -30,14 +32,14 @@ describe( 'Navbar login directive', function() {
   it("should display Sign In button when not authenticated", function() {
     $scope.$digest();
     expect($('button:visible').length).toBe(1);
-    expect($('button:visible').text()).toEqual('Sign in');
+    expect($('button:visible')).toHaveClass('btn-login');
   });
 
   it("should display a Log Out button when signed in", function() {
     UserService.currentUser = userInfo;
     $scope.$digest();
     expect($('button:visible').length).toBe(1);
-    expect($('button:visible').text()).toEqual('Log out');
+    expect($('button:visible')).toHaveClass('btn-logout');
   });
 
   it("should display user's name when authenticated", function() {

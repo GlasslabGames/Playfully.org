@@ -16,13 +16,25 @@
       <li ui-sref-active="active">
         <a href ui-sref="home">
           <i class="fa fa-home"></i>
-          Home
+          <span data-ng-bind="'navbar.link.home' | translate"></span>
         </a>
       </li>
       <li ui-sref-active="active">
         <a href ui-sref="about">
           <i class="fa fa-play-circle"></i>
-          Games
+          <span data-ng-bind="'navbar.link.games' | translate"></span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href ui-sref="support">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.support' | translate"></span>
+        </a>
+      </li>
+      <li ui-sref-active="active">
+        <a href ui-sref="redeem">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.redeem' | translate"></span>
         </a>
       </li>
     </ul>

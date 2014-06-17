@@ -100,7 +100,7 @@ module.exports = function ( grunt ) {
       build_app_assets: {
         files: [
           { 
-            src: [ '**' ],
+            src: [ '**/*' ],
             dest: '<%= build_dir %>/assets/',
             cwd: 'src/assets',
             expand: true
