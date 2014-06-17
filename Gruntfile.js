@@ -17,6 +17,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-protractor-runner');
 
   /**
    * Load in our build configuration file.
@@ -316,6 +317,26 @@ module.exports = function ( grunt ) {
     },
 
     /**
+     * The Protractor configuration.
+     */
+    protractor: {
+      options: {
+        configFile: "node_modules/protractor/referenceConf.js", // Default config file
+        keepAlive: true, // If false, the grunt process stops when the test fails.
+        noColor: false, // If true, protractor will not use colors in its output.
+        args: {
+          // Arguments passed to the command
+        }
+      },
+      build: {
+        options: {
+          configFile: "config/e2e.conf.js", // Target-specific config file
+          args: {} // Target-specific arguments
+        }
+      }
+    },
+
+    /**
      * Configuration for YUIDoc, which automatically generates documentation
      * for the application based on comments in the source code.
      *
@@ -486,6 +507,11 @@ module.exports = function ( grunt ) {
         }
       },
 
+      protractor: {
+        files: ['e2e/*_test.js'],
+        tasks: ['protractor:build']
+      }
+
     }
   };
 
@@ -513,7 +539,7 @@ module.exports = function ( grunt ) {
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
-    'karma:continuous' 
+    'karma:continuous', 'protractor:build'
   ]);
 
   /**
