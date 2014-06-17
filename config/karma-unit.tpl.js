@@ -36,7 +36,7 @@ module.exports = function ( karma ) {
     runnerPort: 9100,
     urlRoot: '/',
 
-    logLevel: karma.LOG_DEBUG,
+    logLevel: karma.LOG_INFO,
 
     /** 
      * Disable file watching by default.

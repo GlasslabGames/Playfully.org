@@ -32,4 +32,29 @@ this to be available system wide. In order to ensure this, run these steps:
 3. webdriver-manager start
 
 
+Text content and i18n
+---------------------
+
+Strings in the Playfully app have been extracted into a single file, located at
+/src/assets/i18n/locale-en.json. This is to centralize text for possible future
+CMSification, and to bake in internationalization support from the outset.
+
+To add a new translation:
+
+1. Copy the locale-en.json file, renaming to the appropriate language
+   abbreviation.
+2. Leaving all keys in the JSON file the same
+3. Translate their associated values to the new language
+
+To add new content:
+
+1. Open locale-en.json
+2. If it's an existing page, find its section by key (e.g.
+   'home.about.section2'), and choose an appropriate extension for the content
+   you're adding
+3. Create the "key":"value" pair
+4. In the page template, add an element with an ng-binding whose value looks
+   like: data-ng-bind="'home.about.section2.yourContent' | translate" (the
+   single quotes are important)
+
 
