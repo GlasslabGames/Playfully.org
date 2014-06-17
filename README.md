@@ -19,6 +19,17 @@ Make sure you have Node.js installed.
 6. grunt watch
 
 
+End-to-end testing
+------------------
+
+Playfully makes use of Protractor for end-to-end browser-based testing from a
+user's perspective. Protractor relies on a local installation of Selenium,
+which is run by a process called webdriver-manager. At the moment it expects
+this to be available system wide. In order to ensure this, run these steps:
+
+1. npm install -g protractor
+2. webdriver-manager update
+3. webdriver-manager start
 
 
 
