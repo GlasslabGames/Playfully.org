@@ -1,0 +1,14 @@
+<div>
+  <h1>Support</h1>
+</div>
+
+<p>Select a game you have a question for:</p>
+
+<tabset>
+  <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+    <h3 data-ng-bind="tab.title"></h3>
+    <div data-ng-bind="tab.content">
+    </div>
+  </tab>
+</tabset>
+

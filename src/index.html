@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html ng-app="playfully" ng-controller="AppCtrl">
+<html data-ng-app="playfully" data-ng-controller="AppCtrl">
   <head>
-    <title ng-bind="pageTitle"></title>
+    <title data-ng-bind="pageTitle"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- font awesome from BootstrapCDN -->
@@ -12,7 +12,7 @@
   </head>
   <body>
     <div class="container">
-      <div ng-include="'navbar/navbar.html'"></div>
+      <div data-ng-include="'navbar/navbar.html'"></div>
     </div>
 
     <div class="container" ui-view="main">

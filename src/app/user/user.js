@@ -1,3 +1,10 @@
+/**
+* This is the service for interacting with user methods.
+*
+* @module user
+* @submodule user.login
+* @main user
+*/
 angular.module('user', [
   'user.login'    
 ])

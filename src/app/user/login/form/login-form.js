@@ -1,3 +1,9 @@
+/**
+ * Top level of user login module.
+ *
+ * @module user
+ * @submodule user.login.form
+ **/
 angular.module('user.login.form', [])
 
 

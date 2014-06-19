@@ -6,6 +6,7 @@ angular.module( 'playfully', [
   'ui.bootstrap',
   'playfully.home',
   'playfully.navbar',
+  'playfully.support',
   'user'
 ])
 
@@ -34,6 +35,14 @@ angular.module( 'playfully', [
 * @class AppCtrl
 * @constructor
 */
+/**
+ * Home controller.
+ * @class AppCtrl
+ * @param {!angular.Scope} $scope
+ * @constructor
+ * @ngInject
+ * @export
+ */
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location, $translate ) {
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
