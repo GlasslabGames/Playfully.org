@@ -3,7 +3,7 @@
  *
  * @module user.login.navbar
  **/
-angular.module('user.login.navbar', [])
+angular.module('user.login.navbar', ['ui.bootstrap'])
 
 /**
  * The login navbar directive is a reusable widget that can show login or
@@ -13,41 +13,47 @@ angular.module('user.login.navbar', [])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginNavbar', ['UserService', function( UserService ) {
+.directive('loginNavbar', ['User', function( User ) {
   var directive = {
     templateUrl: 'user/login/navbar-directive/login-navbar-directive.html',
     restrict: 'E',
     replace: true,
     scope: true,
-    link: function($scope, $element, $attrs, $controller) {
+    link: function($scope, $element, $attrs, $modal, $controller) {
+
+
+      $scope.showLogin = function() {
+        User.login({username: 'test2', password: 'test'});
+      };
 
       /**
-       * Property attaches the UserService method to the directive's scope
+       * Property attaches the User method to the directive's scope
        *
        * @property isAuthenticated
        * @type Method
        **/
-      $scope.isAuthenticated = UserService.isAuthenticated;
+      $scope.isAuthenticated = User.isAuthenticated;
 
       /**
-       * Property attaches the UserService method to the directive's scope
+       * Property attaches the User method to the directive's scope
        *
        * @property showLogin
        * @type Method
        **/
-      $scope.login = UserService.showLogin;
+      // $scope.login = User.showLogin;
+      // $scope.login = User.login({username: 'tst2', password: 'test'});
 
       /**
-       * Property attaches the UserService method to the directive's scope
+       * Property attaches the User method to the directive's scope
        *
        * @property logout
        * @type Method
        **/
-      $scope.logout = UserService.logout;
+      $scope.logout = User.logout;
 
 
       $scope.$watch(function() {
-        return UserService.currentUser;
+        return User.currentUser;
       }, function(currentUser) {
         $scope.currentUser = currentUser;
       });

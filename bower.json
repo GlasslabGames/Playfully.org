@@ -22,6 +22,7 @@
     "angular-ui-router": "~0.2",
     "jasmine-jquery": "~2.0",
     "angular-translate": "~2.2.0",
-    "angular-translate-loader-static-files": "~2.2.0"
+    "angular-translate-loader-static-files": "~2.2.0",
+    "angular-http-auth": "~1.2.1"
   }
 }

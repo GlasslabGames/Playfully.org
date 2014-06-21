@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'http-auth-interceptor',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
@@ -24,9 +25,9 @@ angular.module( 'playfully', [
     $translateProvider.preferredLanguage('en');
 })
 
-.run( function run (UserService) {
+.run( function run (User) {
   // In case they are still logged in from previous session.
-  UserService.requestCurrentUser();
+  User.requestCurrentUser();
 })
 
 /**
@@ -43,12 +44,20 @@ angular.module( 'playfully', [
  * @ngInject
  * @export
  */
-.controller( 'AppCtrl', function AppCtrl ( $scope, $location, $translate ) {
+.controller( 'AppCtrl', function AppCtrl ( $scope, $location, $translate, User ) {
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
     }
+  });
+
+  $scope.$on('event:auth-loginRequired', function(event, data) {
+    console.log("Event:");
+    console.log(event);
+    console.log("Data:");
+    console.log(data);
+    // UserService.showLogin();
   });
 
 

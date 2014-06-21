@@ -24,9 +24,9 @@ describe('user', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  var UserService;
+  var User;
   beforeEach(inject(function($injector) {
-    UserService = $injector.get('UserService');
+    User = $injector.get('User');
   }));
 
   // describe('showLogin', function() {

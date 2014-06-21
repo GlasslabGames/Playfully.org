@@ -65,7 +65,8 @@ module.exports = {
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-translate/angular-translate.js',
-      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
+      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+      'vendor/angular-http-auth/src/http-auth-interceptor.js'
     ],
     css: [
     ],

@@ -13,7 +13,7 @@ angular.module('user.login.form', [])
 * @class LoginFormCtrl
 * @constructor
 */
-.controller('LoginFormCtrl', function LoginFormController( $scope, UserService ) {
+.controller('LoginFormCtrl', function LoginFormController( $scope, User ) {
 
   /**
   * An object for the login form to store username and password values.
@@ -41,11 +41,11 @@ angular.module('user.login.form', [])
   * @method login
   * @return {Boolean} Returns true on success
   */
-  $scope.login = function() {
+  $scope.login = function(credentials) {
 
     $scope.authError = null;
 
-    UserService.login($scope.credentials)
+    User.login(credentials)
       .then(function(loggedIn) {
         console.log(loggedIn);
         if ( !loggedIn ) {
@@ -59,7 +59,7 @@ angular.module('user.login.form', [])
     };
 
   $scope.cancelLogin = function() {
-    UserService.cancelLogin();
+    User.cancelLogin();
   };
 
 
