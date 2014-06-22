@@ -13,17 +13,39 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginNavbar', ['User', function( User ) {
+.directive('loginNavbar', function( User, $modal ) {
   var directive = {
     templateUrl: 'user/login/navbar-directive/login-navbar-directive.html',
     restrict: 'E',
     replace: true,
-    scope: true,
-    link: function($scope, $element, $attrs, $modal, $controller) {
+    // scope: true,
+    controller: function ($scope, $modal, $location) {
+
+      $scope.showLoginModal = function() {
+        $scope.$emit('modal.show', {
+          templateUrl: 'user/login/form/login-form.html',
+          controller: 'LoginFormModalCtrl',
+          size: 'lg'
+        });
+      };
+
+      $scope.redirectToLogin = function() {
+        $location.path('/login');
+      };
+
+    },
+    link: function($scope, $element, $attrs, $controller) {
 
 
       $scope.showLogin = function() {
-        User.login({username: 'test2', password: 'test'});
+        console.log($attrs);
+        if( $attrs.type === 'modal' ) {
+          console.log("Showing modal…");
+          $scope.showLoginModal();
+        } else {
+          console.log("Redirecting…");
+          $scope.redirectToLogin();
+        }
       };
 
       /**
@@ -40,8 +62,6 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
        * @property showLogin
        * @type Method
        **/
-      // $scope.login = User.showLogin;
-      // $scope.login = User.login({username: 'tst2', password: 'test'});
 
       /**
        * Property attaches the User method to the directive's scope
@@ -60,4 +80,4 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
     }
   };
   return directive;
-}]);
+});

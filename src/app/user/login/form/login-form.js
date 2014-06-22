@@ -6,7 +6,6 @@
  **/
 angular.module('user.login.form', [])
 
-
 /**
 * This controller manages the login form.
 *
@@ -58,9 +57,36 @@ angular.module('user.login.form', [])
       });
     };
 
-  $scope.cancelLogin = function() {
-    User.cancelLogin();
-  };
 
+
+})
+
+.controller('LoginFormModalCtrl',
+    function LoginFormModalController( $scope, $modalInstance, User ) {
+
+  $scope.credentials = {};
+
+  $scope.authError = null;
+
+  $scope.login = function(credentials) {
+
+    $scope.authError = null;
+
+    User.login(credentials)
+      .then(function(loggedIn) {
+        console.log(loggedIn);
+        if ( !loggedIn ) {
+          $scope.authError = "Invalid credentials";
+        }
+      }, function(x) {
+        // If we get here then there was a problem with the login request to
+        // the server.
+        $scope.authError = x;
+      });
+    };
+
+  $scope.cancelLogin = function() {
+    $modalInstance.close();
+  };
 
 });

@@ -5,6 +5,7 @@ angular.module( 'playfully', [
   'pascalprecht.translate',
   'ui.router',
   'ui.bootstrap',
+  'playfully.config',
   'playfully.home',
   'playfully.navbar',
   'playfully.support',
@@ -44,13 +45,21 @@ angular.module( 'playfully', [
  * @ngInject
  * @export
  */
-.controller( 'AppCtrl', function AppCtrl ( $scope, $location, $translate, User ) {
+.controller( 'AppCtrl',
+  function AppCtrl ( $scope, $rootScope, $location, $translate, $modal, User ) {
+
+  $scope._modalInstance = null;
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
       $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
     }
   });
+
+  $scope.$on('modal.show', function(event, data) {
+    $scope._modalInstance = $modal.open(data);
+  });
+
 
   $scope.$on('event:auth-loginRequired', function(event, data) {
     console.log("Event:");

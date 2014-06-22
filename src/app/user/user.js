@@ -1,7 +1,30 @@
 angular.module('user', [
+  'ui.router',
   'user.service',
   'user.login'    
 ])
+.constant('AUTH_EVENTS', {
+  loginSuccess: 'auth-login-success',
+  loginFailed: 'auth-login-failed',
+  logoutSucces: 'auth-logout-success',
+  sessionTimeout: 'auth-session-timeout',
+  notAuthenticated: 'auth-not-authenticated',
+  notAuthorized: 'auth-not-authorized'
+})
+
+.config(function config( $stateProvider ) {
+  $stateProvider.state( 'login', {
+    url: '/login',
+    views: {
+      "main": {
+        controller: 'LoginFormCtrl',
+        templateUrl: 'user/login/form/login-form.html'
+      }
+    },
+    data:{ pageTitle: 'Login' }
+  });
+})
+
 
 .factory('User', function( $rootScope, $q, $http, $location, UserService ) {
 
