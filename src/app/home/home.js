@@ -25,6 +25,19 @@ angular.module( 'playfully.home', [
   $scope.currentUser = User.currentUser;
   $scope.currentRole = null;
 
+
+  $scope.showTutorial = function() {
+    if (User.currentUser.role == 'instructor') {
+      $scope.$emit('modal.show', {
+        templateUrl: 'tutorial/tutorial.html',
+        controller: 'TutorialModalCtrl',
+        size: 'lg'
+      });
+    } else {
+      return false;
+    }
+  };
+
   $scope.$on('', function() {
     $scope.currentUser = null;
     $scope.currentRole = null;

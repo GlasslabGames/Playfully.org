@@ -11,8 +11,44 @@
       Playfully 
     </div>
   </div>
+
   <div class="collapse navbar-collapse" collapse="menuCollapsed">
-    <ul class="nav navbar-nav navbar-left">
+
+    <ul class="nav navbar-nav navbar-left" ng-if="!currentUser">
+      <li ui-sref-active="active">
+        <a href ui-sref="home">
+          <i class="fa fa-home"></i>
+          <span data-ng-bind="'navbar.link.home' | translate"></span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+        <a href ui-sref="games">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.games' | translate"></span>
+        </a>
+      </li>
+    </ul>
+
+
+    <ul class="nav navbar-nav navbar-left" ng-if="currentUser && currentUser.role == 'student'">
+      <li ui-sref-active="active">
+        <a href ui-sref="home">
+          <i class="fa fa-home"></i>
+          <span data-ng-bind="'navbar.link.myclass' | translate"></span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+        <a href ui-sref="games">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.gamecatalog' | translate"></span>
+        </a>
+      </li>
+    </ul>
+
+
+    <ul class="nav navbar-nav navbar-left" ng-if="currentUser && currentUser.role == 'instructor'">
       <li ui-sref-active="active">
         <a href ui-sref="home">
           <i class="fa fa-home"></i>

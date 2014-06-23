@@ -10,6 +10,7 @@ angular.module( 'playfully', [
   'playfully.navbar',
   'playfully.courses',
   'playfully.support',
+  'playfully.tutorial',
   'user'
 ])
 

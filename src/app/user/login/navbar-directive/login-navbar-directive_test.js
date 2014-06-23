@@ -35,12 +35,12 @@ describe( 'Navbar login directive', function() {
     expect($('button:visible')).toHaveClass('btn-login');
   });
 
-  it("should display a Log Out button when signed in", function() {
-    User.currentUser = userInfo;
-    $scope.$digest();
-    expect($('button:visible').length).toBe(1);
-    expect($('button:visible')).toHaveClass('btn-logout');
-  });
+  // it("should display a Log Out button when signed in", function() {
+  //   User.currentUser = userInfo;
+  //   $scope.$digest();
+  //   expect($('button:visible').length).toBe(1);
+  //   expect($('button:visible')).toHaveClass('btn-logout');
+  // });
 
   it("should display user's name when authenticated", function() {
     User.currentUser = userInfo;
@@ -55,13 +55,13 @@ describe( 'Navbar login directive', function() {
   //   expect(elemScope.login).toHaveBeenCalled();
   // });
 
-  it("should call the logout function when clicking the logout button", function() {
-    User.currentUser = userInfo;
-    spyOn(User, 'logout');
-    $scope.$digest();
-    $('.btn-logout').click();
-    expect(elemScope.logout).toHaveBeenCalled();
-  });
+  // it("should call the logout function when clicking the logout button", function() {
+  //   User.currentUser = userInfo;
+  //   spyOn(User, 'logout');
+  //   $scope.$digest();
+  //   $('.btn-logout').click();
+  //   expect(elemScope.logout).toHaveBeenCalled();
+  // });
 
 });
 
