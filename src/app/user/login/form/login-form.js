@@ -62,26 +62,30 @@ angular.module('user.login.form', [])
 })
 
 .controller('LoginFormModalCtrl',
-    function LoginFormModalController( $scope, $modalInstance, User ) {
+    function LoginFormModalController( $scope, $log, $rootScope, $modalInstance, User, AUTH_EVENTS ) {
 
   $scope.credentials = {};
 
   $scope.authError = null;
 
-  $scope.login = function(credentials) {
+  resetCtrl = function() {
+    $scope.credentials = {};
+    $scope.authError = null;
+  };
 
+  $scope.login = function(credentials) {
     $scope.authError = null;
 
     User.login(credentials)
-      .then(function(loggedIn) {
-        console.log(loggedIn);
-        if ( !loggedIn ) {
-          $scope.authError = "Invalid credentials";
+      .then(function(result) {
+        if (result.hasOwnProperty('error')) {
+          $scope.authError = result.error;
+          $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+        } else {
+          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+          $modalInstance.close();
+          resetCtrl();
         }
-      }, function(x) {
-        // If we get here then there was a problem with the login request to
-        // the server.
-        $scope.authError = x;
       });
     };
 

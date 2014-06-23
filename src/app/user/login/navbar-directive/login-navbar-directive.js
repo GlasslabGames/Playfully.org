@@ -29,6 +29,14 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
         });
       };
 
+      $scope.showEditModal = function() {
+        $scope.$emit('modal.show', {
+          templateUrl: 'user/edit/edit.html',
+          controller: 'EditFormModalCtrl',
+          size: 'lg'
+        });
+      };
+
       $scope.redirectToLogin = function() {
         $location.path('/login');
       };
@@ -38,14 +46,15 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
 
 
       $scope.showLogin = function() {
-        console.log($attrs);
         if( $attrs.type === 'modal' ) {
-          console.log("Showing modal…");
           $scope.showLoginModal();
         } else {
-          console.log("Redirecting…");
           $scope.redirectToLogin();
         }
+      };
+
+      $scope.editProfile = function() {
+        $scope.showEditModal();
       };
 
       /**
@@ -56,12 +65,6 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
        **/
       $scope.isAuthenticated = User.isAuthenticated;
 
-      /**
-       * Property attaches the User method to the directive's scope
-       *
-       * @property showLogin
-       * @type Method
-       **/
 
       /**
        * Property attaches the User method to the directive's scope

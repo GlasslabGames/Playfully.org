@@ -1,102 +1,11 @@
-<div class="text-center">
-  <h1 data-ng-bind="'home.pagetitle' | translate"></h1>
-  <p class="lead" data-ng-bind="'home.tagline' | translate">
-  </p>
+<div ng-if="!currentRole">
+  <div data-ng-include="'home/logged-out.html'"></div>
 </div>
 
-<div class="jumbotron">
-  <div class="row">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-5 text-center">
-      <div class="gl-placeholder">
-        <div class="gl-placeholder-text">
-          SimCityEDU
-        </div>
-      </div>
-      <p>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default">Redeem Now</button>
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu text-left" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </div>
-      </p>
-    </div>
-    <div class="col-md-5 text-center">
-      <div class="gl-placeholder">
-        <div class="gl-placeholder-text">
-          MGO
-        </div>
-      </div>
-      <p>
-        <div class="btn-group">
-          <button type="button" class="btn btn-default">Download on iPad</button>
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu text-left" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </div>
-      </p>
-    </div>
-    <div class="col-md-1">
-    </div>
-  </div>
+<div ng-if="currentRole && currentRole == 'instructor'">
+  <div data-ng-include="'home/instructor.html'"></div>
 </div>
 
-<div class="text-center">
-  <p>
-    <button type="button" class="btn btn-default btn-lg"
-     data-ng-bind="'home.register.button' | translate"></button>
-  </p>
-  <p data-ng-bind="'home.register.description' | translate"></p>
-  &nbsp;
-  <p>
-    <h3 data-ng-bind="'home.about.intro.title' | translate"></h3>
-  </p>
-</div>
-
-<p data-ng-bind="'home.about.intro.description' | translate"></p>
-
-<p>&nbsp;</p>
-
-<div class="row">
-  <div class="col-md-4">
-    <div class="text-center">
-      <i class="fa fa-thumb-tack gl-icon-large"></i>
-      <h4 data-ng-bind="'home.about.section1.title' | translate"></h4>
-    </div>
-    <p data-ng-bind="'home.about.section1.description' | translate"></p>
-  </div>
-
-  <div class="col-md-4">
-    <div class="text-center">
-      <i class="fa fa-bar-chart-o gl-icon-large"></i>
-      <h4 data-ng-bind="'home.about.section2.title' | translate"></h4>
-    </div>
-    <p data-ng-bind="'home.about.section2.description' | translate"></p>
-  </div>
-
-  <div class="col-md-4">
-    <div class="text-center">
-      <i class="fa fa-users gl-icon-large"></i>
-      <h4 data-ng-bind="'home.about.section3.title' | translate"></h4>
-    </div>
-    <p data-ng-bind="'home.about.section3.description' | translate"></p>
-  </div>
+<div ng-if="currentRole && currentRole == 'student'">
+  <div data-ng-include="'home/student.html'"></div>
 </div>

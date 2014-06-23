@@ -1,6 +1,6 @@
 angular.module('user.service', ['playfully.config'])
 
-.factory('UserService', function( $q, $http, API_BASE) {
+.factory('UserService', function( $q, $http, $log, API_BASE) {
 
   var service = {
 
@@ -10,7 +10,7 @@ angular.module('user.service', ['playfully.config'])
 
     update: function(data) {
       data.cb = new Date().getTime();
-      $http.post(API_BASE + '/auth/user/' + data.id, data);
+      return $http.post(API_BASE + '/auth/user/' + data.id, data);
     },
 
     login: function (credentials) {
@@ -29,6 +29,15 @@ angular.module('user.service', ['playfully.config'])
 
     getLoginStatus: function () {
       return $http.get(API_BASE + '/auth/login/status');
+    },
+
+    getCurrentUser: function() {
+      return $http({
+        method: 'GET',
+        url: '/api/user/profile',
+        params: {cb: new Date().getTime()}
+      });
+
     }
   };
 

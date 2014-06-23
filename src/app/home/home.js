@@ -21,8 +21,27 @@ angular.module( 'playfully.home', [
 * @class HomeCtrl
 * @constructor
 */
-.controller( 'HomeCtrl', function HomeController( $scope ) {
+.controller( 'HomeCtrl', function HomeController( $scope, $log, User ) {
+  $scope.currentUser = User.currentUser;
+  $scope.currentRole = null;
 
+  $scope.$on('', function() {
+    $scope.currentUser = null;
+    $scope.currentRole = null;
+
+  });
+
+  /* TODO: can't have this in every controller. */
+  $scope.$watch(function() {
+    return User.currentUser;
+  }, function(currentUser) {
+    $scope.currentUser = currentUser;
+    if (currentUser) {
+      $scope.currentRole = currentUser.role;
+    } else {
+      $scope.currentRole = null;
+    }
+  });
 });
 
 

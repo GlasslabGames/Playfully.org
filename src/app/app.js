@@ -1,5 +1,5 @@
 angular.module( 'playfully', [
-  'http-auth-interceptor',
+  // 'http-auth-interceptor',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',

@@ -1,6 +1,9 @@
 {
   "navbar.link.home": "Home",
   "navbar.link.games": "Games",
+  "navbar.link.classes": "Classes",
+  "navbar.link.reports": "Reports",
+  "navbar.link.licenses": "Licenses",
   "navbar.link.support": "Support",
   "navbar.link.redeem": "Redeem",
   "navbar.button.signin": "Sign In",

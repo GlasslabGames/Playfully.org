@@ -17,6 +17,7 @@ describe('user', function() {
       role: "student",
     };
     $httpBackend.when('GET', '/api/user').respond(200, { data: userInfo });
+    $httpBackend.when('POST', '/api/v2/auth/login/glasslab').respond(200, { data: userInfo });
   }));
 
   afterEach(function() {
@@ -28,6 +29,16 @@ describe('user', function() {
   beforeEach(inject(function($injector) {
     User = $injector.get('User');
   }));
+
+
+  describe("Logging in a user", function() {
+
+    // it("should assign current user on successful login", function() {
+    //   User.login({username: "test_user", password: "test_password"});
+    //   $httpBackend.flush();
+    //   expect(User.currentUser.firstName).toEqual('John');
+    // });
+  });
 
   // describe('showLogin', function() {
   //   it("should open the login modal", function() {

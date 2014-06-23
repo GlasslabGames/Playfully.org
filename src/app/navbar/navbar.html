@@ -19,19 +19,43 @@
           <span data-ng-bind="'navbar.link.home' | translate"></span>
         </a>
       </li>
+
       <li ui-sref-active="active">
-        <a href ui-sref="about">
+        <a href ui-sref="games">
           <i class="fa fa-play-circle"></i>
           <span data-ng-bind="'navbar.link.games' | translate"></span>
         </a>
       </li>
+
+      <li ui-sref-active="active" ng-if="currentUser && currentUser.role != 'teacher'">
+        <a href ui-sref="reports">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.reports' | translate"></span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active" ng-if="currentUser && currentUser.role != 'teacher'">
+        <a href ui-sref="reports">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.classes' | translate"></span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active" ng-if="currentUser && currentUser.role != 'teacher'">
+        <a href ui-sref="reports">
+          <i class="fa fa-play-circle"></i>
+          <span data-ng-bind="'navbar.link.licenses' | translate"></span>
+        </a>
+      </li>
+
       <li ui-sref-active="active">
         <a href ui-sref="support">
           <i class="fa fa-play-circle"></i>
           <span data-ng-bind="'navbar.link.support' | translate"></span>
         </a>
       </li>
-      <li ui-sref-active="active">
+
+      <li ui-sref-active="active" ng-if="!currentUser">
         <a href ui-sref="redeem">
           <i class="fa fa-play-circle"></i>
           <span data-ng-bind="'navbar.link.redeem' | translate"></span>
