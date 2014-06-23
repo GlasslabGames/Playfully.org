@@ -1,0 +1,19 @@
+<h1>Classes</h1>
+
+
+<div ng-if="classes.length == 0">
+  <h1>You don't have any class yet!</h1>
+</div>
+
+<div ng-if="classes.length > 0">
+  <div ng-repeat="course in classes">
+    <h3>{{ course.title | limitTo:titleLimit }}<span ng-if="course.title.length > titleLimit">&hellip;</span></h3>
+    <ul>
+      <li><strong>Code:</strong> {{ course.code }}</li>
+      <li><strong>Grade:</strong> {{ course.grade }}</li>
+      <li><strong>Students:</strong> {{ course.studentCount }}</li>
+      <li ng-if="course.archived"><strong>Archived:</strong>
+      {{ course.archivedDate | date:'mediumDate' }}</li>
+    </ul>
+  </div>
+</div>

@@ -1,11 +1,18 @@
 <div>
   <div ng-show="isAuthenticated()">
-    Welcome back, 
+    Hello 
     <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>!
-    <button type="button" class="btn btn-default navbar-btn btn-logout"
-      data-ng-click="logout()"
-      data-ng-bind="'navbar.button.logout' | translate"></button>
-    <a ng-click="editProfile()">Edit</a>
+    &nbsp;
+    <span class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle navbar-btn"
+        data-toggle="dropdown">
+        My Account {{ myAccountChoices.length }} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a ng-click="editProfile()">Edit My Profile</a></li>
+        <li><a ng-click="logout()">Log Out</a></li>
+      </ul>
+    </span>
   </div>
 
   <div ng-hide="isAuthenticated()">

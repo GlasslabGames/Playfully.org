@@ -53,6 +53,15 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
         }
       };
 
+      $scope.myAccountChoices = [ 
+        { 'title': 'Edit My Profile' },
+        { 'title': 'Log Out' }
+      ];
+
+      console.log($scope.myAccountChoices);
+
+
+
       $scope.editProfile = function() {
         $scope.showEditModal();
       };

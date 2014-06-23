@@ -8,6 +8,7 @@ angular.module( 'playfully', [
   'playfully.config',
   'playfully.home',
   'playfully.navbar',
+  'playfully.courses',
   'playfully.support',
   'user'
 ])
