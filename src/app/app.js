@@ -1,17 +1,20 @@
 angular.module( 'playfully', [
   // 'http-auth-interceptor',
+  'ngCookies',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
   'ui.router',
   'ui.bootstrap',
   'playfully.config',
+  'auth',
+  'user',
   'playfully.home',
+  'playfully.login',
   'playfully.navbar',
   'playfully.courses',
   'playfully.support',
-  'playfully.tutorial',
-  'user'
+  'playfully.tutorial'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
@@ -28,9 +31,21 @@ angular.module( 'playfully', [
     $translateProvider.preferredLanguage('en');
 })
 
-.run( function run (User) {
-  // In case they are still logged in from previous session.
-  User.requestCurrentUser();
+.run( function run ($rootScope, AuthService, AUTH_EVENTS, USER_ROLES) {
+
+  $rootScope.$on('$stateChangeStart', function(event, next) {
+    var authorizedRoles = next.data.authorizedRoles;
+    if (authorizedRoles && !AuthService.isAuthorized(authorizedRoles)) {
+      event.preventDefault();
+      if (AuthService.isAuthenticated()) {
+        // user is not allowed
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+      } else {
+        // user is not logged in
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+      }
+    }
+  });
 })
 
 /**
@@ -48,7 +63,13 @@ angular.module( 'playfully', [
  * @export
  */
 .controller( 'AppCtrl',
-  function AppCtrl ( $scope, $rootScope, $location, $translate, $modal, User ) {
+  function AppCtrl ( $scope, $rootScope, $log, $location, $state,
+    $cookieStore, $translate, $modal, AuthService, UserService, USER_ROLES ) {
+
+  $scope.currentUser = null;
+  $scope.userRoles = USER_ROLES;
+  $scope.isAuthorized = AuthService.isAuthorized;
+  $scope.isAuthenticated = AuthService.isAuthenticated;
 
   $scope._modalInstance = null;
 
@@ -58,19 +79,41 @@ angular.module( 'playfully', [
     }
   });
 
-  $scope.$on('modal.show', function(event, data) {
-    $scope._modalInstance = $modal.open(data);
+  $scope.$on('auth:login-success', function(event, user) {
+    $scope.currentUser = user;
+    $cookieStore.put('loggedin', user.id);
+  });
+
+  $scope.$on('auth:logout-success', function(event) {
+    $scope.currentUser = null;
+    $cookieStore.remove('loggedin');
+    $log.info('logout success event');
+    $state.go('home');
+  });
+
+  $scope.$on('modal.show', function(event, modalConfig) {
+    $scope._modalInstance = $modal.open(modalConfig);
+  });
+
+  $scope.$on('auth:not-authenticated', function(event) {
+    $log.error('not authenticated event');
+    $cookieStore.remove('loggedin');
+    $state.go('home');
+  });
+
+  $scope.$on('auth:not-authorized', function(event) {
+    $log.error('not authorized event');
   });
 
 
-  $scope.$on('event:auth-loginRequired', function(event, data) {
-    console.log("Event:");
-    console.log(event);
-    console.log("Data:");
-    console.log(data);
-    // UserService.showLogin();
-  });
-
+  // Hack to remember user when they reload / come back
+  var tempId = $cookieStore.get('loggedin');
+  if (tempId) {
+    UserService.getById(tempId)
+      .then(function(user) {
+        $scope.currentUser = user;
+      });
+  }
 
 });
 

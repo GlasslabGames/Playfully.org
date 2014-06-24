@@ -14,7 +14,7 @@
 
   <div class="collapse navbar-collapse" collapse="menuCollapsed">
 
-    <ul class="nav navbar-nav navbar-left" ng-if="!currentUser">
+    <ul class="nav navbar-nav navbar-left" ng-if="!isAuthenticated()">
       <li ui-sref-active="active">
         <a href ui-sref="home">
           <i class="fa fa-home"></i>
@@ -45,7 +45,7 @@
     </ul>
 
 
-    <ul class="nav navbar-nav navbar-left" ng-if="currentUser && currentUser.role == 'student'">
+    <ul class="nav navbar-nav navbar-left" ng-if="isAuthorized('student')">
       <li ui-sref-active="active">
         <a href ui-sref="home">
           <i class="fa fa-home"></i>
@@ -62,7 +62,7 @@
     </ul>
 
 
-    <ul class="nav navbar-nav navbar-left" ng-if="currentUser && currentUser.role == 'instructor'">
+    <ul class="nav navbar-nav navbar-left" ng-if="isAuthorized('instructor')">
       <li ui-sref-active="active">
         <a href ui-sref="home">
           <i class="fa fa-home"></i>
@@ -78,7 +78,7 @@
       </li>
 
       <li ui-sref-active="active">
-        <a href ui-sref="classes">
+        <a href ui-sref="courses">
           <i class="fa fa-play-circle"></i>
           <span data-ng-bind="'navbar.link.classes' | translate"></span>
         </a>

@@ -1,11 +1,11 @@
-<div ng-if="!currentRole">
+<div ng-if="!isAuthenticated()">
   <div data-ng-include="'home/logged-out.html'"></div>
 </div>
 
-<div ng-if="currentRole && currentRole == 'instructor'">
+<div ng-if="isAuthorized('instructor')">
   <div data-ng-include="'home/instructor.html'"></div>
 </div>
 
-<div ng-if="currentRole && currentRole == 'student'">
+<div ng-if="isAuthorized('student')">
   <div data-ng-include="'home/student.html'"></div>
 </div>

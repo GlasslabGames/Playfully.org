@@ -1,7 +1,7 @@
-angular.module('user', [
+angular.module('userOld', [
   'ui.router',
   'user.service',
-  'user.login',
+  'user.navbar',
   'user.edit'
 ])
 .constant('AUTH_EVENTS', {

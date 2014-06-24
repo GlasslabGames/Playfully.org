@@ -1,9 +1,10 @@
 angular.module( 'playfully.courses', [
+  'playfully.config',
   'ui.router'
 ])
 
-.config(function config( $stateProvider ) {
-  $stateProvider.state( 'classes', {
+.config(function ( $stateProvider, USER_ROLES) {
+  $stateProvider.state( 'courses', {
     url: '/classes',
     views: {
       "main": {
@@ -11,11 +12,15 @@ angular.module( 'playfully.courses', [
         templateUrl: 'courses/courses.html'
       }
     },
-    data:{ pageTitle: 'Classes' }
+    data:{
+      pageTitle: 'Classes',
+      authorizedRoles: [USER_ROLES.instructor]
+    }
   });
 })
 
-.controller( 'CoursesCtrl', function CoursesController( $scope, $http, $log ) {
+
+.controller( 'CoursesCtrl', function CoursesController( $scope, $http, $log, USER_ROLES ) {
 
   $scope.classes = null;
   $scope.titleLimit = 60;

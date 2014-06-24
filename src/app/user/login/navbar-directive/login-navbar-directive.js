@@ -3,7 +3,7 @@
  *
  * @module user.login.navbar
  **/
-angular.module('user.login.navbar', ['ui.bootstrap'])
+angular.module('user.navbar', ['ui.bootstrap'])
 
 /**
  * The login navbar directive is a reusable widget that can show login or
@@ -13,18 +13,18 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginNavbar', function( User, $modal ) {
+.directive('loginNavbar', function( AuthService, Session, $modal ) {
   var directive = {
     templateUrl: 'user/login/navbar-directive/login-navbar-directive.html',
     restrict: 'E',
     replace: true,
     // scope: true,
-    controller: function ($scope, $modal, $location) {
+    controller: function ($scope, $modal, $location, AUTH_EVENTS) {
 
       $scope.showLoginModal = function() {
         $scope.$emit('modal.show', {
-          templateUrl: 'user/login/form/login-form.html',
-          controller: 'LoginFormModalCtrl',
+          templateUrl: 'login/login.html',
+          controller: 'LoginModalController',
           size: 'lg'
         });
       };
@@ -35,6 +35,10 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
           controller: 'EditFormModalCtrl',
           size: 'lg'
         });
+      };
+
+      $scope.broadcastLogoutEvent = function() {
+        $scope.$emit(AUTH_EVENTS.logoutSuccess);
       };
 
       $scope.redirectToLogin = function() {
@@ -53,42 +57,17 @@ angular.module('user.login.navbar', ['ui.bootstrap'])
         }
       };
 
-      $scope.myAccountChoices = [ 
-        { 'title': 'Edit My Profile' },
-        { 'title': 'Log Out' }
-      ];
-
-      console.log($scope.myAccountChoices);
-
-
-
       $scope.editProfile = function() {
         $scope.showEditModal();
       };
 
-      /**
-       * Property attaches the User method to the directive's scope
-       *
-       * @property isAuthenticated
-       * @type Method
-       **/
-      $scope.isAuthenticated = User.isAuthenticated;
+      $scope.logout = function() {
+        AuthService.logout().then(function() {
+          $scope.broadcastLogoutEvent();
+        });
+      };
 
 
-      /**
-       * Property attaches the User method to the directive's scope
-       *
-       * @property logout
-       * @type Method
-       **/
-      $scope.logout = User.logout;
-
-
-      $scope.$watch(function() {
-        return User.currentUser;
-      }, function(currentUser) {
-        $scope.currentUser = currentUser;
-      });
     }
   };
   return directive;

@@ -21,13 +21,13 @@ angular.module( 'playfully.home', [
 * @class HomeCtrl
 * @constructor
 */
-.controller( 'HomeCtrl', function HomeController( $scope, $log, User ) {
-  $scope.currentUser = User.currentUser;
-  $scope.currentRole = null;
+.controller( 'HomeCtrl', function HomeController( $scope, $log, Session) {
+  // $scope.currentUser = User.currentUser;
+  // $scope.currentRole = null;
 
 
   $scope.showTutorial = function() {
-    if (User.currentUser.role == 'instructor') {
+    if (Session.userRole == 'instructor') {
       $scope.$emit('modal.show', {
         templateUrl: 'tutorial/tutorial.html',
         controller: 'TutorialModalCtrl',
@@ -38,23 +38,23 @@ angular.module( 'playfully.home', [
     }
   };
 
-  $scope.$on('', function() {
-    $scope.currentUser = null;
-    $scope.currentRole = null;
+  // $scope.$on('', function() {
+  //   $scope.currentUser = null;
+  //   $scope.currentRole = null;
 
-  });
+  // });
 
-  /* TODO: can't have this in every controller. */
-  $scope.$watch(function() {
-    return User.currentUser;
-  }, function(currentUser) {
-    $scope.currentUser = currentUser;
-    if (currentUser) {
-      $scope.currentRole = currentUser.role;
-    } else {
-      $scope.currentRole = null;
-    }
-  });
+  // /* TODO: can't have this in every controller. */
+  // $scope.$watch(function() {
+  //   return User.currentUser;
+  // }, function(currentUser) {
+  //   $scope.currentUser = currentUser;
+  //   if (currentUser) {
+  //     $scope.currentRole = currentUser.role;
+  //   } else {
+  //     $scope.currentRole = null;
+  //   }
+  // });
 });
 
 

@@ -10,6 +10,7 @@ angular.module('user.service', ['playfully.config'])
 
     update: function(data) {
       data.cb = new Date().getTime();
+      $log.info(data);
       return $http.post(API_BASE + '/auth/user/' + data.id, data);
     },
 
