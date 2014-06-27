@@ -14,7 +14,7 @@
     <div class="gl-navbar--top">
       <div class="container gl-container">
         <div data-ng-include="'navbar/navbar.html'"></div>
-        <div class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
+        <div ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
           Welcome back!
           <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>
         </div>
