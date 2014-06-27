@@ -18,3 +18,4 @@ angular.module('playfully.config', [])
   manager: 'manager',
   admin: 'admin'
 });
+

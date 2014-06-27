@@ -8,8 +8,10 @@ angular.module('auth', ['session'])
         .post(API_BASE + '/auth/login/glasslab', credentials)
         .then(function (response) {
           Session.create(response.data.id, response.data.role);
+          $log.info(response);
           return response.data;
         }, function(response) {
+          $log.error(response);
           return response;
         });
     },

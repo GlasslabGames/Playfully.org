@@ -108,7 +108,7 @@ angular.module( 'playfully', [
 
   // Hack to remember user when they reload / come back
   var tempId = $cookieStore.get('loggedin');
-  if (tempId) {
+  if (tempId && tempId !== undefined) {
     UserService.getById(tempId)
       .then(function(user) {
         $scope.currentUser = user;

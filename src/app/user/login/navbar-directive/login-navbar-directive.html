@@ -1,12 +1,8 @@
-<div>
+<div class="gl-nav-login">
   <div ng-show="isAuthenticated()">
-    Hello 
-    <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>!
-    &nbsp;
     <span class="btn-group">
-      <button type="button" class="btn btn-default dropdown-toggle navbar-btn"
+      <button type="button" class="btn default dropdown-toggle navbar-btn gl-bu-user"
         data-toggle="dropdown">
-        My Account <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
         <li><a ng-click="editProfile()">Edit My Profile</a></li>
@@ -16,7 +12,7 @@
   </div>
 
   <div ng-hide="isAuthenticated()">
-    <button type="button" class="btn btn-default navbar-btn btn-login"
+    <button type="button" class="btn btn-info navbar-btn gl-bu-login"
       data-ng-click="showLogin()"
       data-ng-bind="'navbar.button.signin' | translate"></button>
   </div>

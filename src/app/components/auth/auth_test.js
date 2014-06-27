@@ -25,6 +25,7 @@ describe('Auth', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
+
   describe("Logging in", function() {
     it("sets session information on success", function() {
       $httpBackend.when('POST', '/api/v2/auth/login/glasslab').respond(200, {

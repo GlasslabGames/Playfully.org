@@ -21,6 +21,56 @@
 @import 'variables.less';
 
 
+/* Mixins */
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+	-webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+	-moz-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+	box-shadow:		@x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+
+.border-radiuses (@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+	-webkit-border-top-right-radius:    @topright;
+	-webkit-border-bottom-right-radius: @bottomright;
+	-webkit-border-bottom-left-radius:  @bottomleft;
+	-webkit-border-top-left-radius:     @topleft;
+
+	-moz-border-radius-topright:        @topright;
+	-moz-border-radius-bottomright:     @bottomright;
+	-moz-border-radius-bottomleft:      @bottomleft;
+	-moz-border-radius-topleft:         @topleft;
+
+	border-top-right-radius:            @topright;
+	border-bottom-right-radius:         @bottomright;
+	border-bottom-left-radius:          @bottomleft;
+	border-top-left-radius:             @topleft;
+
+	-moz-background-clip:    padding; 
+	-webkit-background-clip: padding-box; 
+	background-clip:         padding-box; 
+}
+
+.image-2x(@image, @width, @height, @repeat: no-repeat) {
+  @filename  : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[1]`;
+  @extension : ~`/(.*)\.(jpg|jpeg|png|gif)/.exec(@{image})[2]`;
+  background-image: ~`"url(@{filename}@2x.@{extension})"`;
+  background-repeat: @repeat;
+  
+  @media print, screen,
+    (-webkit-min-device-pixel-ratio: 1.25),
+    (min-device-pixel-ratio: 1.25),
+    (min-resolution: 120dpi) {
+      /* on retina, use image that's scaled by 2 */
+      background-image: ~`"url(@{filename}@2x.@{extension})"`;
+      background-size: @width @height;
+  }
+}
+
+
+
+
+
 /**
  * Typography
  */
@@ -119,11 +169,15 @@ h2 {
  * TODO: In a later version of this boilerplate, I'd like to automate this.
  */
 
-/*@import '../app/home/home.less';*/
+@import '../app/home/home.less';
 
 
 .gl-icon-large {
   font-size: 48px;
+}
+
+.gl-lead {
+  font-size: 24px;
 }
 
 .gl-font-large {
@@ -154,3 +208,153 @@ h2 {
 }
 
 
+
+.gl-container {
+  position: relative;
+}
+
+.gl-navbar--top {
+  background: white;
+  position: relative;
+  z-index: 10;
+  .drop-shadow(@blur:5px);
+}
+
+.gl-bg--gray {
+  background: #f0f0f0;
+}
+
+.gl-main {
+  position: relative;
+  z-index: 1;
+}
+
+
+.gl-navbar {
+  margin-top: 35px;
+  margin-bottom: 12px;
+}
+
+.gl-nav-link {
+  color: #555;
+}
+.navbar-nav > li > a.gl-nav-link {
+  padding: 12px;
+}
+
+.navbar-nav > li > a.gl-nav-link,
+.navbar-nav > li > a.gl-nav-link:hover {
+  background: transparent;
+}
+
+a.gl-nav-link:hover {
+  color: #333;
+}
+
+ul.gl-nav > li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.gl-nav-link:hover {
+  border-bottom: 9px solid #b2e4ed;
+}
+
+li.active .gl-nav-link {
+  border-bottom: 9px solid #67cada;
+}
+
+.gl-bu-login {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.gl-bu-user {
+  .image-2x('icon-user-login.png', 19px, 29px);
+  width: 39px;
+  height: 38px;
+  background-color: #67cada;
+  background-position: center;
+  border: none;
+}
+
+.gl-nav-username {
+  position: absolute;
+  top: 0;
+  right: 26px;
+  background: #67cada;
+  padding: 4px 16px;
+  color: white;
+  .border-radiuses(0, 6px, 6px, 0);
+}
+
+.gl-nav-username.gl-nav-student {
+  background: #8cc34a;
+}
+
+.gl-nav-student li.active .gl-nav-link {
+  border-bottom-color: #8cc34a;
+}
+.gl-nav-student .gl-nav-link:hover {
+  border-bottom-color: #c6e0a8;
+}
+
+.gl-nav-student .gl-bu-user {
+  background-color: #8cc34a;
+}
+
+
+
+
+
+
+.gl-footer {
+  background: #6bcad9;
+  border-top: 10px solid #b2e4ed;
+  color: white;
+  margin-top: 0;
+}
+
+.gl-footer-student {
+  background: #8dc152;
+  border-top-color: #c6e0a8; 
+}
+
+.gl-footer .footer-inner {
+  border-top: none;
+}
+
+.gl-footer-nav {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.gl-footer-link {
+  display: inline-block;
+  color: white;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.gl-footer-link:hover {
+  color: white;
+}
+
+.gl-copyright {
+  margin-bottom: 30px;
+}
+
+
+.gl-game-card {
+  .drop-shadow;
+}
+
+.gl-game-thumbnail {
+  background: #777;
+  width: 100%;
+  height: 240px;
+}
+
+.gl-game-desc {
+  padding: 18px;
+}

@@ -11,23 +11,31 @@
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
   </head>
   <body>
-    <div class="container">
-      <div data-ng-include="'navbar/navbar.html'"></div>
+    <div class="gl-navbar--top">
+      <div class="container gl-container">
+        <div data-ng-include="'navbar/navbar.html'"></div>
+        <div class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
+          Welcome back!
+          <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>
+        </div>
+      </div>
     </div>
 
-    <div class="container" ui-view="main">
+    <div class="gl-main" ui-view="main">
     </div>
 
-    <footer class="footer">
+    <footer class="footer gl-footer"
+      ng-class="{'gl-footer-student': isAuthorized('student')}">
       <div class="container">
-        <div class="footer-inner">
-          <ul class="nav nav-pills">
-            <li><a href="#">Support</a></li>
-            <li><a href="#">GlassLab</a></li>
-            <li><a href="#">Legal</a></li>
-            <li><a href="#">Developer</a></li>
-            <li><a href="#">Community</a></li>
-          </ul>
+        <div class="gl-footer-nav text-center">
+          <a class="gl-footer-link" href="#">Support</a>
+          <a class="gl-footer-link" href="#">GlassLab</a>
+          <a class="gl-footer-link" href="#">Legal</a>
+          <a class="gl-footer-link" href="#">Developer</a>
+          <a class="gl-footer-link" href="#">Community</a>
+        </div>
+        <div class="text-center gl-copyright">
+          &copy;2014 GlassLab&trade;
         </div>
       </div>
     </footer>

@@ -1,4 +1,4 @@
-<div class="navbar navbar-default" data-ng-controller="NavbarCtrl">
+<div class="navbar gl-navbar" data-ng-controller="NavbarCtrl">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
       ng-click="menuCollapsed = ! menuCollapsed">
@@ -7,102 +7,95 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <div class="navbar-brand">
-      Playfully 
-    </div>
   </div>
 
   <div class="collapse navbar-collapse" collapse="menuCollapsed">
+    <div class="nav navbar-nav navbar-right">
 
-    <ul class="nav navbar-nav navbar-left" ng-if="!isAuthenticated()">
-      <li ui-sref-active="active">
-        <a href ui-sref="home">
-          <i class="fa fa-home"></i>
-          <span data-ng-bind="'navbar.link.home' | translate"></span>
-        </a>
-      </li>
+      <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="home"
+            data-ng-bind="'navbar.link.home' | translate">
+          </a>
+        </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="games">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.games' | translate"></span>
-        </a>
-      </li>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="games"
+            data-ng-bind="'navbar.link.games' | translate">
+          </a>
+        </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="support">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.support' | translate"></span>
-        </a>
-      </li>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="support"
+            data-ng-bind="'navbar.link.support' | translate">
+          </a>
+        </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="redeem">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.redeem' | translate"></span>
-        </a>
-      </li>
-    </ul>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="redeem"
+            data-ng-bind="'navbar.link.redeem' | translate">
+          </a>
+        </li>
 
-
-    <ul class="nav navbar-nav navbar-left" ng-if="isAuthorized('student')">
-      <li ui-sref-active="active">
-        <a href ui-sref="home">
-          <i class="fa fa-home"></i>
-          <span data-ng-bind="'navbar.link.myclass' | translate"></span>
-        </a>
-      </li>
-
-      <li ui-sref-active="active">
-        <a href ui-sref="games">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.gamecatalog' | translate"></span>
-        </a>
-      </li>
-    </ul>
+        <li>
+          <login-navbar type="modal"></login-navbar>
+        </li>
+      </ul>
 
 
-    <ul class="nav navbar-nav navbar-left" ng-if="isAuthorized('instructor')">
-      <li ui-sref-active="active">
-        <a href ui-sref="home">
-          <i class="fa fa-home"></i>
-          <span data-ng-bind="'navbar.link.dashboard' | translate"></span>
-        </a>
-      </li>
+      <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="home"
+            data-ng-bind="'navbar.link.myclass' | translate">
+          </a>
+        </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="games">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.games' | translate"></span>
-        </a>
-      </li>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="games"
+            data-ng-bind="'navbar.link.gamecatalog' | translate">
+          </a>
+        </li>
+        <li class="gl-login-button">
+          <login-navbar type="modal"></login-navbar>
+        </li>
+      </ul>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="courses">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.classes' | translate"></span>
-        </a>
-      </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="reports">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.reports' | translate"></span>
-        </a>
-      </li>
+      <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized('instructor')">
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="home"
+            data-ng-bind="'navbar.link.dashboard' | translate">
+          </a>
+        </li>
 
-      <li ui-sref-active="active">
-        <a href ui-sref="support">
-          <i class="fa fa-play-circle"></i>
-          <span data-ng-bind="'navbar.link.support' | translate"></span>
-        </a>
-      </li>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="games"
+            data-ng-bind="'navbar.link.games' | translate">
+          </a>
+        </li>
 
-    </ul>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="courses"
+            data-ng-bind="'navbar.link.classes' | translate">
+          </a>
+        </li>
 
-    <div class="navbar-right">
-      <login-navbar type="modal"></login-navbar>
-    </div>
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="reports"
+            data-ng-bind="'navbar.link.reports' | translate">
+          </a>
+        </li>
+
+        <li ui-sref-active="active">
+          <a class="gl-nav-link" href ui-sref="support"
+            data-ng-bind="'navbar.link.support' | translate">
+          </a>
+        </li>
+
+        <li class="gl-login-button">
+          <login-navbar type="modal"></login-navbar>
+        </li>
+      </ul>
   </div>
 </div>
 
