@@ -8,7 +8,8 @@ angular.module('playfully.config', [])
   logoutSuccess: 'auth:logout-success',
   sessionTimeout: 'auth:session-timeout',
   notAuthenticated: 'auth:not-authenticated',
-  notAuthorized: 'auth:not-authorized'
+  notAuthorized: 'auth:not-authorized',
+  userRetrieved: 'auth:user-retrieved'
 })
 
 .constant('USER_ROLES', {

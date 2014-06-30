@@ -6,6 +6,7 @@ angular.module( 'playfully.courses', [
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state( 'courses', {
     url: '/classes',
+    parent: 'site',
     views: {
       "main": {
         controller: 'CoursesCtrl',

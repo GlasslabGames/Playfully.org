@@ -45,7 +45,7 @@
 
       <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
         <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="home"
+          <a class="gl-nav-link" href ui-sref="dashboard-student"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
@@ -63,7 +63,7 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized('instructor')">
         <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="home"
+          <a class="gl-nav-link" href ui-sref="dashboard-instructor"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>

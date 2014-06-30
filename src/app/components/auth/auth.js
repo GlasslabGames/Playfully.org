@@ -1,25 +1,18 @@
 angular.module('auth', ['session'])
-.factory('AuthService', function ($http, $log, Session, API_BASE) {
+.factory('AuthService', function ($http, $log, Session, UserService, API_BASE) {
 
   var api = {
 
     login: function (credentials) {
       return $http
-        .post(API_BASE + '/auth/login/glasslab', credentials)
-        .then(function (response) {
-          Session.create(response.data.id, response.data.role);
-          $log.info(response);
-          return response.data;
-        }, function(response) {
-          $log.error(response);
-          return response;
-        });
+        .post(API_BASE + '/auth/login/glasslab', credentials);
     },
 
     logout: function () {
       return $http
         .post(API_BASE + '/auth/logout')
         .then(function(response) {
+          UserService.removeCurrentUser();
           Session.destroy();
           return true;
         });

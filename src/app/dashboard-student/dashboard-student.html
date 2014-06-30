@@ -1,0 +1,33 @@
+<div class="container gl-home-student-intro">
+  <div class="text-center">
+    <h1>Welcome back to your class!</h1>
+  </div>
+
+  <hr class="gl-home-student"></hr>
+
+  <div class="gl-big-dashed-box gl-student-add-class">
+    <div class="icon-plus-green icon-left"></div>
+      Add a class
+  </div>
+
+  <hr class="gl-home-student"></hr>
+
+
+  <div class="course" ng-repeat="course in courses">
+    <div class="course-name course-col"
+      ng-class-odd="'gl-bg--gray'" ng-class-even="'gl-bg--ltgreen'">
+      <h4>{{ course.title }}</h4>
+      <div>Teacher: Liz Kline</div>
+    </div>
+    <div class="course-games course-col"
+      ng-class-odd="'gl-bg--gray'" ng-class-even="'gl-bg--ltgreen'">
+      <div class="game" ng-repeat="game in course.games">
+        <div class="game-thumbnail"></div>
+        <div class="game-title" ng-bind="game.shortName">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

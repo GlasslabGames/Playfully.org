@@ -27,20 +27,20 @@ describe('UserService', function() {
 
 
   describe("get user by ID", function() {
-    it("returns user profile data", function() {
-      $httpBackend.when('GET', '/api/user/25').respond(200, {
-        data: {
-          id: 25, role: 'student', firstName: 'Test', lastName: 'User'
-        }});
-      $httpBackend.expect('GET', '/api/user/25');
-      var returnedPromise = UserService.getById(25);
-      var result;
-      returnedPromise.then(function(response) {
-        result = response;
-      });
-      $httpBackend.flush();
-      expect(result.data.lastName).toBe('User');
-    });
+    // it("returns user profile data", function() {
+    //   $httpBackend.when('GET', '/api/user/25').respond(200, {
+    //     data: {
+    //       id: 25, role: 'student', firstName: 'Test', lastName: 'User'
+    //     }});
+    //   $httpBackend.expect('GET', '/api/user/25');
+    //   var returnedPromise = UserService.getById(25);
+    //   var result;
+    //   returnedPromise.then(function(response) {
+    //     result = response;
+    //   });
+    //   $httpBackend.flush();
+    //   expect(result.data.lastName).toBe('User');
+    // });
 
   });
 

@@ -1,13 +1,53 @@
 angular.module('user', ['user.navbar', 'user.edit'])
-.factory('UserService', function ($http, $log, Session, API_BASE) {
+.factory('UserService', function ($q, $http, $log, $cookieStore, Session, API_BASE) {
+
+  var _currentUser;
 
   var api = {
+
+    currentUser: function() {
+      var deferred = $q.defer();
+      if (angular.isDefined(_currentUser) && _currentUser !== null) {
+        deferred.resolve(_currentUser);
+        return deferred.promise;
+      }
+
+      api.retrieveCurrentUser()
+        .success(function(data) {
+          _currentUser = data;
+          Session.create(data.id, data.role);
+          deferred.resolve(_currentUser);
+        })
+        .error(function() {
+          _currentUser = null;
+          Session.destroy();
+          deferred.resolve(null);
+        });
+      return deferred.promise;
+    },
+
+    isAuthenticated: function() {
+      return !!_currentUser;
+    },
+
+    hasCurrentUser: function() {
+      angular.isDefined(_currentUser);
+    },
+
+    retrieveCurrentUser: function() {
+      return $http.get('/api/user/profile');
+    },
+
+    removeCurrentUser: function() {
+      _currentUser = null;
+      Session.destroy();
+      return true;
+    },
 
     getById: function (userId) {
       return $http
         .get('/api/user/' + userId)
         .then(function (response) {
-          Session.create(response.data.id, response.data.role);
           return response.data;
         }, function(response) {
           return response;

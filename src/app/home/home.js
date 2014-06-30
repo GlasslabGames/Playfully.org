@@ -4,26 +4,21 @@ angular.module( 'playfully.home', [
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'home', {
-    url: '/home',
+    parent: 'site',
+    url: '/',
     views: {
-      "main": {
+      'main@': {
         controller: 'HomeCtrl',
         templateUrl: 'home/home.html'
       }
     },
-    data:{ pageTitle: 'Home' }
+    data:{
+      pageTitle: 'Home',
+    }
   });
 })
 
-/**
-* This is the controller for the Playfully.org home page
-*
-* @class HomeCtrl
-* @constructor
-*/
-.controller( 'HomeCtrl', function HomeController( $scope, $log, Session) {
-  // $scope.currentUser = User.currentUser;
-  // $scope.currentRole = null;
+.controller( 'HomeCtrl', function HomeController( $scope, $log, CoursesService, Session) {
 
 
   $scope.showTutorial = function() {
@@ -38,23 +33,7 @@ angular.module( 'playfully.home', [
     }
   };
 
-  // $scope.$on('', function() {
-  //   $scope.currentUser = null;
-  //   $scope.currentRole = null;
 
-  // });
-
-  // /* TODO: can't have this in every controller. */
-  // $scope.$watch(function() {
-  //   return User.currentUser;
-  // }, function(currentUser) {
-  //   $scope.currentUser = currentUser;
-  //   if (currentUser) {
-  //     $scope.currentRole = currentUser.role;
-  //   } else {
-  //     $scope.currentRole = null;
-  //   }
-  // });
 });
 
 
