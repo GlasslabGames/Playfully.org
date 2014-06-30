@@ -8,32 +8,28 @@ angular.module( 'playfully.courses', [
     url: '/classes',
     parent: 'site',
     views: {
-      "main": {
+      "main@": {
         controller: 'CoursesCtrl',
         templateUrl: 'courses/courses.html'
       }
     },
     data:{
       pageTitle: 'Classes',
-      authorizedRoles: [USER_ROLES.instructor]
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
     }
   });
 })
 
+.controller( 'CoursesCtrl', function ( $scope, $http, $log, courses) {
 
-.controller( 'CoursesCtrl', function CoursesController( $scope, $http, $log, USER_ROLES ) {
-
-  $scope.classes = null;
+  $scope.courses = courses;
   $scope.titleLimit = 60;
 
-  $http.get('/api/v2/lms/courses')
-    .success(function(data, status, headers, config) {
-      $scope.classes = data;
-      $log.info(data);
-    })
-    .error(function(data, status, headers, config) {
-      $log.error(data);
-    });
 
 });
 

@@ -19,9 +19,10 @@ angular.module( 'playfully.dashboard-instructor', [
   });
 })
 
-.controller( 'DashboardInstructorCtrl', function ( $scope, $log) {
+.controller( 'DashboardInstructorCtrl', function ( $scope, $log, GamesService) {
 
-
+  $scope.games = GamesService.all();
+  $log.info($scope.games);
 
 });
 

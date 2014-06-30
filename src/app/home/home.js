@@ -18,7 +18,15 @@ angular.module( 'playfully.home', [
   });
 })
 
-.controller( 'HomeCtrl', function HomeController( $scope, $log, CoursesService, Session) {
+.controller( 'HomeCtrl', function ( $scope, $log, $modal, CoursesService, Session) {
+  
+  $scope.showRegister = function() {
+    $scope.$emit('modal.show', {
+      templateUrl: 'register/register.html',
+      controller: 'RegisterModalCtrl',
+      size: 'lg'
+    });
+  };
 
 
   $scope.showTutorial = function() {

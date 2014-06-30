@@ -15,6 +15,7 @@ angular.module( 'playfully', [
   'playfully.dashboard-instructor',
   'playfully.dashboard-student',
   'playfully.login',
+  'playfully.register',
   'playfully.navbar',
   'playfully.courses',
   'playfully.support',

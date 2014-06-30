@@ -52,6 +52,20 @@ angular.module('user', ['user.navbar', 'user.edit'])
         }, function(response) {
           return response;
         });
+    },
+
+    update: function (user) {
+      return $http.post(API_BASE + '/auth/user/' + user.id, user);
+    },
+
+    register: function(regInfo) {
+      return $http({
+        method: 'POST',
+        url: API_BASE + '/auth/user/register',
+        data: regInfo,
+        params: {cb: new Date().getTime()}
+      });
+      
     }
 
 

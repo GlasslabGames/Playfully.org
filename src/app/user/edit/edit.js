@@ -10,9 +10,15 @@ angular.module('user.edit', [])
   });
 
 
-  // $scope.updateProfile = function(user) {
-  //   User.update(user);
-  // };
+  $scope.updateProfile = function(user) {
+    UserService.update(user)
+      .success(function(data, status, headers, config) {
+        $log.info(data);
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
 
   $scope.cancelEdit = function() {
     $modalInstance.close();
