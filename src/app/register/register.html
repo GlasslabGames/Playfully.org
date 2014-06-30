@@ -1,11 +1,11 @@
 <div class="modal-header">
-  <h3 class="modal-title" ng-show="reg.currentStep == 1">Register Now!</h3>
-  <h3 class="modal-title" ng-show="reg.currentStep == 2">Please tell us who you are</h3>
+  <h3 class="modal-title headline-2" ng-show="reg.currentStep == 1">Register Now!</h3>
+  <h3 class="modal-title headline-2" ng-show="reg.currentStep == 2">Please tell us who you are</h3>
   <div ng-show="reg.currentStep == 3">
-    <h3 class="modal-title" ng-show="reg.role == 'instructor'">Educator / Parent Registration</h3>
-    <h3 class="modal-title" ng-show="reg.role == 'student'">Student Registration</h3>
+    <h3 class="modal-title headline-2" ng-show="reg.role == 'instructor'">Educator / Parent Registration</h3>
+    <h3 class="modal-title headline-2" ng-show="reg.role == 'student'">Student Registration</h3>
   </div>
-  <h3 ng-show="reg.status == 'instructorRegComplete'">
+  <h3 class="modal-title headline-2" ng-show="reg.status == 'instructorRegComplete'">
     Welcome!
   </h3>
 </div>
