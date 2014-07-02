@@ -1,8 +1,7 @@
 <div class="gl-nav-login">
   <div ng-show="isAuthenticated()">
-    <span class="btn-group">
-      <button type="button" class="btn default dropdown-toggle navbar-btn gl-bu-user"
-        data-toggle="dropdown">
+    <span class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn default dropdown-toggle navbar-btn gl-bu-user">
       </button>
       <ul class="dropdown-menu" role="menu">
         <li><a ng-click="editProfile()">Edit My Profile</a></li>

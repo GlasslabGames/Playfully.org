@@ -1,121 +1,157 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" ng-click="cancelLogin()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <h3 class="modal-title">Sign In</h3>
+
+  <h3 class="modal-title" ng-show="state.activeScreen == 'initial'">Sign In</h3>
+  <h3 class="modal-title" ng-show="state.activeScreen == 'instructor'">Teacher/Parent Sign In</h3>
+  <h3 class="modal-title" ng-show="state.activeScreen == 'forgotPassword'">Forgot Password</h3>
+  <h3 class="modal-title" ng-show="state.activeScreen == 'forgotPasswordSuccess'">Reset Instructions Sent</h3>
+
 </div>
 
 <div class="modal-body">
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--edmodo"
-      onclick="window.location.href='/auth/edmodo/login'"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+
+
+  <div ng-show="state.activeScreen == 'initial'">
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--edmodo"
+        onclick="window.location.href='/auth/edmodo/login'"
+        popover-title="Edmodo Login"
+        popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
+        popover-trigger="mouseenter" popover-placement="bottom">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+          </div>
+          <div class="media-bd">
+            Log in with <stronge>Edmodo</strong>
+          </div>
         </div>
-        <div class="media-bd">
-          Log in with <stronge>Edmodo</strong>
+      </button>
+    </div>
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--icivics"
+        onclick="window.location.href='/auth/edmodo/login'"
+        popover-title="Edmodo Login"
+        popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
+        popover-trigger="mouseenter" popover-placement="bottom">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Log in with iCivics
+          </div>
         </div>
+      </button>
+    </div>
+
+    <hr class="login-divider--or" />
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--instructor"
+        ng-click="showInstructorLogin()">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Teacher/Parent Sign In
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--student"
+        onclick="window.location.href='/auth/edmodo/login'">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Student Sign In
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div class="text-center small">
+      Don&rsquo;t have an account?
+      <a href="#">Create an account</a>
+    </div>
+  </div>
+
+
+
+
+
+  <div ng-show="state.activeScreen == 'instructor'">
+    <form name="loginForm" novalidate class="login-form"
+      ng-submit="login(credentials)">
+      <div class="form-group" ng-class="{'has-error': loginForm.email.$dirty && loginForm.email.$invalid}">
+        <input type="email" name="username" class="form-control" placeholder="Email address"
+          required autofocus ng-model="credentials.username">
+          <div class="form-errors">
+            <div class="form-error" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+              Please enter a valid email address
+            </div>
+          </div>
       </div>
-    </button>
-  </div>
-
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--icivics"
-      onclick="window.location.href='/auth/edmodo/login'"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
-        </div>
-        <div class="media-bd">
-          Log in with iCivics
-        </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+        <span class="small help-block">
+          <a ng-click="showForgotPassword()" href="#">Forgot your password?</a>
+        </span>
       </div>
-    </button>
-  </div>
 
-  <hr class="login-divider--or" />
-
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--instructor"
-      onclick="window.location.href='/auth/edmodo/login'"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
-        </div>
-        <div class="media-bd">
-          Teacher/Parent Sign In
-        </div>
+      <div class="text-center">
+        <input type="submit" class="btn gl-btn--blue" value="Sign In"
+        ng-disabled="loginForm.$invalid">
       </div>
-    </button>
+    </form>
   </div>
 
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--student"
-      onclick="window.location.href='/auth/edmodo/login'"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
-        </div>
-        <div class="media-bd">
-          Student Sign In
-        </div>
+
+
+  <div ng-show="state.activeScreen == 'forgotPassword'">
+    <p>
+      Type in your email address and hit the Reset Password button. You will
+      shortly receive an email with instructions on resetting your password.
+    </p>
+    <form name="forgotPasswordForm" novalidate class="forgotpassword-form"
+      ng-submit="retrievePassword(forgotPassword)">
+      <div class="form-group" ng-class="{'has-error': forgotPasswordForm.email.$dirty && forgotPasswordForm.email.$invalid}">
+        <input type="email" name="email" class="form-control" placeholder="Email address"
+          required autofocus ng-model="forgotPassword.email">
+          <div class="form-errors">
+            <div class="form-error" ng-show="forgotPasswordForm.email.$dirty && forgotPasswordForm.email.$invalid">
+              Please enter a valid email address
+            </div>
+          </div>
       </div>
-    </button>
+
+      <div class="text-center">
+        <input type="submit" class="btn gl-btn--blue" value="Retrieve Password"
+        ng-disabled="forgotPasswordForm.$invalid">
+      </div>
+    </form>
   </div>
 
-  <div class="text-center small">
-    Don&rsquo;t have an account?
-    <a href="#">Create an account</a>
+
+
+
+  <div ng-show="state.activeScreen == 'forgotPasswordSuccess'">
+    <p>
+      Instructions for resetting your password have been sent to
+      <strong data-ng-bind="state.emailAddress"></strong>.
+    </p>
+    &nbsp;
+    <div class="text-center">
+      <button class="btn gl-btn--blue" ng-click="cancelLogin()">Okay</button>
+    </div>
+    &nbsp;
   </div>
+
   
 </div>
-
-
-
-
-
-
-
-
-
-<div ng-show="false">
-  <form class="modal-body login-form" ng-submit="login(credentials)">
-
-
-
-    <div class="alert alert-warning" ng-show="authReason">
-      {{authReason}}
-    </div>
-    <div class="alert alert-danger" ng-show="authError">
-      {{authError}}
-    </div>
-    <div class="alert alert-info" ng-hide="authError">Please enter your login details</div>
-
-    <div class="form-group">
-      <label for="credentials-email">Email address or screen name</label>
-      <input type="text" class="form-control" id="credentials-username" placeholder="Enter email or screen name" required autofocus ng-model="credentials.username">
-    </div>
-    <div class="form-group">
-      <label for="credentials-password">Password</label>
-      <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
-    </div>
-
-    <div class="modal-footer">
-      <input type="submit" class="btn btn-success" value="Sign In"
-      ng-disabled="!credentials.username.length || !credentials.password.length">
-      <a class="btn btn-default" ng-click="cancelLogin()">Cancel</a>
-    </div>
-  </form>
-</div>
-

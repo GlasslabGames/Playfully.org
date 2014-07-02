@@ -1,5 +1,5 @@
 angular.module('auth', ['session'])
-.factory('AuthService', function ($http, $log, Session, UserService, API_BASE) {
+.factory('AuthService', function ($http, $log, $q, Session, UserService, API_BASE) {
 
   var api = {
 
@@ -28,6 +28,18 @@ angular.module('auth', ['session'])
       }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
+    },
+
+    sendPasswordResetLink: function(emailAddress) {
+      var deferred = $q.defer();
+      deferred.resolve(emailAddress);
+      return deferred.promise;
+      // return $http({
+      //   method: 'POST',
+      //   url: '/api/user/resetpassword/send/',
+      //   params: {cb: new Date().getTime()},
+      //   data: {email: emailAddress}
+      // });
     }
   };
 
