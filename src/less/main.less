@@ -19,6 +19,9 @@
  */
 
 @import 'variables.less';
+@import 'media.less';
+@import 'modal.less';
+@import '../app/login/login.less';
 
 
 /* Mixins */
@@ -78,6 +81,9 @@
 
 
 
+a:link {
+  color: @oceanBlue;
+}
 
 
 /**
@@ -121,32 +127,17 @@ h2 {
   color: #666;
 }
 
-/* GlassLab colors */
-@oceanBlue: #1c7ebf;
-@aquaBlue: #67cada;
-@skyBlue: #b2e4ed;
-@grassGreen: #8cc34a;
-@yellow: #fdd367;
-
-@grey1: #333;
-@grey2: #555;
-@grey3: #777;
-@grey4: #999;
-@grey5: #ccc;
-@grey6: #ddd;
-@grey7: #f0f0f0;
-
 
 /* GlassLab text */
 
 .headline-1 {
-  font-family: 'Bitter', serif;
+  font-family: @serifHeadlineFontFamily;
   font-size: 36px;
   color: @grey1;
 }
 
 .headline-2 {
-  font-family: 'Bitter', serif;
+  font-family: @serifHeadlineFontFamily;
   font-size: 28px;
   color: @grey1;
 }
@@ -159,9 +150,6 @@ h2 {
 
 
 
-.modal-title {
-  text-align: center;
-}
 
 /**
  * Navigation

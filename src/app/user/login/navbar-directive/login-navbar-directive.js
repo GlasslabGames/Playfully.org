@@ -25,7 +25,7 @@ angular.module('user.navbar', ['ui.bootstrap'])
         $scope.$emit('modal.show', {
           templateUrl: 'login/login.html',
           controller: 'LoginModalController',
-          size: 'lg'
+          size: 'sm'
         });
       };
 
