@@ -23,6 +23,7 @@
 @import 'form.less';
 @import 'buttons.less';
 @import 'modal.less';
+@import '../app/navbar/navbar.less';
 @import '../app/login/login.less';
 
 
@@ -85,6 +86,10 @@
 
 a:link {
   color: @oceanBlue;
+}
+
+.footer a:link {
+  color: white;
 }
 
 
@@ -152,18 +157,6 @@ h2 {
 
 
 
-
-/**
- * Navigation
- */
-
-.navbar {
-  margin-top: 20px;
-  
-  small {
-    font-size: 60%;
-  }
-}
 
 
 /**
@@ -266,13 +259,6 @@ h2 {
   position: relative;
 }
 
-.gl-navbar--top {
-  background: white;
-  position: relative;
-  z-index: 10;
-  .drop-shadow(@blur:5px);
-}
-
 .gl-bg--gray {
   background: #f0f0f0;
 }
@@ -287,39 +273,6 @@ h2 {
 }
 
 
-.gl-navbar {
-  margin-top: 40px;
-  margin-bottom: 12px;
-}
-
-.gl-nav-link {
-  color: #555;
-}
-.navbar-nav > li > a.gl-nav-link {
-  padding: 12px;
-}
-
-.navbar-nav > li > a.gl-nav-link,
-.navbar-nav > li > a.gl-nav-link:hover {
-  background: transparent;
-}
-
-a.gl-nav-link:hover {
-  color: #333;
-}
-
-ul.gl-nav > li {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.gl-nav-link:hover {
-  border-bottom: 9px solid #b2e4ed;
-}
-
-li.active .gl-nav-link {
-  border-bottom: 9px solid #67cada;
-}
 
 .gl-bu-login {
   margin-left: 10px;

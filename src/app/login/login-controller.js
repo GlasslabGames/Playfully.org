@@ -1,5 +1,7 @@
 angular.module('playfully.login', [])
 
+
+
 // .controller('LoginController',
 //   function LoginController( $scope, AuthService, AUTH_EVENTS) {
 // 
@@ -46,21 +48,25 @@ angular.module('playfully.login', [])
 
   $scope.retrievePassword = function(formInput) {
     AuthService.sendPasswordResetLink(formInput.email)
-      .then(function(response) {
-        // temporary handler until API is working
-        $scope.state.emailAddress = response;
-        $scope.state.activeScreen = 'forgotPasswordSuccess';
-      });
-      // .success(function(data, status, headers, config) {
-      //   console.log(data);
-      // })
-      // .error(function(data, status, headers, config) {
-      //   console.log(data);
+      // .then(function(response) {
+      //   // temporary handler until API is working
+      //   $scope.state.emailAddress = response;
+      //   $scope.state.activeScreen = 'forgotPasswordSuccess';
       // });
+      .success(function(data, status, headers, config) {
+        console.log(data);
+      })
+      .error(function(data, status, headers, config) {
+        console.log(data);
+      });
   };
 
   $scope.showInstructorLogin = function() {
     $scope.state.activeScreen = 'instructor'; 
+  };
+
+  $scope.showStudentLogin = function() {
+    $scope.state.activeScreen = 'student'; 
   };
 
   $scope.showForgotPassword = function() {

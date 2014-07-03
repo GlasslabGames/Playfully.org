@@ -31,15 +31,15 @@ angular.module('auth', ['session'])
     },
 
     sendPasswordResetLink: function(emailAddress) {
-      var deferred = $q.defer();
-      deferred.resolve(emailAddress);
-      return deferred.promise;
-      // return $http({
-      //   method: 'POST',
-      //   url: '/api/user/resetpassword/send/',
-      //   params: {cb: new Date().getTime()},
-      //   data: {email: emailAddress}
-      // });
+      // var deferred = $q.defer();
+      // deferred.resolve(emailAddress);
+      // return deferred.promise;
+      return $http({
+        method: 'POST',
+        url: API_BASE + '/auth/resetpassword/send/',
+        params: {cb: new Date().getTime()},
+        data: {email: emailAddress}
+      });
     }
   };
 
