@@ -4,254 +4,73 @@
 </div>
 
 <div class="modal-body">
-  <div class="alert alert-danger" ng-show="reg.errors.length > 0">
-    {{ reg.errors[0] }}
-  </div>
 
-  <div ng-show="reg.currentStep == 1">
-    <button class="btn btn-success"
-      ng-click="goToNextStep()">Sign up with email</button>
-  </div>
-
-
-  <div ng-show="reg.currentStep == 2">
-    <div class="radio">
-      <label>
-        <input type="radio" name="reg_type" value="instructor"
-          ng-model="reg.role">
-        Educator or Parent
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input type="radio" name="reg_type" value="student"
-          ng-model="reg.role">
-        Student
-      </label>
-    </div>
-    <button class="btn btn-success"
-      ng-click="goToNextStep()">Continue</button>
-
-  </div>
-
-
-  <div ng-show="reg.currentStep == 3">
-
-    <div ng-show="reg.role == 'instructor'">
-      <div class="form-group">
-        <!-- <label for="reg-firstName">Name</label> -->
-        <input type="text" class="form-control" id="reg-firstName" placeholder="Name (example Ms Smith, Mom)" required autofocus ng-model="reg.firstName">
-      </div>
-      <div class="form-group">
-        <!-- <label for="reg-email">Email</label> -->
-        <input type="email" class="form-control" id="reg-email" placeholder="Email Address" required ng-model="reg.email">
-      </div>
-      <div class="form-group">
-        <!-- <label for="reg-email">Email</label> -->
-        <input type="password" class="form-control" id="reg-password" placeholder="Choose a password" required ng-model="reg.password">
-      </div>
-      <div class="form-group">
-        <!-- <label for="reg-email">Email</label> -->
-        <input type="password" class="form-control" id="reg-confirm" placeholder="Confirm password" required ng-model="reg.confirm">
-      </div>
-
-    <button class="btn btn-success"
-      ng-disabled="verifyInstructorReg()"
-      ng-click="registerInstructor(reg)">Register</button>
-
-    </div>
-
-    <div ng-show="reg.role == 'student'">
-      <p>
-        Hi there! Do you have a registration code yet?
-      </p>
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <input type="text" class="form-control" id="credentials-username" placeholder="Registration code" required autofocus ng-model="reg.regCode">
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--edmodo"
+      onclick="window.location.href='/auth/edmodo/login'"
+      popover-title="Edmodo Login"
+      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
+      popover-trigger="mouseenter" popover-placement="bottom">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
         </div>
-        <button type="submit" class="btn btn-success">Verify Code</button>
-      </form>
-
-    </div>
+        <div class="media-bd">
+          Log in with <stronge>Edmodo</strong>
+        </div>
+      </div>
+    </button>
   </div>
 
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--icivics"
+      onclick="window.location.href='/auth/edmodo/login'"
+      popover-title="Edmodo Login"
+      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
+      popover-trigger="mouseenter" popover-placement="bottom">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Log in with iCivics
+        </div>
+      </div>
+    </button>
+  </div>
 
-  <div ng-show="reg.status == 'instructorRegComplete'">
-    <p>
-      Thank you for signing up for Playfully!
-    </p>
+  <hr class="login-divider--or" />
 
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--instructor"
+      ui-sref="registerInstructor">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Create Teacher/Parent Acct
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--student"
+      ui-sref="registerStudent">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Create Student Account
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="text-center small">
+    Already have an account?
+    <a ui-sref="Options">Sign In</a>
   </div>
 </div>
-
-
-
-
-
-
-<!-- <div ng-show="false"> -->
-<!-- <form class="modal-body login-form" ng-submit=""> -->
-<!--  -->
-<!--   <div class="alert alert-warning" ng-show="authReason"> -->
-<!--     {{authReason}} -->
-<!--   </div> -->
-<!--   <div class="alert alert-danger" ng-show="authError"> -->
-<!--     {{authError}} -->
-<!--   </div> -->
-<!--   <div class="alert alert-info" ng-hide="authError">Please enter your login details</div> -->
-<!--  -->
-<!--   <div class="form-group"> -->
-<!--     <label for="credentials-email">Email address or screen name</label> -->
-<!--     <input type="text" class="form-control" id="credentials-username" placeholder="Enter email or screen name" required autofocus ng-model="credentials.username"> -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="credentials-password">Password</label> -->
-<!--     <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password"> -->
-<!--   </div> -->
-<!--  -->
-<!--   <div class="modal-footer"> -->
-<!--     <input type="submit" class="btn btn-success" value="Sign In" -->
-<!--     ng-disabled="!credentials.username.length || !credentials.password.length"> -->
-<!--     <a class="btn btn-default" ng-click="cancelLogin()">Cancel</a> -->
-<!--   </div> -->
-<!-- </form> -->
-<!-- </div> -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!-- <div class="modal-header"> -->
-<!--   <h3 class="modal-title headline-2" ng-show="reg.currentStep == 1">Register Now!</h3> -->
-<!--   <h3 class="modal-title headline-2" ng-show="reg.currentStep == 2">Please tell us who you are</h3> -->
-<!--   <div ng-show="reg.currentStep == 3"> -->
-<!--     <h3 class="modal-title headline-2" ng-show="reg.role == 'instructor'">Educator / Parent Registration</h3> -->
-<!--     <h3 class="modal-title headline-2" ng-show="reg.role == 'student'">Student Registration</h3> -->
-<!--   </div> -->
-<!--   <h3 class="modal-title headline-2" ng-show="reg.status == 'instructorRegComplete'"> -->
-<!--     Welcome! -->
-<!--   </h3> -->
-<!-- </div> -->
-<!--  -->
-<!-- <div class="modal-body"> -->
-<!--   <div class="alert alert-danger" ng-show="reg.errors.length > 0"> -->
-<!--     {{ reg.errors[0] }} -->
-<!--   </div> -->
-<!--  -->
-<!--   <div ng-show="reg.currentStep == 1"> -->
-<!--     <button class="btn btn-success" -->
-<!--       ng-click="goToNextStep()">Sign up with email</button> -->
-<!--   </div> -->
-<!--  -->
-<!--  -->
-<!--   <div ng-show="reg.currentStep == 2"> -->
-<!--     <div class="radio"> -->
-<!--       <label> -->
-<!--         <input type="radio" name="reg_type" value="instructor" -->
-<!--           ng-model="reg.role"> -->
-<!--         Educator or Parent -->
-<!--       </label> -->
-<!--     </div> -->
-<!--     <div class="radio"> -->
-<!--       <label> -->
-<!--         <input type="radio" name="reg_type" value="student" -->
-<!--           ng-model="reg.role"> -->
-<!--         Student -->
-<!--       </label> -->
-<!--     </div> -->
-<!--     <button class="btn btn-success" -->
-<!--       ng-click="goToNextStep()">Continue</button> -->
-<!--  -->
-<!--   </div> -->
-<!--  -->
-<!--  -->
-<!--   <div ng-show="reg.currentStep == 3"> -->
-<!--  -->
-<!--     <div ng-show="reg.role == 'instructor'"> -->
-<!--       <div class="form-group"> -->
-<!--         <!-- <label for="reg-firstName">Name</label> --> -->
-<!--         <input type="text" class="form-control" id="reg-firstName" placeholder="Name (example Ms Smith, Mom)" required autofocus ng-model="reg.firstName"> -->
-<!--       </div> -->
-<!--       <div class="form-group"> -->
-<!--         <!-- <label for="reg-email">Email</label> --> -->
-<!--         <input type="email" class="form-control" id="reg-email" placeholder="Email Address" required ng-model="reg.email"> -->
-<!--       </div> -->
-<!--       <div class="form-group"> -->
-<!--         <!-- <label for="reg-email">Email</label> --> -->
-<!--         <input type="password" class="form-control" id="reg-password" placeholder="Choose a password" required ng-model="reg.password"> -->
-<!--       </div> -->
-<!--       <div class="form-group"> -->
-<!--         <!-- <label for="reg-email">Email</label> --> -->
-<!--         <input type="password" class="form-control" id="reg-confirm" placeholder="Confirm password" required ng-model="reg.confirm"> -->
-<!--       </div> -->
-<!--  -->
-<!--     <button class="btn btn-success" -->
-<!--       ng-disabled="verifyInstructorReg()" -->
-<!--       ng-click="registerInstructor(reg)">Register</button> -->
-<!--  -->
-<!--     </div> -->
-<!--  -->
-<!--     <div ng-show="reg.role == 'student'"> -->
-<!--       <p> -->
-<!--         Hi there! Do you have a registration code yet? -->
-<!--       </p> -->
-<!--       <form class="form-inline" role="form"> -->
-<!--         <div class="form-group"> -->
-<!--           <input type="text" class="form-control" id="credentials-username" placeholder="Registration code" required autofocus ng-model="reg.regCode"> -->
-<!--         </div> -->
-<!--         <button type="submit" class="btn btn-success">Verify Code</button> -->
-<!--       </form> -->
-<!--  -->
-<!--     </div> -->
-<!--   </div> -->
-<!--  -->
-<!--  -->
-<!--   <div ng-show="reg.status == 'instructorRegComplete'"> -->
-<!--     <p> -->
-<!--       Thank you for signing up for Playfully! -->
-<!--     </p> -->
-<!--  -->
-<!--   </div> -->
-<!-- </div> -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!-- <div ng-show="false"> -->
-<!-- <form class="modal-body login-form" ng-submit=""> -->
-<!--  -->
-<!--   <div class="alert alert-warning" ng-show="authReason"> -->
-<!--     {{authReason}} -->
-<!--   </div> -->
-<!--   <div class="alert alert-danger" ng-show="authError"> -->
-<!--     {{authError}} -->
-<!--   </div> -->
-<!--   <div class="alert alert-info" ng-hide="authError">Please enter your login details</div> -->
-<!--  -->
-<!--   <div class="form-group"> -->
-<!--     <label for="credentials-email">Email address or screen name</label> -->
-<!--     <input type="text" class="form-control" id="credentials-username" placeholder="Enter email or screen name" required autofocus ng-model="credentials.username"> -->
-<!--   </div> -->
-<!--   <div class="form-group"> -->
-<!--     <label for="credentials-password">Password</label> -->
-<!--     <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password"> -->
-<!--   </div> -->
-<!--  -->
-<!--   <div class="modal-footer"> -->
-<!--     <input type="submit" class="btn btn-success" value="Sign In" -->
-<!--     ng-disabled="!credentials.username.length || !credentials.password.length"> -->
-<!--     <a class="btn btn-default" ng-click="cancelLogin()">Cancel</a> -->
-<!--   </div> -->
-<!-- </form> -->
-<!-- </div> -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->

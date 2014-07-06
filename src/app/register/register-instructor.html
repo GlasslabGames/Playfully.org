@@ -1,0 +1,79 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Create a Playfully Account!</h3>
+</div>
+
+<div class="modal-body">
+  <alert ng-show="authError" type="danger"><strong>Error:</strong> {{authError}}</alert>
+
+  <form name="regForm" novalidate class="reg-form"
+    ng-submit="register(account)">
+
+    <div class="form-group" ng-class="{'has-error': regForm.name.$dirty && regForm.name.$invalid}">
+      <input type="text" name="name" class="form-control"
+        placeholder="Name (example Ms. Smith, Mom)"
+        required autofocus
+        ng-model="account.name"
+        ng-minlength="2">
+        &nbsp;<span class="fa fa-question-circle"></span>
+        <div class="form-errors">
+          <div class="form-error" ng-show="regForm.name.$dirty && regForm.name.$invalid">
+            Name must be at least 2 characters
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': regForm.email.$dirty && regForm.email.$invalid}">
+      <input type="email" name="email" class="form-control" placeholder="Email address"
+        required autofocus
+        ng-model="account.username">
+        &nbsp;<span class="fa fa-question-circle"></span>
+        <div class="form-errors">
+          <div class="form-error" ng-show="regForm.email.$dirty && regForm.email.$invalid">
+            Please enter a valid email address
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="password" class="form-control" id="account-password" placeholder="Choose a password" required ng-model="account.password"
+      pw-confirm="account.confirm">
+        &nbsp;<span class="fa fa-question-circle"></span>
+    </div>
+
+    <div class="form-group" ng-class="{'has-error': regForm.confirm.$dirty && regForm.password.$invalid}">
+      <input type="password" name="confirm" class="form-control" id="account-confirm" placeholder="Confirm password" required
+      ng-model="account.confirm">
+      <div class="form-errors">
+        <div class="form-error" ng-show="regForm.confirm.$dirty && regForm.password.$error.pwmatch">
+          Passwords do not match
+        </div>
+      </div>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="">
+        <span class="small">
+          I have read and accepted the <a href="#">Privacy Policy</a>
+        </span>
+      </label>
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" value="" ng-model="account.newsletter">
+        <span class="small">
+          Subscribe to our newsletter
+        </span>
+      </label>
+    </div>
+
+    <div class="text-center reg-submit">
+      <input type="submit" class="btn gl-btn--blue" value="Register"
+      ng-disabled="regForm.$invalid">
+    </div>
+  </form>
+</div>
+
+
