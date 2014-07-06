@@ -57,7 +57,9 @@ angular.module('playfully.register', [])
 
       $scope.account = {
         password: '',
-        confirm: ''
+        confirm: '',
+        acceptedTerms: false,
+        newsletter: true
       };
 
 
