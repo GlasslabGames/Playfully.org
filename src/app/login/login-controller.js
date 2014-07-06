@@ -1,27 +1,74 @@
 angular.module('playfully.login', [])
 
+.config(function config( $stateProvider, $urlRouterProvider ) {
+  $stateProvider
+    .state('loginOptions', {
+      url: 'login',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'login/login.html',
+          controller: 'LoginOptionsModalCtrl'
+        }
+      }
+    })
+    .state('loginInstructor', {
+      url: 'login/instructor',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'login/login-instructor.html',
+          controller: 'LoginModalCtrl'
+        }
+      }
+    })
+    .state('loginStudent', {
+      url: 'login/student',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'login/login-student.html',
+          controller: 'LoginModalCtrl'
+        }
+      }
+    });
+})
+
+.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $log) {
+  $log.info('LoginModalCtrl');
+})
+
+.controller('LoginModalCtrl', function ($scope, $rootScope, $log, AuthService, AUTH_EVENTS) {
+  $scope.credentials = { username: '', password: '' };
+  $scope.authError = null;
+
+  $scope.login = function ( credentials ) {
+    $scope.authError = null;
+
+    AuthService.login(credentials).then(function(result) {
+      $log.info(result);
+      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+    }, function(result) {
+      $log.error(result);
+      $scope.authError = result.data.error;
+      $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+    });
+
+  };
+
+  
+});
 
 
-// .controller('LoginController',
-//   function LoginController( $scope, AuthService, AUTH_EVENTS) {
-// 
-//   $scope.credentials = { username: '', password: '' };
-// 
-//   $scope.authError = null;
-// 
-//   $scope.login = function(credentials) {
-//     $scope.authError = null;
-// 
-//     AuthService.login(credentials).then(function () {
-//       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-//     }, function () {
-//       $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-//     });
-//   };
-// })
 
-.controller('LoginModalController',
-    function ($scope, $log, $rootScope, $state, $modalInstance, AuthService, AUTH_EVENTS) {
+
+
+
+
+
+
+
+    /*function ($scope, $log, $rootScope, $state, $modalInstance, AuthService, AUTH_EVENTS) {
 
   $scope.credentials = { username: '', password: '' };
   $scope.authError = null;
@@ -73,8 +120,11 @@ angular.module('playfully.login', [])
     $scope.state.activeScreen = 'forgotPassword';
   };
 
+  $scope.showRegistration = function() {
+    console.log($modalInstance);
+  };
+
   $scope.cancelLogin = function() {
     $modalInstance.close();
   };
-
-});
+  */

@@ -1,7 +1,21 @@
 angular.module('playfully.register', [])
 
+.config(function config( $stateProvider, $urlRouterProvider ) {
+  $stateProvider
+    .state('registerOptions', {
+      url: 'register',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'register/register.html',
+          controller: 'RegisterModalCtrl'
+        }
+      }
+    });
+})
+
 .controller('RegisterModalCtrl',
-    function ($scope, $log, $rootScope, $state, $modalInstance, UserService, Session, AUTH_EVENTS) {
+    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS) {
 
     $scope.reg = {
       role: 'instructor',

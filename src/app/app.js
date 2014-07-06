@@ -29,6 +29,22 @@ angular.module( 'playfully', [
     resolve: ['Authorization', function(Authorization) {
         return Authorization.authorize();
       }]
+  })
+  .state( 'modal', {
+    abstract: true,
+    parent: 'home',
+    url: '',
+    onEnter: function($rootScope, $modal, $state) {
+      console.log('Open modal');
+      $rootScope.modalInstance = $modal.open({
+        template: '<div ui-view="modal"></div>',
+        size: 'sm'
+      });
+
+      $rootScope.modalInstance.result.finally(function() {
+        $state.go('home');
+      });
+    }
   });
 })
 
@@ -95,12 +111,15 @@ angular.module( 'playfully', [
       }
   });
 
-  $scope.$on('modal.show', function(event, modalConfig) {
-    $scope._modalInstance = $modal.open(modalConfig);
-  });
+  // $scope.$on('modal.show', function(event, modalConfig) {
+  //   $scope._modalInstance = $modal.open(modalConfig);
+  // });
 
   $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
     $scope.currentUser = user;
+    if ($rootScope.modalInstance) {
+      $rootScope.modalInstance.close();
+    }
     $state.go('home', {}, { reload: true });
   });
 
