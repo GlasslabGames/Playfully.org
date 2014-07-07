@@ -1,15 +1,15 @@
-angular.module( 'playfully.dashboard-instructor', [
+angular.module( 'instructor.dashboard', [
   'ui.router'
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'dashboard-instructor', {
+  $stateProvider.state( 'instructorDashboard', {
     parent: 'site',
     url: '/dashboard',
     views: {
       'main@': {
-        controller: 'DashboardInstructorCtrl',
-        templateUrl: 'dashboard-instructor/dashboard-instructor.html'
+        controller: 'InstructorDashboardCtrl',
+        templateUrl: 'instructor/dashboard/instructor-dashboard.html'
       }
     },
     data:{
@@ -19,7 +19,7 @@ angular.module( 'playfully.dashboard-instructor', [
   });
 })
 
-.controller( 'DashboardInstructorCtrl', function ( $scope, $log, GamesService) {
+.controller( 'InstructorDashboardCtrl', function ( $scope, $log, GamesService) {
 
   $scope.games = GamesService.all();
   $log.info($scope.games);

@@ -1,15 +1,15 @@
-angular.module( 'playfully.dashboard-student', [
+angular.module( 'student.dashboard', [
   'ui.router'
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'dashboard-student', {
+  $stateProvider.state( 'studentDashboard', {
     parent: 'site',
     url: '/home',
     views: {
       'main@': {
         controller: 'DashboardStudentCtrl',
-        templateUrl: 'dashboard-student/dashboard-student.html'
+        templateUrl: 'student/dashboard/student-dashboard.html'
       }
     },
     data:{

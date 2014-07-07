@@ -12,10 +12,11 @@ angular.module( 'playfully', [
   'courses',
   'games',
   'playfully.home',
-  'playfully.dashboard-instructor',
-  'playfully.dashboard-student',
+  'playfully.instructor',
+  'playfully.student',
   'playfully.login',
   'playfully.register',
+  'playfully.password-reset',
   'playfully.navbar',
   'playfully.courses',
   'playfully.support',
@@ -35,7 +36,6 @@ angular.module( 'playfully', [
     parent: 'home',
     url: '',
     onEnter: function($rootScope, $modal, $state) {
-      console.log('Open modal');
       $rootScope.modalInstance = $modal.open({
         template: '<div ui-view="modal"></div>',
         size: 'sm'
@@ -56,17 +56,18 @@ angular.module( 'playfully', [
   $translateProvider.preferredLanguage('en');
 })
 
-.factory('Authorization', function ($rootScope, $state, UserService, AuthService, AUTH_EVENTS) {
+.factory('Authorization', function ($rootScope, $log, $state, UserService, AuthService, AUTH_EVENTS) {
   return {
     authorize: function() {
       return UserService.currentUser()
         .then(function(user) {
           $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
+          $log.info(user);
 
           if ($rootScope.toState) {
             if ($rootScope.toState.url == '/') {
               if (user && user.role) {
-                $state.transitionTo('dashboard-' + user.role);
+                $state.transitionTo(user.role + 'Dashboard');
               }
             }
 

@@ -1,6 +1,26 @@
 <div class="gl-bg--gray">
+  <div ng-show="!currentUser.isConfirmed" class="gl-navbar-alert">
+    <div class="gl-navbar-alert-inner">
+      Please check your email to complete your registration.
+      <a ui-sref="resendConfirmation">Resend confirmation email</a>.
+    </div>
+  </div>
   <div class="container gl-instructor-home-intro">
-    <h2>Student Progress at a Glance</h2>
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 text-center">
+        <h2>Welcome, {{ currentUser.firstName }}!</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In id leo laoreet, ullamcorper dui ac, imperdiet ante. Sed eu fermentum ante. Aliquam id est nibh. In tristique, nibh eget aliquam tincidunt, magna lectus lobortis erat, eget tristique metus nibh quis ligula. Phasellus non dictum lacus nullam.
+        </p>
+        &nbsp;
+        <div>
+          <button class="btn gl-btn--blue"
+            ui-sref="instructorTour">Take a Tour</button>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
   </div>
 </div>
 
