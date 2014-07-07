@@ -1,5 +1,10 @@
 angular.module('playfully.register', [])
 
+.constant('REG_ERRORS', {
+  'email.not.unique': "The email address is already in use by another user. Please provide a different email address"
+
+})
+
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('registerOptions', {
@@ -53,17 +58,44 @@ angular.module('playfully.register', [])
 
 
 .controller('RegisterModalCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS) {
+    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, REG_ERRORS) {
+      var user = null;
 
       $scope.account = {
+        firstName: '',
+        email: '',
         password: '',
         confirm: '',
+        role: 'instructor',
         acceptedTerms: false,
-        newsletter: true
+        newsletter: true,
+        errors: [],
+        isRegCompleted: false
       };
 
+      $scope.register = function( account ) {
+        UserService.register(account)
+          .success(function(data, status, headers, config) {
+            user = data;
+            Session.create(user.id, user.role);
+            $scope.account.isRegCompleted = true;
+          })
+          .error(function(data, status, headers, config) {
+            $log.error(data);
+            $scope.account.isRegCompleted = false;
+            if ( data.hasOwnProperty('key') ) {
+              $scope.account.errors.push(REG_ERRORS[data.key]);
+            } else {
+              $scope.account.errors.push(data.error);
+            }
+          });
+      };
 
-
+    $scope.finish = function() {
+      if (user !== null) {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+      }
+    };
 
 });
 
