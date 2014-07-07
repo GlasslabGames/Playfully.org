@@ -34,8 +34,13 @@ angular.module('playfully.login', [])
     });
 })
 
-.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $log) {
-  $log.info('LoginModalCtrl');
+.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log) {
+
+  $scope.logInWithEdmodo = function() {
+    $log.info('logInWithEdmodo');
+    $window.location.href = '/auth/edmodo/login';
+  };
+
 })
 
 .controller('LoginModalCtrl', function ($scope, $rootScope, $log, AuthService, AUTH_EVENTS) {

@@ -13,7 +13,8 @@
     <div class="form-group" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
       <input type="text" name="firstName" class="form-control"
         placeholder="Name (example Ms. Smith, Mom)"
-        required autofocus
+        required
+        autofocus="autofocus"
         ng-model="account.firstName"
         ng-minlength="2">
         &nbsp;<span class="fa fa-question-circle"
@@ -28,7 +29,7 @@
 
     <div class="form-group" ng-class="{'has-error': regForm.email.$dirty && regForm.email.$invalid}">
       <input type="email" name="email" class="form-control" placeholder="Email address"
-        required autofocus
+        required 
         ng-model="account.email">
         &nbsp;<span class="fa fa-question-circle"
           popover-placement="top"

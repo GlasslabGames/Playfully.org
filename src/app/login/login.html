@@ -7,7 +7,7 @@
 
   <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
     <button class="login-button login-button--edmodo"
-      onclick="window.location.href='/auth/edmodo/login'"
+      ng-click="logInWithEdmodo()"
       popover-title="Edmodo Login"
       popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
       popover-trigger="mouseenter" popover-placement="bottom">
