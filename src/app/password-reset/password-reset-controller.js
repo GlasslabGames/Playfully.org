@@ -11,10 +11,27 @@ angular.module('playfully.password-reset', [])
           controller: 'PasswordResetModalCtrl'
         }
       }
+    })
+    .state('passwordUpdate', {
+      url: 'reset-password/:hashCode',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'password-reset/password-update.html',
+          controller: 'PasswordUpdateModalCtrl'
+        }
+      },
+      resolve: {
+        confirmation: function($stateParams, $log, AuthService) {
+          return AuthService.verifyPasswordResetCode($stateParams.hashCode)
+            .then(function(data) { return data;},
+              function(data) { return data; });
+        }
+      }
     });
 })
 
-.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state, AuthService) {
+.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state,AuthService) {
 
   $scope.formInfo = {
     isResetEmailSent: false,
@@ -36,4 +53,26 @@ angular.module('playfully.password-reset', [])
   };
   
 
+})
+
+.controller('PasswordUpdateModalCtrl', function ($scope, $log, $rootScope, $stateParams, AuthService, confirmation) {
+
+  $scope.confirmation = confirmation;
+  $scope.isPasswordUpdated = false;
+  $scope.isConfirmed = (confirmation.status < 400) ? true : false;
+  $log.info(confirmation);
+
+  $scope.resetPassword = function(formInfo) {
+    AuthService.updatePassword(formInfo.password, $stateParams.hashCode)
+      .success(function(data, status, headers, config) {
+        $log.info(data);
+        $scope.isPasswordUpdated = true;
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
 });
+
+

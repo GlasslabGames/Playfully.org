@@ -23,7 +23,10 @@ angular.module( 'playfully', [
   'playfully.tutorial'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+  $locationProvider.html5Mode(true);
+  $locationProvider.hashPrefix('!');
+
   $urlRouterProvider.otherwise('/');
   $stateProvider.state('site', {
     abstract: true,

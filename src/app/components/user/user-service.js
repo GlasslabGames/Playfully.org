@@ -35,7 +35,7 @@ angular.module('user', ['user.navbar', 'user.edit'])
     },
 
     retrieveCurrentUser: function() {
-      return $http.get('/api/user/profile');
+      return $http.get(API_BASE + '/auth/user/profile');
     },
 
     removeCurrentUser: function() {
@@ -46,7 +46,7 @@ angular.module('user', ['user.navbar', 'user.edit'])
 
     getById: function (userId) {
       return $http
-        .get('/api/user/' + userId)
+        .get(API_BASE + '/auth/user/' + userId)
         .then(function (response) {
           return response.data;
         }, function(response) {

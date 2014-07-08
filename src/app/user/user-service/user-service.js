@@ -35,7 +35,7 @@ angular.module('user.service', ['playfully.config'])
     getCurrentUser: function() {
       return $http({
         method: 'GET',
-        url: '/api/user/profile',
+        url: API_BASE + '/auth/user/profile',
         params: {cb: new Date().getTime()}
       });
 
