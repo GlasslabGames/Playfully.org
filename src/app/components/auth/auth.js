@@ -32,7 +32,7 @@ angular.module('auth', ['session'])
       return $http({
         method: 'POST',
         url: API_BASE + '/auth/password-reset/send/',
-        params: {cb: new Date().getTime()},
+        // params: {cb: new Date().getTime()},
         data: {email: emailAddress}
       });
     },
