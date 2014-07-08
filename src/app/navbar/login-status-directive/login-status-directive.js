@@ -19,47 +19,48 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
     restrict: 'E',
     replace: true,
     // scope: true,
-    controller: function ($scope, $modal, $location, AUTH_EVENTS) {
+    controller: function ($scope, $modal, $location, $log, AUTH_EVENTS) {
 
-      $scope.showLoginModal = function() {
-        $scope.$emit('modal.show', {
-          templateUrl: 'login/login.html',
-          controller: 'LoginModalController',
-          size: 'sm'
-        });
-      };
 
-      $scope.showEditModal = function() {
-        $scope.$emit('modal.show', {
-          templateUrl: 'user/edit/edit.html',
-          controller: 'EditFormModalCtrl',
-          size: 'lg'
-        });
-      };
+      // $scope.showLoginModal = function() {
+      //   $scope.$emit('modal.show', {
+      //     templateUrl: 'login/login.html',
+      //     controller: 'LoginModalController',
+      //     size: 'sm'
+      //   });
+      // };
+
+      // $scope.showEditModal = function() {
+      //   $scope.$emit('modal.show', {
+      //     templateUrl: 'user/edit/edit.html',
+      //     controller: 'EditFormModalCtrl',
+      //     size: 'lg'
+      //   });
+      // };
 
       $scope.broadcastLogoutEvent = function() {
         $scope.$emit(AUTH_EVENTS.logoutSuccess);
       };
 
-      $scope.redirectToLogin = function() {
-        $location.path('/login');
-      };
+      // $scope.redirectToLogin = function() {
+      //   $location.path('/login');
+      // };
 
     },
     link: function($scope, $element, $attrs, $controller) {
 
 
-      $scope.showLogin = function() {
-        if( $attrs.type === 'modal' ) {
-          $scope.showLoginModal();
-        } else {
-          $scope.redirectToLogin();
-        }
-      };
+      // $scope.showLogin = function() {
+      //   if( $attrs.type === 'modal' ) {
+      //     $scope.showLoginModal();
+      //   } else {
+      //     $scope.redirectToLogin();
+      //   }
+      // };
 
-      $scope.editProfile = function() {
-        $scope.showEditModal();
-      };
+      // $scope.editProfile = function() {
+      //   $scope.showEditModal();
+      // };
 
       $scope.logout = function() {
         AuthService.logout().then(function() {
