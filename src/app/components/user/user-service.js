@@ -1,4 +1,4 @@
-angular.module('user', ['user.navbar', 'user.edit'])
+angular.module('user', [])
 .factory('UserService', function ($q, $http, $log, $cookieStore, Session, API_BASE) {
 
   var _currentUser;

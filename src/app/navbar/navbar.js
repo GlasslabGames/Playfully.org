@@ -1,4 +1,5 @@
-angular.module('playfully.navbar', [])
+angular.module('playfully.navbar',
+  ['playfully.navbar.login-status'])
 
 .controller( 'NavbarCtrl', function NavbarCtrl ( $scope ) {
 

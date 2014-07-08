@@ -11,16 +11,15 @@ angular.module( 'playfully', [
   'user',
   'courses',
   'games',
+  'playfully.navbar',
   'playfully.home',
   'playfully.instructor',
   'playfully.student',
   'playfully.login',
   'playfully.register',
   'playfully.password-reset',
-  'playfully.navbar',
   'playfully.courses',
-  'playfully.support',
-  'playfully.tutorial'
+  'playfully.support'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {

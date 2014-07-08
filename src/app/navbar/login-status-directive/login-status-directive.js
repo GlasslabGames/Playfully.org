@@ -3,7 +3,7 @@
  *
  * @module user.login.navbar
  **/
-angular.module('user.navbar', ['ui.bootstrap'])
+angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
 
 /**
  * The login navbar directive is a reusable widget that can show login or
@@ -13,9 +13,9 @@ angular.module('user.navbar', ['ui.bootstrap'])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginNavbar', function( AuthService, Session, $modal ) {
+.directive('loginStatus', function( AuthService, Session, $modal ) {
   var directive = {
-    templateUrl: 'user/login/navbar-directive/login-navbar-directive.html',
+    templateUrl: 'navbar/login-status-directive/login-status-directive.html',
     restrict: 'E',
     replace: true,
     // scope: true,
