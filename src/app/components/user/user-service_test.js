@@ -27,20 +27,34 @@ describe('UserService', function() {
 
 
   describe("get user by ID", function() {
-    // it("returns user profile data", function() {
-    //   $httpBackend.when('GET', '/api/user/25').respond(200, {
-    //     data: {
-    //       id: 25, role: 'student', firstName: 'Test', lastName: 'User'
-    //     }});
-    //   $httpBackend.expect('GET', '/api/user/25');
-    //   var returnedPromise = UserService.getById(25);
-    //   var result;
-    //   returnedPromise.then(function(response) {
-    //     result = response;
-    //   });
-    //   $httpBackend.flush();
-    //   expect(result.data.lastName).toBe('User');
-    // });
+    var serviceUrl = '/api/v2/auth/user';
+    it("returns user profile data when ID is recognized", function() {
+      var result = null;
+      $httpBackend.when('GET', serviceUrl + '/25').respond(200, {
+        data: {
+          id: 25, role: 'student', firstName: 'Test', lastName: 'User'
+        }});
+      $httpBackend.expect('GET', serviceUrl + '/25');
+      UserService.getById(25)
+        .success(function(response) { result = response; });
+      $httpBackend.flush();
+      expect(result.data.firstName).toBe('Test');
+    });
+
+    it("returns an error when unauthorized", function() {
+      var result = null;
+      $httpBackend.when('GET', serviceUrl + '/2000').respond(401, {
+        statusText: 'Unauthorized'
+      });
+      $httpBackend.expect('GET', serviceUrl + '/2000');
+      UserService.getById(2000)
+        .error(function(data, status, headers, config) {
+          result = { status: status, statusText: data.statusText };
+        });
+      $httpBackend.flush();
+      expect(result.status).toBe(401);
+      expect(result.statusText).toBe('Unauthorized');
+    });
 
   });
 

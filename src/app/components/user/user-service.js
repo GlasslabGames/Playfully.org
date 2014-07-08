@@ -45,13 +45,7 @@ angular.module('user', [])
     },
 
     getById: function (userId) {
-      return $http
-        .get(API_BASE + '/auth/user/' + userId)
-        .then(function (response) {
-          return response.data;
-        }, function(response) {
-          return response;
-        });
+      return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
     update: function (user) {
@@ -67,8 +61,6 @@ angular.module('user', [])
       });
       
     }
-
-
   };
 
   return api;
