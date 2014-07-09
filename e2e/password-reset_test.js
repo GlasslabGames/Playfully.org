@@ -1,4 +1,4 @@
-describe("Password reset", function() {
+describe("Forgot password link on login modal", function() {
   var ptor;
 
   var InstructorLoginModal = function() {
@@ -27,56 +27,54 @@ describe("Password reset", function() {
     expect(ptor.getCurrentUrl()).toContain('forgot-password');
   }, 10000);
 
-
-  // it("should have an H1 tag that reads 'Playfully'", function() {
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-  //   expect(ptor.isElementPresent(loggedOutHome.title)).toBe(true);
-  //   expect(loggedOutHome.title.getText()).toBe('Playfully.');
-  // });
-
-  // it("should display a Sign In button", function() {
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-  //   expect(loggedOutHome.signInButton.getText()).toBe('Sign In');
-  // });
-
-  // it("should display a modal when clicking Sign In button", function() {
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-  //   expect(ptor.isElementPresent(by.css('.modal-dialog'))).toBe(false);
-  //   loggedOutHome.signInButton.click();
-  //   expect(ptor.isElementPresent(element(by.css('.modal-dialog')))).toBe(true);
-  //   expect(element(by.css('.modal-title')).getText()).toBe('Sign In');
-  // });
-
-  // it("should display a Register button", function() {
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-  //   expect(loggedOutHome.registerButton.getText()).toBe('Register Now');
-  // });
-
-  // it("should display a modal when clicking Register button", function() {
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-  //   expect(ptor.isElementPresent(by.css('.modal-dialog'))).toBe(false);
-  //   loggedOutHome.registerButton.click();
-  //   expect(ptor.isElementPresent(element(by.css('.modal-dialog')))).toBe(true);
-  //   expect(element(by.css('.modal-title')).getText()).toBe('Create a Playfully Account!');
-  // });
-
-  // it("should have the current year for copyright in the footer", function() {
-  //   var currentYear = new Date().getFullYear();
-  //   var loggedOutHome = new LoggedOutHomepage();
-  //   loggedOutHome.get();
-
-  //   expect(ptor.isElementPresent(loggedOutHome.copyright)).toBe(true);
-
-  //   loggedOutHome.copyright.getText().then(function(txt) {
-  //     yearMatch = txt.match(/\\d{4}/);
-  //     expect(parseInt(yearMatch[0])).toBe(currentYear);
-  //   });
-  // });
+});
 
 
+describe("Password Reset", function() {
+  var ptor;
+
+  var PasswordResetModal = function() {
+    this.submitButton = element(by.css('input[type=submit]'));
+    this.emailField = element(by.model('formInfo.email'));
+    this.modal = element(by.css('.modal-dialog'));
+    this.closeButton = element(by.css('button.close'));
+
+    this.get = function() {
+      browser.get('/forgot-password');
+      ptor = protractor.getInstance();
+    };
+
+  };
+
+  it('should default to a disabled submit button', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    expect(resetModal.submitButton.isEnabled()).toBe(false);
+  }, 10000);
+
+  it('should enable submit button with a valid email address', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    resetModal.emailField.sendKeys('gooduser@email.com');
+    expect(resetModal.submitButton.isEnabled()).toBe(true);
+  }, 10000);
+
+  it('should disable submit button without a valid email address', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    resetModal.emailField.sendKeys('bademail');
+    expect(resetModal.submitButton.isEnabled()).toBe(false);
+  }, 10000);
+
+  it('should close the modal when clicking the x button', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    expect(ptor.isElementPresent(resetModal.modal)).toBe(true);
+    resetModal.closeButton.click();
+    expect(ptor.isElementPresent(resetModal.modal)).toBe(false);
+  }, 10000);
 });
