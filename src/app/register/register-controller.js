@@ -23,7 +23,7 @@ angular.module('playfully.register', [])
       views: {
         'modal@': {
           templateUrl: 'register/register-instructor.html',
-          controller: 'RegisterInstructorModalCtrl'
+          controller: 'RegisterInstructorCtrl'
         }
       }
     })
@@ -57,7 +57,7 @@ angular.module('playfully.register', [])
 
 
 
-.controller('RegisterInstructorModalCtrl',
+.controller('RegisterInstructorCtrl',
     function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, REG_ERRORS) {
       var user = null;
 

@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Login with Edmodo</h3>
+</div>
+
+<div class="modal-body">
+
+  <alert ng-show="authError" type="danger"><strong>Error:</strong> {{authError}}</alert>
+
+  <p>
+    Something went wrong while trying to log you in with your Edmodo account.
+    Please try again:
+  </p>
+
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--edmodo"
+      ng-click="logInWithEdmodo()"
+      popover-title="Edmodo Login"
+      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
+      popover-trigger="mouseenter" popover-placement="bottom">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+        </div>
+        <div class="media-bd">
+          Log in with <stronge>Edmodo</strong>
+        </div>
+      </div>
+    </button>
+  </div>
+
+</div>
+

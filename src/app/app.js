@@ -64,13 +64,10 @@ angular.module( 'playfully', [
       return UserService.currentUser()
         .then(function(user) {
           $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
-          $log.info(user);
 
           if ($rootScope.toState) {
-            if ($rootScope.toState.url == '/') {
-              if (user && user.role) {
-                $state.transitionTo(user.role + 'Dashboard');
-              }
+            if ($rootScope.toState.url == '/' && user && user.role) {
+              $state.transitionTo(user.role + 'Dashboard');
             }
 
             var isAuthenticated = UserService.isAuthenticated();

@@ -1,23 +1,69 @@
 describe("Home page (signed out)", function() {
   var ptor;
 
-  beforeEach(function() {
-    browser.get('/');
-    ptor = protractor.getInstance();
-  });
+  var LoggedOutHomepage = function() {
+    this.title = element(by.tagName('h1'));
+    this.signInButton = element(by.css('.gl-bu-login'));
+    this.registerButton = element(by.css('.gl-bu-register'));
+    this.copyright = element(by.css('.gl-copyright'));
+
+    this.get = function() {
+      browser.get('/');
+      ptor = protractor.getInstance();
+    };
+
+  };
 
 
   it("should have an H1 tag that reads 'Playfully'", function() {
-    h1 = by.tagName('h1');
-    expect(ptor.isElementPresent(h1)).toBe(true);
-    expect(element(h1).getText()).toBe('Playfully');
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+    expect(ptor.isElementPresent(loggedOutHome.title)).toBe(true);
+    expect(loggedOutHome.title.getText()).toBe('Playfully.');
   });
 
   it("should display a Sign In button", function() {
-    button = by.css('.btn-login');
-    expect(element(button).getText()).toBe('Sign In');
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+    expect(loggedOutHome.signInButton.getText()).toBe('Sign In');
   });
 
+  it("should display a modal when clicking Sign In button", function() {
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+    expect(ptor.isElementPresent(by.css('.modal-dialog'))).toBe(false);
+    loggedOutHome.signInButton.click();
+    expect(ptor.isElementPresent(element(by.css('.modal-dialog')))).toBe(true);
+    expect(element(by.css('.modal-title')).getText()).toBe('Sign In');
+  });
+
+  it("should display a Register button", function() {
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+    expect(loggedOutHome.registerButton.getText()).toBe('Register Now');
+  });
+
+  it("should display a modal when clicking Register button", function() {
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+    expect(ptor.isElementPresent(by.css('.modal-dialog'))).toBe(false);
+    loggedOutHome.registerButton.click();
+    expect(ptor.isElementPresent(element(by.css('.modal-dialog')))).toBe(true);
+    expect(element(by.css('.modal-title')).getText()).toBe('Create a Playfully Account!');
+  });
+
+  it("should have the current year for copyright in the footer", function() {
+    var currentYear = new Date().getFullYear();
+    var loggedOutHome = new LoggedOutHomepage();
+    loggedOutHome.get();
+
+    expect(ptor.isElementPresent(loggedOutHome.copyright)).toBe(true);
+
+    loggedOutHome.copyright.getText().then(function(txt) {
+      yearMatch = txt.match(/\d{4}/);
+      expect(parseInt(yearMatch[0])).toBe(currentYear);
+    });
+  });
 
 
 });

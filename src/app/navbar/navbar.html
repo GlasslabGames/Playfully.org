@@ -74,34 +74,17 @@
           </a>
         </li>
 
-        <li ui-sref-active="active" ng-show="currentUser.isConfirmed">
+        <li ui-sref-active="active">
           <a class="gl-nav-link" href ui-sref="courses"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>
         </li>
-        <li ng-hide="currentUser.isConfirmed"
-            popover="Please confirm your email first"
-            popover-trigger="mouseenter"
-            popover-placement="bottom">
-          <span class="gl-nav-link"
-            data-ng-bind="'navbar.link.classes' | translate">
-          </span>
-        </li>
 
-        <li ui-sref-active="active" ng-show="currentUser.isConfirmed">
+        <li ui-sref-active="active">
           <a class="gl-nav-link" href ui-sref="reports"
             data-ng-bind="'navbar.link.reports' | translate">
           </a>
         </li>
-        <li ng-hide="currentUser.isConfirmed"
-            popover="Please confirm your email first"
-            popover-trigger="mouseenter"
-            popover-placement="bottom">
-          <span class="gl-nav-link"
-            data-ng-bind="'navbar.link.reports' | translate">
-          </span>
-        </li>
-
 
         <li ui-sref-active="active">
           <a class="gl-nav-link" href ui-sref="support"

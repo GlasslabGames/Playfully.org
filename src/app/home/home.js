@@ -18,29 +18,8 @@ angular.module( 'playfully.home', [
   });
 })
 
-.controller( 'HomeCtrl', function ( $scope, $log, $modal, CoursesService, Session) {
+.controller( 'HomeCtrl', function ( $scope, $log, Session) {
   
-  $scope.showRegister = function() {
-    $scope.$emit('modal.show', {
-      templateUrl: 'register/register.html',
-      controller: 'RegisterModalCtrl',
-      size: 'lg'
-    });
-  };
-
-
-  $scope.showTutorial = function() {
-    if (Session.userRole == 'instructor') {
-      $scope.$emit('modal.show', {
-        templateUrl: 'tutorial/tutorial.html',
-        controller: 'TutorialModalCtrl',
-        size: 'lg'
-      });
-    } else {
-      return false;
-    }
-  };
-
 
 });
 

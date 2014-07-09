@@ -31,6 +31,16 @@ angular.module('playfully.login', [])
           controller: 'LoginModalCtrl'
         }
       }
+    })
+    .state('authEdmodo', {
+      url: 'auth/edmodo',
+      parent: 'modal',
+      views: {
+        'modal@': {
+          templateUrl: 'login/login-edmodo.html',
+          controller: 'LoginEdmodoCtrl'
+        }
+      }
     });
 })
 
@@ -51,7 +61,6 @@ angular.module('playfully.login', [])
     $scope.authError = null;
 
     AuthService.login(credentials).then(function(result) {
-      $log.info(result);
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
     }, function(result) {
       $log.error(result);
@@ -62,5 +71,23 @@ angular.module('playfully.login', [])
   };
 
   
+})
+
+.controller('LoginEdmodoCtrl', function ($scope, $rootScope, $window, $log, UserService, AUTH_EVENTS) {
+
+  $scope.logInWithEdmodo = function() {
+    $log.info('logInWithEdmodo');
+    $window.location.href = '/auth/edmodo/login';
+  };
+
+  UserService.currentUser()
+    .then(function(user) {
+      if (user !== null) {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+      } else {
+        $scope.authError = 'Unable to login with Edmodo';
+      }
+    });
+
 });
 
