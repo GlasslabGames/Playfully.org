@@ -30,12 +30,16 @@ exports.config = {
   // contain anything you may need in your test.
   // This can be changed via the command line as:
   //   --params.login.user 'Joe'
-  // params: {
-  //   login: {
-  //     user: 'Jane',
-  //     password: '1234'
-  //   }
-  // },
+  params: {
+    login: {
+      user: 'Jane',
+      password: '1234'
+    },
+    emailAddress: {
+      valid: 'good_email@test.com',
+      invalid: 'bad email address'
+    }
+  },
 
   // ----- The test framework -----
   //

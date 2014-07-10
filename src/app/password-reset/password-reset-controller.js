@@ -34,11 +34,14 @@ angular.module('playfully.password-reset', [])
 .controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state,AuthService) {
 
   $scope.formInfo = {
+    isSubmitting: false,
     isResetEmailSent: false,
     errors: []
   };
 
   $scope.resetPassword = function ( formInfo ) {
+    $scope.formInfo.isSubmitting = true;
+
     $scope.formInfo.errors = [];
     AuthService.sendPasswordResetLink(formInfo.email)
       .success(function(data, status, headers, config) {
@@ -48,6 +51,7 @@ angular.module('playfully.password-reset', [])
       .error(function(data, status, headers, config) {
         $log.error(data); 
         $scope.formInfo.errors.push(data.error);
+        $scope.formInfo.isSubmitting = false;
       });
 
   };

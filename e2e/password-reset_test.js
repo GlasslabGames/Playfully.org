@@ -1,3 +1,5 @@
+var params = browser.params;
+
 describe("Forgot password link on login modal", function() {
   var ptor;
 
@@ -18,16 +20,20 @@ describe("Forgot password link on login modal", function() {
     expect(loginModal.forgotPasswordLink.getText()).toBe('Forgot your password?');
   });
 
-  it('should display a password reset modal when clicking Forgot Password link', function() {
-    var loginModal = new InstructorLoginModal();
-    loginModal.get();
-    ptor.sleep(1000);
-    loginModal.forgotPasswordLink.click();
-    ptor.waitForAngular();
-    expect(ptor.getCurrentUrl()).toContain('forgot-password');
+  it('should display a password reset modal when clicking Forgot Password link',
+    function() {
+      var loginModal = new InstructorLoginModal();
+      loginModal.get();
+      ptor.sleep(1000);
+      loginModal.forgotPasswordLink.click();
+      ptor.waitForAngular();
+      expect(ptor.getCurrentUrl()).toContain('forgot-password');
   }, 10000);
 
 });
+
+
+
 
 
 describe("Password Reset", function() {
@@ -37,13 +43,18 @@ describe("Password Reset", function() {
     this.submitButton = element(by.css('input[type=submit]'));
     this.emailField = element(by.model('formInfo.email'));
     this.modal = element(by.css('.modal-dialog'));
-    this.closeButton = element(by.css('button.close'));
+    this.closeButton = element(by.css('#password-reset-modal button.close'));
+    this.errorTooltip = element(by.css('.form-error'));
+    this.alert = element(by.repeater('error in formInfo.errors').row(0));
 
     this.get = function() {
       browser.get('/forgot-password');
       ptor = protractor.getInstance();
     };
 
+    this.fillEmailField = function ( email ) {
+      this.emailField.sendKeys(email);
+    };
   };
 
   it('should default to a disabled submit button', function() {
@@ -57,7 +68,7 @@ describe("Password Reset", function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
     ptor.sleep(1000);
-    resetModal.emailField.sendKeys('gooduser@email.com');
+    resetModal.fillEmailField( params.emailAddress.valid );
     expect(resetModal.submitButton.isEnabled()).toBe(true);
   }, 10000);
 
@@ -65,8 +76,18 @@ describe("Password Reset", function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
     ptor.sleep(1000);
-    resetModal.emailField.sendKeys('bademail');
+    resetModal.fillEmailField( params.emailAddress.invalid );
     expect(resetModal.submitButton.isEnabled()).toBe(false);
+  }, 10000);
+
+  it('should show an error tooltip onblur of badly formed email input', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    expect(resetModal.errorTooltip.isDisplayed()).toBeFalsy();
+    resetModal.fillEmailField( params.emailAddress.invalid );
+    resetModal.modal.click();
+    expect(resetModal.errorTooltip.isDisplayed()).toBeTruthy();
   }, 10000);
 
   it('should close the modal when clicking the x button', function() {
@@ -74,7 +95,17 @@ describe("Password Reset", function() {
     resetModal.get();
     ptor.sleep(1000);
     expect(ptor.isElementPresent(resetModal.modal)).toBe(true);
-    resetModal.closeButton.click();
-    expect(ptor.isElementPresent(resetModal.modal)).toBe(false);
+    resetModal.closeButton.click().then(function() {
+      expect(ptor.isElementPresent(resetModal.modal)).toBe(false);
+    });
+  }, 10000);
+
+  it('should show an error if the email address is not found', function() {
+    var resetModal = new PasswordResetModal();
+    resetModal.get();
+    ptor.sleep(1000);
+    resetModal.fillEmailField( params.emailAddress.valid );
+    resetModal.submitButton.click();
+    expect(resetModal.alert.isDisplayed()).toBeTruthy();
   }, 10000);
 });
