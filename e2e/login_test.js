@@ -46,15 +46,18 @@ describe("Login Options", function() {
   it("should link to teacher login", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    loginModal.loginInstructorButton.click();
-    expect(ptor.getCurrentUrl()).toContain('/login/instructor');
+    loginModal.loginInstructorButton.click().then(function() {
+      ptor.sleep(200);
+      expect(ptor.getCurrentUrl()).toContain('/login/instructor');
+    });
   });
 
   it("should link to student login", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    loginModal.loginStudentButton.click();
-    expect(ptor.getCurrentUrl()).toContain('/login/student');
+    loginModal.loginStudentButton.click().then(function() {
+      expect(ptor.getCurrentUrl()).toContain('/login/student');
+    });
   });
 });
 
@@ -94,7 +97,9 @@ describe("Instructor Login", function() {
     var modal = new InstructorLoginModal();
     modal.get();
     expect(modal.emailField.getAttribute('type')).toEqual('email');
+    expect(modal.emailField.getAttribute('placeholder')).toEqual('Email address');
     expect(modal.passwordField.getAttribute('type')).toEqual('password');
+    expect(modal.passwordField.getAttribute('placeholder')).toEqual('Password');
   });
 
   it("should disable submit button until form is properly filled out", function() {
@@ -145,6 +150,83 @@ describe("Instructor Login", function() {
     modal.passwordField.sendKeys( params.login.valid.password );
     modal.submitButton.click().then(function() {
       expect(ptor.getCurrentUrl()).toContain('/dashboard');
+      ptor.get('/logout');
+    });
+  });
+
+});
+
+
+
+
+
+
+describe("Student Login", function() {
+  var ptor;
+
+  var StudentLoginModal = function() {
+    this.modalWindow = element(by.css('.modal-dialog'));
+    this.usernameField = element(by.model('credentials.username'));
+    this.passwordField = element(by.model('credentials.password'));
+    this.submitButton = element(by.css('.modal-dialog input[type=submit]'));
+    this.forgotPasswordLink = element(by.css('a[ui-sref=passwordReset]'));
+    this.errorTooltip = element(by.css('.form-error'));
+    this.alert = element(by.binding('authError'));
+
+    this.get = function() {
+      browser.get('/login/student');
+      ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
+    };
+
+  };
+
+  it("should display a modal with login form", function() {
+    var modal = new StudentLoginModal();
+    modal.get();
+    expect(element(by.css('.modal-dialog')).isDisplayed()).toBeTruthy();
+    expect(element(by.css('.modal-title')).getText()).toBe('Student Sign In');
+  });
+
+  it("should have username and password fields", function() {
+    var modal = new StudentLoginModal();
+    modal.get();
+    expect(modal.usernameField.getAttribute('type')).toEqual('text');
+    expect(modal.usernameField.getAttribute('placeholder')).toEqual('Screen name');
+    expect(modal.passwordField.getAttribute('type')).toEqual('password');
+    expect(modal.passwordField.getAttribute('placeholder')).toEqual('Password');
+  });
+  
+  it("should disable submit button until form is properly filled out", function() {
+    var modal = new StudentLoginModal();
+    modal.get();
+    expect(modal.submitButton.isEnabled()).toBe(false);
+    modal.usernameField.sendKeys( 'test' );
+    modal.passwordField.sendKeys( 'password' );
+    expect(modal.submitButton.isEnabled()).toBe(true);
+  });
+
+  it("should show an error message with invalid credentials", function() {
+    var modal = new StudentLoginModal();
+    modal.get();
+    expect(modal.alert.isDisplayed()).toBe(false);
+    modal.usernameField.sendKeys( 'unknown' );
+    modal.passwordField.sendKeys( 'user' );
+    expect(modal.submitButton.isEnabled()).toBe(true);
+    modal.submitButton.click().then(function() {
+      expect(modal.alert.isDisplayed()).toBe(true);
+      expect(modal.alert.getText()).toContain('invalid username or password');
+    });
+  });
+
+  it("should redirect to the Student dashboard on successful login", function() {
+    var modal = new StudentLoginModal();
+    modal.get();
+    modal.usernameField.sendKeys( 'test2' );
+    modal.passwordField.sendKeys( 'test' );
+    modal.submitButton.click().then(function() {
+      expect(ptor.getCurrentUrl()).toContain('/home');
+      ptor.get('/logout');
     });
   });
 

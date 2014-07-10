@@ -24,6 +24,13 @@ angular.module('auth', ['session'])
       if (!angular.isArray(authorizedRoles)) {
         authorizedRoles = [authorizedRoles];
       }
+      /**
+       * Special case for things like login where we *only* want
+       * to show it to the user if they are *not* logged in.
+       * */
+      if (authorizedRoles.indexOf('guest') === 0) {
+        return !this.isAuthenticated();
+      }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },

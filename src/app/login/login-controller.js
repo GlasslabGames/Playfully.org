@@ -10,6 +10,9 @@ angular.module('playfully.login', [])
           templateUrl: 'login/login.html',
           controller: 'LoginOptionsModalCtrl'
         }
+      },
+      data:{
+        authorizedRoles: ['guest']
       }
     })
     .state('loginInstructor', {
@@ -20,6 +23,9 @@ angular.module('playfully.login', [])
           templateUrl: 'login/login-instructor.html',
           controller: 'LoginModalCtrl'
         }
+      },
+      data:{
+        authorizedRoles: ['guest']
       }
     })
     .state('loginStudent', {
@@ -30,6 +36,9 @@ angular.module('playfully.login', [])
           templateUrl: 'login/login-student.html',
           controller: 'LoginModalCtrl'
         }
+      },
+      data:{
+        authorizedRoles: ['guest']
       }
     })
     .state('authEdmodo', {
@@ -39,6 +48,17 @@ angular.module('playfully.login', [])
         'modal@': {
           templateUrl: 'login/login-edmodo.html',
           controller: 'LoginEdmodoCtrl'
+        }
+      }
+    })
+    .state('logout', {
+      parent: 'site',
+      url: '/logout',
+      resolve: {
+        data: function($rootScope, AuthService, AUTH_EVENTS) {
+          AuthService.logout().then(function() {
+            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+          });
         }
       }
     });

@@ -13,13 +13,13 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginStatus', function( AuthService, Session, $modal ) {
+.directive('loginStatus', function( $state, AuthService, Session, $modal ) {
   var directive = {
     templateUrl: 'navbar/login-status-directive/login-status-directive.html',
     restrict: 'E',
     replace: true,
     // scope: true,
-    controller: function ($scope, $modal, $location, $log, AUTH_EVENTS) {
+    controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS) {
 
 
       // $scope.showLoginModal = function() {
@@ -38,9 +38,9 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
       //   });
       // };
 
-      $scope.broadcastLogoutEvent = function() {
-        $scope.$emit(AUTH_EVENTS.logoutSuccess);
-      };
+      // $scope.broadcastLogoutEvent = function() {
+      //   $scope.$emit(AUTH_EVENTS.logoutSuccess);
+      // };
 
       // $scope.redirectToLogin = function() {
       //   $location.path('/login');
@@ -63,9 +63,10 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
       // };
 
       $scope.logout = function() {
-        AuthService.logout().then(function() {
-          $scope.broadcastLogoutEvent();
-        });
+        $state.transitionTo('logout');
+        // AuthService.logout().then(function() {
+        //   $scope.broadcastLogoutEvent();
+        // });
       };
 
 

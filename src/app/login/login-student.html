@@ -5,7 +5,7 @@
 
 <div class="modal-body">
 
-  <alert ng-show="authError" type="danger"><strong>Error:</strong> {{authError}}</alert>
+  <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
   <form name="studentLoginForm" novalidate class="login-form"
     ng-submit="login(credentials)">

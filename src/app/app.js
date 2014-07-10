@@ -91,8 +91,10 @@ angular.module( 'playfully', [
 
 .run(function($rootScope, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
   $rootScope.$on('$stateChangeStart', function(event, next) {
-    $rootScope.toState = next;
-    Authorization.authorize();
+    if (next.name !== 'logout') {
+      $rootScope.toState = next;
+      Authorization.authorize();
+    }
   });
 })
 
@@ -106,7 +108,9 @@ angular.module( 'playfully', [
 
   $scope.$on('$stateChangeSuccess',
     function(event, toState, toParams, fromState, fromParams){
-      if ( angular.isDefined( toState.data.pageTitle ) ) {
+      var hasPageTitle = (angular.isDefined(toState.data) &&
+        angular.isDefined(toState.data.pageTitle));
+      if ( hasPageTitle ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
       }
   });
