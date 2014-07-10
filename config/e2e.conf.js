@@ -32,12 +32,21 @@ exports.config = {
   //   --params.login.user 'Joe'
   params: {
     login: {
-      user: 'Jane',
-      password: '1234'
+      invalid: {
+        username: 'test@gmail.com',
+        password: '1234'
+      },
+      valid: {
+        username: 'hartling+test20140630a@gmail.com',
+        password: 'testing2'
+      }
     },
     emailAddress: {
       valid: 'good_email@test.com',
       invalid: 'bad email address'
+    },
+    modal: {
+      waitTime: 750
     }
   },
 

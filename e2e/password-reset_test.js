@@ -9,6 +9,7 @@ describe("Forgot password link on login modal", function() {
     this.get = function() {
       browser.get('/login/instructor');
       ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
     };
 
   };
@@ -24,7 +25,6 @@ describe("Forgot password link on login modal", function() {
     function() {
       var loginModal = new InstructorLoginModal();
       loginModal.get();
-      ptor.sleep(1000);
       loginModal.forgotPasswordLink.click();
       ptor.waitForAngular();
       expect(ptor.getCurrentUrl()).toContain('forgot-password');
@@ -50,6 +50,7 @@ describe("Password Reset", function() {
     this.get = function() {
       browser.get('/forgot-password');
       ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
     };
 
     this.fillEmailField = function ( email ) {
@@ -60,14 +61,12 @@ describe("Password Reset", function() {
   it('should default to a disabled submit button', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     expect(resetModal.submitButton.isEnabled()).toBe(false);
   }, 10000);
 
   it('should enable submit button with a valid email address', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     resetModal.fillEmailField( params.emailAddress.valid );
     expect(resetModal.submitButton.isEnabled()).toBe(true);
   }, 10000);
@@ -75,7 +74,6 @@ describe("Password Reset", function() {
   it('should disable submit button without a valid email address', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     resetModal.fillEmailField( params.emailAddress.invalid );
     expect(resetModal.submitButton.isEnabled()).toBe(false);
   }, 10000);
@@ -83,7 +81,6 @@ describe("Password Reset", function() {
   it('should show an error tooltip onblur of badly formed email input', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     expect(resetModal.errorTooltip.isDisplayed()).toBeFalsy();
     resetModal.fillEmailField( params.emailAddress.invalid );
     resetModal.modal.click();
@@ -93,7 +90,6 @@ describe("Password Reset", function() {
   it('should close the modal when clicking the x button', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     expect(ptor.isElementPresent(resetModal.modal)).toBe(true);
     resetModal.closeButton.click().then(function() {
       expect(ptor.isElementPresent(resetModal.modal)).toBe(false);
@@ -103,7 +99,6 @@ describe("Password Reset", function() {
   it('should show an error if the email address is not found', function() {
     var resetModal = new PasswordResetModal();
     resetModal.get();
-    ptor.sleep(1000);
     resetModal.fillEmailField( params.emailAddress.valid );
     resetModal.submitButton.click();
     expect(resetModal.alert.isDisplayed()).toBeTruthy();

@@ -1,5 +1,5 @@
-// Login
-//
+var params = browser.params;
+
 describe("Login Options", function() {
   var ptor;
 
@@ -22,7 +22,7 @@ describe("Login Options", function() {
       browser.get('/');
       ptor = protractor.getInstance();
       element(by.css('.gl-bu-login')).click();
-      ptor.sleep(1000);
+      ptor.sleep( params.modal.waitTime );
       expect(element(by.css('.modal-dialog')).isDisplayed()).toBeTruthy();
       expect(ptor.getCurrentUrl()).toContain('/login');
       expect(element(by.css('.modal-title')).getText()).toBe('Sign In');
@@ -31,7 +31,6 @@ describe("Login Options", function() {
   it("should show multiple login options", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    ptor.sleep(1000);
     loginModal.loginOptions.then(function(items) {
       expect(items.length).toBe(4);
     });
@@ -40,7 +39,6 @@ describe("Login Options", function() {
   it("should link to register modal", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    ptor.sleep(1000);
     expect(loginModal.registerLink.getText()).toEqual('Create an account');
     expect(loginModal.registerLink.isDisplayed()).toBeTruthy();
   });
@@ -48,7 +46,6 @@ describe("Login Options", function() {
   it("should link to teacher login", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    ptor.sleep(1000);
     loginModal.loginInstructorButton.click();
     expect(ptor.getCurrentUrl()).toContain('/login/instructor');
   });
@@ -56,8 +53,99 @@ describe("Login Options", function() {
   it("should link to student login", function() {
     var loginModal = new LoginModal();
     loginModal.get();
-    ptor.sleep(1000);
     loginModal.loginStudentButton.click();
     expect(ptor.getCurrentUrl()).toContain('/login/student');
   });
+});
+
+
+
+
+
+
+describe("Instructor Login", function() {
+  var ptor;
+
+  var InstructorLoginModal = function() {
+    this.modalWindow = element(by.css('.modal-dialog'));
+    this.emailField = element(by.model('credentials.username'));
+    this.passwordField = element(by.model('credentials.password'));
+    this.submitButton = element(by.css('.modal-dialog input[type=submit]'));
+    this.forgotPasswordLink = element(by.css('a[ui-sref=passwordReset]'));
+    this.errorTooltip = element(by.css('.form-error'));
+    this.alert = element(by.binding('authError'));
+
+    this.get = function() {
+      browser.get('/login/instructor');
+      ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
+    };
+
+  };
+
+  it("should display a modal with login form", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(element(by.css('.modal-dialog')).isDisplayed()).toBeTruthy();
+    expect(element(by.css('.modal-title')).getText()).toBe('Teacher/Parent Sign In');
+  });
+  
+  it("should have email address and password fields", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(modal.emailField.getAttribute('type')).toEqual('email');
+    expect(modal.passwordField.getAttribute('type')).toEqual('password');
+  });
+
+  it("should disable submit button until form is properly filled out", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(modal.submitButton.isEnabled()).toBe(false);
+    modal.emailField.sendKeys( params.emailAddress.valid );
+    modal.passwordField.sendKeys( 'password' );
+    expect(modal.submitButton.isEnabled()).toBe(true);
+  });
+
+  it("should have a link to Forgot Password modal", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(ptor.isElementPresent(modal.forgotPasswordLink)).toBe(true);
+    modal.forgotPasswordLink.click().then(function() {
+      expect(ptor.getCurrentUrl()).toContain('forgot-password');
+    });
+  });
+
+  it("should show an error tooltip with invalid email", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(modal.errorTooltip.isDisplayed()).toBeFalsy();
+    modal.emailField.sendKeys( params.emailAddress.invalid );
+    modal.modalWindow.click().then(function() {
+      expect(modal.errorTooltip.isDisplayed()).toBe(true);
+      expect(modal.errorTooltip.getText()).toContain('enter a valid email address');
+    });
+  });
+
+  it("should show an error message with invalid credentials", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    expect(modal.alert.isDisplayed()).toBe(false);
+    modal.emailField.sendKeys( params.login.invalid.username );
+    modal.passwordField.sendKeys( params.login.invalid.password );
+    modal.submitButton.click().then(function() {
+      expect(modal.alert.isDisplayed()).toBe(true);
+      expect(modal.alert.getText()).toContain('invalid username or password');
+    });
+  });
+
+  it("should redirect to the Instructor dashboard on successful login", function() {
+    var modal = new InstructorLoginModal();
+    modal.get();
+    modal.emailField.sendKeys( params.login.valid.username );
+    modal.passwordField.sendKeys( params.login.valid.password );
+    modal.submitButton.click().then(function() {
+      expect(ptor.getCurrentUrl()).toContain('/dashboard');
+    });
+  });
+
 });
