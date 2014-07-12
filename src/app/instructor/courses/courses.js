@@ -1,19 +1,18 @@
-angular.module( 'playfully.courses', [
+angular.module( 'instructor.courses', [
   'playfully.config',
-  'ui.router'
+  'ui.router',
+  'courses'
 ])
 
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state( 'courses', {
     url: '/classes',
-    parent: 'site',
     views: {
-      "main@": {
-        controller: 'CoursesCtrl',
-        templateUrl: 'courses/courses.html'
+      'main': {
+        templateUrl: 'instructor/courses/courses.html'
       }
     },
-    data:{
+    data: {
       pageTitle: 'Classes',
       authorizedRoles: ['instructor']
     },

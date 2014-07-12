@@ -20,7 +20,7 @@
     "angular-mocks": "~1.2",
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.11.0",
-    "angular-ui-router": "~0.2",
+    "angular-ui-router": "https://github.com/angular-ui/ui-router.git#46de3210c3dfd9f46226787009eddfba97b4b517",
     "jasmine-jquery": "~2.0",
     "angular-translate": "~2.2.0",
     "angular-translate-loader-static-files": "~2.2.0",

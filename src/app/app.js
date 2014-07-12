@@ -9,7 +9,6 @@ angular.module( 'playfully', [
   'playfully.config',
   'auth',
   'user',
-  'courses',
   'games',
   'playfully.navbar',
   'playfully.home',
@@ -18,7 +17,6 @@ angular.module( 'playfully', [
   'playfully.login',
   'playfully.register',
   'playfully.password-reset',
-  'playfully.courses',
   'playfully.support'
 ])
 

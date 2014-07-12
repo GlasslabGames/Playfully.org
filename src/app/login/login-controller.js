@@ -55,7 +55,7 @@ angular.module('playfully.login', [])
       parent: 'site',
       url: '/logout',
       resolve: {
-        data: function($rootScope, AuthService, AUTH_EVENTS) {
+        data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
           AuthService.logout().then(function() {
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
           });

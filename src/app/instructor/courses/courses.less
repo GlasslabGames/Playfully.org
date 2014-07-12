@@ -1,0 +1,69 @@
+.gl-tabs {
+  margin-top: 50px;
+}
+
+.gl-courses-container {
+  .drop-shadow (@x: 0, @y: -1px, @blur: 5px);
+}
+
+.gl-courses-add {
+  font-weight: bold;
+  font-size: 20px;
+  color: @aquaBlue;
+  border: 3px dashed @grey6;
+  .border-radius(8px);
+  padding: 20px 40px;
+}
+
+.rule--blue {
+  border: 0;
+  height: 5px;
+  background-color: @skyBlue;
+}
+
+.bu-add--blue {
+  display: inline-block;
+  .image-2x('add-blue.png', 32px, 32px);
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.gl-course {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.gl-course-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: @grey2;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.gl-course-desc,
+.gl-course-games {
+  background-color: @grey7;
+  min-height: 180px;
+}
+
+.gl-course-desc {
+  .border-radiuses (0, 0, 0, 10px);
+  border-right: 2px solid white;
+  padding: 20px;
+  padding-left: 30px;
+}
+
+.gl-course-games {
+  .border-radiuses (10px, 0, 0, 0);
+  padding: 20px;
+}
+
+.gl-course-students {
+  padding: 10px 20px;
+  background-color: #e3f4f8;
+  border-top: 2px solid white;
+  .border-radiuses (0, 10px, 10px, 0);
+}

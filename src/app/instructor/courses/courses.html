@@ -1,0 +1,57 @@
+<div class="container gl-tabs">
+  <ul class="nav nav-tabs" role="tablist">
+    <li ui-sref-active="active">
+      <a href ui-sref=".">Active Classes</a>
+    </li>
+    <li ui-sref-active="active">
+      <a href ui-sref=".archived">Archived Classes</a>
+    </li>
+  </ul>
+</div>
+
+<div class="gl-courses-container">
+  <div class="container">
+    <hr class="rule--blue" />
+    <div class="gl-courses-add">
+      <div class="bu-add--blue"></div>
+      Create New Class
+    </div>
+    <hr class="rule--blue" />
+
+    <div class="gl-course container-fluid">
+      <div class="row">
+        <div class="col-md-3 gl-course-desc">
+          <h3 class="gl-course-title">Liz&apos;s Demo Class</h3>
+          <div>Teacher: Liz Kline</div>
+          <div>Grade: 7</div>
+          <button class="btn btn-sm gl-btn--blue">Edit</button>
+        </div>
+        <div class="col-md-9 gl-course-games">
+          Ha
+        </div>
+      </div>
+      <div class="row text-right gl-course-students">
+        <button class="btn btn-sm gl-btn--blue">View Student List (13)</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--h1>Classes</h1>
+
+
+  <div ng-if="courses.length == 0">
+    <h1>You don't have any class yet!</h1>
+  </div>
+
+  <div ng-if="courses.length > 0">
+    <div ng-repeat="course in courses">
+      <h3>{{ course.title | limitTo:titleLimit }}<span ng-if="course.title.length > titleLimit">&hellip;</span></h3>
+      <ul>
+        <li><strong>Code:</strong> {{ course.code }}</li>
+        <li><strong>Grade:</strong> {{ course.grade }}</li>
+        <li><strong>Students:</strong> {{ course.studentCount }}</li>
+        <li ng-if="course.archived"><strong>Archived:</strong>
+        {{ course.archivedDate | date:'mediumDate' }}</li>
+      </ul>
+    </div>
+  </div-->
