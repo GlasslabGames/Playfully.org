@@ -4,6 +4,7 @@
 
 .gl-courses-container {
   .drop-shadow (@x: 0, @y: -1px, @blur: 5px);
+  min-height: 500px;
 }
 
 .gl-courses-add {
@@ -13,6 +14,11 @@
   border: 3px dashed @grey6;
   .border-radius(8px);
   padding: 20px 40px;
+}
+
+.gl-courses-add:hover {
+  background-color: @grey7;
+  cursor: pointer;
 }
 
 .rule--blue {
@@ -28,6 +34,12 @@
   height: 32px;
   vertical-align: middle;
   margin-right: 5px;
+}
+
+.gl-courses--blank{
+  font-size: 20px;
+  padding: 40px;
+  color: @grey2;
 }
 
 .gl-course {
@@ -66,4 +78,48 @@
   background-color: #e3f4f8;
   border-top: 2px solid white;
   .border-radiuses (0, 10px, 10px, 0);
+}
+
+
+
+
+.gl-courses-grade-selector {
+  display: inline-block;
+  margin-right: 12px;
+  position: relative;
+}
+
+.gl-courses-grade-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  opacity: 0;
+}
+
+.gl-courses-grade-option {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  padding-top: 4px;
+  background: @grey5;
+  .border-radius (18px);
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.gl-courses-grade-option:hover,
+.gl-courses-grade-checkbox:hover {
+  cursor: pointer;
+}
+
+
+input[type=checkbox]:checked + .gl-courses-grade-option {
+   background: @oceanBlue;
+}
+
+.gl-courses-submit {
+  margin-top: 40px;
+  margin-bottom: 20px;
 }

@@ -53,7 +53,7 @@ angular.module('courses', [])
 
     create: function(data) {
       return $http
-        .post(API_BASE + '/lms/course/create')
+        .post(API_BASE + '/lms/course/create', data)
         .then(function(response) {
           $log.info(response);
           return response.data;

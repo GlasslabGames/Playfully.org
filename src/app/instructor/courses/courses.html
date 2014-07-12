@@ -12,26 +12,32 @@
 <div class="gl-courses-container">
   <div class="container">
     <hr class="rule--blue" />
-    <div class="gl-courses-add">
+    <div class="gl-courses-add" ui-sref="newCourse">
       <div class="bu-add--blue"></div>
       Create New Class
     </div>
     <hr class="rule--blue" />
 
-    <div class="gl-course container-fluid">
-      <div class="row">
-        <div class="col-md-3 gl-course-desc">
-          <h3 class="gl-course-title">Liz&apos;s Demo Class</h3>
-          <div>Teacher: Liz Kline</div>
-          <div>Grade: 7</div>
-          <button class="btn btn-sm gl-btn--blue">Edit</button>
+    <div ng-hide="courses.length" class="gl-courses--blank text-center">
+      You do not have any class yet
+    </div>
+
+    <div ng-show="courses.length">
+      <div class="gl-course container-fluid">
+        <div class="row">
+          <div class="col-md-3 gl-course-desc">
+            <h3 class="gl-course-title">Liz&apos;s Demo Class</h3>
+            <div>Teacher: Liz Kline</div>
+            <div>Grade: 7</div>
+            <button class="btn btn-sm gl-btn--blue">Edit</button>
+          </div>
+          <div class="col-md-9 gl-course-games">
+            Ha
+          </div>
         </div>
-        <div class="col-md-9 gl-course-games">
-          Ha
+        <div class="row text-right gl-course-students">
+          <button class="btn btn-sm gl-btn--blue">View Student List (13)</button>
         </div>
-      </div>
-      <div class="row text-right gl-course-students">
-        <button class="btn btn-sm gl-btn--blue">View Student List (13)</button>
       </div>
     </div>
   </div>

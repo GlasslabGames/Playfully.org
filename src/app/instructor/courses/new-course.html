@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Create Class</h3>
+</div>
+
+<div class="modal-body">
+  <alert ng-repeat="error in account.errors" ng-show="account.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
+
+  <form name="newCourseForm" novalidate class="gl-courses-form"
+    ng-submit="createCourse(course)">
+
+    <div class="form-group form-group--labeled" ng-class="{'has-error': newCourseForm.title.$dirty && newCourseForm.title.$invalid}">
+      <label for="title">Name your Class</label>
+      <input type="text" name="title" class="form-control"
+        placeholder="e.g. First Period Science"
+        required
+        autofocus="autofocus"
+        ng-model="course.title"
+        ng-minlength="2">
+        <div class="form-errors">
+          <div class="form-error" ng-show="newCourseForm.title.$dirty && newCourseForm.title.$invalid">
+            Name must be at least 2 characters
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+      <label>Grade Levels</label>
+      <div>
+        <div class="gl-courses-grade-selector" ng-repeat="grade in gradeLevels">
+          <input type="checkbox"
+            class="gl-courses-grade-checkbox"
+            id="grade-{{ grade }}"
+            value="{{ grade }}"
+            checklist-model="course.grade"
+            checklist-value="grade"
+            ng-required="!course.grade.length"
+            ng-click="logIt()">
+          <label class="gl-courses-grade-option"
+            for="grade-{{ grade }}">
+            {{ grade }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center gl-courses-submit">
+      <button class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" class="btn btn-grey gl-btn--blue" value="Continue"
+      ng-disabled="newCourseForm.$invalid">
+    </div>
+  </form>
+</div>
