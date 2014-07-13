@@ -52,19 +52,9 @@ angular.module('courses', [])
     },
 
     create: function(data) {
-      angular.forEach(data.games, function(game) {
-        game.id = game.gameId;
-      });
-      $log.info(data);
-      return $http
-        .post(API_BASE + '/lms/course/create', data)
-        .then(function(response) {
-          $log.info(response);
-          return response.data;
-        }, function(response) {
-          $log.error(response);
-          return response;
-        });
+      /* Hack to create an `id` attribute so the API will be happy */
+      angular.forEach(data.games, function(game) { game.id = game.gameId; });
+      return $http.post(API_BASE + '/lms/course/create', data);
     },
 
     validateCode: function (code) {

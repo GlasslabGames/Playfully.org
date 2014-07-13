@@ -1,12 +1,13 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <h3 class="modal-title">Create Class</h3>
+  <h3 class="modal-title" ng-hide="formProgress.currentStep == 3">Create Class</h3>
+  <h3 class="modal-title" ng-show="formProgress.currentStep == 3">Successfully Created</h3>
 </div>
 
-<div class="modal-body">
-  <alert ng-repeat="error in account.errors" ng-show="account.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
+<div class="modal-body" ng-hide="formProgress.currentStep == 3">
+  <alert ng-repeat="error in formProgress.errors" ng-show="formProgress.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
 
-  <form name="newCourseForm" novalidate class="gl-courses-form"
+  <form name="newCourseForm" id="newCourseForm" novalidate class="gl-courses-form"
     ng-submit="createCourse(course)">
 
 
@@ -81,10 +82,30 @@
 
 
       <div class="text-center gl-courses-submit">
-        <button class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+        <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
         <input type="submit" class="btn gl-btn--blue" value="Continue"
         ng-disabled="newCourseForm.$invalid">
       </div>
     </div>
   </form>
+</div>
+
+
+
+<div class="modal-body" ng-show="formProgress.currentStep == 3">
+
+  <div class="gl-course-create-confirm text-center">
+    <div>Class Code</div>
+    <div class="gl-course-create-code" ng-bind="createdCourse.code">
+    </div>
+  </div>
+
+  <p class="text-center">
+    Placeholder explanatory text.
+  </p>
+
+  <div class="text-center gl-courses-submit">
+    <button type="button" class="btn gl-btn--grey" ng-click="reset()">Add More</button>
+    <button type="button" class="btn gl-btn--blue" ui-sref="courses" ng-click="$dismiss()">Done</button>
+  </div>
 </div>

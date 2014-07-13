@@ -70,27 +70,44 @@ angular.module( 'instructor.courses', [
 .controller( 'NewCourseModalCtrl', function ( $scope, $http, $log, games, CoursesService) {
 
   $scope.games = games;
+  $scope.course = null;
+  $scope.createdCourse = null;
+  $scope.gradeLevels = [5, 6, 7, 8, 9, 10, 11, 12];
+  $scope.formProgress = {
+    currentStep: 1,
+    errors: [],
+    goToNextStep: function() { this.currentStep += 1; return false; }
+  };
 
-  $scope.course = {
+  var _emptyCourse = {
     title: '',
     grade: [],
     games: []
   };
 
-  $scope.formProgress = {
-    currentStep: 1,
-    goToNextStep: function() { this.currentStep += 1; return false; }
-  };
-
-  $scope.gradeLevels = [5, 6, 7, 8, 9, 10, 11, 12];
-
-  $scope.logIt = function() {
-    $log.info($scope.course);
+  $scope.reset = function() {
+    $scope.course = angular.copy(_emptyCourse);
+    $scope.createdCourse = null;
+    $scope.formProgress.currentStep = 1;
+    if ($scope.newCourseForm) {
+      $scope.newCourseForm.$setPristine();
+    }
   };
 
   $scope.createCourse = function (course) {
-    CoursesService.create(course);
+    CoursesService.create(course)
+      .success(function(data, status, headers, config) {
+        $scope.createdCourse = data;
+        $scope.formProgress.errors = [];
+        $scope.formProgress.goToNextStep();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+        $scope.formProgress.errors.push(data.error);
+      });
   };
+
+  $scope.reset();
 
 
 });

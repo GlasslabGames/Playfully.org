@@ -29,7 +29,8 @@
             <h3 class="gl-course-title" ng-bind="course.title"></h3>
             <div>Teacher: <span ng-bind="currentUser.firstName"></span></div>
             <div>Grade:
-              <span ng-repeat="grade in course.grade" ng-bind="grade"></span>
+              <!-- <span ng-repeat="grade in course.grade" ng-bind="grade"></span> -->
+              <span ng-bind="course.grade"></span>
             </div>
             <button class="btn btn-sm gl-btn--blue">Edit</button>
           </div>
