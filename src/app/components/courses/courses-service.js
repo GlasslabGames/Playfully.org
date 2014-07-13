@@ -52,6 +52,10 @@ angular.module('courses', [])
     },
 
     create: function(data) {
+      angular.forEach(data.games, function(game) {
+        game.id = game.gameId;
+      });
+      $log.info(data);
       return $http
         .post(API_BASE + '/lms/course/create', data)
         .then(function(response) {

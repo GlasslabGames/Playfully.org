@@ -10,7 +10,8 @@ angular.module( 'instructor.courses', [
     url: '/classes',
     views: {
       'main': {
-        templateUrl: 'instructor/courses/courses.html'
+        templateUrl: 'instructor/courses/courses.html',
+        controller: 'CoursesCtrl'
       }
     },
     data: {
@@ -40,16 +41,21 @@ angular.module( 'instructor.courses', [
   })
   .state( 'newCourse', {
     parent: 'createCourseModal',
-    url: '/courses/new',
+    url: '/new',
     views: {
       'modal@': {
         controller: 'NewCourseModalCtrl',
-        templateUrl: 'instructor/courses/new.html'
+        templateUrl: 'instructor/courses/new-course.html'
       }
     },
     data:{
       pageTitle: 'New Course',
       authorizedRoles: ['instructor']
+    },
+    resolve: {
+      games: function(GamesService) {
+        return GamesService.all();
+      }
     }
   });
 })
@@ -59,26 +65,33 @@ angular.module( 'instructor.courses', [
   $scope.courses = courses;
   $scope.titleLimit = 60;
 
-
 })
-.controller( 'NewCourseModalCtrl', function ( $scope, $http, $log) {
+
+.controller( 'NewCourseModalCtrl', function ( $scope, $http, $log, games, CoursesService) {
+
+  $scope.games = games;
 
   $scope.course = {
     title: '',
-    grade: []
+    grade: [],
+    games: []
+  };
+
+  $scope.formProgress = {
+    currentStep: 1,
+    goToNextStep: function() { this.currentStep += 1; return false; }
   };
 
   $scope.gradeLevels = [5, 6, 7, 8, 9, 10, 11, 12];
 
-  $scope.someSelected = function (object) {
-    return Object.keys(object).some(function (key) {
-      return object[key];
-    });
-  };
-
   $scope.logIt = function() {
     $log.info($scope.course);
   };
+
+  $scope.createCourse = function (course) {
+    CoursesService.create(course);
+  };
+
 
 });
 

@@ -123,3 +123,84 @@ input[type=checkbox]:checked + .gl-courses-grade-option {
   margin-top: 40px;
   margin-bottom: 20px;
 }
+
+.gl-course-game-options {
+  margin-top: 20px;
+}
+
+.gl-course-game-option {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  width: 32%;
+  margin-left: 2%;
+  text-align: center;
+}
+
+.gl-course-game-option > label {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;;
+}
+
+.gl-course-game-option > label:hover {
+   cursor: pointer;
+}
+
+.gl-course-game-option > label:hover .gl-course-game-thumbnail {
+  opacity: 0.55;
+}
+
+.gl-course-game-option > input[type=checkbox] {
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  opacity: 0;
+}
+
+
+.gl-course-game-option:first-child {
+  margin-left: 0;
+}
+
+.gl-course-game-thumbnail {
+  width: 140px;
+  height: 105px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 8px;
+  background-size: 100%;
+  background-repeat: none;
+  opacity: 0.45;
+  border: 3px solid white;
+  .border-radius(2px);
+  position: relative;
+}
+
+input[type=checkbox]:checked + label > .gl-course-game-thumbnail {
+  opacity: 1.0;
+  border-color: @aquaBlue;
+}
+
+.gl-course-game-indicator {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  .image-2x('add-grey-square.png', 21px, 21px);
+}
+
+input[type=checkbox]:checked + label .gl-course-game-indicator {
+  .image-2x('check-blue.png', 21px, 21px);
+}
+
+.gl-thumb-AA-1 {
+  background-image: url(/assets/thumb-game-AA-1.png);
+}
+
+.gl-thumb-SC {
+  background-image: url(/assets/thumb-game-SC.png);
+}
+
+
