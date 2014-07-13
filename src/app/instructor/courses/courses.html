@@ -24,7 +24,7 @@
 
     <div ng-show="courses.length">
       <div class="gl-course container-fluid" ng-repeat="course in courses">
-        <div class="row">
+        <div class="row gl-course-info">
           <div class="col-md-3 gl-course-desc">
             <h3 class="gl-course-title" ng-bind="course.title"></h3>
             <div>Teacher: <span ng-bind="currentUser.firstName"></span></div>
@@ -35,7 +35,12 @@
             <button class="btn btn-sm gl-btn--blue">Edit</button>
           </div>
           <div class="col-md-9 gl-course-games">
-            Ha
+            <div class="gl-course-game text-center"
+              ng-repeat="game in course.games">
+              <div class="gl-course-game-thumb gl-thumb-{{ game.id }}"></div>
+              {{ gamesInfo[game.id].longName }}
+            </div>
+
           </div>
         </div>
         <div class="row text-right gl-course-students">
@@ -47,22 +52,3 @@
     </div>
   </div>
 </div>
-  <!--h1>Classes</h1>
-
-
-  <div ng-if="courses.length == 0">
-    <h1>You don't have any class yet!</h1>
-  </div>
-
-  <div ng-if="courses.length > 0">
-    <div ng-repeat="course in courses">
-      <h3>{{ course.title | limitTo:titleLimit }}<span ng-if="course.title.length > titleLimit">&hellip;</span></h3>
-      <ul>
-        <li><strong>Code:</strong> {{ course.code }}</li>
-        <li><strong>Grade:</strong> {{ course.grade }}</li>
-        <li><strong>Students:</strong> {{ course.studentCount }}</li>
-        <li ng-if="course.archived"><strong>Archived:</strong>
-        {{ course.archivedDate | date:'mediumDate' }}</li>
-      </ul>
-    </div>
-  </div-->

@@ -19,6 +19,9 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor']
     },
     resolve: {
+      games: function(GamesService) {
+        return GamesService.all();
+      },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
       }
@@ -60,10 +63,13 @@ angular.module( 'instructor.courses', [
   });
 })
 
-.controller( 'CoursesCtrl', function ( $scope, $http, $log, courses) {
-
-  $scope.courses = courses;
-  $scope.titleLimit = 60;
+.controller( 'CoursesCtrl',
+  function ( $scope, $http, $log, courses, games, CoursesService) {
+    $scope.courses = courses;
+    $scope.gamesInfo = {};
+    angular.forEach(games, function(game) {
+      $scope.gamesInfo[game.gameId] = game;
+    });
 
 })
 

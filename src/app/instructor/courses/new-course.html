@@ -73,6 +73,9 @@
             ng-required="!course.games.length">
           <label for="game-{{ game.gameId }}" ng-click="logIt()">
             <div class="gl-course-game-thumbnail gl-thumb-{{ game.gameId }}">
+              <div class="gl-course-game-lock"
+                ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
+                ng-show="game.settings.hasOwnProperty('missionProgressLock')"></div>
               <div class="gl-course-game-indicator"></div>
             </div>
             <span ng-bind="game.longName"></span>

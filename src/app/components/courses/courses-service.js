@@ -27,6 +27,7 @@ angular.module('courses', [])
         });
     },
 
+    /* DEPRECATED?
     delete: function (courseId) {
       return $http
         .delete(API_BASE + '/lms/course/' + courseId)
@@ -38,6 +39,7 @@ angular.module('courses', [])
           return response;
         });
     },
+    */
 
     getEnrollments: function() {
       return $http
@@ -54,6 +56,8 @@ angular.module('courses', [])
     create: function(data) {
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(data.games, function(game) { game.id = game.gameId; });
+      /* Turn the array of grades into a string for the API */
+      data.grade = data.grade.join(', ');
       return $http.post(API_BASE + '/lms/course/create', data);
     },
 
