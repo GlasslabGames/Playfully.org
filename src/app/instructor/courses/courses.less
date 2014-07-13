@@ -83,6 +83,7 @@
 }
 
 .gl-course-game-thumb {
+  position: relative;
   width: 150px;
   height: 112px;
   background-size: 100%;
@@ -218,8 +219,15 @@ input[type=checkbox]:checked + label > .gl-course-game-thumbnail {
   position: absolute;
   right: 30px;
   bottom: 6px;
-  display: none;
   .image-2x('locked.png', 21px, 21px);
+}
+
+.gl-course-game-thumb .gl-course-game-lock {
+  right: 6px;
+}
+
+form .gl-course-game-lock {
+  display: none;
 }
 
 .gl-course-game-unlocked {

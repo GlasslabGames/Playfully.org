@@ -100,6 +100,13 @@ angular.module( 'instructor.courses', [
     }
   };
 
+  $scope.toggleGameLock = function ($event, game) {
+    $log.info(game);
+    $event.preventDefault();
+    $event.stopPropagation();
+    game.settings.missionProgressLock = !game.settings.missionProgressLock;
+  };
+
   $scope.createCourse = function (course) {
     CoursesService.create(course)
       .success(function(data, status, headers, config) {
