@@ -4,8 +4,7 @@ angular.module('courses', [])
   var api = {
 
     get: function (courseId) {
-      return $http
-        .get(API_BASE + '/lms/course/' + courseId)
+      return $http.get(API_BASE + '/lms/course/' + courseId + '/info')
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -26,6 +25,12 @@ angular.module('courses', [])
           return response;
         });
     },
+
+    archive: function (data) {
+      data.archived = true;
+      return $http.post(API_BASE + '/lms/course/' + data.id + '/info', data);
+    },
+
 
     /* DEPRECATED?
     delete: function (courseId) {
