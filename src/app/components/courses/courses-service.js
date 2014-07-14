@@ -15,6 +15,10 @@ angular.module('courses', [])
     },
 
     update: function (course) {
+      /* Hack to create an `id` attribute so the API will be happy */
+      angular.forEach(course.games, function(game) { game.id = game.gameId; });
+      /* Turn the array of grades into a string for the API */
+      course.grade = course.grade.join(', ');
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
         // .then(function (response) {
         //   $log.info(response);
@@ -26,7 +30,12 @@ angular.module('courses', [])
     },
 
     archive: function (course) {
+      /* Hack to create an `id` attribute so the API will be happy */
+      angular.forEach(course.games, function(game) { game.id = game.gameId; });
+      /* Turn the array of grades into a string for the API */
+      course.grade = course.grade.join(', ');
       course.archived = true;
+      $log.info(course);
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
@@ -35,6 +44,17 @@ angular.module('courses', [])
       course.lockedRegistration = true;
       $log.info(course);
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+
+    updateGames: function (course) {
+      games = [];
+      angular.forEach(course.games, function(game) {
+        games.push({
+          id: game.gameId,
+          settings: angular.copy(game.settings)
+        });
+      });
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/games', games);
     },
 
 

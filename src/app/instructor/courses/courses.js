@@ -117,6 +117,28 @@ angular.module( 'instructor.courses', [
         return CoursesService.get($stateParams.id);
       }
     }
+  })
+  .state( 'assignGamesToCourse', {
+    parent: 'courseModal',
+    url: '/:id/games',
+    views: {
+      'modal@': {
+        controller: 'AssignGamesModalCtrl',
+        templateUrl: 'instructor/courses/assign-games.html'
+      }
+    },
+    data: {
+      pageTitle: 'Assign Games',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      },
+      games: function(GamesService) {
+        return GamesService.all();
+      }
+    }
   });
 })
 
@@ -131,7 +153,7 @@ angular.module( 'instructor.courses', [
 
 })
 
-.controller( 'NewCourseModalCtrl', function ( $scope, $http, $log, games, CoursesService) {
+.controller( 'NewCourseModalCtrl', function ( $scope, $rootScope, $state, $http, $log, games, CoursesService) {
 
   $scope.games = games;
   $scope.course = null;
@@ -164,6 +186,13 @@ angular.module( 'instructor.courses', [
     game.settings.missionProgressLock = !game.settings.missionProgressLock;
   };
 
+  $scope.finish = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses', {}, { reload: true });
+    }, 100);
+  };
+
   $scope.createCourse = function (course) {
     CoursesService.create(course)
       .success(function(data, status, headers, config) {
@@ -188,7 +217,15 @@ angular.module( 'instructor.courses', [
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
+    gradesFromString = course.grade.split(', ');
+    gradeNumbersArray = [];
+    angular.forEach(gradesFromString, function(gradeString) {
+      gradeNumbersArray.push(parseInt(gradeString));
+    });
+    course.grade = angular.copy(gradeNumbersArray);
+    $log.info(course);
     $scope.course = course;
+
   }
 
   var finishSuccessfulAction = function() {
@@ -222,6 +259,49 @@ angular.module( 'instructor.courses', [
     CoursesService.update(courseData)
       .success(function(data, status, headers, config) {
         finishSuccessfulAction();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
+})
+.controller( 'AssignGamesModalCtrl', 
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
+  /* TODO: Clean this up. */
+
+  _gamesById = {};
+  angular.forEach(games, function(game) {
+    _gamesById[game.gameId] = game;
+  });
+  $scope.games = games;
+
+  if (course.hasOwnProperty('status')) {
+    $scope.error = course.data.error;
+  } else {
+    _tempGames = angular.copy(course.games);
+    course.games = [];
+    angular.forEach(_tempGames, function(game) {
+      gameToAdd = _gamesById[game.id];
+      gameToAdd.settings = angular.copy(game.settings);
+      course.games.push(gameToAdd);
+    });
+    $scope.course = course;
+  }
+
+  $scope.toggleGameLock = function ($event, game) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    game.settings.missionProgressLock = !game.settings.missionProgressLock;
+  };
+
+  $scope.updateCourse = function (courseData) {
+    CoursesService.updateGames(courseData)
+      .success(function(data, status, headers, config) {
+        $rootScope.modalInstance.close();
+        return $timeout(function () {
+          $state.go('courses', {}, { reload: true });
+        }, 100);
       })
       .error(function(data, status, headers, config) {
         $log.error(data);

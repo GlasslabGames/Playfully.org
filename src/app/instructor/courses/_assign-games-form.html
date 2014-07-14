@@ -1,0 +1,24 @@
+
+  <label>Select the game(s) you would like to assign to this class:</label>
+  
+  <div class="gl-course-game-options">
+    <div class="gl-course-game-option" ng-repeat="game in games">
+      <input type="checkbox"
+        class="gl-courses-game-checkbox"
+        id="game-{{ game.gameId }}"
+        value="{{ game.gameId }}"
+        checklist-model="course.games"
+        checklist-value="game"
+        ng-required="!course.games.length">
+      <label for="game-{{ game.gameId }}" ng-click="logIt()">
+        <div class="gl-course-game-thumbnail gl-thumb-{{ game.gameId }}">
+          <div class="gl-course-game-lock"
+            ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
+            ng-click="toggleGameLock($event, game)"
+            ng-show="game.settings.hasOwnProperty('missionProgressLock')"></div>
+          <div class="gl-course-game-indicator"></div>
+        </div>
+        <span ng-bind="game.longName"></span>
+      </label>
+    </div>
+  </div>
