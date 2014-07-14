@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Lock Class Registration?</h3>
+</div>
+
+<div class="modal-body">
+  <alert ng-show="error" type="danger"><strong>Error:</strong> {{ error }}</alert>
+
+  <form name="lockCourseForm" id="lockCourseForm" novalidate
+    class="gl-courses-form"
+    ng-show="course"
+    ng-submit="lockCourse(course)">
+
+    <p class="text-center" ng-bind="course.title">
+    </p>
+
+    <p class="text-center">
+      Locking class registration will prevent any new students from joining your class. This will render any course code innactive. 
+    </p>
+
+      <div class="text-center gl-courses-submit">
+        <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+        <input type="submit" class="btn gl-btn--blue" value="Yes">
+      </div>
+    </div>
+  </form>
+</div>
+
+

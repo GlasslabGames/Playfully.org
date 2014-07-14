@@ -14,21 +14,27 @@ angular.module('courses', [])
         });
     },
 
-    update: function (courseId, data) {
-      return $http
-        .post(API_BASE + '/lms/course/' + courseId)
-        .then(function (response) {
-          $log.info(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
+    update: function (course) {
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+        // .then(function (response) {
+        //   $log.info(response);
+        //   return response.data;
+        // }, function (response) {
+        //   $log.error(response);
+        //   return response;
+        // });
     },
 
-    archive: function (data) {
-      data.archived = true;
-      return $http.post(API_BASE + '/lms/course/' + data.id + '/info', data);
+    archive: function (course) {
+      course.archived = true;
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+
+    lock: function (course) {
+      course.locked = true;
+      course.lockedRegistration = true;
+      $log.info(course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
 

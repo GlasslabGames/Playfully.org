@@ -66,7 +66,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/archive',
     views: {
       'modal@': {
-        controller: 'ArchiveCourseModalCtrl',
+        controller: 'UpdateCourseModalCtrl',
         templateUrl: 'instructor/courses/archive-course.html'
       }
     },
@@ -80,12 +80,43 @@ angular.module( 'instructor.courses', [
       }
     }
   })
-  .state('transition', {
-    url: 'transition?destination',
-    controller: function ($state, $stateParams) {
-      $state.go($stateParams.destination);
+  .state( 'lockCourse', {
+    parent: 'courseModal',
+    url: '/:id/lock',
+    views: {
+      'modal@': {
+        controller: 'UpdateCourseModalCtrl',
+        templateUrl: 'instructor/courses/lock-course.html'
+      }
     },
-    data: { authorizedRoles: ['all'] }
+    data: {
+      pageTitle: 'Lock Course',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    }
+  })
+  .state( 'editCourse', {
+    parent: 'courseModal',
+    url: '/:id/edit',
+    views: {
+      'modal@': {
+        controller: 'UpdateCourseModalCtrl',
+        templateUrl: 'instructor/courses/edit-course.html'
+      }
+    },
+    data: {
+      pageTitle: 'Edit Class Info',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    }
   });
 })
 
@@ -105,7 +136,6 @@ angular.module( 'instructor.courses', [
   $scope.games = games;
   $scope.course = null;
   $scope.createdCourse = null;
-  $scope.gradeLevels = [5, 6, 7, 8, 9, 10, 11, 12];
   $scope.formProgress = {
     currentStep: 1,
     errors: [],
@@ -152,7 +182,7 @@ angular.module( 'instructor.courses', [
 
 })
 
-.controller( 'ArchiveCourseModalCtrl', 
+.controller( 'UpdateCourseModalCtrl', 
   function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, CoursesService) {
 
   if (course.hasOwnProperty('status')) {
@@ -161,16 +191,37 @@ angular.module( 'instructor.courses', [
     $scope.course = course;
   }
 
+  var finishSuccessfulAction = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses', {}, { reload: true });
+    }, 100);
+  };
 
-  $scope.archiveCourse = function (thisCourse) {
-    $log.info("Attempting to archive " + thisCourse.title);
-    CoursesService.archive(thisCourse)
+  $scope.archiveCourse = function (courseData) {
+    CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
-        $rootScope.modalInstance.close();
-        // $state.go('transition', {destination: 'courses'});
-        return $timeout(function () {
-          $state.go('courses', {}, { reload: true });
-        }, 100);
+        finishSuccessfulAction();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
+  $scope.lockCourse = function (courseData) {
+    CoursesService.lock(courseData)
+      .success(function(data, status, headers, config) {
+        finishSuccessfulAction();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
+  $scope.updateCourse = function (courseData) {
+    CoursesService.update(courseData)
+      .success(function(data, status, headers, config) {
+        finishSuccessfulAction();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
