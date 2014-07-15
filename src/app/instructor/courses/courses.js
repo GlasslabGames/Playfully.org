@@ -23,7 +23,7 @@ angular.module( 'instructor.courses', [
         return GamesService.all();
       },
       courses: function(CoursesService) {
-        return CoursesService.getEnrollments();
+        return CoursesService.getEnrollmentsWithStudents();
       }
     }
   })
@@ -145,6 +145,7 @@ angular.module( 'instructor.courses', [
 .controller( 'CoursesCtrl',
   function ( $scope, $http, $log, courses, games, CoursesService) {
     $scope.courses = courses;
+    $log.info(courses);
     $scope.showArchived = false;
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {

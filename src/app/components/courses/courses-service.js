@@ -4,14 +4,7 @@ angular.module('courses', [])
   var api = {
 
     get: function (courseId) {
-      return $http.get(API_BASE + '/lms/course/' + courseId + '/info')
-        .then(function (response) {
-          $log.info(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
+      return $http.get(API_BASE + '/lms/course/' + courseId + '/info');
     },
 
     update: function (course) {
@@ -83,6 +76,14 @@ angular.module('courses', [])
           return response;
         });
     },
+
+    getEnrollmentsWithStudents: function () {
+      var apiUrl = API_BASE + '/lms/courses';
+      return $http({ method: 'GET', url: apiUrl, params: { showMembers: 1 }})
+        .then(function(response) { return response.data; },
+            function(response) { $log.error(response); return response; });
+    },
+
 
     create: function(data) {
       /* Hack to create an `id` attribute so the API will be happy */

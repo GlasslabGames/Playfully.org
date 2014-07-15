@@ -129,6 +129,7 @@ angular.module('playfully.register', [])
         $scope.confirmation.errors = [];
         CoursesService.verifyCode(conf.code)
           .then(function(resp) {
+            $log.info(resp);
             if (resp.data.key.indexOf('invalid') >= 0) {
               $scope.confirmation.errors.push(resp.data.status);
             } else {

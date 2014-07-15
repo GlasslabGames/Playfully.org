@@ -59,10 +59,28 @@
 
           </div>
         </div>
-        <div class="row text-right gl-course-students">
-          <button class="btn btn-sm gl-btn--blue">
+
+        <div class="row text-right gl-course-students"
+          ng-hide="course.studentListExpanded">
+          <button class="btn btn-sm gl-btn--blue"
+            ng-disabled="course.studentCount == 0"
+            ng-click="course.studentListExpanded=true">
             View Student List (<span ng-bind="course.studentCount"></span>)
           </button>
+        </div>
+
+        <div ng-show="course.studentListExpanded">
+          <div class="row text-right gl-course-students-header">
+            <button class="btn btn-sm gl-btn--white"
+              ng-click="course.studentListExpanded=false">
+              Close Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+          </div>
+          <div class="row" ng-repeat="user in course.users">
+            <span ng-bind="user.lastName"></span>
+            <span ng-bind="user.firstName"></span>
+            <span ng-bind="user.username"></span>
+          </div>
         </div>
       </div>
     </div>
