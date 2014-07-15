@@ -138,6 +138,10 @@ angular.module('courses', [])
           $log.error(response);
           return response;
         });
+    },
+
+    verifyCode: function(code) {
+      return $http.get(API_BASE + '/lms/course/code/' + code + '/verify');
     }
 
   };

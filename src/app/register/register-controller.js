@@ -1,7 +1,8 @@
 angular.module('playfully.register', [])
 
 .constant('REG_ERRORS', {
-  'email.not.unique': "The email address is already in use by another user. Please provide a different email address"
+  'email.not.unique': "The email address is already in use by another user. Please provide a different email address",
+  'username.not.unique': "That screen name is not available"
 
 })
 
@@ -101,23 +102,57 @@ angular.module('playfully.register', [])
 
 
 .controller('RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, REG_ERRORS) {
+    function ($scope, $log, $rootScope, $state, UserService, CoursesService, Session, AUTH_EVENTS, REG_ERRORS) {
       var user = null;
-      $scope.reg = {
-        role: 'student',
+
+      $scope.confirmation = {
+        code: null,
         errors: []
       };
 
-      $scope.confirmCode = function(regInfo) {
-        $scope.reg.errors = [];
-        console.log(regInfo);
-        UserService.register(regInfo)
+      $scope.account = null;
+
+      var _blankAccount = {
+        username: '',
+        password: '',
+        confirm: '',
+        firstName: '',
+        lastName: '',
+        role: 'student',
+        regCode: null,
+        errors: [],
+        isRegCompleted: false
+      };
+
+
+      $scope.confirmCode = function(conf) {
+        $scope.confirmation.errors = [];
+        CoursesService.verifyCode(conf.code)
+          .then(function(resp) {
+            if (resp.data.key.indexOf('invalid') >= 0) {
+              $scope.confirmation.errors.push(resp.data.status);
+            } else {
+              $scope.account = angular.copy(_blankAccount);
+              $scope.account.regCode = $scope.confirmation.code;
+            }
+          });
+      };
+
+      $scope.register = function(account) {
+        UserService.register(account)
           .success(function(data, status, headers, config) {
-            $log.info(data);
+            user = data;
+            Session.create(user.id, user.role);
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
-            $scope.reg.errors.push(data.error);
+            $scope.account.isRegCompleted = false;
+            if ( data.hasOwnProperty('key') ) {
+              $scope.account.errors.push(REG_ERRORS[data.key]);
+            } else {
+              $scope.account.errors.push(data.error);
+            }
           });
       };
 });
