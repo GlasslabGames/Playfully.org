@@ -14,7 +14,7 @@
   <form name="regInit" novalidate class="reg-form"
     ng-submit="confirmCode(confirmation)">
 
-    <div class="form-group" ng-class="{'has-error': regInit.firstName.$dirty && regInit.firstName.$invalid}">
+    <div class="form-group" ng-class="{'has-error': regInit.code.$dirty && regInit.code.$invalid}">
       <input type="text" name="code" class="form-control"
         placeholder="Classcode"
         required

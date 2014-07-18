@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Edit Student Information</h3>
+</div>
+
+<div class="modal-body">
+  <alert ng-show="error" type="danger"><strong>Error:</strong> {{ error }}</alert>
+
+  <form name="editStudentForm" id="editStudentForm" novalidate
+    class="gl-courses-form"
+    ng-show="student"
+    ng-submit="editInfo(student)">
+
+
+    <div class="form-group form-group--labeled" ng-class="{'has-error': editStudentForm.username.$dirty && editStudentForm.username.$invalid}">
+      <label for="title">Screen Name</label>
+      <input type="text" name="username" class="form-control"
+        required
+        autofocus="autofocus"
+        ng-model="student.username"
+        ng-minlength="2">
+        <div class="form-errors">
+          <div class="form-error" ng-show="editStudentForm.username.$dirty && editStudentForm.username.$invalid">
+            Screen name must be at least 2 characters
+          </div>
+        </div>
+    </div>
+
+
+    <div class="form-group form-group--labeled" ng-class="{'has-error': editStudentForm.firstName.$dirty && editStudentForm.firstName.$invalid}">
+      <label for="title">First Name</label>
+      <input type="text" name="firstName" class="form-control"
+        required
+        ng-model="student.firstName"
+        ng-minlength="2">
+        <div class="form-errors">
+          <div class="form-error" ng-show="editStudentForm.firstName.$dirty && editStudentForm.firstName.$invalid">
+            First name must be at least 2 characters
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group form-group--labeled" ng-class="{'has-error': editStudentForm.lastName.$dirty && editStudentForm.lastName.$invalid}">
+      <label for="title">Last Initial</label>
+      <input type="text" name="lastName" class="form-control"
+        required
+        ng-model="student.lastName"
+        ng-minlength="1"
+        ng-maxlength="1">
+        <div class="form-errors">
+          <div class="form-error" ng-show="editStudentForm.lastName.$dirty && editStudentForm.lastName.$invalid">
+            Enter first initial of the last name
+          </div>
+        </div>
+    </div>
+
+    <p class="text-center">
+      <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" class="btn gl-btn--blue" value="Save"
+        ng-disabled="editStudentForm.$invalid">
+    </p>
+  </form>
+</div>
+
+

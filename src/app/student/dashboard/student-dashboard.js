@@ -4,7 +4,7 @@ angular.module( 'student.dashboard', [
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'studentDashboard', {
-    parent: 'site',
+    // parent: 'site',
     url: '/home',
     views: {
       'main@': {
@@ -24,22 +24,92 @@ angular.module( 'student.dashboard', [
         return CoursesService.getEnrollments();
       }
     }
+  })
+  .state( 'studentDashboardModal', {
+    abstract: true,
+    parent: 'studentDashboard',
+    url: '',
+    onEnter: function($rootScope, $modal, $state) {
+      $rootScope.modalInstance = $modal.open({
+        template: '<div ui-view="modal"></div>',
+        size: 'sm'
+      });
+
+    }
+  })
+  .state( 'enrollInCourse', {
+    parent: 'studentDashboardModal',
+    url: '/enroll',
+    views: {
+      'modal@': {
+        controller: 'EnrollInCourseModalCtrl',
+        templateUrl: 'student/dashboard/course-enroll.html'
+      }
+    },
+    data:{
+      pageTitle: 'Add a Class Code',
+      authorizedRoles: ['student']
+    }
   });
 })
 
 .controller( 'DashboardStudentCtrl', function ( $scope, $log, courses, games) {
+  $log.info('courses');
+  $log.info(courses);
+  $log.info('games');
+  $log.info(games);
 
   /* Attach the games to the courses retrieved in the resolve. */
-  angular.forEach(games, function(game) {
-    angular.forEach(courses, function(course) {
-      if (!course.hasOwnProperty('games')) { course.games = []; }
-      if (course.gameIds.indexOf(game.gameId) > -1) {
-        course.games.push(game);
-      }
-    });
-  });
+  // angular.forEach(games, function(game) {
+  //   angular.forEach(courses, function(course) {
+  //     if (!course.hasOwnProperty('games')) { course.games = []; }
+  //     if (course.gameIds.indexOf(game.gameId) > -1) {
+  //       course.games.push(game);
+  //     }
+  //   });
+  // });
 
   $scope.courses = courses;
+
+})
+
+.controller( 'EnrollInCourseModalCtrl',
+  function ( $scope, $rootScope, $state, $log, $timeout, CoursesService) {
+
+    $scope.verification = {
+      code: null,
+      errors: []
+    };
+    
+    $scope.verify = function(verification) {
+      $scope.enrollment = null;
+      $scope.verification.errors = [];
+      CoursesService.verifyCode(verification.code)
+        .then(function(result) {
+          if (result.data.key && result.data.key.indexOf('invalid') > -1) {
+            $scope.verification.errors.push(result.data.status);
+          } else {
+            $scope.enrollment = {
+              courseCode: $scope.verification.code,
+              errors: []
+            };
+          }
+        });
+    };
+
+    $scope.enroll = function(enrollment) {
+      $scope.enrollment.errors = [];
+      CoursesService.enroll(enrollment.courseCode)
+        .success(function(data, status, headers, config) {
+          $rootScope.modalInstance.close();
+          return $timeout(function () {
+            $state.go('studentDashboard', {}, { reload: true });
+          }, 100);
+        })
+        .error(function(data, status, config) {
+          $log.error(data);
+        });
+    };
 
 });
 

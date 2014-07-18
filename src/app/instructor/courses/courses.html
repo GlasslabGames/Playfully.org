@@ -12,8 +12,8 @@
 <div class="gl-courses-container">
   <div class="container">
     <hr class="rule--blue" />
-    <div class="gl-courses-add" ui-sref="newCourse">
-      <div class="bu-add--blue"></div>
+    <div class="gl-courses-add gl-courses-add--blue" ui-sref="newCourse">
+      <div class="bu-add-circle bu-add-circle--blue"></div>
       Create New Class
     </div>
     <hr class="rule--blue" />
@@ -91,7 +91,8 @@
               <td class="text-right text-grey5">
                 <a class="gl-course-students-link"
                   ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
-                <a class="gl-course-students-link"><i class="fa fa-pencil"></i> Edit</a>
+                <a class="gl-course-students-link"
+                  ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
               </td>
             </tr>
           </tbody>

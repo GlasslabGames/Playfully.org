@@ -117,16 +117,8 @@ angular.module('courses', [])
         });
     },
 
-    enroll: function() {
-      return $http
-        .post(API_BASE + '/lms/course/enroll')
-        .then(function (response) {
-          $log.info(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
+    enroll: function(courseCode) {
+      return $http.post(API_BASE + '/lms/course/enroll', { courseCode: courseCode });
     },
 
     unenroll: function() {

@@ -189,6 +189,42 @@ angular.module( 'instructor.courses', [
           });
       }
     }
+  })
+  .state( 'editStudent', {
+    parent: 'studentModal',
+    url: '/:id/students/:studentId/edit',
+    views: {
+      'modal@': {
+        controller: 'EditStudentModalCtrl',
+        templateUrl: 'instructor/courses/student-edit.html'
+      }
+    },
+    data: {
+      pageTitle: 'Edit Student Information',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      },
+      student: function($stateParams, UserService) {
+        return UserService.getById($stateParams.studentId)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      }
+    }
   });
 })
 
@@ -378,6 +414,14 @@ angular.module( 'instructor.courses', [
           $log.error(data);
         });
     };
+
+})
+
+.controller('EditStudentModalCtrl',
+  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
+    $scope.course = course;
+    $scope.student = student;
+
 
 });
 
