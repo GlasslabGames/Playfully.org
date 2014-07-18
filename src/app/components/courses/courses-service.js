@@ -141,6 +141,11 @@ angular.module('courses', [])
         });
     },
 
+    unenrollUser: function(courseId, userId) {
+      var data = { course: courseId, user: userId };
+      return $http.post(API_BASE + '/lms/course/unenroll-user', data);
+    },
+
     verifyCode: function(code) {
       return $http.get(API_BASE + '/lms/course/code/' + code + '/verify');
     }

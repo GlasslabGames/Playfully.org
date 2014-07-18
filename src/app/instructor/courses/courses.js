@@ -42,6 +42,20 @@ angular.module( 'instructor.courses', [
       });
     }
   })
+  .state( 'studentModal', {
+    abstract: true,
+    parent: 'courses',
+    url: '',
+    onEnter: function($rootScope, $modal, $state) {
+      $rootScope.modalInstance = $modal.open({
+        template: '<div ui-view="modal"></div>',
+        size: 'sm'
+      });
+
+      $rootScope.modalInstance.result.finally(function() {
+        $state.go('courses');
+      });
+  }})
   .state( 'newCourse', {
     parent: 'courseModal',
     url: '/new',
@@ -137,6 +151,42 @@ angular.module( 'instructor.courses', [
       },
       games: function(GamesService) {
         return GamesService.all();
+      }
+    }
+  })
+  .state( 'unenrollStudent', {
+    parent: 'studentModal',
+    url: '/:id/students/:studentId/unenroll',
+    views: {
+      'modal@': {
+        controller: 'UnenrollStudentModalCtrl',
+        templateUrl: 'instructor/courses/student-unenroll.html'
+      }
+    },
+    data: {
+      pageTitle: 'Unenroll Student',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      },
+      student: function($stateParams, UserService) {
+        return UserService.getById($stateParams.studentId)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
       }
     }
   });
@@ -308,6 +358,26 @@ angular.module( 'instructor.courses', [
         $log.error(data);
       });
   };
+
+})
+
+.controller('UnenrollStudentModalCtrl',
+  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
+    $scope.course = course;
+    $scope.student = student;
+
+    $scope.unenroll = function(course, student) {
+      CoursesService.unenrollUser(course.id, student.id)
+        .success(function(data, status, headers, config) {
+          $rootScope.modalInstance.close();
+          return $timeout(function () {
+            $state.go('courses', {}, { reload: true });
+          }, 100);
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data);
+        });
+    };
 
 });
 

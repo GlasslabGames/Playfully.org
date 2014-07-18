@@ -69,19 +69,33 @@
           </button>
         </div>
 
-        <div ng-show="course.studentListExpanded">
-          <div class="row text-right gl-course-students-header">
-            <button class="btn btn-sm gl-btn--white"
-              ng-click="course.studentListExpanded=false">
-              Close Student List (<span ng-bind="course.studentCount"></span>)
-            </button>
-          </div>
-          <div class="row" ng-repeat="user in course.users">
-            <span ng-bind="user.lastName"></span>
-            <span ng-bind="user.firstName"></span>
-            <span ng-bind="user.username"></span>
-          </div>
-        </div>
+        <table class="table gl-course-students-table" ng-show="course.studentListExpanded">
+          <thead>
+            <tr class="gl-course-students-header">
+              <th>Last Initial</th>
+              <th>First Name</th>
+              <th>Screen Name</th>
+              <th class="text-right">
+                <button class="btn btn-sm gl-btn--white"
+                  ng-click="course.studentListExpanded=false">
+                  Close Student List (<span ng-bind="course.studentCount"></span>)
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in course.users" ng-class="">
+              <td ng-bind="user.lastName"></td>
+              <td ng-bind="user.firstName"></td>
+              <td ng-bind="user.username"></td>
+              <td class="text-right text-grey5">
+                <a class="gl-course-students-link"
+                  ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
+                <a class="gl-course-students-link"><i class="fa fa-pencil"></i> Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
