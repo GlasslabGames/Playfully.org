@@ -64,6 +64,7 @@ angular.module('playfully.register', [])
 
       $scope.account = {
         firstName: '',
+        lastName: '',
         email: '',
         password: '',
         confirm: '',
@@ -75,6 +76,11 @@ angular.module('playfully.register', [])
       };
 
       $scope.register = function( account ) {
+        if (account.firstName && account.firstName.indexOf(' ') > -1) {
+          firstName = account.firstName.substr(0, str.indexOf(' '));
+          $scope.account.lastName = account.firstName.substr(str.indexOf(' ')+1);
+          $scope.account.firstName = firstName;
+        }
         UserService.register(account)
           .success(function(data, status, headers, config) {
             user = data;
@@ -110,6 +116,8 @@ angular.module('playfully.register', [])
         errors: []
       };
 
+      $scope.course = null;
+
       $scope.account = null;
 
       var _blankAccount = {
@@ -133,6 +141,7 @@ angular.module('playfully.register', [])
             if (resp.data.key.indexOf('invalid') >= 0) {
               $scope.confirmation.errors.push(resp.data.status);
             } else {
+              $scope.course = resp.data;
               $scope.account = angular.copy(_blankAccount);
               $scope.account.regCode = $scope.confirmation.code;
             }

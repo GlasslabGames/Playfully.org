@@ -4,7 +4,12 @@ angular.module('courses', [])
   var api = {
 
     get: function (courseId) {
-      return $http.get(API_BASE + '/lms/course/' + courseId + '/info');
+      return $http.get(API_BASE + '/lms/course/' + courseId + '/info')
+        .then(function(response) {
+          return response.data;
+        }, function(response) {
+          return response;
+        });
     },
 
     update: function (course) {

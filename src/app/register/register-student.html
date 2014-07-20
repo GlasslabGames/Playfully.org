@@ -40,6 +40,10 @@
 
 
 <div class="modal-body" ng-show="account">
+  <div class="gl-class-info text-center">
+    <div>This is [need name]&rsquo;s class: {{ course.title }}</div>
+    <div>Classcode: {{ account.regCode }}</div>
+  </div>
   <p class="text-center">
     Continue to finish registration
   </p>
@@ -90,7 +94,7 @@
       </div>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
+    <div class="form-group gl-form-group--inline" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
       <input type="text" name="firstName" class="form-control"
         placeholder="Your first name"
         required
@@ -98,13 +102,13 @@
         ng-minlength="2">
         <div class="form-errors">
           <div class="form-error" ng-show="regForm.firstName.$dirty && regForm.firstName.$invalid">
-            Name must be at least 2 characters
+            At least 2 characters
           </div>
         </div>
     </div>
 
-    <div class="form-group" ng-class="{'has-error': regForm.lastName.$dirty && regForm.lastName.$invalid}">
-      <input type="text" name="lastName" class="form-control"
+    <div class="form-group gl-form-group--inline" ng-class="{'has-error': regForm.lastName.$dirty && regForm.lastName.$invalid}">
+      <input type="text" name="lastName" class="form-control gl-form-input--short"
         maxlength="1"
         placeholder="Last initial"
         required
@@ -113,7 +117,7 @@
         ng-maxlength="1">
         <div class="form-errors">
           <div class="form-error" ng-show="regForm.lastName.$dirty && regForm.lastName.$invalid">
-            Enter first initial of your last name
+            Cannot be blank
           </div>
         </div>
     </div>

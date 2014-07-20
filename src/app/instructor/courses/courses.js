@@ -169,14 +169,7 @@ angular.module( 'instructor.courses', [
     },
     resolve: {
       course: function($stateParams, CoursesService) {
-        return CoursesService.get($stateParams.id)
-          .then(function(response) {
-            if (response.status < 300) {
-              return response.data;
-            } else {
-              return response;
-            }
-          });
+        return CoursesService.get($stateParams.id);
       },
       student: function($stateParams, UserService) {
         return UserService.getById($stateParams.studentId)
@@ -335,6 +328,7 @@ angular.module( 'instructor.courses', [
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
       .success(function(data, status, headers, config) {
+        $log.info(data);
         finishSuccessfulAction();
       })
       .error(function(data, status, headers, config) {
@@ -399,6 +393,9 @@ angular.module( 'instructor.courses', [
 
 .controller('UnenrollStudentModalCtrl',
   function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
+    if (course.status < 300) {
+      $scope.course = course.data;
+    }
     $scope.course = course;
     $scope.student = student;
 
@@ -418,10 +415,23 @@ angular.module( 'instructor.courses', [
 })
 
 .controller('EditStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
+  function($scope, $rootScope, $state, $log, $timeout, course, student, UserService) {
     $scope.course = course;
     $scope.student = student;
 
+    $scope.editInfo = function(student) {
+      UserService.update(student)
+        .success(function(data, status, headers, config) {
+          $log.info(data);
+          $rootScope.modalInstance.close();
+          return $timeout(function () {
+            $state.go('courses', {}, { reload: true });
+          }, 100);
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data);
+        });
+    };
 
 });
 

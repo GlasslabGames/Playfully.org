@@ -49,6 +49,8 @@ angular.module('user', [])
     },
 
     update: function (user) {
+      user.userId = user.id;
+      $log.info(user);
       return $http.post(API_BASE + '/auth/user/' + user.id, user);
     },
 
