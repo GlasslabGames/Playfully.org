@@ -2,7 +2,7 @@
   <label>Select the game(s) you would like to assign to this class:</label>
   
   <div class="gl-course-game-options">
-    <div class="gl-course-game-option" ng-repeat="game in games">
+    <div class="gl-course-game-option" ng-repeat="game in games | filter:{ enabled: true}">
       <input type="checkbox"
         class="gl-courses-game-checkbox"
         id="game-{{ game.gameId }}"

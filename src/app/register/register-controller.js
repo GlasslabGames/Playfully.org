@@ -77,8 +77,8 @@ angular.module('playfully.register', [])
 
       $scope.register = function( account ) {
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
-          firstName = account.firstName.substr(0, str.indexOf(' '));
-          $scope.account.lastName = account.firstName.substr(str.indexOf(' ')+1);
+          firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
+          $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
           $scope.account.firstName = firstName;
         }
         UserService.register(account)

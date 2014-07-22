@@ -52,6 +52,7 @@ angular.module('courses', [])
           settings: angular.copy(game.settings)
         });
       });
+      $log.info(games);
       return $http.post(API_BASE + '/lms/course/' + course.id + '/games', games);
     },
 
