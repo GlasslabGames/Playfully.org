@@ -54,23 +54,7 @@ angular.module( 'student.dashboard', [
 })
 
 .controller( 'DashboardStudentCtrl', function ( $scope, $log, courses, games) {
-  $log.info('courses');
-  $log.info(courses);
-  $log.info('games');
-  $log.info(games);
-
-  /* Attach the games to the courses retrieved in the resolve. */
-  // angular.forEach(games, function(game) {
-  //   angular.forEach(courses, function(course) {
-  //     if (!course.hasOwnProperty('games')) { course.games = []; }
-  //     if (course.gameIds.indexOf(game.gameId) > -1) {
-  //       course.games.push(game);
-  //     }
-  //   });
-  // });
-
   $scope.courses = courses;
-
 })
 
 .controller( 'EnrollInCourseModalCtrl',
@@ -89,11 +73,10 @@ angular.module( 'student.dashboard', [
           if (result.data.key && result.data.key.indexOf('invalid') > -1) {
             $scope.verification.errors.push(result.data.status);
           } else {
-            $scope.enrollment = {
-              courseCode: $scope.verification.code,
-              errors: []
-            };
-          }
+            $scope.enrollment = result.data;
+            $scope.enrollment.courseCode = $scope.verification.code;
+            $scope.enrollment.errors = [];
+            }
         });
     };
 

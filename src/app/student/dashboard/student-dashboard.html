@@ -15,7 +15,11 @@
     <div class="course-name course-col"
       ng-class-odd="'gl-bg--gray'" ng-class-even="'gl-bg--ltgreen'">
       <h4>{{ course.title }}</h4>
-      <div>Teacher: Liz Kline</div>
+      <div>
+        Teacher:
+        {{ course.teacher.firstName }}
+        {{ course.teacher.lastName }}
+      </div>
     </div>
     <div class="course-games course-col"
       ng-class-odd="'gl-bg--gray'" ng-class-even="'gl-bg--ltgreen'">
