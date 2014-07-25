@@ -100,6 +100,7 @@ angular.module( 'playfully', [
 .controller('AppCtrl', function($scope, $rootScope, $state, $log, $modal, $cookies,
       UserService, AuthService, AUTH_EVENTS) {
 
+  $rootScope.state = $state;
   $scope.currentUser = null;
   $scope.isAuthenticated = UserService.isAuthenticated;
   $scope.isAuthorized = AuthService.isAuthorized;
@@ -110,6 +111,10 @@ angular.module( 'playfully', [
         angular.isDefined(toState.data.pageTitle));
       if ( hasPageTitle ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
+      }
+      if ( angular.isDefined(toState.data) && angular.isDefined(toState.data.hideWrapper)) {
+        $scope.hideWrapper = toState.data.hideWrapper;
+        console.log($scope.hideWrapper);
       }
   });
 

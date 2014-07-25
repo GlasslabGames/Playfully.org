@@ -129,3 +129,39 @@
   border-left: 1px solid lighten(@grassGreen, 20%);
 }
 
+
+.game-container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .login-group {
+    float: left;
+    width: 280px;
+    padding-top: 20px;
+  }
+
+  .login-group--l { text-align: right; }
+  .login-group--r { text-align: left; }
+
+  .login-divider--or {
+    float: left;
+    width: 40px;
+    height: 100px;
+    border: 0;
+    .image-2x('login-divider-or-v.png', 40px, 100px);
+  }
+
+  .gl-input-group {
+    float: left;
+    width: 48%;
+    margin-left: 4%;
+  }
+  .gl-input-group:first-child {
+    margin-left: 0;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+}

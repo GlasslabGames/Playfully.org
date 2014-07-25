@@ -1,0 +1,70 @@
+<div class="game-container">
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--edmodo"
+      ng-click="logInWithEdmodo()"
+      popover-title="Edmodo Login"
+      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
+      popover-trigger="mouseenter" popover-placement="bottom">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+        </div>
+        <div class="media-bd">
+          Log in with <strong>Edmodo</strong>
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--icivics"
+      onclick="window.location.href='/auth/edmodo/login'"
+      popover-title="iCivics Login"
+      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
+      popover-trigger="mouseenter" popover-placement="bottom">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Log in with <strong>iCivics</strong>
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <hr class="login-divider--or" />
+
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--instructor"
+      ui-sref="loginInstructor">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Teacher/Parent Sign In
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <button class="login-button login-button--student"
+      ui-sref="loginStudent">
+      <div class="media media--collapsed">
+        <div class="media-img media-img--collapsed">
+          <div class="login-icon--placeholder"></div>
+        </div>
+        <div class="media-bd">
+          Student Sign In
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <div class="text-center small">
+    Don&rsquo;t have an account?
+    <a ui-sref="registerOptions">Create an account</a>
+  </div>
+</div>

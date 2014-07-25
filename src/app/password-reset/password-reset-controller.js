@@ -10,8 +10,23 @@ angular.module('playfully.password-reset', [])
           templateUrl: 'password-reset/password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
-      }
+      },
+      data:{ authorizedRoles: ['guest'] }
     })
+    .state('gamePasswordReset', {
+      url: '/game/forgot-password',
+      parent: 'site',
+      views: {
+        'main@': {
+          templateUrl: 'password-reset/password-reset.html',
+          controller: 'PasswordResetModalCtrl'
+        }
+      },
+      data:{ authorizedRoles: ['guest'], hideWrapper: true }
+    })
+
+
+
     .state('passwordUpdate', {
       url: 'reset-password/:hashCode',
       parent: 'modal',
@@ -31,7 +46,8 @@ angular.module('playfully.password-reset', [])
     });
 })
 
-.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state,AuthService) {
+.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state, AuthService) {
+  $log.info($state);
 
   $scope.formInfo = {
     isSubmitting: false,

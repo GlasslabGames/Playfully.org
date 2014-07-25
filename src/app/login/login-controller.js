@@ -11,10 +11,21 @@ angular.module('playfully.login', [])
           controller: 'LoginOptionsModalCtrl'
         }
       },
-      data:{
-        authorizedRoles: ['guest']
+      data:{ authorizedRoles: ['guest'] }
+    })
+    .state('gameLoginOptions', {
+      url: '/game/login',
+      parent: 'site',
+      data: { hideWrapper: true },
+      views: {
+        'main@': {
+          templateUrl: 'login/login.html',
+          controller: 'LoginOptionsModalCtrl'
+        }
       }
     })
+
+
     .state('loginInstructor', {
       url: 'login/instructor',
       parent: 'modal',
@@ -24,10 +35,23 @@ angular.module('playfully.login', [])
           controller: 'LoginModalCtrl'
         }
       },
-      data:{
-        authorizedRoles: ['guest']
+      data:{ authorizedRoles: ['guest'] }
+    })
+    .state('gameLoginInstructor', {
+      url: '/game/login/instructor',
+      parent: 'site',
+      data: { hideWrapper: true },
+      views: {
+        'main@': {
+          templateUrl: 'login/login-instructor.html',
+          controller: 'LoginModalCtrl'
+        }
       }
     })
+
+
+
+
     .state('loginStudent', {
       url: 'login/student',
       parent: 'modal',
@@ -37,10 +61,24 @@ angular.module('playfully.login', [])
           controller: 'LoginModalCtrl'
         }
       },
-      data:{
-        authorizedRoles: ['guest']
+      data:{ authorizedRoles: ['guest'] }
+    })
+    .state('gameLoginStudent', {
+      url: '/game/login/student',
+      parent: 'site',
+      data: { hideWrapper: true },
+      views: {
+        'main@': {
+          templateUrl: 'login/login-student.html',
+          controller: 'LoginModalCtrl'
+        }
       }
     })
+
+
+
+
+
     .state('authEdmodo', {
       url: 'auth/edmodo',
       parent: 'modal',
@@ -64,7 +102,7 @@ angular.module('playfully.login', [])
     });
 })
 
-.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log) {
+.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log, $state) {
 
   $scope.logInWithEdmodo = function() {
     $log.info('logInWithEdmodo');
@@ -89,8 +127,6 @@ angular.module('playfully.login', [])
     });
 
   };
-
-  
 })
 
 .controller('LoginEdmodoCtrl', function ($scope, $rootScope, $window, $log, UserService, AUTH_EVENTS) {

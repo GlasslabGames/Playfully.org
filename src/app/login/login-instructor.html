@@ -1,5 +1,8 @@
+<div ng-class="{'game-container': hideWrapper}">
+
 <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
+    ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
   <h3 class="modal-title">Teacher/Parent Sign In</h3>
 </div>
 
@@ -7,20 +10,27 @@
   <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
   <form name="loginForm" novalidate class="login-form"
     ng-submit="login(credentials)">
-    <div class="form-group" ng-class="{'has-error': loginForm.email.$dirty && loginForm.email.$invalid}">
-      <input type="email" name="email" class="form-control" placeholder="Email address"
-        required autofocus ng-model="credentials.username">
-        <div class="form-errors">
-          <div class="form-error" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
-            Please enter a valid email address
+
+    <div class="gl-input-group">
+      <div class="form-group" ng-class="{'has-error': loginForm.email.$dirty && loginForm.email.$invalid}">
+        <input type="email" name="email" class="form-control" placeholder="Email address"
+          required autofocus ng-model="credentials.username">
+          <div class="form-errors">
+            <div class="form-error" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+              Please enter a valid email address
+            </div>
           </div>
-        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
-      <span class="small help-block">
-        <a ui-sref="passwordReset">Forgot your password?</a>
-      </span>
+    <div class="gl-input-group">
+      <div class="form-group">
+        <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+        <span class="small help-block">
+          <a href="#" ng-click="state.go(hideWrapper ? 'gamePasswordReset' : 'passwordReset')">
+            <!--ui-sref="passwordReset"-->
+            Forgot your password?</a>
+        </span>
+      </div>
     </div>
 
     <div class="text-center">
@@ -30,4 +40,4 @@
   </form>
 </div>
 
-
+</div>
