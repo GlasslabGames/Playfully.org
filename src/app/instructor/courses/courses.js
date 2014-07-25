@@ -5,6 +5,19 @@ angular.module( 'instructor.courses', [
   'checklist-model'
 ])
 
+.filter('archived', function () {
+  return function (courses) {
+    var filtered = [];
+    for (var i = 0; i < courses.length; i++) {
+      var item = items[i];
+      if (item.archived) {
+        filtered.push(item);
+      }
+    }
+    return filtered;
+  };
+})
+
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state( 'courses', {
     url: '/classes',
@@ -26,6 +39,20 @@ angular.module( 'instructor.courses', [
         return CoursesService.getEnrollmentsWithStudents();
       }
     }
+  })
+  .state('archivedCourses', {
+    parent: 'courses',
+    url: '/archived',
+    views: {
+      'main': {
+        templateUrl: 'instructor/courses/courses.html',
+        controller: 'CoursesCtrl'
+      }
+    },
+    data: {
+      pageTitle: 'Archived Classes',
+      authorizedRoles: ['instructor']
+    },
   })
   .state( 'courseModal', {
     abstract: true,
@@ -222,15 +249,27 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ( $scope, $http, $log, courses, games, CoursesService) {
+  function ( $scope, $http, $log, $state, $timeout, courses, games, CoursesService) {
     $scope.courses = courses;
-    $log.info(courses);
-    $scope.showArchived = false;
+    $scope.showArchived = ($state.current.name == 'archivedCourses');
+
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
 
+
+    $scope.unarchiveCourse = function (course) {
+      CoursesService.unarchive(course)
+        .success(function(data, status, headers, config) {
+          return $timeout(function () {
+            $state.go('archivedCourses', {}, { reload: true });
+          }, 100);
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data);
+        });
+    };
 })
 
 .controller( 'NewCourseModalCtrl', function ( $scope, $rootScope, $state, $http, $log, games, CoursesService) {

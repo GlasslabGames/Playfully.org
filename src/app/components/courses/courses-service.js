@@ -30,10 +30,14 @@ angular.module('courses', [])
     archive: function (course) {
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
-      /* Turn the array of grades into a string for the API */
-      course.grade = course.grade.join(', ');
       course.archived = true;
-      $log.info(course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+
+    unarchive: function (course) {
+      /* Hack to create an `id` attribute so the API will be happy */
+      angular.forEach(course.games, function(game) { game.id = game.gameId; });
+      course.archived = false;
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
