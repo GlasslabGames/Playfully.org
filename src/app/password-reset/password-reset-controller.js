@@ -3,7 +3,7 @@ angular.module('playfully.password-reset', [])
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('passwordReset', {
-      url: 'forgot-password',
+      url: 'forgot-password?type',
       parent: 'modal',
       views: {
         'modal@': {
@@ -14,7 +14,7 @@ angular.module('playfully.password-reset', [])
       data:{ authorizedRoles: ['guest'] }
     })
     .state('gamePasswordReset', {
-      url: '/game/forgot-password',
+      url: '/game/forgot-password?type',
       parent: 'site',
       views: {
         'main@': {
@@ -46,8 +46,8 @@ angular.module('playfully.password-reset', [])
     });
 })
 
-.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state, AuthService) {
-  $log.info($state);
+.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state, $stateParams, AuthService) {
+  $scope.userType = $stateParams.type;
 
   $scope.formInfo = {
     isSubmitting: false,

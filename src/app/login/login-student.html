@@ -31,7 +31,11 @@
       <div class="form-group">
         <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
         <span class="small help-block">
-          <a ui-sref="passwordReset({type: 'student'})">Forgot your password?</a>
+          <a ui-sref="passwordReset({type: 'student'})"
+            ng-if="!hideWrapper">Forgot your password?</a> 
+          <a ui-sref="gamePasswordReset({type: 'student'})"
+            ng-if="hideWrapper"> 
+            Forgot your password?</a>
         </span>
       </div>
     </div>

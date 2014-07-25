@@ -26,8 +26,10 @@
       <div class="form-group">
         <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
         <span class="small help-block">
-          <a href="#" ng-click="state.go(hideWrapper ? 'gamePasswordReset' : 'passwordReset')">
-            <!--ui-sref="passwordReset"-->
+          <a ui-sref="passwordReset({type: 'instructor'})"
+            ng-if="!hideWrapper">Forgot your password?</a> 
+          <a ui-sref="gamePasswordReset({type: 'instructor'})"
+            ng-if="hideWrapper"> 
             Forgot your password?</a>
         </span>
       </div>
