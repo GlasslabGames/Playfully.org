@@ -13,8 +13,8 @@ angular.module('playfully.password-reset', [])
       },
       data:{ authorizedRoles: ['guest'] }
     })
-    .state('gamePasswordReset', {
-      url: '/game/forgot-password?type',
+    .state('sdkPasswordReset', {
+      url: '/sdk/forgot-password?type',
       parent: 'site',
       views: {
         'main@': {

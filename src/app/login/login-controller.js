@@ -13,8 +13,8 @@ angular.module('playfully.login', [])
       },
       data:{ authorizedRoles: ['guest'] }
     })
-    .state('gameLoginOptions', {
-      url: '/game/login',
+    .state('sdkLoginOptions', {
+      url: '/sdk/login',
       parent: 'site',
       data: { hideWrapper: true },
       views: {
@@ -37,8 +37,8 @@ angular.module('playfully.login', [])
       },
       data:{ authorizedRoles: ['guest'] }
     })
-    .state('gameLoginInstructor', {
-      url: '/game/login/instructor',
+    .state('sdkLoginInstructor', {
+      url: '/sdk/login/instructor',
       parent: 'site',
       data: { hideWrapper: true },
       views: {
@@ -63,8 +63,8 @@ angular.module('playfully.login', [])
       },
       data:{ authorizedRoles: ['guest'] }
     })
-    .state('gameLoginStudent', {
-      url: '/game/login/student',
+    .state('sdkLoginStudent', {
+      url: '/sdk/login/student',
       parent: 'site',
       data: { hideWrapper: true },
       views: {

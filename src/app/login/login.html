@@ -3,7 +3,7 @@
   <h3 class="modal-title">Sign In</h3>
 </div>
 
-<div ng-class="{'modal-body': !hideWrapper, 'game-container': hideWrapper}">
+<div ng-class="{'modal-body': !hideWrapper, 'sdk-container': hideWrapper}">
 
   <div class="login-group login-group--l">
 
@@ -49,7 +49,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--instructor"
-        ng-click="state.go(hideWrapper ? 'gameLoginInstructor' : 'loginInstructor')">
+        ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--placeholder"></div>
@@ -63,7 +63,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--student"
-        ng-click="state.go(hideWrapper ? 'gameLoginStudent' : 'loginStudent')">
+        ng-click="state.go(hideWrapper ? 'sdkLoginStudent' : 'loginStudent')">
         <!-- ui-sref="loginStudent" -->
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
@@ -79,7 +79,9 @@
 
   <div class="text-center small clearfix">
     Don&rsquo;t have an account?
-    <a ui-sref="registerOptions">Create an account</a>
+    <a href="#"
+      ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">
+        Create an account</a>
   </div>
 </div>
 

@@ -1,4 +1,4 @@
-<div ng-class="{'game-container': hideWrapper}">
+<div ng-class="{'sdk-container': hideWrapper}">
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
@@ -28,7 +28,7 @@
         <span class="small help-block">
           <a ui-sref="passwordReset({type: 'instructor'})"
             ng-if="!hideWrapper">Forgot your password?</a> 
-          <a ui-sref="gamePasswordReset({type: 'instructor'})"
+          <a ui-sref="sdkPasswordReset({type: 'instructor'})"
             ng-if="hideWrapper"> 
             Forgot your password?</a>
         </span>
