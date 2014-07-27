@@ -112,7 +112,26 @@ angular.module( 'instructor.courses', [
       }
     },
     data: {
-      pageTitle: 'Archive Course',
+      pageTitle: 'Archive Class',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    }
+  })
+  .state( 'unarchiveCourse', {
+    parent: 'courseModal',
+    url: '/:id/unarchive',
+    views: {
+      'modal@': {
+        controller: 'UpdateCourseModalCtrl',
+        templateUrl: 'instructor/courses/archive-course.html'
+      }
+    },
+    data: {
+      pageTitle: 'Unarchive Class',
       authorizedRoles: ['instructor']
     },
     resolve: {
@@ -342,9 +361,13 @@ angular.module( 'instructor.courses', [
       gradeNumbersArray.push(parseInt(gradeString));
     });
     course.grade = angular.copy(gradeNumbersArray);
-    $log.info(course);
     $scope.course = course;
+  }
 
+  if ($state.current.name.indexOf('unarchive') > -1) {
+    $scope.updateType = 'unarchive';
+  } else if ($state.current.name.indexOf('archive') > -1) {
+    $scope.updateType = 'archive';
   }
 
   var finishSuccessfulAction = function() {
@@ -356,6 +379,16 @@ angular.module( 'instructor.courses', [
 
   $scope.archiveCourse = function (courseData) {
     CoursesService.archive(courseData)
+      .success(function(data, status, headers, config) {
+        finishSuccessfulAction();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
+  $scope.unarchiveCourse = function (courseData) {
+    CoursesService.unarchive(courseData)
       .success(function(data, status, headers, config) {
         finishSuccessfulAction();
       })

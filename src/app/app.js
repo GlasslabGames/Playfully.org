@@ -31,6 +31,12 @@ angular.module( 'playfully', [
         return Authorization.authorize();
       }]
   })
+  .state( 'sdk', {
+    abstract: true,
+    parent: 'site',
+    url: 'sdk',
+    controller: 'SdkInitCtrl',
+  })
   .state( 'modal', {
     abstract: true,
     parent: 'home',
@@ -94,6 +100,21 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
+})
+
+.controller('SdkInitCtrl', function($scope, $location, $cookies) {
+  var search = $location.search();
+
+  // if cookie, set cookie
+  if( search.cookie && search.cookie.length > 0) {
+      $cookies['connect.sid'] = search.cookie;
+  }
+
+  // if redirect, set location path
+  if( search.redirect && search.redirect.length > 0) {
+      $location.search({});
+      $location.path(search.redirect);
+  }
 })
 
 

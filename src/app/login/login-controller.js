@@ -78,7 +78,8 @@ angular.module('playfully.login', [])
     });
 })
 
-.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log, $state, THIRD_PARTY_AUTH) {
+.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
+  $log.info($location.search());
   $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
   $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
