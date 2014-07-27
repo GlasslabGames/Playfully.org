@@ -37,7 +37,7 @@ angular.module( 'instructor.profile', [])
   });
 })
 
-.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $log, user, UserService ) {
+.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $log, $timeout, user, UserService ) {
 
   user.name = user.firstName + ' ' + user.lastName;
   $scope.user = user;

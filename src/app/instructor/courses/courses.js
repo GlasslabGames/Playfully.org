@@ -264,6 +264,44 @@ angular.module( 'instructor.courses', [
           });
       }
     }
+  })
+  .state('lockMissions', {
+    parent: 'courseModal',
+    url: '/:courseId/games/:gameId/lock', // course and game?
+    views: {
+      'modal@': {
+        controller: 'LockMissionsModalCtrl',
+        templateUrl: 'instructor/courses/lock-missions.html'
+      }
+    },
+    data: {
+      pageTitle: 'Lock Missions',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.courseId);
+      }
+    }
+  })
+  .state('unlockMissions', {
+    parent: 'courseModal',
+    url: '/:courseId/games/:gameId/unlock', // course and game?
+    views: {
+      'modal@': {
+        controller: 'LockMissionsModalCtrl',
+        templateUrl: 'instructor/courses/lock-missions.html'
+      }
+    },
+    data: {
+      pageTitle: 'Unlock Missions',
+      authorizedRoles: ['instructor']
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.courseId);
+      }
+    }
   });
 })
 
@@ -276,6 +314,7 @@ angular.module( 'instructor.courses', [
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
+    $log.info($scope.courses);
 
 
     $scope.unarchiveCourse = function (course) {
@@ -495,6 +534,43 @@ angular.module( 'instructor.courses', [
       UserService.update(student)
         .success(function(data, status, headers, config) {
           $log.info(data);
+          $rootScope.modalInstance.close();
+          return $timeout(function () {
+            $state.go('courses', {}, { reload: true });
+          }, 100);
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data);
+        });
+    };
+
+})
+
+.controller('LockMissionsModalCtrl',
+  function($scope, $state, $stateParams, $rootScope, $timeout, $log, course, CoursesService) {
+
+    if($state.current.name.indexOf('unlock') > -1) {
+      $scope.actionType = 'unlock';
+    } else if ($state.current.name.indexOf('lock') > -1) {
+      $scope.actionType = 'lock';
+    }
+
+    $scope.course = course;
+    $scope.gameId = $stateParams.gameId;
+
+    $scope.toggleMissionsLock = function (course) {
+      angular.forEach(course.games, function(game) {
+        if (game.id == $scope.gameId) {
+          if ($scope.actionType == 'lock') {
+            game.settings.missionProgressLock = true;
+          } else if ($scope.actionType == 'unlock') {
+            game.settings.missionProgressLock = false;
+          }
+        }
+      });
+
+      CoursesService.updateGames(course)
+        .success(function(data, status, headers, config) {
           $rootScope.modalInstance.close();
           return $timeout(function () {
             $state.go('courses', {}, { reload: true });

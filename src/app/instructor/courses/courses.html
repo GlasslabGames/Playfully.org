@@ -59,10 +59,18 @@
               <div class="gl-course-game text-center"
                 ng-repeat="game in course.games"
                 ng-show="gamesInfo[game.id].enabled">
+
                 <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
-                  <div class="gl-course-game-lock"
-                    ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
-                    ng-show="game.settings.hasOwnProperty('missionProgressLock')"></div>
+                  <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
+                    <div class="gl-course-game-lock"
+                      ng-if="game.settings.missionProgressLock"
+                      ui-sref="unlockMissions({courseId: course.id, gameId: game.id})">
+                    </div>
+                    <div class="gl-course-game-lock gl-course-game-unlocked"
+                      ng-if="!game.settings.missionProgressLock"
+                      ui-sref="lockMissions({courseId: course.id, gameId: game.id})">
+                    </div>
+                  </div>
                 </div>
                 {{ gamesInfo[game.id].longName }} 
               </div>
