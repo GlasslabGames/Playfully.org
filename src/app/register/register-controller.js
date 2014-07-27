@@ -24,6 +24,7 @@ angular.module('playfully.register', [])
     views: { 'main@': registerOptionsConfig }
   });
 
+
   var registerInstructorConfig = {
     templateUrl: 'register/register-instructor.html',
     controller: 'RegisterInstructorCtrl'
@@ -39,7 +40,6 @@ angular.module('playfully.register', [])
     data: { hideWrapper: true },
     views: { 'main@': registerInstructorConfig }
   });
-
 
 
   var registerStudentConfig = {
@@ -71,7 +71,9 @@ angular.module('playfully.register', [])
   };
 }])
 
-.controller('RegisterOptionsModalCtrl', function ($scope) {
+.controller('RegisterOptionsModalCtrl', function ($scope, THIRD_PARTY_AUTH) {
+  $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+  $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
 })
 

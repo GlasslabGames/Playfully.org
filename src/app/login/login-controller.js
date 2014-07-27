@@ -1,85 +1,61 @@
 angular.module('playfully.login', [])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
-  $stateProvider
-    .state('loginOptions', {
-      url: 'login',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'login/login.html',
-          controller: 'LoginOptionsModalCtrl'
-        }
-      },
-      data:{ authorizedRoles: ['guest'] }
-    })
-    .state('sdkLoginOptions', {
-      url: '/sdk/login',
-      parent: 'site',
-      data: { hideWrapper: true },
-      views: {
-        'main@': {
-          templateUrl: 'login/login.html',
-          controller: 'LoginOptionsModalCtrl'
-        }
-      }
-    })
+  var loginOptionsConfig = {
+    templateUrl: 'login/login.html',
+    controller: 'LoginOptionsModalCtrl'
+  };
+  $stateProvider.state('loginOptions', {
+    url: 'login',
+    parent: 'modal',
+    views: { 'modal@': loginOptionsConfig },
+    data:{ authorizedRoles: ['guest'] }
+  })
+  .state('sdkLoginOptions', {
+    url: '/sdk/login',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': loginOptionsConfig },
+  });
 
 
-    .state('loginInstructor', {
-      url: 'login/instructor',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'login/login-instructor.html',
-          controller: 'LoginModalCtrl'
-        }
-      },
-      data:{ authorizedRoles: ['guest'] }
-    })
-    .state('sdkLoginInstructor', {
-      url: '/sdk/login/instructor',
-      parent: 'site',
-      data: { hideWrapper: true },
-      views: {
-        'main@': {
-          templateUrl: 'login/login-instructor.html',
-          controller: 'LoginModalCtrl'
-        }
-      }
-    })
+  var loginInstructorConfig = {
+    templateUrl: 'login/login-instructor.html',
+    controller: 'LoginModalCtrl'
+  };
+  $stateProvider.state('loginInstructor', {
+    url: 'login/instructor',
+    parent: 'modal',
+    views: { 'modal@': loginInstructorConfig },
+    data:{ authorizedRoles: ['guest'] }
+  })
+  .state('sdkLoginInstructor', {
+    url: '/sdk/login/instructor',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': loginInstructorConfig }
+  });
 
 
 
-
-    .state('loginStudent', {
+  var loginStudentConfig = {
+    templateUrl: 'login/login-student.html',
+    controller: 'LoginModalCtrl'
+  };
+  $stateProvider.state('loginStudent', {
       url: 'login/student',
       parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'login/login-student.html',
-          controller: 'LoginModalCtrl'
-        }
-      },
+      views: { 'modal@': loginStudentConfig },
       data:{ authorizedRoles: ['guest'] }
     })
     .state('sdkLoginStudent', {
       url: '/sdk/login/student',
       parent: 'site',
       data: { hideWrapper: true },
-      views: {
-        'main@': {
-          templateUrl: 'login/login-student.html',
-          controller: 'LoginModalCtrl'
-        }
-      }
-    })
+      views: { 'main@': loginStudentConfig },
+    });
 
-
-
-
-
-    .state('authEdmodo', {
+    $stateProvider.state('authEdmodo', {
       url: 'auth/edmodo',
       parent: 'modal',
       views: {
@@ -102,7 +78,9 @@ angular.module('playfully.login', [])
     });
 })
 
-.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log, $state) {
+.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $window, $log, $state, THIRD_PARTY_AUTH) {
+  $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+  $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
   $scope.logInWithEdmodo = function() {
     $log.info('logInWithEdmodo');

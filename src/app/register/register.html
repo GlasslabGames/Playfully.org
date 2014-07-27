@@ -9,6 +9,7 @@
   <div class="login-group login-group--l">
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--edmodo"
+        ng-disabled="isEdmodoActive==false"
         onclick="window.location.href='/auth/edmodo/login'"
         popover-title="Edmodo Login"
         popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
@@ -24,12 +25,9 @@
       </button>
     </div>
 
-    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <div class="login-option">
       <button class="login-button login-button--icivics"
-        onclick="window.location.href='/auth/edmodo/login'"
-        popover-title="iCivics Login"
-        popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-        popover-trigger="mouseenter" popover-placement="bottom">
+        ng-disabled="isiCivicsActive==false">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--placeholder"></div>

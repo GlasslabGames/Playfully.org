@@ -77,29 +77,32 @@
 
 .login-button--edmodo {
   background-color: @edmodoBlue;
+  .media-img { border-right: 1px solid darken(@edmodoBlue, 15%); }
+  .media-bd { border-left: 1px solid lighten(@edmodoBlue, 20%); }
 }
 
-.login-button--edmodo .media-img {
-  border-right: 1px solid darken(@edmodoBlue, 15%); 
-}
-
-.login-button--edmodo .media-bd {
-  border-left: 1px solid lighten(@edmodoBlue, 20%);
+.login-button--edmodo:disabled {
+  background-color: lighten(@edmodoBlue, 20%);
+  .media-img { border-right: 1px solid darken(lighten(@edmodoBlue, 20%), 5%); }
+  .media-bd { border-left: 1px solid lighten(lighten(@edmodoBlue, 20%), 10%); }
 }
 
 /* iCivics */
 
 .login-button--icivics {
   background-color: @grey4;
+  .media-img { border-right: 1px solid darken(@grey4, 15%); }
+  .media-bd { border-left: 1px solid lighten(@grey4, 20%); }
 }
 
-.login-button--icivics .media-img {
-  border-right: 1px solid darken(@grey4, 15%); 
+.login-button--icivics:disabled {
+  background-color: @grey5;
+  color: @grey7;
+  .media-img { border-right: 1px solid darken(@grey5, 5%); }
+  .media-bd { border-left: 1px solid lighten(@grey5, 10%); }
 }
 
-.login-button--icivics .media-bd {
-  border-left: 1px solid lighten(@grey4, 20%);
-}
+
 
 /* Instructor */
 
