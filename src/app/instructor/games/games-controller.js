@@ -28,7 +28,8 @@ angular.module( 'instructor.games', [
       }
     },
     data: {
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor'],
+      pageTitle: 'Game Detail'
     }
 
   });
@@ -36,12 +37,13 @@ angular.module( 'instructor.games', [
 
 
 .controller( 'GameDetailCtrl',
-  function($scope, $stateParams, $log, games, gameDetails) {
+  function($scope, $state, $stateParams, $log, games, gameDetails) {
     angular.forEach(games, function(game) {
       if (game.gameId == $stateParams.gameId) {
         $scope.game = game;
       }
     });
+    $state.current.data.pageTitle = $scope.game.longName;
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [

@@ -65,6 +65,22 @@ angular.module('playfully.login', [])
         }
       }
     })
+    .state('passwordPrompt', {
+      url: '/sdk/login/confirm',
+      parent: 'site',
+      data: { hideWrapper: true },
+      views: {
+        'main@': {
+          templateUrl: 'login/password-prompt.html',
+          controller: 'LoginConfirmCtrl'
+        }
+      },
+      resolve: {
+        currentUser: function(UserService) {
+          return UserService.currentUser();
+        }
+      }
+    })
     .state('logout', {
       parent: 'site',
       url: '/logout',
@@ -111,6 +127,37 @@ angular.module('playfully.login', [])
       });
 
   };
+})
+
+.controller('LoginConfirmCtrl',
+  function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
+    if (!currentUser) {
+      $state.transitionTo('sdkLoginOptions');
+    } else {
+      $scope.credentials = {
+        username: currentUser.username,
+        password: null
+      };
+    }
+
+    $scope.login = function ( credentials ) {
+      $scope.authError = null;
+      AuthService.logout()
+        .then(function() {
+          AuthService.login(credentials).then(function(result) {
+            $log.info(result);
+            if ($state.current.data.hideWrapper) {
+              $window.location.search = 'action=CLOSE';
+            } else {
+              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+            }
+          }, function(result) {
+            $log.error(result);
+            $scope.authError = result.data.error;
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+          });
+        });
+    };
 })
 
 .controller('LoginEdmodoCtrl', function ($scope, $rootScope, $window, $log, UserService, AUTH_EVENTS) {
