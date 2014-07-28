@@ -139,10 +139,6 @@ angular.module( 'playfully', [
       }
   });
 
-  // $scope.$on('modal.show', function(event, modalConfig) {
-  //   $scope._modalInstance = $modal.open(modalConfig);
-  // });
-
   $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
     $scope.currentUser = user;
     if ($rootScope.modalInstance) {

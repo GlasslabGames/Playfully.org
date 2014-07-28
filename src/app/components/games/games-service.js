@@ -27,6 +27,17 @@ angular.module('games', [])
         });
     },
 
+    getDetail: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId)
+        .then(function (response) {
+          $log.info(response);
+          return response.data;
+        }, function (response) {
+          $log.error(response);
+          return response;
+        });
+    },
+
     all: function (type) {
       var url = '/dash/games';
       if (type == 'min') { url += '/minimal'; }
