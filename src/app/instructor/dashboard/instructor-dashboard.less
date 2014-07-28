@@ -21,3 +21,100 @@
   border-radius: 8px;
   background-color: @yellow;
 }
+
+
+.gl-course-list-item {
+  padding: 10px;
+  display: block;
+  font-size: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  text-overflow: ellipsis;
+  text-overflow: "…";
+}
+
+.gl-course-list-item:link,
+.gl-course-list-item:visited {
+  color: @grey1;
+}
+
+.gl-course-list-item--selected,
+.gl-course-progress-container {
+  background: white;
+  border: 1px solid @grey6;
+}
+
+.gl-course-list-item--selected {
+  border-right: none;
+  .border-radiuses(0, 0, 5px, 5px);
+}
+
+
+.icon-shoutout--large,
+.icon-watchout--large {
+  margin-left: auto;
+  margin-right: auto;
+  width: 94px;
+  height: 94px;
+}
+
+.icon-shoutout--large {
+  .image-2x('icon-shoutout-large.png', 94px, 94px);
+}
+
+.icon-watchout--large {
+  .image-2x('icon-watchout-large.png', 94px, 94px);
+}
+
+
+.icon-shoutout--small,
+.icon-watchout--small {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.icon-shoutout--small {
+  .image-2x('icon-shoutout-small.png', 32px, 32px);
+}
+
+.icon-watchout--small {
+  .image-2x('icon-watchout-small.png', 32px, 32px);
+}
+
+.gl-dashboard-student-name {
+  display: inline-block;
+  min-width: 110px;
+}
+
+.gl-dashboard-student-heading {
+  background: @grey7;
+  .border-radiuses(5px, 0, 0, 5px);
+  padding: 8px 10px 6px;
+}
+
+.gl-dashboard-student-divider {
+  height: 4px;
+  background: @aquaBlue;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+
+.gl-dashboard-student {
+  padding: 8px 20px;
+  margin-bottom: 6px;
+  font-size: 18px;
+  color: @grey3;
+}
+
+.gl-dashboard-student--even {
+  background: @grey7;
+}
+
+.gl-dashboard-student--odd {
+  background: @aquaBlueLightest;
+}
