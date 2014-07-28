@@ -46,33 +46,36 @@ angular.module('playfully.password-reset', [])
     });
 })
 
-.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state, $stateParams, AuthService) {
-  $scope.userType = $stateParams.type;
+.controller('PasswordResetModalCtrl',
+  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService) {
+    $scope.userType = $stateParams.type;
 
-  $scope.formInfo = {
-    isSubmitting: false,
-    isResetEmailSent: false,
-    errors: []
-  };
+    $scope.formInfo = {
+      isSubmitting: false,
+      isResetEmailSent: false,
+      errors: []
+    };
 
-  $scope.resetPassword = function ( formInfo ) {
-    $scope.formInfo.isSubmitting = true;
+    $scope.resetPassword = function ( formInfo ) {
+      $scope.formInfo.isSubmitting = true;
 
-    $scope.formInfo.errors = [];
-    AuthService.sendPasswordResetLink(formInfo.email)
-      .success(function(data, status, headers, config) {
-        $log.info(data);
-        $scope.formInfo.isResetEmailSent = true;
-      })
-      .error(function(data, status, headers, config) {
-        $log.error(data); 
-        $scope.formInfo.errors.push(data.error);
-        $scope.formInfo.isSubmitting = false;
-      });
+      $scope.formInfo.errors = [];
+      AuthService.sendPasswordResetLink(formInfo.email)
+        .success(function(data, status, headers, config) {
+          $log.info(data);
+          $scope.formInfo.isResetEmailSent = true;
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data); 
+          $scope.formInfo.errors.push(data.error);
+          $scope.formInfo.isSubmitting = false;
+        });
 
-  };
-  
+    };
 
+    $scope.closeSdkWindow = function() {
+      $window.location.search = 'action=CLOSE';
+    };
 })
 
 .controller('PasswordUpdateModalCtrl', function ($scope, $log, $rootScope, $stateParams, AuthService, confirmation) {

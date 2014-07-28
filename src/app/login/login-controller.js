@@ -21,7 +21,7 @@ angular.module('playfully.login', [])
 
   var loginInstructorConfig = {
     templateUrl: 'login/login-instructor.html',
-    controller: 'LoginModalCtrl'
+    controller: 'LoginCtrl'
   };
   $stateProvider.state('loginInstructor', {
     url: 'login/instructor',
@@ -40,7 +40,7 @@ angular.module('playfully.login', [])
 
   var loginStudentConfig = {
     templateUrl: 'login/login-student.html',
-    controller: 'LoginModalCtrl'
+    controller: 'LoginCtrl'
   };
   $stateProvider.state('loginStudent', {
       url: 'login/student',
@@ -90,20 +90,25 @@ angular.module('playfully.login', [])
 
 })
 
-.controller('LoginModalCtrl', function ($scope, $rootScope, $log, AuthService, AUTH_EVENTS) {
-  $scope.credentials = { username: '', password: '' };
-  $scope.authError = null;
-
-  $scope.login = function ( credentials ) {
+.controller('LoginCtrl',
+  function ($scope, $rootScope, $log, $state, $window, AuthService, AUTH_EVENTS) {
+    $scope.credentials = { username: '', password: '' };
     $scope.authError = null;
 
-    AuthService.login(credentials).then(function(result) {
-      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
-    }, function(result) {
-      $log.error(result);
-      $scope.authError = result.data.error;
-      $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-    });
+    $scope.login = function ( credentials ) {
+      $scope.authError = null;
+
+      AuthService.login(credentials).then(function(result) {
+        if ($state.current.data.hideWrapper) {
+          $window.location.search = 'action=CLOSE';
+        } else {
+          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+        }
+      }, function(result) {
+        $log.error(result);
+        $scope.authError = result.data.error;
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+      });
 
   };
 })

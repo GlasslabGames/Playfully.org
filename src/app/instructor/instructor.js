@@ -3,4 +3,5 @@ angular.module( 'playfully.instructor', [
   'instructor.tour',
   'instructor.courses',
   'instructor.profile',
+  'instructor.games',
 ]);
