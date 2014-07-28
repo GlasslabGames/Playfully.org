@@ -20,7 +20,10 @@ angular.module( 'instructor.games', [
       }
     },
     resolve: {
-      game: function($stateParams, GamesService) {
+      games: function(GamesService) {
+        return GamesService.all();
+      },
+      gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
       }
     },
@@ -32,15 +35,20 @@ angular.module( 'instructor.games', [
 })
 
 
-.controller( 'GameDetailCtrl', function($scope, $log, game) {
-  $scope.game = game;
-  $log.info(game);
+.controller( 'GameDetailCtrl',
+  function($scope, $stateParams, $log, games, gameDetails) {
+    angular.forEach(games, function(game) {
+      if (game.gameId == $stateParams.gameId) {
+        $scope.game = game;
+      }
+    });
+    $scope.gameDetails = gameDetails;
 
-  $scope.navItems = [
-    { title: 'Product Description' },
-    { title: 'Standards Alignment' },
-    { title: 'Lesson Plans & Videos' },
-    { title: 'Research' },
-    { title: 'Reviews' }
-  ];
+    $scope.navItems = [
+      { title: 'Product Description' },
+      { title: 'Standards Alignment' },
+      { title: 'Lesson Plans & Videos' },
+      { title: 'Research' },
+      { title: 'Reviews' }
+    ];
 });
