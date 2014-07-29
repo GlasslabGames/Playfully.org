@@ -9,8 +9,12 @@ angular.module('playfully.login', [])
     url: 'login',
     parent: 'modal',
     views: { 'modal@': loginOptionsConfig },
-    data:{ authorizedRoles: ['guest'] }
-  })
+    data:{ authorizedRoles: ['guest'] },
+    onEnter: function($state, $log, ipCookie) {
+      if (ipCookie('inSDK')) {
+        ipCookie.remove('inSDK');
+    }
+  }})
   .state('sdkLoginOptions', {
     url: '/sdk/login',
     parent: 'site',
@@ -59,10 +63,17 @@ angular.module('playfully.login', [])
       templateUrl: 'login/login-edmodo.html',
       controller: 'LoginEdmodoCtrl'
     };
+    var edmodoResolve = {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      },
+      enrollments: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    };
     $stateProvider.state('edmodo', {
       url: '/auth/edmodo',
       onEnter: function($state, $log, ipCookie) {
-        $log.info("Hey");
         if (ipCookie('inSDK')) {
           $state.go('sdkAuthEdmodo');
         } else {
@@ -75,22 +86,14 @@ angular.module('playfully.login', [])
       parent: 'modal',
       data: { authorizedRoles: ['student', 'instructor'] },
       views: { 'modal@': authEdmodoConfig },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
-      }
+      resolve: edmodoResolve
     })
     .state('sdkAuthEdmodo', {
       url: '/sdk/auth/edmodo',
       parent: 'site',
       data: { authorizedRoles: ['student', 'instructor'], hideWrapper: true },
       views: { 'main@': authEdmodoConfig },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
-      }
+      resolve: edmodoResolve
     });
 
     $stateProvider.state('passwordPrompt', {
@@ -197,8 +200,15 @@ angular.module('playfully.login', [])
 })
 
 .controller('LoginEdmodoCtrl',
-  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, AUTH_EVENTS) {
-    $scope.user = null;
+  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, enrollments, AUTH_EVENTS) {
+
+    $scope.user = currentUser;
+
+    // If the student is already enrolled, just finish the login
+    // process. (Otherwise we will ask for a class code.
+    if (currentUser.role == 'student' && enrollments.length > 0) {
+      $scope.finishLogin();
+    }
 
     $scope.logInWithEdmodo = function() {
       $log.info('logInWithEdmodo');
@@ -212,21 +222,6 @@ angular.module('playfully.login', [])
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
       }
     };
-
-
-    if (currentUser) {
-      $scope.user = currentUser;
-    }
-
-    // UserService.currentUser()
-    //   .then(function(user) {
-    //     $log.info(user);
-        // if (user !== null) {
-        //   $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
-        // } else {
-        //   $scope.authError = 'Unable to login with Edmodo';
-        // }
-      // });
 
 });
 
