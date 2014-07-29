@@ -1,6 +1,7 @@
 angular.module( 'playfully', [
   // 'http-auth-interceptor',
   'ngCookies',
+  'ipCookie',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
@@ -107,9 +108,12 @@ angular.module( 'playfully', [
   };
 })
 
-.run(function($rootScope, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
+.run(function($rootScope, ipCookie, $log, $state, $urlRouter, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
   $rootScope.$on('$stateChangeStart', function(event, next) {
     if (next.name !== 'logout') {
+      if (next && next.url && next.url.indexOf('sdk') > -1) {
+        ipCookie('inSDK', 'true', { path: '/' });
+      }
       $rootScope.toState = next;
       Authorization.authorize();
     }

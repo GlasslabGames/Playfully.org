@@ -3,7 +3,7 @@ angular.module('playfully.login', [])
 .config(function config( $stateProvider, $urlRouterProvider ) {
   var loginOptionsConfig = {
     templateUrl: 'login/login.html',
-    controller: 'LoginOptionsModalCtrl'
+    controller: 'LoginOptionsCtrl'
   };
   $stateProvider.state('loginOptions', {
     url: 'login',
@@ -55,20 +55,48 @@ angular.module('playfully.login', [])
       views: { 'main@': loginStudentConfig },
     });
 
-    $stateProvider.state('authEdmodo', {
-      url: 'auth/edmodo',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'login/login-edmodo.html',
-          controller: 'LoginEdmodoCtrl'
+    var authEdmodoConfig = {
+      templateUrl: 'login/login-edmodo.html',
+      controller: 'LoginEdmodoCtrl'
+    };
+    $stateProvider.state('edmodo', {
+      url: '/auth/edmodo',
+      onEnter: function($state, $log, ipCookie) {
+        $log.info("Hey");
+        if (ipCookie('inSDK')) {
+          $state.go('sdkAuthEdmodo');
+        } else {
+          $state.go('authEdmodo');
         }
       }
     })
-    .state('passwordPrompt', {
+    .state('authEdmodo', {
+      url: '/auth/edmodo/finish',
+      parent: 'modal',
+      data: { authorizedRoles: ['student', 'instructor'] },
+      views: { 'modal@': authEdmodoConfig },
+      resolve: {
+        currentUser: function(UserService) {
+          return UserService.currentUser();
+        }
+      }
+    })
+    .state('sdkAuthEdmodo', {
+      url: '/sdk/auth/edmodo',
+      parent: 'site',
+      data: { authorizedRoles: ['student', 'instructor'], hideWrapper: true },
+      views: { 'main@': authEdmodoConfig },
+      resolve: {
+        currentUser: function(UserService) {
+          return UserService.currentUser();
+        }
+      }
+    });
+
+    $stateProvider.state('passwordPrompt', {
       url: '/sdk/login/confirm',
       parent: 'site',
-      data: { hideWrapper: true },
+      data: { hideWrapper: true, authorizedRoles: ['all'] },
       views: {
         'main@': {
           templateUrl: 'login/password-prompt.html',
@@ -91,18 +119,26 @@ angular.module('playfully.login', [])
           });
         }
       }
+    })
+    .state('sdkLogout', {
+      parent: 'site',
+      url: '/sdk/logout',
+      onEnter: function($state, AuthService) {
+        AuthService.logout().then(function() {
+          $state.transitionTo('sdkLoginOptions');
+        });
+      }
     });
 })
 
-.controller('LoginOptionsModalCtrl', function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
-  $log.info($location.search());
-  $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
-  $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
+.controller('LoginOptionsCtrl',
+  function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
+    $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+    $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
-  $scope.logInWithEdmodo = function() {
-    $log.info('logInWithEdmodo');
-    $window.location.href = '/auth/edmodo/login';
-  };
+    $scope.logInWithEdmodo = function() {
+      $window.location.href = '/auth/edmodo/login';
+    };
 
 })
 
@@ -160,21 +196,37 @@ angular.module('playfully.login', [])
     };
 })
 
-.controller('LoginEdmodoCtrl', function ($scope, $rootScope, $window, $log, UserService, AUTH_EVENTS) {
+.controller('LoginEdmodoCtrl',
+  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, AUTH_EVENTS) {
+    $scope.user = null;
 
-  $scope.logInWithEdmodo = function() {
-    $log.info('logInWithEdmodo');
-    $window.location.href = '/auth/edmodo/login';
-  };
+    $scope.logInWithEdmodo = function() {
+      $log.info('logInWithEdmodo');
+      $window.location.href = '/auth/edmodo/login';
+    };
 
-  UserService.currentUser()
-    .then(function(user) {
-      if (user !== null) {
-        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+    $scope.finishLogin = function() {
+      if ($state.current.data.hideWrapper) {
+        $window.location.search = 'action=CLOSE';
       } else {
-        $scope.authError = 'Unable to login with Edmodo';
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
       }
-    });
+    };
+
+
+    if (currentUser) {
+      $scope.user = currentUser;
+    }
+
+    // UserService.currentUser()
+    //   .then(function(user) {
+    //     $log.info(user);
+        // if (user !== null) {
+        //   $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+        // } else {
+        //   $scope.authError = 'Unable to login with Edmodo';
+        // }
+      // });
 
 });
 

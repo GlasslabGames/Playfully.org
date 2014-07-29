@@ -1,33 +1,106 @@
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <h3 class="modal-title">Login with Edmodo</h3>
-</div>
+<div ng-class="{'sdk-container': hideWrapper}">
 
-<div class="modal-body">
-
-  <alert ng-show="authError" type="danger"><strong>Error:</strong> {{authError}}</alert>
-
-  <p>
-    Something went wrong while trying to log you in with your Edmodo account.
-    Please try again:
-  </p>
-
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--edmodo"
-      ng-click="logInWithEdmodo()"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
-        </div>
-        <div class="media-bd">
-          Log in with <stronge>Edmodo</strong>
-        </div>
-      </div>
-    </button>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
+      ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title" ng-if="!user">Login with Edmodo</h3>
+    <h3 class="modal-title" ng-if="user && user.role == 'student'">Almost Done!</h3>
+    <h3 class="modal-title" ng-if="user && user.role == 'instructor'">Welcome!</h3>
   </div>
 
-</div>
+  <div class="modal-body">
 
+    <div ng-if="!user">
+      <alert ng-show="authError" type="danger"><strong>Error:</strong> {{authError}}</alert>
+
+      <p>
+        Something went wrong while trying to log you in with your Edmodo account.
+        Please try again:
+      </p>
+
+      <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+        <button class="login-button login-button--edmodo"
+          ng-click="logInWithEdmodo()"
+          popover-title="Edmodo Login"
+          popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
+          popover-trigger="mouseenter" popover-placement="bottom">
+          <div class="media media--collapsed">
+            <div class="media-img media-img--collapsed">
+              <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+            </div>
+            <div class="media-bd">
+              Log in with <stronge>Edmodo</strong>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div ng-if="user && user.role == 'student'">
+      <p>
+        Hi there! Please enter your class code to complete registration.
+      </p>
+
+      <alert ng-repeat="error in verification.errors" ng-show="verification.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
+
+      <form name="verifyForm" novalidate class="reg-form"
+        ng-submit="verify(verification)">
+
+        <div class="form-group" ng-class="{'has-error': verifyForm.code.$dirty && verifyForm.code.$invalid}">
+          <input type="text" name="code" class="form-control"
+            placeholder="Classcode"
+            required
+            autocomplete="off"
+            autosuggest="off"
+            autofocus="autofocus"
+            ng-model="verification.code"
+            ng-minlength="5">
+            &nbsp;<span class="fa fa-question-circle"
+              popover-placement="top"
+              popover="If you don't have a classcode, ask your teacher for one"></span>
+            <div class="form-errors">
+              <div class="form-error" ng-show="verifyForm.code.$dirty && verifyForm.code.$invalid">
+                Classcode must be at least 5 characters
+              </div>
+            </div>
+        </div>
+        <p class="text-center small help-block">
+          p.s. If you don't have a registration code, you would
+          not have the full access to the site.
+        </p>
+
+        <div class="text-center reg-submit">
+          <input type="submit" class="btn gl-btn--blue" value="Submit"
+          ng-disabled="enrollForm.$invalid">
+
+          <button type="button" class="btn gl-btn--grey" ng-click="finishLogin()">Enter Next Time</button>
+        </div>
+      </form>
+    
+    </div>
+
+    <div ng-if="user && user.role == 'instructor'">
+      <div class="text-center">
+        Thank you for signing up with Playfully!
+        Your account is created.
+      </div>
+
+      <div>
+        Read before your start
+        <p>
+          This feature is currently designed to help those of us who are
+          hopeless in keeping up with our passwords. Your Edmodo student
+          groups, assignments, and other activity will not appear in
+          Playfully. Don't be bummed; we're working on deeper Edmodo
+          integration for future versions of Playfully.
+        </p>
+      </div>
+
+      <div class="text-center">
+        <button type="button" class="btn gl-btn--blue" ng-click="finishLogin()">Okay</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

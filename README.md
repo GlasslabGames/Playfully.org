@@ -70,3 +70,14 @@ disable foreign keys first:
 SET FOREIGN_KEY_CHECKS=0; -- to disable them
 DELETE FROM GL_USER WHERE LOGIN_TYPE = 'edmodo';
 SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
+
+
+
+joe+edmodo.teacher@instituteofplay.org
+test
+
+joeedmodostudent
+test
+code to register for class: vuebgk
+
+
