@@ -61,10 +61,10 @@ angular.module('user', [])
         data: regInfo,
         params: {cb: new Date().getTime()}
       });
-      
     }
   };
 
   return api;
 
 });
+

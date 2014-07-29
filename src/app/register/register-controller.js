@@ -7,37 +7,56 @@ angular.module('playfully.register', [])
 })
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
-  $stateProvider
-    .state('registerOptions', {
-      url: 'register',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'register/register.html',
-          controller: 'RegisterOptionsModalCtrl'
-        }
-      }
-    })
-    .state('registerInstructor', {
-      url: 'register/instructor',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'register/register-instructor.html',
-          controller: 'RegisterInstructorCtrl'
-        }
-      }
-    })
-    .state('registerStudent', {
-      url: 'register/student',
-      parent: 'modal',
-      views: {
-        'modal@': {
-          templateUrl: 'register/register-student.html',
-          controller: 'RegisterStudentModalCtrl'
-        }
-      }
-    });
+
+  var registerOptionsConfig = {
+    templateUrl: 'register/register.html',
+    controller: 'RegisterOptionsModalCtrl'
+  };
+  $stateProvider.state('registerOptions', {
+    url: 'register',
+    parent: 'modal',
+    views: { 'modal@': registerOptionsConfig }
+  })
+  .state('sdkRegisterOptions', {
+    url: '/sdk/register',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['guest'] },
+    views: { 'main@': registerOptionsConfig }
+  });
+
+
+  var registerInstructorConfig = {
+    templateUrl: 'register/register-instructor.html',
+    controller: 'RegisterInstructorCtrl'
+  };
+  $stateProvider.state('registerInstructor', {
+    url: 'register/instructor',
+    parent: 'modal',
+    views: { 'modal@': registerInstructorConfig }
+  })
+  .state('sdkRegisterInstructor', {
+    url: '/sdk/register/instructor',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': registerInstructorConfig }
+  });
+
+
+  var registerStudentConfig = {
+    templateUrl: 'register/register-student.html',
+    controller: 'RegisterStudentModalCtrl'
+  };
+  $stateProvider.state('registerStudent', {
+    url: 'register/student',
+    parent: 'modal',
+    views: { 'modal@': registerStudentConfig } 
+  })
+  .state('sdkRegisterStudent', {
+    url: '/sdk/register/student',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': registerStudentConfig }
+  });
 })
 
 .directive('pwConfirm', [function () {
@@ -52,7 +71,9 @@ angular.module('playfully.register', [])
   };
 }])
 
-.controller('RegisterOptionsModalCtrl', function ($scope) {
+.controller('RegisterOptionsModalCtrl', function ($scope, THIRD_PARTY_AUTH) {
+  $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+  $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
 })
 
@@ -77,8 +98,8 @@ angular.module('playfully.register', [])
 
       $scope.register = function( account ) {
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
-          firstName = account.firstName.substr(0, str.indexOf(' '));
-          $scope.account.lastName = account.firstName.substr(str.indexOf(' ')+1);
+          firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
+          $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
           $scope.account.firstName = firstName;
         }
         UserService.register(account)

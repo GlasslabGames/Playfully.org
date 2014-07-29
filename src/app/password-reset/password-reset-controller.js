@@ -3,15 +3,30 @@ angular.module('playfully.password-reset', [])
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('passwordReset', {
-      url: 'forgot-password',
+      url: 'forgot-password?type',
       parent: 'modal',
       views: {
         'modal@': {
           templateUrl: 'password-reset/password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
-      }
+      },
+      data:{ authorizedRoles: ['guest'] }
     })
+    .state('sdkPasswordReset', {
+      url: '/sdk/forgot-password?type',
+      parent: 'site',
+      views: {
+        'main@': {
+          templateUrl: 'password-reset/password-reset.html',
+          controller: 'PasswordResetModalCtrl'
+        }
+      },
+      data:{ authorizedRoles: ['guest'], hideWrapper: true }
+    })
+
+
+
     .state('passwordUpdate', {
       url: 'reset-password/:hashCode',
       parent: 'modal',
@@ -31,32 +46,36 @@ angular.module('playfully.password-reset', [])
     });
 })
 
-.controller('PasswordResetModalCtrl', function ($scope, $log, $rootScope, $state,AuthService) {
+.controller('PasswordResetModalCtrl',
+  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService) {
+    $scope.userType = $stateParams.type;
 
-  $scope.formInfo = {
-    isSubmitting: false,
-    isResetEmailSent: false,
-    errors: []
-  };
+    $scope.formInfo = {
+      isSubmitting: false,
+      isResetEmailSent: false,
+      errors: []
+    };
 
-  $scope.resetPassword = function ( formInfo ) {
-    $scope.formInfo.isSubmitting = true;
+    $scope.resetPassword = function ( formInfo ) {
+      $scope.formInfo.isSubmitting = true;
 
-    $scope.formInfo.errors = [];
-    AuthService.sendPasswordResetLink(formInfo.email)
-      .success(function(data, status, headers, config) {
-        $log.info(data);
-        $scope.formInfo.isResetEmailSent = true;
-      })
-      .error(function(data, status, headers, config) {
-        $log.error(data); 
-        $scope.formInfo.errors.push(data.error);
-        $scope.formInfo.isSubmitting = false;
-      });
+      $scope.formInfo.errors = [];
+      AuthService.sendPasswordResetLink(formInfo.email)
+        .success(function(data, status, headers, config) {
+          $log.info(data);
+          $scope.formInfo.isResetEmailSent = true;
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data); 
+          $scope.formInfo.errors.push(data.error);
+          $scope.formInfo.isSubmitting = false;
+        });
 
-  };
-  
+    };
 
+    $scope.closeSdkWindow = function() {
+      $window.location.search = 'action=CLOSE';
+    };
 })
 
 .controller('PasswordUpdateModalCtrl', function ($scope, $log, $rootScope, $stateParams, AuthService, confirmation) {

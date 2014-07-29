@@ -1,6 +1,7 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <h3 class="modal-title">Archive Class?</h3>
+  <h3 class="modal-title" ng-if="updateType == 'archive'">Archive Class?</h3>
+  <h3 class="modal-title" ng-if="updateType == 'unarchive'">Unarchive Class?</h3>
 </div>
 
 <div class="modal-body">
@@ -9,13 +10,18 @@
   <form name="archiveCourseForm" id="archiveCourseForm" novalidate
     class="gl-courses-form"
     ng-show="course"
-    ng-submit="archiveCourse(course)">
+    ng-submit="(updateType == 'archive') ? archiveCourse(course) : unarchiveCourse(course)">
 
     <p class="text-center" ng-bind="course.title">
     </p>
 
-    <p class="text-center">
+    <p class="text-center" ng-if="updateType == 'archive'">
     Students will no longer be able to log in to this class. All reporting for this class will be frozen, but existing reports will remain accessible from the 'Archived Classes' list.
+    </p>
+
+    <p class="text-center" ng-if="updateType == 'unarchive'">
+      Students will be able to log in to this class again. All reporting for this
+      class will be reactivated.
     </p>
 
       <div class="text-center gl-courses-submit">

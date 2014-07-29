@@ -59,3 +59,44 @@ input:focus ~ .form-errors {
 .gl-form-input--short {
   max-width: 116px;
 }
+
+.gl-form-subhead {
+   border-top: 1px solid @grey6;
+   text-align: center;
+   margin-top: 30px;
+   position: relative;
+}
+
+.gl-form-subhead > span {
+  background: white;
+  display: inline-block;
+  padding-left: 25px;
+  padding-right: 25px;
+  position: relative;
+  top: -10px;
+}
+
+.gl-input-row--tinted {
+  .border-radius(4px);
+  background-color: @grey7;
+  .gl-input-group {
+    padding-left: 10px;
+  }
+}
+
+.reg-submit--nomargin {
+  margin: 0;
+}
+
+.sdk-container .gl-form-input--med {
+  max-width: 144px;
+}
+.sdk-container .gl-form-input--short {
+  max-width: 94px;
+}
+
+.sdk-inline {
+  text-align: center;
+  .form-group { display: inline-block; min-width: 45%;}
+  .reg-submit { display: inline-block; }
+}

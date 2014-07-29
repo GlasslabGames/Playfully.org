@@ -1,6 +1,7 @@
 angular.module( 'playfully', [
   // 'http-auth-interceptor',
   'ngCookies',
+  'ipCookie',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
@@ -30,6 +31,26 @@ angular.module( 'playfully', [
     resolve: ['Authorization', function(Authorization) {
         return Authorization.authorize();
       }]
+  })
+  .state( 'sdk', {
+    url: '/sdk',
+    onEnter: function($log, $location, $cookies) {
+      $log.info('SDK!!!');
+      var search = $location.search();
+
+      // if cookie, set cookie
+      if( search.cookie && search.cookie.length > 0) {
+        $log.info(search.cookie);
+        $cookies['connect.sid'] = search.cookie;
+      }
+
+      // if redirect, set location path
+      if( search.redirect && search.redirect.length > 0) {
+        $log.info(search.redirect);
+        $location.search({});
+        $location.path(search.redirect);
+      }
+    }
   })
   .state( 'modal', {
     abstract: true,
@@ -87,19 +108,22 @@ angular.module( 'playfully', [
   };
 })
 
-.run(function($rootScope, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
+.run(function($rootScope, ipCookie, $log, $state, $urlRouter, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
   $rootScope.$on('$stateChangeStart', function(event, next) {
     if (next.name !== 'logout') {
+      if (next && next.url && next.url.indexOf('sdk') > -1) {
+        ipCookie('inSDK', 'true', { path: '/' });
+      }
       $rootScope.toState = next;
       Authorization.authorize();
     }
   });
 })
 
-
 .controller('AppCtrl', function($scope, $rootScope, $state, $log, $modal, $cookies,
       UserService, AuthService, AUTH_EVENTS) {
 
+  $rootScope.state = $state;
   $scope.currentUser = null;
   $scope.isAuthenticated = UserService.isAuthenticated;
   $scope.isAuthorized = AuthService.isAuthorized;
@@ -111,11 +135,11 @@ angular.module( 'playfully', [
       if ( hasPageTitle ) {
         $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
       }
+      if ( angular.isDefined(toState.data) && angular.isDefined(toState.data.hideWrapper)) {
+        $scope.hideWrapper = toState.data.hideWrapper;
+        console.log($scope.hideWrapper);
+      }
   });
-
-  // $scope.$on('modal.show', function(event, modalConfig) {
-  //   $scope._modalInstance = $modal.open(modalConfig);
-  // });
 
   $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
     $scope.currentUser = user;

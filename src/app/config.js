@@ -12,6 +12,11 @@ angular.module('playfully.config', [])
   userRetrieved: 'auth:user-retrieved'
 })
 
+.constant('THIRD_PARTY_AUTH', {
+  edmodo: true,
+  icivics: false
+})
+
 .constant('USER_ROLES', {
   all: '*',
   student: 'student',

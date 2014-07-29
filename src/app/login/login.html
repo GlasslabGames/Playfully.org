@@ -1,77 +1,84 @@
-<div class="modal-header">
+<div class="modal-header" ng-if="!hideWrapper">
   <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
   <h3 class="modal-title">Sign In</h3>
 </div>
 
-<div class="modal-body">
+<div ng-class="{'modal-body': !hideWrapper, 'sdk-container': hideWrapper}">
 
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--edmodo"
-      ng-click="logInWithEdmodo()"
-      popover-title="Edmodo Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
-        </div>
-        <div class="media-bd">
-          Log in with <strong>Edmodo</strong>
-        </div>
-      </div>
-    </button>
-  </div>
+  <div class="login-group login-group--l">
 
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--icivics"
-      onclick="window.location.href='/auth/edmodo/login'"
-      popover-title="iCivics Login"
-      popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in ArgubotAcademy!"
-      popover-trigger="mouseenter" popover-placement="bottom">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--edmodo"
+        ng-click="logInWithEdmodo()"
+        popover-title="Edmodo Login"
+        popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
+        popover-trigger="mouseenter" popover-placement="bottom">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+          </div>
+          <div class="media-bd">
+            Log in with <strong>Edmodo</strong>
+          </div>
         </div>
-        <div class="media-bd">
-          Log in with <strong>iCivics</strong>
+      </button>
+    </div>
+
+    <div class="login-option">
+      <button class="login-button login-button--icivics" 
+        ng-disabled="isiCivicsActive==false">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Log in with <strong>iCivics</strong>
+          </div>
         </div>
-      </div>
-    </button>
+      </button>
+    </div>
+
   </div>
 
   <hr class="login-divider--or" />
 
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--instructor"
-      ui-sref="loginInstructor">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
+  <div class="login-group login-group--r">
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--instructor"
+        ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Teacher/Parent Sign In
+          </div>
         </div>
-        <div class="media-bd">
-          Teacher/Parent Sign In
+      </button>
+    </div>
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--student"
+        ng-click="state.go(hideWrapper ? 'sdkLoginStudent' : 'loginStudent')">
+        <!-- ui-sref="loginStudent" -->
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--placeholder"></div>
+          </div>
+          <div class="media-bd">
+            Student Sign In
+          </div>
         </div>
-      </div>
-    </button>
+      </button>
+    </div>
   </div>
 
-  <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-    <button class="login-button login-button--student"
-      ui-sref="loginStudent">
-      <div class="media media--collapsed">
-        <div class="media-img media-img--collapsed">
-          <div class="login-icon--placeholder"></div>
-        </div>
-        <div class="media-bd">
-          Student Sign In
-        </div>
-      </div>
-    </button>
-  </div>
-
-  <div class="text-center small">
+  <div class="text-center small clearfix">
     Don&rsquo;t have an account?
-    <a ui-sref="registerOptions">Create an account</a>
+    <a href="#"
+      ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">
+        Create an account</a>
   </div>
 </div>
 

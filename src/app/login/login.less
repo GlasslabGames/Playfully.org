@@ -77,55 +77,92 @@
 
 .login-button--edmodo {
   background-color: @edmodoBlue;
+  .media-img { border-right: 1px solid darken(@edmodoBlue, 15%); }
+  .media-bd { border-left: 1px solid lighten(@edmodoBlue, 20%); }
 }
 
-.login-button--edmodo .media-img {
-  border-right: 1px solid darken(@edmodoBlue, 15%); 
-}
-
-.login-button--edmodo .media-bd {
-  border-left: 1px solid lighten(@edmodoBlue, 20%);
+.login-button--edmodo:disabled {
+  background-color: lighten(@edmodoBlue, 20%);
+  .media-img { border-right: 1px solid darken(lighten(@edmodoBlue, 20%), 5%); }
+  .media-bd { border-left: 1px solid lighten(lighten(@edmodoBlue, 20%), 10%); }
 }
 
 /* iCivics */
 
 .login-button--icivics {
   background-color: @grey4;
+  .media-img { border-right: 1px solid darken(@grey4, 15%); }
+  .media-bd { border-left: 1px solid lighten(@grey4, 20%); }
 }
 
-.login-button--icivics .media-img {
-  border-right: 1px solid darken(@grey4, 15%); 
+.login-button--icivics:disabled {
+  background-color: @grey5;
+  color: @grey7;
+  .media-img { border-right: 1px solid darken(@grey5, 5%); }
+  .media-bd { border-left: 1px solid lighten(@grey5, 10%); }
 }
 
-.login-button--icivics .media-bd {
-  border-left: 1px solid lighten(@grey4, 20%);
-}
+
 
 /* Instructor */
 
 .login-button--instructor {
   background-color: @aquaBlue;
+  .media-img { border-right: 1px solid darken(@aquaBlue, 15%); }
+  .media-bd { border-left: 1px solid lighten(@aquaBlue, 20%); }
 }
 
-.login-button--instructor .media-img {
-  border-right: 1px solid darken(@aquaBlue, 15%); 
+.login-button--instructor:disabled {
+  background-color: lighten(@aquaBlue, 20%);
+  color: lighten(@aquaBlue, 90%);
+  .media-img { border-right: 1px solid darken(lighten(@aquaBlue, 20%), 5%); }
+  .media-bd { border-left: 1px solid lighten(lighten(@aquaBlue, 20%), 10%); }
 }
 
-.login-button--instructor .media-bd {
-  border-left: 1px solid lighten(@aquaBlue, 20%);
-}
 
 /* Student */
 
 .login-button--student {
   background-color: @grassGreen;
+  .media-img { border-right: 1px solid darken(@grassGreen, 20%); }
+  .media-bd { border-left: 1px solid lighten(@grassGreen, 20%); }
 }
 
-.login-button--student .media-img {
-  border-right: 1px solid darken(@grassGreen, 20%); 
-}
 
-.login-button--student .media-bd {
-  border-left: 1px solid lighten(@grassGreen, 20%);
-}
 
+
+.sdk-container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .login-group {
+    float: left;
+    width: 280px;
+    padding-top: 20px;
+  }
+
+  .login-group--l { text-align: right; }
+  .login-group--r { text-align: left; }
+
+  .login-divider--or {
+    float: left;
+    width: 40px;
+    height: 100px;
+    border: 0;
+    .image-2x('login-divider-or-v.png', 40px, 100px);
+  }
+
+  .gl-input-group {
+    float: left;
+    width: 48%;
+    margin-left: 4%;
+  }
+  .gl-input-group:first-child {
+    margin-left: 0;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+}
