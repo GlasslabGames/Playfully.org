@@ -9,7 +9,6 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--edmodo"
-        ng-disabled="isEdmodoActive==false"
         ng-click="logInWithEdmodo()"
         popover-title="Edmodo Login"
         popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
@@ -47,8 +46,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--instructor"
-        ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')"
-        ng-disabled="hideWrapper">
+        ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--placeholder"></div>

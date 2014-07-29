@@ -6,7 +6,8 @@
 <div ng-class="{'modal-body': !hideWrapper, 'sdk-container': hideWrapper}">
 
 
-  <div class="login-group login-group--l">
+  <div class="login-group login-group--l"
+    ng-class="{'sdk-reg': hideWrapper}">
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--edmodo"
         ng-disabled="isEdmodoActive==false"
@@ -25,7 +26,7 @@
       </button>
     </div>
 
-    <div class="login-option">
+    <div class="login-option" ng-if="!hideWrapper">
       <button class="login-button login-button--icivics"
         ng-disabled="isiCivicsActive==false">
         <div class="media media--collapsed">
@@ -43,9 +44,10 @@
   <hr class="login-divider--or" />
 
 
-  <div class="login-group login-group--r">
+  <div class="login-group login-group--r"
+    ng-class="{'sdk-reg': hideWrapper}">
 
-    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+    <div class="login-option" ng-if="!hideWrapper">
       <button class="login-button login-button--instructor"
         ng-click="state.go(hideWrapper ? 'sdkRegisterInstructor' : 'registerInstructor')">
         <div class="media media--collapsed">
