@@ -59,9 +59,6 @@ angular.module( 'student.dashboard', [
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });
-  $log.info('DashboardStudentCtrl');
-  $log.info($scope.gamesInfo);
-  $log.info(courses);
 })
 
 .controller( 'EnrollInCourseModalCtrl',

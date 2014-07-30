@@ -200,7 +200,7 @@ angular.module('playfully.login', [])
 })
 
 .controller('LoginEdmodoCtrl',
-  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, enrollments, AUTH_EVENTS) {
+  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, enrollments, AUTH_EVENTS, CoursesService, $timeout) {
 
     $scope.user = currentUser;
 
@@ -213,6 +213,28 @@ angular.module('playfully.login', [])
     $scope.logInWithEdmodo = function() {
       $log.info('logInWithEdmodo');
       $window.location.href = '/auth/edmodo/login';
+    };
+
+    $scope.verification = {
+      code: null,
+      errors: []
+    };
+
+    $scope.verify = function(verification) {
+      $log.info(verification);
+      // Need to just enroll the student
+      $scope.verification.errors = [];
+      CoursesService.enroll(verification.code)
+        .success(function(data, status, headers, config) {
+          if ($state.current.data.hideWrapper) {
+            $window.location.search = 'action=CLOSE';
+          } else {
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
+          }
+        })
+        .error(function(data, status, headers, config) {
+          $scope.verification.errors.push(data.error);
+        });
     };
 
     $scope.finishLogin = function() {
