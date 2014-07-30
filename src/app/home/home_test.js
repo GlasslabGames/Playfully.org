@@ -1,22 +1,32 @@
-/**
- * Tests sit right alongside the file they are testing, which is more intuitive
- * and portable than separating `src` and `test` directories. Additionally, the
- * build process will exclude all `.spec.js` files from the build
- * automatically.
- */
 describe('HomeCtrl', function() {
-  beforeEach(inject(function($injector) {
-    $location = $injector.get('$location');
-    $rootScope = $injector.get('$rootScope');
-    $scope = $rootScope.$new();
 
-    var $controller = $injector.get('$controller');
+  var scope, rootScope, $state, $location, createController, AUTH_EVENTS;
+
+  beforeEach(function() {
+    module('playfully');
+  });
+
+  beforeEach(inject(function ($rootScope, $controller, _$state_, _$location_, $httpBackend) {
+    $state = _$state_;
+    $location = _$location_;
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
+    $httpBackend.whenGET('/assets/i18n/locale-en.json').respond({ });
+    $httpBackend.expectGET('/assets/i18n/locale-en.json');
+    $httpBackend.whenGET('/api/v2/auth/user/profile').respond({ });
+    $httpBackend.expectGET('/api/v2/auth/user/profile');
 
     createController = function() {
       return $controller('HomeCtrl', {
-        '$scope': $scope
+        '$scope': scope
       });
     };
-
+    $httpBackend.flush();
   }));
+
+  it('should serve the page at the root of the site', function() {
+    var controller = createController();
+    $state.go('home');
+    expect($location.path()).toBe('/');
+  });
 });

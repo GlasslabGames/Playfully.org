@@ -51,7 +51,11 @@ angular.module('user', [])
     update: function (user) {
       user.userId = user.id;
       $log.info(user);
-      return $http.post(API_BASE + '/auth/user/' + user.id, user);
+      result = $http.post(API_BASE + '/auth/user/' + user.id, user);
+      result.success(function(data) {
+        _currentUser = data;
+      });
+      return result;
     },
 
     register: function(regInfo) {

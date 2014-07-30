@@ -36,5 +36,14 @@ describe( 'AppCtrl', function() {
     expect(rootScope.modalInstance.close).toHaveBeenCalled();
   });
 
+  it('should clear the currentUser on successful logout', function() {
+    var controller = createController();
+    $location.path('/');
+    rootScope.$broadcast(AUTH_EVENTS.loginSuccess, { username: 'testuser'});
+    expect(scope.currentUser).not.toBeNull();
+    rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+    expect(scope.currentUser).toBeNull();
+  });
+
 });
 

@@ -1,9 +1,9 @@
-angular.module( 'instructor.profile', [])
+angular.module( 'playfully.profile', [])
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'profileModal', {
     abstract: true,
-    parent: 'instructorDashboard',
+    parent: 'home',
     url: '',
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
@@ -12,7 +12,7 @@ angular.module( 'instructor.profile', [])
       });
 
       $rootScope.modalInstance.result.finally(function() {
-        $state.go('instructorDashboard');
+        $state.go('home');
       });
     }
   })
@@ -22,12 +22,12 @@ angular.module( 'instructor.profile', [])
     views: {
       'modal@': {
         controller: 'EditProfileModalCtrl',
-        templateUrl: 'instructor/profile/profile-edit.html'
+        templateUrl: 'profile/profile-edit.html'
       }
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor', 'student']
     },
     resolve: {
       user: function(UserService) {
@@ -37,12 +37,12 @@ angular.module( 'instructor.profile', [])
   });
 })
 
-.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $log, $timeout, user, UserService ) {
+.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService ) {
 
-  user.name = user.firstName + ' ' + user.lastName;
-  $scope.user = user;
-
-  $log.info($scope.user);
+  if (user.role == 'instructor') {
+    user.name = user.firstName + ' ' + user.lastName;
+  }
+  $scope.user = angular.copy(user);
 
   $scope.updateProfile = function(user) {
     if (user.name && user.name.indexOf(' ') > -1) {
@@ -54,7 +54,7 @@ angular.module( 'instructor.profile', [])
       .success(function(data, status, headers, config) {
         $rootScope.modalInstance.close();
         return $timeout(function () {
-          $state.go('home', {}, { reload: true });
+          $state.go(user.role + 'Dashboard', {}, { reload: true });
         }, 100);
       })
       .error(function(data, status, headers, config) {
@@ -62,7 +62,3 @@ angular.module( 'instructor.profile', [])
       });
   };
 });
-
-
-
-

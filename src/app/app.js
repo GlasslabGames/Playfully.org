@@ -14,8 +14,9 @@ angular.module( 'playfully', [
   'playfully.home',
   'playfully.instructor',
   'playfully.student',
-  'playfully.login',
   'playfully.register',
+  'playfully.login',
+  'playfully.profile',
   'playfully.password-reset',
   'playfully.support'
 ])
@@ -134,9 +135,9 @@ angular.module( 'playfully', [
         if ( hasPageTitle ) {
           $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
         }
-        if ( angular.isDefined(toState.data) && angular.isDefined(toState.data.hideWrapper)) {
+        if (angular.isDefined(toState.data) &&
+          angular.isDefined(toState.data.hideWrapper)) {
           $scope.hideWrapper = toState.data.hideWrapper;
-          console.log($scope.hideWrapper);
         }
     });
 
