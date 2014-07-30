@@ -1,7 +1,7 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
   <h3 class="modal-title" ng-if="updateType == 'archive'">Archive Class?</h3>
-  <h3 class="modal-title" ng-if="updateType == 'unarchive'">Unarchive Class?</h3>
+  <h3 class="modal-title" ng-if="updateType == 'unarchive'">Reactivate Class?</h3>
 </div>
 
 <div class="modal-body">
@@ -20,8 +20,8 @@
     </p>
 
     <p class="text-center" ng-if="updateType == 'unarchive'">
-      Students will be able to log in to this class again. All reporting for this
-      class will be reactivated.
+      This class will be reactivated. Students will regain access to the class
+      and all data and reports will be unfrozen.
     </p>
 
       <div class="text-center gl-courses-submit">

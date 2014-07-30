@@ -306,8 +306,10 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ( $scope, $http, $log, $state, $timeout, courses, games, CoursesService) {
+  function ( $scope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
     $scope.courses = courses;
+    $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
+    $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
     $scope.showArchived = ($state.current.name == 'archivedCourses');
 
     $scope.gamesInfo = {};
