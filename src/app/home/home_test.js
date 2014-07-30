@@ -20,12 +20,3 @@ describe('HomeCtrl', function() {
 
   }));
 });
-// describe( 'home section', function() {
-//   beforeEach( module( 'playfully.home' ) );
-// 
-//   it( 'should have a dummy test', inject( function() {
-//     expect( true ).toBeTruthy();
-//   }));
-// });
-// 
-// 
