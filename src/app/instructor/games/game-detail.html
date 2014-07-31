@@ -21,7 +21,7 @@
       <ul class="gl-games-subnav">
         <li class="gl-games-subnav-item"
           ng-repeat="navItem in navItems">
-          <a href="#" 
+          <a ng-click="goToGameSubpage(navItem)"
             class="gl-games-subnav-link"
             ng-class="{'gl-games-subnav-link--active': navItem.isActive}"
             ng-bind="navItem.title"></a>
