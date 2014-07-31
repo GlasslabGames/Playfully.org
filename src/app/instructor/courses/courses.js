@@ -76,7 +76,7 @@ angular.module( 'instructor.courses', [
 
   .state( 'courseModal', {
     abstract: true,
-    parent: 'courses',
+    parent: 'courses.active',
     url: '',
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
@@ -435,7 +435,7 @@ angular.module( 'instructor.courses', [
   var finishSuccessfulAction = function() {
     $rootScope.modalInstance.close();
     return $timeout(function () {
-      $state.go('courses', {}, { reload: true });
+      $state.go('courses.active', {}, { reload: true });
     }, 100);
   };
 

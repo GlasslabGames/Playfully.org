@@ -11,7 +11,7 @@
 
 <div class="gl-courses-container">
   <div class="container">
-    <div ng-show="state.current.name == 'course.active'">
+    <div ng-show="state.current.name == 'courses.active'">
       <hr class="rule--blue" />
       <div class="gl-courses-add gl-courses-add--blue" ui-sref="newCourse">
         <div class="bu-add-circle bu-add-circle--blue"></div>
@@ -22,6 +22,7 @@
       <div ng-hide="courses.length" class="gl-courses--blank text-center">
         You do not have any classes yet
       </div>
+
       <div ng-show="courses.length && activeCourses.length == 0" class="gl-courses--blank text-center">
         You do not have any active classes
       </div>
