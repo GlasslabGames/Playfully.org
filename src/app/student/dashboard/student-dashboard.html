@@ -13,6 +13,10 @@
     <hr class="rule rule--green" />
 
 
+  <div ng-hide="courses.length" class="gl-courses--blank text-center">
+    You do not have any classes yet
+  </div>
+
   <div class="course" ng-repeat="course in courses">
     <div class="course-name course-col"
       ng-class-odd="'gl-bg--gray'" ng-class-even="'gl-bg--ltgreen'">
