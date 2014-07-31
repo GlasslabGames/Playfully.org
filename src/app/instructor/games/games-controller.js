@@ -47,7 +47,7 @@ angular.module( 'instructor.games', [
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [
-      { title: 'Product Description' },
+      { title: 'Product Description', isActive: true },
       { title: 'Standards Alignment' },
       { title: 'Lesson Plans & Videos' },
       { title: 'Research' },

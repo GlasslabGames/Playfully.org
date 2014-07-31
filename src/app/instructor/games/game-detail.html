@@ -17,18 +17,59 @@
   </div>
 
   <div class="row">
-    <div class="col-md-3">
-      <ul>
-        <li ng-repeat="navItem in navItems">
-          <a href="#" ng-bind="navItem.title"></a>
+    <div class="col-md-3 col-border--right">
+      <ul class="gl-games-subnav">
+        <li class="gl-games-subnav-item"
+          ng-repeat="navItem in navItems">
+          <a href="#" 
+            class="gl-games-subnav-link"
+            ng-class="{'gl-games-subnav-link--active': navItem.isActive}"
+            ng-bind="navItem.title"></a>
         </li>
       </ul>
+
+      <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
+
+        <div ng-if="button.links">
+          <div class="btn-group gl-games-sidebar-btn" dropdown>
+            <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
+              ng-bind="button.name"></button>
+            <button type="button" class="btn gl-btn--blue dropdown-toggle">
+              <span class="caret"></span>
+              <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="link in button.links">
+                <a href="{{ link.link }}" ng-bind="link.name"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-if="button.link">
+          <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn"
+            ng-bind="button.name"></button>
+        </div>
+
+      </div>
     </div>
     <div class="col-md-9">
       <h2 class="headline-2">Product Description</h2>
-      Put your powers of persuasion to the ultimate test,
-      on a whole new planet!
+      <p ng-bind="gameDetails.pages.product.header"></p>
+
+      <h3 class="headline-4">About the Game</h3>
+      <p ng-bind-html="gameDetails.pages.product.about"></p>
+
+      <h3 class="headline-4">How It Fits the Curriculum</h3>
+      <ul>
+        <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
+          ng-bind="curriculumItem"></li>
+      </ul>
     </div>
+  </div>
+
+  <div class="gl-margin-Vxl">
+    &nbsp;
   </div>
 
 </div>

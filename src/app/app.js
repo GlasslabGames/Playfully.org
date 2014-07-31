@@ -1,5 +1,6 @@
 angular.module( 'playfully', [
   'ngCookies',
+  'ngSanitize',
   'ipCookie',
   'templates-app',
   'templates-common',
