@@ -48,10 +48,101 @@
   color: @aquaBlue;
 }
 
+.gl-games-sidebar-btn,
+.gl-games-sidebar-btn .gl-games-btn-trigger {
+  text-align: left;
+}
+
 .gl-games-sidebar-btn {
   min-width: 160px;
 }
 
+
+.gl-game-details {
+  .row .col-md-4:first-child {
+    //padding-left: 0;
+  }
+}
+
+.gl-icon-social {
+  display: inline-block;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: @aquaBlue;
+  .border-radius(4px);
+  .image-2x('sprite-icons-social.png', 20px, 100px);
+}
+
+.gl-icon-social--facebook {
+  background-position: 0 0;
+}
+
+.gl-icon-social--twitter {
+  background-position: 0 -40px;
+}
+
+.gl-icon-social--google {
+  background-position: 0 -80px;
+}
+
+.gl-icon-game {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 4px;
+  .image-2x('sprite-icons-game.png', 28px, 220px);
+}
+
+.gl-icon-game--price {
+  background-position: 0 0;
+}
+
+.gl-icon-game--type {
+  background-position: 0 -80px;
+}
+            
+.gl-icon-game--subject {
+  background-position: 0 -160px;
+}
+            
+.gl-icon-game--releaseDate {
+  background-position: 0 -40px;
+}
+            
+.gl-icon-game--platform {
+  background-position: 0 -120px;
+}
+
+.gl-icon-game--grades {
+  background-position: 0 -200px;
+}
+
+
+
+
+
 .btn-group .gl-games-btn-trigger {
   min-width: 134px;
+}
+
+.gl-games-slideshow-container {
+  .glyphicon {
+    font-family: FontAwesome;
+  }
+  .glyphicon-chevron-right:before {
+    content: "\f061";
+  }
+  .glyphicon-chevron-left:before {
+    content: "\f060";
+  }
+  .carousel img {
+    width: auto; 
+  }
+}
+
+.gl-games-slideshow-slide {
+  max-width: 100%;
+  height: auto;
 }
