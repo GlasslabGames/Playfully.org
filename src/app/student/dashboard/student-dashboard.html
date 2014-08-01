@@ -1,15 +1,21 @@
 <div class="container gl-home-student-intro">
   <div class="text-center">
-    <h1>Welcome back to your class!</h1>
+    &nbsp;
+    <h1 class="headline-1">Welcome back to your class!</h1>
+    &nbsp;
   </div>
 
-    <hr class="rule--green" />
+    <hr class="rule rule--green" />
     <div class="gl-courses-add gl-courses-add--green" ui-sref="enrollInCourse">
       <div class="bu-add-circle bu-add-circle--green"></div>
       Add a Class Code
     </div>
-    <hr class="rule--green" />
+    <hr class="rule rule--green" />
 
+
+  <div ng-hide="courses.length" class="gl-courses--blank text-center">
+    You do not have any classes yet
+  </div>
 
   <div class="course" ng-repeat="course in courses">
     <div class="course-name course-col"

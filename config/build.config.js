@@ -62,6 +62,7 @@ module.exports = {
       'vendor/angular/angular.js',
       'vendor/angular-cookies/angular-cookies.js',
       'vendor/angular-cookie/angular-cookie.js',
+      'vendor/angular-sanitize/angular-sanitize.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',

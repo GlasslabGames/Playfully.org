@@ -4,7 +4,7 @@ describe('Auth', function() {
 
   beforeEach(function() {
     module('auth', function($provide) {
-      $provide.constant('API_BASE', '/api/v2');  
+      $provide.constant('API_BASE', '/api/v2');
     });
     module('session');
     module('user');

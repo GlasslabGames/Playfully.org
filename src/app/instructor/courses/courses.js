@@ -21,15 +21,12 @@ angular.module( 'instructor.courses', [
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state( 'courses', {
     url: '/classes',
+    abstract: true,
     views: {
       'main': {
         templateUrl: 'instructor/courses/courses.html',
         controller: 'CoursesCtrl'
       }
-    },
-    data: {
-      pageTitle: 'Classes',
-      authorizedRoles: ['instructor']
     },
     resolve: {
       games: function(GamesService) {
@@ -40,23 +37,46 @@ angular.module( 'instructor.courses', [
       }
     }
   })
-  .state('archivedCourses', {
-    parent: 'courses',
-    url: '/archived',
-    views: {
-      'main': {
-        templateUrl: 'instructor/courses/courses.html',
-        controller: 'CoursesCtrl'
-      }
-    },
+  //   url: '/classes',
+  //   views: {
+  //     'main': {
+  //       templateUrl: 'instructor/courses/courses.html',
+  //       controller: 'CoursesCtrl'
+  //     }
+  //   },
+  //   data: {
+  //     pageTitle: 'Classes',
+  //     showArchived: false,
+  //     authorizedRoles: ['instructor']
+  //   },
+  //   resolve: {
+  //     games: function(GamesService) {
+  //       return GamesService.all();
+  //     },
+  //     courses: function(CoursesService) {
+  //       return CoursesService.getEnrollmentsWithStudents();
+  //     }
+  //   }
+  // })
+  .state('courses.active', {
+    url: '',
     data: {
-      pageTitle: 'Archived Classes',
+      pageTitle: 'Classes',
       authorizedRoles: ['instructor']
     },
   })
+  .state('courses.archived', {
+    url: '/archived',
+    data: {
+      pageTitle: 'Archived Classes',
+      showArchived: true,
+      authorizedRoles: ['instructor']
+    },
+  })
+
   .state( 'courseModal', {
     abstract: true,
-    parent: 'courses',
+    parent: 'courses.active',
     url: '',
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
@@ -306,9 +326,12 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ( $scope, $http, $log, $state, $timeout, courses, games, CoursesService) {
+  function ( $scope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
+    $log.info('CoursesCtrl');
     $scope.courses = courses;
-    $scope.showArchived = ($state.current.name == 'archivedCourses');
+    $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
+    $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
+    $scope.showArchived = $state.current.data.showArchived;
 
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
@@ -412,7 +435,7 @@ angular.module( 'instructor.courses', [
   var finishSuccessfulAction = function() {
     $rootScope.modalInstance.close();
     return $timeout(function () {
-      $state.go('courses', {}, { reload: true });
+      $state.go('courses.active', {}, { reload: true });
     }, 100);
   };
 

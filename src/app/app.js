@@ -1,6 +1,6 @@
 angular.module( 'playfully', [
-  // 'http-auth-interceptor',
   'ngCookies',
+  'ngSanitize',
   'ipCookie',
   'templates-app',
   'templates-common',
@@ -15,8 +15,9 @@ angular.module( 'playfully', [
   'playfully.home',
   'playfully.instructor',
   'playfully.student',
-  'playfully.login',
   'playfully.register',
+  'playfully.login',
+  'playfully.profile',
   'playfully.password-reset',
   'playfully.support'
 ])
@@ -32,26 +33,25 @@ angular.module( 'playfully', [
         return Authorization.authorize();
       }]
   })
+
   .state( 'sdk', {
     url: '/sdk',
-    onEnter: function($log, $location, $cookies) {
-      $log.info('SDK!!!');
+    onEnter: function($log, $location, ipCookie) {
       var search = $location.search();
 
       // if cookie, set cookie
       if( search.cookie && search.cookie.length > 0) {
-        $log.info(search.cookie);
-        $cookies['connect.sid'] = search.cookie;
+        ipCookie('connect.sid', search.cookie, { path: '/' });
       }
 
       // if redirect, set location path
       if( search.redirect && search.redirect.length > 0) {
-        $log.info(search.redirect);
         $location.search({});
         $location.path(search.redirect);
       }
     }
   })
+
   .state( 'modal', {
     abstract: true,
     parent: 'home',
@@ -120,51 +120,52 @@ angular.module( 'playfully', [
   });
 })
 
-.controller('AppCtrl', function($scope, $rootScope, $state, $log, $modal, $cookies,
+.controller('AppCtrl',
+  function($scope, $rootScope, $state, $log, $modal, $cookies,
       UserService, AuthService, AUTH_EVENTS) {
 
-  $rootScope.state = $state;
-  $scope.currentUser = null;
-  $scope.isAuthenticated = UserService.isAuthenticated;
-  $scope.isAuthorized = AuthService.isAuthorized;
-
-  $scope.$on('$stateChangeSuccess',
-    function(event, toState, toParams, fromState, fromParams){
-      var hasPageTitle = (angular.isDefined(toState.data) &&
-        angular.isDefined(toState.data.pageTitle));
-      if ( hasPageTitle ) {
-        $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
-      }
-      if ( angular.isDefined(toState.data) && angular.isDefined(toState.data.hideWrapper)) {
-        $scope.hideWrapper = toState.data.hideWrapper;
-        console.log($scope.hideWrapper);
-      }
-  });
-
-  $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
-    $scope.currentUser = user;
-    if ($rootScope.modalInstance) {
-      $rootScope.modalInstance.close();
-    }
-    $state.go('home', {}, { reload: true });
-  });
-
-  $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
-    $scope.currentUser = user; 
-  });
-
-  $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
+    $rootScope.state = $state;
     $scope.currentUser = null;
-    $state.go('home', {}, { reload: true });
-  });
+    $scope.isAuthenticated = UserService.isAuthenticated;
+    $scope.isAuthorized = AuthService.isAuthorized;
 
-  $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-    $state.go('home');
-  });
+    $scope.$on('$stateChangeSuccess',
+      function(event, toState, toParams, fromState, fromParams){
+        var hasPageTitle = (angular.isDefined(toState.data) &&
+          angular.isDefined(toState.data.pageTitle));
+        if ( hasPageTitle ) {
+          $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
+        }
+        if (angular.isDefined(toState.data) &&
+          angular.isDefined(toState.data.hideWrapper)) {
+          $scope.hideWrapper = toState.data.hideWrapper;
+        }
+    });
 
-  $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-    $state.go('home');
-  });
+    $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
+      $scope.currentUser = user;
+      if ($rootScope.modalInstance) {
+        $rootScope.modalInstance.close();
+      }
+      $state.go('home', {}, { reload: true });
+    });
+
+    $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
+      $scope.currentUser = user;
+    });
+
+    $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
+      $scope.currentUser = null;
+      $state.go('home', {}, { reload: true });
+    });
+
+    $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
+      $state.go('home');
+    });
+
+    $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
+      $state.go('home');
+    });
 
 });
 

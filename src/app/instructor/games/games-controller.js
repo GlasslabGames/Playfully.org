@@ -47,10 +47,14 @@ angular.module( 'instructor.games', [
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [
-      { title: 'Product Description' },
-      { title: 'Standards Alignment' },
-      { title: 'Lesson Plans & Videos' },
-      { title: 'Research' },
-      { title: 'Reviews' }
+      { id: 'product', title: 'Product Description', isActive: true },
+      { id: 'standards', title: 'Standards Alignment' },
+      { id: 'lessonPlans', title: 'Lesson Plans & Videos' },
+      { id: 'research', title: 'Research' },
+      { id: 'reviews', title: 'Reviews' }
     ];
+
+    $scope.goToGameSubpage = function(dest) {
+      $log.info(dest);
+    };
 });

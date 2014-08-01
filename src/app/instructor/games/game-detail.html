@@ -17,18 +17,112 @@
   </div>
 
   <div class="row">
-    <div class="col-md-3">
-      <ul>
-        <li ng-repeat="navItem in navItems">
-          <a href="#" ng-bind="navItem.title"></a>
+    <div class="col-md-3 col-border--right">
+      <ul class="gl-games-subnav">
+        <li class="gl-games-subnav-item"
+          ng-repeat="navItem in navItems">
+          <a ng-click="goToGameSubpage(navItem)"
+            class="gl-games-subnav-link"
+            ng-class="{'gl-games-subnav-link--active': navItem.isActive}"
+            ng-bind="navItem.title"></a>
         </li>
       </ul>
+
+      <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
+
+        <div ng-if="button.links">
+          <div class="btn-group gl-games-sidebar-btn" dropdown>
+            <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
+              ng-bind="button.name"></button>
+            <button type="button" class="btn gl-btn--blue dropdown-toggle">
+              <span class="caret"></span>
+              <span class="sr-only"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="link in button.links">
+                <a href="{{ link.link }}" ng-bind="link.name"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div ng-if="button.link">
+          <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn"
+            ng-bind="button.name"></button>
+        </div>
+
+      </div>
+
+      <div>
+        <a ng-repeat="(name, url) in gameDetails.social"
+          href="{{ url }}"
+          class="gl-icon-social gl-icon-social--{{ name }}">
+        </a>
+      </div>
     </div>
     <div class="col-md-9">
       <h2 class="headline-2">Product Description</h2>
-      Put your powers of persuasion to the ultimate test,
-      on a whole new planet!
+      <p ng-bind="gameDetails.pages.product.header"></p>
+
+      <hr class="rule rule--blue" />
+      <div class="container-fluid gl-game-details">
+        <div class="row gl-margin--Bm">
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--price"></span>
+            Price: <span ng-bind="gameDetails.price"></span>
+          </div>
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--type"></span>
+            Type: <span ng-bind="gameDetails.type"></span>
+          </div>
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--subject"></span>
+            Subject: <span ng-bind="gameDetails.subject"></span>
+          </div>
+        </div> 
+        <div class="row">
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--releaseDate"></span>
+            Release: <span ng-bind="gameDetails.releaseDate"></span>
+          </div>
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--platform"></span>
+            Platform: <span ng-bind="gameDetails.platform"></span>
+          </div>
+          <div class="col-md-4">
+            <span class="gl-icon-game gl-icon-game--grades"></span>
+            Grade: <span ng-bind="gameDetails.grades"></span>
+          </div>
+
+        </div> 
+      </div>
+
+      <hr class="rule rule--blue" />
+
+      <h3 class="headline-4">About the Game</h3>
+      <p ng-bind-html="gameDetails.pages.product.about"></p>
+
+      <h3 class="headline-4">How It Fits the Curriculum</h3>
+      <ul>
+        <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
+          ng-bind="curriculumItem"></li>
+      </ul>
+
+      <div class="gl-games-slideshow-container">
+        &nbsp;
+        <carousel interval="myInterval">
+          <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
+            <img
+              ng-src="{{slide.url}}" style="margin:auto;">
+          </slide>
+        </carousel>
+      </div>
+
     </div>
+  </div>
+
+  <div class="gl-margin-Vxl">
+    &nbsp;
   </div>
 
 </div>

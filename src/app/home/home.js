@@ -19,7 +19,7 @@ angular.module( 'playfully.home', [
 })
 
 .controller( 'HomeCtrl', function ( $scope, $log, Session) {
-  
+
 
 });
 
