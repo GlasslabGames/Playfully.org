@@ -155,7 +155,7 @@ angular.module('playfully.login', [])
 
       AuthService.login(credentials).then(function(result) {
         if ($state.current.data.hideWrapper) {
-          $window.location.search = 'action=CLOSE';
+          $window.location.search = 'action=SUCCESS&id='+result.data.id;
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
@@ -186,7 +186,7 @@ angular.module('playfully.login', [])
           AuthService.login(credentials).then(function(result) {
             $log.info(result);
             if ($state.current.data.hideWrapper) {
-              $window.location.search = 'action=CLOSE';
+              $window.location.search = 'action=SUCCESS&id='+result.data.id;
             } else {
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
             }
@@ -227,7 +227,7 @@ angular.module('playfully.login', [])
       CoursesService.enroll(verification.code)
         .success(function(data, status, headers, config) {
           if ($state.current.data.hideWrapper) {
-            $window.location.search = 'action=CLOSE';
+            $window.location.search = 'action=SUCCESS&id='+$scope.user.id;
           } else {
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
           }
@@ -239,7 +239,7 @@ angular.module('playfully.login', [])
 
     $scope.finishLogin = function() {
       if ($state.current.data.hideWrapper) {
-        $window.location.search = 'action=CLOSE';
+        $window.location.search = 'action=SUCCESS&id='+$scope.user.id;
       } else {
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
       }

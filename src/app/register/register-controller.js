@@ -107,6 +107,8 @@ angular.module('playfully.register', [])
             user = data;
             Session.create(user.id, user.role);
             $scope.account.isRegCompleted = true;
+
+            //$window.location.search = 'action=SUCCESS&id='+user.id; // Don't start the game with a teacher's account
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
@@ -175,6 +177,8 @@ angular.module('playfully.register', [])
             user = data;
             Session.create(user.id, user.role);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+
+            $window.location.search = 'action=SUCCESS&id='+user.id;
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
