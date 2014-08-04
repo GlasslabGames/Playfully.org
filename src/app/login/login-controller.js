@@ -200,7 +200,7 @@ angular.module('playfully.login', [])
 })
 
 .controller('LoginEdmodoCtrl',
-  function ($scope, $rootScope, $state, $window, $cookies, $log, currentUser, enrollments, AUTH_EVENTS, CoursesService, $timeout) {
+  function ($scope, $rootScope, $state, $window, $log, currentUser, enrollments, AUTH_EVENTS, CoursesService, $timeout) {
 
     $scope.user = currentUser;
 

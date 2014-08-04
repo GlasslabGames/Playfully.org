@@ -89,8 +89,23 @@ angular.module('courses', [])
     getEnrollmentsWithStudents: function () {
       var apiUrl = API_BASE + '/lms/courses';
       return $http({ method: 'GET', url: apiUrl, params: { showMembers: 1 }})
-        .then(function(response) { return response.data; },
-            function(response) { $log.error(response); return response; });
+        .then(function(response) {
+          var courses = response.data;
+          angular.forEach(courses, function(course) {
+            if (course.archivedDate) {
+              // Adjust from seconds to milliseconds
+              course.archivedDate = course.archivedDate * 1000;
+            }
+            if (course.dateCreated) {
+              course.dateCreated = course.dateCreated * 1000;
+            }
+          });
+          return courses;
+        },
+        function(response) {
+          $log.error(response);
+          return response;
+        });
     },
 
 
