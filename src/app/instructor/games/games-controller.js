@@ -33,21 +33,11 @@ angular.module( 'instructor.games', [
     }
 
   })
-  .state('gameDetail.product', {
-    url: ''
-  })
-  .state('gameDetail.standards', {
-    url: '/standards'
-  })
-  .state('gameDetail.research', {
-    url: '/research'
-  })
-  .state('gameDetail.reviews', {
-    url: '/reviews'
-  })
-  .state('gameDetail.lessonPlans', {
-    url: '/lesson-plans'
-  });
+  .state('gameDetail.product', { url: '' })
+  .state('gameDetail.standards', { url: '/standards' })
+  .state('gameDetail.research', { url: '/research' })
+  .state('gameDetail.reviews', { url: '/reviews' })
+  .state('gameDetail.lessonPlans', { url: '/lesson-plans' });
 })
 
 
@@ -58,7 +48,6 @@ angular.module( 'instructor.games', [
         $scope.game = game;
       }
     });
-    $state.current.data.pageTitle = $scope.game.longName;
     $scope.currentPage = null;
     $scope.gameDetails = gameDetails;
 
@@ -77,6 +66,7 @@ angular.module( 'instructor.games', [
           if (navItem.id == toPageId) {
             navItem.isActive = true;
             $scope.currentPage = navItem;
+            $state.current.data.pageTitle = navItem.title;
           } else {
             navItem.isActive = false;
           }

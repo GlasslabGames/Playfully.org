@@ -36,6 +36,31 @@ angular.module( 'instructor.dashboard', [
       selectedOption: games[0].shortName
     };
 
+    $log.info('-*-*-*-*-*-');
+    $log.info($scope.courses);
+    $log.info($scope.games);
+    $log.info('-*-*-*-*-*-');
+
+
+    var tempInfo = [{
+      timestamp: 1406692325,
+      assessmentId: "sowo",
+      engine: "javascript",
+      gameSessionId: "",
+      gameId: "AA-1",
+      userId: 25,
+      results: {
+        watchout: [
+          { id: "wo1", total: 4, overPercent: 0.5 }
+        ],
+        shoutout: [
+          { id: "so1", total: 3, overPercent: 1 }
+        ],
+        version: 0.01
+      }
+    }];
+
+
     $scope.shoutOuts = [
       { firstName: 'Anika', lastName: 'Q', count: 2 },
       { firstName: 'Ben', lastName: 'D', count: 3 },

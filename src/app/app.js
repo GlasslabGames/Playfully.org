@@ -1,6 +1,7 @@
 angular.module( 'playfully', [
   'ngSanitize',
   'ipCookie',
+  'ga',
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
