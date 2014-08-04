@@ -18,6 +18,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-protractor-runner');
+	grunt.loadNpmTasks('grunt-mocha-protractor');
 
   /**
    * Load in our build configuration file.
@@ -336,7 +337,18 @@ module.exports = function ( grunt ) {
         }
       }
     },
-
+		
+		mochaProtractor: {
+			options: {
+				browsers: ['Firefox'],
+				reporter: 'Spec',
+				baseUrl: '127.0.0.1:8001',
+				timeout: 10000, // in milliseconds
+				suiteTimeout: 25000 // in milliseconds
+			},
+			files: ['e2e/*.test.js']
+		},
+		
     /**
      * Configuration for YUIDoc, which automatically generates documentation
      * for the application based on comments in the source code.
@@ -548,6 +560,8 @@ module.exports = function ( grunt ) {
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
     'karma:continuous', 'protractor:build'
   ]);
+    
+	grunt.registerTask('mocha', 'mochaProtractor');
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and

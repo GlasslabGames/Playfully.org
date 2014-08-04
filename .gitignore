@@ -12,3 +12,4 @@ build
 dist
 vendor
 bower_components
+e2e/results/*.png
