@@ -5,7 +5,7 @@ describe("Login Options", function() {
 
   var LoginModal = function() {
     this.loginOptions = element.all(by.css('.login-option'));
-    this.registerLink = element(by.css('a[ui-sref=registerOptions]'));
+    this.registerLink = element(by.css('.link-register'));
     this.loginInstructorButton = element(by.partialButtonText('Teacher'));
     this.loginStudentButton = element(by.partialButtonText('Student'));
     this.edmodoButton = element(by.partialButtonText('Edmodo'));
@@ -47,7 +47,7 @@ describe("Login Options", function() {
     var loginModal = new LoginModal();
     loginModal.get();
     loginModal.loginInstructorButton.click().then(function() {
-      ptor.sleep(200);
+      ptor.sleep(500);
       expect(ptor.getCurrentUrl()).toContain('/login/instructor');
     });
   });
@@ -74,7 +74,7 @@ describe("Instructor Login", function() {
     this.emailField = element(by.model('credentials.username'));
     this.passwordField = element(by.model('credentials.password'));
     this.submitButton = element(by.css('.modal-dialog input[type=submit]'));
-    this.forgotPasswordLink = element(by.css('a[ui-sref=passwordReset]'));
+    this.forgotPasswordLink = element(by.css('.link-forgot-password'));
     this.errorTooltip = element(by.css('.form-error'));
     this.alert = element(by.binding('authError'));
 
@@ -150,7 +150,6 @@ describe("Instructor Login", function() {
     modal.passwordField.sendKeys( params.login.valid.password );
     modal.submitButton.click().then(function() {
       expect(ptor.getCurrentUrl()).toContain('/dashboard');
-      ptor.get('/logout');
     });
   });
 
@@ -169,7 +168,7 @@ describe("Student Login", function() {
     this.usernameField = element(by.model('credentials.username'));
     this.passwordField = element(by.model('credentials.password'));
     this.submitButton = element(by.css('.modal-dialog input[type=submit]'));
-    this.forgotPasswordLink = element(by.css('a[ui-sref=passwordReset]'));
+    this.forgotPasswordLink = element(by.css('.link-forgot-password'));
     this.errorTooltip = element(by.css('.form-error'));
     this.alert = element(by.binding('authError'));
 
@@ -226,7 +225,6 @@ describe("Student Login", function() {
     modal.passwordField.sendKeys( 'test' );
     modal.submitButton.click().then(function() {
       expect(ptor.getCurrentUrl()).toContain('/home');
-      ptor.get('/logout');
     });
   });
 

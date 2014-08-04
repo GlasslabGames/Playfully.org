@@ -45,9 +45,17 @@
   border: 1px solid @grey6;
 }
 
+.gl-course-progress-container {
+  position: relative;
+  z-index: 1;
+}
+
 .gl-course-list-item--selected {
   border-right: none;
   .border-radiuses(0, 0, 5px, 5px);
+  margin-right: -16px;
+  position: relative;
+  z-index: 40;
 }
 
 

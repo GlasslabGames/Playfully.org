@@ -33,12 +33,12 @@ exports.config = {
   params: {
     login: {
       invalid: {
-        username: 'test@gmail.com',
+        username: 'badtest@gmail.com',
         password: '1234'
       },
       valid: {
         username: 'hartling+test20140630a@gmail.com',
-        password: 'testing2'
+        password: 'testing'
       }
     },
     emailAddress: {
@@ -46,7 +46,7 @@ exports.config = {
       invalid: 'bad email address'
     },
     modal: {
-      waitTime: 750
+      waitTime: 1000
     }
   },
 

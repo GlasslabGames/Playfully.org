@@ -32,8 +32,10 @@
         <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
         <span class="small help-block">
           <a ui-sref="passwordReset({type: 'student'})"
+            class="link-forgot-password"
             ng-if="!hideWrapper">Forgot your password?</a> 
           <a ui-sref="sdkPasswordReset({type: 'student'})"
+            class="link-forgot-password"
             ng-if="hideWrapper"> 
             Forgot your password?</a>
         </span>
