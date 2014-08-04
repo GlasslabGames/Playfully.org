@@ -1,5 +1,4 @@
 angular.module( 'playfully', [
-  'ngCookies',
   'ngSanitize',
   'ipCookie',
   'templates-app',
@@ -121,7 +120,7 @@ angular.module( 'playfully', [
 })
 
 .controller('AppCtrl',
-  function($scope, $rootScope, $state, $log, $modal, $cookies,
+  function($scope, $rootScope, $state, $log, $modal, ipCookie,
       UserService, AuthService, AUTH_EVENTS) {
 
     $rootScope.state = $state;

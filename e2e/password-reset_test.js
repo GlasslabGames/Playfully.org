@@ -4,7 +4,7 @@ describe("Forgot password link on login modal", function() {
   var ptor;
 
   var InstructorLoginModal = function() {
-    this.forgotPasswordLink = element(by.css('a[ui-sref=passwordReset]'));
+    this.forgotPasswordLink = element(by.css('.link-forgot-password'));
 
     this.get = function() {
       browser.get('/login/instructor');

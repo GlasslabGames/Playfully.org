@@ -32,6 +32,21 @@ angular.module( 'instructor.games', [
       pageTitle: 'Game Detail'
     }
 
+  })
+  .state('gameDetail.product', {
+    url: ''
+  })
+  .state('gameDetail.standards', {
+    url: '/standards'
+  })
+  .state('gameDetail.research', {
+    url: '/research'
+  })
+  .state('gameDetail.reviews', {
+    url: '/reviews'
+  })
+  .state('gameDetail.lessonPlans', {
+    url: '/lesson-plans'
   });
 })
 
@@ -44,17 +59,31 @@ angular.module( 'instructor.games', [
       }
     });
     $state.current.data.pageTitle = $scope.game.longName;
+    $scope.currentPage = null;
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [
-      { id: 'product', title: 'Product Description', isActive: true },
-      { id: 'standards', title: 'Standards Alignment' },
+      { id: 'product', title: 'Product Description' },
+      { id: 'standards', title: 'Standards' },
       { id: 'lessonPlans', title: 'Lesson Plans & Videos' },
       { id: 'research', title: 'Research' },
       { id: 'reviews', title: 'Reviews' }
     ];
 
+    $scope.$on('$stateChangeSuccess',
+      function(event, toState, toParams, fromState, fromParams) {
+        var toPageId = toState.name.split('.')[1] || 'product';
+        angular.forEach($scope.navItems, function(navItem) {
+          if (navItem.id == toPageId) {
+            navItem.isActive = true;
+            $scope.currentPage = navItem;
+          } else {
+            navItem.isActive = false;
+          }
+        });
+    });
+
     $scope.goToGameSubpage = function(dest) {
-      $log.info(dest);
+      $state.go('gameDetail.' + dest.id);
     };
 });
