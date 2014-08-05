@@ -1,0 +1,853 @@
+@font-face {
+    font-family: simcity;
+    src: url('itcavantgardestd-bk-webfont.eot');
+    src: url('itcavantgardestd-bk-webfont.eot?#iefix') format('embedded-opentype'),
+    url('itcavantgardestd-bk-webfont.woff') format('woff'),
+    url('itcavantgardestd-bk-webfont.ttf') format('truetype'),
+    url('itcavantgardestd-bk-webfont.svg#itc_avant_garde_gothic_stdBk') format('svg');
+}
+
+@mixin selection($val) {
+    -webkit-touch-callout: $val;
+    -webkit-user-select: $val;
+    -khtml-user-select: $val;
+    -moz-user-select: $val;
+    -ms-user-select: $val;
+    user-select: $val;
+}
+
+@mixin borderRadius($size) {
+  -webkit-border-radius: $size;
+  -moz-border-radius: $size;
+  border-radius: $size;
+}
+
+.elaTool {
+    z-index:0;
+    font-family: Helvetica;
+    font-size:67.5%;
+    @include selection(none);
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    margin:0px auto 0px auto;
+    min-width:1024px;
+    width:100%;
+    background-image: url("../images/SystemsBackground.png");
+    background-size: 100% 100%;
+    min-height:100%;
+
+    header {
+        background: none;
+        border-top:0px;
+        border-bottom: 1px;
+        border-image:url("../images/InstructionsBorder.png") 1;        
+        box-shadow: none;
+        text-align: center;
+
+        h3 {
+            font-weight:normal;
+            cursor:default;
+            font-size:1.5em;
+            color: #73adde;
+            padding-top:10px;
+            z-index:10;
+            padding-bottom: 15px;
+            display: inline-block;
+            color: #fff;
+            width:80%;
+        }
+
+        button {
+            display: inline-block;
+            width: 60px;
+            background-color:transparent;
+            border: none;
+            color: #eee;
+            padding: 2px 5px 2px 5px;
+            margin-left: 10px;
+            @include borderRadius(5px);
+
+            &:hover {
+                color: #73adde;
+            }
+
+            &#diagram_save {
+                background-color: rgba(0,0,0,.4);
+
+            }
+        }
+    }
+    h1 {
+        position: absolute;
+        top:5px;
+        height:40px;
+        left:0px;
+        right:0px;
+        cursor:default;
+        font-size:2.5em;
+        color: white;
+        font-weight:normal;
+
+        span {
+            button {
+                background-image: none;
+                text-align:center;
+                border: 2px solid black;
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+    }
+
+    section {
+        position:absolute;
+        top:70px;
+        bottom:0px;
+        left:0px;
+        right:0px;
+        background: none;
+        z-index:0;
+
+        #ela_gameSpace {
+            position:absolute;
+            left:0px;
+            right:19%;
+            bottom:0px;
+            top:40px;
+            background: none;
+
+            span {
+                position:absolute;
+                width:150px;
+                height:150px;
+                z-index:initial;
+                background-image: url('../images/ela_node.png');
+                background-position: center;
+                background-size:100% 100%;
+
+                &.empty_node {
+                    background-image: url('../images/ela_emptyNode.png');
+
+                    textarea {
+                        visibility: hidden;
+                    }
+
+                    a {
+                        top:-1000px;
+                        left: -1000px;
+                    }
+                    b {
+                        top:-1000px;
+                        left: -1000px;
+                    }
+                }
+
+                &.evidenceBox {
+                    width:200px;
+
+                    textarea {
+                        background-image: url('../images/evidenceBox_questionMark.png');
+                        height:100px;
+                        top:20px;
+                    }
+                }
+
+                &.evidence1 {
+                    background-image: url('../images/ela_evidence1.png');
+
+                    textarea {
+                        top:20px;
+                        right:50px;
+                    }
+
+                    &.hovering {
+                        background-image: url('../images/ela_evidence1.png');
+                    }
+                }
+                &.evidence2 {
+                    background-image: url('../images/ela_evidence3.png');
+
+                    textarea {
+                        top:20px;
+                        left:50px;
+                    }
+
+                    &.hovering {
+                        background-image: url('../images/ela_evidence3.png');
+                    }
+                }
+                &.evidence3 {
+                    background-image: url('../images/ela_evidence6.png');
+
+                    textarea {
+                        top:35px;
+                        right:50px;
+                    }
+
+                    &.hovering {
+                        background-image: url('../images/ela_evidence6.png');
+                    }
+                }
+                &.evidence4 {
+                    background-image: url('../images/ela_evidence8.png');
+
+                    textarea {
+                        top:35px;
+                        left:50px;
+                    }
+
+                    &.hovering {
+                        background-image: url('../images/ela_evidence8.png');
+                    }
+                }
+
+                &.filledEvidence {
+                    width:200px;
+                    textarea {
+                        background:none;
+                        color: black;
+                        height:80px;
+                    }
+                }
+
+                &.hovering {
+                    background-image: url('../images/ela_hover.png');
+
+                    textarea {
+                        visibility: visible;
+                    }
+                }
+
+                &.animating {
+                    background-image: url('../images/ela_add.png');
+                    background-size:cover;
+                }
+
+                textarea {
+                    @include selection(none);
+                    font-family: simcity;
+                    font-size:1.25em;
+                    font-weight: bold;
+                    color: #73adde;
+                    cursor: default;
+                    position:absolute;
+                    top:25px;
+                    left:25px;
+                    right:25px;
+                    bottom:25px;
+                    background:none;
+                    text-align:center;
+                    overflow: hidden;
+                    resize:none;
+                    padding:0px;
+                    border-color: transparent;
+                    word-wrap: break-word;
+                    outline: 0px none transparent;
+                    background-position:-30px -3px;
+
+                    width: 101px;
+                    height: 99px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    o-text-overflow: ellipsis;
+
+                    /* Firefox */
+                    display: -moz-box; /*Remove this and the wordwrap works in Firefox but centerring doesn't */
+                    -moz-box-orient:horizontal;
+                    -moz-box-pack:center;
+                    -moz-box-align:center;
+
+                    /* Safari and Chrome */
+                    display:-webkit-box;
+                    -webkit-box-orient:horizontal;
+                    -webkit-box-pack:center;
+                    -webkit-box-align:center;
+
+                    /* IE old*/
+                    display: -ms-box;
+                    -ms-box-orient:horizontal;
+                    -ms-box-pack:center;
+                    -ms-box-align:center;
+
+                    /*IE 10 */
+                    display: -ms-flexbox; /*Remove this and the wordwrap works in IE10 but centerring doesn't */
+                    -ms-flex-align: center;
+                    -ms-flex-pack: center;
+                    -ms-box-orient:horizontal;
+                }
+
+                button {
+                }
+
+                a {
+                    position:absolute;
+                    top:125px;
+                    left:0px;
+                    width: 100px;
+                    height: 101px;
+                    background-image: url('../images/ela_sub.png');
+                    background-size: 100% 100%;
+                    background-position:center;
+                    background-repeat: no-repeat;
+                    z-index: -1;
+
+                    &.mainIcon {
+                    }
+
+                    &.arrow_1 {
+                        top:-68px;
+                        left:-68px;
+                        background-image: url('../images/ela_sub1.png');
+                    }
+                    &.arrow_2 {
+                        top:-110px;
+                        left:50px;
+                        width:46px;
+                        height:123px;
+                        background-image: url('../images/ela_sub2.png');
+                    }
+                    &.arrow_3 {
+                        top:-68px;
+                        left:118px;
+                        background-image: url('../images/ela_sub3.png');
+                    }
+                    &.arrow_4 {
+                        top:50px;
+                        left:-110px;
+                        width:121px;
+                        height:46px;
+                        background-image: url('../images/ela_sub4.png');
+                    }
+                    &.arrow_5 {
+                        top:50px;
+                        left:140px;
+                        width:121px;
+                        height:46px;
+                        background-image: url('../images/ela_sub5.png');
+                    }
+                    &.arrow_6 {
+                        top:118px;
+                        left:-68px;
+                        background-image: url('../images/ela_sub6.png');
+                    }
+                    &.arrow_7 {
+                        top:140px;
+                        left:50px;
+                        width:46px;
+                        height:125px;
+                        background-image: url('../images/ela_sub7.png');
+                    }
+                    &.arrow_8 {
+                        top:118px;
+                        left:118px;
+                        background-image: url('../images/ela_sub8.png');
+                    }
+                }
+
+                b {
+                    position:absolute;
+                    top:125px;
+                    left:125px;
+                    width: 100px;
+                    height: 101px;
+                    background-image: url('../images/ela_add.png');
+                    background-size: 100% 100%;
+                    background-size: cover;
+                    z-index: -1;
+                    background-repeat: no-repeat;
+
+                    &.active {
+                        background-image: url('../images/ela_add_click.png');
+                    }
+
+                    &.mainIcon {
+                    }
+
+                    &.arrow_1 {
+                        top:-68px;
+                        left:-68px;
+                        background-image: url('../images/ela_add1.png');
+                    }
+                    &.arrow_2 {
+                        top:-110px;
+                        left:50px;
+                        width:46px;
+                        height:123px;
+                        background-image: url('../images/ela_add2.png');
+                    }
+                    &.arrow_3 {
+                        top:-68px;
+                        left:118px;
+                        background-image: url('../images/ela_add3.png');
+                    }
+                    &.arrow_4 {
+                        top:50px;
+                        left:-110px;
+                        width:121px;
+                        height:46px;
+                        background-image: url('../images/ela_add4.png');
+                    }
+                    &.arrow_5 {
+                        top:50px;
+                        left:140px;
+                        width:121px;
+                        height:46px;
+                        background-image: url('../images/ela_add5.png');
+                    }
+                    &.arrow_6 {
+                        top:118px;
+                        left:-68px;
+                        background-image: url('../images/ela_add6.png');
+                    }
+                    &.arrow_7 {
+                        top:140px;
+                        left:50px;
+                        width:46px;
+                        height:125px;
+                        background-image: url('../images/ela_add7.png');
+                    }
+                    &.arrow_8 {
+                        top:118px;
+                        left:118px;
+                        background-image: url('../images/ela_add8.png');
+                    }
+                }
+            }
+
+        }
+
+        article {
+            @include borderRadius(10px);
+            position:absolute;
+            width:20%;
+            right:20px;
+            bottom:30px;
+            top: 20px;
+            z-index:3;
+            font-size:1.5em;
+            background-color: rgba(50,50,50,.5);
+            color:white;
+
+            button {
+                margin-top:5px;
+                background-repeat: no-repeat;
+                background-color:transparent;
+                background-image: url("../images/ela_expand.png");
+                background-position-x: 10px;
+                background-position-y: 5px;
+                border: none;
+                text-align:right;
+                min-width:125px;
+                height:28px;
+            }
+
+            p {
+                @include selection(text);
+                position:absolute;
+                left:15px;
+                right:5px;
+                top:50px;
+                bottom:10px;
+                overflow-y: auto;
+                line-height:20px;
+                padding-top:40px;
+                padding-right:10px;
+                letter-spacing: 1px;
+                font-family: Futura;
+                font-size: 1.25em;
+
+                .header {
+                    @include selection(none);
+                    cursor:default;
+                    position:absolute;
+                    top:0px;
+                    font-size:.9em;
+                    left:0px;
+                    right:0px;
+                    height:40px;
+                    color: white;
+                    font-weight: bold;
+                }
+
+                span {
+                    margin-bottom:20px;
+                    display:block;
+                    color: white;
+                    font-size:.75em;
+
+                    &.selection {
+                        margin: 0px;
+                        display: inline;
+                        font-size: 1em;
+                        cursor: pointer !important;
+
+                        &:hover {
+                            background-color: green;
+                            color: white;
+                        }
+                    }
+                    &.currentSelection {
+                        background-color:red !important;
+                    }
+
+                    &.noHighlight {
+                        @include selection(none);
+                        cursor: default;
+                    }
+                }
+
+                button {
+                    background: none;
+                    border:2px solid black;
+                    text-align:center;
+
+                    &:hover {
+                        color: red;
+                    }
+                }
+
+                &::-webkit-scrollbar {
+                    width:8px;
+                    height:8px;
+                }
+                &::-webkit-scrollbar-track:vertical {
+                  background: none;
+                  -webkit-border-radius: 10px;
+                  border-radius: 10px;
+                }
+
+                &::-webkit-scrollbar-thumb:vertical {
+                  -webkit-border-radius: 10px;
+                  border-radius: 10px;
+                  background: #cccccc;
+                  width:5px;
+                }
+
+                &::-webkit-scrollbar-track:horizontal {
+                  background: #cccccc;
+                  -webkit-border-radius: 10px;
+                  border-radius: 10px;
+                }
+
+                &::-webkit-scrollbar-thumb:horizontal {
+                  -webkit-border-radius: 10px;
+                  border-radius: 10px;
+                  background: #cccccc;
+                }
+            }
+        }
+
+        #ela_toolButton {
+            position: absolute;
+            bottom:0px;
+            left: 48%;
+            width:30px;
+            height:10px;
+            background-color:black;
+        }
+
+        footer {
+            position:absolute;
+            left:0px;
+            right:0px;
+            bottom:0px;
+            height:0px;
+            background-color:yellow;
+            z-index:4;
+
+            img {
+                z-index:5;
+                max-width: 200px;
+                max-height: 200px;
+            }
+        }
+    }
+}
+
+.highlighted {
+    @include selection(none);
+    margin:1px;
+    color: white;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(52%,#73adde), color-stop(100%,#95cfff));
+    position:absolute;
+    z-index:10;
+    box-shadow:0px 2px 5px 2px #333;
+    font-size:1.5em;
+    max-width:400px;
+    max-height:400px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+#elaSelector {
+    margin: 10px 0px 0px 10px;
+    select {
+        margin-bottom:10px;
+    }
+}
+
+#systemsDiagram  {
+    z-index:10;
+    font-family: Helvetica;
+    font-size:67.5%;
+    @include selection(none);
+    position: absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    margin:0px auto 0px auto;
+    min-width:1024px;
+    width:100%;
+    background-image: url("../images/SystemsBackground.png");
+    background-size: 100% 100%;
+
+    svg {
+      position: absolute;
+      z-index:1;
+
+      line {
+        stroke:rgb(0,0,0);
+        stroke-width: 3;
+      }
+    }
+
+    h1 {
+        position: absolute;
+        top:5px;
+        height:40px;
+        left:0px;
+        right:0px;
+        cursor:default;
+        font-size:2.5em;
+        color: white;
+        font-weight:normal;
+
+        button {
+            width:127px;
+            text-align:right;
+            border: none;
+            background-repeat: no-repeat;
+            font-size: 1em;
+            color: #c9c9c9;
+            margin-right:20px;
+            font-weight:.1em;
+
+            &#diagram_save {
+                width:60px;
+                background:none;
+                text-align:left;
+            }
+
+            &:hover {
+                color: #73adde;
+            }
+        }
+        span {
+            button {
+                background-image: none;
+                text-align:center;
+                border: 2px solid black;
+                &:hover {
+                    color: red;
+                }
+            }
+        }
+    }
+    header {
+        background: none;
+        border-top:0px;
+        border-bottom: 1px;
+        border-image:url("../images/InstructionsBorder.png") 1;        
+        box-shadow: none;
+        text-align: center;
+
+        h3 {
+            font-weight:normal;
+            cursor:default;
+            font-size:1.5em;
+            color: #73adde;
+            padding-top:10px;
+            z-index:10;
+            padding-bottom: 15px;
+            display: inline-block;
+            color: #fff;
+            width:80%;
+            text-align: left;
+        }
+
+        h4 {
+            position: absolute;
+            left:20px;
+            right: 20px;
+            z-index: 10;
+            font-size:1.5em;
+            text-align: center;
+            color: white;
+        }
+
+        button {
+            display: inline-block;
+            width: 60px;
+            background-color:transparent;
+            border: none;
+            color: #eee;
+            padding: 2px 5px 2px 5px;
+            margin-left: 10px;
+            @include borderRadius(5px);
+
+            &:hover {
+                color: #73adde;
+            }
+
+            &#diagram_save {
+                background-color: rgba(0,0,0,.4);
+
+            }
+        }
+    }
+
+    section {
+        position:absolute;
+        top:70px;
+        bottom:0px;
+        left:0px;
+        right:0px;
+        background: none;     
+
+        #systemCanvas {
+            position:absolute;
+            left:0px;
+            right:0px;
+            bottom:40px;
+            top:0px;
+            background: none;
+            z-index:5;
+        }
+    }
+}
+
+#optionSelector {
+    position: absolute;
+}
+
+#popupModal {
+    position:absolute;
+    z-index:1000;
+    background: rgba(20,20,20,.8);
+    margin:0px auto 0px auto;
+    box-shadow: 0px 0px 15px #000000;
+    width: 40%;
+    padding: 10px;
+
+    font-family: simcity;
+    text-align: center; 
+    
+    @include borderRadius(10px);
+
+    h1 {
+        color: white;
+        margin-top:10px;
+        margin-bottom: 30px;
+    }
+
+    .starRating {
+        margin-bottom: 30px; 
+
+        li {
+            background-image: url("../images/unfilled_star.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            width: 120px;
+            height: 120px;
+            display: inline-block;
+
+            &.filled {
+                background-image: url("../images/filled_star.png");
+            }
+
+            &:first-of-type{
+                margin-right:30px;
+            }
+
+            &:last-of-type {
+                margin-left: 30px;
+            }
+        }
+    }
+
+    p {
+        text-align: left;
+        margin: 0px auto 30px auto;
+        color: white;
+        font-size: 1.25em;
+        width: 90%;
+    }
+
+    .doneWell {
+    }
+
+    .doBetter {
+    }
+
+    button {
+        height:60px;
+        width:180px;
+        border: none;
+        background: rgba(0,0,0,.6);
+        color: white;
+        font-size:1.5em;
+        font-weight: bold;
+        @include borderRadius(10px);
+
+        &:hover {
+            background-color: #73adde;
+        }
+    }
+
+    .medal {
+        width: 200px;
+        height: 200px;
+    }
+
+    h2 {
+        margin-top: 50px;
+        color: white;
+        font-size: 3em;
+    }
+
+    .triesLeft {
+        display: block;
+        color: white;
+        margin-bottom: 50px;
+    }
+
+    .rating {
+        list-style: none;
+        width: 80%;
+        margin: 20px auto 40px auto;
+        li {
+            font-size:1.25em;
+            color: grey;
+            margin-bottom: 10px;
+            padding-left: 55px;
+            text-align: left;
+            background-image: url("../images/emptyListIcon.png");
+            background-repeat: no-repeat;
+            height:40px;
+            line-height: 36px;
+
+            &.full {
+                background-image: url("../images/fullListIcon.png");
+
+                color: white;
+            }
+        }
+    }
+}

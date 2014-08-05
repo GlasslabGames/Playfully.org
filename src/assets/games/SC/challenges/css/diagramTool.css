@@ -1,0 +1,922 @@
+@font-face {
+font-family: simcity;
+src: url('itcavantgardestd-bk-webfont.eot');
+src: url('itcavantgardestd-bk-webfont.eot?#iefix') format('embedded-opentype'),
+url('itcavantgardestd-bk-webfont.woff') format('woff'),
+url('itcavantgardestd-bk-webfont.ttf') format('truetype'),
+url('itcavantgardestd-bk-webfont.svg#itc_avant_garde_gothic_stdBk') format('svg'); }
+
+.elaTool {
+  z-index: 0;
+  font-family: Helvetica;
+  font-size: 67.5%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: 0px auto 0px auto;
+  min-width: 1024px;
+  width: 100%;
+  background-image: url("../images/SystemsBackground.png");
+  background-size: 100% 100%;
+  min-height: 100%; }
+  .elaTool header {
+	  /*top: auto;
+	  left: auto;
+	  right: auto;
+	  bottom: auto;
+	  margin: 0 auto;
+	  width: 920px;
+	  position: relative;*/
+    background: none;
+    border-top: 0px;
+    border-bottom: 1px;
+    border-image: url("../images/InstructionsBorder.png") 1;
+    box-shadow: none;
+    text-align: center; }
+    .elaTool header h3 {
+      font-weight: normal;
+      cursor: default;
+      font-size: 1.5em;
+      color: #73adde;
+      padding-top: 10px;
+      z-index: 10;
+      padding-bottom: 15px;
+      display: inline-block;
+      color: #fff;
+      width: 80%; }
+    .elaTool header button {
+      display: inline-block;
+      width: 60px;
+      background-color: transparent;
+      border: none;
+      color: #eee;
+      padding: 2px 5px 2px 5px;
+      margin-left: 10px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px; }
+      .elaTool header button:hover {
+        color: #73adde; }
+      .elaTool header button#ela_save {
+        background-color: rgba(0, 0, 0, 0.4); }
+      .elaTool header button#ela_save {
+        background-color: rgba(0, 0, 0, 0.4); }
+      .elaTool header button:hover#ela_save {
+        color: #95ffa4; }
+      .elaTool header button:active#ela_save {
+        color: #3e3d39;
+        background-color: rgba(149, 255, 164, 1.0); }
+      .elaTool header button#ela_save.disabled,
+      .elaTool header button:hover#ela_save.disabled,
+      .elaTool header button:active#ela_save.disabled  {
+        color: #767676;
+        background-color: rgba(151, 149, 144, 1.0); }
+  .elaTool h1 {
+    position: absolute;
+    top: 5px;
+    height: 40px;
+    left: 0px;
+    right: 0px;
+    cursor: default;
+    font-size: 2.5em;
+    color: white;
+    font-weight: normal; }
+    .elaTool h1 span button {
+      background-image: none;
+      text-align: center;
+      border: 2px solid black; }
+      .elaTool h1 span button:hover {
+        color: red; }
+  .elaTool section {
+	  
+    position: absolute;
+    top: 70px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+	/*
+	  top: auto;
+	  left: auto;
+	  right: auto;
+	  bottom: auto;
+	  margin: 0 auto;
+	  width: 920px;
+	  min-height: 700px;
+	  position: relative;*/
+    background: none;
+    z-index: 0; }
+    .elaTool section #ela_gameSpace {
+      position: absolute;
+      left: 0px;
+      right: 19%;
+      bottom: 0px;
+      top: 40px;
+      background: none; }
+      .elaTool section #ela_gameSpace span {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        z-index: initial;
+        background-image: url("../images/ela_node.png");
+        background-position: center;
+        background-size: 100% 100%; }
+        .elaTool section #ela_gameSpace span.empty_node {
+          background-image: url("../images/ela_emptyNode.png"); }
+          .elaTool section #ela_gameSpace span.empty_node textarea {
+            visibility: hidden; }
+          .elaTool section #ela_gameSpace span.empty_node a {
+            top: -1000px;
+            left: -1000px; }
+          .elaTool section #ela_gameSpace span.empty_node b {
+            top: -1000px;
+            left: -1000px; }
+        .elaTool section #ela_gameSpace span.evidenceBox {
+          width: 200px; }
+          .elaTool section #ela_gameSpace span.evidenceBox textarea {
+            background-image: url("../images/evidenceBox_questionMark.png");
+            height: 100px;
+            top: 20px; }
+        .elaTool section #ela_gameSpace span.evidence1 {
+          background-image: url("../images/ela_evidence1.png"); }
+        .elaTool section #ela_gameSpace span.evidence1.filledEvidence {
+          background-image: url("../images/ela_evidence1_selected.png"); }
+          .elaTool section #ela_gameSpace span.evidence1 textarea {
+            top: 20px;
+            right: 50px; }
+          .elaTool section #ela_gameSpace span.evidence1.hovering {
+            background-image: url("../images/ela_evidence1.png"); }
+        .elaTool section #ela_gameSpace span.evidence2 {
+          background-image: url("../images/ela_evidence3.png"); }
+        .elaTool section #ela_gameSpace span.evidence2.filledEvidence {
+          background-image: url("../images/ela_evidence3_selected.png"); }
+          .elaTool section #ela_gameSpace span.evidence2 textarea {
+            top: 20px;
+            left: 50px; }
+          .elaTool section #ela_gameSpace span.evidence2.hovering {
+            background-image: url("../images/ela_evidence3.png"); }
+        .elaTool section #ela_gameSpace span.evidence3 {
+          background-image: url("../images/ela_evidence6.png"); }
+        .elaTool section #ela_gameSpace span.evidence3.filledEvidence {
+          background-image: url("../images/ela_evidence6_selected.png"); }
+          .elaTool section #ela_gameSpace span.evidence3 textarea {
+            top: 35px;
+            right: 50px; }
+          .elaTool section #ela_gameSpace span.evidence3.hovering {
+            background-image: url("../images/ela_evidence6.png"); }
+        .elaTool section #ela_gameSpace span.evidence4 {
+          background-image: url("../images/ela_evidence8.png"); }
+        .elaTool section #ela_gameSpace span.evidence4.filledEvidence {
+          background-image: url("../images/ela_evidence8_selected.png"); }
+          .elaTool section #ela_gameSpace span.evidence4 textarea {
+            top: 35px;
+            left: 50px; }
+          .elaTool section #ela_gameSpace span.evidence4.hovering {
+            background-image: url("../images/ela_evidence8.png"); }
+        .elaTool section #ela_gameSpace span.filledEvidence {
+          width: 200px; }
+          .elaTool section #ela_gameSpace span.filledEvidence textarea {
+            background: none;
+            color: black;
+            height: 80px; }
+        .elaTool section #ela_gameSpace span.hovering {
+          background-image: url("../images/ela_hover.png"); }
+          .elaTool section #ela_gameSpace span.hovering textarea {
+            visibility: visible; }
+        .elaTool section #ela_gameSpace span.animating {
+          background-image: url("../images/ela_add.png");
+          background-size: cover; }
+        .elaTool section #ela_gameSpace span textarea {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          font-family: simcity;
+          font-size: 1.25em;
+          font-weight: bold;
+          color: #73adde;
+          cursor: default;
+          position: absolute;
+          top: 25px;
+          left: 25px;
+          right: 25px;
+          bottom: 25px;
+          background: none;
+          text-align: center;
+          overflow: hidden;
+          resize: none;
+          padding: 0px;
+          border-color: transparent;
+          word-wrap: break-word;
+          outline: 0px none transparent;
+          background-position: -30px -3px;
+
+            width: 101px;
+            height: 99px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            o-text-overflow: ellipsis;
+
+            /* Firefox */
+            display: -moz-box; /*Remove this and the wordwrap works in Firefox but centerring doesn't */
+            -moz-box-orient:horizontal;
+            -moz-box-pack:center;
+            -moz-box-align:center;
+
+            /* Safari and Chrome */
+            display:-webkit-box;
+            -webkit-box-orient:horizontal;
+            -webkit-box-pack:center;
+            -webkit-box-align:center;
+
+            /* IE old*/
+            display: -ms-box;
+            -ms-box-orient:horizontal;
+            -ms-box-pack:center;
+            -ms-box-align:center;
+
+            /*IE 10 */
+            display: -ms-flexbox; /*Remove this and the wordwrap works in IE10 but centerring doesn't */
+            -ms-flex-align: center;
+            -ms-flex-pack: center;
+            -ms-box-orient:horizontal;
+        }
+		.elaTool section #ela_gameSpace .tooltip
+		{
+			position: absolute;
+			top: 24px;
+			right: -120px;
+			margin: 0;
+			padding: 10px;
+			width: 100px;
+			background: #ffffff;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			color: #73adde;
+			font-size: 14px;
+			text-align: center;
+		}
+        .elaTool section #ela_gameSpace span a {
+          position: absolute;
+          top: 125px;
+          left: 0px;
+          width: 100px;
+          height: 101px;
+          background-image: url("../images/ela_sub.png");
+          background-size: 100% 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          z-index: -1; }
+          .elaTool section #ela_gameSpace span a.arrow_1 {
+            top: -68px;
+            left: -68px;
+            background-image: url("../images/ela_sub1.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_2 {
+            top: -110px;
+            left: 50px;
+            width: 46px;
+            height: 123px;
+            background-image: url("../images/ela_sub2.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_3 {
+            top: -68px;
+            left: 118px;
+            background-image: url("../images/ela_sub3.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_4 {
+            top: 50px;
+            left: -110px;
+            width: 121px;
+            height: 46px;
+            background-image: url("../images/ela_sub4.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_5 {
+            top: 50px;
+            left: 140px;
+            width: 121px;
+            height: 46px;
+            background-image: url("../images/ela_sub5.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_6 {
+            top: 118px;
+            left: -68px;
+            background-image: url("../images/ela_sub6.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_7 {
+            top: 140px;
+            left: 50px;
+            width: 46px;
+            height: 125px;
+            background-image: url("../images/ela_sub7.png"); }
+          .elaTool section #ela_gameSpace span a.arrow_8 {
+            top: 118px;
+            left: 118px;
+            background-image: url("../images/ela_sub8.png"); }
+        .elaTool section #ela_gameSpace span b {
+          position: absolute;
+          top: 125px;
+          left: 125px;
+          width: 100px;
+          height: 101px;
+          background-image: url("../images/ela_add.png");
+          background-size: 100% 100%;
+          background-size: cover;
+          z-index: -1;
+          background-repeat: no-repeat; }
+          .elaTool section #ela_gameSpace span b.active {
+            background-image: url("../images/ela_add_click.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_1 {
+            top: -68px;
+            left: -68px;
+            background-image: url("../images/ela_add1.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_2 {
+            top: -110px;
+            left: 50px;
+            width: 46px;
+            height: 123px;
+            background-image: url("../images/ela_add2.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_3 {
+            top: -68px;
+            left: 118px;
+            background-image: url("../images/ela_add3.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_4 {
+            top: 50px;
+            left: -110px;
+            width: 121px;
+            height: 46px;
+            background-image: url("../images/ela_add4.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_5 {
+            top: 50px;
+            left: 140px;
+            width: 121px;
+            height: 46px;
+            background-image: url("../images/ela_add5.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_6 {
+            top: 118px;
+            left: -68px;
+            background-image: url("../images/ela_add6.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_7 {
+            top: 140px;
+            left: 50px;
+            width: 46px;
+            height: 125px;
+            background-image: url("../images/ela_add7.png"); }
+          .elaTool section #ela_gameSpace span b.arrow_8 {
+            top: 118px;
+            left: 118px;
+            background-image: url("../images/ela_add8.png"); }
+    .elaTool section article {
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      position: absolute;
+      width: 20%;
+      right: 20px;
+      bottom: 30px;
+      top: 20px;
+      z-index: 3;
+      font-size: 1.5em;
+      background-color: rgba(50, 50, 50, 0.5);
+      color: white; }
+      .elaTool section article button {
+        margin-top: 5px;
+        background-repeat: no-repeat;
+        background-color: transparent;
+        background-image: url("../images/ela_expand.png");
+        background-position-x: 10px;
+        background-position-y: 5px;
+        border: none;
+        text-align: right;
+        min-width: 125px;
+        height: 28px; }
+      .elaTool section article p {
+        -webkit-touch-callout: text;
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+        position: absolute;
+        left: 15px;
+        right: 5px;
+        top: 20px;
+        bottom: 10px;
+        overflow-y: auto;
+        line-height: 20px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+        font-family: Futura;
+        font-size: 1.25em; }
+        .elaTool section article p .header {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          cursor: default;
+          top: 0px;
+          font-size: .9em;
+          left: 0px;
+          right: 0px;
+          color: white;
+          font-weight: bold;
+		  clear: both;
+		  overflow: hidden;
+        }
+        .elaTool section article p span {
+          margin-bottom: 20px;
+          display: block;
+          color: white;
+          font-size: .75em; }
+          .elaTool section article p span.selection {
+            margin: 0px;
+            display: inline;
+            font-size: 1em;
+            cursor: pointer !important; }
+            .elaTool section article p span.selection:hover,
+			.elaTool section article p span.selected {
+              background-color: green;
+              color: white; }
+          .elaTool section article p span.currentSelection {
+            background-color: red !important; }
+          .elaTool section article p span.noHighlight {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default; }
+        .elaTool section article p button {
+          background: none;
+          border: 2px solid black;
+          text-align: center; }
+          .elaTool section article p button:hover {
+            color: red; }
+        .elaTool section article p::-webkit-scrollbar {
+          width: 8px;
+          height: 8px; }
+        .elaTool section article p::-webkit-scrollbar-track:vertical {
+          background: none;
+          -webkit-border-radius: 10px;
+          border-radius: 10px; }
+        .elaTool section article p::-webkit-scrollbar-thumb:vertical {
+          -webkit-border-radius: 10px;
+          border-radius: 10px;
+          background: #cccccc;
+          width: 5px; }
+        .elaTool section article p::-webkit-scrollbar-track:horizontal {
+          background: #cccccc;
+          -webkit-border-radius: 10px;
+          border-radius: 10px; }
+        .elaTool section article p::-webkit-scrollbar-thumb:horizontal {
+          -webkit-border-radius: 10px;
+          border-radius: 10px;
+          background: #cccccc; }
+    .elaTool section #ela_toolButton {
+      position: absolute;
+      bottom: 0px;
+      left: 48%;
+      width: 30px;
+      height: 10px;
+      background-color: black; }
+    .elaTool section footer {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      height: 0px;
+      background-color: yellow;
+      z-index: 4; }
+      .elaTool section footer img {
+        z-index: 5;
+        max-width: 200px;
+        max-height: 200px; }
+
+.highlighted {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 1px;
+  color: white;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(52%, #73adde), color-stop(100%, #95cfff));
+  position: absolute;
+  z-index: 10;
+  box-shadow: 0px 2px 5px 2px #333333;
+  font-size: 1.5em;
+  max-width: 400px;
+  max-height: 400px;
+  overflow: hidden;
+  cursor: pointer; }
+
+#elaSelector {
+  margin: 10px 0px 0px 10px; }
+  #elaSelector select {
+    margin-bottom: 10px; }
+
+#systemsDiagram {
+  z-index: 10;
+  font-family: Helvetica;
+  font-size: 67.5%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: 0px auto 0px auto;
+  min-width: 1024px;
+  width: 100%;
+  background-image: url("../images/SystemsBackground.png");
+  background-size: 100% 100%; }
+  #systemsDiagram svg {
+    position: absolute;
+    z-index: 1; }
+    #systemsDiagram svg line {
+      stroke: black;
+      stroke-width: 3; }
+  #systemsDiagram h1 {
+    position: absolute;
+    top: 5px;
+    height: 40px;
+    left: 0px;
+    right: 0px;
+    cursor: default;
+    font-size: 2.5em;
+    color: white;
+    font-weight: normal; }
+    #systemsDiagram h1 button {
+      width: 127px;
+      text-align: right;
+      border: none;
+      background-repeat: no-repeat;
+      font-size: 1em;
+      color: #c9c9c9;
+      margin-right: 20px;
+      font-weight: .1em; }
+      #systemsDiagram h1 button#diagram_save {
+        width: 60px;
+        background: none;
+        text-align: left; }
+      #systemsDiagram h1 button:hover {
+        color: #73adde; }
+    #systemsDiagram h1 span button {
+      background-image: none;
+      text-align: center;
+      border: 2px solid black; }
+      #systemsDiagram h1 span button:hover {
+        color: red; }
+  #systemsDiagram header {
+      /*top: auto;
+      left: auto;
+      right: auto;
+      bottom: auto;
+      margin: 0 auto;
+      width: 920px;
+      position: relative;*/
+    background: none;
+    border-top: 0px;
+    border-bottom: 1px solid rgb(179,179,179);
+    /*border-image: url("../images/InstructionsBorder.png") 1;*/
+    box-shadow: none;
+    text-align: center; }
+  #systemsDiagram subheader {
+    position: absolute;
+    visibility: hidden;
+    top: 64px;
+    left: 20%;
+    right: 20%;
+    height: 30px;
+    border: 5px solid rgb(179,179,179);
+    padding-top: 10px;
+    box-shadow: none;
+    text-align: center; }
+    #systemsDiagram header h3 {
+      font-weight: normal;
+      cursor: default;
+      font-size: 1.5em;
+      color: #73adde;
+      padding-top: 10px;
+      z-index: 10;
+      padding-bottom: 15px;
+      display: inline-block;
+      color: #fff;
+      width: 80%;
+      text-align: left; }
+    #systemsDiagram header h4 {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      z-index: 10;
+      font-size: 1.5em;
+      text-align: center;
+      color: white; }
+    #systemsDiagram subheader h4 {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      z-index: 10;
+      font-size: 1.7em;
+      text-align: center;
+      color: white;
+      font-weight: normal; }
+    #systemsDiagram header button {
+      display: inline-block;
+      width: 60px;
+      background-color: transparent;
+      border: none;
+      color: #eee;
+      padding: 2px 5px 2px 5px;
+      margin-left: 10px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px; }
+      #systemsDiagram header button:hover {
+        color: #73adde; }
+      #systemsDiagram header button:active {
+        color: #313131; }
+      #systemsDiagram header button#diagram_save {
+        background-color: rgba(0, 0, 0, 0.4); }
+      #systemsDiagram header button:hover#diagram_save {
+        color: #95ffa4; }
+      #systemsDiagram header button:active#diagram_save {
+		  color: #3e3d39;
+        background-color: rgba(149, 255, 164, 1.0); }
+      #systemsDiagram header button#diagram_save.disabled,
+	  #systemsDiagram header button:hover#diagram_save.disabled,
+	  #systemsDiagram header button:active#diagram_save.disabled  {
+		  color: #767676;
+        background-color: rgba(151, 149, 144, 1.0); }
+  #systemsDiagram section {
+    position: absolute;
+    top: 114px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    /*
+	  top: auto;
+	  left: auto;
+	  right: auto;
+	  bottom: auto;
+	  margin: 0 auto;
+	  width: 920px;
+	  min-height: 700px;
+	  position: relative;
+	  clear: both;
+	  overflow: hidden;*/
+    background: none; }
+    #systemsDiagram section #systemCanvas {
+      position: absolute;
+      left: 0px;
+      right: 0px;
+      bottom: 40px;
+      top: 0;
+      background: none;
+      z-index: 5; }
+
+#optionSelector {
+  position: absolute; }
+
+#popupModal {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(20, 20, 20, 0.8);
+  margin: 0px auto 0px auto;
+  box-shadow: 0px 0px 15px black;
+  width: 40%;
+  padding: 10px;
+  font-family: simcity;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px; }
+  #popupModal h1 {
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 30px; }
+  #popupModal .starRating {
+    margin-bottom: 30px; }
+    #popupModal .starRating li {
+      background-image: url("../challenges/images/unfilled_star.png");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      width: 120px;
+      height: 120px;
+      display: inline-block; }
+      #popupModal .starRating li.filled {
+        background-image: url("../challenges/images/filled_star.png"); }
+      #popupModal .starRating li:first-of-type {
+        margin-right: 30px; }
+      #popupModal .starRating li:last-of-type {
+        margin-left: 30px; }
+  #popupModal p {
+    text-align: left;
+    margin: 0px auto 30px auto;
+    color: white;
+    font-size: 1.25em;
+    width: 90%; }
+  #popupModal button {
+    height: 60px;
+    width: 180px;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px; }
+    #popupModal button:hover {
+      background-color: #73adde; }
+  #popupModal .medal {
+    width: 200px;
+    height: 200px; }
+  #popupModal h2 {
+    margin-top: 50px;
+    color: white;
+    font-size: 3em; }
+  #popupModal .triesLeft {
+    display: block;
+    color: white;
+    margin-bottom: 50px; }
+  #popupModal .rating {
+    list-style: none;
+    width: 80%;
+    margin: 20px auto 40px auto; }
+    #popupModal .rating li {
+      font-size: 1.25em;
+      color: grey;
+      margin-bottom: 10px;
+      padding-left: 55px;
+      text-align: left;
+      background-image: url("../images/emptyListIcon.png");
+      background-repeat: no-repeat;
+      height: 40px;
+      line-height: 36px; }
+      #popupModal .rating li.full {
+        background-image: url("../images/fullListIcon.png");
+        color: white; }
+
+#dialog-message-overlay
+{
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: #000000;
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+	z-index: 20;
+}
+
+#dialog-message
+{
+	bottom: 0;
+	left: auto;
+	margin: 0;
+	padding: 0;
+	width: 500px;
+	position: absolute;
+	background: transparent;
+	z-index: 9999;
+}
+
+#dialog-message div.content
+{
+	bottom: 250px;
+	left: 180px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	background: transparent;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#dialog-message div.content p
+{
+	margin: 0 0 28px 0;
+	padding: 14px;
+	position: relative;
+	background: #eaeaec url("../images/dialog_background.png") repeat-x bottom left;
+	border: 1px solid #fbfcff;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	color: #265e94;
+	font-family: simcity;
+	font-size: 15px;
+}
+
+#dialog-message div.content div.button
+{
+	top: 8px;
+	bottom: auto;
+	left: auto;
+	right: 10px;
+	margin: 0;
+	padding: 0;
+	width: 11px;
+	height: 11px;
+	position: absolute;
+	border: none;
+}
+
+#dialog-message div.content div.button a
+{
+	margin: 0;
+	padding: 0;
+	width: 11px;
+	height: 11px;
+	display: block;
+	background: transparent url("../images/dialog_close.png") no-repeat top left;
+	border: none;
+	text-decoration: none;
+}
+
+
+#dialog-message div.content div.button a:hover
+{
+	background: transparent url("../images/dialog_close_hover.png") no-repeat top left;
+}
+
+#dialog-message div.content div.arrow
+{
+	bottom: 1px;
+	left: 10px;
+	margin: 0;
+	padding: 0;
+	width: 29px;
+	height: 28px;
+	position: absolute;
+	background: transparent url("../images/dialog_arrow.png") no-repeat bottom left;
+}
+
+#dialog-message div.button
+{
+	bottom: 200px;
+	left: 60%;
+	width: auto;
+	position: absolute;
+}
+
+#dialog-message div.button a
+{
+	margin: 0;
+	padding: 9px 26px 8px 26px;
+	display: block;
+	background: #000000;
+	border: 1px solid #1d3720;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	color: #ffffff;
+	font-family: simcity;
+	font-weight: bold;
+	font-size: 15px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.9;
+	filter: alpha(opacity=90);
+}
+
+#dialog-message div.button a:hover
+{
+	background: #39b54a;
+	border: 1px solid #39b54a;
+	opacity: 1.0;
+	filter: alpha(opacity=100);
+}
+
+#dialog-message div.character
+{
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	width: 237px;
+	height: 316px;
+	position: absolute;
+	background: transparent url("../images/dialog_character.png") no-repeat;
+}
