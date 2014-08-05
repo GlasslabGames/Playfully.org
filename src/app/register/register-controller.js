@@ -175,6 +175,10 @@ angular.module('playfully.register', [])
             user = data;
             Session.create(user.id, user.role);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+
+            if ($state.current.data.hideWrapper) {
+              $window.location.search = 'action=SUCCESS';
+            }
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
