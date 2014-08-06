@@ -47,7 +47,9 @@
         </div>
 
         <div ng-if="button.link">
-          <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn"
+          <button type="button"
+            class="btn gl-btn--blue gl-games-sidebar-btn"
+            ng-click="goTo(button.link)"
             ng-bind="button.name"></button>
         </div>
 
