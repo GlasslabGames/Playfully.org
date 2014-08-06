@@ -49,6 +49,7 @@ angular.module( 'instructor.games', [
       }
     });
     $scope.currentPage = null;
+    $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [

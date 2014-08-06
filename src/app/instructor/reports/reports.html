@@ -33,7 +33,7 @@
       </ul>
     </div>
 
-    <button class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
+    <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
     <button class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
 
 
@@ -110,7 +110,7 @@
                 <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
                 <td class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
                   <i class="fa fa-check-circle-o"
-                    ng-show="getStudentResult(student.id, achv)"></i>
+                    ></i>
                 </td>
                 <td class="gl-nobr">1hr 25mins</td>
               </tr>
