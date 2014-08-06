@@ -47,13 +47,13 @@
             <div class="gl-reports-nav-courses" ng-repeat="course in courses">
               <label>
                 <input type="checkbox" ng-model="course.isExpanded">
-                {{ course.name }}
+                {{ course.title }}
                 <div class="gl-arrow-right gl-reports-course-toggle"
                   ng-class="{'gl-arrow-right': !course.isExpanded, 'gl-arrow-down': course.isExpanded}"></div>
               </label>
               <div class="gl-reports-nav-students"
                 ng-show="course.isExpanded">
-                <div ng-repeat="student in course.students">
+                <div ng-repeat="student in course.users">
                   <label>
                     <input type="checkbox">
                     {{ student.firstName }}
@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-9">
         <div class="gl-reports-container gl-margin--Bxl">
-          <h1 class="headline-2 text-center gl-margin--Tn">Game Achievements &amp; Time Played</h1>
+          <h1 class="headline-2 text-center gl-margin--Tl">Game Achievements &amp; Time Played</h1>
           <p class="text-center">
             This report shows students' key achievements to date and total time played.
           </p>
@@ -87,23 +87,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th class="gl-reports-achievement">
-                  Achievement 1
-                  <p class="text-center gl-margin--Tm">
-                    Evidence can be related AND supporting
-                  </p>
-                </th>
-                <th class="gl-reports-achievement">
-                  Achievement 2
-                  <p class="text-center gl-margin--Tm">
-                    There can be different kinds of arguments
-                  </p>
-                </th>
-                <th class="gl-reports-achievement">
-                  Achievement 3
-                  <p class="text-center gl-margin--Tm">
-                    There can be different kinds of arguments
-                  </p>
+                <th class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
+                  <div ng-bind="achv.item"></div>
                 </th>
                 <th>Time Played</th>
               </tr>
@@ -121,12 +106,13 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr class="gl-reports-table-row">
-                <td>Cynthia P.</td>
-                <td class="gl-reports-achievement"><i class="fa fa-check-circle-o"></i></td>
-                <td class="gl-reports-achievement"><i class="fa fa-check-circle-o"></i></td>
-                <td class="gl-reports-achievement"></td>
-                <td>1hr 25mins</td>
+              <tr class="gl-reports-table-row" ng-repeat="student in students">
+                <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+                <td class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
+                  <i class="fa fa-check-circle-o"
+                    ng-show="getStudentResult(student.id, achv)"></i>
+                </td>
+                <td class="gl-nobr">1hr 25mins</td>
               </tr>
             </tbody>
           </table>

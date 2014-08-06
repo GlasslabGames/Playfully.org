@@ -11,6 +11,7 @@ angular.module( 'playfully', [
   'auth',
   'user',
   'games',
+  'reports',
   'playfully.navbar',
   'playfully.home',
   'playfully.instructor',
