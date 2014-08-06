@@ -99,7 +99,7 @@ angular.module('playfully.login', [])
     $stateProvider.state('passwordPrompt', {
       url: '/sdk/login/confirm',
       parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['all'] },
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
       views: {
         'main@': {
           templateUrl: 'login/password-prompt.html',
