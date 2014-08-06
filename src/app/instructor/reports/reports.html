@@ -1,0 +1,139 @@
+<div class="gl-bg--gray">
+  <div class="container">
+    <hr class="rule rule--aqua" />
+    Game:
+    <div class="btn-group" dropdown>
+      <button type="button" class="btn btn-default">Mars Generation One</button>
+      <button type="button" class="btn gl-btn--blue dropdown-toggle">
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    Report:
+    <div class="btn-group" dropdown>
+      <button type="button" class="btn btn-default">Game Achievements & Time</button>
+      <button type="button" class="btn gl-btn--blue dropdown-toggle">
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <button class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
+    <button class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
+
+
+    <hr class="rule rule--aqua" />
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="gl-reports-container gl-margin--Bxl">
+          <h3 class="headline-5 gl-margin--Tn">Class / Players</h3>
+          <div>
+            <div class="gl-reports-nav-courses" ng-repeat="course in courses">
+              <label>
+                <input type="checkbox" ng-model="course.isExpanded">
+                {{ course.name }}
+                <div class="gl-arrow-right gl-reports-course-toggle"
+                  ng-class="{'gl-arrow-right': !course.isExpanded, 'gl-arrow-down': course.isExpanded}"></div>
+              </label>
+              <div class="gl-reports-nav-students"
+                ng-show="course.isExpanded">
+                <div ng-repeat="student in course.students">
+                  <label>
+                    <input type="checkbox">
+                    {{ student.firstName }}
+                    {{ student.lastName }}.
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="gl-reports-container gl-margin--Bxl">
+          <h1 class="headline-2 text-center gl-margin--Tn">Game Achievements &amp; Time Played</h1>
+          <p class="text-center">
+            This report shows students' key achievements to date and total time played.
+          </p>
+
+          <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
+            <div class="btn-group btn-group-justified">
+              <label class="btn gl-btn--blue" ng-model="checkModel.left" btn-checkbox>
+                Common Core Standards Report
+              </label>
+              <label class="btn gl-btn--ltgrey" ng-model="checkModel.middle" btn-checkbox>
+                21st Century Skills Report
+              </label>
+            </div>
+          </div>
+
+          <table class="table gl-reports-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th class="gl-reports-achievement">
+                  Achievement 1
+                  <p class="text-center gl-margin--Tm">
+                    Evidence can be related AND supporting
+                  </p>
+                </th>
+                <th class="gl-reports-achievement">
+                  Achievement 2
+                  <p class="text-center gl-margin--Tm">
+                    There can be different kinds of arguments
+                  </p>
+                </th>
+                <th class="gl-reports-achievement">
+                  Achievement 3
+                  <p class="text-center gl-margin--Tm">
+                    There can be different kinds of arguments
+                  </p>
+                </th>
+                <th>Time Played</th>
+              </tr>
+              <tr>
+                <th colspan="5" class="gl-reports-divider--blue"></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td colspan="3" class="text-center">
+                  Achievement 1-3 / 6
+                </td>
+                <td></td>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr class="gl-reports-table-row">
+                <td>Cynthia P.</td>
+                <td class="gl-reports-achievement"><i class="fa fa-check-circle-o"></i></td>
+                <td class="gl-reports-achievement"><i class="fa fa-check-circle-o"></i></td>
+                <td class="gl-reports-achievement"></td>
+                <td>1hr 25mins</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ describe('HomeCtrl', function() {
 
   var scope, rootScope, $state, $location, createController, AUTH_EVENTS;
 
+
   beforeEach(function() {
     module('playfully');
   });
@@ -21,6 +22,7 @@ describe('HomeCtrl', function() {
         '$scope': scope
       });
     };
+
     $httpBackend.flush();
   }));
 
