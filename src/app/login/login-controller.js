@@ -118,6 +118,7 @@ angular.module('playfully.login', [])
       resolve: {
         data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
           AuthService.logout().then(function() {
+            $log.info('supposedly logged out');
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
           });
         }
