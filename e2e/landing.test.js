@@ -1,52 +1,78 @@
-var fs			= require('fs'),
-		chai		= require('chai'),
-		expect  = chai.expect,
-		landing = require('./page_objects/landing.js');		
+var tools   	 = require('./lib/tools'),
+		screenshot = tools.screenshot,
+		runTest		 = tools.runTest,
+		landing 	 = require('./page_objects/landing.js'),
+		dashboard  = require('./page_objects/dashboard.js'),
+		acct			 = require('./mock_data/acct.js');		
 
-// abstract writing screen shot to a file
-function writeScreenShot(data, filename) {
-    var stream = fs.createWriteStream(filename);
+//// Config ////
+var serverAddress = "http://localhost:8001";
+var resultDir = './e2e/results/';
+////////////////
 
-    stream.write(buf = new Buffer(data, 'base64'));
-    stream.end();
-}
-
-//// within a test:
-//browser.takeScreenshot().then(function (png) {
-//    writeScreenShot(png, 'exception.png');
-//});
-
-
-
-describe("Landing page - Anonymous user", function() {
+describe("Landing Page - Not Logged In", function() {
 	
-	before(function() {
-		browser.get("http://localhost:8001/");
-	});
+		var testRoutine = landing;
 	
-	it('should show default copy correctly', function() {
+		before(function () {
+			browser.get(serverAddress + landing.path);
+			screenshot(resultDir + 'landing-1(auto).png');
+		});
+	
+		for (test in testRoutine) {
+			var testCase = testRoutine[test];
+			
+			if (testCase.hasOwnProperty('ttype')) {
+				runTest(testCase);
+			} else {
+				console.log(test);
+			}
+		}
+	
+	describe("Login flow", function() {
 		
-		element(by.css(".gl-copyright")).getText()
-			.then(function(text) {
-				expect(text).to.equal('©2014 GlassLab™');
-			});
-		browser.takeScreenshot()
-			.then(function(png) {
-				writeScreenShot(png, './e2e/results/landing-1.png');
-			});
-	});
-	
-	it('able to see navigation options correctly', function () {
+		browser.get(serverAddress + landing.path);
 		
-		element(by.css(".gl-nav")).getCssValue()
-			.then(function(text) {
-				console.log(text);
-			});
-		element(by.css(".gl-nav")).getText()
-			.then(function(text) {
-				expect(text).to.equal('Home\nGames\nSupport\nRedeem\nSign In')
-			});
+		it("should log in successfully - teacher", function() {
+			
+			landing.loginButton.locator.click();
+			element(by.css(".login-button--instructor")).click();
+			element(by.model('credentials.username')).sendKeys(acct.teacher.email);
+			element(by.model('credentials.password')).sendKeys(acct.teacher.pass);
+			// login
+			screenshot(resultDir + 'landing-login(auto).png');
+			element(by.css("input.btn.gl-btn--blue")).click()
+			screenshot(resultDir + 'landing-login-2(auto).png');
+		});
+		
+		it("should log out successfully - teacher", function() {
+			
+			screenshot(resultDir + 'landing-login-3(auto).png');
+			dashboard.userIcon.locator.click();
+			screenshot(resultDir + 'landing-login-4(auto).png');
 
+		});
+			 
+		it.skip("should log in successfully - student", function() {
+			
+			browser.get(serverAddress + landing.path);
+			
+			landing.loginButton.locator.click();
+			element(by.css(".login-button--instructor")).click();
+			element(by.model('credentials.username')).sendKeys(acct.teacher.email);
+			element(by.model('credentials.password')).sendKeys(acct.teacher.pass);
+			// login
+			screenshot(resultDir + 'landing-login(auto).png');
+			element(by.css("input.btn.gl-btn--blue")).click()
+			screenshot(resultDir + 'landing-login-2(auto).png');
+		});
+		
+//		browser.getCurrentUrl()
+//			.then(function(url) {
+//				console.log('url: ' + url);
+//			});
+//		
+		
 	});
-
+		
 });
