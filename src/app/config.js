@@ -12,6 +12,10 @@ angular.module('playfully.config', [])
   userRetrieved: 'auth:user-retrieved'
 })
 
+.constant('ERRORS', {
+    'general': "We encountered an error. Please try again."
+})
+
 .constant('THIRD_PARTY_AUTH', {
   edmodo: true,
   icivics: false

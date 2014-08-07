@@ -7,8 +7,10 @@ describe("Forgot password link on login modal", function() {
     this.forgotPasswordLink = element(by.css('.link-forgot-password'));
 
     this.get = function() {
-      browser.get('/login/instructor');
+      browser.get('/logout');
       ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
+      browser.get('/login/instructor');
       ptor.sleep( params.modal.waitTime );
     };
 
@@ -17,9 +19,9 @@ describe("Forgot password link on login modal", function() {
   it('should display a forgot password link on login modal', function() {
     var loginModal = new InstructorLoginModal();
     loginModal.get();
-    expect(ptor.isElementPresent(loginModal.forgotPasswordLink)).toBe(true);
+    expect(ptor.isElementPresent(element(by.css('.link-forgot-password')))).toBe(true);
     expect(loginModal.forgotPasswordLink.getText()).toBe('Forgot your password?');
-  });
+  }, 10000);
 
   it('should display a password reset modal when clicking Forgot Password link',
     function() {
@@ -48,8 +50,10 @@ describe("Password Reset", function() {
     this.alert = element(by.repeater('error in formInfo.errors').row(0));
 
     this.get = function() {
-      browser.get('/forgot-password');
+      browser.get('/logout');
       ptor = protractor.getInstance();
+      ptor.sleep( params.modal.waitTime );
+      browser.get('/forgot-password?type=instructor');
       ptor.sleep( params.modal.waitTime );
     };
 

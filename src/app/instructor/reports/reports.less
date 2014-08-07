@@ -1,0 +1,130 @@
+.gl-reports-container {
+  background: white;
+  padding: 15px;
+  border: 1px solid @grey5;
+  .border-radius(6px);
+}
+
+.gl-reports-dropdown {
+  width: 240px;
+  max-width: 240px;
+  .text-overflow;
+}
+
+.gl-reports-dropdown--selected {
+  background-color: @aquaBlueLightest;
+}
+
+.gl-reports-nav-courses {
+  border-top: 1px solid @grey5;
+  color: @grey2;
+  font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  label {
+    font-weight: 200;
+    vertical-align: middle;
+    display: block;
+  }
+  label:hover {
+    cursor: pointer;
+  }
+
+  input[type=checkbox] {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+.gl-reports-nav-courses:first-child {
+  border-top: none;
+}
+
+.gl-reports-course-toggle {
+  float: right;
+}
+
+.gl-reports-nav-students {
+  border-top: 1px solid @grey6;
+  padding-left: @spacingLarge;
+  margin-top: 10px;
+  padding-top: 6px;
+}
+
+.gl-reports-nav-student {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.gl-reports-btn-group-container {
+  padding-left: @spacingXXLarge;
+  padding-right: @spacingXXLarge;
+}
+
+
+.gl-reports-table th {
+  background-color: @grey7;
+  vertical-align: top !important;
+  border-bottom: 2px solid white !important;
+}
+
+.gl-reports-divider--blue {
+  padding-top: 3px !important;
+  padding-bottom: 0 !important;
+  background-color: @aquaBlue !important;
+  border-bottom: 2px solid white;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.gl-reports-table th,
+.gl-reports-table td {
+  font-family: @sansSerifHeadlineFontFamily;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.gl-reports-table tfoot td {
+  border-top: 5px solid white !important;
+  background-color: @grey7;
+}
+
+.gl-reports-table-row > td {
+  vertical-align: middle !important;
+}
+
+.gl-reports-table-row:nth-child(odd) > td {
+  background-color: @grassGreenLightest;
+}
+
+.gl-reports-table-row:nth-child(even) > td {
+  background-color: @aquaBlueLightest;
+}
+
+.gl-reports-table-row > td:first-child,
+.gl-reports-table th:first-child,
+.gl-reports-table tfoot td:first-child {
+  padding-left: 15px;
+  border-right: 5px solid white;
+}
+
+.gl-reports-table-row > td:last-child,
+.gl-reports-table th:last-child,
+.gl-reports-table tfoot td:last-child {
+  border-left: 5px solid white;
+}
+
+.gl-reports-table-row .gl-reports-achievement {
+  text-align: center;
+  font-size: 40px;
+  color: @grassGreen;
+}
+
+.gl-reports-achievement {
+  border-left: 2px solid white;
+}
+
+.gl-reports-table-row .gl-reports-achievement:first-child {
+  border-left: none;
+}

@@ -108,6 +108,19 @@ angular.module('courses', [])
         });
     },
 
+    getActiveEnrollmentsWithStudents: function () {
+      return this.getEnrollmentsWithStudents()
+        .then(function(data) {
+          var activeCourses = [];
+          angular.forEach(data, function(course) {
+            if (!course.archived) {
+              activeCourses.push(course); 
+            }
+          });
+          return activeCourses;
+        });
+    },
+
 
     create: function(data) {
       /* Hack to create an `id` attribute so the API will be happy */

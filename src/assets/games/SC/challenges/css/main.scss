@@ -1,0 +1,399 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.FOREVERGONE {
+    display: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#popupModalOverlay {  
+  z-index:999;
+  position:fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  background-color: #333;
+  opacity:0;
+  background-image: none;
+}
+
+#blocker {
+  position:fixed;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  background: none;
+    z-index: 999999999;
+
+  div {
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    background-color: #333;
+    opacity:.7;
+    background-image: none;
+  }
+  p {
+    position: fixed;
+    top:40%;
+    left:40%;
+    padding:10px;
+    background-color: white;
+
+    span {
+      display: inline-block;
+      width: 50px;
+      height: 20px;
+      background-size: cover;
+      background-image: url("../images/loading.png");
+      background-position-y: 3px;
+    }
+  }
+}
+
+header {
+    position:absolute;
+    top: 0px;
+    left:0px;
+    right:0px;
+    height:40px;
+
+    background-image: url("/images/glass_header_bg.png");
+    background-size: 2% 100%;
+
+    box-shadow:0px 2px 5px 2px #333;
+
+    img {
+      position: absolute;
+      padding: 8px;
+      border-right:1px solid black;
+      background-position: center;
+    }
+
+    a {
+      text-decoration: none;
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      color: white;
+    }
+
+    p {
+      position:absolute;
+      right:0px;
+      top:0px;
+      bottom:40px;
+      width:50%;
+    }
+
+    ul {
+      position: absolute;
+      top:40px;
+      left:0px;
+      width:200px;
+      height:0px;
+      background-color: red;
+      z-index:9999;
+
+      li {
+        cursor: pointer;
+        display:block;
+        width: 100%;
+
+        &:hover {
+          background-color:yellow;
+        }
+      }
+    }
+}
+
+section {
+    position: absolute;
+    top:40px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    background-image: url("/challenges/images/glass_bg.png");
+    background-size: 5% 100%;
+
+    &#main {
+      height: 100%;
+    }
+}
+
+
+/*
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+OLD TERRIBLE DISGUSTING PATHETICALLY DONE CSS THAT NEEDS TO BE FIXED
+JESUS CHRIST, THIS IS JUST TERRIBLE!
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+*/
+/**
+ * Login Window
+ *
+ **/
+.window-login {
+  /* Set a percentage width */
+  width: 40%;
+  /* But make sure it doesn't get too narrow */
+  min-width: 400px;
+  margin: 100px auto;
+}
+
+.window-header,
+.window-footer {
+  padding: 10px;
+}
+
+.window-header h1 {
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0px 1px 0px rgba(0,0,0,0.8);
+}
+
+.window-header .pull-right {
+  font-size: 12px;
+}
+
+.window-header .version-number {
+ font-style: italic;
+}
+
+.window-header h2 {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.window-body {
+  border: 2px solid;
+  padding: 20px 10px;
+}
+
+.window-footer {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* Login module
+   ========================================================================== */
+
+.window-login label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.window-login input[type=text],
+.window-login input[type=password] {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+}
+
+.window-login .field {
+  float: left;
+  width: 48%;
+  margin-left: 4%;
+}
+
+.window-login .field:first-child {
+  margin-left: 0;
+}
+
+.window-login .actions {
+  padding-top: 20px;
+}
+
+.window-login .btn {
+  padding: 14px 20px;
+  margin-right: 10px;
+}
+
+
+/* Login Error module
+   ========================================================================== */
+
+.login-error {
+  padding-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.error-symbol {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: inherit;
+}
+
+/* Window module theming
+   ========================================================================== */
+
+/* Set text color in login window header and footer to light gray. */
+
+.window-header,
+.window-footer {
+  color: #c1c1c1;
+}
+
+/* Set login window title color to very light gray. */
+
+.window-header h1,
+.window-header h2 {
+  color: #eee;
+}
+
+
+/**
+ * Set window background to a diagonal split between light gray and dark gray.
+ **/
+
+.window-header {
+
+  background: #5a5a5a;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjNWE1YTVhIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNjYlIiBzdG9wLWNvbG9yPSIjNWE1YTVhIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iNjYlIiBzdG9wLWNvbG9yPSIjNGI0YjRiIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRiNGI0YiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+  background: -moz-linear-gradient(45deg,  #5a5a5a 0%, #5a5a5a 66%, #4b4b4b 66%, #4b4b4b 100%);
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#5a5a5a), color-stop(66%,#5a5a5a), color-stop(66%,#4b4b4b), color-stop(100%,#4b4b4b));
+  background: -webkit-linear-gradient(45deg,  #5a5a5a 0%,#5a5a5a 66%,#4b4b4b 66%,#4b4b4b 100%);
+  background: -ms-linear-gradient(45deg,  #5a5a5a 0%,#5a5a5a 66%,#4b4b4b 66%,#4b4b4b 100%);
+  background: linear-gradient(45deg,  #5a5a5a 0%,#5a5a5a 66%,#4b4b4b 66%,#4b4b4b 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a5a5a', endColorstr='#4b4b4b',GradientType=1 );
+}
+
+
+/* Set a dark gray border and light gray gradient background on the login
+ * window body. */
+
+.window-body {
+  border-color: #4b4b4b;
+
+  background: #e6e6e6;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U2ZTZlNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZWZlZmUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #e6e6e6 0%, #fefefe 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e6e6e6), color-stop(100%,#fefefe));
+  background: -webkit-linear-gradient(top,  #e6e6e6 0%,#fefefe 100%);
+  background: -ms-linear-gradient(top,  #e6e6e6 0%,#fefefe 100%);
+  background: linear-gradient(to bottom,  #e6e6e6 0%,#fefefe 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', endColorstr='#fefefe',GradientType=0 );
+}
+
+/* Set a dark gray background on the login window footer. */
+
+.window-footer { background: #4b4b4b; }
+
+/* Form inputs theming
+   ========================================================================== */
+
+input[type=text],
+input[type=password],
+textarea {
+  /* Lighter border as the base */
+  border-color: #d2d2d2;
+  /* Enhance the top and left borders with a darker gray */
+  border-top-color: #a7a7a7;
+  border-left-color: #a7a7a7;
+}
+
+button,
+input[type=submit] {
+  border-color: #a7a7a7;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus {
+  border: 1px solid #36f;
+  box-shadow: 0 0 3px #36f;
+}
+
+
+/* Buttons module theming
+   ========================================================================== */
+
+.btn {
+  color: #878787;
+  text-shadow: 0 1px 1px #fff;
+}
+
+button.btn,
+input[type=submit].btn {
+  background: #f4f4f4;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2YyZjJmMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iI2U5ZTllOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkYWRhZGEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #f4f4f4 0%, #f2f2f2 50%, #e9e9e9 51%, #dadada 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(50%,#f2f2f2), color-stop(51%,#e9e9e9), color-stop(100%,#dadada));
+  background: -webkit-linear-gradient(top,  #f4f4f4 0%,#f2f2f2 50%,#e9e9e9 51%,#dadada 100%);
+  background: -ms-linear-gradient(top,  #f4f4f4 0%,#f2f2f2 50%,#e9e9e9 51%,#dadada 100%);
+  background: linear-gradient(to bottom,  #f4f4f4 0%,#f2f2f2 50%,#e9e9e9 51%,#dadada 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#dadada',GradientType=0 );
+}
+
+button.btn:hover,
+input[type=submit].btn:hover {
+  border-color: #808080;
+  color: #444;
+  background: #f4f4f4;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iI2UyZTJlMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkNGQ0ZDQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #f4f4f4 0%, #f4f4f4 50%, #e2e2e2 51%, #d4d4d4 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(50%,#f4f4f4), color-stop(51%,#e2e2e2), color-stop(100%,#d4d4d4));
+  background: -webkit-linear-gradient(top,  #f4f4f4 0%,#f4f4f4 50%,#e2e2e2 51%,#d4d4d4 100%);
+  background: -ms-linear-gradient(top,  #f4f4f4 0%,#f4f4f4 50%,#e2e2e2 51%,#d4d4d4 100%);
+  background: linear-gradient(to bottom,  #f4f4f4 0%,#f4f4f4 50%,#e2e2e2 51%,#d4d4d4 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#d4d4d4',GradientType=0 );
+
+}
+
+button.btn:active,
+input[type=submit].btn:active {
+  box-shadow: inset 0 0 8px rgba(0,0,0, 0.4) !important;
+}
+
+
+button.btn-primary,
+input[type=submit].btn-primary,
+.tag-tab {
+  background: #757575;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzc1NzU3NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ5JSIgc3RvcC1jb2xvcj0iIzgwODA4MCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ5JSIgc3RvcC1jb2xvcj0iIzY3Njc2NyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUyJSIgc3RvcC1jb2xvcj0iIzY3Njc2NyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUyJSIgc3RvcC1jb2xvcj0iIzQzNDM0MyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxNjE2MTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #757575 0%, #808080 49%, #676767 49%, #676767 52%, #434343 52%, #161616 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#757575), color-stop(49%,#808080), color-stop(49%,#676767), color-stop(52%,#676767), color-stop(52%,#434343), color-stop(100%,#161616));
+  background: -webkit-linear-gradient(top,  #757575 0%,#808080 49%,#676767 49%,#676767 52%,#434343 52%,#161616 100%);
+  background: -ms-linear-gradient(top,  #757575 0%,#808080 49%,#676767 49%,#676767 52%,#434343 52%,#161616 100%);
+  background: linear-gradient(to bottom,  #757575 0%,#808080 49%,#676767 49%,#676767 52%,#434343 52%,#161616 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#757575', endColorstr='#161616',GradientType=0 );
+}
+
+button.btn-primary,
+input[type=submit].btn-primary {
+  border-color: #000;
+  color: #f2f2f2;
+  text-shadow: 0 -1px 0 rgba(0,0,0,1.0);
+}
+
+button.btn-primary:hover,
+input[type=submit].btn-primary:hover,
+.tag-tab:hover,
+.launch-link:hover {
+  color: #fff;
+  border-color: #000;
+  background: #707070;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcwNzA3MCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzdhN2E3YSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzNjM2MzYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMTExMTEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #707070 0%, #7a7a7a 50%, #3c3c3c 51%, #111111 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#707070), color-stop(50%,#7a7a7a), color-stop(51%,#3c3c3c), color-stop(100%,#111111));
+  background: -webkit-linear-gradient(top,  #707070 0%,#7a7a7a 50%,#3c3c3c 51%,#111111 100%);
+  background: -ms-linear-gradient(top,  #707070 0%,#7a7a7a 50%,#3c3c3c 51%,#111111 100%);
+  background: linear-gradient(to bottom,  #707070 0%,#7a7a7a 50%,#3c3c3c 51%,#111111 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#707070', endColorstr='#111111',GradientType=0 );
+}

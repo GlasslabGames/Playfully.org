@@ -1,11 +1,5 @@
 angular.module('playfully.register', [])
 
-.constant('REG_ERRORS', {
-  'email.not.unique': "The email address is already in use by another user. Please provide a different email address",
-  'username.not.unique': "That screen name is not available"
-
-})
-
 .config(function config( $stateProvider, $urlRouterProvider ) {
 
   var registerOptionsConfig = {
@@ -80,7 +74,7 @@ angular.module('playfully.register', [])
 
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, REG_ERRORS) {
+    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.account = {
@@ -111,10 +105,10 @@ angular.module('playfully.register', [])
           .error(function(data, status, headers, config) {
             $log.error(data);
             $scope.account.isRegCompleted = false;
-            if ( data.hasOwnProperty('key') ) {
-              $scope.account.errors.push(REG_ERRORS[data.key]);
-            } else {
+            if ( data.error ) {
               $scope.account.errors.push(data.error);
+            } else {
+              $scope.account.errors.push(ERRORS['general']);
             }
           });
       };
@@ -129,7 +123,7 @@ angular.module('playfully.register', [])
 
 
 .controller('RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, CoursesService, Session, AUTH_EVENTS, REG_ERRORS) {
+    function ($scope, $log, $rootScope, $state, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.confirmation = {
@@ -159,8 +153,8 @@ angular.module('playfully.register', [])
         CoursesService.verifyCode(conf.code)
           .then(function(resp) {
             $log.info(resp);
-            if (resp.data.key.indexOf('invalid') >= 0) {
-              $scope.confirmation.errors.push(resp.data.status);
+            if ( resp.data.error ) {
+              $scope.confirmation.errors.push(resp.data.error);
             } else {
               $scope.course = resp.data;
               $scope.account = angular.copy(_blankAccount);
@@ -175,14 +169,18 @@ angular.module('playfully.register', [])
             user = data;
             Session.create(user.id, user.role);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+
+            if ($state.current.data.hideWrapper) {
+              $window.location.search = 'action=SUCCESS';
+            }
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
             $scope.account.isRegCompleted = false;
-            if ( data.hasOwnProperty('key') ) {
-              $scope.account.errors.push(REG_ERRORS[data.key]);
-            } else {
+            if ( data.error ) {
               $scope.account.errors.push(data.error);
+            } else {
+              $scope.account.errors.push(ERRORS['general']);
             }
           });
       };

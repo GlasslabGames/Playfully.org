@@ -42,13 +42,14 @@ angular.module( 'instructor.games', [
 
 
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, games, gameDetails) {
+  function($scope, $state, $stateParams, $log, $location, games, gameDetails) {
     angular.forEach(games, function(game) {
       if (game.gameId == $stateParams.gameId) {
         $scope.game = game;
       }
     });
     $scope.currentPage = null;
+    $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
 
     $scope.navItems = [
@@ -75,5 +76,9 @@ angular.module( 'instructor.games', [
 
     $scope.goToGameSubpage = function(dest) {
       $state.go('gameDetail.' + dest.id);
+    };
+
+    $scope.goTo = function(path) {
+      $location.path(path); 
     };
 });

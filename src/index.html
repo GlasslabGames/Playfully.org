@@ -18,6 +18,7 @@
         <div ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
           Welcome back!
           <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>
+          <span class="navbar-username" data-ng-bind="currentUser.lastName"></span>
         </div>
       </div>
     </div>

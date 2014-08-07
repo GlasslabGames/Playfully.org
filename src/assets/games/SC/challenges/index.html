@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/diagramTool.css">
+
+	<!-- Page Title -->
+    <title>GlassLab Learning Challenges</title>
+
+	<!-- Libraries -->
+    <script src="js/lib/jquery/jquery.js" type="text/javascript"></script>
+    <script src="js/lib/jquery/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="js/lib/kinetic/kinetic-4.5.4-min.js"></script>
+    <script src="js/lib/stacktrace.js"></script>
+
+	<!-- JavaScript files -->
+    <script src="js/diagramItem.js" type="text/javascript"></script>
+    <script src="js/diagramTool.js" type="text/javascript"></script>
+    <script src="js/elaTool.js" type="text/javascript"></script>
+    <script src="js/popup.js" type="text/javascript"></script>
+    <script src="js/client.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <section id="main" class="hidden">
+        <!-- =================
+        ELA Learning Challenge
+        ================== -->
+        <div id="elaTool" class="hidden">
+            <header>
+                <h3>INSTRUCTIONS: Read the text and the diagram closely. Select and drag the text that belongs in the empty space above over to the diagram.</h3>
+                <button id='ela_return'>Cancel</button>
+                <button id='ela_save'>Submit</button>
+                <!--<button id='ela_hint'>Hint</button>-->
+            </header>
+            <section>
+                <div id='ela_gameSpace'>
+                </div>
+                <article>
+                    <!--<button class='ela_expand'>expand text</button>-->
+                    <p></p>
+                </article>
+                <footer class='hidden'>
+                </footer>
+                <button id='ela_toolButton'>x</button>
+            </section>
+        </div>
+
+        <!-- =================================
+        Systems Diagramming Learning Challenge
+        ================================== -->
+        <div id="systemsDiagram" class="hidden">
+            <header>
+                <h3>INSTRUCTIONS: Read the text and the diagram closely. Select and drag the text that belongs in the empty space above over to the diagram.</h3>
+                <!--<h4></h4>-->
+                <button id="diagram_return">Cancel</button>
+                <button id="diagram_save" class="disabled">Submit</button>
+            </header>
+            <subheader id="diagram_libretto_header">
+                <h4 id="diagram_libretto"></h4>
+            </subheader>
+            <section>
+                <div id="systemCanvas"></div>
+            </section>
+        </div>
+        <div id="dialog-message-overlay" class="hidden">
+            <!-- empty overlay which disables the screen for the dialog -->
+        </div>
+        <div id="dialog-message" class="hidden">
+            <div class="content">
+                <p></p>
+                <div class="button close">
+                    <a href="#"></a>
+                </div>
+                <div class="arrow"></div>
+            </div>
+            <div class="button close">
+                <a href="#">Ok!</a>
+            </div>
+            <div class="character"></div>
+        </div>
+    </section>
+</body>
+</html>

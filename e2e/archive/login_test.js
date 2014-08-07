@@ -53,6 +53,7 @@ describe("Login Options", function() {
   });
 
   it("should link to student login", function() {
+
     var loginModal = new LoginModal();
     loginModal.get();
     loginModal.loginStudentButton.click().then(function() {
@@ -112,6 +113,7 @@ describe("Instructor Login", function() {
   });
 
   it("should have a link to Forgot Password modal", function() {
+    browser.get('/logout');
     var modal = new InstructorLoginModal();
     modal.get();
     expect(ptor.isElementPresent(modal.forgotPasswordLink)).toBe(true);
@@ -151,6 +153,7 @@ describe("Instructor Login", function() {
     modal.submitButton.click().then(function() {
       expect(ptor.getCurrentUrl()).toContain('/dashboard');
     });
+    browser.get('/logout');
   });
 
 });

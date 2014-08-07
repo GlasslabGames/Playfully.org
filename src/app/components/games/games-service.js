@@ -30,7 +30,6 @@ angular.module('games', [])
     getDetail: function (gameId) {
       return $http.get(API_BASE + '/dash/game/' + gameId)
         .then(function (response) {
-          $log.info(response);
           return response.data;
         }, function (response) {
           $log.error(response);
@@ -44,7 +43,6 @@ angular.module('games', [])
       return $http
         .get(API_BASE + url)
         .then(function (response) {
-          $log.info(response);
           return response.data;
         }, function (response) {
           $log.error(response);

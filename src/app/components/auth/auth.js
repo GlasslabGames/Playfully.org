@@ -1,5 +1,5 @@
-angular.module('auth', ['session'])
-.factory('AuthService', function ($http, $log, Session, UserService, API_BASE) {
+angular.module('auth', ['session', 'ipCookie'])
+.factory('AuthService', function ($http, $log, ipCookie, Session, UserService, API_BASE) {
 
   var api = {
 
@@ -10,6 +10,7 @@ angular.module('auth', ['session'])
     logout: function () {
       return $http.post(API_BASE + '/auth/logout')
         .then(function(response) {
+          ipCookie.remove('connect.sid');
           UserService.removeCurrentUser();
           Session.destroy();
           return true;
