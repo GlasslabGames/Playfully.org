@@ -36,12 +36,6 @@ angular.module( 'instructor.dashboard', [
       selectedOption: games[0].shortName
     };
 
-    $log.info('-*-*-*-*-*-');
-    $log.info($scope.courses);
-    $log.info($scope.games);
-    $log.info('-*-*-*-*-*-');
-
-
     var tempInfo = [{
       timestamp: 1406692325,
       assessmentId: "sowo",

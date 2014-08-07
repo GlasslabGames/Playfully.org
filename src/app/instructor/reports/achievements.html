@@ -14,7 +14,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
+      <th class="gl-reports-achievement" ng-repeat="achv in achievements | limitTo:3">
         <div ng-bind="achv.item"></div>
       </th>
       <th>Time Played</th>
@@ -33,9 +33,9 @@
     </tr>
   </tfoot>
   <tbody>
-    <tr class="gl-reports-table-row" ng-repeat="student in students">
+    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selected].users" ng-hide="!student.isSelected">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-      <td class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
+      <td class="gl-reports-achievement" ng-repeat="achv in achievements | limitTo:3">
         <i class="fa fa-check-circle-o"
           ></i>
       </td>

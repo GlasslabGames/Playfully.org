@@ -17,7 +17,7 @@ angular.module( 'instructor.reports', [
       allGames: function(GamesService) {
         return GamesService.all();
       },
-      courses: function(CoursesService) {
+      activeCourses: function(CoursesService) {
         return CoursesService.getActiveEnrollmentsWithStudents();
       }
     },
@@ -30,7 +30,26 @@ angular.module( 'instructor.reports', [
 
 
 .controller( 'ReportsCtrl',
-  function($scope, $state, $stateParams, $log, allGames, courses, CoursesService, ReportsService) {
+  function($scope, $state, $stateParams, $log, allGames, activeCourses, CoursesService, ReportsService) {
+
+    $scope.students = {};
+    $scope.achievements = [];
+
+    $scope.courses = {
+      selected: null,
+      options: {}
+    };
+    angular.forEach(activeCourses, function(course) {
+      $scope.courses.options[course.id] = course;
+      angular.forEach(course.users, function(student) {
+        student.isSelected = true;
+        if (!$scope.students.hasOwnProperty(student.id)) {
+          $scope.students[student.id] = student;
+        }
+      });
+    });
+
+    $scope.courses.selected = activeCourses[0].id;
 
     $scope.games = {
       isOpen: false,
@@ -38,7 +57,6 @@ angular.module( 'instructor.reports', [
       options: {}
     };
     angular.forEach(allGames, function(game) {
-      $log.info(game);
       if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
       }
@@ -80,19 +98,37 @@ angular.module( 'instructor.reports', [
 
 
 
-
-    $scope.courses = courses;
-
     $scope.$watchCollection('[games.selected, reports.selected]', function(newValue, oldValue) {
-      $log.info(oldValue);
-      $log.info(newValue);
+      var requestedGame = newValue[0];
+      var requestedReport = newValue[1];
+
+      if (requestedReport == 'ACHV') {
+        ReportsService.getAchievements(requestedGame, $scope.courses.selected)
+          .then(function(data) {
+            angular.forEach(data, function(d) {
+              $scope.students[d.userId].achievements = d.achievements;
+            });
+            if (!$scope.achievements.length) {
+              angular.forEach(data[0].achievements, function(achievement) {
+                var achv = angular.copy(achievement);
+                delete achv.won;
+                $scope.achievements.push(achv);
+              });
+            }
+          });
+          
+      } else if (requestedReport = 'SOWO') {
+        ReportsService.getSOWO(requestedGame, $scope.courses.selected)        
+          .then(function(data) {
+            $log.info('shoutouts');
+            $log.info(data);
+          });
+      }
+
     });
 
 
     // $scope.courses = [];
-    $scope.students = [];
-    $scope.achievements = [];
-    $scope.activeAchievements = [];
 
     // CoursesService.getEnrollmentsWithStudents()
     //   .then(function(data) {

@@ -19,6 +19,24 @@ angular.module('reports', [])
         });
     },
 
+    getSOWO: function (gameId, courseId, limit) {
+      var params = {
+        gameId: gameId,
+        courseId: courseId,
+        limit: limit || 10
+      };
+      var apiUrl = API_BASE + '/dash/reports/sowo';
+      return $http({method: 'GET', url: apiUrl, params: params})
+        .then(function(response) {
+          return response.data;  
+        }, function(response) {
+          $log.error(response);
+          return response;
+        });
+
+
+    }
+
 
   };
 
