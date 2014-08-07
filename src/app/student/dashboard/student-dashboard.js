@@ -74,8 +74,8 @@ angular.module( 'student.dashboard', [
       $scope.verification.errors = [];
       CoursesService.verifyCode(verification.code)
         .then(function(result) {
-          if (result.data.key && result.data.key.indexOf('invalid') > -1) {
-            $scope.verification.errors.push(result.data.status);
+          if ( result.data.error ) {
+            $scope.verification.errors.push(result.data.error);
           } else {
             $scope.enrollment = result.data;
             $scope.enrollment.courseCode = $scope.verification.code;
