@@ -2,34 +2,38 @@
   <div class="container">
     <hr class="rule rule--aqua" />
     Game:
-    <div class="btn-group" dropdown>
-      <button type="button" class="btn btn-default">Mars Generation One</button>
+    <div class="btn-group" dropdown is-open="games.isOpen">
+      <button type="button" class="btn btn-default"
+        ng-click="toggleDropdown($event, 'games')"
+        ng-bind="games.options[games.selected].shortName"></button>
       <button type="button" class="btn gl-btn--blue dropdown-toggle">
         <span class="caret"></span>
         <span class="sr-only">Split button!</span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Another action</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Separated link</a></li>
+        <li ng-repeat="(key, game) in games.options"
+          ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
+          <a href="#" ng-bind="game.shortName"></a>
+        </li>
       </ul>
     </div>
 
     Report:
-    <div class="btn-group" dropdown>
-      <button type="button" class="btn btn-default">Game Achievements & Time</button>
+    <div class="btn-group" dropdown is-open="reports.isOpen">
+      <button type="button" class="btn btn-default gl-reports-dropdown"
+        ng-click="toggleDropdown($event, 'reports')"
+        ng-bind="reports.options[reports.selected].title + ' Report'"></button>
       <button type="button" class="btn gl-btn--blue dropdown-toggle">
         <span class="caret"></span>
         <span class="sr-only">Split button!</span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Another action</a></li>
-        <li><a href="#">Something else here</a></li>
-        <li class="divider"></li>
-        <li><a href="#">Separated link</a></li>
+        <li ng-repeat="(key, report) in reports.options | orderBy:report.position"
+          ng-class="{'gl-reports-dropdown--selected': key == reports.selected}">
+          <a href="#"
+            ng-click="selectReport($event, key)"
+            ng-bind="report.title + ' Report'"></a>
+        </li>
       </ul>
     </div>
 
@@ -67,55 +71,20 @@
       </div>
       <div class="col-md-9">
         <div class="gl-reports-container gl-margin--Bxl">
-          <h1 class="headline-2 text-center gl-margin--Tl">Game Achievements &amp; Time Played</h1>
+          <h1 class="headline-2 text-center gl-margin--Tl"
+            ng-bind="reports.options[reports.selected].title"></h1>
           <p class="text-center">
             This report shows students' key achievements to date and total time played.
           </p>
 
-          <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
-            <div class="btn-group btn-group-justified">
-              <label class="btn gl-btn--blue" ng-model="checkModel.left" btn-checkbox>
-                Common Core Standards Report
-              </label>
-              <label class="btn gl-btn--ltgrey" ng-model="checkModel.middle" btn-checkbox>
-                21st Century Skills Report
-              </label>
-            </div>
+          <div ng-if="reports.selected == 'ACHV'">
+            <div ng-include src="'instructor/reports/achievements.html'"></div>
           </div>
 
-          <table class="table gl-reports-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
-                  <div ng-bind="achv.item"></div>
-                </th>
-                <th>Time Played</th>
-              </tr>
-              <tr>
-                <th colspan="5" class="gl-reports-divider--blue"></th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <td></td>
-                <td colspan="3" class="text-center">
-                  Achievement 1-3 / 6
-                </td>
-                <td></td>
-              </tr>
-            </tfoot>
-            <tbody>
-              <tr class="gl-reports-table-row" ng-repeat="student in students">
-                <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-                <td class="gl-reports-achievement" ng-repeat="achv in activeAchievements">
-                  <i class="fa fa-check-circle-o"
-                    ></i>
-                </td>
-                <td class="gl-nobr">1hr 25mins</td>
-              </tr>
-            </tbody>
-          </table>
+          <div ng-if="reports.selected == 'SOWO'">
+            <div ng-include src="'instructor/reports/shoutouts.html'"></div>
+          </div>
+
 
         </div>
       </div>
