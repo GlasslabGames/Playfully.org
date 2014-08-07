@@ -40,15 +40,22 @@ angular.module( 'playfully.profile', [])
 .controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService ) {
 
   if (user.role == 'instructor') {
-    user.name = user.firstName + ' ' + user.lastName;
+    user.name = user.firstName + (user.lastName ? ' ' + user.lastName : '');
   }
   $scope.user = angular.copy(user);
 
   $scope.updateProfile = function(user) {
-    if (user.name && user.name.indexOf(' ') > -1) {
-      firstName = user.name.substr(0, user.name.indexOf(' '));
-      user.lastName = user.name.substr(user.name.indexOf(' ')+1);
-      user.firstName = firstName;
+    if (user.name) {
+      // name has space
+      if(user.name.indexOf(' ') > -1) {
+        firstName = user.name.substr(0, user.name.indexOf(' '));
+        user.lastName = user.name.substr(user.name.indexOf(' ')+1);
+        user.firstName = firstName;
+      } else {
+        // no space then no lastname and first is the whole name
+        user.firstName = user.name;
+        user.lastName = "";
+      }
     }
     UserService.update(user)
       .success(function(data, status, headers, config) {
