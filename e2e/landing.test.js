@@ -1,12 +1,15 @@
-var tools   	 = require('./lib/tools'),
-		chai	 		 = require('chai'),
-		
+var	chai	 		 = require('chai'),
 		expect 		 = chai.expect,
+		tools  		 = require('./lib/tools'),
 		screenshot = tools.screenshot,
 		tstamp		 = tools.tstamp,
-		runTest		 = tools.runTest,
-		expectCurrentUrlToMatch = tools.expectCurrentUrlToMatch,
+		runTest		 = tools.runTest;
 		
+		// Custom testing functions
+		expectCurrentUrlToMatch = tools.expectCurrentUrlToMatch,
+		expectObjTextToMatch 		= tools.expectObjTextToMatch,
+		
+		// Page Objects
 		landing 	 = require('./page_objects/landing.js'),
 		dashboard  = require('./page_objects/dashboard.js'),
 		acct			 = require('./mock_data/acct.js');		
@@ -50,7 +53,7 @@ describe("Landing Page - Not Logged In", function() {
 			landing.field_email.locator.sendKeys(acct.user.teacher);
 			landing.field_password.locator.sendKeys(acct.pass.teacher);
 			screenshot(resultDir + 'landing.login-0(teacher).png');
-			element(by.css("input.btn.gl-btn--blue")).click();
+			landing.signInBtn.locator.click();
 			
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 		});
@@ -73,8 +76,8 @@ describe("Landing Page - Not Logged In", function() {
 			landing.login_student.locator.click();
 			landing.field_email.locator.sendKeys(acct.user.student);
 			landing.field_password.locator.sendKeys(acct.pass.student);
-			screenshot(resultDir + 'landing-login(student).png');
-			element(by.css("input.btn.gl-btn--blue")).click()		// FIXME
+			screenshot(resultDir + 'landing.login(student).png');
+			landing.signInBtn.locator.click();
 			screenshot(resultDir + 'landing.login-2(student).png');
 			
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);

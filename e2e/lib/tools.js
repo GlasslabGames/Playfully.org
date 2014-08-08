@@ -6,6 +6,7 @@ module.exports = {
 	screenshot: screenshot,
 	runTest: runTest,
 	expectCurrentUrlToMatch: expectCurrentUrlToMatch,
+	expectObjTextToMatch: expectObjTextToMatch,
 	tstamp: tstamp
 }
 
@@ -34,10 +35,17 @@ function tstamp() {
 
 function expectCurrentUrlToMatch(url) {
 	browser.getCurrentUrl()
-			.then(function(currUrl) {
+		.then(function(currUrl) {
 //				console.log('currUrl: ' + currUrl);
-				expect(currUrl).to.eql(url);
-			});
+			expect(currUrl).to.eql(url);
+		});
+}
+
+function expectObjTextToMatch(locator, text) {
+	locator.getText()
+		.then(function(objText) {
+			expect(objText).to.eql(text);
+		});
 }
 	
 // The DRY function to defining each test case outlined in page objects
@@ -55,14 +63,15 @@ function runTest(element) {
 
 		case('text'):
 			it("Verifying text - " + description, function () {
-				loc.getText()
-					.then(function(text) {
-						expect(text).to.eql(element.text)
-					});
+//				loc.getText()
+//					.then(function(text) {
+//						expect(text).to.eql(element.text)
+//					});
+				expectObjTextToMatch(loc, element.text);
 			});
 			break;
 
-		case('form'):
+		case('form'):		// NOTE - Form definitions still forming, not implemented in auto
 //			it.skip("Verifying form - " + description, function() {
 //				var submit;
 //				for (subElem in element.fields) {
@@ -83,13 +92,11 @@ function runTest(element) {
 			});
 			break;
 
-		case('btn'):
-//			it.skip("Button appears and functions as expected", function() {
-//				loc.getText()
-//					.then(function(text) {
-//						expect(text).to.eql(element.text);
-//					});
-//				loc.click();
+		case('btn'):		// NOTE - Still breaks if checking for btns on modals, so commented out
+//			it("Button appears and functions as expected", function() {
+//				expectObjTextToMatch(loc, element.text);
+//				
+////				loc.click();	// TODO - add case for 'auto' field before firing btn
 //				// FUTURE - be able to trigger subsequent tests like page redirs, etc.
 //			});
 			break;

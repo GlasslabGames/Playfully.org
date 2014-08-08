@@ -63,6 +63,12 @@ var Landing = function() {
 			locator: element(by.model('credentials.password'))
 		}
 		
+		this.signInBtn = {
+			ttype: 'btn',
+			locator: element(by.css("input.btn.gl-btn--blue")),
+			text: 'Sign In'
+		}
+		
     //// GAMES ////
     
 //    this.gameCard = {
