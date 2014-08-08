@@ -21,6 +21,16 @@ function screenshot(fname) {
 		});
 }
 
+function tstamp() {
+	return (new Date()).toLocaleString();
+}
+
+function expectCurrentUrlToMatch(url) {
+	browser.getCurrentUrl()
+			.then(function(currUrl) {
+				expect(currUrl).to.eql(url);
+			});
+
 // The DRY function to defining each test case outlined in page objects
 function runTest(element) {
 	
@@ -40,17 +50,17 @@ function runTest(element) {
 			break;
 
 		case('form'):
-			it.skip("Verifying form - " + description, function() {
-				var submit;
-				for (subElem in element.fields) {
-					if (subElem.ttype == btn) {
-						submit = subElem;
-					} else {
-						runTest(subElement);
-					}
-				}
-				runTest(btn);
-			});
+//			it.skip("Verifying form - " + description, function() {
+//				var submit;
+//				for (subElem in element.fields) {
+//					if (subElem.ttype == btn) {
+//						submit = subElem;
+//					} else {
+//						runTest(subElement);
+//					}
+//				}
+//				runTest(btn);
+//			});
 			break;
 
 		case('field'):
@@ -61,14 +71,14 @@ function runTest(element) {
 			break;
 
 		case('btn'):
-			it.skip("Button appears and functions as expected", function() {
-				loc.getText()
-					.then(function(text) {
-						expect(text).to.eql(element.text);
-					});
-				loc.click();
-				// FUTURE - be able to trigger subsequent tests like page redirs, etc.
-			});
+//			it.skip("Button appears and functions as expected", function() {
+//				loc.getText()
+//					.then(function(text) {
+//						expect(text).to.eql(element.text);
+//					});
+//				loc.click();
+//				// FUTURE - be able to trigger subsequent tests like page redirs, etc.
+//			});
 			break;
 
 		case('pic'):

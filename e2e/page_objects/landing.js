@@ -1,6 +1,9 @@
 var Landing = function() {
     
 		this.path = '/';
+
+		// english localizated text, will be located at ../../build/assets/
+    // TODO - make the setup of the test identify the locale, use to add all text that should appear
 	
     this.navBar = {
 			ttype: 'text',
@@ -34,27 +37,37 @@ var Landing = function() {
 			text: 'Register Now'
 		}
     
-    // english localizated text, will be located at ../../build/assets/
-    // TODO - make the setup of the test identify the locale, use to add all text that should appear
-
-    this.footer = {
-			ttype: 'text',
-			desc: 'shows footer correctly',
-			locator: element(by.css('.gl-footer-nav.text-center')),
-			text: "Support GlassLab Legal Developer Community"
+//		this.login = {		// TODO - fix form elements as subelements of this
+//			ttype: 'form',
+//			desc: 'should be able to log in with valid credentials',
+//			locator: element(by.css(''))
+//		}
+		
+		this.login_teacher = {
+			ttype: 'btn',
+			locator: element(by.css(".login-button--instructor"))
 		}
-    
-		this.login = {
-			ttype: 'form',
-			desc: 'should be able to log in with valid credentials',
-			locator: element(by.css('.'))
+		
+		this.login_student = {
+			ttype: 'btn',
+			locator: element(by.css(".login-button--student"))
+		}
+		
+		this.field_email = {
+			ttype: 'btn',
+			locator: element(by.model('credentials.username'))
+		}
+		
+		this.field_password = {
+			ttype: 'btn',
+			locator: element(by.model('credentials.password'))
 		}
 		
     //// GAMES ////
     
 //    this.gameCard = {
 //			ttype: 'text',
-//			locator: element(by.css(".gl-game-card")),		// NOTE - returns list of cards
+//			locator: element.all(by.css(".gl-game-card")),		// NOTE - returns list of cards
 //			text: ''
 //		}
 //		
@@ -69,6 +82,14 @@ var Landing = function() {
 //			text: ''
 //		}
     
+		
+		 this.footer = {
+			ttype: 'text',
+			desc: 'shows footer correctly',
+			locator: element(by.css('.gl-footer-nav.text-center')),
+			text: "Support GlassLab Legal Developer Community"
+		}
+		
 }
 
 module.exports = new Landing();

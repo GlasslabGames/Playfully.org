@@ -1,12 +1,27 @@
 var Dashboard = function() {
     
-//		this.path = '/';
+		this.path = {
+			teacher: '/dashboard',
+			student: '/home'
+		}
 	
     this.userIcon = {
+			ttype: 'text',
+			desc: 'should open correct user menu',
+			locator: element(by.css(".navbar-btn.gl-bu-user"))
+		}
+		
+		this.acctOption = {
+			ttype: 'text',
+			locator: element(by.linkText('Edit My Profile')),
+			
+		}
+		
+		this.logoutOption = {
 			ttype: 'button',
-			desc: 'should list navigation options correctly',
-			locator: element(by.css(".navbar-btn.gl-bu-user")),
-			text: 'Home\nGames\nSupport\nRedeem\nSign In'
+			desc: 'should log out user',
+			locator: element(by.linkText('Log Out')),
+			text: 'Log Out'
 		}
 
 		this.navBar = {
@@ -22,6 +37,7 @@ var Dashboard = function() {
 			desc: 'should display the Dashboard link as active',
 			text: 'Dashboard'
 		}
+		
 }
 
 module.exports = new Dashboard();
