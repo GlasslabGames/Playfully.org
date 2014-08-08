@@ -18,20 +18,20 @@ var resultDir = './e2e/results/';
 
 describe("Landing Page - Not Logged In", function() {
 	
-		var testRoutine = landing;
+		var autoTestRoutine = landing;
 	
 		before(function () {
 			browser.get(serverAddress + landing.path);
-			screenshot(resultDir + 'landing-1(auto).png');
+			screenshot(resultDir + 'landing.0(auto).png');
 		});
 	
-		for (test in testRoutine) {
-			var testCase = testRoutine[test];
+		for (test in autoTestRoutine) {
+			var testCase = autoTestRoutine[test];
 			
 			if (testCase.hasOwnProperty('ttype')) {
 				runTest(testCase);
 			} else {
-				console.log(test);
+//				console.log(test);
 			}
 		}
 	
@@ -39,60 +39,57 @@ describe("Landing Page - Not Logged In", function() {
 		
 		browser.get(serverAddress + landing.path);
 		
+		beforeEach(function() {
+			browser.ignoreSynchronization = true;
+		})
+		
 		it("should log in successfully - teacher", function() {
 			
 			landing.loginButton.locator.click();
 			landing.login_teacher.locator.click();
-			landing.field_email.locator.sendKeys(acct.teacher.email);
-			landing.field_password.locator.sendKeys(acct.teacher.pass);
-			screenshot(resultDir + 'landing-login(teacher).png');
-			element(by.css("input.btn.gl-btn--blue")).click()
-			screenshot(resultDir + 'landing-login-2(teacher).png');
+			landing.field_email.locator.sendKeys(acct.user.teacher);
+			landing.field_password.locator.sendKeys(acct.pass.teacher);
+			screenshot(resultDir + 'landing.login-0(teacher).png');
+			element(by.css("input.btn.gl-btn--blue")).click();
 			
-			browser.getCurrentUrl()
-			.then(function(url) {
-				expect(url).to.eql(serverAddress + dashboard.path);
-			});
+			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 		});
 		
 		it("should log out successfully - teacher", function() {
-			browser.ignoreSynchronization = true;
 			
-			screenshot(resultDir + 'landing-login-3(teacher).png');
+			screenshot(resultDir + 'landing.login-2(teacher).png');
 			dashboard.userIcon.locator.click();
-			screenshot(resultDir + 'landing-login-4(teacher).png');
+			screenshot(resultDir + 'landing.login-3(teacher).png');
 			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing-login-5(teacher).png');
+			screenshot(resultDir + 'landing.login-4(teacher).png');
 
-			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
 
 		it("should log in successfully - student", function() {
-			
 			browser.get(serverAddress + landing.path);
 			
 			landing.loginButton.locator.click();
 			landing.login_student.locator.click();
-			landing.field_email.locator.sendKeys(acct.student.email);
-			landing.field_password.locator.sendKeys(acct.student.pass);
-			// login
+			landing.field_email.locator.sendKeys(acct.user.student);
+			landing.field_password.locator.sendKeys(acct.pass.student);
 			screenshot(resultDir + 'landing-login(student).png');
 			element(by.css("input.btn.gl-btn--blue")).click()		// FIXME
-			screenshot(resultDir + 'landing-login-2(student).png');
+			screenshot(resultDir + 'landing.login-2(student).png');
 			
+			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
 			
 		});
 		
 		it("should log out successfully - student", function() {
-			browser.ignoreSynchronization = true;
 			
-			screenshot(resultDir + 'landing-login-3(student).png');
+			screenshot(resultDir + 'landing.login-5(student).png');
 			dashboard.userIcon.locator.click();
-			screenshot(resultDir + 'landing-login-4(student).png');
+			screenshot(resultDir + 'landing.login-6(student).png');
 			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing-login-5(student).png');
+			screenshot(resultDir + 'landing.login-7(student).png');
 
-			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
+			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
 	});
 		

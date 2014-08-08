@@ -4,7 +4,9 @@ var fs 		 = require('fs'),
 		
 module.exports = {
 	screenshot: screenshot,
-	runTest: runTest
+	runTest: runTest,
+	expectCurrentUrlToMatch: expectCurrentUrlToMatch,
+	tstamp: tstamp
 }
 
 function writeScreenShot(data, filename) {
@@ -14,6 +16,11 @@ function writeScreenShot(data, filename) {
 	stream.end();
 }
 
+/*
+ * Syntax for screenshot naming
+ * conventions:
+ * [objective].[action]-[##].png
+ */
 function screenshot(fname) {
 		browser.takeScreenshot()
 		.then(function (png) {
@@ -28,15 +35,21 @@ function tstamp() {
 function expectCurrentUrlToMatch(url) {
 	browser.getCurrentUrl()
 			.then(function(currUrl) {
+//				console.log('currUrl: ' + currUrl);
 				expect(currUrl).to.eql(url);
 			});
-
+}
+	
 // The DRY function to defining each test case outlined in page objects
 function runTest(element) {
 	
 	var loc = element.locator;
 		
 	var description = element.desc || "(No Description)";		// TODO - make this more robust with something like this
+	
+		beforeEach(function() {
+			browser.ignoreSynchronization = true;
+		})
 
 	switch(element.ttype) {
 

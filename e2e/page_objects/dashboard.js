@@ -14,7 +14,7 @@ var Dashboard = function() {
 		this.acctOption = {
 			ttype: 'text',
 			locator: element(by.linkText('Edit My Profile')),
-			
+			text: ''
 		}
 		
 		this.logoutOption = {

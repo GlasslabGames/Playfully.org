@@ -1,21 +1,12 @@
 module.exports = {
-
-	teacher: {
-		email: "build+teach@glasslabgames.org",
-		pass: "glasslab123"
-	},
-	student: {
-		email: "gl-test01",
-		pass: "glasslab321"
-	}
 	
-	teacher: {
-		email: "build+teach@glasslabgames.org",
-		pass: "glasslab123"
+	user: {
+		teacher: "build+teach@glasslabgames.org",
+		student: "gl-test01",
 	},
-	student: {
-		email: "gl-test01",
-		pass: "glasslab321"
+	pass: {
+		teacher: "glasslab123",
+		student: "glasslab321"
 	}
 	
 }
