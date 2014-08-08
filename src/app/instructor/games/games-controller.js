@@ -42,7 +42,7 @@ angular.module( 'instructor.games', [
 
 
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $location, games, gameDetails) {
+  function($scope, $state, $stateParams, $log, $window, games, gameDetails) {
     angular.forEach(games, function(game) {
       if (game.gameId == $stateParams.gameId) {
         $scope.game = game;
@@ -51,6 +51,7 @@ angular.module( 'instructor.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
+    $log.info(gameDetails);
 
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
@@ -79,6 +80,6 @@ angular.module( 'instructor.games', [
     };
 
     $scope.goTo = function(path) {
-      $location.path(path); 
+      $window.location = path; 
     };
 });

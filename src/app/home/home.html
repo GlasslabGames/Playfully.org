@@ -1,9 +1,16 @@
-<div class="gl-bg--gray">
+<div class="gl-home-bg">
+  <div class="gl-home-event-count" ng-show="eventCount != null">
+    <div class="container">
+      <h3 class="gl-home-event-count-text">
+        {{ eventCount }} Authentic Learning Events Logged to Date
+      </h3>
+    </div>
+  </div>
   <div class="container">
     <div class="row">
       <div class="col-md-6">
         <div class="gl-home-title">
-          <h1 class="gl-home-logo">Playfully.</h1>
+          <h1 class="gl-home-logo">Playfully</h1>
           <p class="lead gl-lead" data-ng-bind="'home.tagline' | translate">
           </p>
         </div>

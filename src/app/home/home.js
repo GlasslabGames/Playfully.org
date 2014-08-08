@@ -18,8 +18,16 @@ angular.module( 'playfully.home', [
   });
 })
 
-.controller( 'HomeCtrl', function ( $scope, $log, Session) {
+.controller( 'HomeCtrl', function ( $scope, $log, $http, Session) {
 
+
+  $http.get('/api/v2/data/eventsCount')
+    .success(function(data) {
+      $scope.eventCount = data.eventCount;
+    })
+    .error(function(data) {
+      $log.error(data); 
+    });
 
 });
 
