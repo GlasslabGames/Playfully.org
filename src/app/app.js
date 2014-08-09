@@ -18,6 +18,7 @@ angular.module( 'playfully', [
   'playfully.instructor',
   'playfully.student',
   'playfully.register',
+  'playfully.redeem',
   'playfully.login',
   'playfully.profile',
   'playfully.password-reset',
