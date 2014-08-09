@@ -1,13 +1,13 @@
-angular.module( 'instructor.games', [
-  'playfully.config',
+angular.module( 'playfully.games', [
   'ui.router',
-  'games',
+  'games'
 ])
 
-.config(function ( $stateProvider, USER_ROLES) {
+.config(function ( $stateProvider) {
   $stateProvider.state( 'games', {
     url: '/games',
-    onEnter: function($state) {
+    onEnter: function($state, $log) {
+      $log.info("GOT HERE");
       $state.transitionTo('gameDetail', { gameId: 'AA-1' });
     }
   })
@@ -15,20 +15,19 @@ angular.module( 'instructor.games', [
     url: '/games/:gameId',
     views: {
       main: {
-        templateUrl: 'instructor/games/game-detail.html',
+        templateUrl: 'games/game-detail.html',
         controller: 'GameDetailCtrl'
       }
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.all();
-      },
+      // games: function(GamesService) {
+      //   return GamesService.all();
+      // },
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
       }
     },
     data: {
-      authorizedRoles: ['instructor'],
       pageTitle: 'Game Detail'
     }
 
@@ -42,12 +41,12 @@ angular.module( 'instructor.games', [
 
 
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, games, gameDetails) {
-    angular.forEach(games, function(game) {
-      if (game.gameId == $stateParams.gameId) {
-        $scope.game = game;
-      }
-    });
+  function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
+    // angular.forEach(games, function(game) {
+    //   if (game.gameId == $stateParams.gameId) {
+    //     $scope.game = game;
+    //   }
+    // });
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
@@ -56,7 +55,7 @@ angular.module( 'instructor.games', [
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
       { id: 'standards', title: 'Standards' },
-      { id: 'lessonPlans', title: 'Lesson Plans & Videos' },
+      { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
       { id: 'research', title: 'Research' },
       { id: 'reviews', title: 'Reviews' }
     ];
@@ -76,7 +75,10 @@ angular.module( 'instructor.games', [
     });
 
     $scope.goToGameSubpage = function(dest) {
-      $state.go('gameDetail.' + dest.id);
+      if (dest.authRequired && !AuthService.isAuthenticated()) {
+      } else {
+        $state.go('gameDetail.' + dest.id);
+      }
     };
 
     $scope.goTo = function(path) {

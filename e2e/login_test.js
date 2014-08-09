@@ -141,7 +141,7 @@ describe("Instructor Login", function() {
     modal.passwordField.sendKeys( params.login.invalid.password );
     modal.submitButton.click().then(function() {
       expect(modal.alert.isDisplayed()).toBe(true);
-      expect(modal.alert.getText()).toContain('invalid username or password');
+      expect(modal.alert.getText()).toContain('does not match our records');
     });
   });
 
@@ -217,7 +217,7 @@ describe("Student Login", function() {
     expect(modal.submitButton.isEnabled()).toBe(true);
     modal.submitButton.click().then(function() {
       expect(modal.alert.isDisplayed()).toBe(true);
-      expect(modal.alert.getText()).toContain('invalid username or password');
+      expect(modal.alert.getText()).toContain('does not match our records');
     });
   });
 

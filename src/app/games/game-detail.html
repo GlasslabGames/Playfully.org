@@ -18,10 +18,11 @@
     <div class="col-md-3 col-border--right">
       <ul class="gl-games-subnav">
         <li class="gl-games-subnav-item"
-          ng-repeat="navItem in navItems">
+          ng-repeat="(key, navItem) in navItems">
           <a ng-click="goToGameSubpage(navItem)"
             class="gl-games-subnav-link"
-            ng-class="{'gl-games-subnav-link--active': navItem.isActive}"
+            ng-class="{'gl-games-subnav-link--active': navItem.isActive,
+              'gl-games-subnav-link--disabled': navItem.authRequired && !currentUser}"
             ng-bind="navItem.title"></a>
         </li>
       </ul>
