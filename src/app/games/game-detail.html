@@ -30,8 +30,9 @@
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
         <div ng-if="button.links">
-          <div class="btn-group gl-games-sidebar-btn" dropdown>
+          <div class="btn-group gl-games-sidebar-btn" dropdown is-open="button.isOpen">
             <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
+              ng-click="toggleDropdown($event, button)"
               ng-bind="button.name"></button>
             <button type="button" class="btn gl-btn--blue dropdown-toggle">
               <span class="caret"></span>

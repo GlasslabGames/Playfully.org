@@ -84,4 +84,10 @@ angular.module( 'playfully.games', [
     $scope.goTo = function(path) {
       $window.location = path; 
     };
+
+    $scope.toggleDropdown = function($event, btn) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      btn.isOpen = !btn.isOpen;
+    };
 });
