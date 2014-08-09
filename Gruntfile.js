@@ -348,7 +348,7 @@ module.exports = function ( grunt ) {
 		
 		mochaProtractor: {
 			options: {
-				browsers: ['Firefox'],
+				browsers: ['Firefox'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
 				reporter: 'Spec',
 				baseUrl: '127.0.0.1:8001',
 				timeout: 10000, // in milliseconds

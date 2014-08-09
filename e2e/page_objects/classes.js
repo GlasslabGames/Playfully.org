@@ -15,6 +15,11 @@ var Classes = function() {
 			text: 'GLTestClass\nGrade: 6, 5, 7, 9, 8, 10, 12, 11\nClass Code: '+classCode+'\nEdit\nMars Generation One - Argubot Academy\nSimCityEDU: Pollution Challenge!\nView Student List (1)'
 		}
 		
+		this.games = {
+			ttype: 'text',
+			locator: element.all(by.repeater('game in course.games'))
+		}
+		
 		this.classDesc = {
 			ttype: 'text',
 			locator: element(by.css('.gl-course-desc')),

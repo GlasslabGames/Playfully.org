@@ -87,7 +87,6 @@ var Landing = function() {
 //			locator: element(by.css(".gl-game-description")),
 //			text: ''
 //		}
-    
 		
 		 this.footer = {
 			ttype: 'text',

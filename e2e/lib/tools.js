@@ -62,7 +62,7 @@ function runTest(element) {
 	switch(element.ttype) {
 
 		case('text'):
-			it("Verifying text - " + description, function () {
+			it("# Verifying text - " + description, function () {
 //				loc.getText()
 //					.then(function(text) {
 //						expect(text).to.eql(element.text)
@@ -86,14 +86,14 @@ function runTest(element) {
 			break;
 
 		case('field'):
-			it("Verifying text field " + description, function() {
+			it("#Verifying text field " + description, function() {
 				expect(loc).to.be.ok;
 				loc.sendKeys(element.testInput);
 			});
 			break;
 
 		case('btn'):		// NOTE - Still breaks if checking for btns on modals, so commented out
-//			it("Button appears and functions as expected", function() {
+//			it("#Button appears and functions as expected", function() {
 //				expectObjTextToMatch(loc, element.text);
 //				
 ////				loc.click();	// TODO - add case for 'auto' field before firing btn
@@ -102,14 +102,14 @@ function runTest(element) {
 			break;
 
 		case('pic'):
-			it("Picture appears as expected", function() {
+			it("#Picture appears as expected", function() {
 				// TODO - add size/css/visibility test
 				console.log('pic!!');
 			});
 			break;
 
 		default:
-			it.skip('Unimplemented test: "' + description + '"', function() {
+			it.skip('#Unimplemented test: "' + description + '"', function() {
 				console.log('Unknown test type: ' + element.ttype);
 			});
 			break;

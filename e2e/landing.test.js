@@ -3,21 +3,22 @@ var	chai	 		 = require('chai'),
 		tools  		 = require('./lib/tools'),
 		screenshot = tools.screenshot,
 		tstamp		 = tools.tstamp,
-		runTest		 = tools.runTest;
+		runTest		 = tools.runTest,
+		acct			 = require('./mock_data/acct.js'),
 		
 		// Custom testing functions
 		expectCurrentUrlToMatch = tools.expectCurrentUrlToMatch,
 		expectObjTextToMatch 		= tools.expectObjTextToMatch,
 		
 		// Page Objects
-		landing 	 = require('./page_objects/landing.js'),
-		dashboard  = require('./page_objects/dashboard.js'),
-		acct			 = require('./mock_data/acct.js');		
+		pageObjs   = require('./page_objects/index.js'),
+		landing 	 = pageObjs.landing,
+		dashboard  = pageObjs.dashboard,
 
-//// Config ////
-var serverAddress = "http://localhost:8001";
-var resultDir = './e2e/results/';
-////////////////
+		// Config
+		config		 = require('./lib/config.js'),
+		resultDir  = config.resultDir,
+		serverAddress = config.serverAddress;
 
 describe("Landing Page - Not Logged In", function() {
 	
@@ -46,7 +47,7 @@ describe("Landing Page - Not Logged In", function() {
 			browser.ignoreSynchronization = true;
 		})
 		
-		it("should log in successfully - teacher", function() {
+		it("#Should log in successfully - teacher", function() {
 			
 			landing.loginButton.locator.click();
 			landing.login_teacher.locator.click();
@@ -55,21 +56,21 @@ describe("Landing Page - Not Logged In", function() {
 			screenshot(resultDir + 'landing.login-0(teacher).png');
 			landing.signInBtn.locator.click();
 			
+			screenshot(resultDir + 'landing.login-1(teacher).png');
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 		});
 		
-		it("should log out successfully - teacher", function() {
+		it("#Should log out successfully - teacher", function() {
 			
 			screenshot(resultDir + 'landing.login-2(teacher).png');
 			dashboard.userIcon.locator.click();
 			screenshot(resultDir + 'landing.login-3(teacher).png');
 			dashboard.logoutOption.locator.click();
 			screenshot(resultDir + 'landing.login-4(teacher).png');
-
 			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
 
-		it("should log in successfully - student", function() {
+		it("#Should log in successfully - student", function() {
 			browser.get(serverAddress + landing.path);
 			
 			landing.loginButton.locator.click();
@@ -84,7 +85,7 @@ describe("Landing Page - Not Logged In", function() {
 			
 		});
 		
-		it("should log out successfully - student", function() {
+		it("#Should log out successfully - student", function() {
 			
 			screenshot(resultDir + 'landing.login-5(student).png');
 			dashboard.userIcon.locator.click();
@@ -93,6 +94,16 @@ describe("Landing Page - Not Logged In", function() {
 			screenshot(resultDir + 'landing.login-7(student).png');
 
 			expectCurrentUrlToMatch(serverAddress + landing.path);
+		});
+	});
+	
+	describe('Reset password flow', function() {
+		it.skip('#Should reset teacher password', function() {
+			
+		});
+		
+		it.skip('#Should reset student password', function() {
+			
 		});
 	});
 		
