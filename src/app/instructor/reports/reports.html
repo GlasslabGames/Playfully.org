@@ -50,17 +50,29 @@
           <div>
             <div class="gl-reports-nav-courses"
               ng-repeat="(key, course) in courses.options">
-              <label>
-                <input type="checkbox" ng-model="course.isExpanded">
-                {{ course.title }}
+              <div>
+                <label class="gl-reports-nav-course" ng-click="selectCourse($event, key)">
+                  <div class="gl-reports-nav-selector"
+                    ng-class="{'gl-reports-nav-selector--selected': course.id == courses.selectedId,
+                      'gl-reports-nav-selector--partial': course.isPartiallySelected}">
+                    <i class="fa fa-check"></i>
+                    <span class="gl-reports-course-partial" ng-show="course.isPartiallySelected">&mdash;</span>
+                  </div>
+                  <input class="gl-reports-nav-course-checkbox" type="checkbox" ng-model="course.isSelected">
+                  {{ course.title }}
+                </label>
                 <div class="gl-arrow-right gl-reports-course-toggle"
-                  ng-class="{'gl-arrow-right': !course.isExpanded, 'gl-arrow-down': course.isExpanded}"></div>
-              </label>
+                  ng-class="{'gl-arrow-right--expanded': course.isExpanded}"
+                  ng-click="course.isExpanded = !course.isExpanded"></div>
+              </div>
               <div class="gl-reports-nav-students"
                 ng-show="course.isExpanded">
                 <div ng-repeat="student in course.users">
-                  <label>
-                    <input type="checkbox" ng-model="student.isSelected">
+                  <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">
+                    <div class="gl-reports-nav-selector"
+                      ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
+                      <i class="fa fa-check"></i>
+                    </div>
                     {{ student.firstName }}
                     {{ student.lastName }}.
                   </label>

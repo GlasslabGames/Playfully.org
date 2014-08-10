@@ -25,24 +25,67 @@
   label {
     font-weight: 200;
     vertical-align: middle;
-    display: block;
   }
   label:hover {
     cursor: pointer;
   }
 
   input[type=checkbox] {
-    margin-right: 8px;
-    vertical-align: middle;
+    display: none;
   }
 }
+.gl-reports-nav-course {
+  .text-overflow();
+  display: inline-block;
+  width: 150px;
+  margin-right: 5px;
+}
+
+.gl-reports-nav-selector {
+  border: 1px solid @grey5;  
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+  .fa-check {
+    visibility: hidden;
+  }
+}
+
+.gl-reports-nav-selector--selected {
+  background-color: @skyBlue;  
+  border-color: @grey4;
+  .fa-check {
+    vertical-align: middle;
+    position: relative;
+    top: -3px;
+    color: @grey4;
+    visibility: visible;
+  }
+}
+
+.gl-reports-nav-selector--partial {
+  .fa-check {
+    display: none;
+  }
+  .gl-reports-course-partial {
+    display: inline-block;
+    position: relative;
+    top: -3px;
+    padding-bottom: 3px;
+    color: @grey4;
+  }
+}
+
 
 .gl-reports-nav-courses:first-child {
   border-top: none;
 }
 
 .gl-reports-course-toggle {
-  float: right;
+  display: inline-block;
 }
 
 .gl-reports-nav-students {
