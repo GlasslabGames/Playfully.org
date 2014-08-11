@@ -16,6 +16,7 @@ var	chai	 		 = require('chai'),
 		dashboard  = pageObjs.dashboard,
 		classes		 = pageObjs.classes,
 		reports    = pageObjs.reports,
+		support		 = pageObjs.support,
 
 		// Config
 		config		 = require('./lib/config.js'),
@@ -78,16 +79,17 @@ describe("Teacher Test", function() {
 	});
 	
 	describe.skip('Should show my reports correctly', function() {
+		browser.get(serverAddress + reports.path);
 		
-		// screenshot reports page
 		
+		screenshot(resultDir + 'dashboard.reports(teacher).png');
 	});
 	
 	describe.skip('Should show support page correctly', function() {
+		browser.get(serverAddress + support.path);
 		
-		// screenshot support page
 		
-		
+		screenshot(resultDir + 'dashboard.support(teacher).png');
 	});
 		
 });

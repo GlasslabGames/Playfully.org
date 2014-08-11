@@ -4,5 +4,6 @@ module.exports = {
 	landing:   require('./landing.js'),
 	dashboard: require('./dashboard.js'),
 	classes:   require('./classes.js'),
-	reports:   require('./reports.js')
+	reports:   require('./reports.js'),
+	support:	 require('./support.js')
 }

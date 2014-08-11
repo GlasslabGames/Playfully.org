@@ -52,8 +52,10 @@ function expectObjTextToMatch(locator, text) {
 function runTest(element) {
 	
 	var loc = element.locator;
+	
+	var text = element.text || "(No Description / Text)"
 		
-	var description = element.desc || "(No Description)";		// TODO - make this more robust with something like this
+	var description = element.desc || text;		// TODO - make this more robust with something like this
 	
 		beforeEach(function() {
 			browser.ignoreSynchronization = true;
