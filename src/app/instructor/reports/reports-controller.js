@@ -33,7 +33,7 @@ angular.module( 'instructor.reports', [
   function($scope, $state, $stateParams, $log, allGames, activeCourses, CoursesService, ReportsService) {
 
     $scope.students = {};
-    $scope.achievements = [];
+    $scope.achievements = { options: {}, selected: null, active: [], startIndex: 0 };
 
     /* Courses */
     $scope.courses = { selectedId: null, options: {} };
@@ -54,6 +54,7 @@ angular.module( 'instructor.reports', [
           student.isSelected = false;
         });
         $scope.courses.options[oldValue].isExpanded = false;
+        $scope.courses.options[oldValue].isPartiallySelected = false;
       }
       angular.forEach($scope.courses.options[newValue].users, function(student) {
         student.isSelected = true;
@@ -86,11 +87,17 @@ angular.module( 'instructor.reports', [
 
 
 
+
+
+
+
+
     $scope.games = {
       isOpen: false,
       selected: 'AA-1',
       options: {}
     };
+    /* Set up active games in the games list */
     angular.forEach(allGames, function(game) {
       if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
@@ -98,6 +105,7 @@ angular.module( 'instructor.reports', [
     });
 
 
+    /* Hardcode available reports */
     $scope.reports = {
       isOpen: false,
       selected: 'SOWO',
@@ -141,19 +149,28 @@ angular.module( 'instructor.reports', [
           .then(function(data) {
             angular.forEach(data, function(d) {
               $scope.students[d.userId].achievements = d.achievements;
+              $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
             });
-            if (!$scope.achievements.length) {
-              angular.forEach(data[0].achievements, function(achievement) {
-                var achv = angular.copy(achievement);
-                delete achv.won;
-                $scope.achievements.push(achv);
-              });
-            }
+            /* Populate achievements list if we haven't already */
+            angular.forEach(data[0].achievements, function(achievement) {
+              var achv = angular.copy(achievement);
+              delete achv.won;
+              if (!$scope.achievements.options.hasOwnProperty(achievement.group)) {
+                $scope.achievements.options[achievement.group] = [achv];
+              } else {
+                $scope.achievements.options[achievement.group].push(achv);
+              }
+            });
+            $scope.achievements.selected = data[0].achievements[0].group;
+            $log.info('selected');
+            $log.info($scope.achievements.selected);
           });
           
       } else if (requestedReport = 'SOWO') {
         ReportsService.getSOWO(requestedGame, $scope.courses.selectedId)        
           .then(function(data) {
+            $log.info('SOWO');
+            $log.info(data);
             if (data.length !== 0) {
               $scope.sowo = data;
             } else {
@@ -176,6 +193,21 @@ angular.module( 'instructor.reports', [
 
     });
 
+  $scope.$watch('achievements.selected', function(newValue, oldValue) {
+    $scope.selectActiveAchievements(newValue, 0);
+  });
+
+  $scope.selectActiveAchievements = function(group, index) {
+    if ($scope.achievements.options[group]) {
+      if (index < 0 || $scope.achievements.options[group].length < index + 3) {
+        return false;
+      } else {
+        $scope.achievements.startIndex = index;
+        $scope.achievements.active = $scope.achievements.options[group].slice(index, index + 3);
+      }
+    }
+  };
+
 
   $scope.getStudentResult = function(studentId, achievement) {
     angular.forEach($scope.students, function(student) {
@@ -189,7 +221,6 @@ angular.module( 'instructor.reports', [
       }
     });
   };
-
 
 
 
