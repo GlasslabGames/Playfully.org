@@ -54,7 +54,7 @@ angular.module( 'playfully.games', [
 
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards' },
+      { id: 'standards', title: 'Standards Alignment' },
       { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
       { id: 'research', title: 'Research' },
       { id: 'reviews', title: 'Reviews' }
