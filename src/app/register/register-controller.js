@@ -123,7 +123,7 @@ angular.module('playfully.register', [])
 
 
 .controller('RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.confirmation = {
