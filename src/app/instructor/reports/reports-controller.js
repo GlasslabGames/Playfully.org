@@ -49,6 +49,10 @@ angular.module( 'instructor.reports', [
     });
 
     $scope.$watch('courses.selectedId', function(newValue, oldValue) {
+      /**
+       * Deselect all students in the old course, set expanded and selected
+       * options accordingly.
+       **/
       if (oldValue) {
         angular.forEach($scope.courses.options[oldValue].users, function(student) {
           student.isSelected = false;
@@ -56,31 +60,38 @@ angular.module( 'instructor.reports', [
         $scope.courses.options[oldValue].isExpanded = false;
         $scope.courses.options[oldValue].isPartiallySelected = false;
       }
-      angular.forEach($scope.courses.options[newValue].users, function(student) {
-        student.isSelected = true;
-      });
+      if (!$scope.courses.options[newValue].isPartiallySelected) {
+        angular.forEach($scope.courses.options[newValue].users, function(student) {
+          student.isSelected = true;
+        });
+      }
     });
 
+    /* Initialize with the first course in the list selected */
     $scope.courses.selectedId = activeCourses[0].id;
     
+    /* Set the passed-in course to be the selected one */
     $scope.selectCourse = function($event, courseId) {
       $event.preventDefault();
       $event.stopPropagation();
       $scope.courses.selectedId = courseId;
     };
 
+    /* Toggle the visibility of this student */
     $scope.toggleStudent = function($event, student, course) {
       $event.preventDefault();
       $event.stopPropagation();
-      $log.info(student);
-      $log.info(course);
       student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
+      /* If any students are not selected, set isPartiallySelected to true */
       angular.forEach(course.users, function(student) {
         if (!student.isSelected) {
           course.isPartiallySelected= true;
         }
       });
+      if (student.isSelected && course.id != $scope.courses.selectedId) {
+        $scope.selectCourse($event, course.id);
+      }
     };
 
 
