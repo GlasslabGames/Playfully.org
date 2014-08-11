@@ -112,13 +112,27 @@ angular.module('playfully.login', [])
         }
       }
     })
+    .state('loginSuccess', {
+      url: '/sdk/login/success',
+      parent: 'site',
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      views: {
+        'main@': {
+          templateUrl: 'login/login-success.html',
+          controller: function($scope, $window, $log) {
+            $scope.closeWindow = function() {
+              $window.location.search = 'action=SUCCESS';
+            };
+          }
+        }
+      }
+    })
     .state('logout', {
       parent: 'site',
       url: '/logout',
       resolve: {
         data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
           AuthService.logout().then(function() {
-            $log.info('supposedly logged out');
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
           });
         }
@@ -156,7 +170,8 @@ angular.module('playfully.login', [])
 
       AuthService.login(credentials).then(function(result) {
         if ($state.current.data.hideWrapper) {
-          $window.location.search = 'action=SUCCESS';
+          $log.info("About to go to loginSuccess");
+          $state.go('loginSuccess');
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
