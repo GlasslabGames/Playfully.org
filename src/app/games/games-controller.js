@@ -74,8 +74,12 @@ angular.module( 'playfully.games', [
         });
     });
 
+    $scope.isAuthorized = function() {
+      return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
+    };
+
     $scope.goToGameSubpage = function(dest) {
-      if (dest.authRequired && !AuthService.isAuthenticated()) {
+      if (dest.authRequired && !AuthService.isAuthorized('instructor')) {
       } else {
         $state.go('gameDetail.' + dest.id);
       }

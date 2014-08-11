@@ -22,7 +22,7 @@
           <a ng-click="goToGameSubpage(navItem)"
             class="gl-games-subnav-link"
             ng-class="{'gl-games-subnav-link--active': navItem.isActive,
-              'gl-games-subnav-link--disabled': navItem.authRequired && !currentUser}"
+              'gl-games-subnav-link--disabled': navItem.authRequired && !isAuthorized()}"
             ng-bind="navItem.title"></a>
         </li>
       </ul>
