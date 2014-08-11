@@ -173,15 +173,11 @@ angular.module( 'instructor.reports', [
               }
             });
             $scope.achievements.selected = data[0].achievements[0].group;
-            $log.info('selected');
-            $log.info($scope.achievements.selected);
           });
           
       } else if (requestedReport = 'SOWO') {
         ReportsService.getSOWO(requestedGame, $scope.courses.selectedId)        
           .then(function(data) {
-            $log.info('SOWO');
-            $log.info(data);
             if (data.length !== 0) {
               $scope.sowo = data;
             } else {
@@ -225,7 +221,6 @@ angular.module( 'instructor.reports', [
       if (student.id == studentId) {
         angular.forEach(student.achievements, function(achv) {
           if (achv.group == achievement.group && achv.item == achievement.item) {
-            $log.info('Got a match at least');
             return achv.won;
           }
         });
