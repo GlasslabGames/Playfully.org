@@ -9,7 +9,7 @@ angular.module('playfully.login', [])
     url: 'login',
     parent: 'modal',
     views: { 'modal@': loginOptionsConfig },
-    data:{ authorizedRoles: ['guest'] },
+    data:{ pageTitle: 'Sign In'},
     onEnter: function($state, $log, ipCookie) {
       if (ipCookie('inSDK')) {
         ipCookie.remove('inSDK');
@@ -31,7 +31,7 @@ angular.module('playfully.login', [])
     url: 'login/instructor',
     parent: 'modal',
     views: { 'modal@': loginInstructorConfig },
-    data:{ authorizedRoles: ['guest'] }
+    data:{ pageTitle: 'Instructor Sign In'}
   })
   .state('sdkLoginInstructor', {
     url: '/sdk/login/instructor',
@@ -50,7 +50,7 @@ angular.module('playfully.login', [])
       url: 'login/student',
       parent: 'modal',
       views: { 'modal@': loginStudentConfig },
-      data:{ authorizedRoles: ['guest'] }
+      data:{ pageTitle: 'Student Sign In'}
     })
     .state('sdkLoginStudent', {
       url: '/sdk/login/student',
@@ -132,8 +132,10 @@ angular.module('playfully.login', [])
       url: '/logout',
       resolve: {
         data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
-          AuthService.logout().then(function() {
+          AuthService.logout().then(function(response) {
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+          }, function(response) {
+            $log.error(response);  
           });
         }
       }
@@ -200,7 +202,6 @@ angular.module('playfully.login', [])
       AuthService.logout()
         .then(function() {
           AuthService.login(credentials).then(function(result) {
-            $log.info(result);
             if ($state.current.data.hideWrapper) {
               $window.location.search = 'action=SUCCESS';
             } else {
@@ -227,7 +228,6 @@ angular.module('playfully.login', [])
     }
 
     $scope.logInWithEdmodo = function() {
-      $log.info('logInWithEdmodo');
       $window.location.href = '/auth/edmodo/login';
     };
 
@@ -237,7 +237,6 @@ angular.module('playfully.login', [])
     };
 
     $scope.verify = function(verification) {
-      $log.info(verification);
       // Need to just enroll the student
       $scope.verification.errors = [];
       CoursesService.enroll(verification.code)

@@ -53,7 +53,7 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, courses, games) {
+.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, ipCookie, courses, games, UserService) {
   $scope.courses = courses;
   $scope.gamesInfo = {};
   angular.forEach(games, function(game) {
