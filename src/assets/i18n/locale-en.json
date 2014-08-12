@@ -14,7 +14,7 @@
   "navbar.button.logout": "Log Out",
 
   "home.pagetitle": "Playfully",
-  "home.tagline": "Over 6 Million Authentic Learning Events Logged to Date",
+  "home.tagline": "Game Fully. Learn Fully. Teach Fully.",
   "home.register.title": "Register for free!",
   "home.register.button": "Register Now",
   "home.register.description": "Register to get access to free games, student management tools, real-time reports, and professional development materials.",
@@ -29,6 +29,8 @@
   "home.about.section2.description": "Ever wonder how to document the learning that’s happening when students are playing a digital game? Our assessment is embedded in the game experience and is reflected back to teachers and students as feedback to empower further learning.",
 
   "home.about.section3.title": "Impact Student Outcomes",
-  "home.about.section3.description": "The Playfully learning analytics engine makes valid, reliable inferences about student learning, demonstrating the impact that digital games have on improving student outcomes."
+  "home.about.section3.description": "The Playfully learning analytics engine makes valid, reliable inferences about student learning, demonstrating the impact that digital games have on improving student outcomes.",
+  "CCSS.ELA-Literacy.WHST.6-8.1": "Common Core Standards Report",
+  "21st.Century.Skills": "21st Century Skills Report"
 
 }

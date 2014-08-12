@@ -353,7 +353,8 @@ angular.module( 'instructor.courses', [
     };
 })
 
-.controller( 'NewCourseModalCtrl', function ( $scope, $rootScope, $state, $http, $log, games, CoursesService) {
+.controller( 'NewCourseModalCtrl',
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, CoursesService) {
 
   $scope.games = games;
   $scope.course = null;
@@ -389,7 +390,7 @@ angular.module( 'instructor.courses', [
   $scope.finish = function() {
     $rootScope.modalInstance.close();
     return $timeout(function () {
-      $state.go('courses', {}, { reload: true });
+      $state.go('courses.active', {}, { reload: true });
     }, 100);
   };
 

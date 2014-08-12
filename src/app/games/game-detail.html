@@ -6,7 +6,7 @@
     </div>
     <div class="media-bd">
       <h1 class="headline-2 gl-game-title" ng-bind="game.longName"></h1>
-      by {{ gameDetails.developer.name }}
+      Developed by {{ gameDetails.developer.name }}
     </div>
   </div>
 
@@ -18,10 +18,11 @@
     <div class="col-md-3 col-border--right">
       <ul class="gl-games-subnav">
         <li class="gl-games-subnav-item"
-          ng-repeat="navItem in navItems">
+          ng-repeat="(key, navItem) in navItems">
           <a ng-click="goToGameSubpage(navItem)"
             class="gl-games-subnav-link"
-            ng-class="{'gl-games-subnav-link--active': navItem.isActive}"
+            ng-class="{'gl-games-subnav-link--active': navItem.isActive,
+              'gl-games-subnav-link--disabled': navItem.authRequired && !isAuthorized()}"
             ng-bind="navItem.title"></a>
         </li>
       </ul>
@@ -29,8 +30,9 @@
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
         <div ng-if="button.links">
-          <div class="btn-group gl-games-sidebar-btn" dropdown>
+          <div class="btn-group gl-games-sidebar-btn" dropdown is-open="button.isOpen">
             <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
+              ng-click="toggleDropdown($event, button)"
               ng-bind="button.name"></button>
             <button type="button" class="btn gl-btn--blue dropdown-toggle">
               <span class="caret"></span>
@@ -47,7 +49,7 @@
         <div ng-if="button.link">
           <button type="button"
             class="btn gl-btn--blue gl-games-sidebar-btn"
-            ng-click="goTo(button.link)"
+            ng-click="goTo(button.link[0].link)"
             ng-bind="button.name"></button>
         </div>
 
@@ -56,6 +58,7 @@
       <div>
         <a ng-repeat="(name, url) in gameDetails.social"
           href="{{ url }}"
+          ga="'send', 'pageview', {title: name, location: url}"
           class="gl-icon-social gl-icon-social--{{ name }}">
         </a>
       </div>
@@ -134,7 +137,9 @@
         <div ng-repeat="section in gameDetails.pages.standards">
           <h3 class="headline-4" ng-bind="section.category"></h3>
           <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" ng-bind="listItem.name"></a><br>
+            <a href="{{ listItem.link }}" 
+              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
+              ng-bind="listItem.name"></a><br>
             <span ng-bind="listItem.description"></span>
           </p>
         </div>
@@ -146,7 +151,9 @@
         <div ng-repeat="section in gameDetails.pages.lessonPlans">
           <h3 class="headline-4" ng-bind="section.category"></h3>
           <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" ng-bind="listItem.name"></a><br>
+            <a href="{{ listItem.link }}" 
+              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
+              ng-bind="listItem.name"></a><br>
             <span ng-bind="listItem.description"></span>
           </p>
         </div>
@@ -158,7 +165,9 @@
         <div ng-repeat="section in gameDetails.pages.research">
           <h3 class="headline-4" ng-bind="section.category"></h3>
           <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" ng-bind="listItem.name"></a><br>
+            <a href="{{ listItem.link }}" 
+              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
+              ng-bind="listItem.name"></a><br>
             <span ng-bind="listItem.description"></span>
           </p>
         </div>

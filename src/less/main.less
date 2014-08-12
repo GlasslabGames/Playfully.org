@@ -33,7 +33,7 @@
 @import '../app/register/register.less';
 @import '../app/instructor/dashboard/instructor-dashboard.less';
 @import '../app/instructor/courses/courses.less';
-@import '../app/instructor/games/games.less';
+@import '../app/games/games.less';
 @import '../app/instructor/reports/reports.less';
 
 
@@ -92,6 +92,12 @@
   }
 }
 
+.rotate (@deg) {
+  -webkit-transform: rotate(@deg);
+  -moz-transform:    rotate(@deg);
+  -ms-transform:     rotate(@deg);
+  -o-transform:      rotate(@deg);
+}
 
 
 
@@ -201,6 +207,7 @@ h2 {
 
 .gl-lead {
   font-size: 24px;
+  font-weight: 200;
 }
 
 .gl-font-large {
@@ -388,3 +395,9 @@ h2 {
 }
 
 
+.gl-coming-soon {
+  width: 642px;
+  height: 142px;
+  margin: 180px auto;
+  .image-2x('coming-soon.png', 642px, 142px);
+}

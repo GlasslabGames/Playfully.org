@@ -14,9 +14,11 @@ angular.module( 'playfully', [
   'reports',
   'playfully.navbar',
   'playfully.home',
+  'playfully.games',
   'playfully.instructor',
   'playfully.student',
   'playfully.register',
+  'playfully.redeem',
   'playfully.login',
   'playfully.profile',
   'playfully.password-reset',
@@ -91,7 +93,7 @@ angular.module( 'playfully', [
             }
 
             var isAuthenticated = UserService.isAuthenticated();
-            var authorizedRoles = $rootScope.toState.data.authorizedRoles;
+            var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
 
             if (authorizedRoles && !AuthService.isAuthorized(authorizedRoles)) {
               event.preventDefault();

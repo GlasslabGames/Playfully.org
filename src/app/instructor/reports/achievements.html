@@ -1,12 +1,12 @@
-
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
   <div class="btn-group btn-group-justified">
-    <label class="btn gl-btn--blue" ng-model="checkModel.left" btn-checkbox>
-      Common Core Standards Report
-    </label>
-    <label class="btn gl-btn--ltgrey" ng-model="checkModel.middle" btn-checkbox>
-      21st Century Skills Report
-    </label>
+    <label class="btn"
+      ng-repeat="(key, achv) in achievements.options"
+      ng-model="achievements.selected"
+      ng-class="{'gl-btn--ltgrey': achievements.selected != key,
+        'gl-btn--blue': achievements.selected == key}"
+      btn-radio="key"
+      ng-bind="key | translate"></label>
   </div>
 </div>
 
@@ -14,7 +14,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th class="gl-reports-achievement" ng-repeat="achv in achievements | limitTo:3">
+      <th class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <div ng-bind="achv.item"></div>
       </th>
       <th>Time Played</th>
@@ -27,19 +27,39 @@
     <tr>
       <td></td>
       <td colspan="3" class="text-center">
-        Achievement 1-3 / 6
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
+          Prev Achievement <i class="fa fa-arrow-left"></i>
+        </a> &nbsp;
+        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.options[achievements.selected].length }}
+        &nbsp; 
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.options[achievements.selected].length}">
+          <i class="fa fa-arrow-right"></i> Next Achievement
+        </a>
       </td>
       <td></td>
     </tr>
   </tfoot>
-  <tbody>
-    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selected].users" ng-hide="!student.isSelected">
+  <tbody ng-show="courses.options[courses.selectedId].users">
+    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users" ng-hide="!student.isSelected">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-      <td class="gl-reports-achievement" ng-repeat="achv in achievements | limitTo:3">
+      <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
-          ></i>
+          ng-show="achv.won"></i>
       </td>
-      <td class="gl-nobr">1hr 25mins</td>
+      <td class="gl-nobr" ng-bind="student.totalTimePlayed"></td>
+    </tr>
+  </tbody>
+  <tbody ng-hide="courses.options[courses.selectedId].users">
+    <tr>
+      <td colspan="5">
+        <div class="text-center gl-pad-Vxxl">
+          This class has no users.
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>

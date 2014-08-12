@@ -19,7 +19,7 @@ describe("Home page (signed out)", function() {
     var loggedOutHome = new LoggedOutHomepage();
     loggedOutHome.get();
     expect(ptor.isElementPresent(loggedOutHome.title)).toBe(true);
-    expect(loggedOutHome.title.getText()).toBe('Playfully.');
+    expect(loggedOutHome.title.getText()).toBe('PLAYFULLY');
   });
 
   it("should display a Sign In button", function() {
