@@ -11,8 +11,9 @@ var Classes = function() {
 		
 		this.classBar = {
 			ttype: 'text',
-			locator: element(by.css('div.gl-course.container-fluid.ng-scope')),	// FUTURE - will be repeater
-			text: 'GLTestClass\nGrade: 6, 5, 7, 9, 8, 10, 12, 11\nClass Code: '+classCode+'\nEdit\nMars Generation One - Argubot Academy\nSimCityEDU: Pollution Challenge!\nView Student List (1)'
+			locator: element(by.css('.gl-course.container-fluid.ng-scope')),	// FUTURE - will be repeater
+			// course in courses | filter:{archived: (state.current.name == 'courses.archived')}
+			text: 'GLTestClass\nGrade: 6, 5, 7, 9, 8, 10, 12, 11\nClass Code: '+classCode+'\nEdit\nMars Generation One - Argubot Academy\nSimCityEDU: Pollution Challenge!\nView Student List (1)'   
 		}
 		
 		this.games = {

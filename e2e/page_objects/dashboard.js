@@ -35,7 +35,10 @@ var Dashboard = function() {
 			ttype: 'text',
 			locator: element(by.css("a.gl-nav-link.ng-binding")),
 			desc: 'should display the Dashboard link as active',
-			text: 'Dashboard'
+			text: {
+				student: 'Dashboard',
+				teacher: 'Dashboard'
+			}
 		}
 		
 }

@@ -49,32 +49,28 @@ function expectObjTextToMatch(locator, text) {
 }
 	
 // The DRY function to defining each test case outlined in page objects
-function runTest(element) {
+function runTest(element, textKey) {
 	
 	var loc = element.locator;
+	var text = element.text[textKey] || element.text || "(No Description / Text)";	// NOTE - have to add {key:objs.(text)
+	var description = element.desc || text;		// TODO - make this more robust
 	
-	var text = element.text || "(No Description / Text)"
-		
-	var description = element.desc || text;		// TODO - make this more robust with something like this
-	
-		beforeEach(function() {
-			browser.ignoreSynchronization = true;
-		})
+	browser.ignoreSynchronization = true;
 
 	switch(element.ttype) {
 
 		case('text'):
-			it("# Verifying text - " + description, function () {
-//				loc.getText()
-//					.then(function(text) {
-//						expect(text).to.eql(element.text)
-//					});
+			it("#Verifying text - " + description, function () {
+				loc.getText()
+					.then(function(text) {
+						expect(text).to.eql(element.text)
+					});
 				expectObjTextToMatch(loc, element.text);
 			});
 			break;
 
 		case('form'):		// NOTE - Form definitions still forming, not implemented in auto
-//			it.skip("Verifying form - " + description, function() {
+//			it.skip("#Verifying form - " + description, function() {
 //				var submit;
 //				for (subElem in element.fields) {
 //					if (subElem.ttype == btn) {

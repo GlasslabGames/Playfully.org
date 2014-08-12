@@ -16,8 +16,8 @@ var	chai	 		 = require('chai'),
 		dashboard  = pageObjs.dashboard,
 
 		// Config
-		config		 = require('./lib/config.js'),
-		resultDir  = config.resultDir,
+		config		 		= require('./lib/config.js'),
+		resultDir  		= config.resultDir,
 		serverAddress = config.serverAddress;
 
 describe("Landing Page - Not Logged In", function() {
@@ -92,7 +92,7 @@ describe("Landing Page - Not Logged In", function() {
 			screenshot(resultDir + 'landing.login-6(student).png');
 			dashboard.logoutOption.locator.click();
 			screenshot(resultDir + 'landing.login-7(student).png');
-
+			
 			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
 	});

@@ -22,7 +22,7 @@ var Landing = function() {
 			ttype: 'text',
 			desc: 'shows copyright correctly',
 			locator: element(by.css('.gl-copyright')),
-			text: "©2014 GlassLab™"
+			text: "©2014 GlassLab, Inc. All rights reserved™"
 		}
     
     this.loginButton = {

@@ -31,25 +31,24 @@ var logout = function() {
 
 describe("Teacher Test", function() {
 
-	browser.get(serverAddress + landing.path);
-
-	before(function() {
-
-		// will be replaced
-		landing.loginButton.locator.click();
-		landing.login_teacher.locator.click();
-		landing.field_email.locator.sendKeys(acct.user.teacher);
-		landing.field_password.locator.sendKeys(acct.pass.teacher);
-		landing.signInBtn.locator.click();
-
-	});
-	
 	beforeEach(function() {
 		browser.ignoreSynchronization = true;
 	});
 
 	describe('Registration flow', function() {
 		it('#should register normally', function() {
+			
+			// TODO - will be replaced with registration instead of login
+			landing.loginButton.locator.click();
+			landing.login_teacher.locator.click();
+			landing.field_email.locator.sendKeys(acct.user.teacher);
+			landing.field_password.locator.sendKeys(acct.pass.teacher);
+			screenshot(resultDir + 'reg.login-0(teacher).png');
+			landing.signInBtn.locator.click();
+			
+			screenshot(resultDir + 'reg.login-1(teacher).png');
+			
+			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 			
 		});
 		it.skip('#should register with Edmodo credentials', function() {
@@ -62,34 +61,43 @@ describe("Teacher Test", function() {
 	});
 	
 	describe('Should show my dashboard correctly', function() {
-		runTest(landing.footer);
-		runTest(dashboard.activeNavLink);
+		
 		screenshot(resultDir + 'dashboard.general(teacher).png');
+		runTest(dashboard.activeNavLink, 'teacher');
+		runTest(landing.footer);
+		
 	});
 	
-	describe('Should show my class page correctly', function() {
-		
-		browser.get(serverAddress + classes.path);
-		screenshot(resultDir + 'dashboard.classes(teacher).png');
-		screenshot(resultDir + 'dashboard.classes-1(teacher).png');
-		runTest(classes.classBar);
-
-		// images look good
-		// classCode matches
-	});
+//	describe('Should show my class page correctly', function() {
+//		
+//		browser.get(serverAddress + classes.path);
+//		screenshot(resultDir + 'dashboard.classes-0(teacher).png');
+//		screenshot(resultDir + 'dashboard.classes-1(teacher).png');
+////		runTest(classes.classBar);	// FIXME
+//		
+//		browser.sleep(1000);
+//		
+//		classes.classBar.locator.getText()
+//			.then(function(text) {
+//				console.log(text);
+//			});
+//
+//		// images look good
+//		// classCode matches
+//	});
 	
-	describe.skip('Should show my reports correctly', function() {
-		browser.get(serverAddress + reports.path);
-		
-		
-		screenshot(resultDir + 'dashboard.reports(teacher).png');
-	});
-	
-	describe.skip('Should show support page correctly', function() {
-		browser.get(serverAddress + support.path);
-		
-		
-		screenshot(resultDir + 'dashboard.support(teacher).png');
-	});
+//	describe('Should show my reports correctly', function() {
+//		browser.get(serverAddress + reports.path);
+//		
+//		screenshot(resultDir + 'dashboard.reports(teacher).png');
+//	});
+//	
+//	describe('Should show support page correctly', function() {		// NOTE will be redirect http://glasslabgames.org/support/
+//		browser.get(serverAddress + support.path);
+//		console.log('shouldnt get here');
+//		
+//		
+//		screenshot(resultDir + 'dashboard.support(teacher).png');
+//	});
 		
 });
