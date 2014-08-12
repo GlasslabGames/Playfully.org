@@ -19,7 +19,7 @@ angular.module('playfully.login', [])
     url: '/sdk/login',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': loginOptionsConfig },
+    views: { 'main@': loginOptionsConfig }
   });
 
 
@@ -56,7 +56,7 @@ angular.module('playfully.login', [])
       url: '/sdk/login/student',
       parent: 'site',
       data: { hideWrapper: true },
-      views: { 'main@': loginStudentConfig },
+      views: { 'main@': loginStudentConfig }
     });
 
     var authEdmodoConfig = {
@@ -102,7 +102,7 @@ angular.module('playfully.login', [])
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
       views: {
         'main@': {
-          templateUrl: 'login/password-prompt.html',
+          templateUrl: 'login/sdk-password-prompt.html',
           controller: 'LoginConfirmCtrl'
         }
       },
@@ -118,7 +118,7 @@ angular.module('playfully.login', [])
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
       views: {
         'main@': {
-          templateUrl: 'login/login-success.html',
+          templateUrl: 'login/sdk-login-success.html',
           controller: function($scope, $window, $log) {
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
