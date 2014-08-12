@@ -50,6 +50,15 @@ angular.module('playfully.register', [])
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': registerStudentConfig }
+  })
+  .state('sdkRegisterStudentSuccess', {
+    url: '/sdk/register/student/success',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': {
+        templateUrl: 'register/sdk-register-student-success.html',
+        controller: 'RegisterStudentModalCtrl'
+    } }
   });
 })
 
@@ -147,6 +156,9 @@ angular.module('playfully.register', [])
         isRegCompleted: false
       };
 
+      $scope.closeWindow = function() {
+        $window.location.search = 'action=SUCCESS';
+      };
 
       $scope.confirmCode = function(conf) {
         $scope.confirmation.errors = [];
@@ -171,7 +183,7 @@ angular.module('playfully.register', [])
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
             if ($state.current.data.hideWrapper) {
-              $window.location.search = 'action=SUCCESS';
+              $state.go('sdkRegisterStudentSuccess');
             }
           })
           .error(function(data, status, headers, config) {
