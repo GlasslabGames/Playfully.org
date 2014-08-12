@@ -96,7 +96,7 @@ angular.module('playfully.login', [])
       resolve: edmodoResolve
     });
 
-    $stateProvider.state('passwordPrompt', {
+    $stateProvider.state('sdkPasswordPrompt', {
       url: '/sdk/login/confirm',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
@@ -112,7 +112,7 @@ angular.module('playfully.login', [])
         }
       }
     })
-    .state('loginSuccess', {
+    .state('sdkLoginSuccess', {
       url: '/sdk/login/success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
@@ -124,6 +124,22 @@ angular.module('playfully.login', [])
               $window.location.search = 'action=SUCCESS';
             };
           }
+        }
+      }
+    })
+    .state('sdkLoginResetData', {
+      url: '/sdk/login/resetdata',
+      parent: 'site',
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      views: {
+        'main@': {
+          templateUrl: 'login/sdk-resetdata-prompt.html',
+          controller: 'LoginConfirmCtrl'
+        }
+      },
+      resolve: {
+        currentUser: function(UserService) {
+          return UserService.currentUser();
         }
       }
     })
@@ -173,7 +189,7 @@ angular.module('playfully.login', [])
       AuthService.login(credentials).then(function(result) {
         if ($state.current.data.hideWrapper) {
           $log.info("About to go to loginSuccess");
-          $state.go('loginSuccess');
+          $state.go('sdkLoginSuccess');
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
