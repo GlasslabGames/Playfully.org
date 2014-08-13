@@ -13,6 +13,13 @@
 .gl-reports-dropdown {
   width: 240px;
   max-width: 240px;
+  text-align: left;
+  .text-overflow;
+}
+
+.gl-reports-dropdown--game {
+  width: 180px;
+  max-width: 180px;
   .text-overflow;
 }
 
@@ -71,6 +78,10 @@
   }
 }
 
+.gl-reports-nav-students--disabled .gl-reports-nav-selector {
+  .opacity(0.6);
+}
+
 .gl-reports-nav-selector--partial {
   .fa-check {
     display: none;
@@ -98,6 +109,13 @@
   padding-left: @spacingLarge;
   margin-top: 10px;
   padding-top: 6px;
+}
+
+.gl-reports-nav-students--disabled {
+  color: @grey4;
+  .gl-reports-nav-student:hover {
+    cursor: default;
+  }
 }
 
 .gl-reports-nav-student {

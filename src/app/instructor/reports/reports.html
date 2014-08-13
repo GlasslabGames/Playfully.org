@@ -9,7 +9,8 @@
     <hr class="rule rule--aqua" />
     Game:
     <div class="btn-group" dropdown is-open="games.isOpen">
-      <button type="button" class="btn btn-default"
+      <button type="button"
+        class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
         ng-click="toggleDropdown($event, 'games')"
         ng-bind="games.options[games.selected].shortName"></button>
       <button type="button" class="btn gl-btn--blue dropdown-toggle">
@@ -19,7 +20,9 @@
       <ul class="dropdown-menu" role="menu">
         <li ng-repeat="(key, game) in games.options"
           ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
-          <a href="#" ng-bind="game.shortName"></a>
+          <a href="#"
+            ng-click="selectGame($event, key)"
+            ng-bind="game.shortName"></a>
         </li>
       </ul>
     </div>
@@ -72,6 +75,7 @@
                   ng-click="course.isExpanded = !course.isExpanded"></div>
               </div>
               <div class="gl-reports-nav-students"
+                ng-class="{'gl-reports-nav-students--disabled': reports.selected == 'SOWO'}"
                 ng-show="course.isExpanded">
                 <div ng-repeat="student in course.users">
                   <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">

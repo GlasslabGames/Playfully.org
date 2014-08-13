@@ -86,6 +86,9 @@ angular.module( 'instructor.reports', [
     $scope.toggleStudent = function($event, student, course) {
       $event.preventDefault();
       $event.stopPropagation();
+      // Students are not selectable for Shout Out / Watch Out
+      if ($scope.reports.selected == 'SOWO') { return false;}
+
       student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
       /* If any students are not selected, set isPartiallySelected to true */
@@ -149,6 +152,11 @@ angular.module( 'instructor.reports', [
       $scope.toggleDropdown($event, 'reports');
     };
 
+    $scope.selectGame = function($event, key) {
+      $scope.games.selected = key;
+      $scope.toggleDropdown($event, 'games');
+    };
+
     $scope.toggleDropdown = function($event, collection) {
       $event.preventDefault();
       $event.stopPropagation();
@@ -166,6 +174,10 @@ angular.module( 'instructor.reports', [
       if (requestedReport == 'ACHV') {
         ReportsService.getAchievements(requestedGame, $scope.courses.selectedId)
           .then(function(data) {
+            if (!data.length) {
+              
+              return false;
+            }
             angular.forEach(data, function(d) {
               $scope.students[d.userId].achievements = d.achievements;
               $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
