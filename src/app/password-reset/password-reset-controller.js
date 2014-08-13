@@ -11,7 +11,7 @@ angular.module('playfully.password-reset', [])
           controller: 'PasswordResetModalCtrl'
         }
       },
-      data:{ authorizedRoles: ['guest'] }
+      data:{ pageTitle: 'Forgot Password'}
     })
     .state('sdkPasswordReset', {
       url: '/sdk/forgot-password?type',
@@ -22,7 +22,7 @@ angular.module('playfully.password-reset', [])
           controller: 'PasswordResetModalCtrl'
         }
       },
-      data:{ authorizedRoles: ['guest'], hideWrapper: true }
+      data:{ hideWrapper: true }
     })
 
 
@@ -62,7 +62,7 @@ angular.module('playfully.password-reset', [])
       $scope.formInfo.errors = [];
       AuthService.sendPasswordResetLink(formInfo.email)
         .success(function(data, status, headers, config) {
-          $log.info(data);
+          // $log.info(data);
           $scope.formInfo.isResetEmailSent = true;
         })
         .error(function(data, status, headers, config) {

@@ -47,8 +47,10 @@ angular.module( 'instructor.reports', [
         }
       });
     });
+    $scope.activeCourses = activeCourses;
 
     $scope.$watch('courses.selectedId', function(newValue, oldValue) {
+      if (newValue == null) { return; }
       /**
        * Deselect all students in the old course, set expanded and selected
        * options accordingly.
@@ -68,7 +70,10 @@ angular.module( 'instructor.reports', [
     });
 
     /* Initialize with the first course in the list selected */
-    $scope.courses.selectedId = activeCourses[0].id;
+    $scope.courses.selectedId = null;
+    if (activeCourses.length) {
+      $scope.courses.selectedId = activeCourses[0].id;
+    }
     
     /* Set the passed-in course to be the selected one */
     $scope.selectCourse = function($event, courseId) {
@@ -81,6 +86,9 @@ angular.module( 'instructor.reports', [
     $scope.toggleStudent = function($event, student, course) {
       $event.preventDefault();
       $event.stopPropagation();
+      // Students are not selectable for Shout Out / Watch Out
+      if ($scope.reports.selected == 'SOWO') { return false;}
+
       student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
       /* If any students are not selected, set isPartiallySelected to true */
@@ -144,6 +152,11 @@ angular.module( 'instructor.reports', [
       $scope.toggleDropdown($event, 'reports');
     };
 
+    $scope.selectGame = function($event, key) {
+      $scope.games.selected = key;
+      $scope.toggleDropdown($event, 'games');
+    };
+
     $scope.toggleDropdown = function($event, collection) {
       $event.preventDefault();
       $event.stopPropagation();
@@ -152,12 +165,19 @@ angular.module( 'instructor.reports', [
 
 
     $scope.$watchCollection('[games.selected, reports.selected]', function(newValue, oldValue) {
+      if ($scope.activeCourses.length === 0) {
+        return;
+      }
       var requestedGame = newValue[0];
       var requestedReport = newValue[1];
 
       if (requestedReport == 'ACHV') {
         ReportsService.getAchievements(requestedGame, $scope.courses.selectedId)
           .then(function(data) {
+            if (!data.length) {
+              
+              return false;
+            }
             angular.forEach(data, function(d) {
               $scope.students[d.userId].achievements = d.achievements;
               $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;

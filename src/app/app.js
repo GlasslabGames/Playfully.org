@@ -31,10 +31,11 @@ angular.module( 'playfully', [
 
   $urlRouterProvider.otherwise('/');
   $stateProvider.state('site', {
-    abstract: true,
-    resolve: ['Authorization', function(Authorization) {
-        return Authorization.authorize();
-      }]
+    abstract: true
+    // Commented out because it seems to be redundant to the .run version.
+    // resolve: ['Authorization', function(Authorization, $log) {
+    //     return Authorization.authorize();
+    //   }]
   })
 
   .state( 'sdk', {
@@ -80,31 +81,45 @@ angular.module( 'playfully', [
   $translateProvider.preferredLanguage('en');
 })
 
-.factory('Authorization', function ($rootScope, $log, $state, UserService, AuthService, AUTH_EVENTS) {
+.factory('Authorization', function ($rootScope, $log, $state, $window, UserService, AuthService, AUTH_EVENTS) {
   return {
     authorize: function() {
-      return UserService.currentUser()
-        .then(function(user) {
-          $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
+      AuthService.isLoggedIn()
+        .success(function(data) {
+          // $window.alert("Logged in");
+          // $window.alert(JSON.stringify(data));
+          UserService.currentUser()
+            .then(function(user) {
+              $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
-          if ($rootScope.toState) {
-            if ($rootScope.toState.url == '/' && user && user.role) {
-              $state.transitionTo(user.role + 'Dashboard');
-            }
+              if ($rootScope.toState) {
+                if ($rootScope.toState.url == '/' && user && user.role) {
+                  $state.go(user.role + 'Dashboard');
+                }
 
-            var isAuthenticated = UserService.isAuthenticated();
-            var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
+                var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
 
-            if (authorizedRoles && !AuthService.isAuthorized(authorizedRoles)) {
-              event.preventDefault();
-              if (isAuthenticated) {
-                // user is not allowed
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-              } else {
-                //user is not logged in
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                if (authorizedRoles) {
+                  if (AuthService.isAuthorized(authorizedRoles)) {
+                    return true;
+                  }
+                  else {
+                    event.preventDefault();
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                  }
+                }
               }
-            }
+            });
+
+
+        })
+        .error(function() {
+          // $window.alert("Not logged in");
+          if ($rootScope.toState.hasOwnProperty('data') &&
+            $rootScope.toState.data.hasOwnProperty('authorizedRoles')) {
+            $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+          } else {
+            return true;
           }
         });
     }
@@ -124,8 +139,8 @@ angular.module( 'playfully', [
 })
 
 .controller('AppCtrl',
-  function($scope, $rootScope, $state, $log, $modal, ipCookie,
-      UserService, AuthService, AUTH_EVENTS) {
+  function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
+    ipCookie, UserService, AuthService, AUTH_EVENTS) {
 
     $rootScope.state = $state;
     $scope.currentUser = null;
@@ -159,7 +174,9 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
-      $state.go('home', {}, { reload: true });
+      return $timeout(function () {
+        $location.path('/');
+      }, 100);
     });
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {

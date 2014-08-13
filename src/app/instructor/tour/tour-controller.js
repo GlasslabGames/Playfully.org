@@ -37,10 +37,23 @@ angular.module( 'instructor.tour', [
 .controller( 'InstructorTourModalCtrl', function ( $scope, $log ) {
 
   $scope.slides = [
-    { id: 1, text: "description for slide 1", image: "http://www.blackberry-wallpapers.com/uploads/allimg/110423/2-1104231551070-L.png" },
-    { id: 2, text: "some text for slide 2", image: "http://blackberry-wallpapers.com/uploads/allimg/101227/2-10122H133520-L.jpg" },
-    { id: 3, text: "what you see in the 3rd slide", image: "http://www.blackberrygood.com/uploads/allimg/110531/2-110531112T10-L.jpg" },
-    { id: 4, text: "and that's a wrap!", image: "http://www.dertz.in/wallpapers/files/Alone%20Android%20480x320-982.jpg" }
+    { id: 1, text: "Applause and happy dance! You are now a registered user and have access to all the wonders this site has to offer, including student management and reporting tools, professional development videos and more!",
+      image: { url: "/assets/tour-1.png", width: 382, height: 382}
+    },
+    { id: 2, 
+      video: {
+        url: 'http://127.0.0.1:8001/assets/reporting-tools.mov',
+        width: 480,
+        height: 320
+      }
+    },
+    { id: 3,
+      video: {
+        url: 'http://127.0.0.1:8001/assets/student-management.mov',
+        width: 480,
+        height: 320
+      }
+    }
   ];
 
 

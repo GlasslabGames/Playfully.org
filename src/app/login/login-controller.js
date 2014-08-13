@@ -9,7 +9,7 @@ angular.module('playfully.login', [])
     url: 'login',
     parent: 'modal',
     views: { 'modal@': loginOptionsConfig },
-    data:{ authorizedRoles: ['guest'] },
+    data:{ pageTitle: 'Sign In'},
     onEnter: function($state, $log, ipCookie) {
       if (ipCookie('inSDK')) {
         ipCookie.remove('inSDK');
@@ -19,7 +19,7 @@ angular.module('playfully.login', [])
     url: '/sdk/login',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': loginOptionsConfig },
+    views: { 'main@': loginOptionsConfig }
   });
 
 
@@ -31,7 +31,7 @@ angular.module('playfully.login', [])
     url: 'login/instructor',
     parent: 'modal',
     views: { 'modal@': loginInstructorConfig },
-    data:{ authorizedRoles: ['guest'] }
+    data:{ pageTitle: 'Instructor Sign In'}
   })
   .state('sdkLoginInstructor', {
     url: '/sdk/login/instructor',
@@ -50,13 +50,13 @@ angular.module('playfully.login', [])
       url: 'login/student',
       parent: 'modal',
       views: { 'modal@': loginStudentConfig },
-      data:{ authorizedRoles: ['guest'] }
+      data:{ pageTitle: 'Student Sign In'}
     })
     .state('sdkLoginStudent', {
       url: '/sdk/login/student',
       parent: 'site',
       data: { hideWrapper: true },
-      views: { 'main@': loginStudentConfig },
+      views: { 'main@': loginStudentConfig }
     });
 
     var authEdmodoConfig = {
@@ -96,13 +96,13 @@ angular.module('playfully.login', [])
       resolve: edmodoResolve
     });
 
-    $stateProvider.state('passwordPrompt', {
+    $stateProvider.state('sdkPasswordPrompt', {
       url: '/sdk/login/confirm',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
       views: {
         'main@': {
-          templateUrl: 'login/password-prompt.html',
+          templateUrl: 'login/sdk-password-prompt.html',
           controller: 'LoginConfirmCtrl'
         }
       },
@@ -112,13 +112,13 @@ angular.module('playfully.login', [])
         }
       }
     })
-    .state('loginSuccess', {
+    .state('sdkLoginSuccess', {
       url: '/sdk/login/success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
       views: {
         'main@': {
-          templateUrl: 'login/login-success.html',
+          templateUrl: 'login/sdk-login-success.html',
           controller: function($scope, $window, $log) {
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
@@ -127,13 +127,31 @@ angular.module('playfully.login', [])
         }
       }
     })
+    .state('sdkLoginResetData', {
+      url: '/sdk/login/resetdata',
+      parent: 'site',
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      views: {
+        'main@': {
+          templateUrl: 'login/sdk-resetdata-prompt.html',
+          controller: 'LoginConfirmCtrl'
+        }
+      },
+      resolve: {
+        currentUser: function(UserService) {
+          return UserService.currentUser();
+        }
+      }
+    })
     .state('logout', {
       parent: 'site',
       url: '/logout',
       resolve: {
         data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
-          AuthService.logout().then(function() {
+          AuthService.logout().then(function(response) {
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+          }, function(response) {
+            $log.error(response);  
           });
         }
       }
@@ -171,7 +189,7 @@ angular.module('playfully.login', [])
       AuthService.login(credentials).then(function(result) {
         if ($state.current.data.hideWrapper) {
           $log.info("About to go to loginSuccess");
-          $state.go('loginSuccess');
+          $state.go('sdkLoginSuccess');
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
@@ -200,7 +218,6 @@ angular.module('playfully.login', [])
       AuthService.logout()
         .then(function() {
           AuthService.login(credentials).then(function(result) {
-            $log.info(result);
             if ($state.current.data.hideWrapper) {
               $window.location.search = 'action=SUCCESS';
             } else {
@@ -227,7 +244,6 @@ angular.module('playfully.login', [])
     }
 
     $scope.logInWithEdmodo = function() {
-      $log.info('logInWithEdmodo');
       $window.location.href = '/auth/edmodo/login';
     };
 
@@ -237,7 +253,6 @@ angular.module('playfully.login', [])
     };
 
     $scope.verify = function(verification) {
-      $log.info(verification);
       // Need to just enroll the student
       $scope.verification.errors = [];
       CoursesService.enroll(verification.code)

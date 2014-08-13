@@ -1,0 +1,16 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+  <div class="modal-header">
+    <h3 class="modal-title">Welcome Back, {{ currentUser.username }}!</h3>
+  </div>
+
+  <div ng-class="modal-body">
+    <p class="gl-pad-Vxxl gl-margin-Vxl text-center">You have successfully signed in.</p>
+
+    <form class="login-form">
+      <div class="text-center">
+        <input type="submit" class="btn gl-btn--blue" value="Play"
+               ng-click="closeWindow()">
+      </div>
+    </form>
+  </div>
+</div>

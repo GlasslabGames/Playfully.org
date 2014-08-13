@@ -3,15 +3,27 @@
   <h3 class="modal-title">Take a Tour!</h3>
 </div>
 
-<div class="modal-body">
+<div class="modal-body gl-tour">
   <div class="carousel-container">
-    <carousel interval="4000">
+    <carousel interval="-1">
       <slide ng-repeat="slide in slides" active="slide.active">
-        <img ng-src="{{slide.image}}" style="margin:auto;">
-        <div class="carousel-caption">
-          <h4>Slide {{$index + 1}}</h4>
-          <p>{{slide.text}}</p>
-        </div>
+      <img ng-src="{{ slide.image.url }}" style="margin:auto;" ng-show="slide.image">
+
+      <div ng-show="slide.video">
+        <object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="{{ slide.video.width }}" height="{{ slide.video.height }}" CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab">
+          <param name="src" value="{{ slide.video.url }}">
+          <param name="qtsrc" value="{{ slide.video.url }}">
+          <param name="autoplay" value="true">
+          <param name="loop" value="false">
+          <param name="controller" value="true">
+          <embed src="{{ slide.video.url }}" qtsrc="{{ slide.video.url }}" width="{{ slide.video.width }}" height="{{ slide.video.height }}" autoplay="true" loop="false" controller="true" pluginspage="http://www.apple.com/quicktime/"></embed>
+      </object>
+      </div>
+
+
+      <div class="carousel-caption">
+        <p>{{slide.text}}</p>
+      </div>
       </slide>
     </carousel>
   </div>

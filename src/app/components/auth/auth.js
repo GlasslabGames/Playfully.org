@@ -17,6 +17,15 @@ angular.module('auth', ['session', 'ipCookie'])
         });
     },
 
+    isLoggedIn: function () {
+      var timestamp = new Date().getTime();
+      return $http({
+        method: 'GET',
+        url: API_BASE + '/auth/login/status',
+        params: { ts: timestamp }
+      });
+    },
+
     isAuthenticated: function () {
       return !!Session.userId;
     },

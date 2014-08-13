@@ -1,45 +1,60 @@
 <div class="gl-bg--gray">
-  <div class="container">
+  <div class="container" ng-if="!activeCourses.length">
+    <div class="gl-courses--blank gl-reports--blank text-center">
+      You do not have any active classes
+    </div>
+  </div>
+
+  <div class="container" ng-if="activeCourses.length">
     <hr class="rule rule--aqua" />
-    Game:
-    <div class="btn-group" dropdown is-open="games.isOpen">
-      <button type="button" class="btn btn-default"
-        ng-click="toggleDropdown($event, 'games')"
-        ng-bind="games.options[games.selected].shortName"></button>
-      <button type="button" class="btn gl-btn--blue dropdown-toggle">
-        <span class="caret"></span>
-        <span class="sr-only">Split button!</span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(key, game) in games.options"
-          ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
-          <a href="#" ng-bind="game.shortName"></a>
-        </li>
-      </ul>
+
+    <div class="row">
+      <div class="col-md-8">
+        Game:
+        <div class="btn-group" dropdown is-open="games.isOpen">
+          <button type="button"
+            class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
+            ng-click="toggleDropdown($event, 'games')"
+            ng-bind="games.options[games.selected].shortName"></button>
+          <button type="button" class="btn gl-btn--blue dropdown-toggle">
+            <span class="caret"></span>
+            <span class="sr-only">Split button!</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="(key, game) in games.options"
+              ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
+              <a href="#"
+                ng-click="selectGame($event, key)"
+                ng-bind="game.shortName"></a>
+            </li>
+          </ul>
+        </div>
+
+        Report:
+        <div class="btn-group" dropdown is-open="reports.isOpen">
+          <button type="button" class="btn btn-default gl-reports-dropdown"
+            ng-click="toggleDropdown($event, 'reports')"
+            ng-bind="reports.options[reports.selected].title + ' Report'"></button>
+          <button type="button" class="btn gl-btn--blue dropdown-toggle">
+            <span class="caret"></span>
+            <span class="sr-only">Split button!</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="(key, report) in reports.options | orderBy:report.position"
+              ng-class="{'gl-reports-dropdown--selected': key == reports.selected}">
+              <a href="#"
+                ng-click="selectReport($event, key)"
+                ng-bind="report.title + ' Report'"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-4 text-right">
+        <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
+        <button class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
+      </div>
     </div>
-
-    Report:
-    <div class="btn-group" dropdown is-open="reports.isOpen">
-      <button type="button" class="btn btn-default gl-reports-dropdown"
-        ng-click="toggleDropdown($event, 'reports')"
-        ng-bind="reports.options[reports.selected].title + ' Report'"></button>
-      <button type="button" class="btn gl-btn--blue dropdown-toggle">
-        <span class="caret"></span>
-        <span class="sr-only">Split button!</span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(key, report) in reports.options | orderBy:report.position"
-          ng-class="{'gl-reports-dropdown--selected': key == reports.selected}">
-          <a href="#"
-            ng-click="selectReport($event, key)"
-            ng-bind="report.title + ' Report'"></a>
-        </li>
-      </ul>
-    </div>
-
-    <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
-    <button class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
-
 
     <hr class="rule rule--aqua" />
 
@@ -66,6 +81,7 @@
                   ng-click="course.isExpanded = !course.isExpanded"></div>
               </div>
               <div class="gl-reports-nav-students"
+                ng-class="{'gl-reports-nav-students--disabled': reports.selected == 'SOWO'}"
                 ng-show="course.isExpanded">
                 <div ng-repeat="student in course.users">
                   <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">

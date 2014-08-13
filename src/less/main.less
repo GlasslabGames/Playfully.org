@@ -35,6 +35,7 @@
 @import '../app/instructor/courses/courses.less';
 @import '../app/games/games.less';
 @import '../app/instructor/reports/reports.less';
+@import '../app/instructor/tour/tour.less';
 
 
 /* Mixins */
@@ -43,6 +44,12 @@
 	-webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
 	-moz-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
 	box-shadow:		@x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.opacity (@opacity: 0.5) {
+	-webkit-opacity: 	@opacity;
+	-moz-opacity: 		@opacity;
+	opacity: 		      @opacity;
 }
 
 .border-radius (@radius: 5px) {

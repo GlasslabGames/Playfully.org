@@ -156,6 +156,14 @@ module.exports = function ( grunt ) {
             dest: '<%= build_dir %>/crossdomain.xml'
           }
         ]
+      },
+      favicon: {
+        files: [
+          {
+            src: [ '**/favicon.ico' ],
+            dest: '<%= build_dir %>/favicon.ico'
+          }
+        ]
       }
     },
 
@@ -560,13 +568,13 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'index:build'
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build'
   ]);
 
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'index:build', 'karmaconfig',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
     'karma:continuous', 'protractor:build'
   ]);
     

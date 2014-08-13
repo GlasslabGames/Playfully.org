@@ -1,5 +1,5 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, Session, API_BASE) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE) {
 
   var _currentUser;
 
@@ -31,7 +31,7 @@ angular.module('user', [])
     },
 
     hasCurrentUser: function() {
-      angular.isDefined(_currentUser);
+      return angular.isDefined(_currentUser);
     },
 
     retrieveCurrentUser: function() {
