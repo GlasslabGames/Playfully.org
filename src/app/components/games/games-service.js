@@ -121,10 +121,18 @@ angular.module('games', [])
           $log.error(response);
           return response;
         });
+    },
+
+    getReports: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports')
+        .then (function(response) {
+          $log.info(response);
+          return response.data;
+        }, function (response) {
+          $log.error(response);
+          return response;
+        });
     }
-
-
-
   };
 
   return api;

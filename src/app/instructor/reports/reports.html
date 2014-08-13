@@ -29,22 +29,22 @@
             </li>
           </ul>
         </div>
-
+        &nbsp;
         Report:
         <div class="btn-group" dropdown is-open="reports.isOpen">
           <button type="button" class="btn btn-default gl-reports-dropdown"
             ng-click="toggleDropdown($event, 'reports')"
-            ng-bind="reports.options[reports.selected].title + ' Report'"></button>
+            ng-bind="reports.selected.name"></button>
           <button type="button" class="btn gl-btn--blue dropdown-toggle">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key, report) in reports.options | orderBy:report.position"
-              ng-class="{'gl-reports-dropdown--selected': key == reports.selected}">
+            <li ng-repeat="report in reports.options | orderBy:report.name"
+              ng-class="{'gl-reports-dropdown--selected': report.id == reports.selected.id}">
               <a href="#"
-                ng-click="selectReport($event, key)"
-                ng-bind="report.title + ' Report'"></a>
+                ng-click="selectReport($event, report)"
+                ng-bind="report.name"></a>
             </li>
           </ul>
         </div>
@@ -57,6 +57,17 @@
     </div>
 
     <hr class="rule rule--aqua" />
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="gl-reports-header">
+          <img src="reports.selected.header.image">
+          <div class="gl-reports-header-logo">
+            <img src="{{games.options[games.selected].developr.logo.small}}">
+          </div>
+        </div>
+      </divk
+    </div>
 
     <div class="row">
       <div class="col-md-3">
@@ -81,9 +92,14 @@
                   ng-click="course.isExpanded = !course.isExpanded"></div>
               </div>
               <div class="gl-reports-nav-students"
-                ng-class="{'gl-reports-nav-students--disabled': reports.selected == 'SOWO'}"
+                ng-class="{'gl-reports-nav-students--disabled': reports.selected.id == 'sowo',
+                  'gl-reports-nav-students--empty': !course.users.length}"
                 ng-show="course.isExpanded">
-                <div ng-repeat="student in course.users">
+                <div ng-if="!course.users.length" class="text-grey5">
+                  No students in class
+                </div>
+                <div ng-if="course.users.length"
+                  ng-repeat="student in course.users">
                   <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">
                     <div class="gl-reports-nav-selector"
                       ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
@@ -98,22 +114,18 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-9">
         <div class="gl-reports-container gl-margin--Bxl">
+
           <h1 class="headline-2 text-center gl-margin--Tl"
-            ng-bind="reports.options[reports.selected].title"></h1>
-          <p class="text-center">
-            This report shows students' key achievements to date and total time played.
+            ng-bind="reports.selected.header.text"></h1>
+
+          <p class="text-center" ng-bind="reports.selected.description">
           </p>
 
-          <div ng-if="reports.selected == 'ACHV'">
-            <div ng-include src="'instructor/reports/achievements.html'"></div>
+          <div ng-include src="'instructor/reports/' + reports.selected.id + '.html'">
           </div>
-
-          <div ng-if="reports.selected == 'SOWO'">
-            <div ng-include src="'instructor/reports/shoutouts.html'"></div>
-          </div>
-
 
         </div>
       </div>

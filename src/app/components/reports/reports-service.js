@@ -3,6 +3,25 @@ angular.module('reports', [])
 
   var api = {
 
+    get: function(reportId, gameId, courseId, limit) {
+      var params = {
+        gameId: gameId,
+        courseId: courseId,
+      };
+      if (limit) {
+        params.limit = limit;
+      }
+      var apiUrl = API_BASE + '/dash/reports/' + reportId;
+      return $http({method: 'GET', url: apiUrl, params: params})
+        .then(function(response) {
+          $log.info(response);
+          return response.data;
+        }, function(response) {
+          $log.error(response);
+          return response;
+        });
+    },
+
     getAchievements: function (gameId, courseId) {
       var params = {
         gameId: gameId,
@@ -11,7 +30,6 @@ angular.module('reports', [])
       var apiUrl = API_BASE + '/dash/reports/achievements';
       return $http({ method: 'GET', url: apiUrl, params: params})
         .then(function(response) {
-          $log.info(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -33,8 +51,6 @@ angular.module('reports', [])
           $log.error(response);
           return response;
         });
-
-
     }
 
 
