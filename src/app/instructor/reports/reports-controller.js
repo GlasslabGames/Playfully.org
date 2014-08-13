@@ -47,8 +47,10 @@ angular.module( 'instructor.reports', [
         }
       });
     });
+    $scope.activeCourses = activeCourses;
 
     $scope.$watch('courses.selectedId', function(newValue, oldValue) {
+      if (newValue == null) { return; }
       /**
        * Deselect all students in the old course, set expanded and selected
        * options accordingly.
@@ -68,7 +70,10 @@ angular.module( 'instructor.reports', [
     });
 
     /* Initialize with the first course in the list selected */
-    $scope.courses.selectedId = activeCourses[0].id;
+    $scope.courses.selectedId = null;
+    if (activeCourses.length) {
+      $scope.courses.selectedId = activeCourses[0].id;
+    }
     
     /* Set the passed-in course to be the selected one */
     $scope.selectCourse = function($event, courseId) {
@@ -152,6 +157,9 @@ angular.module( 'instructor.reports', [
 
 
     $scope.$watchCollection('[games.selected, reports.selected]', function(newValue, oldValue) {
+      if ($scope.activeCourses.length === 0) {
+        return;
+      }
       var requestedGame = newValue[0];
       var requestedReport = newValue[1];
 

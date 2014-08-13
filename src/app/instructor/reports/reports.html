@@ -1,5 +1,11 @@
 <div class="gl-bg--gray">
-  <div class="container">
+  <div class="container" ng-if="!activeCourses.length">
+    <div class="gl-courses--blank gl-reports--blank text-center">
+      You do not have any active classes
+    </div>
+  </div>
+
+  <div class="container" ng-if="activeCourses.length">
     <hr class="rule rule--aqua" />
     Game:
     <div class="btn-group" dropdown is-open="games.isOpen">
