@@ -157,12 +157,14 @@ angular.module( 'instructor.reports', [
 
 
     $scope.$watchCollection('games.selected', function(newValue, oldValue) {
-      $log.info(newValue); 
       GamesService.getReports(newValue)
         .then(function(data) {
           if (data.list && data.list.length) {
             $scope.reports.options = data.list;
             $scope.reports.selected = data.list[0];
+          }
+          if (data.developer) {
+            $scope.developer = data.developer;
           }
         });
 

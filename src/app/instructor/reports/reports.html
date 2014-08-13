@@ -61,10 +61,10 @@
 
     <div class="row">
       <div class="col-md-12">
-        <div class="gl-reports-header">
-          <img src="reports.selected.header.image">
+        <div class="gl-reports-header" ng-show="reports.selected.header.image">
+          <img src="{{reports.selected.header.image}}">
           <div class="gl-reports-header-logo">
-            <img src="{{games.options[games.selected].developr.logo.small}}">
+            <img src="{{developer.logo.small}}">
           </div>
         </div>
       </divk
