@@ -215,20 +215,17 @@ angular.module('playfully.login', [])
 
     $scope.login = function ( credentials ) {
       $scope.authError = null;
-      AuthService.logout()
-        .then(function() {
-          AuthService.login(credentials).then(function(result) {
-            if ($state.current.data.hideWrapper) {
-              $window.location.search = 'action=SUCCESS';
-            } else {
-              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
-            }
-          }, function(result) {
-            $log.error(result);
-            $scope.authError = result.data.error;
-            $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-          });
-        });
+      AuthService.login(credentials).then(function(result) {
+        if ($state.current.data.hideWrapper) {
+          $window.location.search = 'action=SUCCESS';
+        } else {
+          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+        }
+      }, function(result) {
+        $log.error(result);
+        $scope.authError = result.data.error;
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+      });
     };
 })
 
