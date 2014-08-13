@@ -63,10 +63,6 @@ describe("Login Options", function() {
 });
 
 
-
-
-
-
 describe("Instructor Login", function() {
   var ptor;
 
