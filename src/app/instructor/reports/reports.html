@@ -41,6 +41,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="report in reports.options | orderBy:report.name"
+              ng-hide="!report.name"
               ng-class="{'gl-reports-dropdown--selected': report.id == reports.selected.id}">
               <a href="#"
                 ng-click="selectReport($event, report)"
