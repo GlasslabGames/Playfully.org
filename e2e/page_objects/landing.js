@@ -30,45 +30,93 @@ var Landing = function() {
 			locator: element(by.css(".gl-bu-login")),
 			text: 'Sign In'
 		}
+    
+		//// Login modal - triggered from loginButton
+		this.login = {
+			ttype: 'form',
+			desc: 'should be able to log in with valid credentials',
+			
+			subElements: {
+				loginAsBtn: {
+					ttype: 'btn',
+					locator: {
+						student: element(by.css(".login-button--student")),
+						teacher: element(by.css(".login-button--instructor"))
+					}
+				},
+				email: {
+					ttype: 'field',
+					locator: element(by.model('credentials.username'))
+				},
+				password: {
+					ttype: 'field',
+					locator: element(by.model('credentials.password'))
+				},
+				submit: {
+					ttype: 'btn',
+					locator: element(by.css("input.btn.gl-btn--blue")),
+					text: 'Sign In'
+				}
+			}
+		}
 		
     this.registerButton = {
 			ttype: 'btn',
 			locator: element(by.css(".gl-bu-register")),
 			text: 'Register Now'
 		}
-    
-//		this.login = {		// TODO - fix form elements as subelements of this
-//			ttype: 'form',
-//			desc: 'should be able to log in with valid credentials',
-//			locator: element(by.css(''))
-//		}
 		
-		this.login_teacher = {
-			ttype: 'btn',
-			locator: element(by.css(".login-button--instructor"))
+		//// Register Modal - triggered from registerButton
+		this.register = {
+			ttype: 'form',
+			desc: 'should be able to register',
+			subElements: {
+				registerAsBtn: {
+					ttype: 'btn',
+					locator: {
+						student: element(by.css(".login-button--student")),		// NOTE - same as login
+						teacher: element(by.css(".login-button--instructor"))
+					}
+				},
+				email: {
+					ttype: 'field',
+					locator: element(by.model('account.email'))
+				},
+				password: {
+					ttype: 'field',
+					locator: element(by.model('account.password'))
+				},
+				passConfirm: {
+					ttype: 'field',
+					locator: element(by.model('account.confirm'))
+				},
+				firstName: {
+					ttype: 'field',
+					locator: element(by.model('account.firstName'))
+				},
+				policyChbx: {
+					ttype: 'chbx',	// NOTE - triggered by .click()
+					locator: element(by.model('account.acceptedTerms'))
+					// FUTURE - link for policy - dead
+				},
+				newsletterChbx: {
+					ttype: 'chbx',
+					locator: element(by.model('account.newsletter'))
+				},
+				submit: {
+					ttype: 'btn',
+					locator: element(by.css("input.btn.gl-btn--blue")),
+					text: 'Register'
+				},
+				closeWelcome: {
+					ttype: 'btn',
+					locator: element(by.css("input.btn.gl-btn--blue")),		// NOTE - same as submit
+					text: 'Okay'
+					// TODO - check text in welcome modal
+				}
+			}
 		}
-		
-		this.login_student = {
-			ttype: 'btn',
-			locator: element(by.css(".login-button--student"))
-		}
-		
-		this.field_email = {
-			ttype: 'btn',
-			locator: element(by.model('credentials.username'))
-		}
-		
-		this.field_password = {
-			ttype: 'btn',
-			locator: element(by.model('credentials.password'))
-		}
-		
-		this.signInBtn = {
-			ttype: 'btn',
-			locator: element(by.css("input.btn.gl-btn--blue")),
-			text: 'Sign In'
-		}
-		
+
     //// GAMES ////
     
 //    this.gameCard = {
@@ -80,7 +128,7 @@ var Landing = function() {
 //		this.gameThumb = {
 //			ttype: 'pic',
 //			locator: element(by.css(".gl-game-thumbnail")),
-//			text: ''
+//			text: ''	// Alt text
 //		}
 //		this.gameDesc = {
 //			ttype: 'text',

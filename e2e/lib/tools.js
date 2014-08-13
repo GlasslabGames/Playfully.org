@@ -1,13 +1,16 @@
 var fs 		 = require('fs'),
 		chai	 = require('chai'),
 		expect = chai.expect;
-		
+
+var screenshotXtn = '.png';		// TODO - move to config page / tools
+
 module.exports = {
 	screenshot: screenshot,
 	runTest: runTest,
 	expectCurrentUrlToMatch: expectCurrentUrlToMatch,
 	expectObjTextToMatch: expectObjTextToMatch,
-	tstamp: tstamp
+	tstamp: tstamp,
+	generateUser: generateUser
 }
 
 function writeScreenShot(data, filename) {
@@ -25,12 +28,28 @@ function writeScreenShot(data, filename) {
 function screenshot(fname) {
 		browser.takeScreenshot()
 		.then(function (png) {
-			writeScreenShot(png, fname);
+			writeScreenShot(png, fname+screenshotXtn);
 		});
 }
 
+function generateUser(userType) {
+	return {
+		name: "glTest",
+		email: "build+" + userType + "-" + tstamp().replace(/[^\w\.]/gi, '') + "@glasslabgames.org",
+		pass: "gltest123"
+	}
+}
+
+function zfill(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
 function tstamp() {
-	return (new Date()).toLocaleString();
+//	return (new Date()).toLocaleString();
+	var date = (new Date());
+	return date.getYear() + zfill(date.getMonth(),2) + zfill(date.getDate(),2) + '-' + zfill(date.getHours(),2) + '.' + date.getMinutes() + '.' + date.getSeconds()
 }
 
 function expectCurrentUrlToMatch(url) {
@@ -49,11 +68,18 @@ function expectObjTextToMatch(locator, text) {
 }
 	
 // The DRY function to defining each test case outlined in page objects
-function runTest(element, textKey) {
+// Use:  runTest(test spec, 
+function runTest(element, userType) {
 	
 	var loc = element.locator;
-	var text = element.text[textKey] || element.text || "(No Description / Text)";	// NOTE - have to add {key:objs.(text)
-	var description = element.desc || text;		// TODO - make this more robust
+	var text;
+	if (userType) {
+		text = element.text[userType];
+	} else {
+		text = element.text || "(No Description / Text)";
+	}
+	
+	var description = element.desc || text;
 	
 	browser.ignoreSynchronization = true;
 
@@ -61,11 +87,7 @@ function runTest(element, textKey) {
 
 		case('text'):
 			it("#Verifying text - " + description, function () {
-				loc.getText()
-					.then(function(text) {
-						expect(text).to.eql(element.text)
-					});
-				expectObjTextToMatch(loc, element.text);
+				expectObjTextToMatch(loc, text);
 			});
 			break;
 
@@ -84,17 +106,17 @@ function runTest(element, textKey) {
 			break;
 
 		case('field'):
-			it("#Verifying text field " + description, function() {
-				expect(loc).to.be.ok;
-				loc.sendKeys(element.testInput);
-			});
+//			it("#Verifying text field " + description, function() {
+//				expect(loc).to.be.ok;
+//				loc.sendKeys(element.testInput);
+//			});
 			break;
 
 		case('btn'):		// NOTE - Still breaks if checking for btns on modals, so commented out
 //			it("#Button appears and functions as expected", function() {
 //				expectObjTextToMatch(loc, element.text);
 //				
-////				loc.click();	// TODO - add case for 'auto' field before firing btn
+////				loc.click();	// TODO - add if stmt for 'auto' field before firing btn
 //				// FUTURE - be able to trigger subsequent tests like page redirs, etc.
 //			});
 			break;
@@ -102,6 +124,7 @@ function runTest(element, textKey) {
 		case('pic'):
 			it("#Picture appears as expected", function() {
 				// TODO - add size/css/visibility test
+				// screenshot?
 				console.log('pic!!');
 			});
 			break;

@@ -26,7 +26,7 @@ describe("Landing Page - Not Logged In", function() {
 	
 		before(function () {
 			browser.get(serverAddress + landing.path);
-			screenshot(resultDir + 'landing.0(auto).png');
+			screenshot(resultDir + 'landing.0(auto)');
 		});
 	
 		for (test in autoTestRoutine) {
@@ -49,37 +49,50 @@ describe("Landing Page - Not Logged In", function() {
 		
 		it("#Should log in successfully - teacher", function() {
 			
+			var form = landing.login.subElements;
+
 			landing.loginButton.locator.click();
-			landing.login_teacher.locator.click();
-			landing.field_email.locator.sendKeys(acct.user.teacher);
-			landing.field_password.locator.sendKeys(acct.pass.teacher);
-			screenshot(resultDir + 'landing.login-0(teacher).png');
-			landing.signInBtn.locator.click();
 			
-			screenshot(resultDir + 'landing.login-1(teacher).png');
+			form.loginAsBtn.locator.teacher.click();	// NOTE <- Set to teacher here
+			form.email.locator.sendKeys(acct.user.teacher);
+			form.password.locator.sendKeys(acct.pass.teacher);
+			screenshot(resultDir + 'landing.login-0(teacher)');
+			form.submit.locator.click();
+			
+			screenshot(resultDir + 'landing.login-1(teacher)');
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 		});
 		
 		it("#Should log out successfully - teacher", function() {
 			
-			screenshot(resultDir + 'landing.login-2(teacher).png');
+			screenshot(resultDir + 'landing.login-2(teacher)');
 			dashboard.userIcon.locator.click();
-			screenshot(resultDir + 'landing.login-3(teacher).png');
+			screenshot(resultDir + 'landing.login-3(teacher)');
 			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing.login-4(teacher).png');
+			screenshot(resultDir + 'landing.login-4(teacher)');
 			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
 
 		it("#Should log in successfully - student", function() {
 			browser.get(serverAddress + landing.path);
 			
+			var form = landing.login.subElements;
+			
 			landing.loginButton.locator.click();
-			landing.login_student.locator.click();
-			landing.field_email.locator.sendKeys(acct.user.student);
-			landing.field_password.locator.sendKeys(acct.pass.student);
-			screenshot(resultDir + 'landing.login(student).png');
-			landing.signInBtn.locator.click();
-			screenshot(resultDir + 'landing.login-2(student).png');
+			
+//			landing.login_student.locator.click();
+//			landing.field_email.locator.sendKeys(acct.user.student);
+//			landing.field_password.locator.sendKeys(acct.pass.student);
+//			screenshot(resultDir + 'landing.login(student)');
+//			landing.signInBtn.locator.click();
+//			screenshot(resultDir + 'landing.login-2(student).png');
+			
+			form.loginAsBtn.locator.student.click();	// NOTE <- Set to student here
+			form.email.locator.sendKeys(acct.user.student);
+			form.password.locator.sendKeys(acct.pass.student);
+			screenshot(resultDir + 'landing.login-0(student)');
+			form.submit.locator.click();
+			screenshot(resultDir + 'landing.login-1student).png');
 			
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
 			
@@ -87,11 +100,11 @@ describe("Landing Page - Not Logged In", function() {
 		
 		it("#Should log out successfully - student", function() {
 			
-			screenshot(resultDir + 'landing.login-5(student).png');
+			screenshot(resultDir + 'landing.login-5(student)');
 			dashboard.userIcon.locator.click();
-			screenshot(resultDir + 'landing.login-6(student).png');
+			screenshot(resultDir + 'landing.login-6(student)');
 			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing.login-7(student).png');
+			screenshot(resultDir + 'landing.login-7(student)');
 			
 			expectCurrentUrlToMatch(serverAddress + landing.path);
 		});
