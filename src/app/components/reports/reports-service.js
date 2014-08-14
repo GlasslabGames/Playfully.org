@@ -1,5 +1,5 @@
 angular.module('reports', [])
-.factory('ReportsService', function ($http, $log, API_BASE) {
+.factory('ReportsService', function ($http, $log, API_BASE, API_OPTIONS) {
 
   var api = {
 
@@ -12,7 +12,7 @@ angular.module('reports', [])
         params.limit = limit;
       }
       var apiUrl = API_BASE + '/dash/reports/' + reportId;
-      return $http({method: 'GET', url: apiUrl, params: params})
+      return $http(angular.extend({method: 'GET', url: apiUrl, params: params}, API_OPTIONS))
         .then(function(response) {
           $log.info(response);
           return response.data;
@@ -28,7 +28,7 @@ angular.module('reports', [])
         courseId: courseId
       };
       var apiUrl = API_BASE + '/dash/reports/achievements';
-      return $http({ method: 'GET', url: apiUrl, params: params})
+      return $http(angular.extend({ method: 'GET', url: apiUrl, params: params}, API_OPTIONS))
         .then(function(response) {
           return response.data;
         }, function(response) {
@@ -44,7 +44,7 @@ angular.module('reports', [])
         limit: limit || 10
       };
       var apiUrl = API_BASE + '/dash/reports/sowo';
-      return $http({method: 'GET', url: apiUrl, params: params})
+      return $http(angular.extend({method: 'GET', url: apiUrl, params: params}, API_OPTIONS))
         .then(function(response) {
           return response.data;  
         }, function(response) {

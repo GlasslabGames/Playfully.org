@@ -1,11 +1,11 @@
 angular.module('games', [])
-.factory('GamesService', function ($http, $log, API_BASE) {
+.factory('GamesService', function ($http, $log, API_BASE, API_OPTIONS) {
 
   var api = {
 
     get: function (gameId) {
       return $http
-        .get(API_BASE + '/data/game/' + gameId)
+        .get(API_BASE + '/data/game/' + gameId, API_OPTIONS)
         .then(function(response) {
           $log.info(response);
           return response.data;
@@ -17,7 +17,7 @@ angular.module('games', [])
 
     getInfo: function (gameId) {
       return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/info')
+        .get(API_BASE + '/dash/game/' + gameId + '/info', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -28,7 +28,7 @@ angular.module('games', [])
     },
 
     getDetail: function (gameId) {
-      return $http.get(API_BASE + '/dash/game/' + gameId)
+      return $http.get(API_BASE + '/dash/game/' + gameId, API_OPTIONS)
         .then(function (response) {
           return response.data;
         }, function (response) {
@@ -41,7 +41,7 @@ angular.module('games', [])
       var url = '/dash/games';
       if (type == 'min') { url += '/minimal'; }
       return $http
-        .get(API_BASE + url)
+        .get(API_BASE + url, API_OPTIONS)
         .then(function (response) {
           return response.data;
         }, function (response) {
@@ -52,7 +52,7 @@ angular.module('games', [])
 
     save: function (gameId) {
       return $http
-        .post(API_BASE + '/data/game/' + gameId)
+        .post(API_BASE + '/data/game/' + gameId, API_OPTIONS)
         .then(function(response) {
           $log.info(response);
           return response.data;
@@ -64,7 +64,7 @@ angular.module('games', [])
 
     updateDevice: function() {
       return $http
-        .post(API_BASE + '/data/game/device')
+        .post(API_BASE + '/data/game/device', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -76,7 +76,7 @@ angular.module('games', [])
 
     getPlayInfo: function(gameId) {
       return $http
-        .get(API_BASE + '/data/game/' + gameId + '/playInfo')
+        .get(API_BASE + '/data/game/' + gameId + '/playInfo', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -89,7 +89,7 @@ angular.module('games', [])
 
     getTimePlayed: function (gameId) {
       return $http
-        .post(API_BASE + '/data/game/' + gameId + '/totalTimePlayed')
+        .post(API_BASE + '/data/game/' + gameId + '/totalTimePlayed', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -101,7 +101,7 @@ angular.module('games', [])
 
     addAchievement: function (gameId) {
       return $http
-        .post(API_BASE + '/data/game/' + gameId + '/achievement')
+        .post(API_BASE + '/data/game/' + gameId + '/achievement', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -113,7 +113,7 @@ angular.module('games', [])
 
     getAchievements: function (gameId) {
       return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/achievements')
+        .get(API_BASE + '/dash/game/' + gameId + '/achievements', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -124,7 +124,7 @@ angular.module('games', [])
     },
 
     getReports: function (gameId) {
-      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports')
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports', API_OPTIONS)
         .then (function(response) {
           $log.info(response);
           return response.data;
