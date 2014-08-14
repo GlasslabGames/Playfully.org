@@ -1,6 +1,11 @@
 angular.module('playfully.config', [])
 
-.constant('API_BASE', '/api/v2')
+//.constant('API_BASE', '/api/v2')
+//.constant('API_OPTIONS', {})
+
+.constant('API_BASE', 'http://stage.argubotacademy.org/api/v2')
+.constant('API_OPTIONS', {withCredentials : true})
+
 
 .constant('AUTH_EVENTS', {
   loginSuccess: 'auth:login-success',

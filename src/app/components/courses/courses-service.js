@@ -1,10 +1,10 @@
 angular.module('courses', [])
-.factory('CoursesService', function ($http, $log, API_BASE) {
+.factory('CoursesService', function ($http, $log, API_BASE, API_OPTIONS) {
 
   var api = {
 
     get: function (courseId) {
-      return $http.get(API_BASE + '/lms/course/' + courseId + '/info')
+      return $http.get(API_BASE + '/lms/course/' + courseId + '/info', API_OPTIONS)
         .then(function(response) {
           return response.data;
         }, function(response) {
@@ -17,7 +17,7 @@ angular.module('courses', [])
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
       /* Turn the array of grades into a string for the API */
       course.grade = course.grade.join(', ');
-      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course, API_OPTIONS);
         // .then(function (response) {
         //   $log.info(response);
         //   return response.data;
@@ -31,21 +31,21 @@ angular.module('courses', [])
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
       course.archived = true;
-      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course, API_OPTIONS);
     },
 
     unarchive: function (course) {
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
       course.archived = false;
-      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course, API_OPTIONS);
     },
 
     lock: function (course) {
       course.locked = true;
       course.lockedRegistration = true;
       $log.info(course);
-      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course, API_OPTIONS);
     },
 
     updateGames: function (course) {
@@ -56,7 +56,7 @@ angular.module('courses', [])
           settings: angular.copy(game.settings)
         });
       });
-      return $http.post(API_BASE + '/lms/course/' + course.id + '/games', games);
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/games', games, API_OPTIONS);
     },
 
 
@@ -76,7 +76,7 @@ angular.module('courses', [])
 
     getEnrollments: function() {
       return $http
-        .get(API_BASE + '/lms/courses')
+        .get(API_BASE + '/lms/courses', API_OPTIONS)
         .then(function(response) {
           $log.info(response);
           return response.data;
@@ -88,7 +88,7 @@ angular.module('courses', [])
 
     getEnrollmentsWithStudents: function () {
       var apiUrl = API_BASE + '/lms/courses';
-      return $http({ method: 'GET', url: apiUrl, params: { showMembers: 1 }})
+      return $http(angular.extend({ method: 'GET', url: apiUrl, params: { showMembers: 1 }}, API_OPTIONS))
         .then(function(response) {
           var courses = response.data;
           angular.forEach(courses, function(course) {
@@ -155,12 +155,12 @@ angular.module('courses', [])
     },
 
     enroll: function(courseCode) {
-      return $http.post(API_BASE + '/lms/course/enroll', { courseCode: courseCode });
+      return $http.post(API_BASE + '/lms/course/enroll', { courseCode: courseCode }, API_OPTIONS);
     },
 
     unenroll: function() {
       return $http
-        .post(API_BASE + '/lms/course/unenroll')
+        .post(API_BASE + '/lms/course/unenroll', API_OPTIONS)
         .then(function (response) {
           $log.info(response);
           return response.data;
@@ -172,11 +172,11 @@ angular.module('courses', [])
 
     unenrollUser: function(courseId, userId) {
       var data = { course: courseId, user: userId };
-      return $http.post(API_BASE + '/lms/course/unenroll-user', data);
+      return $http.post(API_BASE + '/lms/course/unenroll-user', data, API_OPTIONS);
     },
 
     verifyCode: function(code) {
-      return $http.get(API_BASE + '/lms/course/code/' + code + '/verify');
+      return $http.get(API_BASE + '/lms/course/code/' + code + '/verify', API_OPTIONS);
     }
 
   };

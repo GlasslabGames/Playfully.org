@@ -1,5 +1,5 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, API_OPTIONS) {
 
   var _currentUser;
 
@@ -35,7 +35,7 @@ angular.module('user', [])
     },
 
     retrieveCurrentUser: function() {
-      return $http.get(API_BASE + '/auth/user/profile');
+      return $http.get(API_BASE + '/auth/user/profile', API_OPTIONS);
     },
 
     removeCurrentUser: function() {
@@ -45,13 +45,13 @@ angular.module('user', [])
     },
 
     getById: function (userId) {
-      return $http.get(API_BASE + '/auth/user/' + userId);
+      return $http.get(API_BASE + '/auth/user/' + userId, API_OPTIONS);
     },
 
     update: function (user) {
       user.userId = user.id;
       $log.info(user);
-      result = $http.post(API_BASE + '/auth/user/' + user.id, user);
+      result = $http.post(API_BASE + '/auth/user/' + user.id, user, API_OPTIONS);
       result.success(function(data) {
         _currentUser = data;
       });
@@ -59,12 +59,12 @@ angular.module('user', [])
     },
 
     register: function(regInfo) {
-      return $http({
+      return $http(angular.extend({
         method: 'POST',
         url: API_BASE + '/auth/user/register',
         data: regInfo,
         params: {cb: new Date().getTime()}
-      });
+      }, API_OPTIONS));
     }
   };
 

@@ -18,9 +18,9 @@ angular.module( 'playfully.home', [
   });
 })
 
-.controller( 'HomeCtrl', function ( $scope, $log, $http, $window, ipCookie, Session) {
+.controller( 'HomeCtrl', function ( $scope, $log, $http, $window, ipCookie, Session, API_OPTIONS) {
 
-  $http.get('/api/v2/data/eventsCount')
+  $http.get('/api/v2/data/eventsCount', API_OPTIONS)
     .success(function(data) {
       $scope.eventCount = data.eventCount;
     })

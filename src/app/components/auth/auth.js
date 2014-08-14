@@ -1,14 +1,14 @@
 angular.module('auth', ['session', 'ipCookie'])
-.factory('AuthService', function ($http, $log, ipCookie, Session, UserService, API_BASE) {
+.factory('AuthService', function ($http, $log, ipCookie, Session, UserService, API_BASE, API_OPTIONS) {
 
   var api = {
 
     login: function (credentials) {
-      return $http.post(API_BASE + '/auth/login/glasslab', credentials);
+      return $http.post(API_BASE + '/auth/login/glasslab', credentials, API_OPTIONS);
     },
 
     logout: function () {
-      return $http.post(API_BASE + '/auth/logout')
+      return $http.post(API_BASE + '/auth/logout', API_OPTIONS)
         .then(function(response) {
           ipCookie.remove('connect.sid');
           UserService.removeCurrentUser();
@@ -19,11 +19,11 @@ angular.module('auth', ['session', 'ipCookie'])
 
     isLoggedIn: function () {
       var timestamp = new Date().getTime();
-      return $http({
+      return $http(angular.extend({
         method: 'GET',
         url: API_BASE + '/auth/login/status',
         params: { ts: timestamp }
-      });
+      }, API_OPTIONS));
     },
 
     isAuthenticated: function () {
@@ -46,16 +46,16 @@ angular.module('auth', ['session', 'ipCookie'])
     },
 
     sendPasswordResetLink: function(emailAddress) {
-      return $http({
+      return $http(angular.extend({
         method: 'POST',
         url: API_BASE + '/auth/password-reset/send/',
         // params: {cb: new Date().getTime()},
         data: {email: emailAddress}
-      });
+      }, API_OPTIONS));
     },
 
     verifyPasswordResetCode: function(hashCode) {
-      return $http.get(API_BASE + '/auth/password-reset/' + hashCode + '/verify');
+      return $http.get(API_BASE + '/auth/password-reset/' + hashCode + '/verify', API_OPTIONS);
     }, 
 
     updatePassword: function(newPassword, hashCode) {
@@ -63,7 +63,7 @@ angular.module('auth', ['session', 'ipCookie'])
         password: newPassword,
         code: hashCode
       };
-      return $http.post(API_BASE + '/auth/password-reset/update', data);
+      return $http.post(API_BASE + '/auth/password-reset/update', data, API_OPTIONS);
     }
   };
 
