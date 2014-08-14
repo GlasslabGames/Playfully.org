@@ -2,7 +2,7 @@
 <html data-ng-app="playfully" data-ng-controller="AppCtrl">
   <head>
     <title data-ng-bind="pageTitle"></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
     <link href="http://fonts.googleapis.com/css?family=Bitter:700" rel="stylesheet" type="text/css">
     <!-- font awesome from BootstrapCDN -->
@@ -12,36 +12,38 @@
     <link rel="stylesheet" type="text/css" href="/<%= file %>" /><% }); %>
   </head>
   <body>
-    <div class="gl-navbar--top" ng-if="!hideWrapper">
-      <div class="container gl-container">
-        <div data-ng-include="'navbar/navbar.html'"></div>
-        <div ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
-          Welcome back!
-          <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>
-          <span class="navbar-username" data-ng-bind="currentUser.lastName"></span>
+    <div class="gl-canvas">
+      <div class="gl-navbar--top" ng-if="!hideWrapper">
+        <div class="container gl-container">
+          <div data-ng-include="'navbar/navbar.html'"></div>
+          <div ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}">
+            Welcome back!
+            <span class="navbar-username" data-ng-bind="currentUser.firstName"></span>
+            <span class="navbar-username" data-ng-bind="currentUser.lastName"></span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="gl-main" ui-view="main">
-    </div>
-
-    <footer class="footer gl-footer"
-      ng-if="!hideWrapper"
-      ng-class="{'gl-footer-student': isAuthorized('student')}">
-      <div class="container">
-        <div class="gl-footer-nav text-center">
-          <a class="gl-footer-link" href="#">Support</a>
-          <a class="gl-footer-link" href="#">GlassLab</a>
-          <a class="gl-footer-link" href="#">Legal</a>
-          <a class="gl-footer-link gl-footer-link--disabled">Developer</a>
-          <a class="gl-footer-link gl-footer-link--disabled">Community</a>
-        </div>
-        <div class="text-center gl-copyright">
-          &copy;2014 GlassLab, Inc.&trade All rights reserved;
-        </div>
+      <div class="gl-main" ui-view="main">
       </div>
-    </footer>
+
+      <footer class="footer gl-footer"
+        ng-if="!hideWrapper"
+        ng-class="{'gl-footer-student': isAuthorized('student')}">
+        <div class="container">
+          <div class="gl-footer-nav text-center">
+            <a class="gl-footer-link" href="#">Support</a>
+            <a class="gl-footer-link" href="#">GlassLab</a>
+            <a class="gl-footer-link" href="#">Legal</a>
+            <a class="gl-footer-link gl-footer-link--disabled">Developer</a>
+            <a class="gl-footer-link gl-footer-link--disabled">Community</a>
+          </div>
+          <div class="text-center gl-copyright">
+            &copy;2014 GlassLab, Inc.&trade All rights reserved;
+          </div>
+        </div>
+      </footer>
+    </div>
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="/<%= file %>"></script><% }); %>
 
