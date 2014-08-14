@@ -29,7 +29,7 @@ var	chai	 			 = require('chai'),
 var logout = function() {
 	dashboard.userIcon.locator.click();
 	dashboard.logoutOption.locator.click();
-}
+};
 
 describe("Teacher Test", function() {
 	

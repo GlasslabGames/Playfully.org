@@ -274,7 +274,7 @@ module.exports = function ( grunt ) {
       gruntfile: [
         'Gruntfile.js'
       ],
-      e2e: ['e2e/*_test.js'],
+      e2e: ['e2e/*.test.js'],
       options: {
         curly: true,
         immed: true,
@@ -538,7 +538,7 @@ module.exports = function ( grunt ) {
       },
 
       protractor: {
-        files: ['e2e/*_test.js'],
+        files: ['e2e/*.test.js'],
         tasks: ['jshint:e2e', 'protractor:build']
       }
 
