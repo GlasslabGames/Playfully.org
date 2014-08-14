@@ -28,8 +28,12 @@ which is run by a process called webdriver-manager. At the moment it expects
 this to be available system wide. In order to ensure this, run these steps:
 
 1. npm install -g protractor
-2. webdriver-manager update
-3. webdriver-manager start
+2. Download http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar (requires Java)
+3. Run server with:  
+>$ java -jar /path/to/selenium-server-standalone-2.41.0.jar
+4. Launch tests with :
+>$ grunt mocha
+
 
 
 Text content and i18n
