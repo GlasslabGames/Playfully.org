@@ -184,3 +184,28 @@
   max-width: 100%;
   height: auto;
 }
+
+.gl-game-thumbnail {
+  position: relative;
+  z-index: 1;
+}
+
+.gl-game-ribbon {
+  position: absolute;
+  z-index: 10;
+  width: 110px;
+  height: 110px;
+  top: -8px;
+  left: -8px;
+  .image-2x('game-ribbon-blue.png', 110px, 110px);
+}
+
+.gl-game-ribbon-text {
+  color: white;
+  font-weight: bold;
+  .rotate(-45deg);
+  position: relative;
+  top: 30px;
+  text-align: center;
+  width: 90px;
+}
