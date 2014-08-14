@@ -361,6 +361,10 @@ h2 {
   z-index: 1;
 }
 
+.gl-game-card-AW {
+  .image-2x('game-card-AW.jpg', 300px, 240px);
+  background-position: center;
+}
 
 
 .gl-bu-login {
@@ -464,17 +468,16 @@ h2 {
 }
 
 .gl-game-thumbnail {
-  background: #777;
+  background-color: #777;
   width: 100%;
   height: 240px;
+  background-size: cover;
 }
-/*.icon-big-discover {*/
-/*  .image-2x('thumb-game-AA-1.png', 293px, 240px);*/
-/*}*/
-/**/
-/*.icon-big-discover {*/
-/*  .image-2x('thumb-game-SC.png', 293px, 240px);*/
-/*}*/
+
+@media (max-width: 991px) {
+  .gl-game-thumbnail { height: 180px; }
+}
+
 
 .gl-game-desc {
   padding: 18px;
