@@ -36,9 +36,31 @@ angular.module( 'playfully.games', [
   .state('gameDetail.standards', { url: '/standards' })
   .state('gameDetail.research', { url: '/research' })
   .state('gameDetail.reviews', { url: '/reviews' })
-  .state('gameDetail.lessonPlans', { url: '/lesson-plans' });
+  .state('gameDetail.lessonPlans', { url: '/lesson-plans' })
+  .state('sdkGameAppLink', {
+    url: '/sdk/game/:gameId/applink',
+    data: { hideWrapper: true },
+    views: {
+        main: {
+            controller: 'sdkGameAppLinkCtrl'
+        }
+    },
+    resolve: {
+      gameDetails: function($stateParams, GamesService) {
+          return GamesService.getDetail($stateParams.gameId);
+      }
+    }
+  });
 })
 
+.controller( 'sdkGameAppLinkCtrl',
+    function($scope, $state, $stateParams, $log, $window, gameDetails) {
+        if(gameDetails.applink) {
+            $window.location = gameDetails.applink;
+        } else {
+            $window.location = "/";
+        }
+})
 
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
