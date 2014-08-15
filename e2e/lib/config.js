@@ -15,6 +15,7 @@ module.exports = {
 	browsers: ['chrome', 'firefox', 'ie', 'android', 'safari'],
 	
 	// Smallest dimensions for supported screen size
-	smallestDimensions: {x:640, y:960}
+	smallestDimensions: {x:640, y:960},
+//	largestDimensions: {}
 	
 }
