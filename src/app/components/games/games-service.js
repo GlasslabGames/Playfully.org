@@ -132,6 +132,17 @@ angular.module('games', [])
           $log.error(response);
           return response;
         });
+    },
+
+    getMyGames: function () {
+      return $http.get(API_BASE + '/dash/myGames')
+        .then (function(response) {
+        $log.info(response);
+        return response.data;
+      }, function (response) {
+        $log.error(response);
+        return response;
+      });
     }
   };
 
