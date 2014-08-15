@@ -10,6 +10,19 @@
   </div>
 
   <div class="collapse navbar-collapse" collapse="menuCollapsed">
+    <!-- logo links to different place depending on login status -->
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="isAuthorized('instructor')"
+      ui-sref="instructorDashboard"></div>
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="isAuthorized('student')"
+      ui-sref="studentDashboard"></div>
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="!isAuthorized('instructor') && !isAuthorized('student')"
+      ui-sref="home"></div>
     <div class="nav navbar-nav navbar-right">
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
