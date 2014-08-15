@@ -1,9 +1,45 @@
+.gl-home-lead-container {
+  position: relative;
+}
+
+
+@media (max-width: 991px) {
+  .gl-home-col-md-6 {
+    width: 63%
+  }
+
+  .gl-home-col-md-2 {
+    width: 2%;
+  }
+
+  .gl-home-col-md-4 {
+    width: 35%;
+  }
+}
+
 .gl-home-bg {
   background-image: url('home-banner.jpg');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
+  height: 480px;
+  min-width: 768px;
+  max-width: 1200px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  z-index: 1;
 }
+
+.gl-home-lead-content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 10;
+}
+
 
 .gl-home-title {
   background-color: rgba(140, 195, 74, 0.5); /* #bfd8a0; */
@@ -33,12 +69,6 @@
   margin: 0;
   margin-bottom: 4px;
   letter-spacing: 0.06em;
-  //display: block;
-  //text-indent: -9999px;
-  //width: 380px;
-  //height: 69px;
-  //background-image: url('logo-playfully.svg');
-  //background-size: 380px 69px;
 }
 
 .gl-home-register {
@@ -65,7 +95,7 @@
 }
 
 .gl-register-col {
-  height: 460px;
+  height: 440px;
 }
 
 
