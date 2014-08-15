@@ -1,0 +1,94 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 text-center">
+      &nbsp;
+      <div class="icon-shoutout--large"></div>
+      &nbsp;
+    </div>
+    <div class="col-md-6 text-center">
+      &nbsp;
+      <div class="icon-watchout--large"></div>
+      &nbsp;
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="text-center headline-4 gl-dashboard-student-heading">
+        SHOUT OUT!
+      </div>
+      <hr class="gl-dashboard-student-divider">
+
+      <div ng-if="!sowo.shoutOuts.length"
+        class="gl-pad-Vxxl text-center gl-dashboard-student--odd">
+        No shoutouts for this class
+      </div>
+
+      <div ng-repeat="assessment in sowo.shoutOuts"
+        class="gl-dashboard-student"
+        ng-if="sowo.shoutOuts.length"
+        ng-class-odd="'gl-dashboard-student--odd'"
+        ng-class-even="'gl-dashboard-student--even'">
+        <span class="gl-dashboard-student-name"
+          ng-blind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
+          Username Person Guy
+        </span>
+        <span class="icon-shoutout--small"
+          popover="{{ t.description }}"
+          popover-title="{{ t.name }}"
+          popover-trigger="mouseenter"
+          popover-placement="bottom"
+          ng-repeat="t in assessment.results | limitTo:1 track by $index"></span>
+        <span class="icon-sowo--extra icon-shoutout--extra"
+          popover="{{ assessment.overflowText }}"
+          popover-trigger="mouseenter"
+          popover-placement="bottom"
+          ng-if="assessment.results.length > 3">
+          +{{ assessment.results.length - 3 }} more
+      </div>
+      <div class="gl-dashboard-student-footer"></div>
+    </div>
+    <div class="col-md-6">
+      <div class="text-center headline-4 gl-dashboard-student-heading">
+        WATCH OUT!
+      </div>
+      <hr class="gl-dashboard-student-divider">
+
+      <div ng-if="!sowo.watchOuts.length"
+        class="gl-pad-Vxxl text-center gl-dashboard-student--odd">
+        No watchouts for this class
+      </div>
+
+      <div ng-repeat="assessment in sowo.watchOuts"
+        class="gl-dashboard-student"
+        ng-if="sowo.watchOuts.length"
+        ng-class-odd="'gl-dashboard-student--odd'"
+        ng-class-even="'gl-dashboard-student--even'">
+        <span class="gl-dashboard-student-name"
+          ng-blind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
+          Username Person Guy
+        </span>
+        <span class="icon-watchout--small icon-watchout--yellow"
+          popover="{{ t.description }}"
+          popover-title="{{ t.name }}"
+          popover-trigger="mouseenter"
+          popover-placement="bottom"
+          ng-repeat="t in assessment.results | limitTo:3 track by $index"></span>
+        <span class="icon-sowo--extra icon-watchout--extra"
+          popover="{{ assessment.overflowText }}"
+          popover-trigger="mouseenter"
+          popover-placement="bottom"
+          ng-if="assessment.results.length > 3">
+          +{{ assessment.results.length - 3 }} more
+        </span>
+      </div>
+      <div class="gl-dashboard-student-footer"></div>
+    </div>
+  </div>
+  <!--<div class="row">
+    <div class="col-md-12 text-center">
+      &nbsp;<br>
+      <button class="btn gl-btn--blue">See More</button>
+      <br>&nbsp;
+    </div> -->
+  </div>
+</div>

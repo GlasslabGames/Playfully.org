@@ -44,7 +44,8 @@
 
   <div class="modal-body" ng-show="account">
     <div class="gl-class-info text-center">
-      <div>This is [need name]&rsquo;s class: {{ course.title }}</div>
+      <div>This is {{ course.teacher.firstName }}
+        {{ course.teacher.lastName }}&rsquo;s class: {{ course.title }}</div>
       <div>Classcode: {{ account.regCode }}</div>
     </div>
     <p class="text-center" ng-hide="hideWrapper">
@@ -148,7 +149,7 @@
 
 
       <div class="form-group gl-form-group--inline" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}" ng-if="!hideWrapper">
-        <input type="text" name="firstName" class="form-control"
+        <input type="text" name="firstName" class="form-control gl-form-input--med"
           placeholder="Your first name"
           required
           ng-model="account.firstName"

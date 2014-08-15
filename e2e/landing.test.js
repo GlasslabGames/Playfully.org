@@ -31,7 +31,7 @@ describe("Landing Page - Not Logged In", function() {
 			screenshot(resultDir + 'landing.0(auto)');
 		});
 	
-		for (test in autoTestRoutine) {
+		for (var test in autoTestRoutine) {
 			var testCase = autoTestRoutine[test];
 			
 			if (testCase.hasOwnProperty('ttype')) {

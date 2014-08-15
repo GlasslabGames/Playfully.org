@@ -12,7 +12,7 @@ exports.config = {
   },
 
   specs: [
-    '../e2e/*_test.js',
+    '../e2e/*test.js',
   ],
   exclude: [],
 

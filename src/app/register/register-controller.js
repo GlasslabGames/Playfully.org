@@ -14,7 +14,7 @@ angular.module('playfully.register', [])
   .state('sdkRegisterOptions', {
     url: '/sdk/register',
     parent: 'site',
-    data: { hideWrapper: true, authorizedRoles: ['guest'] },
+    data: { hideWrapper: true },
     views: { 'main@': registerOptionsConfig }
   });
 

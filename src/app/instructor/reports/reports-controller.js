@@ -30,7 +30,7 @@ angular.module( 'instructor.reports', [
 
 
 .controller( 'ReportsCtrl',
-  function($scope, $state, $stateParams, $log, allGames, activeCourses, CoursesService, ReportsService) {
+  function($scope, $state, $stateParams, $log, allGames, activeCourses, CoursesService, ReportsService, GamesService) {
 
     $scope.students = {};
     $scope.achievements = { options: {}, selected: null, active: [], startIndex: 0 };
@@ -87,10 +87,13 @@ angular.module( 'instructor.reports', [
       $event.preventDefault();
       $event.stopPropagation();
       // Students are not selectable for Shout Out / Watch Out
-      if ($scope.reports.selected == 'SOWO') { return false;}
+      if ($scope.reports.selected && $scope.reports.selected.id == 'sowo') {
+        return false;
+      }
 
       student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
+
       /* If any students are not selected, set isPartiallySelected to true */
       angular.forEach(course.users, function(student) {
         if (!student.isSelected) {
@@ -127,19 +130,8 @@ angular.module( 'instructor.reports', [
     /* Hardcode available reports */
     $scope.reports = {
       isOpen: false,
-      selected: 'SOWO',
-      options: {
-        'SOWO': {
-          id: 'SOWO',
-          title: 'Shout Out and Watch Out',
-          positon: 1
-        },
-        'ACHV': {
-          id: 'ACHV',
-          title: 'Game Achievements & Time Played',
-          position: 2
-        }
-      }
+      selected: null,
+      options: []
     };
 
     $scope.selectGame = function($event, key) {
@@ -147,8 +139,8 @@ angular.module( 'instructor.reports', [
       $scope.toggleDropdown($event, 'games');
     };
 
-    $scope.selectReport = function($event, key) {
-      $scope.reports.selected = key;
+    $scope.selectReport = function($event, report) {
+      $scope.reports.selected = report;
       $scope.toggleDropdown($event, 'reports');
     };
 
@@ -164,60 +156,34 @@ angular.module( 'instructor.reports', [
     };
 
 
-    $scope.$watchCollection('[games.selected, reports.selected]', function(newValue, oldValue) {
-      if ($scope.activeCourses.length === 0) {
+    $scope.$watchCollection('games.selected', function(newValue, oldValue) {
+      GamesService.getReports(newValue)
+        .then(function(data) {
+          if (data.list && data.list.length) {
+            $scope.reports.options = data.list;
+            $scope.reports.selected = data.list[0];
+          }
+          if (data.developer) {
+            $scope.developer = data.developer;
+          }
+        });
+
+    });
+
+
+    $scope.$watchCollection('reports.selected', function(newValue, oldValue) {
+      if ($scope.activeCourses.length === 0 || newValue == null || oldValue == null) {
         return;
       }
-      var requestedGame = newValue[0];
-      var requestedReport = newValue[1];
 
-      if (requestedReport == 'ACHV') {
-        ReportsService.getAchievements(requestedGame, $scope.courses.selectedId)
-          .then(function(data) {
-            if (!data.length) {
-              
-              return false;
-            }
-            angular.forEach(data, function(d) {
-              $scope.students[d.userId].achievements = d.achievements;
-              $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
-            });
-            /* Populate achievements list if we haven't already */
-            angular.forEach(data[0].achievements, function(achievement) {
-              var achv = angular.copy(achievement);
-              delete achv.won;
-              if (!$scope.achievements.options.hasOwnProperty(achievement.group)) {
-                $scope.achievements.options[achievement.group] = [achv];
-              } else {
-                $scope.achievements.options[achievement.group].push(achv);
-              }
-            });
-            $scope.achievements.selected = data[0].achievements[0].group;
-          });
-          
-      } else if (requestedReport = 'SOWO') {
-        ReportsService.getSOWO(requestedGame, $scope.courses.selectedId)        
-          .then(function(data) {
-            if (data.length !== 0) {
-              $scope.sowo = data;
-            } else {
-              $scope.sowo = [{
-                timestamp: 1406692325,
-                assessmentId: "sowo",
-                engine: "javascript",
-                gameSessionId: "",
-                gameId: "AA-1",
-                userId: 25,
-                results: {
-                watchout: [{ id: "wo1", total: 4, overPercent: 0.5 }],
-                shoutout: [{ id: "so1", total: 3, overPercent: 1 }],
-                version: 0.01
-                }
-              }];
-            }
-          });
-      }
-
+      ReportsService.get(newValue.id, $scope.games.selected, $scope.courses.selectedId)
+        .then(function(data) {
+          if (newValue.id == 'sowo') {
+            _populateSowo(data);
+          } else if (newValue.id == 'achievements') {
+            _populateAchievements(data);
+          }
+        });
     });
 
   $scope.$watch('achievements.selected', function(newValue, oldValue) {
@@ -248,7 +214,145 @@ angular.module( 'instructor.reports', [
     });
   };
 
+  var _populateSowo = function(data) {
+    // $scope.sowo = data;
+    var sowo = data;
+    /* Fake data for development 
+     var sowo = [{
+      "results": {
+          "watchout": [{
+            "id": "wo1",
+            "total": 6,
+            "overPercent": 1,
+            "timestamp": 1408040686051,
+            "name": "Contradictory Mechanic",
+            "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "25",
+      "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "watchout": [{
+          "id": "wo1",
+          "total": 6,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Contradictory Mechanic",
+          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        }],
+        "shoutout": [{
+          "id":   "so1",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686053,
+          "name": "Nailed It!",
+          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "26",
+      "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "shoutout": [{
+          "id":   "so1",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686053,
+          "name": "Nailed It!",
+          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
+          }]
+        },
+        "gameId": "AA-1",
+        "userId": "27",
+        "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "watchout": [{
+          "id": "wo1",
+          "total": 6,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Contradictory Mechanic",
+          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        },
+        {
+          "id": "wo3",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Straggler",
+          "description": "Struggling with identifying strengths and weaknesses of claim-data pairs."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "28",
+      "assessmentId": "sowo"
+    }]; */
 
+    $scope.sowo = { 
+      shoutOuts: [],
+      watchOuts: []
+    };
+
+    if (sowo.length) {
+      angular.forEach(sowo, function(assessment) {
+        if (assessment.results.hasOwnProperty('shoutout')) {
+          $scope.sowo.shoutOuts.push({
+            student: $scope.students[assessment.userId],
+            results: assessment.results['shoutout'],
+            overflowText: _getOverflowText(assessment.results['shoutout'])
+          });
+        }
+        if (assessment.results.hasOwnProperty('watchout')) {
+          $scope.sowo.watchOuts.push({
+            student: $scope.students[assessment.userId],
+            results: assessment.results['watchout'],
+            overflowText: _getOverflowText(assessment.results['watchout'])
+          });
+        }
+      });
+    }
+  };
+
+  var _getOverflowText = function(results) {
+    overflowText = '';
+    angular.forEach(results, function(r, i) {
+      if (i >= 0) {
+        overflowText += '<p>' + r.description + '</p>';
+      }
+    });
+    return overflowText;
+  };
+
+
+
+
+  var _populateAchievements = function(data) {
+    // Attach achievements and time played to students
+    angular.forEach(data, function(d) {
+      $scope.students[d.userId].achievements = d.achievements;
+      $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
+    });
+
+    // Create list of achievements
+    angular.forEach(data[0].achievements, function(achievement) {
+      var achv = angular.copy(achievement);
+      delete achv.won;
+      if (!$scope.achievements.options.hasOwnProperty(achievement.group)) {
+        $scope.achievements.options[achievement.group] = [achv];
+      } else {
+        $scope.achievements.options[achievement.group].push(achv);
+      }
+      $scope.achievements.selected = data[0].achievements[0].group;
+    });
+
+  };
 
 });
 

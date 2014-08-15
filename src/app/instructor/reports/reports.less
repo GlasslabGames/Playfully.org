@@ -5,6 +5,26 @@
   .border-radius(6px);
 }
 
+.gl-reports-header {
+  img {
+    width: 100%;
+    height: auto;
+  }
+  height: 120px;
+  overflow-y: hidden;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.gl-reports-header-logo {
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  background: white;
+  padding: 5px;
+  .border-radiuses(4px, 0, 0, 4px);
+}
+
 .gl-reports--blank {
   margin-top: 180px;
   margin-bottom: 180px;
@@ -82,6 +102,7 @@
   .opacity(0.6);
 }
 
+
 .gl-reports-nav-selector--partial {
   .fa-check {
     display: none;
@@ -116,6 +137,11 @@
   .gl-reports-nav-student:hover {
     cursor: default;
   }
+}
+
+.gl-reports-nav-students--empty {
+  border-top: none;
+  margin-top: 0;
 }
 
 .gl-reports-nav-student {

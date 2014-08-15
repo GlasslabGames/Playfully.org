@@ -35,10 +35,17 @@
   color: @grey2;
 }
 
+
 .headline-4 {
   font-family: @sansSerifHeadlineFontFamily;
   font-size: 20px;
   font-weight: bold;
+  color: @grey2;
+}
+
+.headline-4--serif {
+  font-family: @serifHeadlineFontFamily;
+  font-size: 20px;
   color: @grey2;
 }
 
@@ -49,9 +56,30 @@
   color: @grey2;
 }
 
-
+.gl-headline--underlined {
+  padding-bottom: 10px;
+  border-bottom: 1px solid @grey6;
+}
 
 
 .text-grey5 {
   color: @grey5;
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+.gl-text--serif {
+  font-family: @serifHeadlineFontFamily;
+}
+
+.gl-text--20 {
+  font-size: 20px;
+}
+
+.gl-text--serif.gl-text--20 > p,
+.gl-text--serif.gl-text--20 address {
+  font-family: @sansFontFamily;
+  font-size: 14px;
 }

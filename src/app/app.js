@@ -56,6 +56,17 @@ angular.module( 'playfully', [
     }
   })
 
+  .state('privacy', {
+    url: '/privacy',
+    views: {
+      "main": {
+        templateUrl: 'privacy/privacy.html'
+      }
+    },
+    data:{ pageTitle: "Children's Privacy Policy" }
+
+  })
+
   .state( 'modal', {
     abstract: true,
     parent: 'home',
