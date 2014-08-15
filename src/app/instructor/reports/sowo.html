@@ -29,8 +29,7 @@
         ng-class-odd="'gl-dashboard-student--odd'"
         ng-class-even="'gl-dashboard-student--even'">
         <span class="gl-dashboard-student-name"
-          ng-blind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
-          Username Person Guy
+          ng-bind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
         </span>
         <span class="icon-shoutout--small"
           popover="{{ t.description }}"
@@ -64,8 +63,7 @@
         ng-class-odd="'gl-dashboard-student--odd'"
         ng-class-even="'gl-dashboard-student--even'">
         <span class="gl-dashboard-student-name"
-          ng-blind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
-          Username Person Guy
+          ng-bind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
         </span>
         <span class="icon-watchout--small icon-watchout--yellow"
           popover="{{ t.description }}"
