@@ -217,7 +217,7 @@ angular.module( 'instructor.reports', [
   var _populateSowo = function(data) {
     // $scope.sowo = data;
     var sowo = data;
-    /* Fake data for development 
+    /* Fake data for development
      var sowo = [{
       "results": {
           "watchout": [{
@@ -293,7 +293,7 @@ angular.module( 'instructor.reports', [
       "gameId": "AA-1",
       "userId": "28",
       "assessmentId": "sowo"
-    }]; */
+    }];*/
 
     $scope.sowo = { 
       shoutOuts: [],
@@ -323,7 +323,7 @@ angular.module( 'instructor.reports', [
   var _getOverflowText = function(results) {
     overflowText = '';
     angular.forEach(results, function(r, i) {
-      if (i >= 0) {
+      if (i >= 3) {
         overflowText += '<p>' + r.description + '</p>';
       }
     });

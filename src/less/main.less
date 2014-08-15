@@ -130,17 +130,22 @@ a:link {
 
 body {
   font-family: @sansFontFamily;
-  background: @grey4;
+  background: white;
 }
 
-.gl-canvas {
+.container {
   min-width: 768px !important;
   max-width: 1024px !important;
-  margin-left: auto;
-  margin-right: auto;
-  background: white;
-  position: relative;
 }
+
+/*.gl-canvas {*/
+/*  min-width: 768px !important;*/
+/*  max-width: 1024px !important;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  background: white;*/
+/*  position: relative;*/
+/*}*/
 
 @media (min-width: 1px) {
   .container { width: 768px; }
@@ -211,6 +216,32 @@ body {
   .col-md-offset-2  { margin-left: 16.66666667%; }
   .col-md-offset-1  { margin-left: 8.33333333%; }
   .col-md-offset-0  { margin-left: 0%; }
+}
+
+
+@media (max-width: 767px) {
+  .navbar-nav {
+    float: left;
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .navbar-nav.navbar-right:last-child {
+    margin-right: -15px;
+  }
+}
+@media (max-width: 767px) {
+  .navbar-left {
+    float: left !important;
+  }
+  .navbar-right {
+    float: right !important;
+  }
 }
 
 code, pre, .pre {
@@ -475,6 +506,10 @@ h2 {
 
 .gl-game-card {
   .drop-shadow;
+}
+
+.gl-game-card--linked:hover {
+  cursor: pointer;
 }
 
 .gl-game-thumbnail {

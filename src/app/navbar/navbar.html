@@ -1,5 +1,5 @@
 <div class="navbar gl-navbar" data-ng-controller="NavbarCtrl">
-  <div class="navbar-header">
+  <!--div class="navbar-header">
     <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
       ng-click="menuCollapsed = ! menuCollapsed">
       <span class="sr-only">Toggle navigation</span>
@@ -7,9 +7,22 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-  </div>
+  </div-->
 
-  <div class="collapse navbar-collapse" collapse="menuCollapsed">
+  <div>
+    <!-- logo links to different place depending on login status -->
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="isAuthorized('instructor')"
+      ui-sref="instructorDashboard"></div>
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="isAuthorized('student')"
+      ui-sref="studentDashboard"></div>
+    <div class="gl-navbar-logo beta"
+      ui-sref-active="active"
+      ng-if="!isAuthorized('instructor') && !isAuthorized('student')"
+      ui-sref="home"></div>
     <div class="nav navbar-nav navbar-right">
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
