@@ -215,8 +215,123 @@ angular.module( 'instructor.reports', [
   };
 
   var _populateSowo = function(data) {
-    $scope.sowo = data;
+    // $scope.sowo = data;
+    var sowo = data;
+    /* Fake data for development 
+     var sowo = [{
+      "results": {
+          "watchout": [{
+            "id": "wo1",
+            "total": 6,
+            "overPercent": 1,
+            "timestamp": 1408040686051,
+            "name": "Contradictory Mechanic",
+            "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "25",
+      "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "watchout": [{
+          "id": "wo1",
+          "total": 6,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Contradictory Mechanic",
+          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        }],
+        "shoutout": [{
+          "id":   "so1",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686053,
+          "name": "Nailed It!",
+          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "26",
+      "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "shoutout": [{
+          "id":   "so1",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686053,
+          "name": "Nailed It!",
+          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
+          }]
+        },
+        "gameId": "AA-1",
+        "userId": "27",
+        "assessmentId": "sowo"
+    },
+    {
+      "results": {
+        "watchout": [{
+          "id": "wo1",
+          "total": 6,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Contradictory Mechanic",
+          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
+        },
+        {
+          "id": "wo3",
+          "total": 3,
+          "overPercent": 1,
+          "timestamp": 1408040686051,
+          "name": "Straggler",
+          "description": "Struggling with identifying strengths and weaknesses of claim-data pairs."
+        }]
+      },
+      "gameId": "AA-1",
+      "userId": "28",
+      "assessmentId": "sowo"
+    }]; */
+
+    $scope.sowo = { 
+      shoutOuts: [],
+      watchOuts: []
+    };
+
+    if (sowo.length) {
+      angular.forEach(sowo, function(assessment) {
+        if (assessment.results.hasOwnProperty('shoutout')) {
+          $scope.sowo.shoutOuts.push({
+            student: $scope.students[assessment.userId],
+            results: assessment.results['shoutout'],
+            overflowText: _getOverflowText(assessment.results['shoutout'])
+          });
+        }
+        if (assessment.results.hasOwnProperty('watchout')) {
+          $scope.sowo.watchOuts.push({
+            student: $scope.students[assessment.userId],
+            results: assessment.results['watchout'],
+            overflowText: _getOverflowText(assessment.results['watchout'])
+          });
+        }
+      });
+    }
   };
+
+  var _getOverflowText = function(results) {
+    overflowText = '';
+    angular.forEach(results, function(r, i) {
+      if (i >= 0) {
+        overflowText += '<p>' + r.description + '</p>';
+      }
+    });
+    return overflowText;
+  };
+
+
+
 
   var _populateAchievements = function(data) {
     // Attach achievements and time played to students
