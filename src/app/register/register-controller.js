@@ -164,13 +164,12 @@ angular.module('playfully.register', [])
         $scope.confirmation.errors = [];
         CoursesService.verifyCode(conf.code)
           .then(function(resp) {
-            $log.info(resp);
+            $scope.course = resp.data;
+            $scope.account = angular.copy(_blankAccount);
+            $scope.account.regCode = $scope.confirmation.code;
+          }, function(resp) {
             if ( resp.data.error ) {
               $scope.confirmation.errors.push(resp.data.error);
-            } else {
-              $scope.course = resp.data;
-              $scope.account = angular.copy(_blankAccount);
-              $scope.account.regCode = $scope.confirmation.code;
             }
           });
       };
