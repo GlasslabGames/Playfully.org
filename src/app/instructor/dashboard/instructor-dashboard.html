@@ -34,7 +34,7 @@
               {{ status.selectedOption }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-              <li ng-repeat="game in games">
+              <li ng-repeat="game in games | filter:{enabled: true}">
                 <a href="#" ng-bind="game.shortName"></a>
               </li>
             </ul>
