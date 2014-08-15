@@ -22,16 +22,20 @@ angular.module( 'instructor.dashboard', [
       },
       games: function(GamesService) {
         return GamesService.all();
+      },
+      myGames: function(GamesService) {
+            return GamesService.getMyGames();
       }
     }
   });
 })
 
 .controller( 'InstructorDashboardCtrl',
-  function ( $scope, $log, courses, games, GamesService) {
+  function ( $scope, $log, courses, games, myGames, GamesService) {
 
     $scope.courses = courses;
     $scope.games = games;
+    $scope.myGames = myGames;
     $scope.status = { 
       selectedOption: games[0].shortName
     };
