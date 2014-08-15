@@ -37,27 +37,6 @@ angular.module( 'instructor.courses', [
       }
     }
   })
-  //   url: '/classes',
-  //   views: {
-  //     'main': {
-  //       templateUrl: 'instructor/courses/courses.html',
-  //       controller: 'CoursesCtrl'
-  //     }
-  //   },
-  //   data: {
-  //     pageTitle: 'Classes',
-  //     showArchived: false,
-  //     authorizedRoles: ['instructor']
-  //   },
-  //   resolve: {
-  //     games: function(GamesService) {
-  //       return GamesService.all();
-  //     },
-  //     courses: function(CoursesService) {
-  //       return CoursesService.getEnrollmentsWithStudents();
-  //     }
-  //   }
-  // })
   .state('courses.active', {
     url: '',
     data: {
