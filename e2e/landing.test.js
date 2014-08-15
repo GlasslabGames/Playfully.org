@@ -18,7 +18,8 @@ var	chai	 		 = require('chai'),
 		// Config
 		config		 		= require('./lib/config.js'),
 		resultDir  		= config.resultDir,
-		serverAddress = config.serverAddress;
+		serverAddress = config.serverAddress,
+		minSize				= config.smallestDimensions;
 
 describe("Landing Page - Not Logged In", function() {
 	
@@ -26,6 +27,7 @@ describe("Landing Page - Not Logged In", function() {
 	
 		before(function () {
 			browser.get(serverAddress + landing.path);
+//			browser.driver.manage().window().setSize(minSize.x, minSize.y);		// NOTE mobile
 			screenshot(resultDir + 'landing.0(auto)');
 		});
 	
@@ -44,13 +46,13 @@ describe("Landing Page - Not Logged In", function() {
 		browser.get(serverAddress + landing.path);
 		
 		beforeEach(function() {
-			browser.ignoreSynchronization = true;
+//			browser.ignoreSynchronization = true;
 		})
 		
 		it("#Should log in successfully - teacher", function() {
 			
 			var form = landing.login.subElements;
-
+			
 			landing.loginButton.locator.click();
 			
 			form.loginAsBtn.locator.teacher.click();	// NOTE <- Set to teacher here
@@ -79,13 +81,6 @@ describe("Landing Page - Not Logged In", function() {
 			var form = landing.login.subElements;
 			
 			landing.loginButton.locator.click();
-			
-//			landing.login_student.locator.click();
-//			landing.field_email.locator.sendKeys(acct.user.student);
-//			landing.field_password.locator.sendKeys(acct.pass.student);
-//			screenshot(resultDir + 'landing.login(student)');
-//			landing.signInBtn.locator.click();
-//			screenshot(resultDir + 'landing.login-2(student).png');
 			
 			form.loginAsBtn.locator.student.click();	// NOTE <- Set to student here
 			form.email.locator.sendKeys(acct.user.student);

@@ -22,7 +22,7 @@ var Landing = function() {
 			ttype: 'text',
 			desc: 'shows copyright correctly',
 			locator: element(by.css('.gl-copyright')),
-			text: "©2014 GlassLab, Inc. All rights reserved™"
+			text: "©2014 GlassLab, Inc.™ All rights reserved."
 		}
     
     this.loginButton = {
@@ -110,9 +110,8 @@ var Landing = function() {
 				},
 				closeWelcome: {
 					ttype: 'btn',
-					locator: element(by.css("input.btn.gl-btn--blue")),		// NOTE - same as submit
+					locator: element(by.css("button.btn.gl-btn--blue")),
 					text: 'Okay'
-					// TODO - check text in welcome modal
 				}
 			}
 		}
