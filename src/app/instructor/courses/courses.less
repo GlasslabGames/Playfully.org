@@ -299,3 +299,28 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
   color: @aquaBlue;
 }
 
+.gl-game-maintenance-ribbon {
+  position: absolute;
+  z-index: 10;
+  width: 105px;
+  height: 105px;
+  top: -8px;
+  left: -4px;
+  .image-2x('game-ribbon-blue.png', 105px, 105px);
+}
+
+.gl-game-maintenance-ribbon-text {
+  color: white;
+  font-weight: bold;
+  .rotate(-45deg);
+  position: relative;
+  top: 36px;
+  left: -12px;
+  text-align: center;
+  width: 110px;
+  text-transform: uppercase;
+}
+
+.gl-course-game-maintenance > label:hover {
+  cursor: default;
+}
