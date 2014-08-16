@@ -35,7 +35,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
               <li ng-repeat="game in games | filter:{enabled: true}">
-                <a href="#" ng-bind="game.shortName"></a>
+                <a ng-hide="game.maintenance" href="#" ng-bind="game.shortName"></a>
               </li>
             </ul>
           </div>
@@ -158,21 +158,24 @@
 
   &nbsp;
 
-  <h3 class="gl-headline--underlined">My Games</h3>
+  <h3  class="gl-headline--underlined">My Games</h3>
   <div class="container gl-margin--Txl">
     <div class="col" ng-repeat="game in myGames | filter:{enabled: true}">
       <div class="col-md-4">
         <div class="gl-game-card">
           <div class="gl-game-thumbnail gl-game-card-{{game.gameId}}">
-            <div ng-if="game.license.type == 'free'" class="gl-game-ribbon">
-              <div class="gl-game-ribbon-text">FREE</div>
+            <div ng-if="game.maintenance" class="gl-game-ribbon">
+              <div class="gl-game-ribbon-text">{{game.maintenance.message}}</div>
+            </div>
+            <div ng-if="!game.maintenance && game.license.type == 'free'" class="gl-game-ribbon">
+              <div class="gl-game-ribbon-text">{{game.license.type}}</div>
             </div>
           </div>
           <div class="gl-game-desc">
             <h4>{{game.shortName}}</h4>
             <p>{{game.description}}</p>
             <p>
-              <a ng-href="games/{{game.gameId}}" href class="gl-link--dkgrey text-bold">
+              <a ng-hide="game.maintenance" ng-href="games/{{game.gameId}}" href class="gl-link--dkgrey text-bold">
                 <i class="fa fa-arrow-circle-right"></i>&nbsp;
                 Read more
               </a>
