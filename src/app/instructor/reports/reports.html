@@ -21,11 +21,12 @@
             <span class="sr-only">Split button!</span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key, game) in games.options"
+            <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
               ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
               <a href="#"
                 ng-click="selectGame($event, key)"
-                ng-bind="game.shortName"></a>
+                ng-bind="game.shortName"
+                ng-hide="game.maintenance"></a>
             </li>
           </ul>
         </div>
