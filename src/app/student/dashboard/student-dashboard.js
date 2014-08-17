@@ -74,13 +74,13 @@ angular.module( 'student.dashboard', [
       $scope.verification.errors = [];
       CoursesService.verifyCode(verification.code)
         .then(function(result) {
+          $scope.enrollment = result.data;
+          $scope.enrollment.courseCode = $scope.verification.code;
+          $scope.enrollment.errors = [];
+        }, function(result) {
           if ( result.data.error ) {
             $scope.verification.errors.push(result.data.error);
-          } else {
-            $scope.enrollment = result.data;
-            $scope.enrollment.courseCode = $scope.verification.code;
-            $scope.enrollment.errors = [];
-            }
+          }
         });
     };
 

@@ -5,7 +5,7 @@
       <img src="/{{ gameDetails.developer.logo.small }}">
     </div>
     <div class="media-bd">
-      <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.basic.longName"></h1>
+      <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
       Developed by {{ gameDetails.developer.name }}
     </div>
   </div>
@@ -114,6 +114,8 @@
         <h3 class="headline-4">About the Game</h3>
         <p ng-bind-html="gameDetails.pages.product.about"></p>
 
+		<p  <a href="https://vimeo.com/92362764"> <button class="btn gl-btn--blue">See the game in action</button></p>
+		
         <h3 class="headline-4">How It Fits the Curriculum</h3>
         <ul>
           <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
