@@ -331,7 +331,9 @@ angular.module( 'instructor.reports', [
   };
 
 
-
+  var _getRandomTime = function() {
+    return Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 1000) + 1000;
+  };
 
   var _populateAchievements = function(data) {
     // Attach achievements and time played to students

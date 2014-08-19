@@ -36,7 +36,10 @@ angular.module( 'playfully.games', [
   .state('gameDetail.standards', { url: '/standards' })
   .state('gameDetail.research', { url: '/research' })
   .state('gameDetail.reviews', { url: '/reviews' })
-  .state('gameDetail.lessonPlans', { url: '/lesson-plans' })
+  .state('gameDetail.lessonPlans', {
+    url: '/lesson-plans',
+    data: { authorizedRoles: ['instructor'] }
+  })
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },

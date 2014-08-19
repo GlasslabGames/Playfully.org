@@ -46,11 +46,19 @@
           </div>
         </div>
 
-        <div ng-if="button.links && button.links.length == 1">
-          <button type="button"
-            class="btn gl-btn--blue gl-games-sidebar-btn"
-            ng-click="goTo(button.links[0].link, button.links[0].target)"
-            ng-bind="button.name"></button>
+        <div ng-if="button.links && button.links.length == 1"
+             ng-switch="button.links[0].type">
+          <!-- temporarily hardcoded for initial launch -->
+          <a ng-switch-when="ios-appstore"
+             href="#"
+             class="gl-btn-appstore"
+             ng-click="goTo(button.links[0].link, button.links[0].target)">
+          </a>
+          <button ng-switch-default
+                  type="button"
+                  class="btn gl-btn--blue gl-games-sidebar-btn"
+                  ng-click="goTo(button.links[0].link, button.links[0].target)"
+                  ng-bind="button.name"></button>
         </div>
 
       </div>
@@ -114,8 +122,15 @@
         <h3 class="headline-4">About the Game</h3>
         <p ng-bind-html="gameDetails.pages.product.about"></p>
 
-		<p  <a href="https://vimeo.com/92362764"> <button class="btn gl-btn--blue">See the game in action</button></p>
-		
+        <p>
+          <a href="https://vimeo.com/92362764">
+            <button class="btn gl-btn--blue gl-btn--outlined">
+              <i class="fa fa-video-camera"></i>&nbsp;
+              See the game in action
+            </button>
+          </a>
+        </p>
+
         <h3 class="headline-4">How It Fits the Curriculum</h3>
         <ul>
           <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
@@ -126,8 +141,7 @@
           &nbsp;
           <carousel interval="myInterval">
             <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
-              <img
-                ng-src="{{slide.url}}" style="margin:auto;">
+              <img ng-src="{{slide.url}}" style="margin:auto;">
             </slide>
           </carousel>
         </div>
@@ -136,14 +150,26 @@
 
 
       <div ng-show="currentPage.id == 'standards'">
-        <div ng-repeat="section in gameDetails.pages.standards">
-          <h3 class="headline-4" ng-bind="section.category"></h3>
-          <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" 
-              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
-              ng-bind="listItem.name"></a><br>
-            <span ng-bind="listItem.description"></span>
-          </p>
+        <div ng-repeat="section in gameDetails.pages.standards track by $index">
+          <h5 class="headline-5 gl-standards-category" ng-bind="section.category"></h5>
+          <ul class="list-unstyled gl-indent">
+              <li ng-repeat="groupItem in section.groups track by $index">
+                  <h5 class="headline-5 gl-standards-category" ng-bind="groupItem.name"></h5>
+                  <p ng-repeat="listItem in groupItem.list track by $index">
+                      <a ng-if="listItem.link" href="{{ listItem.link }}"
+                         ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
+                         ng-bind="listItem.name"></a>
+                      <span ng-if="!listItem.link" ng-bind="listItem.name"></span>
+                      <br />
+                      <span ng-bind="listItem.description"></span>
+
+                      <!-- could not use ul,li for some reason, had to use span -->
+                      <span ng-repeat="t in listItem.sublist track by $index" class="gl-standards-category-item">
+                        <i class="gl-standards-category-circle"></i>{{t}}
+                      </span>
+                  </p>
+              </li>
+          </ul>
         </div>
       </div>
 

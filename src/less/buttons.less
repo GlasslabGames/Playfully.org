@@ -47,3 +47,24 @@
 .bu-add-circle--green {
   .image-2x('add-green.png', 32px, 32px);
 }
+
+.gl-btn--outlined {
+  .border-radius(8px);
+  background: transparent;
+}
+
+.gl-btn--outlined.gl-btn--blue {
+  border: 2px solid @aquaBlue;
+  color: @aquaBlue;
+}
+
+.gl-btn--outlined.gl-btn--blue:hover {
+  background:@aquaBlueLightest;
+}
+
+.gl-btn-appstore {
+  display: block;
+  width: 140px;
+  height: 48px;
+  .image-2x('btn-appstore.png', 140px, 48px);
+}
