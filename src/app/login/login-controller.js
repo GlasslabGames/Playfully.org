@@ -103,7 +103,7 @@ angular.module('playfully.login', [])
       views: {
         'main@': {
           templateUrl: 'login/sdk-password-prompt.html',
-          controller: 'LoginConfirmCtrl'
+          controller: 'sdkLoginConfirmCtrl'
         }
       },
       resolve: {
@@ -134,7 +134,7 @@ angular.module('playfully.login', [])
       views: {
         'main@': {
           templateUrl: 'login/sdk-resetdata-prompt.html',
-          controller: 'LoginConfirmCtrl'
+          controller: 'sdkLoginConfirmCtrl'
         }
       },
       resolve: {
@@ -202,7 +202,7 @@ angular.module('playfully.login', [])
   };
 })
 
-.controller('LoginConfirmCtrl',
+.controller('sdkLoginConfirmCtrl',
   function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
     if (!currentUser) {
       $state.transitionTo('sdkLoginOptions');
