@@ -47,10 +47,15 @@
         </div>
 
         <div ng-if="button.links && button.links.length == 1">
-          <button type="button"
-            class="btn gl-btn--blue gl-games-sidebar-btn"
-            ng-click="goTo(button.links[0].link, button.links[0].target)"
-            ng-bind="button.name"></button>
+          <!-- temporarily hardcoded for initial launch -->
+          <a href="#"
+            class="gl-btn-appstore"
+            ng-click="goTo(button.links[0].link, button.links[0].target)">
+          </a>
+          <!-- <button type="button" -->
+          <!--   class="btn gl-btn--blue gl-games-sidebar-btn" -->
+          <!--   ng-click="goTo(button.links[0].link, button.links[0].target)" -->
+          <!--   ng-bind="button.name"></button> -->
         </div>
 
       </div>
@@ -114,7 +119,14 @@
         <h3 class="headline-4">About the Game</h3>
         <p ng-bind-html="gameDetails.pages.product.about"></p>
 
-        <a href="https://vimeo.com/92362764"> <button class="btn gl-btn--blue">See the game in action</button></a>
+        <p>
+          <a href="https://vimeo.com/92362764">
+            <button class="btn gl-btn--blue gl-btn--outlined">
+              <i class="fa fa-video-camera"></i>&nbsp;
+              See the game in action
+            </button>
+          </a>
+        </p>
 
         <h3 class="headline-4">How It Fits the Curriculum</h3>
         <ul>
