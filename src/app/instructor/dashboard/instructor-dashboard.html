@@ -158,8 +158,11 @@
 
   &nbsp;
 
-  <h3  class="gl-headline--underlined">My Games</h3>
-  <div class="container gl-margin--Txl">
+  <h3 class="gl-headline--underlined">My Games</h3>
+  <div ng-if="!myGames.length" class="container gl-margin--Txl">
+      No Games!
+  </div>
+  <div ng-if="myGames.length" class="container gl-margin--Txl">
     <div class="col" ng-repeat="game in myGames | filter:{enabled: true}">
       <div class="col-md-4">
         <div class="gl-game-card">
