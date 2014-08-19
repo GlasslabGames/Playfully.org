@@ -24,7 +24,7 @@ angular.module( 'instructor.dashboard', [
         return GamesService.all();
       },
       myGames: function(GamesService) {
-            return GamesService.getMyGames();
+        return GamesService.getMyGames();
       }
     }
   });
