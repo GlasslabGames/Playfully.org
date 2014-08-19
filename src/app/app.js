@@ -5,6 +5,7 @@ angular.module( 'playfully', [
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
+  'angularMoment',
   'ui.router',
   'ui.bootstrap',
   'playfully.config',
