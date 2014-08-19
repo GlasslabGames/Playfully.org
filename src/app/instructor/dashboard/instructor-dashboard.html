@@ -160,7 +160,9 @@
 
   <h3 class="gl-headline--underlined">My Games</h3>
   <div ng-if="!myGames.length" class="container gl-margin--Txl">
-      No Games!
+      You have not yet assigned any games to your classes. Click on the
+      <a ng-href="classes" href>Classes</a>
+      tab above to get started creating classes and making game assignments.
   </div>
   <div ng-if="myGames.length" class="container gl-margin--Txl">
     <div class="col" ng-repeat="game in myGames | filter:{enabled: true}">
