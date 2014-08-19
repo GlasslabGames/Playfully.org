@@ -31,54 +31,80 @@ angular.module( 'instructor.dashboard', [
 })
 
 .controller( 'InstructorDashboardCtrl',
-  function ( $scope, $log, courses, games, myGames, GamesService) {
+  function ( $scope, $log, courses, games, myGames, GamesService, ReportsService) {
 
+    $scope.students = {};
     $scope.courses = courses;
-    $scope.games = games;
+
+    // Populate students list from courses
+    angular.forEach(courses, function(course) {
+      angular.forEach(course.users, function(student) {
+        if (!$scope.students.hasOwnProperty(student.id)) {
+          $scope.students[student.id] = student;
+        }
+      });
+    });
+
+
     $scope.myGames = myGames;
+    $scope.games = games;
     $scope.status = { 
-      selectedOption: games[0].shortName
+      selectedOption: games[0] || null,
+      selectedCourse: courses[0] || null
     };
-
-    var tempInfo = [{
-      timestamp: 1406692325,
-      assessmentId: "sowo",
-      engine: "javascript",
-      gameSessionId: "",
-      gameId: "AA-1",
-      userId: 25,
-      results: {
-        watchout: [
-          { id: "wo1", total: 4, overPercent: 0.5 }
-        ],
-        shoutout: [
-          { id: "so1", total: 3, overPercent: 1 }
-        ],
-        version: 0.01
-      }
-    }];
-
-
-    $scope.shoutOuts = [
-      { firstName: 'Anika', lastName: 'Q', count: 2 },
-      { firstName: 'Ben', lastName: 'D', count: 3 },
-      { firstName: 'Carlos', lastName: 'E', count: 2 },
-      { firstName: 'Cynthia', lastName: 'P', count: 1 },
-      { firstName: 'Dan', lastName: 'C', count: 2 },
-      { firstName: 'Dan', lastName: 'I', count: 1 }
-    ];
-
-    $scope.watchOuts = [
-      { firstName: 'Hilary', lastName: 'C', count: 2 },
-      { firstName: 'Hope', lastName: 'F', count: 1 },
-      { firstName: 'Justin', lastName: 'A', count: 3 },
-      { firstName: 'Martina', lastName: 'B', count: 1 },
-      { firstName: 'Sandra', lastName: 'X', count: 2 },
-      { firstName: 'Solomon', lastName: 'C', count: 1 },
-    ];
 
     $scope.getTimes = function(n) { return new Array(n); };
 
+    $scope.$watch('status.selectedCourse', function(newValue, oldValue) {
+      ReportsService.getSOWO($scope.status.selectedOption, newValue)
+        .then(function(data) {
+          $log.info(data);
+          _populateSowo(data);
+        }, function(data) {
+          $log.error(data);
+        });
+    });
+
+
+
+
+    var _populateSowo = function(data) {
+      var sowo = data;
+
+      $scope.sowo = { 
+        shoutOuts: [],
+        watchOuts: []
+      };
+
+      if (sowo.length) {
+        angular.forEach(sowo, function(assessment) {
+          if (assessment.results.hasOwnProperty('shoutout')) {
+            $scope.sowo.shoutOuts.push({
+              student: $scope.students[assessment.userId],
+              results: assessment.results['shoutout'],
+              overflowText: _getOverflowText(assessment.results['shoutout'])
+            });
+          }
+          if (assessment.results.hasOwnProperty('watchout')) {
+            $scope.sowo.watchOuts.push({
+              student: $scope.students[assessment.userId],
+              results: assessment.results['watchout'],
+              overflowText: _getOverflowText(assessment.results['watchout'])
+            });
+          }
+        });
+      }
+    };
+
+  var _getOverflowText = function(results) {
+    overflowText = '';
+    angular.forEach(results, function(r, i) {
+      if (i >= 3) {
+        overflowText += '<p>' + r.description + '</p>';
+      }
+    });
+    return overflowText;
+  };
 });
 
 

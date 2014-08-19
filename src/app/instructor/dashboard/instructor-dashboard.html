@@ -31,7 +31,7 @@
           <div class="btn-group" dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default dropdown-toggle"
               ng-disabled="disabled">
-              {{ status.selectedOption }} <span class="caret"></span>
+              {{ status.selectedOption.shortName }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
               <li ng-repeat="game in games | filter:{enabled: true}">
@@ -45,70 +45,17 @@
       <div class="row">
         <div class="col-md-3">
           <div ng-repeat="course in courses | filter:{archived: false}"
-            ng-class="{'gl-course-list-item--selected': $index == 0}">
+            ng-class="{'gl-course-list-item--selected': course == status.selectedCourse}">
             <a href="#"
+              ng-click="status.selectedCourse = course"
               class="gl-course-list-item"
               ng-bind="course.title"></a>
           </div>
         </div>
-        <div class="col-md-9 gl-course-progress-container">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-6 text-center">
-                &nbsp;
-                <div class="icon-shoutout--large"></div>
-                &nbsp;
-              </div>
-              <div class="col-md-6 text-center">
-                &nbsp;
-                <div class="icon-watchout--large"></div>
-                &nbsp;
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="text-center headline-4 gl-dashboard-student-heading">
-                  SHOUT OUT!
-                </div>
-                <hr class="gl-dashboard-student-divider">
-                <div ng-repeat="student in shoutOuts"
-                  class="gl-dashboard-student"
-                  ng-class-odd="'gl-dashboard-student--odd'"
-                  ng-class-even="'gl-dashboard-student--even'">
-                  <span class="gl-dashboard-student-name">
-                    {{ student.firstName }}
-                    {{ student.lastName }}.
-                  </span>
-                  <span class="icon-shoutout--small"
-                    ng-repeat="t in getTimes(student.count) track by $index"></span>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="text-center headline-4 gl-dashboard-student-heading">
-                  WATCH OUT!
-                </div>
-                <hr class="gl-dashboard-student-divider">
-                <div ng-repeat="student in watchOuts"
-                  class="gl-dashboard-student"
-                  ng-class-odd="'gl-dashboard-student--odd'"
-                  ng-class-even="'gl-dashboard-student--even'">
-                  <span class="gl-dashboard-student-name">
-                    {{ student.firstName }}
-                    {{ student.lastName }}.
-                  </span>
-                  <span class="icon-watchout--small"
-                    ng-repeat="t in getTimes(student.count) track by $index"></span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 text-center">
-                &nbsp;<br>
-                <button class="btn gl-btn--blue">See More</button>
-                <br>&nbsp;
-              </div>
-            </div>
-          </div>
+        <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
+
+          <div ng-include src="'instructor/reports/sowo.html'"></div>
+
         </div>
       </div>
     </div>
