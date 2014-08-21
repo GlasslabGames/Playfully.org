@@ -459,6 +459,15 @@ angular.module( 'instructor.courses', [
       });
   };
 
+  $scope.closeModal = function() {
+    $log.info("HEY");
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
+
 })
 .controller( 'AssignGamesModalCtrl', 
   function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
