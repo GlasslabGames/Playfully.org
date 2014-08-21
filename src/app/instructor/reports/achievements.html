@@ -1,21 +1,29 @@
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
   <div class="btn-group btn-group-justified">
     <label class="btn"
-      ng-repeat="(key, achv) in achievements.options"
+      ng-repeat="achv in achievements.options"
       ng-model="achievements.selected"
-      ng-class="{'gl-btn--ltgrey': achievements.selected != key,
-        'gl-btn--blue': achievements.selected == key}"
-      btn-radio="key"
-      ng-bind="key | translate"></label>
+      ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
+        'gl-btn--blue': achievements.selected == achv.id}"
+      btn-radio="achv.id"
+      ng-bind="achv.id | translate"></label>
   </div>
 </div>
 
 <table class="table gl-reports-table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th class="gl-reports-achievement" ng-repeat="achv in achievements.active">
-        <div ng-bind="achv.item"></div>
+      <th class="gl-reports-achievement-header-name" width="20%" >Name</th>
+      <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
+        <div class="gl-reports-achievement-header text-center">
+          <div ng-bind="achv.title"></div>
+          <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
+          <span class="gl-reports-achievement-header-standard"
+                popover="{{ achv.standard.description }}"
+                popover-title="{{ achv.standard.title }}"
+                popover-trigger="mouseenter"
+                popover-placement="bottom">see standards</span>
+        </div>
       </th>
       <th>Time Played</th>
     </tr>
@@ -26,7 +34,7 @@
   <tfoot>
     <tr>
       <td></td>
-      <td colspan="3" class="text-center">
+      <td colspan="3" class="gl-reports-achievement-footer text-center">
         <a href class="gl-reports-achv-arrow"
           ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
           ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
@@ -48,7 +56,7 @@
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
-          ng-show="achv.won"></i>
+          ng-show="isAwardedAchievement(achv, student.achievements)"></i>
       </td>
       <td class="gl-nobr" ng-bind="student.totalTimePlayed | amDurationFormat"></td>
     </tr>

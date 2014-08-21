@@ -34,6 +34,8 @@ angular.module( 'instructor.reports', [
 
     $scope.students = {};
     $scope.achievements = { options: {}, selected: null, active: [], startIndex: 0 };
+    $scope.sowoInfo = {};
+    $scope.achievementInfo = {};
 
     /* Courses */
     $scope.courses = { selectedId: null, options: {} };
@@ -105,15 +107,6 @@ angular.module( 'instructor.reports', [
       }
     };
 
-
-
-
-
-
-
-
-
-
     $scope.games = {
       isOpen: false,
       selected: 'AA-1',
@@ -157,11 +150,17 @@ angular.module( 'instructor.reports', [
 
 
     $scope.$watchCollection('games.selected', function(newValue, oldValue) {
-      GamesService.getReports(newValue)
+      GamesService.getAllReports(newValue)
         .then(function(data) {
           if (data.list && data.list.length) {
             $scope.reports.options = data.list;
             $scope.reports.selected = data.list[0];
+
+            angular.forEach($scope.reports.options, function(report) {
+                if(report.id == 'achievements') {
+                  _populateAchievements(report.achievements);
+                }
+            });
           }
           if (data.developer) {
             $scope.developer = data.developer;
@@ -181,9 +180,10 @@ angular.module( 'instructor.reports', [
           if (newValue.id == 'sowo') {
             _populateSowo(data);
           } else if (newValue.id == 'achievements') {
-            _populateAchievements(data);
+            _populateStudentAchievements(data);
           }
         });
+
     });
 
   $scope.$watch('achievements.selected', function(newValue, oldValue) {
@@ -191,16 +191,38 @@ angular.module( 'instructor.reports', [
   });
 
   $scope.selectActiveAchievements = function(group, index) {
-    if ($scope.achievements.options[group]) {
-      if (index < 0 || $scope.achievements.options[group].length < index + 3) {
-        return false;
-      } else {
-        $scope.achievements.startIndex = index;
-        $scope.achievements.active = $scope.achievements.options[group].slice(index, index + 3);
+    angular.forEach($scope.achievements.options, function(option) {
+      if (option.id == group) {
+        var totalItems = 0;
+        angular.forEach(option.subGroups, function(subGroup) {
+          totalItems += subGroup.items.length;
+        });
+
+        if (index < 0 || totalItems < index + 3) {
+          return false;
+        } else {
+          $scope.achievements.startIndex = index;
+          $scope.achievements.active = option.list.slice(index, index + 3);
+        }
       }
-    }
+    });
   };
 
+  $scope.isAwardedAchievement = function(activeAchv, studentAchv) {
+    if(studentAchv) {
+      console.log(activeAchv, studentAchv);
+      for(var i = 0; i < studentAchv.length; i++) {
+        // TODO: check for subgroup
+        if( (studentAchv[i].item == activeAchv.id) &&
+            studentAchv[i].won
+          ) {
+            return true;
+        }
+      }
+    }
+
+    return false;
+  };
 
   $scope.getStudentResult = function(studentId, achievement) {
     angular.forEach($scope.students, function(student) {
@@ -335,14 +357,35 @@ angular.module( 'instructor.reports', [
     return Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 1000) + 1000;
   };
 
-  var _populateAchievements = function(data) {
+  var _populateAchievements = function(reports) {
+
+    for(var i = 0; i < reports.length; i++) {
+      reports[i].list = [];
+      for(var j = 0; j < reports[i].subGroups.length; j++) {
+        for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
+          reports[i].subGroups[j].items[k].standard = {
+            title:       reports[i].subGroups[j].title,
+            description: reports[i].subGroups[j].description
+          };
+
+          reports[i].list.push( reports[i].subGroups[j].items[k] );
+        }
+      }
+    }
+
+    $scope.achievements.options = reports;
+    $scope.achievements.selected = reports[0].id;
+  };
+
+  var _populateStudentAchievements = function(data) {
     // Attach achievements and time played to students
     angular.forEach(data, function(d) {
-      $scope.students[d.userId].achievements = d.achievements;
+      $scope.students[d.userId].achievements    = d.achievements;
       $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
     });
 
     // Create list of achievements
+    /*
     angular.forEach(data[0].achievements, function(achievement) {
       var achv = angular.copy(achievement);
       delete achv.won;
@@ -353,7 +396,7 @@ angular.module( 'instructor.reports', [
       }
       $scope.achievements.selected = data[0].achievements[0].group;
     });
-
+    */
   };
 
 });
