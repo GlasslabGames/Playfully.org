@@ -397,9 +397,8 @@ angular.module( 'instructor.courses', [
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
-    gradesFromString = course.grade.split(', ');
-    gradeNumbersArray = [];
-    angular.forEach(gradesFromString, function(gradeString) {
+    var gradeNumbersArray = [];
+    angular.forEach(course.grade, function(gradeString) {
       gradeNumbersArray.push(parseInt(gradeString));
     });
     course.grade = angular.copy(gradeNumbersArray);
