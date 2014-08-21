@@ -207,9 +207,27 @@ angular.module('playfully.login', [])
 })
 
 .controller('sdkLoginCtrl',
-  function ($scope, $log, AuthService) {
+  function ($scope, $rootScope, $log, $window, $state, AuthService, AUTH_EVENTS) {
 
+    $scope.credentials = { username: '', password: '' };
+    $scope.authError = null;
 
+    $scope.login = function ( credentials ) {
+      $scope.authError = null;
+
+      AuthService.login(credentials).then(function(result) {
+        $state.go('sdkLoginSuccess');
+      }, function(result) {
+        $log.error(result);
+        $scope.authError = result.data.error;
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+      });
+
+  };
+
+    $scope.logInWithEdmodo = function() {
+      $window.location.href = '/auth/edmodo/login';
+    };
 })
 
 .controller('sdkLoginConfirmCtrl',

@@ -6,7 +6,7 @@
 <div class="sdk-container">
 
 
-  <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
+  <alert class="gl-margin--Tm" ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
   <form name="studentLoginForm" novalidate class="login-form"
     ng-submit="login(credentials)">
@@ -15,8 +15,9 @@
         <div class="col-md-5">
           <div class="form-group" ng-class="{'has-error': studentLoginForm.username.$dirty && studentLoginForm.username.$invalid}">
             <input type="text" name="username" class="form-control"
-              placeholder="Screen name"
+              placeholder="Screen Name or Email"
               required autofocus ng-model="credentials.username"
+              tabindex="1"
               ng-minlength="2">
               <div class="form-errors">
                 <div class="form-error" ng-show="studentLoginForm.username.$dirty && studentLoginForm.username.$invalid">
@@ -25,12 +26,9 @@
               </div>
           </div>
 
-          <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-            <button class="login-button login-button--edmodo login-button--flexible"
-              ng-click="logInWithEdmodo()"
-              popover-title="Edmodo Login"
-              popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
-              popover-trigger="mouseenter" popover-placement="bottom">
+          <div class="login-option">
+            <button tabindex="3" class="login-button login-button--edmodo login-button--flexible"
+              ng-click="logInWithEdmodo()">
               <div class="media media--collapsed">
                 <div class="media-img media-img--collapsed">
                   <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
@@ -45,7 +43,7 @@
 
         <div class="col-md-5">
           <div class="form-group">
-            <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+            <input tabindex="2" type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
             <div class="gl-margin--Tm">
               <a ui-sref="sdkPasswordReset({type: 'student'})"
                 class="link-forgot-password"> 
