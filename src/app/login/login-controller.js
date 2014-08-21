@@ -1,14 +1,14 @@
 angular.module('playfully.login', [])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
-  var loginOptionsConfig = {
-    templateUrl: 'login/login.html',
-    controller: 'LoginOptionsCtrl'
-  };
   $stateProvider.state('loginOptions', {
     url: 'login',
     parent: 'modal',
-    views: { 'modal@': loginOptionsConfig },
+    views: { 'modal@': {
+      templateUrl: 'login/login.html',
+      controller: 'LoginOptionsCtrl'
+      }
+    },
     data:{ pageTitle: 'Sign In'},
     onEnter: function($state, $log, ipCookie) {
       if (ipCookie('inSDK')) {
@@ -19,7 +19,11 @@ angular.module('playfully.login', [])
     url: '/sdk/login',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': loginOptionsConfig }
+    views: { 'main@': {
+      templateUrl: 'login/sdk-login.html',
+      controller: 'sdkLoginCtrl'
+      }
+    }
   });
 
 
@@ -200,6 +204,12 @@ angular.module('playfully.login', [])
       });
 
   };
+})
+
+.controller('sdkLoginCtrl',
+  function ($scope, $log, AuthService) {
+
+
 })
 
 .controller('sdkLoginConfirmCtrl',
