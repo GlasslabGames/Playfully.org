@@ -58,7 +58,9 @@
         <i class="fa fa-check-circle-o"
           ng-show="isAwardedAchievement(achv, student.achievements)"></i>
       </td>
-      <td class="gl-nobr" ng-bind="student.totalTimePlayed | amDurationFormat"></td>
+      <td class="gl-nobr">
+        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat">
+      </td>
     </tr>
   </tbody>
   <tbody ng-hide="courses.options[courses.selectedId].users">
