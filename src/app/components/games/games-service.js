@@ -111,20 +111,8 @@ angular.module('games', [])
         });
     },
 
-    getAchievements: function (gameId) {
-      return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/achievements')
-        .then(function (response) {
-          $log.info(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
-    },
-
-    getReports: function (gameId) {
-      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports')
+    getAllReports: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports/all')
         .then (function(response) {
           $log.info(response);
           return response.data;
