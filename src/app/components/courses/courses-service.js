@@ -13,6 +13,8 @@ angular.module('courses', [])
     },
 
     update: function (course) {
+      $log.info('course update');
+      $log.info(course);
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
       /* Turn the array of grades into a string for the API */

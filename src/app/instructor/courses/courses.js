@@ -613,6 +613,13 @@ angular.module( 'instructor.courses', [
         });
     };
 
+    $scope.closeModal = function() {
+      $rootScope.modalInstance.close();
+      return $timeout(function () {
+        $state.go('courses.active', {}, { reload: true });
+      }, 100);
+    };
+
 });
 
 
