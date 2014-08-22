@@ -60,7 +60,8 @@ angular.module( 'instructor.courses', [
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
         template: '<div ui-view="modal"></div>',
-        size: 'lg'
+        size: 'lg',
+        keyboard: false
       });
 
       $rootScope.modalInstance.result.finally(function() {
@@ -386,6 +387,13 @@ angular.module( 'instructor.courses', [
       });
   };
 
+  $scope.closeModal = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
   $scope.reset();
 
 
@@ -460,7 +468,6 @@ angular.module( 'instructor.courses', [
   };
 
   $scope.closeModal = function() {
-    $log.info("HEY");
     $rootScope.modalInstance.close();
     return $timeout(function () {
       $state.go('courses.active', {}, { reload: true });
@@ -534,6 +541,13 @@ angular.module( 'instructor.courses', [
         });
     };
 
+  $scope.closeModal = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
 })
 
 .controller('EditStudentModalCtrl',
@@ -553,6 +567,13 @@ angular.module( 'instructor.courses', [
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
+    };
+
+    $scope.closeModal = function() {
+      $rootScope.modalInstance.close();
+      return $timeout(function () {
+        $state.go('courses.active', {}, { reload: true });
+      }, 100);
     };
 
 })
