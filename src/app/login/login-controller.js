@@ -188,17 +188,19 @@ angular.module('playfully.login', [])
     $scope.authError = null;
 
     $scope.login = function ( credentials ) {
+      $scope.loginForm.isSubmitting = true;
       $scope.authError = null;
 
       AuthService.login(credentials).then(function(result) {
+        $scope.loginForm.isSubmitting = false;
         if ($state.current.data.hideWrapper) {
-          $log.info("About to go to loginSuccess");
           $state.go('sdkLoginSuccess');
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
       }, function(result) {
         $log.error(result);
+        $scope.loginForm.isSubmitting = false;
         $scope.authError = result.data.error;
         $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
       });
@@ -214,11 +216,14 @@ angular.module('playfully.login', [])
 
     $scope.login = function ( credentials ) {
       $scope.authError = null;
+      $scope.studentLoginForm.isSubmitting = true;
 
       AuthService.login(credentials).then(function(result) {
+        $scope.studentLoginForm.isSubmitting = false;
         $state.go('sdkLoginSuccess');
       }, function(result) {
         $log.error(result);
+        $scope.studentLoginForm.isSubmitting = false;
         $scope.authError = result.data.error;
         $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
       });

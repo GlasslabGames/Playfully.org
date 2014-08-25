@@ -100,6 +100,7 @@ angular.module('playfully.register', [])
       };
 
       $scope.register = function( account ) {
+        $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
           $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
@@ -109,10 +110,12 @@ angular.module('playfully.register', [])
           .success(function(data, status, headers, config) {
             user = data;
             Session.create(user.id, user.role);
+            $scope.regForm.isSubmitting = false;
             $scope.account.isRegCompleted = true;
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
+            $scope.regForm.isSubmitting = false;
             $scope.account.isRegCompleted = false;
             if ( data.error ) {
               $scope.account.errors.push(data.error);
@@ -161,13 +164,16 @@ angular.module('playfully.register', [])
       };
 
       $scope.confirmCode = function(conf) {
+        $scope.regInit.isSubmitting = true;
         $scope.confirmation.errors = [];
         CoursesService.verifyCode(conf.code)
           .then(function(resp) {
+            $scope.regInit.isSubmitting = false;
             $scope.course = resp.data;
             $scope.account = angular.copy(_blankAccount);
             $scope.account.regCode = $scope.confirmation.code;
           }, function(resp) {
+            $scope.regInit.isSubmitting = false;
             if ( resp.data.error ) {
               $scope.confirmation.errors.push(resp.data.error);
             }
@@ -175,8 +181,10 @@ angular.module('playfully.register', [])
       };
 
       $scope.register = function(account) {
+        $scope.regForm.isSubmitting = true;
         UserService.register(account)
           .success(function(data, status, headers, config) {
+            $scope.regForm.isSubmitting = false;
             user = data;
             Session.create(user.id, user.role);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
@@ -187,6 +195,7 @@ angular.module('playfully.register', [])
           })
           .error(function(data, status, headers, config) {
             $log.error(data);
+            $scope.regForm.isSubmitting = false;
             $scope.account.isRegCompleted = false;
             if ( data.error ) {
               $scope.account.errors.push(data.error);

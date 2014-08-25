@@ -10,17 +10,17 @@
 
   <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
-  <form name="studentLoginForm" novalidate class="login-form"
+  <form name="loginForm" novalidate class="login-form"
     ng-submit="login(credentials)">
 
     <div class="gl-input-group">
-      <div class="form-group" ng-class="{'has-error': studentLoginForm.username.$dirty && studentLoginForm.username.$invalid}">
+      <div class="form-group" ng-class="{'has-error': loginForm.username.$dirty && loginForm.username.$invalid}">
         <input type="text" name="username" class="form-control"
           placeholder="Screen name"
           required autofocus ng-model="credentials.username"
           ng-minlength="2">
           <div class="form-errors">
-            <div class="form-error" ng-show="studentLoginForm.username.$dirty && studentLoginForm.username.$invalid">
+            <div class="form-error" ng-show="loginForm.username.$dirty && loginForm.username.$invalid">
               Please enter a valid screen name
             </div>
           </div>
@@ -43,8 +43,9 @@
     </div>
 
     <div class="text-center">
-      <input type="submit" class="btn gl-btn--blue" value="Sign In"
-        ng-disabled="studentLoginForm.$invalid">
+      <input type="submit" class="btn gl-btn--blue"
+        value="{{ loginForm.isSubmitting ? 'Sending...' : 'Sign In'}}"
+        ng-disabled="loginForm.$invalid || loginForm.isSubmitting">
     </div>
   </form>
 

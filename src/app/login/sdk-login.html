@@ -55,8 +55,9 @@
 
         <div class="col-md-2">
           <div class="text-center">
-            <input type="submit" class="btn gl-btn--blue" value="Sign In"
-              ng-disabled="studentLoginForm.$invalid">
+            <input type="submit" class="btn gl-btn--blue"
+              value="{{ studentLoginForm.isSubmitting ? 'Sending...' : 'Sign In'}}"
+              ng-disabled="studentLoginForm.$invalid || studentLoginForm.isSubmitting">
           </div>
         </div>
       </div>
