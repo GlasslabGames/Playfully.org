@@ -49,14 +49,37 @@ angular.module( 'instructor.dashboard', [
     $scope.myGames = myGames;
     $scope.games = games;
     $scope.status = { 
-      selectedOption: games[0] || null,
-      selectedCourse: courses[0] || null
+      selectedOption: findFirstValidGame(games),
+      selectedCourse: findFirstValidCourse(courses)
     };
+
+    function findFirstValidGame(games) {
+      // find first "valid" game (not archived)
+      for(var i = 0; i < games.length; i++) {
+        if(games[i].enabled) {
+          return games[i];
+        }
+      }
+
+      return null;
+    }
+
+    // find first "valid" course (not archived)
+    function findFirstValidCourse(courses) {
+      // find first "valid" game (not archived)
+      for(var i = 0; i < courses.length; i++) {
+        if(!courses[i].archived) {
+          return courses[i];
+        }
+      }
+
+      return null;
+    }
 
     $scope.getTimes = function(n) { return new Array(n); };
 
     $scope.$watch('status.selectedCourse', function(newValue, oldValue) {
-      ReportsService.getSOWO($scope.status.selectedOption, newValue)
+      ReportsService.get('sowo', $scope.status.selectedOption.gameId, newValue.id)
         .then(function(data) {
           $log.info(data);
           _populateSowo(data);

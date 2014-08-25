@@ -60,7 +60,8 @@ angular.module( 'instructor.courses', [
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
         template: '<div ui-view="modal"></div>',
-        size: 'lg'
+        size: 'lg',
+        keyboard: false
       });
 
       $rootScope.modalInstance.result.finally(function() {
@@ -386,6 +387,13 @@ angular.module( 'instructor.courses', [
       });
   };
 
+  $scope.closeModal = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
   $scope.reset();
 
 
@@ -397,9 +405,8 @@ angular.module( 'instructor.courses', [
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
-    gradesFromString = course.grade.split(', ');
-    gradeNumbersArray = [];
-    angular.forEach(gradesFromString, function(gradeString) {
+    var gradeNumbersArray = [];
+    angular.forEach(course.grade, function(gradeString) {
       gradeNumbersArray.push(parseInt(gradeString));
     });
     course.grade = angular.copy(gradeNumbersArray);
@@ -457,8 +464,17 @@ angular.module( 'instructor.courses', [
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.error = data.error;
       });
   };
+
+  $scope.closeModal = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
 
 })
 .controller( 'AssignGamesModalCtrl', 
@@ -526,6 +542,13 @@ angular.module( 'instructor.courses', [
         });
     };
 
+  $scope.closeModal = function() {
+    $rootScope.modalInstance.close();
+    return $timeout(function () {
+      $state.go('courses.active', {}, { reload: true });
+    }, 100);
+  };
+
 })
 
 .controller('EditStudentModalCtrl',
@@ -545,6 +568,13 @@ angular.module( 'instructor.courses', [
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
+    };
+
+    $scope.closeModal = function() {
+      $rootScope.modalInstance.close();
+      return $timeout(function () {
+        $state.go('courses.active', {}, { reload: true });
+      }, 100);
     };
 
 })
@@ -582,6 +612,13 @@ angular.module( 'instructor.courses', [
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
+    };
+
+    $scope.closeModal = function() {
+      $rootScope.modalInstance.close();
+      return $timeout(function () {
+        $state.go('courses.active', {}, { reload: true });
+      }, 100);
     };
 
 });

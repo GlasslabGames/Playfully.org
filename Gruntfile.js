@@ -19,6 +19,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-mocha-protractor');
+  grunt.loadNpmTasks('grunt-git-describe');
 
   /**
    * Load in our build configuration file.
@@ -541,7 +542,17 @@ module.exports = function ( grunt ) {
         files: ['e2e/*.test.js'],
         tasks: ['jshint:e2e', 'protractor:build']
       }
+    },
 
+    "git-describe": {
+      options: {
+        cwd:       ".",
+        commitish: "master",
+        failOnError: true,
+        template: "{%=tag%}-{%=since%}-{%=object%}{%=dirty%}",
+        prop: 'meta.revision'
+      },
+      default: {}
     }
   };
 
@@ -568,14 +579,16 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build'
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
+    'createVersionFile'
   ]);
 
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-    'karma:continuous', 'protractor:build'
+    'karma:continuous', 'protractor:build',
+    'createVersionFile'
   ]);
     
 	grunt.registerTask('mocha', 'mochaProtractor');
@@ -587,6 +600,20 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'compile', [
     'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
+
+  grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
+      grunt.event.once("git-describe", function(rev) {
+        //grunt.log.writeln("Git Revision: ", rev);
+        grunt.file.write(grunt.config('build_dir')+'/version.json', JSON.stringify({
+          tag: rev.tag,
+          since: rev.since,
+          object: rev.object,
+          revision: rev.toString(),
+          date: grunt.template.today()
+        }));
+      });
+      grunt.task.run('git-describe');
+    });
 
   /**
    * A utility function to get all app JavaScript sources.
