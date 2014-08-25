@@ -13,20 +13,14 @@ angular.module('courses', [])
     },
 
     update: function (course) {
-      $log.info('course update');
-      $log.info(course);
       /* Hack to create an `id` attribute so the API will be happy */
       angular.forEach(course.games, function(game) { game.id = game.gameId; });
-      /* Turn the array of grades into a string for the API */
-      course.grade = course.grade.join(', ');
+      /* Sort the array of grades (numerically) and
+       * turn into a string for the API */
+      course.grade = course.grade.sort(function (a, b) {
+        return a - b;
+      }).join(', ');
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
-        // .then(function (response) {
-        //   $log.info(response);
-        //   return response.data;
-        // }, function (response) {
-        //   $log.error(response);
-        //   return response;
-        // });
     },
 
     archive: function (course) {
