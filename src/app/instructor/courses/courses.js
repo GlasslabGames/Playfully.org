@@ -464,6 +464,7 @@ angular.module( 'instructor.courses', [
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.error = data.error;
       });
   };
 
