@@ -63,7 +63,7 @@ describe.skip("Teacher routines", function() {		// FIXME - skipped for testing b
 					screenshot(resultDir + testRoutine + '_register(glasslab)-2');
 					form.closeWelcome.locator.click()
 						.then(function() {
-							browser.sleep(100)
+							browser.sleep(100);
 							expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 							done();
 						});
