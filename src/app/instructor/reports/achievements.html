@@ -18,11 +18,13 @@
         <div class="gl-reports-achievement-header text-center">
           <div ng-bind="achv.title"></div>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
-          <span class="gl-reports-achievement-header-standard"
-                popover="{{ achv.standard.description }}"
-                popover-title="{{ achv.standard.title }}"
-                popover-trigger="mouseenter"
-                popover-placement="bottom">see standards</span>
+          <div class="gl-reports-achv-footer">
+            <span class="gl-reports-achievement-header-standard"
+                  popover="{{ achv.standard.description }}"
+                  popover-title="{{ achv.standard.title }}"
+                  popover-trigger="mouseenter"
+                  popover-placement="bottom">see standards</span>
+          </div>
         </div>
       </th>
       <th>Time Played</th>
