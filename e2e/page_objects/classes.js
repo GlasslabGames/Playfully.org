@@ -21,13 +21,13 @@ var Classes = function() {
 			ttype: 'btn',
 			locator: element(by.id('grade-9'))
 		}
-		this.newCourseSubmit = {
+		this.newCourseSubmit1 = {
 			ttype: 'btn',
-			locator: element(by.css(".btn.gl-btn--blue"))
+			locator: element(by.css("button.btn.gl-btn--blue"))
 		}
 		this.newCourseCancel = {
 			ttype: 'btn',
-			locator: element(by.css(".btn.gl-btn--blue"))
+			locator: element(by.css("button.btn.gl-btn--grey"))
 		}
 		// -----------------/
 		

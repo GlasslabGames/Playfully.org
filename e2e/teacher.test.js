@@ -31,7 +31,7 @@ var logout = function() {
 	dashboard.logoutOption.locator.click();
 };
 
-describe("Teacher routines", function() {
+describe.skip("Teacher routines", function() {		// FIXME - skipped for testing brevity
 	
 	var testRoutine = 'teacher';
 
@@ -43,8 +43,6 @@ describe("Teacher routines", function() {
 		it('#should register normally', function(done) {
 			
 			browser.get(serverAddress + landing.path);
-			
-//			browser.debugger();
 			
 			var form = landing.register.subElements;
 			var user = generateUser(testRoutine);
@@ -75,7 +73,7 @@ describe("Teacher routines", function() {
 		
 	});
 	
-	describe('New teacher flow', function() {
+	describe('- new teacher user flow', function() {
 		
 		it('#should show the dashboard and tour properly', function(done) {
 			
@@ -86,7 +84,7 @@ describe("Teacher routines", function() {
 		
 		});
 		
-		it('#should be able to add a new class', function() {
+		it('#should be able to add a new class', function(done) {
 			
 			// go to classes page
 			element(by.binding("'navbar.link.classes' | translate")).click();		// TODO - move to page object
@@ -94,14 +92,29 @@ describe("Teacher routines", function() {
 			expectCurrentUrlToMatch(serverAddress + classes.path);
 			
 			// add class
-			
-			
-			
-			// check class code string
+			classes.addCourse.locator.click()
+				.then(function() {
+					screenshot(resultDir + testRoutine + '_classes-newClass-modal-1');
+					classes.newCourseName.locator.sendKeys('newClass');
+					classes.newCourseGrade.locator.click();
+					classes.newCourseSubmit1.locator.click();
+					screenshot(resultDir + testRoutine + '_classes-newClass-modal-2');
+					element(by.css(".gl-course-game-thumbnail.gl-thumb-AA-1")).click();		// TODO - move to page object
+					element(by.css('input.btn.gl-btn--blue')).click()		// TODO - move to page object
+						.then(function() {
+							browser.sleep(100);
+							screenshot(resultDir + testRoutine + '_classes-newClass-modal-3');
+							element(by.partialButtonText('Done')).click();		// TODO - move to page object
+							screenshot(resultDir + testRoutine + '_classes-newClass-02');
+							done();
+						});
+				});
 			
 		});
 		
-		it.skip('#should be able to see the reports page', function() {
+		it.skip('#should be able to view reports page', function() {
+			
+			// NOTE - probably better to look at on landing.test.js, since those classes are populated with data
 			
 		});
 		
@@ -131,12 +144,6 @@ describe("Teacher routines", function() {
 //		screenshot(resultDir + 'dashboard.reports(teacher)');
 //	});
 //	
-//	describe('Should show support page correctly', function() {		// NOTE will be redirect http://glasslabgames.org/support/
-//		browser.get(serverAddress + support.path);
-//		console.log('shouldnt get here');
-//		
-//		
-//		screenshot(resultDir + 'dashboard.support(teacher)');
-//	});
+
 		
 });
