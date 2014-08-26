@@ -28,6 +28,7 @@ describe("Landing Page - Not Logged In", function() {
 		before(function () {
 			browser.get(serverAddress + landing.path);
 //			browser.driver.manage().window().setSize(minSize.x, minSize.y);		// NOTE mobile
+      browser.sleep(50);    // FIXME - not ideal
 			screenshot(resultDir + 'landing.0(auto)');
 		});
 	
@@ -47,7 +48,7 @@ describe("Landing Page - Not Logged In", function() {
 		
 		beforeEach(function() {
 //			browser.ignoreSynchronization = true;
-		})
+		});
 		
 		it("#Should log in successfully - teacher", function() {
 			
@@ -61,7 +62,7 @@ describe("Landing Page - Not Logged In", function() {
 			screenshot(resultDir + 'landing.login-0(teacher)');
 			form.submit.locator.click();
 			
-			screenshot(resultDir + 'landing.login-1(teacher)');
+//			screenshot(resultDir + 'landing.login-1(teacher)');
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 		});
 		
@@ -87,7 +88,7 @@ describe("Landing Page - Not Logged In", function() {
 			form.password.locator.sendKeys(acct.pass.student);
 			screenshot(resultDir + 'landing.login-0(student)');
 			form.submit.locator.click();
-			screenshot(resultDir + 'landing.login-1student).png');
+//			screenshot(resultDir + 'landing.login-1student).png');
 			
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
 			
