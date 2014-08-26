@@ -1,13 +1,17 @@
 var Reports = function() {
     
 		this.path = '/reports';
+	
+		this.courseRow = {
+			ttype: 'btn',
+			locator: element(by.css(".gl-reports-nav-course.ng-binding"))
+		}
+		
+		this.bannerImage = {}
+		
+		
 
-//		this.addCourse = {
-//			ttype: 'btn',
-//			locator: element(by.css('.gl-courses-add.gl-courses-add--blue'))
-//		}
-		
-		
+	
 }
 
 module.exports = new Reports();

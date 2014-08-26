@@ -10,6 +10,12 @@ module.exports = {
 	serverAddress: servers.stage,
 	
 	// Loation of screenshots and logs
-	resultDir: './e2e/results/'
+	resultDir: './e2e/results/',
+	
+	browsers: ['chrome', 'firefox', 'ie', 'android', 'safari'],
+	
+	// Smallest dimensions for supported screen size
+	smallestDimensions: {x:640, y:960},
+//	largestDimensions: {}
 	
 }
