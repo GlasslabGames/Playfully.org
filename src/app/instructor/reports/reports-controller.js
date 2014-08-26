@@ -33,7 +33,7 @@ angular.module( 'instructor.reports', [
   function($scope, $state, $stateParams, $log, allGames, activeCourses, CoursesService, ReportsService, GamesService) {
 
     $scope.students = {};
-    $scope.achievements = { options: {}, selected: null, active: [], startIndex: 0 };
+    $scope.achievements = { options: {}, selected: null, active: [], startIndex: 0, totalCount: 0 };
     $scope.sowoInfo = {};
     $scope.achievementInfo = {};
 
@@ -197,6 +197,7 @@ angular.module( 'instructor.reports', [
         angular.forEach(option.subGroups, function(subGroup) {
           totalItems += subGroup.items.length;
         });
+        $scope.achievements.totalCount = totalItems;
 
         if (index < 0 || totalItems < index + 3) {
           return false;
@@ -210,7 +211,6 @@ angular.module( 'instructor.reports', [
 
   $scope.isAwardedAchievement = function(activeAchv, studentAchv) {
     if(studentAchv) {
-      console.log(activeAchv, studentAchv);
       for(var i = 0; i < studentAchv.length; i++) {
         // TODO: check for subgroup
         if( (studentAchv[i].item == activeAchv.id) &&
@@ -358,7 +358,6 @@ angular.module( 'instructor.reports', [
   };
 
   var _populateAchievements = function(reports) {
-
     for(var i = 0; i < reports.length; i++) {
       reports[i].list = [];
       for(var j = 0; j < reports[i].subGroups.length; j++) {

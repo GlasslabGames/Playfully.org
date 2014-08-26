@@ -40,11 +40,11 @@
           ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
           Prev Achievement <i class="fa fa-arrow-left"></i>
         </a> &nbsp;
-        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.options[achievements.selected].length }}
+        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
         &nbsp; 
         <a href class="gl-reports-achv-arrow"
           ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.options[achievements.selected].length}">
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
           <i class="fa fa-arrow-right"></i> Next Achievement
         </a>
       </td>
