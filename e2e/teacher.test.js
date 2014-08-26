@@ -47,54 +47,31 @@ describe("Teacher Test", function() {
 			var form = landing.register.subElements;
 			var user = generateUser(testRoutine);
 			
-			landing.registerButton.locator.click()
-				.then(function () {
-					return form.registerAsBtn.locator[testRoutine].click(); // NOTE <- set to teacher here
-				})
-				.then(function () {
-					return form.firstName.locator.sendKeys(user.name);
-				})
-				.then(function () {
-					return form.email.locator.sendKeys(user.email);
-					//			console.log(user.email);
-				})
-				.then(function () {
-					return form.password.locator.sendKeys(user.pass);
-				})
-				.then(function () {
-					return form.passConfirm.locator.sendKeys(user.pass);
-				})
-				.then(function () {
-					screenshot(resultDir + testRoutine + '_register-normal-0');
-					return form.policyChbx.locator.click();
-				})
-				.then(function () {
-					return form.newsletterChbx.locator.click();
-				})
-				.then(function () {
-					return form.submit.locator.click();
-				})
+			landing.registerButton.locator.click();
+      form.registerAsBtn.locator[testRoutine].click(); // NOTE <- set to teacher here
+			form.firstName.locator.sendKeys(user.name);
+			form.email.locator.sendKeys(user.email);
+			form.password.locator.sendKeys(user.pass);
+			form.passConfirm.locator.sendKeys(user.pass);
+			form.policyChbx.locator.click();
+			form.newsletterChbx.locator.click();
+			form.submit.locator.click();
+			form.closeWelcome.locator.click()
 				.then(function() {
-					browser.sleep(400);			// FIXME
-//					return form.closeWelcome.locator.getText()
-//				})
-//				.then(function(text) {
-//					console.log("+++++++" + text + "''''''");
-					form.closeWelcome.locator.click();
-					screenshot(resultDir + testRoutine + '_register-normal-1');
-					screenshot(resultDir + testRoutine + '_register-normal-2');
+//					browser.sleep(400);			// FIXME
+					screenshot(resultDir + testRoutine + '_register-normal-1(CHECK)');
+//					screenshot(resultDir + testRoutine + '_register-normal-2');
 					expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
-					return done();
-				})
+					done();
+				});
 			
 		});
+        
 		it.skip('#should register with Edmodo credentials', function() {
-			
 //			screenshot(resultDir + testRoutine + '_register-Edmodo');
 			
 		});
 		it.skip('#should register with iCivics', function() {
-
 //			screenshot(resultDir + testRoutine + '_register-iCivics');
 		});
 		
@@ -104,7 +81,6 @@ describe("Teacher Test", function() {
 		
 		screenshot(resultDir + 'dashboard.general');
 //    browser.sleep(50);
-		screenshot(resultDir + 'dashboard.general-2');
 		runTest(dashboard.activeNavLink, 'teacher');
 		runTest(landing.footer);
 		
