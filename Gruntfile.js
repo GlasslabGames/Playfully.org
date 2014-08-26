@@ -357,7 +357,7 @@ module.exports = function ( grunt ) {
 		
 		mochaProtractor: {
 			options: {
-				browsers: ['Firefox'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
+				browsers: ['Chrome'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
 				debug: true,
 				reporter: 'Spec',
 				baseUrl: '127.0.0.1:8001',
@@ -587,7 +587,7 @@ module.exports = function ( grunt ) {
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-    'karma:continuous', 'protractor:build',
+    'karma:continuous',
     'createVersionFile'
   ]);
     

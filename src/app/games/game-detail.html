@@ -65,7 +65,7 @@
 
       <div>
         <a ng-repeat="(name, url) in gameDetails.social"
-          href="{{ url }}"
+          target="_blank" href="{{ url }}"
           ga="'send', 'pageview', {title: name, location: url}"
           class="gl-icon-social gl-icon-social--{{ name }}">
         </a>

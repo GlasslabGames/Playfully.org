@@ -40,7 +40,7 @@ describe("Teacher Test", function() {
 	});
 
 	describe('Registration flow', function() {
-		it('#should register normally', function() {
+		it('#should register normally', function(done) {
 			
 			browser.get(serverAddress + landing.path);
 			
@@ -48,35 +48,30 @@ describe("Teacher Test", function() {
 			var user = generateUser(testRoutine);
 			
 			landing.registerButton.locator.click();
-
-			form.registerAsBtn.locator.teacher.click();		// NOTE <- set to teacher here
+      form.registerAsBtn.locator[testRoutine].click(); // NOTE <- set to teacher here
 			form.firstName.locator.sendKeys(user.name);
 			form.email.locator.sendKeys(user.email);
-//			console.log(user.email);
 			form.password.locator.sendKeys(user.pass);
 			form.passConfirm.locator.sendKeys(user.pass);
-			
-			screenshot(resultDir + testRoutine + '_register-normal-0');
-			
 			form.policyChbx.locator.click();
 			form.newsletterChbx.locator.click();
-			
 			form.submit.locator.click();
+			form.closeWelcome.locator.click()
+				.then(function() {
+//					browser.sleep(400);			// FIXME
+					screenshot(resultDir + testRoutine + '_register-normal-1(CHECK)');
+//					screenshot(resultDir + testRoutine + '_register-normal-2');
+					expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+					done();
+				});
 			
-			form.closeWelcome.locator.click();
-			
-			screenshot(resultDir + testRoutine + '_register-normal-1');
-//			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
-			screenshot(resultDir + testRoutine + '_register-normal-2');
-
 		});
+        
 		it.skip('#should register with Edmodo credentials', function() {
-			
 //			screenshot(resultDir + testRoutine + '_register-Edmodo');
 			
 		});
 		it.skip('#should register with iCivics', function() {
-
 //			screenshot(resultDir + testRoutine + '_register-iCivics');
 		});
 		
@@ -85,6 +80,7 @@ describe("Teacher Test", function() {
 	describe('Should show my dashboard correctly', function() {
 		
 		screenshot(resultDir + 'dashboard.general');
+//    browser.sleep(50);
 		runTest(dashboard.activeNavLink, 'teacher');
 		runTest(landing.footer);
 		
