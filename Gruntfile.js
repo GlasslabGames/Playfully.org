@@ -17,7 +17,6 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
-  grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-git-describe');
 
@@ -587,8 +586,7 @@ module.exports = function ( grunt ) {
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-    'karma:continuous',
-    'createVersionFile'
+    'karma:continuous', 'createVersionFile'
   ]);
     
 	grunt.registerTask('mocha', 'mochaProtractor');

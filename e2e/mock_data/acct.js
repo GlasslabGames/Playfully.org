@@ -4,7 +4,7 @@ module.exports = {
 	
 	user: {
 		teacher: "build+teach@glasslabgames.org",
-		student: "gl-test01"
+		student: "gltest-01"
 	},
 	classCode: {
 		localhost: 'PQ7N2',

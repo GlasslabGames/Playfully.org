@@ -9,9 +9,26 @@ var Reports = function() {
 		
 		this.bannerImage = {}
 		
-		
-
-	
+		this.gameDropdown = {
+			ttype: 'btn',
+			locator: element(by.css('.btn.btn-default.gl-reports-dropdown.gl-reports-dropdown--game.ng-binding'))
+		}
+		this.reportDropdown = {
+			ttype: 'btn',
+			locator: element(by.css())
+		}
+		this.reportDropdown = {
+			ttype: 'btn',
+			locator: element(by.css())
+		}	
+		this.reportDropdown = {
+			ttype: 'btn',
+			locator: element(by.css())
+		}
+		this.reportDropdown = {
+			ttype: 'btn',
+			locator: element(by.css())
+		}
 }
 
 module.exports = new Reports();

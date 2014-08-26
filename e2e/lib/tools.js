@@ -86,8 +86,9 @@ function runTest(element, userType) {
 	switch(element.ttype) {
 
 		case('text'):
-			it("#Verifying text - " + description, function () {
+			it("#Verifying text - " + description, function (done) {
 				expectObjTextToMatch(loc, text);
+				done();
 			});
 			break;
 

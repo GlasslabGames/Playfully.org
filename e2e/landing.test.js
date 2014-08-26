@@ -21,28 +21,31 @@ var	chai	 		 = require('chai'),
 		serverAddress = config.serverAddress,
 		minSize				= config.smallestDimensions;
 
-describe("Landing Page - Not Logged In", function() {
+describe.skip("Landing Page", function() {
 	
-		var autoTestRoutine = landing;
+	describe("- not logged in", function() {
 	
-		before(function () {
-			browser.get(serverAddress + landing.path);
-//			browser.driver.manage().window().setSize(minSize.x, minSize.y);		// NOTE mobile
-      browser.sleep(50);    // FIXME - not ideal
-			screenshot(resultDir + 'landing.0(auto)');
-		});
-	
-		for (var test in autoTestRoutine) {
-			var testCase = autoTestRoutine[test];
-			
-			if (testCase.hasOwnProperty('ttype')) {
-				runTest(testCase);
-			} else {
-//				console.log(test);
+			var autoTestRoutine = landing;
+
+			before(function () {
+				browser.get(serverAddress + landing.path);
+	//			browser.driver.manage().window().setSize(minSize.x, minSize.y);		// NOTE mobile
+				browser.sleep(50);    // FIXME - not ideal
+				screenshot(resultDir + 'landing.0(auto)');
+			});
+
+			for (var test in autoTestRoutine) {
+				var testCase = autoTestRoutine[test];
+
+				if (testCase.hasOwnProperty('ttype')) {
+					runTest(testCase);
+				} else {
+	//				console.log(test);
+				}
 			}
-		}
+	});
 	
-	describe("Login flow", function() {
+	describe("- login flow", function() {
 		
 		browser.get(serverAddress + landing.path);
 		
@@ -50,7 +53,7 @@ describe("Landing Page - Not Logged In", function() {
 //			browser.ignoreSynchronization = true;
 		});
 		
-		it("#Should log in successfully - teacher", function() {
+		it("#Should log in successfully - teacher", function(done) {
 			
 			var form = landing.login.subElements;
 			
@@ -60,23 +63,30 @@ describe("Landing Page - Not Logged In", function() {
 			form.email.locator.sendKeys(acct.user.teacher);
 			form.password.locator.sendKeys(acct.pass.teacher);
 			screenshot(resultDir + 'landing.login-0(teacher)');
-			form.submit.locator.click();
-			
-//			screenshot(resultDir + 'landing.login-1(teacher)');
-			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+			form.submit.locator.click()
+				.then(function() {
+					screenshot(resultDir + 'landing.login-1(student).png');
+					expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+					done();
+				});
+	
 		});
 		
-		it("#Should log out successfully - teacher", function() {
+		it("#Should log out successfully - teacher", function(done) {
 			
 			screenshot(resultDir + 'landing.login-2(teacher)');
 			dashboard.userIcon.locator.click();
 			screenshot(resultDir + 'landing.login-3(teacher)');
-			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing.login-4(teacher)');
-			expectCurrentUrlToMatch(serverAddress + landing.path);
+			dashboard.logoutOption.locator.click()
+				.then(function() {
+					screenshot(resultDir + 'landing.login-4(teacher)');
+					expectCurrentUrlToMatch(serverAddress + landing.path);
+					done();
+				});
+			
 		});
 
-		it("#Should log in successfully - student", function() {
+		it("#Should log in successfully - student", function(done) {
 			browser.get(serverAddress + landing.path);
 			
 			var form = landing.login.subElements;
@@ -87,26 +97,29 @@ describe("Landing Page - Not Logged In", function() {
 			form.email.locator.sendKeys(acct.user.student);
 			form.password.locator.sendKeys(acct.pass.student);
 			screenshot(resultDir + 'landing.login-0(student)');
-			form.submit.locator.click();
-//			screenshot(resultDir + 'landing.login-1student).png');
-			
-			expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
-			
+			form.submit.locator.click()
+				.then(function() {
+					screenshot(resultDir + 'landing.login-1(student).png');
+					expectCurrentUrlToMatch(serverAddress + dashboard.path.student);
+					done();
+				});
 		});
 		
-		it("#Should log out successfully - student", function() {
+		it("#Should log out successfully - student", function(done) {
 			
 			screenshot(resultDir + 'landing.login-5(student)');
 			dashboard.userIcon.locator.click();
 			screenshot(resultDir + 'landing.login-6(student)');
-			dashboard.logoutOption.locator.click();
-			screenshot(resultDir + 'landing.login-7(student)');
-			
-			expectCurrentUrlToMatch(serverAddress + landing.path);
+			dashboard.logoutOption.locator.click()
+				.then(function() {
+					screenshot(resultDir + 'landing.login-7(student)');
+					expectCurrentUrlToMatch(serverAddress + landing.path);
+					done();
+				});
 		});
 	});
 	
-	describe('Reset password flow', function() {
+	describe('- reset password flow', function() {
 		it.skip('#Should reset teacher password', function() {
 			
 		});

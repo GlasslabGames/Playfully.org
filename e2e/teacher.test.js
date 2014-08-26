@@ -31,7 +31,7 @@ var logout = function() {
 	dashboard.logoutOption.locator.click();
 };
 
-describe("Teacher Test", function() {
+describe("Teacher routines", function() {
 	
 	var testRoutine = 'teacher';
 
@@ -39,10 +39,12 @@ describe("Teacher Test", function() {
 		browser.ignoreSynchronization = true;
 	});
 
-	describe('Registration flow', function() {
+	describe('- registration flow', function() {
 		it('#should register normally', function(done) {
 			
 			browser.get(serverAddress + landing.path);
+			
+//			browser.debugger();
 			
 			var form = landing.register.subElements;
 			var user = generateUser(testRoutine);
@@ -56,33 +58,52 @@ describe("Teacher Test", function() {
 			form.policyChbx.locator.click();
 			form.newsletterChbx.locator.click();
 			form.submit.locator.click();
-			form.closeWelcome.locator.click()
+			
+			screenshot(resultDir + testRoutine + '_register(glasslab)');
+			browser.sleep(900)
 				.then(function() {
-//					browser.sleep(400);			// FIXME
-					screenshot(resultDir + testRoutine + '_register-normal-1(CHECK)');
-//					screenshot(resultDir + testRoutine + '_register-normal-2');
-					expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
-					done();
+					screenshot(resultDir + testRoutine + '_register(glasslab)-2');
+					form.closeWelcome.locator.click()
+						.then(function() {
+							browser.sleep(100)
+							expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+							done();
+						});
 				});
-			
-		});
-        
-		it.skip('#should register with Edmodo credentials', function() {
-//			screenshot(resultDir + testRoutine + '_register-Edmodo');
-			
-		});
-		it.skip('#should register with iCivics', function() {
-//			screenshot(resultDir + testRoutine + '_register-iCivics');
+
 		});
 		
 	});
 	
-	describe('Should show my dashboard correctly', function() {
+	describe('New teacher flow', function() {
 		
-		screenshot(resultDir + 'dashboard.general');
-//    browser.sleep(50);
-		runTest(dashboard.activeNavLink, 'teacher');
-		runTest(landing.footer);
+		it('#should show the dashboard and tour properly', function(done) {
+			
+			browser.sleep(300);		// NOTE to allow modal to close
+			screenshot(resultDir + testRoutine + 'newlyRegisteredTeacher');
+			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+			done();
+		
+		});
+		
+		it('#should be able to add a new class', function() {
+			
+			// go to classes page
+			element(by.binding("'navbar.link.classes' | translate")).click();		// TODO - move to page object
+			screenshot(resultDir + testRoutine + '_classes-newClass-01');
+			expectCurrentUrlToMatch(serverAddress + classes.path);
+			
+			// add class
+			
+			
+			
+			// check class code string
+			
+		});
+		
+		it.skip('#should be able to see the reports page', function() {
+			
+		});
 		
 	});
 	
