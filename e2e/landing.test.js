@@ -11,11 +11,12 @@ var	chai	 		 = require('chai'),
 		expectObjTextToMatch 		= tools.expectObjTextToMatch,
 		
 		// Page Objects
-		pageObjs   = require('./page_objects/index.js'),
-		landing 	 = pageObjs.landing,
-		dashboard  = pageObjs.dashboard,
-		classes		 = pageObjs.classes,
-		reports		 = pageObjs.reports,
+		pageObjs  = require('./page_objects/index.js'),
+		landing 	= pageObjs.landing,
+		dashboard = pageObjs.dashboard,
+		classes		= pageObjs.classes,
+		reports   = pageObjs.reports,
+		mgoLogin  = pageObjs.mgoWebView.login,
 
 		// Config
 		config		 		= require('./lib/config.js'),
@@ -180,10 +181,28 @@ describe("Landing Page", function() {
 				.then(function() {
 					browser.sleep(150);
 					expectCurrentUrlToMatch(serverAddress + landing.path);
-			screenshot(resultDir + 'landing.logout(student)-02');
+					screenshot(resultDir + 'landing.logout(student)-02');
 					done();
 				});
 		});
+	
+	it("#should log in througuh the MGO web view successfully - student", function(done) {
+		
+			browser.get(serverAddress + mgoLogin.path);
+			
+			mgoLogin.emailField.locator.sendKeys(acct.user.student);
+			mgoLogin.passwordField.locator.sendKeys(acct.pass.student);
+			screenshot(resultDir + 'landing.loginMGO(student)-01');
+      
+      mgoLogin.submitBtn.locator.click()
+        .then(function() {
+            browser.sleep(150);
+            screenshot(resultDir + 'landing.loginMGO(student)-02');
+            done();
+        });
+
+		});
+		
 	});
 	
 	describe('- reset password flow', function() {
