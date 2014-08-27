@@ -141,7 +141,7 @@
           &nbsp;
           <carousel interval="myInterval">
             <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
-              <img ng-src="{{slide.url}}" style="margin:auto;">
+              <img ng-src="{{normalizeImgUrl(slide.url)}}" style="margin:auto;">
             </slide>
           </carousel>
         </div>

@@ -117,6 +117,20 @@ angular.module( 'playfully.games', [
             $window.location = path;
         }
     };
+    
+    /**
+     * The API is providing a relative path, causing the image to break if
+     * we're not at the top level. In the event that we switch to a CDN we
+     * want to be able to handle full URLs, so this function won't add the
+     * root slash if we have a URL or path we can trust.
+     **/
+    $scope.normalizeImgUrl = function (path) {
+      if (path.indexOf('/') === 0 || path.indexOf('http') === 0) {
+        return path;
+      } else {
+        return '/' + path;
+      }
+    };
 
     $scope.toggleDropdown = function($event, btn) {
       $event.preventDefault();
