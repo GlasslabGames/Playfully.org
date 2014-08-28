@@ -28,7 +28,7 @@
           <h2 class="headline-2--sans">Student Progress at a Glance</h2>
         </div>
         <div class="col-md-4 text-right">
-          <div class="btn-group" dropdown is-open="status.isopen">
+          Game: <div class="btn-group" dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default dropdown-toggle"
               ng-disabled="disabled">
               {{ status.selectedOption.shortName }} <span class="caret"></span>
@@ -53,14 +53,10 @@
           </div>
         </div>
         <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
-
-          <div ng-include src="'instructor/reports/sowo.html'"></div>
-
+            <div ng-include src="'instructor/reports/sowo.html'"></div>
         </div>
       </div>
     </div>
-
-
 
   </div>
 </div>
