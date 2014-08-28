@@ -1,4 +1,4 @@
-<div class="gl-bg--gray">
+<div class="gl-bg-dashboard">
   <!--div ng-show="!currentUser.isConfirmed" class="gl-navbar-alert">
     <div class="gl-navbar-alert-inner">
       Please check your email to complete your registration.
@@ -25,7 +25,7 @@
     <div ng-if="courses.length != 0">
       <div class="row">
         <div class="col-md-8">
-          <h2 class="headline-2--sans">Student Progress at a Glance</h2>
+          <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
         </div>
         <div class="col-md-4 text-right">
           Game: <div class="btn-group" dropdown is-open="status.isopen">
@@ -44,12 +44,23 @@
 
       <div class="row">
         <div class="col-md-3">
-          <div ng-repeat="course in courses | filter:{archived: false}"
-            ng-class="{'gl-course-list-item--selected': course == status.selectedCourse}">
-            <a href="#"
-              ng-click="status.selectedCourse = course"
-              class="gl-course-list-item"
-              ng-bind="course.title"></a>
+          <div class="gl-reports-container gl-dashboard-sidebar gl-margin--Bxl">
+            <h3 class="headline-5 gl-margin--Tn">Classes</h3>
+            <div>
+              <div class="gl-reports-nav-courses"
+                ng-repeat="course in courses | filter:{archived: false}">
+                <div>
+                  <label class="gl-reports-nav-course" ng-click="selectCourse($event, course.id)">
+                    <div class="gl-reports-nav-selector"
+                      ng-class="{'gl-reports-nav-selector--selected': course.id == status.selectedCourseId}">
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <input class="gl-reports-nav-course-checkbox" type="checkbox" ng-model="course.isSelected">
+                    {{ course.title }}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">

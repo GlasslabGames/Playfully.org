@@ -55,13 +55,14 @@ angular.module( 'instructor.dashboard', [
     $scope.games = games;
     $scope.status = { 
       selectedOption: findFirstValidGame(games),
-      selectedCourse: findFirstValidCourse(courses)
+      selectedCourseId: findFirstValidCourse(courses)
     };
 
     function findFirstValidGame(games) {
       // find first "valid" game (not archived)
       for(var i = 0; i < games.length; i++) {
         if(games[i].enabled) {
+          $log.debug(games[i]);
           return games[i];
         }
       }
@@ -74,7 +75,7 @@ angular.module( 'instructor.dashboard', [
       // find first "valid" game (not archived)
       for(var i = 0; i < courses.length; i++) {
         if(!courses[i].archived) {
-          return courses[i];
+          return courses[i].id;
         }
       }
 
@@ -85,9 +86,9 @@ angular.module( 'instructor.dashboard', [
 
 
     $scope.goToReports = function() {
-      // $scope.status.selectedCourse.id
+      // $scope.status.selectedCourseId
       // $scope.status.selectedOption.gameId
-      //console.log("selectedCourse:", $scope.status.selectedCourse.id);
+      //console.log("selectedCourseId:", $scope.status.selectedCourseId);
       //console.log("gameId:", $scope.status.selectedOption.gameId);
 
       // use current course and current game
@@ -97,7 +98,7 @@ angular.module( 'instructor.dashboard', [
 
     $scope.getTimes = function(n) { return new Array(n); };
 
-    $scope.$watch('status.selectedCourse', function(newValue, oldValue) {
+    $scope.$watch('status.selectedCourseId', function(courseId, oldValue) {
       // TODO: need to check if gameId in couse
       GamesService.getAllReports($scope.status.selectedOption.gameId)
         .then(function(data) {
@@ -116,7 +117,7 @@ angular.module( 'instructor.dashboard', [
             }
 
             if($scope.reports.selected) {
-              ReportsService.get($scope.reports.selected.id, $scope.status.selectedOption.gameId, newValue.id)
+              ReportsService.get($scope.reports.selected.id, $scope.status.selectedOption.gameId, courseId)
                 .then(function(data) {
                   //$log.info(data);
                   _populateSowo(data);
@@ -128,12 +129,19 @@ angular.module( 'instructor.dashboard', [
         });
     });
 
+    /* Set the passed-in course to be the selected one */
+    $scope.selectCourse = function($event, courseId) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.status.selectedCourseId = courseId;
+    };
+
     var _resetSowo = function() {
       $scope.sowo = {
         shoutOuts: null,
         watchOuts: null,
         // set max rows for SOWO
-        max:       7,
+        max: 7,
         // to display show more button
         hasOverflow: false
       };
