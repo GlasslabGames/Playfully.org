@@ -307,7 +307,7 @@ angular.module( 'instructor.courses', [
 
 .controller( 'CoursesCtrl',
   function ( $scope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
-    $log.info('CoursesCtrl');
+
     $scope.courses = courses;
     $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
     $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
@@ -317,7 +317,6 @@ angular.module( 'instructor.courses', [
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
-    $log.info($scope.courses);
 
 
     $scope.unarchiveCourse = function (course) {
@@ -361,7 +360,6 @@ angular.module( 'instructor.courses', [
   };
 
   $scope.toggleGameLock = function ($event, game) {
-    $log.info(game);
     $event.preventDefault();
     $event.stopPropagation();
     game.settings.missionProgressLock = !game.settings.missionProgressLock;
@@ -449,7 +447,6 @@ angular.module( 'instructor.courses', [
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
       .success(function(data, status, headers, config) {
-        $log.info(data);
         finishSuccessfulAction();
       })
       .error(function(data, status, headers, config) {
@@ -559,7 +556,6 @@ angular.module( 'instructor.courses', [
     $scope.editInfo = function(student) {
       UserService.update(student)
         .success(function(data, status, headers, config) {
-          $log.info(data);
           $rootScope.modalInstance.close();
           return $timeout(function () {
             $state.go('courses', {}, { reload: true });

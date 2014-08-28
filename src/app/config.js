@@ -27,5 +27,9 @@ angular.module('playfully.config', [])
   instructor: 'instructor',
   manager: 'manager',
   admin: 'admin'
+})
+
+.config(function($logProvider){
+  $logProvider.debugEnabled(false);
 });
 

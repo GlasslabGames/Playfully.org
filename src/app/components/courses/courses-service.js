@@ -54,7 +54,7 @@ angular.module('courses', [])
     lock: function (course) {
       course.locked = true;
       course.lockedRegistration = true;
-      $log.info(course);
+      $log.debug(course);
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
@@ -88,7 +88,7 @@ angular.module('courses', [])
       return $http
         .get(API_BASE + '/lms/courses')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -144,7 +144,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/code/valid')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -156,7 +156,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/code/newcode')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(reponse);
@@ -172,7 +172,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/unenroll')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);

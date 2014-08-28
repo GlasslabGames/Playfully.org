@@ -74,7 +74,6 @@ angular.module( 'playfully.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
-    $log.info(gameDetails);
 
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
@@ -138,5 +137,5 @@ angular.module( 'playfully.games', [
     };
 })
 .controller( 'GameMissionsCtrl', function ($scope, $rootScope, $log) {
-  $log.info("What are we doing here????");
+
 });
