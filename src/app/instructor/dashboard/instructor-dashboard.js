@@ -50,13 +50,14 @@ angular.module( 'instructor.dashboard', [
     $scope.games = games;
     $scope.status = { 
       selectedOption: findFirstValidGame(games),
-      selectedCourse: findFirstValidCourse(courses)
+      selectedCourseId: findFirstValidCourse(courses)
     };
 
     function findFirstValidGame(games) {
       // find first "valid" game (not archived)
       for(var i = 0; i < games.length; i++) {
         if(games[i].enabled) {
+          $log.debug(games[i]);
           return games[i];
         }
       }
@@ -69,7 +70,7 @@ angular.module( 'instructor.dashboard', [
       // find first "valid" game (not archived)
       for(var i = 0; i < courses.length; i++) {
         if(!courses[i].archived) {
-          return courses[i];
+          return courses[i].id;
         }
       }
 
@@ -78,18 +79,21 @@ angular.module( 'instructor.dashboard', [
 
     $scope.getTimes = function(n) { return new Array(n); };
 
-    $scope.$watch('status.selectedCourse', function(newValue, oldValue) {
-      ReportsService.get('sowo', $scope.status.selectedOption.gameId, newValue.id)
+    $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
+      ReportsService.get('sowo', $scope.status.selectedOption.gameId, newValue)
         .then(function(data) {
-          $log.info(data);
           _populateSowo(data);
         }, function(data) {
           $log.error(data);
         });
     });
 
-
-
+    /* Set the passed-in course to be the selected one */
+    $scope.selectCourse = function($event, courseId) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.status.selectedCourseId = courseId;
+    };
 
     var _populateSowo = function(data) {
       var sowo = data;

@@ -7,7 +7,6 @@ angular.module( 'playfully.games', [
   $stateProvider.state( 'games', {
     url: '/games',
     onEnter: function($state, $log) {
-      $log.info("GOT HERE");
       $state.transitionTo('gameDetail', { gameId: 'AA-1' });
     }
   })
@@ -137,4 +136,7 @@ angular.module( 'playfully.games', [
       $event.stopPropagation();
       btn.isOpen = !btn.isOpen;
     };
+})
+.controller( 'GameMissionsCtrl', function ($scope, $rootScope, $log) {
+  $log.info("What are we doing here????");
 });
