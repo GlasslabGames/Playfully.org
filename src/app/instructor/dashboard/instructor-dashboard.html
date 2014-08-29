@@ -64,6 +64,14 @@
           </div>
         </div>
         <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="headline-2 text-center gl-margin--Tl" ng-bind="reports.selected.header.text"></h1>
+                        <p class="text-center" ng-bind="reports.selected.description"></p>
+                    </div>
+                </div>
+            </div>
             <div ng-include src="'instructor/reports/sowo.html'"></div>
         </div>
       </div>

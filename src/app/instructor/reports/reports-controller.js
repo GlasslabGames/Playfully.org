@@ -148,6 +148,21 @@ angular.module( 'instructor.reports', [
       $scope[collection].isOpen = !$scope[collection].isOpen;
     };
 
+    $scope.$watch('courses.selectedId', function(courseId, oldValue) {
+      if($scope.reports.selected &&
+         $scope.reports.selected.id &&
+         $scope.games.selected ) {
+        ReportsService.get($scope.reports.selected.id, $scope.games.selected, courseId)
+          .then(function(data) {
+            if ($scope.reports.selected.id == 'sowo') {
+              _resetSowo();
+              _populateSowo(data);
+            } else if ($scope.reports.selected.id == 'achievements') {
+              _populateStudentAchievements(data);
+            }
+          });
+      }
+    });
 
     $scope.$watchCollection('games.selected', function(newValue, oldValue) {
       GamesService.getAllReports(newValue)
@@ -170,16 +185,17 @@ angular.module( 'instructor.reports', [
     });
 
 
-    $scope.$watchCollection('reports.selected', function(newValue, oldValue) {
-      if ($scope.activeCourses.length === 0 || newValue == null || oldValue == null) {
+    $scope.$watchCollection('reports.selected', function(report, oldValue) {
+      if ($scope.activeCourses.length === 0 || report == null || oldValue == null) {
         return;
       }
 
-      ReportsService.get(newValue.id, $scope.games.selected, $scope.courses.selectedId)
+      ReportsService.get(report.id, $scope.games.selected, $scope.courses.selectedId)
         .then(function(data) {
-          if (newValue.id == 'sowo') {
+          if (report.id == 'sowo') {
+            _resetSowo();
             _populateSowo(data);
-          } else if (newValue.id == 'achievements') {
+          } else if (report.id == 'achievements') {
             _populateStudentAchievements(data);
           }
         });
@@ -236,110 +252,99 @@ angular.module( 'instructor.reports', [
     });
   };
 
-  var _populateSowo = function(data) {
-    // $scope.sowo = data;
-    var sowo = data;
-    /* Fake data for development
-     var sowo = [{
-      "results": {
-          "watchout": [{
-            "id": "wo1",
-            "total": 6,
-            "overPercent": 1,
-            "timestamp": 1408040686051,
-            "name": "Contradictory Mechanic",
-            "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
-        }]
-      },
-      "gameId": "AA-1",
-      "userId": "25",
-      "assessmentId": "sowo"
-    },
-    {
-      "results": {
-        "watchout": [{
-          "id": "wo1",
-          "total": 6,
-          "overPercent": 1,
-          "timestamp": 1408040686051,
-          "name": "Contradictory Mechanic",
-          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
-        }],
-        "shoutout": [{
-          "id":   "so1",
-          "total": 3,
-          "overPercent": 1,
-          "timestamp": 1408040686053,
-          "name": "Nailed It!",
-          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
-        }]
-      },
-      "gameId": "AA-1",
-      "userId": "26",
-      "assessmentId": "sowo"
-    },
-    {
-      "results": {
-        "shoutout": [{
-          "id":   "so1",
-          "total": 3,
-          "overPercent": 1,
-          "timestamp": 1408040686053,
-          "name": "Nailed It!",
-          "description": "Outstanding performance at identifying weaknesses of claim-data pairs."
-          }]
-        },
-        "gameId": "AA-1",
-        "userId": "27",
-        "assessmentId": "sowo"
-    },
-    {
-      "results": {
-        "watchout": [{
-          "id": "wo1",
-          "total": 6,
-          "overPercent": 1,
-          "timestamp": 1408040686051,
-          "name": "Contradictory Mechanic",
-          "description": "Student is struggling with claim-data pairs. They are consistently using evidence that contradicts their claim. More core construction practice is needed."
-        },
-        {
-          "id": "wo3",
-          "total": 3,
-          "overPercent": 1,
-          "timestamp": 1408040686051,
-          "name": "Straggler",
-          "description": "Struggling with identifying strengths and weaknesses of claim-data pairs."
-        }]
-      },
-      "gameId": "AA-1",
-      "userId": "28",
-      "assessmentId": "sowo"
-    }];*/
-
-    $scope.sowo = { 
+  var _resetSowo = function() {
+    $scope.sowo = {
       shoutOuts: [],
-      watchOuts: []
+      watchOuts: [],
+      // to display show more button
+      hasOverflow: false
     };
+  };
+
+  var _populateSowo = function(data) {
+    var sowo = data;
+    var soTotal = 0;
+    var woTotal = 0;
+    var total = 0;
 
     if (sowo.length) {
+      // calc total columns
       angular.forEach(sowo, function(assessment) {
-        if (assessment.results.hasOwnProperty('shoutout')) {
-          $scope.sowo.shoutOuts.push({
-            student: $scope.students[assessment.userId],
-            results: assessment.results['shoutout'],
-            overflowText: _getOverflowText(assessment.results['shoutout'])
-          });
+        if (assessment.results.hasOwnProperty('shoutout') &&
+          assessment.results.shoutout.length) {
+          soTotal++;
         }
-        if (assessment.results.hasOwnProperty('watchout')) {
-          $scope.sowo.watchOuts.push({
-            student: $scope.students[assessment.userId],
-            results: assessment.results['watchout'],
-            overflowText: _getOverflowText(assessment.results['watchout'])
-          });
+        if (assessment.results.hasOwnProperty('watchout') &&
+          assessment.results.watchout.length) {
+          woTotal++;
+        }
+      });
+      total = Math.max(soTotal, woTotal);
+
+      // pre fill data
+      $scope.sowo.shoutOuts = [];
+      $scope.sowo.watchOuts = [];
+      for(var i = 0; i < total; i++) {
+        $scope.sowo.shoutOuts[i] = {
+          student: {},
+          results: [],
+          overflowText: "",
+          order: [0, ""]
+        };
+        $scope.sowo.watchOuts[i] = {
+          student: {},
+          results: [],
+          overflowText: "",
+          order: [0, ""]
+        };
+      }
+
+      // sowo count sorted by server
+      // sort alpha in view
+      soTotal = 0;
+      woTotal = 0;
+      angular.forEach(sowo, function(assessment) {
+        var student = $scope.students[assessment.userId];
+        student = _compileNameOfStudent(student);
+
+        if (assessment.results.hasOwnProperty('shoutout') &&
+          assessment.results.shoutout.length) {
+            $scope.sowo.shoutOuts[soTotal] = {
+              student: student,
+              results: assessment.results['shoutout'],
+              overflowText: _getOverflowText(assessment.results['shoutout']),
+              order: [
+                assessment.results['shoutout'].length,
+                student.name
+              ]
+            };
+            soTotal++;
+        }
+        if (assessment.results.hasOwnProperty('watchout') &&
+          assessment.results.watchout.length) {
+            $scope.sowo.watchOuts[woTotal] = {
+              student: student,
+              results: assessment.results['watchout'],
+              overflowText: _getOverflowText(assessment.results['watchout']),
+              order: [
+                assessment.results['watchout'].length,
+                student.name
+              ]
+            };
+            woTotal++;
         }
       });
     }
+  };
+
+  var _compileNameOfStudent = function(student) {
+    var name = student.firstName;
+    if(student.lastName) {
+      name += ' ' + student.lastName + '.';
+    }
+
+    student.name = name;
+    return student;
   };
 
   var _getOverflowText = function(results) {
