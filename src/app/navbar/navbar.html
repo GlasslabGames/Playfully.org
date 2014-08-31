@@ -32,7 +32,8 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
+        <!-- <li ui-sref-active="active"> -->
+        <li ng-class="{'active': state.includes('games')}">
           <a class="gl-nav-link" href ui-sref="games"
             data-ng-bind="'navbar.link.games' | translate">
           </a>
@@ -87,7 +88,7 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
+        <li  ng-class="{'active': state.includes('courses')}">
           <a class="gl-nav-link" href ui-sref="courses.active"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>
