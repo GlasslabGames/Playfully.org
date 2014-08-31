@@ -28,7 +28,7 @@
           <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
         </div>
         <div class="col-md-4 text-right">
-          <div class="btn-group" dropdown is-open="status.isopen">
+          Game: <div class="btn-group" dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default dropdown-toggle"
               ng-disabled="disabled">
               {{ status.selectedOption.shortName }} <span class="caret"></span>
@@ -64,14 +64,18 @@
           </div>
         </div>
         <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
-
-          <div ng-include src="'instructor/reports/sowo.html'"></div>
-
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="headline-2 text-center gl-margin--Tl" ng-bind="reports.selected.header.text"></h1>
+                        <p class="text-center" ng-bind="reports.selected.description"></p>
+                    </div>
+                </div>
+            </div>
+            <div ng-include src="'instructor/reports/sowo.html'"></div>
         </div>
       </div>
     </div>
-
-
 
   </div>
 </div>
