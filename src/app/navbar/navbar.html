@@ -34,7 +34,7 @@
 
         <!-- <li ui-sref-active="active"> -->
         <li ng-class="{'active': state.includes('games')}">
-          <a class="gl-nav-link" href ui-sref="games"
+          <a class="gl-nav-link" href ui-sref="games.default"
             data-ng-bind="'navbar.link.games' | translate">
           </a>
         </li>
@@ -64,8 +64,8 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="games"
+        <li ng-class="{'active': state.includes('games')}">
+          <a class="gl-nav-link" href ui-sref="games.default"
             data-ng-bind="'navbar.link.mygames' | translate">
           </a>
         </li>
@@ -82,13 +82,13 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="games"
+        <li ng-class="{'active': state.includes('games')}">
+          <a class="gl-nav-link" href ui-sref="games.default"
             data-ng-bind="'navbar.link.games' | translate">
           </a>
         </li>
 
-        <li  ng-class="{'active': state.includes('courses')}">
+        <li ng-class="{'active': state.includes('courses')}">
           <a class="gl-nav-link" href ui-sref="courses.active"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>

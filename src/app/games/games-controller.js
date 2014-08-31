@@ -5,23 +5,26 @@ angular.module( 'playfully.games', [
 
 .config(function ( $stateProvider) {
   $stateProvider.state( 'games', {
+    abstract: true,
     url: '/games',
-    onEnter: function($state, $log) {
-      $state.transitionTo('gameDetail', { gameId: 'AA-1' });
+    views: {
+      'main': {
+        template: '<div ui-view></div>'
+      }
     }
   })
-  .state('gameDetail', {
-    url: '/games/:gameId',
-    views: {
-      main: {
-        templateUrl: 'games/game-detail.html',
-        controller: 'GameDetailCtrl'
-      }
-    },
+  .state('games.default', {
+    url: '',
+    onEnter: function($state, $log) {
+      $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
+    }
+  })
+  .state('games.detail', {
+    abstract: true,
+    url: '/:gameId',
+    templateUrl: 'games/game-detail.html',
+    controller: 'GameDetailCtrl',
     resolve: {
-      // games: function(GamesService) {
-      //   return GamesService.all();
-      // },
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
       }
@@ -31,12 +34,25 @@ angular.module( 'playfully.games', [
     }
 
   })
-  .state('gameDetail.product', { url: '' })
-  .state('gameDetail.standards', { url: '/standards' })
-  .state('gameDetail.research', { url: '/research' })
-  .state('gameDetail.reviews', { url: '/reviews' })
-  .state('gameDetail.lessonPlans', {
+  .state('games.detail.product', {
+    url: '',
+    templateUrl: 'games/game-detail-product.html'
+  })
+  .state('games.detail.standards', {
+    url: '/standards',
+    templateUrl: 'games/game-detail-standards.html'
+  })
+  .state('games.detail.research', {
+    url: '/research',
+    templateUrl: 'games/game-detail-research.html'
+  })
+  .state('games.detail.reviews', {
+    url: '/reviews',
+    templateUrl: 'games/game-detail-reviews.html'
+  })
+  .state('games.detail.lessonPlans', {
     url: '/lesson-plans',
+    templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor'] }
   })
   .state('sdkGameAppLink', {
@@ -83,19 +99,20 @@ angular.module( 'playfully.games', [
       { id: 'reviews', title: 'Reviews' }
     ];
 
-    $scope.$on('$stateChangeSuccess',
-      function(event, toState, toParams, fromState, fromParams) {
-        var toPageId = toState.name.split('.')[1] || 'product';
-        angular.forEach($scope.navItems, function(navItem) {
-          if (navItem.id == toPageId) {
-            navItem.isActive = true;
-            $scope.currentPage = navItem;
-            $state.current.data.pageTitle = navItem.title;
-          } else {
-            navItem.isActive = false;
-          }
-        });
-    });
+    // $scope.$on('$stateChangeSuccess',
+    //   function(event, toState, toParams, fromState, fromParams) {
+        // $log.info(toState);
+        // var toPageId = toState.name.split('.')[1] || 'product';
+        // angular.forEach($scope.navItems, function(navItem) {
+        //   if (navItem.id == toPageId) {
+        //     navItem.isActive = true;
+        //     $scope.currentPage = navItem;
+        //     $state.current.data.pageTitle = navItem.title;
+        //   } else {
+        //     navItem.isActive = false;
+        //   }
+    //     });
+    // });
 
     $scope.isAuthorized = function() {
       return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
@@ -104,7 +121,7 @@ angular.module( 'playfully.games', [
     $scope.goToGameSubpage = function(dest) {
       if (dest.authRequired && !AuthService.isAuthorized('instructor')) {
       } else {
-        $state.go('gameDetail.' + dest.id);
+        $state.go('games.detail.' + dest.id);
       }
     };
 

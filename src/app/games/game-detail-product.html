@@ -1,0 +1,26 @@
+<h3 class="headline-4">About the Game</h3>
+<p ng-bind-html="gameDetails.pages.product.about"></p>
+
+<p>
+  <a href="https://vimeo.com/92362764" target="_blank">
+    <button class="btn gl-btn--blue gl-btn--outlined">
+      <i class="fa fa-video-camera"></i>&nbsp;
+      See the game in action
+    </button>
+  </a>
+</p>
+
+<h3 class="headline-4">How It Fits the Curriculum</h3>
+<ul>
+  <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
+    ng-bind="curriculumItem"></li>
+</ul>
+
+<div class="gl-games-slideshow-container">
+  &nbsp;
+  <carousel interval="myInterval">
+    <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
+      <img ng-src="{{normalizeImgUrl(slide.url)}}" style="margin:auto;">
+    </slide>
+  </carousel>
+</div>
