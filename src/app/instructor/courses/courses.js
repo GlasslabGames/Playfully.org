@@ -508,7 +508,7 @@ angular.module( 'instructor.courses', [
       .success(function(data, status, headers, config) {
         $rootScope.modalInstance.close();
         return $timeout(function () {
-          $state.go('courses', {}, { reload: true });
+          $state.go('courses.active', {}, { reload: true });
         }, 100);
       })
       .error(function(data, status, headers, config) {
@@ -531,7 +531,7 @@ angular.module( 'instructor.courses', [
         .success(function(data, status, headers, config) {
           $rootScope.modalInstance.close();
           return $timeout(function () {
-            $state.go('courses', {}, { reload: true });
+            $state.go('courses.active', {}, { reload: true });
           }, 100);
         })
         .error(function(data, status, headers, config) {
