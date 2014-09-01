@@ -54,7 +54,7 @@
     </tr>
   </tfoot>
   <tbody ng-show="courses.options[courses.selectedId].users">
-    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users" ng-hide="!student.isSelected">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true}">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
