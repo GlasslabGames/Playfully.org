@@ -73,7 +73,7 @@
     <div class="gl-dashboard-sowo-footer">
       <button type="button"
               class="btn gl-btn--blue"
-              ng-click="goToReports()"
+              ui-sref="reports.details({reportId:'sowo', gameId:status.selectedOption.gameId, courseId:status.selectedCourseId})"
               ng-if="sowo.hasOverflow">See More</button>
     </div>
   </div>
