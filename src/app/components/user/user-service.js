@@ -48,11 +48,16 @@ angular.module('user', [])
       return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
-    update: function (user) {
+    update: function (user, shouldUpdateCurrentUser) {
+      if (typeof(shouldUpdateCurrentUser) === 'undefined') {
+        shouldUpdateCurrentUser = true;
+      }
       user.userId = user.id;
       result = $http.post(API_BASE + '/auth/user/' + user.id, user);
       result.success(function(data) {
-        _currentUser = data;
+        if (shouldUpdateCurrentUser) {
+          _currentUser = data;
+        }
       });
       return result;
     },

@@ -554,11 +554,11 @@ angular.module( 'instructor.courses', [
     $scope.student = student;
 
     $scope.editInfo = function(student) {
-      UserService.update(student)
+      UserService.update(student, false)
         .success(function(data, status, headers, config) {
           $rootScope.modalInstance.close();
           return $timeout(function () {
-            $state.go('courses', {}, { reload: true });
+            $state.go('courses.active', {}, { reload: true });
           }, 100);
         })
         .error(function(data, status, headers, config) {
