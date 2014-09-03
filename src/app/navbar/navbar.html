@@ -94,8 +94,8 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="reports"
+        <li ng-class="{'active': state.includes('reports')}">
+          <a class="gl-nav-link" href ui-sref="reports.default"
             data-ng-bind="'navbar.link.reports' | translate">
           </a>
         </li>

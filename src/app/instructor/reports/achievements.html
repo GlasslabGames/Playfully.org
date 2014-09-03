@@ -5,7 +5,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      btn-radio="achv.id"
+      ui-sref="reports.details({reportId:reports.selected.id,gameId:games.selected,courseId:courses.selectedId,skillsId:achv.id})"
       ng-bind="achv.id | translate"></label>
   </div>
 </div>
