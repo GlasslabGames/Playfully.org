@@ -13,7 +13,7 @@ var	chai	 			 = require('chai'),
 		
 		// Page Objects
 		pageObjs   = require('./page_objects/index.js'),
-		landing 	 = pageObjs.landing,
+		landing 	 = new pageObjs.landing(),
 		dashboard  = pageObjs.dashboard,
 		classes		 = pageObjs.classes,
 		reports    = pageObjs.reports,
@@ -21,49 +21,50 @@ var	chai	 			 = require('chai'),
 
 		// Config
 		config		 = require('./lib/config.js'),
-		resultDir  = config.resultDir,
+		resultDir  = config.resultDir,	// TODO add tstamp subfolder here
 		serverAddress = config.serverAddress;
 
 
-// logout fn:
-var logout = function() {
-	dashboard.userIcon.locator.click();
-	dashboard.logoutOption.locator.click();
-};
+//// logout fn:
+//var logout = function() {
+//	dashboard.userIcon.locator.click();
+//	dashboard.logoutOption.locator.click();
+//};
 
-describe.skip("Teacher routines", function() {		// FIXME - skipped for testing brevity
+describe("Teacher routines", function() {
 	
 	var testRoutine = 'teacher';
-
-	beforeEach(function() {
-		browser.ignoreSynchronization = true;
-	});
+	
+//	beforeEach(function() {
+////		browser.ignoreSynchronization = true;
+//	});
 
 	describe('- registration flow', function() {
 		it('#should register normally', function(done) {
 			
 			browser.get(serverAddress + landing.path);
+			browser.sleep(600);
 			
 			var form = landing.register.subElements;
 			var user = generateUser(testRoutine);
 			
 			landing.registerButton.locator.click();
-      form.registerAsBtn.locator[testRoutine].click(); // NOTE <- set to teacher here
+      form.registerAsBtn.locator[testRoutine].click();
 			form.firstName.locator.sendKeys(user.name);
 			form.email.locator.sendKeys(user.email);
 			form.password.locator.sendKeys(user.pass);
 			form.passConfirm.locator.sendKeys(user.pass);
 			form.policyChbx.locator.click();
 			form.newsletterChbx.locator.click();
-			form.submit.locator.click();
 			
 			screenshot(resultDir + testRoutine + '_register(glasslab)');
-			browser.sleep(900)
+			form.submit.locator.click()
 				.then(function() {
+					browser.sleep(1750);		// had to increase to account for invariably delayed (4s+) response times
 					screenshot(resultDir + testRoutine + '_register(glasslab)-2');
 					form.closeWelcome.locator.click()
 						.then(function() {
-							browser.sleep(100);
+							browser.sleep(300);
 							expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 							done();
 						});
@@ -73,12 +74,12 @@ describe.skip("Teacher routines", function() {		// FIXME - skipped for testing b
 		
 	});
 	
-	describe('- new teacher user flow', function() {
+	describe('- new teacher user flow', function(done) {
 		
 		it('#should show the dashboard and tour properly', function(done) {
 			
-			browser.sleep(300);		// NOTE to allow modal to close
-			screenshot(resultDir + testRoutine + 'newlyRegisteredTeacher');
+			browser.sleep(500);
+			screenshot(resultDir + testRoutine + '_newlyRegisteredTeacher');
 			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
 			done();
 		
@@ -112,38 +113,6 @@ describe.skip("Teacher routines", function() {		// FIXME - skipped for testing b
 			
 		});
 		
-		it.skip('#should be able to view reports page', function() {
-			
-			// NOTE - probably better to look at on landing.test.js, since those classes are populated with data
-			
-		});
-		
 	});
-	
-//	describe('Should show my class page correctly', function() {
-//		
-//		browser.get(serverAddress + classes.path);
-//		screenshot(resultDir + 'dashboard.classes-0(teacher)');
-//		screenshot(resultDir + 'dashboard.classes-1(teacher)');
-////		runTest(classes.classBar);	// FIXME
-//		
-//		browser.sleep(1000);
-//		
-//		classes.classBar.locator.getText()
-//			.then(function(text) {
-//				console.log(text);
-//			});
-//
-//		// images look good
-//		// classCode matches
-//	});
-	
-//	describe('Should show my reports correctly', function() {
-//		browser.get(serverAddress + reports.path);
-//		
-//		screenshot(resultDir + 'dashboard.reports(teacher)');
-//	});
-//	
-
 		
 });

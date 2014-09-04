@@ -28,6 +28,7 @@ var Landing = function() {
     this.loginButton = {
 			ttype: 'btn',
 			locator: element(by.css(".gl-bu-login")),
+//			locator: element(by.binding("'home.register.button' | translate")),
 			text: 'Sign In'
 		}
     
@@ -144,4 +145,4 @@ var Landing = function() {
 		
 }
 
-module.exports = new Landing();
+module.exports = Landing;

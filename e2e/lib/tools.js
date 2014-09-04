@@ -46,10 +46,10 @@ function zfill(num, size) {
     return s;
 }
 
-function tstamp() {
-//	return (new Date()).toLocaleString();
+function tstamp(pretty) {
 	var date = (new Date());
-	return date.getYear() + zfill(date.getMonth(),2) + zfill(date.getDate(),2) + '-' + zfill(date.getHours(),2) + '.' + date.getMinutes() + '.' + date.getSeconds()
+	return zfill(date.getDate(),2) + '.' + zfill(date.getMonth()+1,2) + '.' + date.getFullYear() + '-' + zfill(date.getHours(),2) + ':' + date.getMinutes() + ':' + date.getSeconds()
+//	return date.getYear() + zfill(date.getMonth(),2) + zfill(date.getDate()+1,2) + '-' + zfill(date.getHours(),2) + '.' + date.getMinutes() + '.' + date.getSeconds()
 }
 
 function expectCurrentUrlToMatch(url) {

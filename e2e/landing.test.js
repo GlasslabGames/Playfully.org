@@ -12,7 +12,7 @@ var	chai	 		 = require('chai'),
 		
 		// Page Objects
 		pageObjs  = require('./page_objects/index.js'),
-		landing 	= pageObjs.landing,
+		landing 	= new pageObjs.landing(),
 		dashboard = pageObjs.dashboard,
 		classes		= pageObjs.classes,
 		reports   = pageObjs.reports,
@@ -24,7 +24,7 @@ var	chai	 		 = require('chai'),
 		serverAddress = config.serverAddress,
 		minSize				= config.smallestDimensions;
 
-describe("Landing Page", function() {
+describe.skip("Landing Page", function() {
 	
 	describe("- not logged in", function() {
 	
@@ -53,7 +53,7 @@ describe("Landing Page", function() {
 		browser.get(serverAddress + landing.path);
 		
 		beforeEach(function() {
-//			browser.ignoreSynchronization = true;
+			browser.ignoreSynchronization = true;
 		});
 		
 		it("#Should log in successfully - teacher", function(done) {
@@ -111,6 +111,12 @@ describe("Landing Page", function() {
 			reports.gameDropdown.locator.click();
 			screenshot(resultDir + 'landing.reports(teacher)-02');
 			
+      // TODO - scroll below fold, all the juicy stuff is here
+// 			browser.driver.manage().window().scrollTo(500);
+			
+//			screenshot(resultDir + 'landing.reports(teacher)-02cont');
+        
+        
 			// TODO - check class dropdown toggle
 			// TODO - filter by student
 			// TODO - switch between classes
@@ -180,6 +186,7 @@ describe("Landing Page", function() {
 			dashboard.logoutOption.locator.click()
 				.then(function() {
 					browser.sleep(150);
+					browser.pause();
 					expectCurrentUrlToMatch(serverAddress + landing.path);
 					screenshot(resultDir + 'landing.logout(student)-02');
 					done();
@@ -214,5 +221,5 @@ describe("Landing Page", function() {
 			
 		});
 	});
-		
+	
 });

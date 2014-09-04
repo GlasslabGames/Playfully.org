@@ -12,7 +12,8 @@ module.exports = {
 	// Loation of screenshots and logs
 	resultDir: './e2e/results/',
 	
-	browsers: ['chrome', 'firefox', 'ie', 'android', 'safari'],
+	browsers: ['chrome'],
+//	browsers: ['chrome', 'firefox', 'ie', 'android', 'safari'],
 	
 	// Smallest dimensions for supported screen size
 	smallestDimensions: {x:640, y:960},
