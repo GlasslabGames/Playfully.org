@@ -62,7 +62,6 @@ angular.module('playfully.password-reset', [])
       $scope.formInfo.errors = [];
       AuthService.sendPasswordResetLink(formInfo.email)
         .success(function(data, status, headers, config) {
-          // $log.info(data);
           $scope.formInfo.isResetEmailSent = true;
         })
         .error(function(data, status, headers, config) {
@@ -87,12 +86,10 @@ angular.module('playfully.password-reset', [])
   $scope.confirmation = confirmation;
   $scope.isPasswordUpdated = false;
   $scope.isConfirmed = (confirmation.status < 400) ? true : false;
-  $log.info(confirmation);
 
   $scope.resetPassword = function(formInfo) {
     AuthService.updatePassword(formInfo.password, $stateParams.hashCode)
       .success(function(data, status, headers, config) {
-        $log.info(data);
         $scope.isPasswordUpdated = true;
       })
       .error(function(data, status, headers, config) {

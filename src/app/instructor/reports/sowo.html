@@ -23,13 +23,14 @@
         No shoutouts for this class
       </div>
 
-      <div ng-repeat="assessment in sowo.shoutOuts"
+      <div ng-repeat="assessment in sowo.shoutOuts | orderBy:['-order[0]','order[1]']"
         class="gl-dashboard-student"
         ng-if="sowo.shoutOuts.length"
         ng-class-odd="'gl-dashboard-student--odd'"
         ng-class-even="'gl-dashboard-student--even'">
         <span class="gl-dashboard-student-name"
-          ng-bind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
+              ng-if="assessment.student.name"
+              ng-bind="assessment.student.name">
         </span>
         <span class="icon-shoutout--small"
           popover="{{ t.description }}"
@@ -37,12 +38,6 @@
           popover-trigger="mouseenter"
           popover-placement="bottom"
           ng-repeat="t in assessment.results | limitTo:1 track by $index"></span>
-        <span class="icon-sowo--extra icon-shoutout--extra"
-          popover="{{ assessment.overflowText }}"
-          popover-trigger="mouseenter"
-          popover-placement="bottom"
-          ng-if="assessment.results.length > 3">
-          +{{ assessment.results.length - 3 }} more
       </div>
       <div class="gl-dashboard-student-footer"></div>
     </div>
@@ -57,13 +52,14 @@
         No watchouts for this class
       </div>
 
-      <div ng-repeat="assessment in sowo.watchOuts"
+      <div ng-repeat="assessment in sowo.watchOuts | orderBy:['-order[0]','order[1]']"
         class="gl-dashboard-student"
         ng-if="sowo.watchOuts.length"
         ng-class-odd="'gl-dashboard-student--odd'"
         ng-class-even="'gl-dashboard-student--even'">
         <span class="gl-dashboard-student-name"
-          ng-bind="assessment.student.firstName + ' ' + assessment.student.lastName + '.'">
+              ng-if="assessment.student.name"
+              ng-bind="assessment.student.name">
         </span>
         <span class="icon-watchout--small icon-watchout--yellow"
           popover="{{ t.description }}"
@@ -71,15 +67,14 @@
           popover-trigger="mouseenter"
           popover-placement="bottom"
           ng-repeat="t in assessment.results | limitTo:3 track by $index"></span>
-        <span class="icon-sowo--extra icon-watchout--extra"
-          popover="{{ assessment.overflowText }}"
-          popover-trigger="mouseenter"
-          popover-placement="bottom"
-          ng-if="assessment.results.length > 3">
-          +{{ assessment.results.length - 3 }} more
-        </span>
       </div>
       <div class="gl-dashboard-student-footer"></div>
+    </div>
+    <div class="gl-dashboard-sowo-footer">
+      <button type="button"
+              class="btn gl-btn--blue"
+              ui-sref="reports.details({reportId:'sowo', gameId:status.selectedOption.gameId, courseId:status.selectedCourseId})"
+              ng-if="sowo.hasOverflow">See More</button>
     </div>
   </div>
   <!--<div class="row">

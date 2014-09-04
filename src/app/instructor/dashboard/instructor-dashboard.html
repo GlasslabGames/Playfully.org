@@ -1,4 +1,4 @@
-<div class="gl-bg--gray">
+<div class="gl-bg-dashboard">
   <!--div ng-show="!currentUser.isConfirmed" class="gl-navbar-alert">
     <div class="gl-navbar-alert-inner">
       Please check your email to complete your registration.
@@ -25,10 +25,10 @@
     <div ng-if="courses.length != 0">
       <div class="row">
         <div class="col-md-8">
-          <h2 class="headline-2--sans">Student Progress at a Glance</h2>
+          <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
         </div>
         <div class="col-md-4 text-right">
-          <div class="btn-group" dropdown is-open="status.isopen">
+          Game: <div class="btn-group" dropdown is-open="status.isopen">
             <button type="button" class="btn btn-default dropdown-toggle"
               ng-disabled="disabled">
               {{ status.selectedOption.shortName }} <span class="caret"></span>
@@ -44,43 +44,58 @@
 
       <div class="row">
         <div class="col-md-3">
-          <div ng-repeat="course in courses | filter:{archived: false}"
-            ng-class="{'gl-course-list-item--selected': course == status.selectedCourse}">
-            <a href="#"
-              ng-click="status.selectedCourse = course"
-              class="gl-course-list-item"
-              ng-bind="course.title"></a>
+          <div class="gl-reports-container gl-dashboard-sidebar gl-margin--Bxl">
+            <h3 class="headline-5 gl-margin--Tn">Classes</h3>
+            <div>
+              <div class="gl-reports-nav-courses"
+                ng-repeat="course in courses | filter:{archived: false}">
+                <div>
+                  <label class="gl-reports-nav-course" ng-click="selectCourse($event, course.id)">
+                    <div class="gl-reports-nav-selector"
+                      ng-class="{'gl-reports-nav-selector--selected': course.id == status.selectedCourseId}">
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <input class="gl-reports-nav-course-checkbox" type="checkbox" ng-model="course.isSelected">
+                    {{ course.title }}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
-
-          <div ng-include src="'instructor/reports/sowo.html'"></div>
-
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="headline-2 text-center gl-margin--Tl" ng-bind="reports.selected.header.text"></h1>
+                        <p class="text-center" ng-bind="reports.selected.description"></p>
+                    </div>
+                </div>
+            </div>
+            <div ng-include src="'instructor/reports/sowo.html'"></div>
         </div>
       </div>
     </div>
-
-
 
   </div>
 </div>
 
 <div class="gl-instructor-lower-panel container">
   <div class="row gl-margin-Bxl">
-    <div class="col-md-2">
-      <h3>Message Center</h3>
-    </div>
-    <!--<div class="col-md-3 gl-message-col">
-      <h4>
-        <span class="icon-message icon-message-webinar"></span>
-        <span class="gl-message-title">Webinars</span>
-      </h4>
-      <p>
-        Just 1 hour till we're live: Join us as we explore the
-        Power of Learning by Doing. <a href="#">bit.ly/18idbOR</a>
-      </p>
-    </div>
-	-->
+      <!--<<div class="col-md-2">
+        <h3>Message Center</h3>
+      </div>
+      div class="col-md-3 gl-message-col">
+        <h4>
+          <span class="icon-message icon-message-webinar"></span>
+          <span class="gl-message-title">Webinars</span>
+        </h4>
+        <p>
+          Just 1 hour till we're live: Join us as we explore the
+          Power of Learning by Doing. <a href="#">bit.ly/18idbOR</a>
+        </p>
+      </div>
+
     <div class="col-md-4 gl-message-col">
       <h4>
         <span class="icon-message icon-message-twitter"></span>
@@ -91,6 +106,7 @@
           <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       </p>
     </div>
+
     <div class="col-md-4 gl-message-col">
       <h4>
         <span class="icon-message icon-message-news"></span>
@@ -100,11 +116,13 @@
       <p>  <a href="http://blogs.edweek.org/edweek/DigitalEducation/2014/07/digital_game_developers_to_get_1.html"> EdWeek: Digital Game Developers  to  verify)  Get Free Help Tracking Student </a> </p>
 	  <p> <a href="http://www.theguardian.com/technology/2014/aug/06/how-video-games-have-the-power-to-change-real-lives"> The Guardian: How video games have the power  to  verify)  change real lives </a> </p>
     </div>
+     -->
+
   </div>
 
   &nbsp;
 
-  <h3 class="gl-headline--underlined">My Games</h3>
+  <h3 class="gl-headline--underlined headline-2">My Games</h3>
   <div ng-if="!myGames.length" class="container gl-margin--Txl">
       You have not yet assigned any games to your classes. Click on the
       <a ng-href="classes" href>Classes</a>

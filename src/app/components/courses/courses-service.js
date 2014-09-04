@@ -1,6 +1,20 @@
 angular.module('courses', [])
 .factory('CoursesService', function ($http, $log, API_BASE) {
 
+  /* During development, date values for create and archive on a class
+   * changed from seconds to milliseconds, so we try to turn both options
+   * into a reasonable value
+   **/
+  var _normalizeDate = function(dt) {
+    if (dt < 1000000000000) {
+      // Value is in seconds. Convert to milliseconds.
+      return dt * 1000;
+    } else {
+      // Value is already in milliseconds.
+      return dt;
+    }
+  };
+
   var api = {
 
     get: function (courseId) {
@@ -40,7 +54,7 @@ angular.module('courses', [])
     lock: function (course) {
       course.locked = true;
       course.lockedRegistration = true;
-      $log.info(course);
+      $log.debug(course);
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
@@ -74,7 +88,7 @@ angular.module('courses', [])
       return $http
         .get(API_BASE + '/lms/courses')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -90,10 +104,10 @@ angular.module('courses', [])
           angular.forEach(courses, function(course) {
             if (course.archivedDate) {
               // Adjust from seconds to milliseconds
-              course.archivedDate = course.archivedDate * 1000;
+              course.archivedDate = _normalizeDate(course.archivedDate);
             }
             if (course.dateCreated) {
-              course.dateCreated = course.dateCreated * 1000;
+              course.dateCreated = _normalizeDate(course.dateCreated);
             }
           });
           return courses;
@@ -130,7 +144,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/code/valid')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -142,7 +156,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/code/newcode')
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(reponse);
@@ -158,7 +172,7 @@ angular.module('courses', [])
       return $http
         .post(API_BASE + '/lms/course/unenroll')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);

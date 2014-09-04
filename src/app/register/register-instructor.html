@@ -106,8 +106,9 @@
     </div>
 
     <div class="text-center reg-submit">
-      <input type="submit" class="btn gl-btn--blue" value="Register"
-      ng-disabled="regForm.$invalid">
+      <input type="submit" class="btn gl-btn--blue"
+        value="{{ regForm.isSubmitting ? 'Sending...' : 'Register'}}"
+        ng-disabled="regForm.$invalid || regForm.isSubmitting">
     </div>
   </form>
 </div>

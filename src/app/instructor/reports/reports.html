@@ -22,9 +22,9 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
-              ng-class="{'gl-reports-dropdown--selected': key == games.selected}">
+              ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                ng-click="selectGame($event, key)"
+                ui-sref="reports.details({reportId:reports.selected.id,gameId:key,courseId:courses.selectedId})"
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>
             </li>
@@ -43,8 +43,9 @@
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="report in reports.options | orderBy:report.name"
               ng-hide="!report.name"
-              ng-class="{'gl-reports-dropdown--selected': report.id == reports.selected.id}">
+              ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
+                ui-sref="reports.details({reportId:report.id,gameId:games.selected,courseId:courses.selectedId})"
                 ng-click="selectReport($event, report)"
                 ng-bind="report.name"></a>
             </li>
@@ -63,12 +64,12 @@
     <div class="row">
       <div class="col-md-12">
         <div class="gl-reports-header" ng-show="reports.selected.header.image">
-          <img src="{{reports.selected.header.image}}">
+          <img src="/{{reports.selected.header.image}}">
           <div class="gl-reports-header-logo">
-            <img src="{{developer.logo.small}}">
+            <img src="/{{developer.logo.small}}">
           </div>
         </div>
-      </divk
+      </div>
     </div>
 
     <div class="row">
@@ -126,8 +127,7 @@
           <p class="text-center" ng-bind="reports.selected.description">
           </p>
 
-          <div ng-include src="'instructor/reports/' + reports.selected.id + '.html'">
-          </div>
+          <div ui-view></div>
 
         </div>
       </div>

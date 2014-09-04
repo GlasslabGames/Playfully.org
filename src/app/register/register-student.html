@@ -36,8 +36,9 @@
       </div>
 
       <div class="text-center reg-submit" ng-class="{'reg-submit--nomargin': hideWrapper}">
-        &nbsp;<input type="submit" class="btn gl-btn--blue" value="Confirm Classcode"
-        ng-disabled="regInit.$invalid">&nbsp;
+        &nbsp;<input type="submit" class="btn gl-btn--blue"
+        value="{{ regInit.isSubmitting ? 'Confirming...' : 'Confirm Classcode'}}"
+        ng-disabled="regInit.$invalid || regInit.isSubmitting">&nbsp;
       </div>
     </form>
   </div>
@@ -180,8 +181,9 @@
 
 
       <div class="text-center reg-submit">
-        <input type="submit" class="btn gl-btn--blue" value="Register"
-        ng-disabled="regForm.$invalid">
+        <input type="submit" class="btn gl-btn--blue"
+          value="{{ regForm.isSubmitting ? 'Sending...' : 'Register'}}"
+          ng-disabled="regForm.$invalid || regForm.isSubmitting">&nbsp;
       </div>
     </form>
   </div>
