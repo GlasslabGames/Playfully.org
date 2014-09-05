@@ -58,28 +58,29 @@
       </button>
     </div>
 
-    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-      <button class="login-button login-button--student"
-        ng-click="state.go(hideWrapper ? 'sdkLoginStudent' : 'loginStudent')">
-        <!-- ui-sref="loginStudent" -->
-        <div class="media media--collapsed">
-          <div class="media-img media-img--collapsed">
-            <div class="login-icon--playfully"></div>
-          </div>
-          <div class="media-bd">
-            Student Sign In
-          </div>
-        </div>
-      </button>
-    </div>
+    <!--<div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">-->
+      <!--<button class="login-button login-button--student"-->
+        <!--ng-click="state.go(hideWrapper ? 'sdkLoginStudent' : 'loginStudent')">-->
+        <!--&lt;!&ndash; ui-sref="loginStudent" &ndash;&gt;-->
+        <!--<div class="media media--collapsed">-->
+          <!--<div class="media-img media-img--collapsed">-->
+            <!--<div class="login-icon--playfully"></div>-->
+          <!--</div>-->
+          <!--<div class="media-bd">-->
+            <!--Student Sign In-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</button>-->
+    <!--</div>-->
   </div>
 
   <div class="text-center small clearfix">
     Don&rsquo;t have an account?
     <a href="#"
       class="link-register"
-      ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">
-        Create an account</a>
+      ng-click="state.go('registerBeta')">
+      <!--ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">-->
+        Request Access</a>
   </div>
 </div>
 
