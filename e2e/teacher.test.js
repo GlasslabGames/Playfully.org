@@ -60,7 +60,7 @@ describe("Teacher routines", function() {
 			screenshot(resultDir + testRoutine + '_register(glasslab)');
 			form.submit.locator.click()
 				.then(function() {
-					browser.sleep(1750);		// had to increase to account for invariably delayed (4s+) response times
+					browser.sleep(2000);		// had to increase to account for invariably delayed (4s+) response times
 					screenshot(resultDir + testRoutine + '_register(glasslab)-2');
 					form.closeWelcome.locator.click()
 						.then(function() {
