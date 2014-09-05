@@ -13,4 +13,5 @@ dist
 vendor
 bower_components
 .idea
-e2e/results/*
+e2e/results/*.png
+e2e/results/*/
