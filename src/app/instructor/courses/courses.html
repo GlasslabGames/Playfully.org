@@ -47,7 +47,8 @@
                 {{ grade }}<span ng-show=" ! $last ">,</span>
               </span>
             </div>
-            <div>Class Code: <span ng-bind="course.code"></span></div>
+            <div ng-if="!course.lockedRegistration">Class Code: <span ng-bind="course.code"></span></div>
+            <div ng-if="course.lockedRegistration"><i class="fa fa-lock"></i> Registration Locked</div>
             <div ng-if="course.archived">
               Archived On: <span ng-bind="course.archivedDate | date:longDate"></span>
             </div>
@@ -63,7 +64,8 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                   <li><a ui-sref="editCourse({id:course.id})">Edit Class Info</a></li>
-                  <li ng-hide="true"><a ui-sref="lockCourse({id:course.id})">Lock Registration</a></li>
+                  <li ng-if="!course.lockedRegistration"><a ui-sref="lockCourse({id:course.id})">Lock Registration</a></li>
+                  <li ng-if="course.lockedRegistration"><a ui-sref="unlockCourse({id:course.id})">Unlock Registration</a></li>
                   <li><a ui-sref="archiveCourse({id:course.id})">Archive Class</a></li>
                   <li ng-hide="true"><a ui-sref="assignGamesToCourse({id:course.id})">Assign More Games</a></li>
                 </ul>
