@@ -1,33 +1,33 @@
 
-  <label>Select the game(s) you would like to assign to this class:</label>
-  
-  <div class="gl-course-game-options">
-    <div class="gl-course-game-option"
-         ng-class="{'gl-course-game-maintenance': game.maintenance}"
-         ng-repeat="game in games | filter:{enabled: true}">
-      <input type="checkbox"
-        class="gl-courses-game-checkbox"
-        id="game-{{ game.gameId }}"
-        value="{{ game.gameId }}"
-        checklist-model="course.games"
-        checklist-value="game"
-        ng-required="!course.games.length"
-        ng-disabled="game.maintenance">
-      <label for="game-{{ game.gameId }}" ng-click="logIt()">
-        <div ng-if="game.maintenance" class="gl-game-maintenance-ribbon">
-            <div class="gl-game-maintenance-ribbon-text">
-            {{game.maintenance.message}}
-            </div>
-        </div>
-        <div class="gl-course-game-thumbnail gl-thumb-{{ game.gameId }}">
-          <div class="gl-course-game-lock"
-            ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
-            ng-click="toggleGameLock($event, game)"
-            ng-show="!game.maintenance && game.settings.hasOwnProperty('missionProgressLock')"></div>
-          <div class="gl-course-game-indicator"
-               ng-show="!game.maintenance"></div>
-        </div>
-        <span ng-bind="game.longName"></span>
-      </label>
-    </div>
+<label>Select the game(s) you would like to assign to this class:</label>
+
+<div class="gl-course-game-options">
+  <div class="gl-course-game-option"
+        ng-class="{'gl-course-game-maintenance': game.maintenance}"
+        ng-repeat="game in games | filter:{enabled: true}">
+    <input type="checkbox"
+      class="gl-courses-game-checkbox"
+      id="game-{{ game.gameId }}"
+      value="{{ game.gameId }}"
+      checklist-model="course.games"
+      checklist-value="game"
+      ng-required="!course.games.length"
+      ng-disabled="game.maintenance">
+    <label for="game-{{ game.gameId }}" ng-click="logIt()">
+      <div ng-if="game.maintenance" class="gl-game-maintenance-ribbon">
+          <div class="gl-game-maintenance-ribbon-text">
+          {{game.maintenance.message}}
+          </div>
+      </div>
+      <div class="gl-course-game-thumbnail gl-thumb-{{ game.gameId }}">
+        <div class="gl-course-game-lock"
+          ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
+          ng-click="toggleGameLock($event, game)"
+          ng-show="!game.maintenance && game.settings.hasOwnProperty('missionProgressLock')"></div>
+        <div class="gl-course-game-indicator"
+              ng-show="!game.maintenance"></div>
+      </div>
+      <span ng-bind="game.longName"></span>
+    </label>
   </div>
+</div>

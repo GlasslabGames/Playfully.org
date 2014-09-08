@@ -1,0 +1,133 @@
+
+<div class="gl-courses-container">
+  <div class="container">
+    <div ng-show="state.includes('courses.active')">
+      <hr class="rule rule--blue" />
+      <div class="gl-courses-add gl-courses-add--blue" ui-sref="newCourse">
+        <div class="bu-add-circle bu-add-circle--blue"></div>
+        Create New Class
+      </div>
+      <hr class="rule rule--blue" />
+
+      <div ng-hide="courses.length" class="gl-courses--blank text-center">
+        You do not have any classes yet
+      </div>
+
+      <div ng-show="courses.length && activeCourses.length == 0" class="gl-courses--blank text-center">
+        You do not have any active classes
+      </div>
+    </div>
+
+    <div 
+      class="gl-courses--blank text-center"
+      ng-show="state.includes('courses.archived') && archivedCourses.length == 0">
+        None of your classes have been archived
+    </div>
+
+
+    <div ng-show="courses.length">
+      <div class="gl-course container-fluid"
+        ng-repeat="course in courses | filter:{archived: (state.includes('courses.archived'))}">
+        <div class="row gl-course-info">
+          <div class="col-md-3 gl-course-desc">
+            <h3 class="gl-course-title" ng-bind="course.title"></h3>
+            <!--div>Teacher: <span ng-bind="currentUser.firstName"></span></div-->
+            <div>Grade:
+              <span ng-repeat="grade in course.grade">
+                {{ grade }}<span ng-show=" ! $last ">,</span>
+              </span>
+            </div>
+            <div ng-if="!course.lockedRegistration">Class Code: <span ng-bind="course.code"></span></div>
+            <div ng-if="course.lockedRegistration"><i class="fa fa-lock"></i> Registration Locked</div>
+            <div ng-if="course.archived">
+              Archived On: <span ng-bind="course.archivedDate | date:longDate"></span>
+            </div>
+            <div class="gl-margin--Ts">
+              <button type="button" class="btn gl-btn--blue"
+                ng-if="course.archived"
+                ui-sref="unarchiveCourse({id: course.id})">
+                Reactivate This Class
+              </button>
+              <div ng-if="!course.archived"class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-disabled="disabled">
+                  Edit <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a ui-sref="editCourse({id:course.id})">Edit Class Info</a></li>
+                  <li ng-if="!course.lockedRegistration"><a ui-sref="lockCourse({id:course.id})">Lock Registration</a></li>
+                  <li ng-if="course.lockedRegistration"><a ui-sref="unlockCourse({id:course.id})">Unlock Registration</a></li>
+                  <li><a ui-sref="archiveCourse({id:course.id})">Archive Class</a></li>
+                  <li ng-hide="true"><a ui-sref="assignGamesToCourse({id:course.id})">Assign More Games</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9 gl-course-games">
+            <div class="text-center gl-courses--blank" ng-hide="course.games.length">
+              No games assigned yet
+            </div>
+            <div ng-show="course.games.length">
+              <div class="gl-course-game text-center"
+                ng-repeat="game in course.games"
+                ng-show="gamesInfo[game.id].enabled">
+
+                <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
+                  <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
+                    <div class="gl-course-game-lock"
+                      ng-if="game.settings.missionProgressLock"
+                      ui-sref="unlockMissions({courseId: course.id, gameId: game.id})">
+                    </div>
+                    <div class="gl-course-game-lock gl-course-game-unlocked"
+                      ng-if="!game.settings.missionProgressLock"
+                      ui-sref="lockMissions({courseId: course.id, gameId: game.id})">
+                    </div>
+                  </div>
+                </div>
+                {{ gamesInfo[game.id].longName }} 
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row text-right gl-course-students"
+          ng-hide="course.studentListExpanded">
+          <button class="btn btn-sm gl-btn--blue"
+            ng-disabled="course.studentCount == 0"
+            ng-click="course.studentListExpanded=true">
+            View Student List (<span ng-bind="course.studentCount"></span>)
+          </button>
+        </div>
+
+        <table class="table gl-course-students-table" ng-show="course.studentListExpanded">
+          <thead>
+            <tr class="gl-course-students-header">
+              <th>Last Initial</th>
+              <th>First Name</th>
+              <th>Screen Name</th>
+              <th class="text-right">
+                <button class="btn btn-sm gl-btn--white"
+                  ng-click="course.studentListExpanded=false">
+                  Close Student List (<span ng-bind="course.studentCount"></span>)
+                </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in course.users" ng-class="">
+              <td ng-bind="user.lastName"></td>
+              <td ng-bind="user.firstName"></td>
+              <td ng-bind="user.username"></td>
+              <td class="text-right text-grey5">
+                <a class="gl-course-students-link"
+                  ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
+                <a class="gl-course-students-link"
+                  ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
