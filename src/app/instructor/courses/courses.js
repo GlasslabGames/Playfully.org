@@ -449,7 +449,7 @@ angular.module( 'instructor.courses', [
   };
 
   $scope.finish = function() {
-    $rootScope.modalInstance.close();
+    $scope.$close(true);
     return $timeout(function () {
       $state.go('courses.active', {}, { reload: true });
     }, 100);
@@ -703,9 +703,9 @@ angular.module( 'instructor.courses', [
 
       CoursesService.updateGames(course)
         .success(function(data, status, headers, config) {
-          $rootScope.modalInstance.close();
+          $scope.$close(true);
           return $timeout(function () {
-            $state.go('courses', {}, { reload: true });
+            $state.go('courses.active', {}, { reload: true });
           }, 100);
         })
         .error(function(data, status, headers, config) {
