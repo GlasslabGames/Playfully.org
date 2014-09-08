@@ -58,6 +58,12 @@ angular.module('courses', [])
       return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     },
 
+    unlock: function (course) {
+      course.locked = false;
+      course.lockedRegistration = false;
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+
     updateGames: function (course) {
       games = [];
       angular.forEach(course.games, function(game) {

@@ -151,7 +151,28 @@ angular.module( 'instructor.courses', [
     },
     data: {
       pageTitle: 'Lock Course',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor'],
+      actionType: 'lock'
+    },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    }
+  })
+  .state( 'unlockCourse', {
+    parent: 'courseModal',
+    url: '/:id/unlock',
+    views: {
+      'modal@': {
+        controller: 'UpdateCourseModalCtrl',
+        templateUrl: 'instructor/courses/lock-course.html'
+      }
+    },
+    data: {
+      pageTitle: 'Unlock Course',
+      authorizedRoles: ['instructor'],
+      actionType: 'unlock' 
     },
     resolve: {
       course: function($stateParams, CoursesService) {
@@ -400,6 +421,10 @@ angular.module( 'instructor.courses', [
 .controller( 'UpdateCourseModalCtrl', 
   function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, CoursesService) {
 
+  if ($state.current.data.hasOwnProperty('actionType')) {
+    $scope.actionType = $state.current.data.actionType;
+  }
+
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
@@ -446,6 +471,16 @@ angular.module( 'instructor.courses', [
 
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
+      .success(function(data, status, headers, config) {
+        finishSuccessfulAction();
+      })
+      .error(function(data, status, headers, config) {
+        $log.error(data);
+      });
+  };
+
+  $scope.unlockCourse = function (courseData) {
+    CoursesService.unlock(courseData)
       .success(function(data, status, headers, config) {
         finishSuccessfulAction();
       })
