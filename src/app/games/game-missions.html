@@ -1,13 +1,13 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h3 class="modal-title">{{gameDetails.shortName}} Missions</h3>
+    <h3 class="modal-title">{{gameMissions.title}}</h3>
 </div>
 
 <div class="modal-body">
 
-    <div ng-repeat="gameMission in gameMissions">
-        <div ng-if="gameMission.missions.length"
-             ng-repeat="mission in gameMission.missions">
+    <div ng-repeat="groupMission in gameMissions.groups">
+        <div ng-if="groupMission.missions.length"
+             ng-repeat="mission in groupMission.missions">
             <ul>
                 <li ng-if="mission.enabled">
                     <a ng-href="{{ mission.links[0].link }}" target="_blank">{{mission.title}}</a> - {{mission.description}}

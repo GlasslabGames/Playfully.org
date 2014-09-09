@@ -37,8 +37,18 @@ angular.module('games', [])
         });
     },
 
-    getMissions: function (courseId, gameId) {
-      return $http.get(API_BASE + '/dash/course/' + courseId + '/game/' + gameId + '/missions')
+    getGameMissions: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/missions')
+        .then(function (response) {
+          return response.data;
+        }, function (response) {
+          $log.error(response);
+          return response;
+        });
+    },
+
+    getGamePlayInfo: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/playInfo')
         .then(function (response) {
           return response.data;
         }, function (response) {
