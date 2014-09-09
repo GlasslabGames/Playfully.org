@@ -44,7 +44,6 @@ angular.module('playfully.register', [])
     parent: 'modal',
     views: { 'modal@': registerBetaConfig }
   })
-  // ??
   .state('sdkRegisterBeta', {
     url: '/sdk/register/beta',
     parent: 'site',
