@@ -50,15 +50,20 @@
                 </div>
                 <div class="gl-input-group">
                     <div class="form-group">
+                        <input type="text" name="phoneNumber" class="form-control" placeholder="Phone Number"
+                               ng-model="account.phoneNumber">
+                    </div>
+                </div>
+                <div class="gl-input-group">
+                    <div class="form-group">
                         <input type="text" name="school" class="form-control" placeholder="School/Organization"
-                               required
+                               required ng-class="{'has-error': regForm.school.$dirty && regForm.school.$invalid}"
                                ng-model="account.school">
                     </div>
                 </div>
                 <div class="gl-input-group">
                     <div class="form-group">
                         <input type="text" name="district" class="form-control" placeholder="District"
-                               required
                                ng-model="account.district">
                     </div>
                 </div>
@@ -130,7 +135,7 @@
 
     <div class="modal-body" ng-show="account.isRegCompleted">
         <p class="text-center">
-            Thank you for your interest in Playfully Beta. You will hear back from us within 24 hours as to the status of your application.
+            Thank you for your interest in Playfully Beta. You will hear back from us shortly on the status of your application.
         </p>
         <div class="text-center reg-submit">
             <button class="btn gl-btn--blue"

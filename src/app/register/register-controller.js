@@ -106,6 +106,7 @@ function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, E
         firstName: '',
         lastName: '',
         email: '',
+        phoneNumber: '',
         school: '',
         district: '',
         password: '',
