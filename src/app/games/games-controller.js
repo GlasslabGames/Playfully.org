@@ -107,10 +107,6 @@ angular.module( 'playfully.games', [
         templateUrl: 'games/game-missions.html',
         controller: 'GameMissionsModalCtrl'
 
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('games.detail');
-          }
       });
     }
   })
@@ -199,8 +195,15 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $rootScope, $log, gameDetails, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameDetails, gameMissions) {
   $scope.gameDetails = gameDetails;
   $scope.gameMissions = gameMissions;
+
+  $scope.closeModal = function(){
+    $scope.$close(true);
+    return $timeout(function () {
+      $state.go('games.detail.product', {}, { reload: true });
+    }, 100);
+  };
 });
 
