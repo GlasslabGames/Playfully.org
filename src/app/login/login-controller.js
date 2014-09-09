@@ -172,7 +172,7 @@ angular.module('playfully.login', [])
 })
 
 .controller('LoginOptionsCtrl',
-  function gru($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
+  function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
