@@ -172,13 +172,17 @@ angular.module('playfully.login', [])
 })
 
 .controller('LoginOptionsCtrl',
-  function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
+  function gru($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
     $scope.logInWithEdmodo = function() {
       $window.location.href = '/auth/edmodo/login';
     };
+    $scope.logInWithiCivics = function() {
+      $window.location.href = '/auth/iCivics/login';
+    };
+
 
 })
 
