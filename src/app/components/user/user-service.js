@@ -34,6 +34,18 @@ angular.module('user', [])
       return angular.isDefined(_currentUser);
     },
 
+    isSSOLogin: function(_user){
+      // default to currentUser
+      var user = _user || _currentUser;
+      if(user) {
+        if(user.loginType != 'glasslabv2') {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
     retrieveCurrentUser: function() {
       return $http.get(API_BASE + '/auth/user/profile');
     },
@@ -48,11 +60,16 @@ angular.module('user', [])
       return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
-    update: function (user) {
+    update: function (user, shouldUpdateCurrentUser) {
+      if (typeof(shouldUpdateCurrentUser) === 'undefined') {
+        shouldUpdateCurrentUser = true;
+      }
       user.userId = user.id;
       result = $http.post(API_BASE + '/auth/user/' + user.id, user);
       result.success(function(data) {
-        _currentUser = data;
+        if (shouldUpdateCurrentUser) {
+          _currentUser = data;
+        }
       });
       return result;
     },
