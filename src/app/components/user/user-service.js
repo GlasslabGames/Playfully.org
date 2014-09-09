@@ -15,7 +15,7 @@ angular.module('user', [])
       api.retrieveCurrentUser()
         .success(function(data) {
           _currentUser = data;
-          Session.create(data.id, data.role);
+          Session.create(data.id, data.role, data.loginType);
           deferred.resolve(_currentUser);
         })
         .error(function() {
@@ -32,6 +32,18 @@ angular.module('user', [])
 
     hasCurrentUser: function() {
       return angular.isDefined(_currentUser);
+    },
+
+    isSSOLogin: function(_user){
+      // default to currentUser
+      var user = _user || _currentUser;
+      if(user) {
+        if(user.loginType != 'glasslabv2') {
+          return true;
+        }
+      }
+
+      return false;
     },
 
     retrieveCurrentUser: function() {

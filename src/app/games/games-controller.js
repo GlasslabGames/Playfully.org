@@ -15,8 +15,16 @@ angular.module( 'playfully.games', [
   })
   .state('games.default', {
     url: '',
-    onEnter: function($state, $log) {
-      $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
+    onEnter: function($state, $log, AuthService) {
+
+      if(AuthService.isLoginType('clever')){
+        $state.transitionTo('games.detail.product', { gameId: 'SC' });
+      }
+      else if(AuthService.isLoginType('icivics')){
+        $state.transitionTo('games.detail.product', { gameId: 'AW-1' });
+      } else {
+        $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
+      }
     }
   })
   .state('games.detail', {

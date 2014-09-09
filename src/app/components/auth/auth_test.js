@@ -51,7 +51,7 @@ describe('Auth', function() {
     it("destroys the existing session", function() {
       $httpBackend.when('POST', serviceUrl).respond(200, {});
       $httpBackend.expect('POST', serviceUrl);
-      Session.create(25, 'student');
+      Session.create(25, 'student', 'glasslab');
       expect(Session.userId).toBe(25);
       AuthService.logout();
       $httpBackend.flush();

@@ -158,6 +158,7 @@ angular.module( 'playfully', [
     $scope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthorized = AuthService.isAuthorized;
+    $scope.isSSOLogin = UserService.isSSOLogin;
 
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){

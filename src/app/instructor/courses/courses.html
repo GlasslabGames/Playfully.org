@@ -1,17 +1,16 @@
 <div class="container gl-tabs">
-  <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
-    <li class="gl-tab"
-      ng-class="{'active': state.includes('courses.active')}">
-      <a href ui-sref="courses.active">Active Classes</a>
-    </li>
-    <li class="gl-tab"
-      ng-class="{'active': state.includes('courses.archived')}">
-      <a href ui-sref="courses.archived">Archived Classes</a>
-    </li>
-  </ul>
+    <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
+        <li class="gl-tab"
+            ng-class="{'active': state.includes('courses.active')}">
+            <a href ui-sref="courses.active">Active Classes</a>
+        </li>
+        <li class="gl-tab"
+            ng-class="{'active': state.includes('courses.archived')}">
+            <a href ui-sref="courses.archived">Archived Classes</a>
+        </li>
+    </ul>
 </div>
 
 <div ui-view="coursesList"></div>
 
 <div ui-view="courseModal"></div>
-
