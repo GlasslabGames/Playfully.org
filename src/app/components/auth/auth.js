@@ -30,6 +30,10 @@ angular.module('auth', ['session', 'ipCookie'])
       return !!Session.userId;
     },
 
+    isLoginType: function (loginType) {
+      return (Session.loginType === loginType);
+    },
+
     isAuthorized: function (authorizedRoles) {
       if (!angular.isArray(authorizedRoles)) {
         authorizedRoles = [authorizedRoles];

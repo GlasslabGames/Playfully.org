@@ -127,10 +127,12 @@
               <td ng-bind="user.firstName"></td>
               <td ng-bind="user.username"></td>
               <td class="text-right text-grey5">
+                <span ng-show="user.loginType === 'glasslabv2'">
                 <a class="gl-course-students-link"
                   ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
                 <a class="gl-course-students-link"
                   ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
+                </span>&nbsp;
               </td>
             </tr>
           </tbody>

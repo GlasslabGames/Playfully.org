@@ -15,7 +15,7 @@ angular.module('user', [])
       api.retrieveCurrentUser()
         .success(function(data) {
           _currentUser = data;
-          Session.create(data.id, data.role);
+          Session.create(data.id, data.role, data.loginType);
           deferred.resolve(_currentUser);
         })
         .error(function() {

@@ -109,7 +109,7 @@ angular.module('playfully.register', [])
         UserService.register(account)
           .success(function(data, status, headers, config) {
             user = data;
-            Session.create(user.id, user.role);
+            Session.create(user.id, user.role, data.loginType);
             $scope.regForm.isSubmitting = false;
             $scope.account.isRegCompleted = true;
           })
@@ -186,7 +186,7 @@ angular.module('playfully.register', [])
           .success(function(data, status, headers, config) {
             $scope.regForm.isSubmitting = false;
             user = data;
-            Session.create(user.id, user.role);
+            Session.create(user.id, user.role, data.loginType);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
             if ($state.current.data.hideWrapper) {
