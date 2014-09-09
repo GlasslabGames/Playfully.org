@@ -13,7 +13,7 @@ var	chai	 			 = require('chai'),
 		
 		// Page Objects
 		pageObjs   = require('./page_objects/index.js'),
-		landing 	 = pageObjs.landing,
+		landing 	 = new pageObjs.landing(),
 		dashboard  = pageObjs.dashboard,
 		classes		 = pageObjs.classes,
 		reports    = pageObjs.reports,
@@ -21,101 +21,98 @@ var	chai	 			 = require('chai'),
 
 		// Config
 		config		 = require('./lib/config.js'),
-		resultDir  = config.resultDir,
+		resultDir  = config.resultDir,	// TODO add tstamp subfolder here
 		serverAddress = config.serverAddress;
 
 
-// logout fn:
-var logout = function() {
-	dashboard.userIcon.locator.click();
-	dashboard.logoutOption.locator.click();
-};
+//// logout fn:
+//var logout = function() {
+//	dashboard.userIcon.locator.click();
+//	dashboard.logoutOption.locator.click();
+//};
 
-describe("Teacher Test", function() {
+describe("Teacher routines", function() {
 	
 	var testRoutine = 'teacher';
+	
+//	beforeEach(function() {
+////		browser.ignoreSynchronization = true;
+//	});
 
-	beforeEach(function() {
-		browser.ignoreSynchronization = true;
-	});
-
-	describe('Registration flow', function() {
+	describe('- registration flow', function() {
 		it('#should register normally', function(done) {
 			
 			browser.get(serverAddress + landing.path);
+			browser.sleep(600);
 			
 			var form = landing.register.subElements;
 			var user = generateUser(testRoutine);
 			
 			landing.registerButton.locator.click();
-      form.registerAsBtn.locator[testRoutine].click(); // NOTE <- set to teacher here
+      form.registerAsBtn.locator[testRoutine].click();
 			form.firstName.locator.sendKeys(user.name);
 			form.email.locator.sendKeys(user.email);
 			form.password.locator.sendKeys(user.pass);
 			form.passConfirm.locator.sendKeys(user.pass);
 			form.policyChbx.locator.click();
 			form.newsletterChbx.locator.click();
-			form.submit.locator.click();
-			form.closeWelcome.locator.click()
+			
+			screenshot(resultDir + testRoutine + '_register(glasslab)');
+			form.submit.locator.click()
 				.then(function() {
-//					browser.sleep(400);			// FIXME
-					screenshot(resultDir + testRoutine + '_register-normal-1(CHECK)');
-//					screenshot(resultDir + testRoutine + '_register-normal-2');
-					expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
-					done();
+					browser.sleep(2000);		// had to increase to account for invariably delayed (4s+) response times
+					screenshot(resultDir + testRoutine + '_register(glasslab)-2');
+					form.closeWelcome.locator.click()
+						.then(function() {
+							browser.sleep(300);
+							expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+							done();
+						});
+				});
+
+		});
+		
+	});
+	
+	describe('- new teacher user flow', function(done) {
+		
+		it('#should show the dashboard and tour properly', function(done) {
+			
+			browser.sleep(500);
+			screenshot(resultDir + testRoutine + '_newlyRegisteredTeacher');
+			expectCurrentUrlToMatch(serverAddress + dashboard.path.teacher);
+			done();
+		
+		});
+		
+		it('#should be able to add a new class', function(done) {
+			
+			// go to classes page
+			element(by.binding("'navbar.link.classes' | translate")).click();		// TODO - move to page object
+			screenshot(resultDir + testRoutine + '_classes-newClass-01');
+			expectCurrentUrlToMatch(serverAddress + classes.path);
+			
+			// add class
+			classes.addCourse.locator.click()
+				.then(function() {
+					screenshot(resultDir + testRoutine + '_classes-newClass-modal-1');
+					classes.newCourseName.locator.sendKeys('newClass');
+					classes.newCourseGrade.locator.click();
+					classes.newCourseSubmit1.locator.click();
+					screenshot(resultDir + testRoutine + '_classes-newClass-modal-2');
+					element(by.css(".gl-course-game-thumbnail.gl-thumb-AA-1")).click();		// TODO - move to page object
+					element(by.css('input.btn.gl-btn--blue')).click()		// TODO - move to page object
+						.then(function() {
+							browser.sleep(100);
+							screenshot(resultDir + testRoutine + '_classes-newClass-modal-3');
+							element(by.partialButtonText('Done')).click();		// TODO - move to page object
+							screenshot(resultDir + testRoutine + '_classes-newClass-02');
+							done();
+						});
 				});
 			
 		});
-        
-		it.skip('#should register with Edmodo credentials', function() {
-//			screenshot(resultDir + testRoutine + '_register-Edmodo');
-			
-		});
-		it.skip('#should register with iCivics', function() {
-//			screenshot(resultDir + testRoutine + '_register-iCivics');
-		});
 		
 	});
-	
-	describe('Should show my dashboard correctly', function() {
-		
-		screenshot(resultDir + 'dashboard.general');
-//    browser.sleep(50);
-		runTest(dashboard.activeNavLink, 'teacher');
-		runTest(landing.footer);
-		
-	});
-	
-//	describe('Should show my class page correctly', function() {
-//		
-//		browser.get(serverAddress + classes.path);
-//		screenshot(resultDir + 'dashboard.classes-0(teacher)');
-//		screenshot(resultDir + 'dashboard.classes-1(teacher)');
-////		runTest(classes.classBar);	// FIXME
-//		
-//		browser.sleep(1000);
-//		
-//		classes.classBar.locator.getText()
-//			.then(function(text) {
-//				console.log(text);
-//			});
-//
-//		// images look good
-//		// classCode matches
-//	});
-	
-//	describe('Should show my reports correctly', function() {
-//		browser.get(serverAddress + reports.path);
-//		
-//		screenshot(resultDir + 'dashboard.reports(teacher)');
-//	});
-//	
-//	describe('Should show support page correctly', function() {		// NOTE will be redirect http://glasslabgames.org/support/
-//		browser.get(serverAddress + support.path);
-//		console.log('shouldnt get here');
-//		
-//		
-//		screenshot(resultDir + 'dashboard.support(teacher)');
-//	});
 		
 });

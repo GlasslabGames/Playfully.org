@@ -17,8 +17,8 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
-  grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-mocha-protractor');
+	grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-git-describe');
 
   /**
@@ -334,37 +334,36 @@ module.exports = function ( grunt ) {
         singleRun: true
       }
     },
-
-    /**
+		
+//    protractor: {
+//      options: {
+//        configFile: "node_modules/protractor/referenceConf.js", // Default config file
+//        keepAlive: true, // If false, the grunt process stops when the test fails.
+//        noColor: false, // If true, protractor will not use colors in its output.
+//        args: {
+//          // Arguments passed to the command
+//        }
+//      },
+//      build: {
+//        options: {
+//          configFile: "e2e/lib/e2e.conf.js", // Target-specific config file
+//          args: {} // Target-specific arguments
+//        }
+//      }
+//    },
+		
+		/**
      * The Protractor configuration.
      */
-    protractor: {
-      options: {
-        configFile: "node_modules/protractor/referenceConf.js", // Default config file
-        keepAlive: true, // If false, the grunt process stops when the test fails.
-        noColor: false, // If true, protractor will not use colors in its output.
-        args: {
-          // Arguments passed to the command
-        }
-      },
-      build: {
-        options: {
-          configFile: "config/e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
-        }
-      }
-    },
-		
 		mochaProtractor: {
 			options: {
-				browsers: ['Chrome'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
-				debug: true,
+				browsers: ['Chrome'],
+//				browsers: ['Chrome', 'Firefox'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
 				reporter: 'Spec',
-				baseUrl: '127.0.0.1:8001',
 				timeout: 10000, // in milliseconds
 				suiteTimeout: 25000 // in milliseconds
 			},
-			files: ['e2e/*.test.js']
+			files: ['e2e/*.test.js']			// FIXME
 		},
 		
     /**
@@ -587,11 +586,11 @@ module.exports = function ( grunt ) {
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-    'karma:continuous',
-    'createVersionFile'
+    'karma:continuous', 'createVersionFile'
   ]);
     
 	grunt.registerTask('mocha', 'mochaProtractor');
+//	grunt.registerTask('mocha', 'protractor');
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
