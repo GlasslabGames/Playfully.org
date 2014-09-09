@@ -17,10 +17,9 @@ angular.module( 'instructor.reports', [
     resolve: {
       allGames: function(GamesService) { return GamesService.all(); },
       defaultGame: function(allGames) { return allGames[0].gameId; },
-      activeCourses: function(CoursesService) {
+      activeCourses: function($log, CoursesService) {
         return CoursesService.getActiveEnrollmentsWithStudents();
-      },
-      defaultCourse: function(activeCourses) { return activeCourses[0].id; }
+      }
     },
     data: {
       authorizedRoles: ['instructor'],
@@ -34,12 +33,15 @@ angular.module( 'instructor.reports', [
    **/
   .state('reports.default', {
     url: '',
-    controller: function($scope, $state, $log, defaultGame, defaultCourse) {
-      $state.transitionTo('reports.details', {
-        reportId: 'achievements',
-        gameId: defaultGame,
-        courseId: defaultCourse });
+    controller: function($scope, $state, $log, defaultGame, activeCourses) {
+      if (activeCourses.length) {
+        $state.transitionTo('reports.details', {
+          reportId: 'achievements',
+          gameId: defaultGame,
+          courseId: activeCourses[0].id
+        });
       }
+    }
   })
 
   .state( 'reports.details', {
@@ -57,7 +59,7 @@ angular.module( 'instructor.reports', [
 })
 
 .controller( 'ReportsCtrl',
-  function($scope, $log, $state, $stateParams, allGames, activeCourses, defaultGame, defaultCourse) {
+  function($scope, $log, $state, $stateParams, allGames, activeCourses, defaultGame) {
 
     /* Games */
 
@@ -77,7 +79,10 @@ angular.module( 'instructor.reports', [
     /* Courses */
 
     $scope.activeCourses = activeCourses;
-    $scope.courses = { selectedId: defaultCourse, options: {} };
+    $scope.courses = { selectedId: null, options: {} };
+    if (activeCourses.length) {
+      $scope.courses.selectedId = activeCourses[0].id;
+    }
     /* Set up active courses for this instructor */
     angular.forEach(activeCourses, function(course) {
       course.isExpanded = false;
