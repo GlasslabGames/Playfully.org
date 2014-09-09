@@ -37,6 +37,16 @@ angular.module('games', [])
         });
     },
 
+    getMissions: function (courseId, gameId) {
+      return $http.get(API_BASE + '/dash/course/' + courseId + '/game/' + gameId + '/missions')
+        .then(function (response) {
+          return response.data;
+        }, function (response) {
+          $log.error(response);
+          return response;
+        });
+    },
+
     all: function (type) {
       var url = '/dash/games';
       if (type == 'min') { url += '/minimal'; }

@@ -1,7 +1,10 @@
 angular.module( 'playfully.games', [
   'ui.router',
   'games'
-])
+], function($compileProvider){
+  // allow custom url
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|simcityedu):/);
+})
 
 .config(function ( $stateProvider) {
   $stateProvider.state( 'games', {
@@ -16,7 +19,6 @@ angular.module( 'playfully.games', [
   .state('games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
-
       if(AuthService.isLoginType('clever')){
         $state.transitionTo('games.detail.product', { gameId: 'SC' });
       }
@@ -76,7 +78,43 @@ angular.module( 'playfully.games', [
           return GamesService.getDetail($stateParams.gameId);
       }
     }
-  });
+  })
+
+  .state( 'games.missions', {
+    parent: 'games.detail',
+    url: '/missions',
+    data: {
+      pageTitle: 'Missions',
+      authorizedRoles: ['student', 'instructor']
+    },
+    onEnter: function($stateParams, $state, $modal) {
+      var gameId = $stateParams.gameId;
+      $modal.open({
+        size: 'lg',
+        keyboard: false,
+        resolve: {
+          gameDetails: function(GamesService) {
+            if(gameId) {
+              return GamesService.getDetail(gameId);
+            }
+          },
+          gameMissions: function(GamesService) {
+            if(gameId) {
+              return GamesService.getMissions(0, gameId);
+            }
+          }
+        },
+        templateUrl: 'games/game-missions.html',
+        controller: 'GameMissionsModalCtrl'
+
+      }).result.then(function(result) {
+          if (result) {
+            return $state.transitionTo('games.detail');
+          }
+      });
+    }
+  })
+  ;
 })
 
 .controller( 'sdkGameAppLinkCtrl',
@@ -161,6 +199,8 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsCtrl', function ($scope, $rootScope, $log) {
-
+.controller( 'GameMissionsModalCtrl', function ($scope, $rootScope, $log, gameDetails, gameMissions) {
+  $scope.gameDetails = gameDetails;
+  $scope.gameMissions = gameMissions;
 });
+
