@@ -1,7 +1,10 @@
 angular.module( 'playfully.games', [
   'ui.router',
   'games'
-])
+], function($compileProvider){
+  // allow custom url
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|simcityedu):/);
+})
 
 .config(function ( $stateProvider) {
   $stateProvider.state( 'games', {
@@ -16,7 +19,6 @@ angular.module( 'playfully.games', [
   .state('games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
-
       if(AuthService.isLoginType('clever')){
         $state.transitionTo('games.detail.product', { gameId: 'SC' });
       }
@@ -75,6 +77,50 @@ angular.module( 'playfully.games', [
       gameDetails: function($stateParams, GamesService) {
           return GamesService.getDetail($stateParams.gameId);
       }
+    }
+  })
+  .state( 'games.missions', {
+    parent: 'games.detail.product',
+    url: '/missions',
+    data: {
+      authorizedRoles: ['student', 'instructor']
+    },
+    onEnter: function($stateParams, $state, $modal) {
+      var gameId = $stateParams.gameId;
+      $modal.open({
+        size: 'lg',
+        keyboard: false,
+        resolve: {
+          gameMissions: function(GamesService) {
+            return GamesService.getGameMissions(gameId);
+          }
+        },
+        templateUrl: 'games/game-missions.html',
+        controller: 'GameMissionsModalCtrl'
+
+      });
+    }
+  })
+  .state( 'games.playinfo', {
+    parent: 'games.detail.product',
+    url: '/playInfo',
+    data: {
+      authorizedRoles: ['student', 'instructor']
+    },
+    onEnter: function($stateParams, $state, $modal) {
+      var gameId = $stateParams.gameId;
+      $modal.open({
+        size: 'lg',
+        keyboard: false,
+        resolve: {
+          gamePlayInfo: function(GamesService) {
+            return GamesService.getGamePlayInfo(gameId);
+          }
+        },
+        templateUrl: 'games/game-playinfo.html',
+        controller: 'GamePlayInfoModalCtrl'
+
+      });
     }
   });
 })
@@ -140,6 +186,10 @@ angular.module( 'playfully.games', [
             $window.location = path;
         }
     };
+
+    $scope.goToGame = function(gameId, page) {
+      $window.location = "/games/"+gameId+"/"+page;
+    };
     
     /**
      * The API is providing a relative path, causing the image to break if
@@ -161,6 +211,24 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsCtrl', function ($scope, $rootScope, $log) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameMissions) {
+  $scope.gameMissions = gameMissions;
 
+  $scope.closeModal = function(){
+    $scope.$close(true);
+    return $timeout(function () {
+      $state.go('games.detail.product', {}, { reload: true });
+    }, 100);
+  };
+})
+.controller( 'GamePlayInfoModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gamePlayInfo) {
+  $scope.gamePlayInfo = gamePlayInfo;
+
+  $scope.closeModal = function(){
+    $scope.$close(true);
+    return $timeout(function () {
+      $state.go('games.detail.product', {}, { reload: true });
+    }, 100);
+  };
 });
+
