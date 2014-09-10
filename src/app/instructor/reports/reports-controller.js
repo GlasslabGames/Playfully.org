@@ -75,6 +75,8 @@ angular.module( 'instructor.reports', [
       }
     });
 
+    $scope.developer = {};
+
 
     /* Courses */
 
@@ -186,6 +188,11 @@ angular.module( 'instructor.reports', [
         $scope.reports.selected = report;
       }
     });
+
+    // Set parent scope developer info
+    if (gameReports.hasOwnProperty('developer')) {
+      $scope.developer.logo = gameReports.developer.logo;
+    }
 
     /* By default, select all students in the selected course */
     angular.forEach($scope.courses.options[$scope.courses.selectedId].users,
