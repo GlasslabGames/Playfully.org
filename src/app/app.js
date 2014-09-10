@@ -96,7 +96,7 @@ angular.module( 'playfully', [
   return {
     authorize: function() {
       AuthService.isLoggedIn()
-        .success(function(data) {
+        .then(function(data) {
           // $window.alert("Logged in");
           // $window.alert(JSON.stringify(data));
           UserService.currentUser()
@@ -123,8 +123,7 @@ angular.module( 'playfully', [
             });
 
 
-        })
-        .error(function() {
+        }, function() {
           // $window.alert("Not logged in");
           if ($rootScope.toState.hasOwnProperty('data') &&
             $rootScope.toState.data.hasOwnProperty('authorizedRoles')) {
