@@ -81,29 +81,29 @@ angular.module( 'playfully.games', [
   })
   .state( 'games.missions', {
     parent: 'games.detail.product',
-    url: '/missions',
+    url: '/play-missions',
     data: {
       authorizedRoles: ['student', 'instructor']
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
       $modal.open({
-        size: 'lg',
+        size: 'xlg',
         keyboard: false,
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
           }
         },
-        templateUrl: 'games/game-missions.html',
+        templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
 
       });
     }
   })
-  .state( 'games.playinfo', {
+  .state( 'games.playModal', {
     parent: 'games.detail.product',
-    url: '/playInfo',
+    url: '/play-modal',
     data: {
       authorizedRoles: ['student', 'instructor']
     },
@@ -113,12 +113,12 @@ angular.module( 'playfully.games', [
         size: 'lg',
         keyboard: false,
         resolve: {
-          gamePlayInfo: function(GamesService) {
-            return GamesService.getGamePlayInfo(gameId);
+          gameDetails: function(GamesService) {
+            return GamesService.getDetail(gameId);
           }
         },
-        templateUrl: 'games/game-playinfo.html',
-        controller: 'GamePlayInfoModalCtrl'
+        templateUrl: 'games/game-play-modal.html',
+        controller: 'GamePlayModalCtrl'
 
       });
     }
@@ -187,8 +187,8 @@ angular.module( 'playfully.games', [
         }
     };
 
-    $scope.goToGame = function(gameId, page) {
-      $window.location = "/games/"+gameId+"/"+page;
+    $scope.goToPlayGame = function(gameId) {
+      $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
     };
     
     /**
@@ -221,8 +221,15 @@ angular.module( 'playfully.games', [
     }, 100);
   };
 })
-.controller( 'GamePlayInfoModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gamePlayInfo) {
-  $scope.gamePlayInfo = gamePlayInfo;
+.controller( 'GamePlayModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameDetails) {
+
+  $scope.gamePlayInfo = {};
+
+  if(gameDetails &&
+     gameDetails.play &&
+     gameDetails.play.modal ){
+    $scope.gamePlayInfo = gameDetails.play.modal;
+  }
 
   $scope.closeModal = function(){
     $scope.$close(true);
