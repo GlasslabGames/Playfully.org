@@ -30,6 +30,10 @@ angular.module('auth', ['session', 'ipCookie'])
       return !!Session.userId;
     },
 
+    isLoginType: function (loginType) {
+      return (Session.loginType === loginType);
+    },
+
     isAuthorized: function (authorizedRoles) {
       if (!angular.isArray(authorizedRoles)) {
         authorizedRoles = [authorizedRoles];
@@ -56,7 +60,11 @@ angular.module('auth', ['session', 'ipCookie'])
 
     verifyPasswordResetCode: function(hashCode) {
       return $http.get(API_BASE + '/auth/password-reset/' + hashCode + '/verify');
-    }, 
+    },
+
+    verifyEmailCode: function(hashCode) {
+      return $http.get(API_BASE + '/auth/register-verify/' + hashCode + '/verify');
+    },
 
     updatePassword: function(newPassword, hashCode) {
       var data = {

@@ -35,6 +35,22 @@ angular.module('playfully.register', [])
     views: { 'main@': registerInstructorConfig }
   });
 
+ var registerBetaConfig = {
+    templateUrl: 'register/register-beta.html',
+    controller: 'RegisterBetaCtrl'
+  };
+  $stateProvider.state('registerBeta', {
+    url: 'register/beta',
+    parent: 'modal',
+    views: { 'modal@': registerBetaConfig }
+  })
+  .state('sdkRegisterBeta', {
+    url: '/sdk/register/beta',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': registerBetaConfig }
+  });
+
 
   var registerStudentConfig = {
     templateUrl: 'register/register-student.html',
@@ -81,6 +97,60 @@ angular.module('playfully.register', [])
 })
 
 
+.controller('RegisterBetaCtrl',
+function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
+    var user = null;
+
+    $scope.account = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        school: '',
+        district: '',
+        password: '',
+        confirm: '',
+        role: 'instructor',
+        acceptedTerms: false,
+        newsletter: true,
+        errors: [],
+        isRegCompleted: false
+    };
+
+    $scope.register = function( account ) {
+        $scope.regForm.isSubmitting = true;
+        if (account.firstName && account.firstName.indexOf(' ') > -1) {
+            firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
+            $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
+            $scope.account.firstName = firstName;
+        }
+        UserService.register(account)
+            .success(function(data, status, headers, config) {
+                user = data;
+                Session.create(user.id, user.role);
+                $scope.regForm.isSubmitting = false;
+                $scope.account.isRegCompleted = true;
+            })
+            .error(function(data, status, headers, config) {
+                $log.error(data);
+                $scope.regForm.isSubmitting = false;
+                $scope.account.isRegCompleted = false;
+                if ( data.error ) {
+                    $scope.account.errors.push(data.error);
+                } else {
+                    $scope.account.errors.push(ERRORS['general']);
+                }
+            });
+    };
+
+    $scope.finish = function() {
+        if (user !== null) {
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+        }
+    };
+
+})
+
 
 .controller('RegisterInstructorCtrl',
     function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
@@ -109,7 +179,7 @@ angular.module('playfully.register', [])
         UserService.register(account)
           .success(function(data, status, headers, config) {
             user = data;
-            Session.create(user.id, user.role);
+            Session.create(user.id, user.role, data.loginType);
             $scope.regForm.isSubmitting = false;
             $scope.account.isRegCompleted = true;
           })
@@ -186,7 +256,7 @@ angular.module('playfully.register', [])
           .success(function(data, status, headers, config) {
             $scope.regForm.isSubmitting = false;
             user = data;
-            Session.create(user.id, user.role);
+            Session.create(user.id, user.role, data.loginType);
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
             if ($state.current.data.hideWrapper) {

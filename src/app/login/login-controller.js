@@ -180,6 +180,9 @@ angular.module('playfully.login', [])
       $window.location.href = '/auth/edmodo/login';
     };
 
+    $scope.logInWithIcivics= function() {
+      $window.location.href = '/auth/icivics/login';
+    };
 })
 
 .controller('LoginCtrl',

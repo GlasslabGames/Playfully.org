@@ -547,7 +547,7 @@ module.exports = function ( grunt ) {
       options: {
         cwd:       ".",
         commitish: "master",
-        failOnError: true,
+        failOnError: false,
         template: "{%=tag%}-{%=since%}-{%=object%}{%=dirty%}",
         prop: 'meta.revision'
       },
