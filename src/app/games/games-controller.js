@@ -111,7 +111,7 @@ angular.module( 'playfully.games', [
       var gameId = $stateParams.gameId;
       $modal.open({
         size: 'lg',
-        keyboard: false,
+        keyboard: true,
         resolve: {
           gameDetails: function(GamesService) {
             return GamesService.getDetail(gameId);

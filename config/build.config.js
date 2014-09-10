@@ -71,12 +71,13 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-translate/angular-translate.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-      'vendor/checklist-model/checklist-model.js'
+      'vendor/checklist-model/checklist-model.js',
+      'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js'
     ],
     css: [
     ],
     assets: [
     ]
-  },
+  }
 };
 
