@@ -57,15 +57,10 @@
              class="gl-btn-appstore"
              ng-click="goTo(button.links[0].link, button.links[0].target)">
           </a>
-          <button ng-switch-when="missions"
+          <button ng-switch-when="play"
                   type="button"
                   class="btn gl-btn--blue gl-games-sidebar-btn"
-                  ng-click="goToGame(gameId, 'missions')"
-                  ng-bind="button.name"></button>
-          <button ng-switch-when="playInfo"
-                  type="button"
-                  class="btn gl-btn--blue gl-games-sidebar-btn"
-                  ng-click="goToGame(gameId, 'playInfo')"
+                  ng-click="goToPlayGame(gameId)"
                   ng-bind="button.name"></button>
           <button ng-switch-default
                   type="button"
