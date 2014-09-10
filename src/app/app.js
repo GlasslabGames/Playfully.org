@@ -85,6 +85,18 @@ angular.module( 'playfully', [
   });
 })
 
+.config(function($httpProvider) {
+  //initialize get if not there
+  if (!$httpProvider.defaults.headers.get) {
+    $httpProvider.defaults.headers.get = {};    
+  }
+  //disable IE ajax request caching
+  $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+  $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+  dt = new Date(1999, 12, 31);
+  $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
+})
+
 .config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
