@@ -212,5 +212,28 @@ angular.module( 'playfully', [
       $state.go('home');
     });
 
+
+
+    // Hack to cause popovers to hide when user clicks outside of them.
+    angular.element(document.body).bind('click', function (e) {
+      var popups = document.querySelectorAll('*[popover]');
+      if (popups) {
+        angular.forEach(popups, function(popup) {
+          var popupElem = angular.element(popup);
+          var content, arrow;
+          if (popupElem.next()) {
+            content = popupElem.next()[0].querySelector('.popover-content');
+            arrow = popupElem.next()[0].querySelector('.arrow');
+          }
+          if (popup != e.target && e.target != content && e.target != arrow) {
+            if (popupElem.next().hasClass('popover')) {
+              popupElem.next().remove();
+              popupElem.scope().tt_isOpen = false;
+            }
+          }
+        });
+      }
+    });
+
 });
 
