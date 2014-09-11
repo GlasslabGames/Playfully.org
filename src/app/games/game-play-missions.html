@@ -5,35 +5,27 @@
 
 <div class="modal-body">
 
-    <div ng-repeat="groupMission in gameMissions.groups">
-        <div ng-if="groupMission.missions.length"
-             ng-repeat="mission in groupMission.missions">
-            <ul>
-                <li ng-if="mission.enabled">
-                    <a ng-href="{{ mission.links[0].link }}" target="_blank">{{mission.title}}</a> - {{mission.description}}
-                </li>
-            </ul>
+    <div class="gl-game-missions">
+        <div class="gl-game-missions-wrapper">
+
+            <div ng-repeat="groupMission in gameMissions.groups"
+                 class="gl-game-mission-group">
+
+                <div ng-if="groupMission.missions.length"
+                      ng-repeat="mission in groupMission.missions">
+
+                    <div ng-if="mission.enabled" class="gl-game-mission">
+                        <button class="gl-game-mission-button" ng-click="goTo(mission.links[0].link, '_blank')">
+                            <div ng-class="{'gl-game-{{gameId}}-missions-green': currentUser.role=='student', 'gl-game-{{gameId}}-missions-blue': currentUser.role!='student'}"></div>
+                            {{mission.linkText}}
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
-
-    <!--
-    <accordion close-others="true">
-        <accordion-group ng-if="gameMission.enabled" is-open="gameMission.open" ng-repeat="gameMission in gameMissions">
-            <accordion-heading>
-                {{gameMission.title}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': gameMission.open, 'glyphicon-chevron-right': !gameMission.open}"></i>
-            </accordion-heading>
-
-            <div ng-if="gameMission.missions.length"
-                 ng-repeat="mission in gameMission.missions">
-                <ul>
-                    <li ng-if="mission.enabled">
-                        <a ng-href="{{ mission.links[0].link }}" target="_blank">{{mission.title}}</a> - {{mission.description}}
-                    </li>
-                </ul>
-            </div>
-        </accordion-group>
-    </accordion>
-    -->
 </div>
 
 
