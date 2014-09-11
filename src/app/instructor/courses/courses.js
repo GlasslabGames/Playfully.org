@@ -122,7 +122,7 @@ angular.module( 'instructor.courses', [
           }
         },
         templateUrl: 'instructor/courses/archive-course.html',
-        controller: 'UpdateCourseModalCtrl',
+        controller: 'UpdateCourseModalCtrl'
       }).result.then(function(result) {
         if (result) {
           return $state.transitionTo('courses.active');
@@ -149,7 +149,7 @@ angular.module( 'instructor.courses', [
           }
         },
         templateUrl: 'instructor/courses/archive-course.html',
-        controller: 'UpdateCourseModalCtrl',
+        controller: 'UpdateCourseModalCtrl'
       }).result.then(function(result) {
         if (result) {
           return $state.transitionTo('courses.archived');
@@ -395,12 +395,24 @@ angular.module( 'instructor.courses', [
     $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
     $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
     $scope.showArchived = $state.current.data.showArchived;
+    $scope.courseKey = -1;
 
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
 
+    $scope.showCourseEdit = function(courseKey){
+      var course = $scope.courses[courseKey];
+      if( course &&
+          ( !course.archived &&
+            (course.lmsType === "glasslab" ) )
+        ) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
     $scope.unarchiveCourse = function (course) {
       CoursesService.unarchive(course)
