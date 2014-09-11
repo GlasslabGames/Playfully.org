@@ -110,7 +110,7 @@ angular.module( 'playfully', [
   return {
     authorize: function() {
       AuthService.isLoggedIn()
-        .success(function(data) {
+        .then(function(data) {
           // $window.alert("Logged in");
           // $window.alert(JSON.stringify(data));
           UserService.currentUser()
@@ -137,8 +137,7 @@ angular.module( 'playfully', [
             });
 
 
-        })
-        .error(function() {
+        }, function() {
           // $window.alert("Not logged in");
           if ($rootScope.toState.hasOwnProperty('data') &&
             $rootScope.toState.data.hasOwnProperty('authorizedRoles')) {
@@ -211,6 +210,29 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
       $state.go('home');
+    });
+
+
+
+    // Hack to cause popovers to hide when user clicks outside of them.
+    angular.element(document.body).bind('click', function (e) {
+      var popups = document.querySelectorAll('*[popover]');
+      if (popups) {
+        angular.forEach(popups, function(popup) {
+          var popupElem = angular.element(popup);
+          var content, arrow;
+          if (popupElem.next()) {
+            content = popupElem.next()[0].querySelector('.popover-content');
+            arrow = popupElem.next()[0].querySelector('.arrow');
+          }
+          if (popup != e.target && e.target != content && e.target != arrow) {
+            if (popupElem.next().hasClass('popover')) {
+              popupElem.next().remove();
+              popupElem.scope().tt_isOpen = false;
+            }
+          }
+        });
+      }
     });
 
 });

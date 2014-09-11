@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">{{gameMissions.title}}</h3>
+</div>
+
+<div class="modal-body">
+
+    <div class="gl-game-missions">
+        <div class="gl-game-missions-wrapper">
+
+            <div ng-repeat="groupMission in gameMissions.groups"
+                 class="gl-game-mission-group">
+
+                <div ng-if="groupMission.missions.length"
+                      ng-repeat="mission in groupMission.missions">
+
+                    <div ng-if="mission.enabled" class="gl-game-mission">
+                        <button class="gl-game-mission-button" ng-click="goTo(mission.links[0].link, '_self')">
+                            <div ng-class="{'gl-game-{{gameId}}-missions-green': currentUser.role=='student', 'gl-game-{{gameId}}-missions-blue': currentUser.role!='student'}"></div>
+                            {{mission.linkText}}
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

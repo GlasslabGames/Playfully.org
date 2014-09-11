@@ -81,29 +81,29 @@ angular.module( 'playfully.games', [
   })
   .state( 'games.missions', {
     parent: 'games.detail.product',
-    url: '/missions',
+    url: '/play-missions',
     data: {
       authorizedRoles: ['student', 'instructor']
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
       $modal.open({
-        size: 'lg',
+        size: 'xlg',
         keyboard: false,
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
           }
         },
-        templateUrl: 'games/game-missions.html',
+        templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
 
       });
     }
   })
-  .state( 'games.playinfo', {
+  .state( 'games.playModal', {
     parent: 'games.detail.product',
-    url: '/playInfo',
+    url: '/play-modal',
     data: {
       authorizedRoles: ['student', 'instructor']
     },
@@ -111,14 +111,14 @@ angular.module( 'playfully.games', [
       var gameId = $stateParams.gameId;
       $modal.open({
         size: 'lg',
-        keyboard: false,
+        keyboard: true,
         resolve: {
-          gamePlayInfo: function(GamesService) {
-            return GamesService.getGamePlayInfo(gameId);
+          gameDetails: function(GamesService) {
+            return GamesService.getDetail(gameId);
           }
         },
-        templateUrl: 'games/game-playinfo.html',
-        controller: 'GamePlayInfoModalCtrl'
+        templateUrl: 'games/game-play-modal.html',
+        controller: 'GamePlayModalCtrl'
 
       });
     }
@@ -172,6 +172,10 @@ angular.module( 'playfully.games', [
       return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
     };
 
+    $scope.isAuthenticated = function() {
+      return AuthService.isAuthenticated();
+    };
+
     $scope.goToGameSubpage = function(dest) {
       if (dest.authRequired && !AuthService.isAuthorized('instructor')) {
       } else {
@@ -187,8 +191,8 @@ angular.module( 'playfully.games', [
         }
     };
 
-    $scope.goToGame = function(gameId, page) {
-      $window.location = "/games/"+gameId+"/"+page;
+    $scope.goToPlayGame = function(gameId) {
+      $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
     };
     
     /**
@@ -211,8 +215,17 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, gameMissions) {
   $scope.gameMissions = gameMissions;
+  $scope.gameId = $stateParams.gameId;
+
+  $scope.goTo = function(path, target) {
+    if(target) {
+      $window.open(path, target);
+    } else {
+      $window.location = path;
+    }
+  };
 
   $scope.closeModal = function(){
     $scope.$close(true);
@@ -221,8 +234,19 @@ angular.module( 'playfully.games', [
     }, 100);
   };
 })
-.controller( 'GamePlayInfoModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gamePlayInfo) {
-  $scope.gamePlayInfo = gamePlayInfo;
+.controller( 'GamePlayModalCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
+
+  $scope.gamePlayInfo = {};
+  //$scope.gameId = gameId;
+
+  if(gameDetails &&
+     gameDetails.play &&
+     gameDetails.play.modal ) {
+    $scope.gamePlayInfo = gameDetails.play.modal;
+
+    $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
+  }
+  //console.log('getTrusted:', $sceDelegate.getTrusted($sce.RESOURCE_URL));
 
   $scope.closeModal = function(){
     $scope.$close(true);
