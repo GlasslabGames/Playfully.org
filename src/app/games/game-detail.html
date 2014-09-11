@@ -57,7 +57,8 @@
              class="gl-btn-appstore"
              ng-click="goTo(button.links[0].link, button.links[0].target)">
           </a>
-          <button ng-switch-when="play"
+          <button ng-if="isLoggedIn()"
+                  ng-switch-when="play"
                   type="button"
                   class="btn gl-btn--blue gl-games-sidebar-btn"
                   ng-click="goToPlayGame(gameId)"
