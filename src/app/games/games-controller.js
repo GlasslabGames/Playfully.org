@@ -230,16 +230,19 @@ angular.module( 'playfully.games', [
     }, 100);
   };
 })
-.controller( 'GamePlayModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameDetails) {
+.controller( 'GamePlayModalCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
 
   $scope.gamePlayInfo = {};
   //$scope.gameId = gameId;
 
   if(gameDetails &&
      gameDetails.play &&
-     gameDetails.play.modal ){
+     gameDetails.play.modal ) {
     $scope.gamePlayInfo = gameDetails.play.modal;
+
+    $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
+  //console.log('getTrusted:', $sceDelegate.getTrusted($sce.RESOURCE_URL));
 
   $scope.closeModal = function(){
     $scope.$close(true);
