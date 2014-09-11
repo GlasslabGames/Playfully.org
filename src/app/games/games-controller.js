@@ -172,6 +172,10 @@ angular.module( 'playfully.games', [
       return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
     };
 
+    $scope.isAuthenticated = function() {
+      return AuthService.isAuthenticated();
+    };
+
     $scope.goToGameSubpage = function(dest) {
       if (dest.authRequired && !AuthService.isAuthorized('instructor')) {
       } else {
