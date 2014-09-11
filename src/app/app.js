@@ -19,10 +19,11 @@ angular.module( 'playfully', [
   'playfully.student',
   'playfully.register',
   'playfully.redeem',
+  'playfully.checkSpec',
   'playfully.login',
   'playfully.profile',
   'playfully.password-reset',
-  'playfully.support'
+  'playfully.support',
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
