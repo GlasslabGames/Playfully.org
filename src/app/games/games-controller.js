@@ -211,8 +211,17 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, gameMissions) {
   $scope.gameMissions = gameMissions;
+  $scope.gameId = $stateParams.gameId;
+
+  $scope.goTo = function(path, target) {
+    if(target) {
+      $window.open(path, target);
+    } else {
+      $window.location = path;
+    }
+  };
 
   $scope.closeModal = function(){
     $scope.$close(true);
@@ -224,6 +233,7 @@ angular.module( 'playfully.games', [
 .controller( 'GamePlayModalCtrl', function ($scope, $state, $rootScope, $log, $timeout, gameDetails) {
 
   $scope.gamePlayInfo = {};
+  //$scope.gameId = gameId;
 
   if(gameDetails &&
      gameDetails.play &&
