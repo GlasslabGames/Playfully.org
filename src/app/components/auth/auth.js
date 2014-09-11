@@ -1,5 +1,5 @@
 angular.module('auth', ['session', 'ipCookie'])
-.factory('AuthService', function ($http, $log, ipCookie, Session, UserService, API_BASE) {
+.factory('AuthService', function ($http, $log, $q, ipCookie, Session, UserService, API_BASE) {
 
   var api = {
 
@@ -17,14 +17,24 @@ angular.module('auth', ['session', 'ipCookie'])
         });
     },
 
-    isLoggedIn: function () {
-      var timestamp = new Date().getTime();
-      return $http({
-        method: 'GET',
-        url: API_BASE + '/auth/login/status',
-        params: { ts: timestamp }
-      });
-    },
+      isLoggedIn: function () {
+          var deferred = $q.defer();
+          var timestamp = new Date().getTime();
+          $http({
+              method: 'GET',
+              url: API_BASE + '/auth/login/status',
+              params: { ts: timestamp }
+          }).then(function(response) {
+              if (response.data.status === 'ok') {
+                  deferred.resolve(response);
+              } else {
+                  deferred.reject(response);
+              }
+          }, function(err) {
+              deferred.reject(err);
+          });
+          return deferred.promise;
+      },
 
     isAuthenticated: function () {
       return !!Session.userId;
