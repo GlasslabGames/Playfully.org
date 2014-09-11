@@ -1,5 +1,6 @@
 angular.module( 'playfully.checkSpec', [
-  'ui.router'
+  'ui.router',
+  'checkSpec'
 ])
 
 .config(function config( $stateProvider ) {
@@ -14,7 +15,9 @@ angular.module( 'playfully.checkSpec', [
   });
 })
 
-.controller( 'CheckCtrl', function ( $scope ) {
+.controller( 'CheckCtrl', function ( $scope, ConfigRsrc, DetectionSvc ) {
+    console.log('Detection:', DetectionSvc.OS);
+    console.log('Config:', ConfigRsrc.get());
     console.log('checkSpec');
 
 });

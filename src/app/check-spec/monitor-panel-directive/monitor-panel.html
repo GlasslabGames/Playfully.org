@@ -1,0 +1,44 @@
+<div class="gl-panel">
+	<div class="gl-panel-header">
+		<h3>{{title}}</h3>
+	</div>
+	<div class="gl-panel-body">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Description</th>
+					<th>Status</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="setting in settings">
+					<td>
+						<i ng-show="setting.loading" class="icon-spinner icon-spin"></i>
+						<strong>{{setting.description}}</strong>
+					</td>
+					<td>
+						<div ng-switch on="setting.status">
+							<div ng-switch-when="true" class="gl-panel-status-success">
+								<i class="icon-ok-sign icon-2x"></i>
+							</div>
+							<div ng-switch-when="false" class="gl-panel-status-error">
+								<i class="icon-remove-sign icon-2x"></i>
+							</div>
+						</div>
+					</td>
+					<td>
+						<div ng-switch on="setting.status">
+							<div ng-switch-when="true" class="text-success">
+								<strong>{{setting.details}}</strong>
+							</div>
+							<div ng-switch-when="false" class="text-error">
+								<strong>{{setting.details}}</strong>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
