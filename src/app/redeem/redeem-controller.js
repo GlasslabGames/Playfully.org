@@ -16,7 +16,7 @@ angular.module( 'playfully.redeem', [
 })
 
 .controller( 'RedeemCtrl', function ( $scope ) {
-
+    console.log('redeem');
 
 });
 

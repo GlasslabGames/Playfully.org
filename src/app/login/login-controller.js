@@ -216,8 +216,10 @@ angular.module('playfully.login', [])
 })
 
 .controller('sdkLoginCtrl',
-  function ($scope, $rootScope, $log, $window, $state, AuthService, AUTH_EVENTS) {
+  function ($scope, $rootScope, $log, $window, $state, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
 
+    $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+    $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
     $scope.credentials = { username: '', password: '' };
     $scope.authError = null;
 
