@@ -17,8 +17,8 @@ angular.module('playfully.config', [])
 })
 
 .constant('THIRD_PARTY_AUTH', {
-  edmodo: true,
-  icivics: false
+  edmodo: false,
+  icivics: true
 })
 
 .constant('USER_ROLES', {
