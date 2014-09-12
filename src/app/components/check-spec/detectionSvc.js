@@ -165,7 +165,7 @@ angular.module('checkSpec')
                  @type Object
                  **/
                 dataConnection: {
-                    image: 'images/connection.jpg',
+                    image: 'assets/connection.jpg',
                     speed: 750
                 },
 

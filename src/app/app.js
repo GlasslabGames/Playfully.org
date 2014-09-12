@@ -12,6 +12,7 @@ angular.module( 'playfully', [
   'user',
   'games',
   'reports',
+  'checkSpec',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -23,7 +24,7 @@ angular.module( 'playfully', [
   'playfully.login',
   'playfully.profile',
   'playfully.password-reset',
-  'playfully.support',
+  'playfully.support'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {

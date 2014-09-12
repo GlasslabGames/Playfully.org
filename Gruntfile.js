@@ -164,6 +164,14 @@ module.exports = function ( grunt ) {
             dest: '<%= build_dir %>/favicon.ico'
           }
         ]
+      },
+      css:  {
+        files: [
+          {
+            src: ['src/**/*.css'],
+            dest: '<%= build_dir %>/'
+          }
+        ]
       }
     },
 
@@ -172,11 +180,12 @@ module.exports = function ( grunt ) {
      */
     concat: {
       /**
-       * The `build_css` target concatenates compiled CSS and vendor CSS
+       * The `build_css` target concatenates all css in the src directory, compiled CSS and vendor CSS
        * together.
        */
       build_css: {
         src: [
+          '<%= build_dir %>/src/**/*.css',
           '<%= vendor_files.css %>',
           '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ],
@@ -566,7 +575,7 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less:build',
+    'clean', 'html2js', 'jshint', 'copy:css', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build'
   ]);
@@ -578,7 +587,8 @@ module.exports = function ( grunt ) {
     'karma:continuous', 'protractor:build'
   ]);
     
-	grunt.registerTask('mocha', 'mochaProtractor');
+  grunt.registerTask('mocha', 'mochaProtractor');
+
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and

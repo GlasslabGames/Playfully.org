@@ -18,7 +18,6 @@ angular.module('auth', ['session', 'ipCookie'])
     },
 
       isLoggedIn: function () {
-          console.log('hubba hubba');
           var deferred = $q.defer();
           var timestamp = new Date().getTime();
           $http({
