@@ -1,3 +1,9 @@
+.gl-bg-dashboard {
+  .image-2x('bg-instructor-dashboard.png', 623px, 538px);
+  background-color: @grey7;
+  background-repeat: repeat;
+}
+
 .gl-instructor-home-intro {
   padding-top: 60px;
   padding-bottom: 60px;
@@ -48,6 +54,7 @@
 .gl-course-progress-container {
   position: relative;
   z-index: 1;
+  .border-radius(6px);
 }
 
 .gl-course-list-item--selected {
@@ -118,6 +125,9 @@
   background: @yellow;
 }
 
+.gl-dashboard-sidebar {
+  border-color: #e5e5e5 !important;
+}
 
 .gl-dashboard-student-name {
   .text-overflow;
@@ -157,6 +167,7 @@
   margin-bottom: 6px;
   font-size: 18px;
   color: @grey3;
+  height: 48px;
 }
 
 .gl-dashboard-student--even {
@@ -165,4 +176,18 @@
 
 .gl-dashboard-student--odd {
   background: @aquaBlueLightest;
+}
+
+.gl-dashboard-sowo-footer {
+  display: inline-block;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.gl-dashboard-sowo-footer > button {
+  display: block;
+  margin:0 auto;
 }

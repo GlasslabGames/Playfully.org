@@ -16,6 +16,7 @@
   .image-2x('game-banner-SC.jpg', 1024px, 300px);
 }
 
+
 .gl-game-title {
   margin-top: 2px;
   margin-bottom: 4px;
@@ -207,14 +208,15 @@
 }
 
 .gl-game-ribbon-text {
-  color: white;
-  font-weight: bold;
-  .rotate(-45deg);
   position: relative;
-  top: 36px;
-  left: -10px;
+  top: 37px;
+  left: -15px;
+  width: 120px;
+  .rotate(-45deg);
+  font-weight: bold;
+  font-size: 13px;
+  color: white;
   text-align: center;
-  width: 110px;
   text-transform: uppercase;
 }
 
@@ -222,4 +224,116 @@
   top: 36px;
   left: -16px;
   width: 120px;
+}
+
+.gl-indent {
+  margin-left: 25px;
+}
+
+.gl-standards-category {
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.gl-standards-category-circle {
+  display: inline-block;
+  position: absolute;
+  left: -20px;
+  top: 5px;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: @grey5;
+}
+
+.gl-standards-category-item {
+  position: relative;
+  display: block;
+  margin-left: 35px;
+}
+
+.gl-games-slideshow-container .carousel-indicators {
+  bottom: -40px;
+  li {
+    border: none;
+    background: @grey6;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .active {
+    background: @aquaBlue;
+  }
+}
+
+.carousel-control.right,
+.carousel-control.left {
+  background: none !important;
+}
+
+.carousel-control:hover {
+  cursor: pointer;
+}
+
+.gl-gamePlayInfo-embedded {
+  max-width: 460px;
+  max-height: 400px;
+
+  object {
+    max-width: 460px;
+    max-height: 400px;
+  }
+}
+
+.gl-game-missions {
+}
+
+.gl-game-missions-wrapper:before,
+.gl-game-missions-wrapper:after {
+  content: " ";
+  display: table;
+}
+.gl-game-missions-wrapper:after {
+  clear: both;
+}
+.gl-game-missions-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 485px;
+}
+
+.gl-game-mission-group {
+  display: block;
+  float: left;
+}
+
+.gl-game-mission {
+}
+
+
+.gl-game-mission-button {
+  border: none;
+  background: none;
+  width:  120px;
+  opacity: 0.65;
+}
+
+.gl-game-mission-button:hover {
+  opacity: 1.0;
+}
+
+.gl-game-SC-missions-blue {
+  margin-left: auto;
+  margin-right: auto;
+  width:  65px;
+  height: 65px;
+  .image-2x('game-SC-missions-build-icon-blue.png', 65px, 65px);
+}
+
+.gl-game-SC-missions-green {
+  margin-left: auto;
+  margin-right: auto;
+  width:  65px;
+  height: 65px;
+  .image-2x('game-SC-missions-build-icon-green.png', 65px, 65px);
 }

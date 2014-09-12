@@ -65,16 +65,19 @@ module.exports = {
       'vendor/angular-ga/ga.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
+      'vendor/moment/moment.js',
+      'vendor/angular-moment/angular-moment.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-translate/angular-translate.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-      'vendor/checklist-model/checklist-model.js'
+      'vendor/checklist-model/checklist-model.js',
+      'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js'
     ],
     css: [
     ],
     assets: [
     ]
-  },
+  }
 };
 

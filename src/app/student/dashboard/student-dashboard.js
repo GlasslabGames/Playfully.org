@@ -32,7 +32,8 @@ angular.module( 'student.dashboard', [
     onEnter: function($rootScope, $modal, $state) {
       $rootScope.modalInstance = $modal.open({
         template: '<div ui-view="modal"></div>',
-        size: 'sm'
+        size: 'sm',
+        keyboard: false
       });
 
     }
@@ -62,26 +63,44 @@ angular.module( 'student.dashboard', [
 })
 
 .controller( 'EnrollInCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $log, $timeout, CoursesService) {
+  function ( $scope, $rootScope, $state, $log, $timeout, courses, CoursesService) {
 
     $scope.verification = {
       code: null,
       errors: []
     };
+
     
     $scope.verify = function(verification) {
       $scope.enrollment = null;
       $scope.verification.errors = [];
-      CoursesService.verifyCode(verification.code)
-        .then(function(result) {
-          $scope.enrollment = result.data;
-          $scope.enrollment.courseCode = $scope.verification.code;
-          $scope.enrollment.errors = [];
-        }, function(result) {
-          if ( result.data.error ) {
-            $scope.verification.errors.push(result.data.error);
+      var userNotEnrolledInCourse = true;
+      var enrolledCourse = null;
+      // Check whether the user is already enrolled
+      if (courses.length) {
+        angular.forEach(courses, function(course) {
+          if (verification.code === course.code) {
+            userNotEnrolledInCourse = false;
+            enrolledCourse = course;
           }
         });
+      }
+      // Only verify the code if the user isn't already in the course
+      if (userNotEnrolledInCourse) {
+        CoursesService.verifyCode(verification.code)
+          .then(function(result) {
+            $scope.enrollment = result.data;
+            $scope.enrollment.courseCode = $scope.verification.code;
+            $scope.enrollment.errors = [];
+          }, function(result) {
+            if ( result.data.error ) {
+              $scope.verification.errors.push(result.data.error);
+            }
+          });
+      } else {
+        msg = "You have already enrolled in this course: " + enrolledCourse.title;
+        $scope.verification.errors.push(msg);
+      }
     };
 
     $scope.enroll = function(enrollment) {
@@ -96,6 +115,13 @@ angular.module( 'student.dashboard', [
         .error(function(data, status, config) {
           $log.error(data);
         });
+    };
+
+    $scope.closeModal = function() {
+      $scope.$close(true);
+      return $timeout(function () {
+        $state.go('studentDashboard', {}, { reload: true });
+      }, 100);
     };
 
 });

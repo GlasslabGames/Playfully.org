@@ -3,56 +3,16 @@ angular.module('reports', [])
 
   var api = {
 
-    get: function(reportId, gameId, courseId, limit) {
-      var params = {
-        gameId: gameId,
-        courseId: courseId,
-      };
-      if (limit) {
-        params.limit = limit;
-      }
-      var apiUrl = API_BASE + '/dash/reports/' + reportId;
-      return $http({method: 'GET', url: apiUrl, params: params})
-        .then(function(response) {
-          $log.info(response);
-          return response.data;
-        }, function(response) {
-          $log.error(response);
-          return response;
-        });
-    },
-
-    getAchievements: function (gameId, courseId) {
-      var params = {
-        gameId: gameId,
-        courseId: courseId
-      };
-      var apiUrl = API_BASE + '/dash/reports/achievements';
-      return $http({ method: 'GET', url: apiUrl, params: params})
+    get: function(reportId, gameId, courseId) {
+      var apiUrl = API_BASE + '/dash/reports/' + reportId + '/game/' + gameId + '/course/' + courseId;
+      return $http({method: 'GET', url: apiUrl})
         .then(function(response) {
           return response.data;
-        }, function(response) {
-          $log.error(response);
-          return response;
-        });
-    },
-
-    getSOWO: function (gameId, courseId, limit) {
-      var params = {
-        gameId: gameId,
-        courseId: courseId,
-        limit: limit || 10
-      };
-      var apiUrl = API_BASE + '/dash/reports/sowo';
-      return $http({method: 'GET', url: apiUrl, params: params})
-        .then(function(response) {
-          return response.data;  
         }, function(response) {
           $log.error(response);
           return response;
         });
     }
-
 
   };
 

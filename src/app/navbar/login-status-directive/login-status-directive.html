@@ -4,7 +4,8 @@
       <button type="button" class="btn default dropdown-toggle navbar-btn gl-bu-user">
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a ui-sref="editProfile">Edit My Profile</a></li>
+        <li><a ng-hide="isSSOLogin()"
+                ui-sref="editProfile">Edit My Profile</a></li>
         <li><a ui-sref="logout">Log Out</a></li>
       </ul>
     </span>

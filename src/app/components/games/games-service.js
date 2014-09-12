@@ -7,7 +7,7 @@ angular.module('games', [])
       return $http
         .get(API_BASE + '/data/game/' + gameId)
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -19,7 +19,7 @@ angular.module('games', [])
       return $http
         .get(API_BASE + '/dash/game/' + gameId + '/info')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);
@@ -29,6 +29,16 @@ angular.module('games', [])
 
     getDetail: function (gameId) {
       return $http.get(API_BASE + '/dash/game/' + gameId)
+        .then(function (response) {
+          return response.data;
+        }, function (response) {
+          $log.error(response);
+          return response;
+        });
+    },
+
+    getGameMissions: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/missions')
         .then(function (response) {
           return response.data;
         }, function (response) {
@@ -54,7 +64,7 @@ angular.module('games', [])
       return $http
         .post(API_BASE + '/data/game/' + gameId)
         .then(function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -66,7 +76,7 @@ angular.module('games', [])
       return $http
         .post(API_BASE + '/data/game/device')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -78,7 +88,7 @@ angular.module('games', [])
       return $http
         .get(API_BASE + '/data/game/' + gameId + '/playInfo')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function(response) {
           $log.error(response);
@@ -91,7 +101,7 @@ angular.module('games', [])
       return $http
         .post(API_BASE + '/data/game/' + gameId + '/totalTimePlayed')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);
@@ -103,7 +113,7 @@ angular.module('games', [])
       return $http
         .post(API_BASE + '/data/game/' + gameId + '/achievement')
         .then(function (response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);
@@ -111,22 +121,10 @@ angular.module('games', [])
         });
     },
 
-    getAchievements: function (gameId) {
-      return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/achievements')
-        .then(function (response) {
-          $log.info(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
-    },
-
-    getReports: function (gameId) {
-      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports')
+    getAllReports: function (gameId) {
+      return $http.get(API_BASE + '/dash/game/' + gameId + '/reports/all')
         .then (function(response) {
-          $log.info(response);
+          $log.debug(response);
           return response.data;
         }, function (response) {
           $log.error(response);
@@ -137,7 +135,7 @@ angular.module('games', [])
     getMyGames: function () {
       return $http.get(API_BASE + '/dash/myGames')
         .then (function(response) {
-        $log.info(response);
+        $log.debug(response);
         return response.data;
       }, function (response) {
         $log.error(response);

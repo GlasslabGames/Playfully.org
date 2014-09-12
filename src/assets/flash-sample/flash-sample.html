@@ -1,5 +1,5 @@
 <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="SDKSvc.js"></script>
+<script type="text/javascript" src="/vendor/glasslab-sdk-as3/lib/glasslab-sdk.js"></script>
 
 <script>
     function loadFlashSample() {
@@ -33,7 +33,7 @@
 
 <form id="flash-sample-id">
     If you don't have a URL, use: <br />http://clients.glgames.org/FlashSDKSample/v{#}/Sample.swf<br />where {#} is the latest test version.<br />
-    SWF URL: <input type="text" id="flashSampleURL" /><br />
+    SWF URL: <input type="text" id="flashSampleURL" value="http://clients.glgames.org/FlashSDKSample/v29/Sample.swf"/><br />
     <button onclick="loadFlashSample(); return false;">Load</button>
 </form>
 

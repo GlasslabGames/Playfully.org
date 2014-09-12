@@ -8,6 +8,28 @@ var Classes = function() {
 			ttype: 'btn',
 			locator: element(by.css('.gl-courses-add.gl-courses-add--blue'))
 		}
+
+		////////////////////
+		//// NEW COURSE ////
+		////////////////////
+		this.newCourseName = {	// TODO - move into form parent element
+			ttype: 'input',
+			locator: element(by.model('course.title'))
+		}
+		this.newCourseGrade = {
+			// TODO make repeater, select grades randomly
+			ttype: 'btn',
+			locator: element(by.id('grade-9'))
+		}
+		this.newCourseSubmit1 = {
+			ttype: 'btn',
+			locator: element(by.css("button.btn.gl-btn--blue"))
+		}
+		this.newCourseCancel = {
+			ttype: 'btn',
+			locator: element(by.css("button.btn.gl-btn--grey"))
+		}
+		// -----------------/
 		
 		this.classBar = {
 			ttype: 'text',

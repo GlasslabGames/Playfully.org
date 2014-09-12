@@ -13,12 +13,16 @@ angular.module( 'playfully.home', [
       }
     },
     data:{
-      pageTitle: 'Home',
+      pageTitle: 'Home'
     }
   });
 })
 
-.controller( 'HomeCtrl', function ( $scope, $log, $http, $window, ipCookie, Session) {
+.controller( 'HomeCtrl', function ( $scope, $location, $log, $http, $window, ipCookie, Session) {
+
+  $scope.go = function(url){
+    $location.path(url);
+  };
 
   $http.get('/api/v2/data/eventsCount')
     .success(function(data) {

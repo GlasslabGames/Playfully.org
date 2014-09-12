@@ -19,11 +19,14 @@
       <ul class="gl-games-subnav">
         <li class="gl-games-subnav-item"
           ng-repeat="(key, navItem) in navItems">
-          <a ng-click="goToGameSubpage(navItem)"
+          <a ui-sref="{{ 'games.detail.' + navItem.id }}"
+            ng-if="!navItem.authRequired || navItem.authRequired && isAuthorized()"
             class="gl-games-subnav-link"
-            ng-class="{'gl-games-subnav-link--active': navItem.isActive,
-              'gl-games-subnav-link--disabled': navItem.authRequired && !isAuthorized()}"
+            ui-sref-active="gl-games-subnav-link--active"
             ng-bind="navItem.title"></a>
+          <span class="gl-games-subnav-link gl-games-subnav-link--disabled"
+            ng-if="navItem.authRequired && !isAuthorized()"
+            ng-bind="navItem.title"></span>
         </li>
       </ul>
 
@@ -46,18 +49,32 @@
           </div>
         </div>
 
-        <div ng-if="button.links && button.links.length == 1">
-          <button type="button"
-            class="btn gl-btn--blue gl-games-sidebar-btn"
-            ng-click="goTo(button.links[0].link, button.links[0].target)"
-            ng-bind="button.name"></button>
+        <div ng-if="button.links && button.links.length == 1"
+             ng-switch="button.links[0].type">
+          <!-- temporarily hardcoded for initial launch -->
+          <a ng-switch-when="ios-appstore"
+             href="#"
+             class="gl-btn-appstore"
+             ng-click="goTo(button.links[0].link, button.links[0].target)">
+          </a>
+          <button ng-if="isAuthenticated()"
+                  ng-switch-when="play"
+                  type="button"
+                  class="btn gl-btn--blue gl-games-sidebar-btn"
+                  ng-click="goToPlayGame(gameId)"
+                  ng-bind="button.name"></button>
+          <button ng-switch-default
+                  type="button"
+                  class="btn gl-btn--blue gl-games-sidebar-btn"
+                  ng-click="goTo(button.links[0].link, button.links[0].target)"
+                  ng-bind="button.name"></button>
         </div>
 
       </div>
 
       <div>
         <a ng-repeat="(name, url) in gameDetails.social"
-          href="{{ url }}"
+          target="_blank" href="{{ url }}"
           ga="'send', 'pageview', {title: name, location: url}"
           class="gl-icon-social gl-icon-social--{{ name }}">
         </a>
@@ -106,85 +123,7 @@
 
       <hr class="rule rule--blue" />
 
-
-
-
-
-      <div ng-show="currentPage.id == 'product'">
-        <h3 class="headline-4">About the Game</h3>
-        <p ng-bind-html="gameDetails.pages.product.about"></p>
-
-		<p  <a href="https://vimeo.com/92362764"> <button class="btn gl-btn--blue">See the game in action</button></p>
-		
-        <h3 class="headline-4">How It Fits the Curriculum</h3>
-        <ul>
-          <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
-            ng-bind="curriculumItem"></li>
-        </ul>
-
-        <div class="gl-games-slideshow-container">
-          &nbsp;
-          <carousel interval="myInterval">
-            <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
-              <img
-                ng-src="{{slide.url}}" style="margin:auto;">
-            </slide>
-          </carousel>
-        </div>
-      </div>
-
-
-
-      <div ng-show="currentPage.id == 'standards'">
-        <div ng-repeat="section in gameDetails.pages.standards">
-          <h3 class="headline-4" ng-bind="section.category"></h3>
-          <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" 
-              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
-              ng-bind="listItem.name"></a><br>
-            <span ng-bind="listItem.description"></span>
-          </p>
-        </div>
-      </div>
-
-
-
-      <div ng-show="currentPage.id == 'lessonPlans'">
-        <div ng-repeat="section in gameDetails.pages.lessonPlans">
-          <h3 class="headline-4" ng-bind="section.category"></h3>
-          <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" 
-              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
-              ng-bind="listItem.name"></a><br>
-            <span ng-bind="listItem.description"></span>
-          </p>
-        </div>
-      </div>
-
-
-
-      <div ng-show="currentPage.id == 'research'">
-        <div ng-repeat="section in gameDetails.pages.research">
-          <h3 class="headline-4" ng-bind="section.category"></h3>
-          <p ng-repeat="listItem in section.list">
-            <a href="{{ listItem.link }}" 
-              ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
-              ng-bind="listItem.name"></a><br>
-            <span ng-bind="listItem.description"></span>
-          </p>
-        </div>
-      </div>
-
-
-
-      <div ng-show="currentPage.id == 'reviews'">
-        <div class="gl-game-review"
-          ng-repeat="review in gameDetails.pages.reviews">
-          <blockquote ng-bind="review.review"></blockquote>
-          <cite ng-bind-html="review.reviewer"></cite>
-        </div>
-      </div>
-
+      <div ui-view></div>
 
     </div>
   </div>

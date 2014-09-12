@@ -121,12 +121,12 @@ a:link {
  * Typography
  */
 
-@font-face {
+/* @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   src: local('Roboto Regular'), local('Roboto-Regular'), url(fonts/Roboto-Regular.woff) format('woff');
-}
+} */
 
 body {
   font-family: @sansFontFamily;
@@ -392,8 +392,8 @@ h2 {
   z-index: 1;
 }
 
-.gl-game-card-AW {
-  .image-2x('game-card-AW.jpg', 300px, 240px);
+.gl-game-card-AW-1 {
+  .image-2x('game-card-AW-1.jpg', 300px, 240px);
   background-position: center;
 }
 
@@ -562,4 +562,8 @@ h2 {
   height: 142px;
   margin: 180px auto;
   .image-2x('coming-soon.png', 642px, 142px);
+}
+
+[popover]:hover {
+  cursor: pointer;
 }

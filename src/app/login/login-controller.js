@@ -1,14 +1,14 @@
 angular.module('playfully.login', [])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
-  var loginOptionsConfig = {
-    templateUrl: 'login/login.html',
-    controller: 'LoginOptionsCtrl'
-  };
   $stateProvider.state('loginOptions', {
     url: 'login',
     parent: 'modal',
-    views: { 'modal@': loginOptionsConfig },
+    views: { 'modal@': {
+      templateUrl: 'login/login.html',
+      controller: 'LoginOptionsCtrl'
+      }
+    },
     data:{ pageTitle: 'Sign In'},
     onEnter: function($state, $log, ipCookie) {
       if (ipCookie('inSDK')) {
@@ -19,7 +19,11 @@ angular.module('playfully.login', [])
     url: '/sdk/login',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': loginOptionsConfig }
+    views: { 'main@': {
+      templateUrl: 'login/sdk-login.html',
+      controller: 'sdkLoginCtrl'
+      }
+    }
   });
 
 
@@ -103,7 +107,7 @@ angular.module('playfully.login', [])
       views: {
         'main@': {
           templateUrl: 'login/sdk-password-prompt.html',
-          controller: 'LoginConfirmCtrl'
+          controller: 'sdkLoginConfirmCtrl'
         }
       },
       resolve: {
@@ -134,7 +138,7 @@ angular.module('playfully.login', [])
       views: {
         'main@': {
           templateUrl: 'login/sdk-resetdata-prompt.html',
-          controller: 'LoginConfirmCtrl'
+          controller: 'sdkLoginConfirmCtrl'
         }
       },
       resolve: {
@@ -175,7 +179,14 @@ angular.module('playfully.login', [])
     $scope.logInWithEdmodo = function() {
       $window.location.href = '/auth/edmodo/login';
     };
+    $scope.logInWithiCivics = function() {
+      $window.location.href = '/auth/iCivics/login';
+    };
 
+
+    $scope.logInWithIcivics= function() {
+      $window.location.href = '/auth/icivics/login';
+    };
 })
 
 .controller('LoginCtrl',
@@ -184,17 +195,19 @@ angular.module('playfully.login', [])
     $scope.authError = null;
 
     $scope.login = function ( credentials ) {
+      $scope.loginForm.isSubmitting = true;
       $scope.authError = null;
 
       AuthService.login(credentials).then(function(result) {
+        $scope.loginForm.isSubmitting = false;
         if ($state.current.data.hideWrapper) {
-          $log.info("About to go to loginSuccess");
           $state.go('sdkLoginSuccess');
         } else {
           $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
         }
       }, function(result) {
         $log.error(result);
+        $scope.loginForm.isSubmitting = false;
         $scope.authError = result.data.error;
         $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
       });
@@ -202,7 +215,34 @@ angular.module('playfully.login', [])
   };
 })
 
-.controller('LoginConfirmCtrl',
+.controller('sdkLoginCtrl',
+  function ($scope, $rootScope, $log, $window, $state, AuthService, AUTH_EVENTS) {
+
+    $scope.credentials = { username: '', password: '' };
+    $scope.authError = null;
+
+    $scope.login = function ( credentials ) {
+      $scope.authError = null;
+      $scope.studentLoginForm.isSubmitting = true;
+
+      AuthService.login(credentials).then(function(result) {
+        $scope.studentLoginForm.isSubmitting = false;
+        $state.go('sdkLoginSuccess');
+      }, function(result) {
+        $log.error(result);
+        $scope.studentLoginForm.isSubmitting = false;
+        $scope.authError = result.data.error;
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+      });
+
+  };
+
+    $scope.logInWithEdmodo = function() {
+      $window.location.href = '/auth/edmodo/login';
+    };
+})
+
+.controller('sdkLoginConfirmCtrl',
   function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
     if (!currentUser) {
       $state.transitionTo('sdkLoginOptions');

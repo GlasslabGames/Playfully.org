@@ -10,19 +10,22 @@
       <img ng-src="{{ slide.image.url }}" style="margin:auto;" ng-show="slide.image">
 
       <div ng-show="slide.video">
-        <object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="{{ slide.video.width }}" height="{{ slide.video.height }}" CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab">
-          <param name="src" value="{{ slide.video.url }}">
-          <param name="qtsrc" value="{{ slide.video.url }}">
-          <param name="autoplay" value="true">
-          <param name="loop" value="false">
-          <param name="controller" value="true">
-          <embed src="{{ slide.video.url }}" qtsrc="{{ slide.video.url }}" width="{{ slide.video.width }}" height="{{ slide.video.height }}" autoplay="true" loop="false" controller="true" pluginspage="http://www.apple.com/quicktime/"></embed>
-      </object>
+        <iframe src="{{ trustSrc(slide.video.url) }}"
+          width="{{ slide.video.width }}"
+          height="{{ slide.video.height }}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <p>
+        </p>
       </div>
 
 
       <div class="carousel-caption">
-        <p>{{slide.text}}</p>
+        <p ng-if="slide.text">{{slide.text}}</p>
+
+        <p ng-if="slide.video">
+          <a href="{{ slide.destUrl }}" ng-bind="slide.video.title"></a>
+          from <a href="http://vimeo.com/glasslab">GlassLab</a> on
+          <a href="https://vimeo.com">Vimeo</a>.
+        </p>
       </div>
       </slide>
     </carousel>

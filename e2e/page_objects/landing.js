@@ -22,12 +22,13 @@ var Landing = function() {
 			ttype: 'text',
 			desc: 'shows copyright correctly',
 			locator: element(by.css('.gl-copyright')),
-			text: "©2014 GlassLab, Inc. All rights reserved™"
+			text: "© 2014 GlassLab, Inc. All rights reserved."
 		}
     
     this.loginButton = {
 			ttype: 'btn',
 			locator: element(by.css(".gl-bu-login")),
+//			locator: element(by.binding("'home.register.button' | translate")),
 			text: 'Sign In'
 		}
     
@@ -110,9 +111,8 @@ var Landing = function() {
 				},
 				closeWelcome: {
 					ttype: 'btn',
-					locator: element(by.css("input.btn.gl-btn--blue")),		// NOTE - same as submit
+					locator: element(by.css("button.btn.gl-btn--blue")),
 					text: 'Okay'
-					// TODO - check text in welcome modal
 				}
 			}
 		}
@@ -140,9 +140,9 @@ var Landing = function() {
 			ttype: 'text',
 			desc: 'shows footer correctly',
 			locator: element(by.css('.gl-footer-nav.text-center')),
-			text: "Support GlassLab Legal Developer Community"
+			text: "Support GlassLab Privacy Policy Community"
 		}
 		
 }
 
-module.exports = new Landing();
+module.exports = Landing;

@@ -17,8 +17,9 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
   grunt.loadNpmTasks('grunt-html2js');
-  grunt.loadNpmTasks('grunt-protractor-runner');
 	grunt.loadNpmTasks('grunt-mocha-protractor');
+	grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-git-describe');
 
   /**
    * Load in our build configuration file.
@@ -342,37 +343,36 @@ module.exports = function ( grunt ) {
         singleRun: true
       }
     },
-
-    /**
+		
+//    protractor: {
+//      options: {
+//        configFile: "node_modules/protractor/referenceConf.js", // Default config file
+//        keepAlive: true, // If false, the grunt process stops when the test fails.
+//        noColor: false, // If true, protractor will not use colors in its output.
+//        args: {
+//          // Arguments passed to the command
+//        }
+//      },
+//      build: {
+//        options: {
+//          configFile: "e2e/lib/e2e.conf.js", // Target-specific config file
+//          args: {} // Target-specific arguments
+//        }
+//      }
+//    },
+		
+		/**
      * The Protractor configuration.
      */
-    protractor: {
-      options: {
-        configFile: "node_modules/protractor/referenceConf.js", // Default config file
-        keepAlive: true, // If false, the grunt process stops when the test fails.
-        noColor: false, // If true, protractor will not use colors in its output.
-        args: {
-          // Arguments passed to the command
-        }
-      },
-      build: {
-        options: {
-          configFile: "config/e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
-        }
-      }
-    },
-		
 		mochaProtractor: {
 			options: {
-				browsers: ['Firefox'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
-				debug: true,
+				browsers: ['Chrome'],
+//				browsers: ['Chrome', 'Firefox'],		// FIXME - multicapabilities is currently disrupted by browser.quit()
 				reporter: 'Spec',
-				baseUrl: '127.0.0.1:8001',
 				timeout: 10000, // in milliseconds
 				suiteTimeout: 25000 // in milliseconds
 			},
-			files: ['e2e/*.test.js']
+			files: ['e2e/*.test.js']			// FIXME
 		},
 		
     /**
@@ -550,7 +550,17 @@ module.exports = function ( grunt ) {
         files: ['e2e/*.test.js'],
         tasks: ['jshint:e2e', 'protractor:build']
       }
+    },
 
+    "git-describe": {
+      options: {
+        cwd:       ".",
+        commitish: "master",
+        failOnError: false,
+        template: "{%=tag%}-{%=since%}-{%=object%}{%=dirty%}",
+        prop: 'meta.revision'
+      },
+      default: {}
     }
   };
 
@@ -577,18 +587,20 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'copy:css', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build'
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
+    'createVersionFile'
   ]);
 
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-    'karma:continuous', 'protractor:build'
+    'karma:continuous', 'createVersionFile'
   ]);
     
-  grunt.registerTask('mocha', 'mochaProtractor');
 
+	grunt.registerTask('mocha', 'mochaProtractor');
+//	grunt.registerTask('mocha', 'protractor');
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
@@ -597,6 +609,20 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'compile', [
     'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
+
+  grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
+      grunt.event.once("git-describe", function(rev) {
+        //grunt.log.writeln("Git Revision: ", rev);
+        grunt.file.write(grunt.config('build_dir')+'/version.json', JSON.stringify({
+          tag: rev.tag,
+          since: rev.since,
+          object: rev.object,
+          revision: rev.toString(),
+          date: grunt.template.today()
+        }));
+      });
+      grunt.task.run('git-describe');
+    });
 
   /**
    * A utility function to get all app JavaScript sources.

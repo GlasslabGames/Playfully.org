@@ -25,7 +25,7 @@
     </div>
 
     <div class="login-option">
-      <button class="login-button login-button--icivics" 
+      <button class="login-button login-button--icivics" ng-click="logInWithiCivics()"
         ng-disabled="isiCivicsActive==false">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
@@ -78,8 +78,9 @@
     Don&rsquo;t have an account?
     <a href="#"
       class="link-register"
-      ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">
-        Create an account</a>
+      ng-click="state.go('registerBeta')">
+      <!--ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">-->
+        Request Access</a>
   </div>
 </div>
 

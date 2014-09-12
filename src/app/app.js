@@ -5,6 +5,7 @@ angular.module( 'playfully', [
   'templates-app',
   'templates-common',
   'pascalprecht.translate',
+  'angularMoment',
   'ui.router',
   'ui.bootstrap',
   'playfully.config',
@@ -24,7 +25,8 @@ angular.module( 'playfully', [
   'playfully.login',
   'playfully.profile',
   'playfully.password-reset',
-  'playfully.support'
+  'playfully.support',
+  'playfully.verify-email'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -84,6 +86,18 @@ angular.module( 'playfully', [
       });
     }
   });
+})
+
+.config(function($httpProvider) {
+  //initialize get if not there
+  if (!$httpProvider.defaults.headers.get) {
+    $httpProvider.defaults.headers.get = {};    
+  }
+  //disable IE ajax request caching
+  $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
+  $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+  dt = new Date(1999, 12, 31);
+  $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
 })
 
 .config(function ($translateProvider) {
@@ -158,6 +172,7 @@ angular.module( 'playfully', [
     $scope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthorized = AuthService.isAuthorized;
+    $scope.isSSOLogin = UserService.isSSOLogin;
 
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
@@ -197,6 +212,29 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
       $state.go('home');
+    });
+
+
+
+    // Hack to cause popovers to hide when user clicks outside of them.
+    angular.element(document.body).bind('click', function (e) {
+      var popups = document.querySelectorAll('*[popover]');
+      if (popups) {
+        angular.forEach(popups, function(popup) {
+          var popupElem = angular.element(popup);
+          var content, arrow;
+          if (popupElem.next()) {
+            content = popupElem.next()[0].querySelector('.popover-content');
+            arrow = popupElem.next()[0].querySelector('.arrow');
+          }
+          if (popup != e.target && e.target != content && e.target != arrow) {
+            if (popupElem.next().hasClass('popover')) {
+              popupElem.next().remove();
+              popupElem.scope().tt_isOpen = false;
+            }
+          }
+        });
+      }
     });
 
 });

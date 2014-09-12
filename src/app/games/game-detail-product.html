@@ -1,0 +1,35 @@
+<h3 class="headline-4">About the Game</h3>
+<p ng-bind-html="gameDetails.pages.product.about"></p>
+
+<p>
+  <a href="https://vimeo.com/92362764" target="_blank">
+    <button class="btn gl-btn--blue gl-btn--outlined">
+      <i class="fa fa-video-camera"></i>&nbsp;
+      See the game in action
+    </button>
+  </a>
+</p>
+
+<h3 class="headline-4">How It Fits the Curriculum</h3>
+<ul>
+  <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
+    ng-bind="curriculumItem"></li>
+</ul>
+
+<p class="ng-scope">
+    <a href="https://s3-us-west-2.amazonaws.com/playfully/MGO+brochure_final.pdf" target="_blank">
+        <button class="btn gl-btn--blue gl-btn--outlined">
+            <i class=""></i>&nbsp;
+            Download brochure
+        </button>
+    </a>
+</p>
+        
+<div class="gl-games-slideshow-container">
+  &nbsp;
+  <carousel interval="myInterval">
+    <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
+      <img ng-src="{{normalizeImgUrl(slide.url)}}" style="margin:auto;">
+    </slide>
+  </carousel>
+</div>
