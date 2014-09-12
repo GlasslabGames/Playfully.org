@@ -14,7 +14,7 @@
     <div class="gl-navbar-logo beta"
       ui-sref-active="active"
       ng-if="isAuthorized('instructor')"
-      ui-sref="instructorDashboard"></div>
+      ui-sref="instructorDashboard.default"></div>
     <div class="gl-navbar-logo beta"
       ui-sref-active="active"
       ng-if="isAuthorized('student')"
@@ -76,8 +76,8 @@
 
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized('instructor')">
-        <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="instructorDashboard"
+        <li ng-class="{'active': state.includes('instructorDashboard')}">
+          <a class="gl-nav-link" href ui-sref="instructorDashboard.default"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>

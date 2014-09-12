@@ -111,15 +111,17 @@ angular.module( 'playfully', [
     authorize: function() {
       AuthService.isLoggedIn()
         .then(function(data) {
-          // $window.alert("Logged in");
-          // $window.alert(JSON.stringify(data));
           UserService.currentUser()
             .then(function(user) {
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
               if ($rootScope.toState) {
                 if ($rootScope.toState.url == '/' && user && user.role) {
-                  $state.go(user.role + 'Dashboard');
+                  if (user.role == 'instructor') {
+                    $state.go('instructorDashboard.default');
+                  } else {
+                    $state.go('studentDashboard');
+                  }
                 }
 
                 var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
@@ -221,7 +223,8 @@ angular.module( 'playfully', [
         angular.forEach(popups, function(popup) {
           var popupElem = angular.element(popup);
           var content, arrow;
-          if (popupElem.next()) {
+          if (popupElem.next() && popupElem.next().length) {
+            console.log(popupElem.next());
             content = popupElem.next()[0].querySelector('.popover-content');
             arrow = popupElem.next()[0].querySelector('.arrow');
           }
