@@ -48,7 +48,7 @@
                 ui-sref="unarchiveCourse({id: course.id})">
                 Reactivate This Class
               </button>
-              <div ng-if="showCourseEdit(courseKey)" class="btn-group" dropdown is-open="status.isopen">
+              <div ng-if="showCourseEdit(course)" class="btn-group" dropdown is-open="status.isopen">
                 <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-disabled="disabled">
                   Edit <span class="caret"></span>
                 </button>

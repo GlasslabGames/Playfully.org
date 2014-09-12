@@ -402,11 +402,10 @@ angular.module( 'instructor.courses', [
       $scope.gamesInfo[game.gameId] = game;
     });
 
-    $scope.showCourseEdit = function(courseKey){
-      var course = $scope.courses[courseKey];
-      if( course &&
-          ( !course.archived &&
-            (course.lmsType === "glasslab" ) )
+    $scope.showCourseEdit = function(_course){
+      if( _course &&
+          ( !_course.archived &&
+            (_course.lmsType === "glasslab" ) )
         ) {
         return true;
       } else {
