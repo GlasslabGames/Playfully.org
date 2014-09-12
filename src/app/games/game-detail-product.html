@@ -2,13 +2,14 @@
 <p ng-bind-html="gameDetails.pages.product.about"></p>
 
 <p>
-  <a href="https://vimeo.com/92362764" target="_blank">
+ <!-- <a href="https://vimeo.com/92362764" target="_blank">-->
+  <a ng-href="{{gameDetails.pages.product.video}}">
     <button class="btn gl-btn--blue gl-btn--outlined">
       <i class="fa fa-video-camera"></i>&nbsp;
       See the game in action
     </button>
   </a>
-</p>
+
 
 <h3 class="headline-4">How It Fits the Curriculum</h3>
 <ul>
