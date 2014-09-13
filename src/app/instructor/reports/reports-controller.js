@@ -15,10 +15,12 @@ angular.module( 'instructor.reports', [
       }
     },
     resolve: {
-      allGames: function(GamesService) { return GamesService.all(); },
-      defaultGame: function(allGames) { return allGames[0].gameId; },
-      activeCourses: function($log, CoursesService) {
+      activeCourses: function(CoursesService) {
         return CoursesService.getActiveEnrollmentsWithStudents();
+      },
+      myGames: function(GamesService) { return GamesService.getMyGames(); },
+      defaultGame: function($stateParams, myGames) { 
+        return myGames[0].gameId;
       }
     },
     data: {
@@ -59,19 +61,29 @@ angular.module( 'instructor.reports', [
 })
 
 .controller( 'ReportsCtrl',
-  function($scope, $log, $state, $stateParams, allGames, activeCourses, defaultGame) {
+  function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGame) {
+    if (!defaultGame) {
+      $state.transitionTo('reports.details', {
+        reportId: 'achievements',
+        gameId: myGames[0].gameId,
+        courseId: activeCourses[0].id
+      });
+    }
 
     /* Games */
 
     $scope.games = {
       isOpen: false,
-      selected: defaultGame,
+      selected: null,
       options: {}
     };
     /* Set up active games in the games list */
-    angular.forEach(allGames, function(game) {
+    angular.forEach(myGames, function(game) {
       if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
+        if (game.gameId == $stateParams.gameId) {
+          $scope.games.selected = game.gameId;
+        }
       }
     });
 
@@ -189,7 +201,16 @@ angular.module( 'instructor.reports', [
 
 
 .controller( 'ReportsDetailCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, ReportsService) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService) {
+
+    // First, let's make sure the requested game is okay for them to see.
+    var requestedGameOK = false;
+    angular.forEach(myGames, function(game) {
+      if (game.gameId == $stateParams.gameId) {
+        requestedGameOK = true;
+      }
+    });
+    if (!requestedGameOK) { $state.transitionTo('reports.default'); }
     
     // Reflect report selections from URL
     $scope.games.selected = $stateParams.gameId;
@@ -398,7 +419,9 @@ angular.module( 'instructor.reports', [
       if ($stateParams.skillsId) {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
-        $scope.achievements.selected = $scope.achievements.options[0].id;
+        if ($scope.achievements.options && $scope.achievements.options.length) {
+          $scope.achievements.selected = $scope.achievements.options[0].id;
+        }
       }
 
       $scope.achievements.options = _populateAchievements($scope.achievements.options);
@@ -420,16 +443,18 @@ angular.module( 'instructor.reports', [
 
 
     var _populateAchievements = function(reports) {
-      for(var i = 0; i < reports.length; i++) {
-        reports[i].list = [];
-        for(var j = 0; j < reports[i].subGroups.length; j++) {
-          for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
-            reports[i].subGroups[j].items[k].standard = {
-              title:       reports[i].subGroups[j].title,
-              description: reports[i].subGroups[j].description
-            };
+      if (reports && reports.length) {
+        for(var i = 0; i < reports.length; i++) {
+          reports[i].list = [];
+          for(var j = 0; j < reports[i].subGroups.length; j++) {
+            for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
+              reports[i].subGroups[j].items[k].standard = {
+                title:       reports[i].subGroups[j].title,
+                description: reports[i].subGroups[j].description
+              };
 
-            reports[i].list.push( reports[i].subGroups[j].items[k] );
+              reports[i].list.push( reports[i].subGroups[j].items[k] );
+            }
           }
         }
       }
@@ -437,11 +462,13 @@ angular.module( 'instructor.reports', [
     };
 
     var _populateStudentAchievements = function(data) {
-      // Attach achievements and time played to students
-      angular.forEach(data, function(d) {
-        $scope.students[d.userId].achievements    = d.achievements;
-        $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
-      });
+      if (data) {
+        // Attach achievements and time played to students
+        angular.forEach(data, function(d) {
+          $scope.students[d.userId].achievements    = d.achievements;
+          $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
+        });
+      }
     };
 
 });
