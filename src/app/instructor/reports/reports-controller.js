@@ -103,7 +103,22 @@ angular.module( 'instructor.reports', [
       if ($scope.achievements.selected) {
         newState.skillsId = $scope.achievements.selected;
       }
+      _clearOtherCourses(courseId);
       $state.transitionTo('reports.details', newState);
+    };
+
+
+    // Reset all classes and their students except for the id passed in
+    // (which should be the newly-selected course.
+    var _clearOtherCourses = function(exceptedCourseId) {
+      angular.forEach($scope.courses.options, function(course) {
+        if (course.id != exceptedCourseId) {
+          angular.forEach(course.users, function(student) {
+            student.isSelected = false;
+          });
+          course.isPartiallySelected = false;
+        }
+      });
     };
 
     /**
