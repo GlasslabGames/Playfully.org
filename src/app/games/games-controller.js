@@ -79,6 +79,20 @@ angular.module( 'playfully.games', [
       }
     }
   })
+  .state( 'games.play-page', {
+    url: '/:gameId/play-page',
+    data: {
+      authorizedRoles: ['student', 'instructor']
+    },
+    controller: 'GamePlayPageCtrl',
+    templateUrl: 'games/game-play-page.html',
+    resolve: {
+      gameDetails: function($stateParams, GamesService) {
+        console.log("gameId:", $stateParams.gameId);
+        return GamesService.getDetail($stateParams.gameId);
+      }
+    }
+  })
   .state( 'games.missions', {
     parent: 'games.detail.product',
     url: '/play-missions',
@@ -88,7 +102,7 @@ angular.module( 'playfully.games', [
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
       $modal.open({
-        size: 'xlg',
+        size: 'lg',
         keyboard: false,
         resolve: {
           gameMissions: function(GamesService) {
@@ -97,28 +111,6 @@ angular.module( 'playfully.games', [
         },
         templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
-
-      });
-    }
-  })
-  .state( 'games.playModal', {
-    parent: 'games.detail.product',
-    url: '/play-modal',
-    data: {
-      authorizedRoles: ['student', 'instructor']
-    },
-    onEnter: function($stateParams, $state, $modal) {
-      var gameId = $stateParams.gameId;
-      $modal.open({
-        size: 'lg',
-        keyboard: true,
-        resolve: {
-          gameDetails: function(GamesService) {
-            return GamesService.getDetail(gameId);
-          }
-        },
-        templateUrl: 'games/game-play-modal.html',
-        controller: 'GamePlayModalCtrl'
 
       });
     }
@@ -234,25 +226,17 @@ angular.module( 'playfully.games', [
     }, 100);
   };
 })
-.controller( 'GamePlayModalCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
-
+.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
   $scope.gamePlayInfo = {};
-  //$scope.gameId = gameId;
+
+  console.log('gameDetails:', gameDetails);
 
   if(gameDetails &&
      gameDetails.play &&
-     gameDetails.play.modal ) {
-    $scope.gamePlayInfo = gameDetails.play.modal;
+     gameDetails.play.page ) {
+    $scope.gamePlayInfo = gameDetails.play.page;
 
     $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
-  //console.log('getTrusted:', $sceDelegate.getTrusted($sce.RESOURCE_URL));
-
-  $scope.closeModal = function(){
-    $scope.$close(true);
-    return $timeout(function () {
-      $state.go('games.detail.product', {}, { reload: true });
-    }, 100);
-  };
 });
 
