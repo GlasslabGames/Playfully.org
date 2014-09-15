@@ -14,6 +14,7 @@ angular.module( 'playfully', [
   'games',
   'reports',
   'checkSpec',
+  'admin',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
