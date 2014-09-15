@@ -15,10 +15,10 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-html2js');
-	grunt.loadNpmTasks('grunt-mocha-protractor');
-	grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-mocha-protractor');
+  grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-git-describe');
 
   /**
@@ -145,7 +145,7 @@ module.exports = function ( grunt ) {
           {
             src: [ '**' ],
             dest: '<%= compile_dir %>/assets',
-            cwd: '<%= build_dir %>/assets',
+            cwd: 'src/assets',
             expand: true
           }
         ]
@@ -165,6 +165,14 @@ module.exports = function ( grunt ) {
             dest: '<%= build_dir %>/favicon.ico'
           }
         ]
+      },
+      css:  {
+        files: [
+          {
+            src: ['src/**/*.css'],
+            dest: '<%= build_dir %>/'
+          }
+        ]
       }
     },
 
@@ -173,11 +181,12 @@ module.exports = function ( grunt ) {
      */
     concat: {
       /**
-       * The `build_css` target concatenates compiled CSS and vendor CSS
+       * The `build_css` target concatenates all css in the src directory, compiled CSS and vendor CSS
        * together.
        */
       build_css: {
         src: [
+          '<%= build_dir %>/src/**/*.css',
           '<%= vendor_files.css %>',
           '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ],
@@ -205,19 +214,17 @@ module.exports = function ( grunt ) {
 
 
     /**
-     * `ng-min` annotates the sources before minifying. That is, it allows us
-     * to code without the array syntax.
-     */
-    ngmin: {
+     * Annotate the sources before minifying, so we don't have to code
+     * everything using the array syntax.
+     **/
+    ngAnnotate: {
       compile: {
-        files: [
-          {
+        files: [{
             src: [ '<%= app_files.js %>' ],
             cwd: '<%= build_dir %>',
             dest: '<%= build_dir %>',
             expand: true
-          }
-        ]
+        }]
       }
     },
 
@@ -589,6 +596,7 @@ module.exports = function ( grunt ) {
     'karma:continuous', 'createVersionFile'
   ]);
     
+
 	grunt.registerTask('mocha', 'mochaProtractor');
 //	grunt.registerTask('mocha', 'protractor');
 
@@ -597,7 +605,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {

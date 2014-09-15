@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8 text-center">
+    <h2>Welcome, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h2>
+    <p>
+      Ready to set up classes? Want to know what reports we have? Take a tour of Playfully!
+    </p>
+    &nbsp;
+    <div>
+      <button class="btn gl-btn--blue"
+        ui-sref="instructorTour">Take a Tour</button>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>

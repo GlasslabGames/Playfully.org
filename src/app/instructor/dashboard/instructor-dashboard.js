@@ -3,35 +3,251 @@ angular.module( 'instructor.dashboard', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'instructorDashboard', {
-    parent: 'site',
+  $stateProvider.state('instructorDashboard', {
+    abstract: true,
     url: '/dashboard',
-    views: {
-      'main@': {
-        controller: 'InstructorDashboardCtrl',
-        templateUrl: 'instructor/dashboard/instructor-dashboard.html'
-      }
-    },
-    data:{
-      pageTitle: 'Dashboard',
-      authorizedRoles: ['instructor']
+    data: {
+      authorizedRoles: ['instructor'],
+      pageTitle: 'Dashboard'
     },
     resolve: {
       courses: function(CoursesService) {
         return CoursesService.getEnrollmentsWithStudents();
       },
-      games: function(GamesService) {
-        return GamesService.all();
+      activeCourses: function(courses, $q, $filter) {
+        var deferred = $q.defer();
+        var active = $filter('filter')(courses, {archived: false});
+        deferred.resolve(active);
+        return deferred.promise;
       },
-      myGames: function(GamesService) {
-        return GamesService.getMyGames();
+      games: function(GamesService) { return GamesService.all(); },
+      myGames: function(GamesService) { return GamesService.getMyGames(); }
+    },
+    views: {
+      main: {
+        templateUrl: 'instructor/dashboard/instructor-dashboard.html',
+        controller: function ($scope, myGames) { $scope.myGames = myGames; }
       }
     }
+  })
+
+  .state('instructorDashboard.default', {
+    url: '',
+    controller: function($scope, $state, $log, myGames, activeCourses) {
+      // Decide which state to send the instructor to, based on whether
+      // they have courses set up.
+      if (!myGames.length) {
+        $state.transitionTo('instructorDashboard.intro');
+      } else {
+        $state.transitionTo('instructorDashboard.gameplay',
+          { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
+      }
+    }
+  })
+
+  .state('instructorDashboard.intro', {
+    url: '/intro',
+    templateUrl: 'instructor/dashboard/_dashboard-intro.html'
+  })
+
+  .state('instructorDashboard.gameplay', {
+    url: '/game/:gameId/course/:courseId',
+    templateUrl: 'instructor/dashboard/_dashboard-reports.html',
+    controller: 'InstructorDashboardCtrl'
   });
 })
 
-.controller( 'InstructorDashboardCtrl',
-  function ( $scope, $location, $log, courses, games, myGames, GamesService, ReportsService) {
+
+.controller('InstructorDashboardCtrl', function($scope, $state, $stateParams, $log, activeCourses, games, myGames, GamesService, ReportsService) {
+
+  $scope.students = {};
+  $scope.courses = activeCourses;
+  $scope.games = games;
+  $scope.myGames = myGames;
+  $scope.status = {
+    selectedGameId: $stateParams.gameId,
+    selectedCourseId: $stateParams.courseId,
+    selectedGame: null
+  };
+  $scope.reports = {
+    isOpen: false,
+    selected: null,
+    options: []
+  };
+  $scope.sowo = {
+    shoutOuts: null,
+    watchOuts: null,
+    // set max rows for SOWO
+    max: 7,
+    // to display show more button
+    hasOverflow: false
+  };
+
+  var _setSelectedGameById = function(gameId) {
+    angular.forEach($scope.games, function(game) {
+      if (game.gameId == $stateParams.gameId) {
+        $scope.status.selectedGame = game;
+      }
+    });
+  };
+
+  var _populateStudentsListFromCourses = function(courseList) {
+    angular.forEach(courseList, function(course) {
+      angular.forEach(course.users, function(student) {
+        if (!$scope.students.hasOwnProperty(student.id)) {
+          $scope.students[student.id] = student;
+        }
+      });
+    });
+  };
+
+  var _getReports = function() {
+    GamesService.getAllReports($stateParams.gameId)
+      .then(function(data) {
+        if (data.list && data.list.length) {
+          $scope.reports.options = data.list;
+
+          $scope.reports.selected = null;
+          for (var i=0; i < data.list.length; i++) {
+            if (data.list[i].id == 'sowo') {
+              $scope.reports.selected = data.list[i];
+              break;
+            }
+          }
+
+          if ($scope.reports.selected) {
+            ReportsService.get($scope.reports.selected.id, $stateParams.gameId, $stateParams.courseId)
+              .then(function(data) {
+                _populateSowo(data);
+              }, function(data) {
+                $log.error(data);
+              });
+          }
+        }
+      });
+  };
+
+
+  var _initDashboard = function() {
+    _populateStudentsListFromCourses(activeCourses);
+    _setSelectedGameById($stateParams.gameId);
+
+    $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
+      if (newValue) {
+        $state.transitionTo('instructorDashboard.gameplay',
+          { gameId: $scope.status.selectedGameId, courseId: newValue });
+      }
+    });
+
+    _getReports();
+  };
+
+
+  var _populateSowo = function(data) {
+    var sowo = data;
+    var soTotal = 0;
+    var woTotal = 0;
+
+    if (sowo.length) {
+      // pre fill data
+      $scope.sowo.shoutOuts = [];
+      $scope.sowo.watchOuts = [];
+      for(var i = 0; i < $scope.sowo.max; i++) {
+        $scope.sowo.shoutOuts[i] = {
+          student: {},
+          results: [],
+          overflowText: "",
+          order: [0, ""]
+        };
+        $scope.sowo.watchOuts[i] = {
+          student: {},
+          results: [],
+          overflowText: "",
+          order: [0, ""]
+        };
+      }
+
+      // sowo count sorted by server
+      // sort alpha in view
+      angular.forEach(sowo, function(assessment) {
+        var student = $scope.students[assessment.userId];
+        student = _compileNameOfStudent(student);
+
+        if (assessment.results.hasOwnProperty('shoutout') &&
+            assessment.results.shoutout.length) {
+          if (soTotal < $scope.sowo.max) {
+            $scope.sowo.shoutOuts[soTotal] = {
+              student: student,
+              results: assessment.results['shoutout'],
+              overflowText: _getOverflowText(assessment.results['shoutout']),
+              order: [
+                assessment.results['shoutout'].length,
+                student.name
+              ]
+            };
+            soTotal++;
+          } else {
+            $scope.sowo.hasOverflow = true;
+          }
+        }
+        if (assessment.results.hasOwnProperty('watchout') &&
+            assessment.results.watchout.length) {
+          if (woTotal < $scope.sowo.max) {
+            $scope.sowo.watchOuts[woTotal] = {
+              student: student,
+              results: assessment.results['watchout'],
+              overflowText: _getOverflowText(assessment.results['watchout']),
+              order: [
+                assessment.results['watchout'].length,
+                student.name
+              ]
+            };
+            woTotal++;
+          } else {
+            $scope.sowo.hasOverflow = true;
+          }
+        }
+      });
+    }
+
+    // get max totals
+    var total = Math.max(soTotal, woTotal);
+    // if totals less then max, trim array of empties
+    if( total &&
+        total < $scope.sowo.max) {
+      // trim array
+
+      $scope.sowo.shoutOuts.splice(total, $scope.sowo.shoutOuts.length - total);
+      $scope.sowo.watchOuts.splice(total, $scope.sowo.watchOuts.length - total);
+    }
+  };
+
+  var _compileNameOfStudent = function(student) {
+    var name = student.firstName;
+    if(student.lastName) {
+      name += ' ' + student.lastName + '.';
+    }
+
+    student.name = name;
+    return student;
+  };
+
+  var _getOverflowText = function(results) {
+    overflowText = '';
+    angular.forEach(results, function(r, i) {
+      if (i >= 3) {
+        overflowText += '<p>' + r.description + '</p>';
+      }
+    });
+    return overflowText;
+  };
+
+  _initDashboard();
+});
+
+/*
+.controller( 'oldInstructorDashboardCtrl',
+  function ( $scope, $location, $state, $stateParams, $log, courses, games, myGames, GamesService, ReportsService) {
 
     $scope.students = {};
     $scope.courses = courses;
@@ -98,38 +314,43 @@ angular.module( 'instructor.dashboard', [
 
     $scope.getTimes = function(n) { return new Array(n); };
 
-    $scope.$watch('status.selectedCourseId', function(courseId, oldValue) {
-      // TODO: need to check if gameId in couse
-      GamesService.getAllReports($scope.status.selectedOption.gameId)
-        .then(function(data) {
-          _resetSowo();
-
-          if (data.list && data.list.length) {
-            $scope.reports.options = data.list;
-
-            // find sowo
-            $scope.reports.selected = null;
-            for(var i = 0; i < data.list.length; i++) {
-              if(data.list[i].id == 'sowo') {
-                $scope.reports.selected = data.list[i];
-                break; // exit loop
-              }
-            }
-
-            if($scope.reports.selected) {
-              ReportsService.get($scope.reports.selected.id, $scope.status.selectedOption.gameId, courseId)
-                .then(function(data) {
-                  //$log.info(data);
-                  _populateSowo(data);
-                }, function(data) {
-                  $log.error(data);
-                });
-            }
-          }
-        });
+    $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
+      if (newValue) {
+        $state.transitionTo('instructorDashboard.gameplay', 
+          { gameId: $scope.myGames[0].gameId, courseId: newValue });
+      }
     });
 
-    /* Set the passed-in course to be the selected one */
+    // TODO: need to check if gameId in course
+    GamesService.getAllReports($scope.status.selectedOption.gameId)
+      .then(function(data) {
+        _resetSowo();
+
+        if (data.list && data.list.length) {
+          $scope.reports.options = data.list;
+
+          // find sowo
+          $scope.reports.selected = null;
+          for(var i = 0; i < data.list.length; i++) {
+            if(data.list[i].id == 'sowo') {
+              $scope.reports.selected = data.list[i];
+              break; // exit loop
+            }
+          }
+
+          if($scope.reports.selected) {
+            ReportsService.get($scope.reports.selected.id, $scope.status.selectedOption.gameId, $stateParams.courseId)
+              .then(function(data) {
+                //$log.info(data);
+                _populateSowo(data);
+              }, function(data) {
+                $log.error(data);
+              });
+          }
+        }
+      });
+
+    // Set the passed-in course to be the selected one 
     $scope.selectCourse = function($event, courseId) {
       $event.preventDefault();
       $event.stopPropagation();
@@ -246,5 +467,6 @@ angular.module( 'instructor.dashboard', [
     return overflowText;
   };
 });
+*/
 
 
