@@ -16,6 +16,12 @@
   .image-2x('game-banner-SC.jpg', 1024px, 300px);
 }
 
+.gl-game-banner-AW-1 {
+  height: 300px;
+  background-position: center;
+  .image-2x('game-banner-AW-1.jpg', 1024px, 300px);
+}
+
 
 .gl-game-title {
   margin-top: 2px;
@@ -275,13 +281,13 @@
   cursor: pointer;
 }
 
-.gl-gamePlayInfo-embedded {
-  max-width: 460px;
-  max-height: 400px;
+.gl-gamePlay-embedded {
+  width: 100%;
 
   object {
-    max-width: 460px;
-    max-height: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -336,4 +342,8 @@
   width:  65px;
   height: 65px;
   .image-2x('game-SC-missions-build-icon-green.png', 65px, 65px);
+}
+
+.gl-game-card:hover {
+  cursor: pointer;
 }
