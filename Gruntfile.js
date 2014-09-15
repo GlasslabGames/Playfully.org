@@ -548,7 +548,7 @@ module.exports = function ( grunt ) {
 
       protractor: {
         files: ['e2e/*.test.js'],
-        tasks: ['jshint:e2e', 'protractor:build']
+        tasks: ['jshint:e2e']
       }
     },
 
