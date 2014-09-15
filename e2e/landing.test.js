@@ -186,7 +186,6 @@ describe.skip("Landing Page", function() {
 			dashboard.logoutOption.locator.click()
 				.then(function() {
 					browser.sleep(150);
-					browser.pause();
 					expectCurrentUrlToMatch(serverAddress + landing.path);
 					screenshot(resultDir + 'landing.logout(student)-02');
 					done();

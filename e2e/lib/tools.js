@@ -2,7 +2,7 @@ var fs 		 = require('fs'),
 		chai	 = require('chai'),
 		expect = chai.expect;
 
-var screenshotXtn = '.png';		// TODO - move to config page / tools
+var screenshotXtn = '.png';
 
 module.exports = {
 	screenshot: screenshot,
