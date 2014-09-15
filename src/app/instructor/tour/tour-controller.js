@@ -3,38 +3,29 @@ angular.module( 'instructor.tour', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'tourModal', {
-    abstract: true,
-    parent: 'instructorDashboard',
-    url: '',
-    onEnter: function($rootScope, $modal, $state) {
-      $rootScope.modalInstance = $modal.open({
-        template: '<div ui-view="modal"></div>',
-        size: 'lg'
-      });
-
-      $rootScope.modalInstance.result.finally(function() {
-        $state.go('instructorDashboard');
-      });
-    }
-  })
-  .state( 'instructorTour', {
-    parent: 'tourModal',
-    url: '/instructor-tour',
-    views: {
-      'modal@': {
-        controller: 'InstructorTourModalCtrl',
-        templateUrl: 'instructor/tour/tour.html'
-      }
-    },
+  $stateProvider.state( 'instructorTour', {
+    parent: 'instructorDashboard.intro',
+    url: '/tour',
     data:{
       pageTitle: 'Instructor Tour',
       authorizedRoles: ['instructor']
+    },
+    onEnter: function($stateParams, $state, $modal) {
+      $modal.open({
+        size: 'lg',
+        keyboard: false,
+        templateUrl: 'instructor/tour/tour.html',
+        controller: 'InstructorTourModalCtrl'
+      }).result.then(function(result) {
+          if (result) {
+            return $state.transitionTo('instructorDashboard.intro');
+          }
+      });
     }
   });
 })
 
-.controller( 'InstructorTourModalCtrl', function ( $scope, $log, $sce ) {
+.controller( 'InstructorTourModalCtrl', function ( $scope, $state, $timeout, $log, $sce ) {
 
   $scope.trustSrc = function(src) { return $sce.trustAsResourceUrl(src); };
 
@@ -73,6 +64,13 @@ angular.module( 'instructor.tour', [
     }
   ];
 
+  
+  $scope.closeModal = function() {
+    $scope.$close(true);
+    return $timeout(function () {
+      $state.go('instructorDashboard.intro', {}, { reload: true });
+    }, 100);
+  };
 
 });
 

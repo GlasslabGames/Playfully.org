@@ -15,10 +15,10 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-html2js');
-	grunt.loadNpmTasks('grunt-mocha-protractor');
-	grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-mocha-protractor');
+  grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-git-describe');
 
   /**
@@ -145,7 +145,7 @@ module.exports = function ( grunt ) {
           {
             src: [ '**' ],
             dest: '<%= compile_dir %>/assets',
-            cwd: '<%= build_dir %>/assets',
+            cwd: 'src/assets',
             expand: true
           }
         ]
@@ -214,19 +214,17 @@ module.exports = function ( grunt ) {
 
 
     /**
-     * `ng-min` annotates the sources before minifying. That is, it allows us
-     * to code without the array syntax.
-     */
-    ngmin: {
+     * Annotate the sources before minifying, so we don't have to code
+     * everything using the array syntax.
+     **/
+    ngAnnotate: {
       compile: {
-        files: [
-          {
+        files: [{
             src: [ '<%= app_files.js %>' ],
             cwd: '<%= build_dir %>',
             dest: '<%= build_dir %>',
             expand: true
-          }
-        ]
+        }]
       }
     },
 
@@ -585,7 +583,7 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'copy:css', 'less:build',
+    'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
     'createVersionFile'
@@ -607,7 +605,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
