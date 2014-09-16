@@ -56,6 +56,10 @@ angular.module( 'playfully.games', [
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
+  .state('games.detail.check', {
+    url: '/check',
+    templateUrl: 'check-spec/check-spec.html'
+  })
   .state('games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
@@ -65,6 +69,8 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor'] }
   })
+
+
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },
@@ -142,7 +148,8 @@ angular.module( 'playfully.games', [
       { id: 'standards', title: 'Standards Alignment' },
       { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
       { id: 'research', title: 'Research' },
-      { id: 'reviews', title: 'Reviews' }
+      { id: 'reviews', title: 'Reviews' },
+      { id: 'check', title: 'System Requirements', true: gameDetails.pages.check}
     ];
 
     // $scope.$on('$stateChangeSuccess',

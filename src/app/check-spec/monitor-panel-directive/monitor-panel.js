@@ -23,7 +23,7 @@ angular.module('playfully.checkSpec')
                          Property houses title property.
 
                          @property title
-                         @type Sring
+                         @type String
                          **/
                         $scope.title = undefined;
 
