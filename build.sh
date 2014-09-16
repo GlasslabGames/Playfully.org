@@ -2,4 +2,10 @@
 
 npm install
 bower install --allow-root --config.interactive=false
-grunt build
+
+if [ "$HYDRA_ENV" = "dev" ]
+then
+    grunt build
+else
+    grunt compile
+fi
