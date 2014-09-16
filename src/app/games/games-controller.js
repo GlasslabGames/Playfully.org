@@ -139,9 +139,9 @@ angular.module( 'playfully.games', [
 
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment' },
+      { id: 'standards', title: 'Standards Alignment', authRequired: true },
       { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research' },
+      { id: 'research', title: 'Research', authRequired: true },
       { id: 'reviews', title: 'Reviews' }
     ];
 
