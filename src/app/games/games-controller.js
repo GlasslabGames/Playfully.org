@@ -207,7 +207,7 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = $stateParams.gameId;
 
@@ -217,6 +217,10 @@ angular.module( 'playfully.games', [
     } else {
       $window.location = path;
     }
+  };
+
+  $scope.isAuthorized = function(type) {
+    return (AuthService.isAuthenticated() && AuthService.isAuthorized(type));
   };
 
   $scope.closeModal = function(){
