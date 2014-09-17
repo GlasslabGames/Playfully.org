@@ -159,7 +159,6 @@ angular.module( 'playfully.games', [
         //   }
     //     });
     // });
->>>>>>> 8c4c986bda35e33d03c7a8b4d8c22348815d4314
 
     $scope.isAuthorized = function() {
       return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
