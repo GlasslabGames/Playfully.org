@@ -59,7 +59,7 @@ angular.module( 'playfully.games', [
   })
   .state('games.detail.check', {
     url: '/check',
-    templateUrl: 'check-spec/check-spec.html'
+    templateUrl: 'games/game-detail-check-spec.html'
   })
   .state('games.detail.reviews', {
     url: '/reviews',
