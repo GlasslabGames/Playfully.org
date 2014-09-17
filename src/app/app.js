@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
   'ga',

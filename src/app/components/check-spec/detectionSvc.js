@@ -165,7 +165,7 @@ angular.module('checkSpec')
                  @type Object
                  **/
                 dataConnection: {
-                    image: 'assets/connection.jpg',
+                    image: '/assets/connection.jpg',
                     speed: 750
                 },
 
@@ -361,8 +361,8 @@ angular.module('checkSpec')
                     var response = {};
 
                     // Initailize.
-                    response.width =  window.innerWidth || document.body.clientWidth;
-                    response.height = window.innerHeight || document.body.clientHeight;
+                    response.width =  window.screen.width || document.body.clientWidth;
+                    response.height = window.screen.height || document.body.clientHeight;
 
                     // Update.
                     service.screen.width = response.width;

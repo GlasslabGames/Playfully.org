@@ -32,5 +32,14 @@
     "moment": "~2.7.0",
     "angular-moment": "~0.8.0",
     "glasslab-sdk-as3": "*"
+  },
+  "dependencies": {
+    "angular-bootstrap": "~0.11.0",
+    "angular-http-auth": "~1.2.1",
+    "angular-order-object-by": "~1.0.0"
+  },
+  "resolutions": {
+    "angular": "1.2.25",
+    "angular-ui-router": "~0.2.11"
   }
 }

@@ -1,4 +1,4 @@
-<div ng-repeat="section in gameDetails.pages.research">
+<div ng-repeat="section in gameDetails.pages.research.list">
   <h3 class="headline-4" ng-bind="section.category"></h3>
   <p ng-repeat="listItem in section.list">
     <a href="{{ listItem.link }}" 
