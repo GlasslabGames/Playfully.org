@@ -21,6 +21,9 @@ angular.module( 'instructor.reports', [
       myGames: function(GamesService) { return GamesService.getMyGames(); },
       defaultGame: function($stateParams, myGames) { 
         return myGames[0].gameId;
+      },
+      gameReports: function(GamesService, myGames) {
+        return GamesService.getAllReports(myGames[0].gameId);
       }
     },
     data: {
@@ -35,10 +38,10 @@ angular.module( 'instructor.reports', [
    **/
   .state('reports.default', {
     url: '',
-    controller: function($scope, $state, $log, defaultGame, activeCourses) {
+    controller: function($scope, $state, $log, defaultGame, activeCourses, gameReports) {
       if (activeCourses.length) {
         $state.transitionTo('reports.details', {
-          reportId: 'achievements',
+          reportId: $scope.reports.options[0].id,
           gameId: defaultGame,
           courseId: activeCourses[0].id
         });
@@ -51,18 +54,19 @@ angular.module( 'instructor.reports', [
     templateUrl: function($stateParams) {
       return 'instructor/reports/' + $stateParams.reportId + '.html';
     },
-    controller: 'ReportsDetailCtrl',
     resolve: {
       gameReports: function($stateParams, GamesService) {
         return GamesService.getAllReports($stateParams.gameId);
       }
-    }
+    },
+    controller: 'ReportsDetailCtrl'
   });
 })
 
 .controller( 'ReportsCtrl',
-  function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGame) {
+  function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGame, gameReports) {
     if (!defaultGame) {
+      // TODO replace this with logic to get first active report
       $state.transitionTo('reports.details', {
         reportId: 'achievements',
         gameId: myGames[0].gameId,
@@ -88,7 +92,6 @@ angular.module( 'instructor.reports', [
     });
 
     $scope.developer = {};
-
 
     /* Courses */
 
@@ -147,6 +150,19 @@ angular.module( 'instructor.reports', [
       selected: null,
       options: []
     };
+
+    // Set up Reports dropdown based on reports available to
+    // the selected Game.
+    angular.forEach(gameReports.list, function(report) {
+      // only add enabled reports
+      if(report.enabled) {
+        $scope.reports.options.push( angular.copy(report) );
+      }
+    });
+    // select first if on exists
+    if($scope.reports.options.length) {
+      $scope.reports.selected = $scope.reports.options[0];
+    }
 
 
     /* Students */
@@ -217,18 +233,37 @@ angular.module( 'instructor.reports', [
     $scope.games.selected = $stateParams.gameId;
     $scope.courses.selectedId = $stateParams.courseId;
 
-    // Set up Reports dropdown based on reports available to
-    // the selected Game.
-    $scope.reports.options = angular.copy(gameReports.list);
-    angular.forEach($scope.reports.options, function(report) {
-      if (report.id == $stateParams.reportId) {
-        $scope.reports.selected = report;
-      }
-    });
-
     // Set parent scope developer info
     if (gameReports.hasOwnProperty('developer')) {
       $scope.developer.logo = gameReports.developer.logo;
+    }
+
+
+    //* Reports */
+
+    // Set up Reports dropdown based on reports available to
+    // the selected Game.
+    $scope.reports.options = [];
+    angular.forEach(gameReports.list, function(report) {
+      // only add enabled reports
+      if(report.enabled) {
+        $scope.reports.options.push( angular.copy(report) );
+      }
+    });
+
+    // find selected report
+    $scope.reports.selected = null;
+    for(var r in $scope.reports.options) {
+      if ($scope.reports.options[r].id === $stateParams.reportId) {
+        $scope.reports.selected = $scope.reports.options[r];
+        break;
+      }
+    }
+
+    // select if report not select, and options then select first one
+    if( !$scope.reports.selected &&
+         $scope.reports.options.length) {
+      $scope.reports.selected = $scope.reports.options[0];
     }
 
     /**
@@ -270,6 +305,16 @@ angular.module( 'instructor.reports', [
     /* Retrieve the appropriate report and process the data */
     ReportsService.get($stateParams.reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(data) {
+
+        if( !_isValidReport($stateParams.reportId) ) {
+          $state.transitionTo('reports.details', {
+            reportId: _getDefaultReportId(),
+            gameId: $stateParams.gameId,
+            courseId: $stateParams.courseId
+          });
+          return;
+        }
+
         if ($stateParams.reportId == 'sowo') {
           _resetSowo();
           _populateSowo(data);
@@ -278,8 +323,6 @@ angular.module( 'instructor.reports', [
           _populateStudentAchievements(data);
         }
     });
-
-
 
     $scope.selectActiveAchievements = function(group, index) {
       angular.forEach($scope.achievements.options, function(option) {
@@ -328,6 +371,24 @@ angular.module( 'instructor.reports', [
   };
 
 
+    var _isValidReport = function(reportId){
+      for(var i = 0; i < $scope.reports.options.length; i++) {
+        if($scope.reports.options[i].id === reportId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    var _getDefaultReportId = function() {
+      if( $scope.reports.options &&
+          $scope.reports.options[0] &&
+          $scope.reports.options[0].id) {
+        return $scope.reports.options[0].id;
+      } else {
+        return "sowo";
+      }
+    };
 
     var _resetSowo = function() {
       $scope.sowo = {

@@ -226,7 +226,6 @@ angular.module( 'playfully', [
           var popupElem = angular.element(popup);
           var content, arrow;
           if (popupElem.next() && popupElem.next().length) {
-            console.log(popupElem.next());
             content = popupElem.next()[0].querySelector('.popover-content');
             arrow = popupElem.next()[0].querySelector('.arrow');
           }
