@@ -45,7 +45,6 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="report in reports.options | orderBy:report.name"
-              ng-hide="!report.name"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
                 ui-sref="reports.details({reportId:report.id,gameId:games.selected,courseId:courses.selectedId})"

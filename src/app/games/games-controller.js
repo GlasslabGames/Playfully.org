@@ -139,9 +139,9 @@ angular.module( 'playfully.games', [
 
     $scope.navItems = [
       { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment' },
+      { id: 'standards', title: 'Standards Alignment', authRequired: true },
       { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research' },
+      { id: 'research', title: 'Research', authRequired: true },
       { id: 'reviews', title: 'Reviews' }
     ];
 
@@ -207,7 +207,7 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = $stateParams.gameId;
 
@@ -217,6 +217,10 @@ angular.module( 'playfully.games', [
     } else {
       $window.location = path;
     }
+  };
+
+  $scope.isAuthorized = function(type) {
+    return (AuthService.isAuthenticated() && AuthService.isAuthorized(type));
   };
 
   $scope.closeModal = function(){
