@@ -64,6 +64,11 @@
           </a>
         </li>
 
+        <li ng-class="{'active': state.includes('games')}">
+          <a class="gl-nav-link" href ui-sref="games.default"
+            data-ng-bind="'navbar.link.mygames' | translate">
+          </a>
+        </li>
         <li class="gl-login-button">
           <login-status type="modal"></login-status>
         </li>
