@@ -32,5 +32,6 @@
     "moment": "~2.7.0",
     "angular-moment": "~0.8.0",
     "glasslab-sdk-as3": "*"
-  }
+  },
+  "dependencies": {}
 }

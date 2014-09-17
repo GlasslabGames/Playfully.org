@@ -134,6 +134,7 @@ angular.module( 'playfully.games', [
 
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
+
     // angular.forEach(games, function(game) {
     //   if (game.gameId == $stateParams.gameId) {
     //     $scope.game = game;
@@ -142,30 +143,7 @@ angular.module( 'playfully.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
-
-    $scope.navItems = [
-      { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment' },
-      { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research' },
-      { id: 'reviews', title: 'Reviews' },
-      { id: 'check', title: 'System Requirements', true: gameDetails.pages.check}
-    ];
-
-    // $scope.$on('$stateChangeSuccess',
-    //   function(event, toState, toParams, fromState, fromParams) {
-        // $log.info(toState);
-        // var toPageId = toState.name.split('.')[1] || 'product';
-        // angular.forEach($scope.navItems, function(navItem) {
-        //   if (navItem.id == toPageId) {
-        //     navItem.isActive = true;
-        //     $scope.currentPage = navItem;
-        //     $state.current.data.pageTitle = navItem.title;
-        //   } else {
-        //     navItem.isActive = false;
-        //   }
-    //     });
-    // });
+    $scope.navItems = gameDetails.pages;
 
     $scope.isAuthorized = function() {
       return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
@@ -245,5 +223,21 @@ angular.module( 'playfully.games', [
 
     $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
+})
+
+.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) {
+      filtered.reverse();
+    }
+    return filtered;
+  };
 });
 
