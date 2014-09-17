@@ -144,7 +144,7 @@ module.exports = function ( grunt ) {
         files: [
           {
             src: [ '**' ],
-            dest: '<%= compile_dir %>/assets',
+            dest: '<%= build_dir %>/assets',
             cwd: 'src/assets',
             expand: true
           }
@@ -208,7 +208,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.common.dest %>', 
           'module.suffix' 
         ],
-        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
+        dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
     },
 
@@ -422,7 +422,7 @@ module.exports = function ( grunt ) {
        * file. Now we're back!
        */
       compile: {
-        dir: '<%= compile_dir %>',
+        dir: '<%= build_dir %>',
         src: [
           '<%= concat.compile_js.dest %>',
           '<%= vendor_files.css %>',
@@ -546,7 +546,7 @@ module.exports = function ( grunt ) {
 
       protractor: {
         files: ['e2e/*.test.js'],
-        tasks: ['jshint:e2e', 'protractor:build']
+        tasks: ['jshint:e2e']
       }
     },
 
@@ -588,7 +588,6 @@ module.exports = function ( grunt ) {
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
     'createVersionFile'
   ]);
-
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
@@ -605,7 +604,8 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
+    'index:compile'
   ]);
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
