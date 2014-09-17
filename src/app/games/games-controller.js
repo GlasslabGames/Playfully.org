@@ -59,7 +59,7 @@ angular.module( 'playfully.games', [
   })
   .state('games.detail.check', {
     url: '/check',
-    templateUrl: 'check-spec/check-spec.html'
+    templateUrl: 'games/game-detail-check-spec.html'
   })
   .state('games.detail.reviews', {
     url: '/reviews',
@@ -244,20 +244,3 @@ angular.module( 'playfully.games', [
     $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
 });
-
-//.filter('orderObjectBy', function() {
-//  return function(items, field, reverse) {
-//    var filtered = [];
-//    angular.forEach(items, function(item) {
-//      filtered.push(item);
-//    });
-//    filtered.sort(function (a, b) {
-//      return (a[field] > b[field] ? 1 : -1);
-//    });
-//    if(reverse) {
-//      filtered.reverse();
-//    }
-//    return filtered;
-//  };
-//});
-//
