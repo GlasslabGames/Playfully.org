@@ -88,7 +88,6 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-play-page.html',
     resolve: {
       gameDetails: function($stateParams, GamesService) {
-        console.log("gameId:", $stateParams.gameId);
         return GamesService.getDetail($stateParams.gameId);
       }
     }
@@ -232,8 +231,6 @@ angular.module( 'playfully.games', [
 })
 .controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
   $scope.gamePlayInfo = {};
-
-  console.log('gameDetails:', gameDetails);
 
   if(gameDetails &&
      gameDetails.play &&
