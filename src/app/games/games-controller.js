@@ -142,14 +142,7 @@ angular.module( 'playfully.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
-
-    $scope.navItems = [
-      { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment', authRequired: true },
-      { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research', authRequired: true },
-      { id: 'reviews', title: 'Reviews' }
-    ];
+    $scope.navItems = gameDetails.pages;
 
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
