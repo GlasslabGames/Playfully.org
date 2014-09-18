@@ -35,7 +35,6 @@
     "angular-order-object-by": "~1.0.0"
   },
   "resolutions": {
-    "angular": "1.2.25",
-    "angular-ui-router": "~0.2.11"
+    "angular": "1.2.25"
   }
 }
