@@ -1,4 +1,5 @@
 angular.module( 'playfully.games', [
+  'ngOrderObjectBy',
   'ui.router',
   'games'
 ], function($compileProvider){
@@ -56,6 +57,10 @@ angular.module( 'playfully.games', [
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
+  .state('games.detail.check', {
+    url: '/check',
+    templateUrl: 'games/game-detail-check-spec.html'
+  })
   .state('games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
@@ -65,6 +70,8 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor'] }
   })
+
+
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },
@@ -128,6 +135,7 @@ angular.module( 'playfully.games', [
 
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
+
     // angular.forEach(games, function(game) {
     //   if (game.gameId == $stateParams.gameId) {
     //     $scope.game = game;
@@ -136,14 +144,7 @@ angular.module( 'playfully.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
-
-    $scope.navItems = [
-      { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment', authRequired: true },
-      { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research', authRequired: true },
-      { id: 'reviews', title: 'Reviews' }
-    ];
+    $scope.navItems = gameDetails.pages;
 
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
@@ -243,4 +244,3 @@ angular.module( 'playfully.games', [
     $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
 });
-

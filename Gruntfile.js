@@ -588,7 +588,6 @@ module.exports = function ( grunt ) {
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
     'createVersionFile'
   ]);
-
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
