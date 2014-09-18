@@ -4,10 +4,10 @@
     <title data-ng-bind="pageTitle"></title>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
-    <link href="http://fonts.googleapis.com/css?family=Bitter:700" rel="stylesheet" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Bitter:700" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
     <!-- font awesome from BootstrapCDN -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="/<%= file %>" /><% }); %>
@@ -31,7 +31,7 @@
         ng-class="{'gl-footer-student': isAuthorized('student')}">
         <div class="container">
             <div class="gl-footer-nav text-center">
-                <a class="gl-footer-link" target="_blank" href="http://glasslab.zendesk.com/">Support</a>
+                <a class="gl-footer-link" target="_blank" href="//glasslab.zendesk.com/">Support</a>
                 <a class="gl-footer-link" target="_blank" href="http://glasslabgames.org/">GlassLab</a>
                 <a class="gl-footer-link" ui-sref="privacy" href="#">Privacy Policy</a>
                 <a ng-hide="isAuthorized('student')"
