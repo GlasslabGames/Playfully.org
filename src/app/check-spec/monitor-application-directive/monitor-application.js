@@ -186,8 +186,9 @@ angular.module('playfully.checkSpec')
                                 details: response.details,
                                 loading: false
                             };
-
                             addSetting(setting);
+                        }, function(err) {
+                              console.log('Error getting connection:', err);
                         });
                     }
 

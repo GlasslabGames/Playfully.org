@@ -49,7 +49,7 @@ angular.module('games', [])
 
     all: function (type) {
       var url = '/dash/games';
-      if (type == 'min') { url += '/minimal'; }
+      if (type) { url += "/"+type; }
       return $http
         .get(API_BASE + url)
         .then(function (response) {

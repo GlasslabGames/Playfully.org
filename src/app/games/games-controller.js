@@ -1,4 +1,5 @@
 angular.module( 'playfully.games', [
+  'ngOrderObjectBy',
   'ui.router',
   'games'
 ], function($compileProvider){
@@ -56,6 +57,10 @@ angular.module( 'playfully.games', [
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
+  .state('games.detail.check', {
+    url: '/check',
+    templateUrl: 'games/game-detail-check-spec.html'
+  })
   .state('games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
@@ -65,6 +70,8 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor'] }
   })
+
+
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },
@@ -135,14 +142,7 @@ angular.module( 'playfully.games', [
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
-
-    $scope.navItems = [
-      { id: 'product', title: 'Product Description' },
-      { id: 'standards', title: 'Standards Alignment', authRequired: true },
-      { id: 'lessonPlans', title: 'Lesson Plans & Videos', authRequired: true },
-      { id: 'research', title: 'Research', authRequired: true },
-      { id: 'reviews', title: 'Reviews' }
-    ];
+    $scope.navItems = gameDetails.pages;
 
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
@@ -185,7 +185,7 @@ angular.module( 'playfully.games', [
     $scope.goToPlayGame = function(gameId) {
       $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
     };
-    
+
     /**
      * The API is providing a relative path, causing the image to break if
      * we're not at the top level. In the event that we switch to a CDN we
@@ -225,7 +225,8 @@ angular.module( 'playfully.games', [
   $scope.closeModal = function(){
     $scope.$close(true);
     return $timeout(function () {
-      $state.go('games.detail.product', {}, { reload: true });
+      // TODO: update route to parent if need to
+      //$state.go($state.current.name, {}, { reload: true });
     }, 100);
   };
 })

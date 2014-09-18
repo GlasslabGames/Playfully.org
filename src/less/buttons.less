@@ -8,6 +8,16 @@
   background-color: darken(@aquaBlue, 15%);
 }
 
+.gl-btn--green {
+  background-color: @grassGreen;
+  color: white;
+}
+
+.gl-btn--green:hover {
+  color: white;
+  background-color: darken(@grassGreen, 15%);
+}
+
 .gl-btn--grey {
   background-color: @grey5;
   color: white;
@@ -56,6 +66,15 @@
 
 .gl-btn--outlined.gl-btn--blue:hover {
   background:@aquaBlueLightest;
+}
+
+.gl-btn--outlined.gl-btn--green {
+  border: 2px solid @grassGreen;
+  color: @grassGreen;
+}
+
+.gl-btn--outlined.gl-btn--green:hover {
+  background:@grassGreenLightest;
 }
 
 .gl-btn-appstore {

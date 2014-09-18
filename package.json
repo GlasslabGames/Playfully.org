@@ -8,7 +8,8 @@
     "url": "git@github.com:GlasslabGames/Playfully.org.git"
   },
   "dependencies": {
-    "chai": "^1.9.1"
+    "chai": "^1.9.1",
+    "grunt-ng-annotate": "^0.4.0"
   },
   "devDependencies": {
     "chai": "^1.9.1",

@@ -13,7 +13,7 @@ angular.module('playfully.config', [])
 })
 
 .constant('ERRORS', {
-    'general': "We encountered an error. Please try again."
+  'general': "We encountered an error. Please try again."
 })
 
 .constant('THIRD_PARTY_AUTH', {
