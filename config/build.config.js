@@ -76,6 +76,8 @@ module.exports = {
       'vendor/angular-order-object-by/src/ng-order-object-by.js'
     ],
     css: [
+      'vendor/bootstrap/dist/css/bootstrap.min.css',
+      'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
     ],
     assets: [
     ]

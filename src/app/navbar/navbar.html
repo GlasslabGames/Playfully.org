@@ -101,9 +101,9 @@
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('admin')}">
-          <a class="gl-nav-link" href ui-sref="admin"
-            data-ng-bind="'navbar.link.admin' | translate">
+        <li ui-sref-active="active" ng-if="isAuthorized('instructor')">
+          <a class="gl-nav-link" href ui-sref="research.parser"
+            data-ng-bind="'navbar.link.research' | translate">
           </a>
         </li>
 
