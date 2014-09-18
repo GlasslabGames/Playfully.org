@@ -39,7 +39,7 @@
                  ng-class="{'gl-student-dash-game-thumb-lighter': hasLinks(game.id)}">
             <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
 
-              <div ng-if="isValidLinkType(button)"
+              <div ng-if="isMultiLinkType(button)"
                    class="gl-btn--outlined gl-student-dash-btn">
                 <div class="btn-group" dropdown>
                   <button type="button" class="btn dropdown-toggle gl-btn--green gl-games-btn-trigger gl-student-dash-menu-btn"
@@ -52,7 +52,7 @@
                 </div>
               </div>
 
-              <div ng-if="isValidLinkType(button, true)"
+              <div ng-if="isSingleLinkType(button)"
                    ng-switch="button.links[0].type"
                    class="gl-btn--outlined gl-student-dash-btn">
                 <button ng-switch-when="play"
