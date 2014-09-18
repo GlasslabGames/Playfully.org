@@ -1,5 +1,5 @@
 <div class="gl-game-review"
-  ng-repeat="review in gameDetails.pages.reviews">
+  ng-repeat="review in gameDetails.pages.reviews.list">
   <blockquote ng-bind="review.review"></blockquote>
   <cite ng-bind-html="review.reviewer"></cite>
 </div>
