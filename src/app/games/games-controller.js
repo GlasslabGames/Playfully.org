@@ -86,8 +86,8 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games-play-page', {
-    url: '/games/:gameId/play-page',
+  .state( 'games.play-page', {
+    url: '/:gameId/play-page',
     data: {
       authorizedRoles: ['student', 'instructor']
     },
@@ -134,7 +134,6 @@ angular.module( 'playfully.games', [
 
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
-
     // angular.forEach(games, function(game) {
     //   if (game.gameId == $stateParams.gameId) {
     //     $scope.game = game;
@@ -186,7 +185,7 @@ angular.module( 'playfully.games', [
     $scope.goToPlayGame = function(gameId) {
       $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
     };
-    
+
     /**
      * The API is providing a relative path, causing the image to break if
      * we're not at the top level. In the event that we switch to a CDN we
@@ -226,7 +225,8 @@ angular.module( 'playfully.games', [
   $scope.closeModal = function(){
     $scope.$close(true);
     return $timeout(function () {
-      $state.go('games.detail.product', {}, { reload: true });
+      // TODO: update route to parent if need to
+      //$state.go($state.current.name, {}, { reload: true });
     }, 100);
   };
 })
@@ -241,3 +241,4 @@ angular.module( 'playfully.games', [
     $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
   }
 });
+
