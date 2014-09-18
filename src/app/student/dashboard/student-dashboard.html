@@ -33,10 +33,38 @@
         <div class="gl-course-game text-center"
           ng-repeat="game in course.games"
           ng-show="gamesInfo[game.id].enabled">
-          <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
-            <!--div class="gl-course-game-lock"
-              ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
-              ng-show="game.settings.hasOwnProperty('missionProgressLock')"></div-->
+          <div class="gl-course-game-thumb gl-thumb-{{ game.id }} gl-student-dash-btn-parent">
+
+            <div class="gl-student-dash-btn-wrapper"
+                 ng-class="{'gl-student-dash-game-thumb-lighter': hasLinks(game.id)}">
+            <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
+
+              <div ng-if="isValidLinkType(button)"
+                   class="gl-btn--outlined gl-student-dash-btn">
+                <div class="btn-group" dropdown>
+                  <button type="button" class="btn dropdown-toggle gl-btn--green gl-games-btn-trigger gl-student-dash-menu-btn"
+                          ng-bind="button.name"></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="link in button.links">
+                      <a href="{{ link.link }}" ng-bind="link.name" target="{{(link.target)?link.target:''}}"></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div ng-if="isValidLinkType(button, true)"
+                   ng-switch="button.links[0].type"
+                   class="gl-btn--outlined gl-student-dash-btn">
+                <button ng-switch-when="play"
+                        type="button"
+                        class="btn gl-btn--green gl-student-dash-btn"
+                        ng-click="goToPlayGame(game.id)"
+                        ng-bind="button.name"></button>
+              </div>
+
+            </div>
+            </div>
+
           </div>
           {{ gamesInfo[game.id].longName }} 
         </div>

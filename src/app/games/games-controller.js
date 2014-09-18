@@ -86,8 +86,8 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games.play-page', {
-    url: '/:gameId/play-page',
+  .state( 'games-play-page', {
+    url: '/games/:gameId/play-page',
     data: {
       authorizedRoles: ['student', 'instructor']
     },

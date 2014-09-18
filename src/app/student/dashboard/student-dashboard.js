@@ -18,7 +18,7 @@ angular.module( 'student.dashboard', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all();
+        return GamesService.all('details');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -54,12 +54,49 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, ipCookie, courses, games, UserService) {
+.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, ipCookie, courses, games) {
   $scope.courses = courses;
   $scope.gamesInfo = {};
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });
+
+  $scope.hasLinks = function(gameId){
+    if($scope.gamesInfo[gameId].buttons) {
+      for(var i = 0; i < $scope.gamesInfo[gameId].buttons.length; i++){
+        if( $scope.isValidLinkType($scope.gamesInfo[gameId].buttons[i]) ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  $scope.isValidLinkType = function(button, onlyOne) {
+    if( (button.type == 'play' || button.type == 'download') &&
+         button.links ) {
+      if(onlyOne && button.links.length == 1) {
+        return true;
+      } else if(!onlyOne && button.links.length > 1) {
+        return true;
+      }
+
+    }
+
+    return false;
+  };
+
+  // TODO: not working
+  $scope.toggleDropdown = function($event, gameId, buttonKey) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.gamesInfo[gameId].buttons[buttonKey].isOpen = ($scope.gamesInfo[gameId].buttons[buttonKey].isOpen) ? false : true;
+  };
+
+  $scope.goToPlayGame = function(gameId) {
+    $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+  };
 })
 
 .controller( 'EnrollInCourseModalCtrl',
