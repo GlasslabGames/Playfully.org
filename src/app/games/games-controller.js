@@ -1,4 +1,5 @@
 angular.module( 'playfully.games', [
+  'ngOrderObjectBy',
   'ui.router',
   'games'
 ], function($compileProvider){
@@ -56,6 +57,10 @@ angular.module( 'playfully.games', [
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
+  .state('games.detail.check', {
+    url: '/check',
+    templateUrl: 'games/game-detail-check-spec.html'
+  })
   .state('games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
@@ -65,6 +70,8 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor'] }
   })
+
+
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },
@@ -103,9 +110,6 @@ angular.module( 'playfully.games', [
       $modal.open({
         size: 'lg',
         keyboard: false,
-        data:{
-          parentState: 'games.detail.product'
-        },
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
