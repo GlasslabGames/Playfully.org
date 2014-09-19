@@ -113,6 +113,9 @@ angular.module( 'playfully.games', [
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
+          },
+          gameId: function(){
+            return gameId;
           }
         },
         templateUrl: 'games/game-play-missions.html',
@@ -206,9 +209,9 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
   $scope.gameMissions = gameMissions;
-  $scope.gameId = $stateParams.gameId;
+  $scope.gameId = gameId;
 
   $scope.goTo = function(path, target) {
     if(target) {
