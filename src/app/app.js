@@ -192,6 +192,7 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
+      console.log('currentUser: ',user);
       $scope.currentUser = user;
       if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();

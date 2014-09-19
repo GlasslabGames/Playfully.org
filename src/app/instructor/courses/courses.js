@@ -41,7 +41,7 @@ angular.module( 'instructor.courses', [
     url: '',
     data: {
       pageTitle: 'Classes',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     views: {
       'coursesList': {
@@ -54,7 +54,7 @@ angular.module( 'instructor.courses', [
     data: {
       pageTitle: 'Archived Classes',
       showArchived: true,
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     views: {
       'coursesList': {
@@ -83,7 +83,7 @@ angular.module( 'instructor.courses', [
     url: '/new',
     data:{
       pageTitle: 'New Course',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       $modal.open({
@@ -109,7 +109,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/archive',
     data: {
       pageTitle: 'Archive Class',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
@@ -136,7 +136,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/unarchive',
     data: {
       pageTitle: 'Unarchive Class',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
@@ -163,7 +163,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/lock',
     data: {
       pageTitle: 'Lock Course',
-      authorizedRoles: ['instructor'],
+      authorizedRoles: ['instructor','admin'],
       actionType: 'lock'
     },
     onEnter: function($stateParams, $state, $modal) {
@@ -192,7 +192,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/unlock',
     data: {
       pageTitle: 'Unlock Course',
-      authorizedRoles: ['instructor'],
+      authorizedRoles: ['instructor','admin'],
       actionType: 'unlock'
     },
     onEnter: function($stateParams, $state, $modal) {
@@ -221,7 +221,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/edit',
     data: {
       pageTitle: 'Edit Class Info',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
@@ -248,7 +248,7 @@ angular.module( 'instructor.courses', [
     url: '/:id/games',
     data: {
       pageTitle: 'Assign Games',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
@@ -281,7 +281,7 @@ angular.module( 'instructor.courses', [
     },
     data: {
       pageTitle: 'Unenroll Student',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     resolve: {
       course: function($stateParams, CoursesService) {
@@ -311,7 +311,7 @@ angular.module( 'instructor.courses', [
     },
     data: {
       pageTitle: 'Edit Student Information',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','admin']
     },
     resolve: {
       course: function($stateParams, CoursesService) {
@@ -342,7 +342,7 @@ angular.module( 'instructor.courses', [
     url: '/:courseId/games/:gameId/lock', // course and game?
     data: {
       pageTitle: 'Lock Missions',
-      authorizedRoles: ['instructor'],
+      authorizedRoles: ['instructor','admin'],
       actionType: 'unlock'
     },
     onEnter: function($stateParams, $state, $modal) {
@@ -367,7 +367,7 @@ angular.module( 'instructor.courses', [
     url: '/:courseId/games/:gameId/unlock', // course and game?
     data: {
       pageTitle: 'Unlock Missions',
-      authorizedRoles: ['instructor'],
+      authorizedRoles: ['instructor','admin'],
       actionType: 'unlock'
     },
     onEnter: function($stateParams, $state, $modal) {

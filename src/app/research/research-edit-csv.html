@@ -1,0 +1,20 @@
+<p>
+    <h2>Edit CSV parse</h2><br>
+    <div>
+        <form ng-submit="submit()" name="csvForm" class="csvForm">
+            Game ID
+            <select name="gameId" ng-model="gameId" ng-change="selectGame()">
+                <option value="SC">SimCityEDU</option>
+                <option selected value="AA-1">Arugbot Academy</option>
+                <option value="AW-1">Argument Wars</option>
+            </select><br>
+            <br>
+            <input ng-hide="loading" type="submit" id="submit" value="Save!" />
+            <div ng-show="loading">
+                Loading...
+            </div><br>
+            <br>
+            <textarea ng-disable="loading" rows="20" cols="100" name="csvData" ng-model="csvData" ></textarea><br>
+        </form><br>
+    </div>
+</p>

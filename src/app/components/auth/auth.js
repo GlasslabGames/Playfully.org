@@ -59,6 +59,7 @@ angular.module('auth', ['session', 'ipCookie'])
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },
 
+
     sendPasswordResetLink: function(emailAddress) {
       return $http({
         method: 'POST',

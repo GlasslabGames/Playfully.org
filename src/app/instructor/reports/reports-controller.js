@@ -27,7 +27,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor'],
+      authorizedRoles: ['instructor','admin'],
       pageTitle: 'Reports'
     }
   })
