@@ -121,7 +121,12 @@ angular.module( 'playfully', [
               if ($rootScope.toState) {
                 if ($rootScope.toState.url == '/' && user && user.role) {
                   if (user.role == 'instructor') {
-                    $state.go('instructorDashboard.default');
+                    // TODO: remove this later when we have sowo for icivics login
+                    if(user.loginType == 'icivics'){
+                      $state.go('courses.active');
+                    } else {
+                      $state.go('instructorDashboard.default');
+                    }
                   } else {
                     $state.go('studentDashboard');
                   }
