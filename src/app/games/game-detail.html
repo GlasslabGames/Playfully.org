@@ -30,7 +30,9 @@
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
         <div ng-if="button.links && button.links.length > 1">
-          <div class="btn-group gl-games-sidebar-btn" dropdown is-open="button.isOpen">
+          <!-- TODO: remove ng-if="isAuthenticated()" at a later date -->
+          <div ng-if="isAuthenticated()"
+               class="btn-group gl-games-sidebar-btn" dropdown is-open="button.isOpen">
             <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
               ng-click="toggleDropdown($event, button)"
               ng-bind="button.name"></button>
