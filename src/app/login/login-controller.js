@@ -197,7 +197,6 @@ angular.module('playfully.login', [])
     $scope.login = function ( credentials ) {
       $scope.loginForm.isSubmitting = true;
       $scope.authError = null;
-
       AuthService.login(credentials).then(function(result) {
         $scope.loginForm.isSubmitting = false;
         if ($state.current.data.hideWrapper) {
