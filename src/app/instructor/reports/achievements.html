@@ -6,7 +6,7 @@
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
       ui-sref="reports.details({reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
-      ng-bind="achv.id | translate"></label>
+      ng-bind="achv.title | translate"></label>
   </div>
 </div>
 
@@ -61,7 +61,7 @@
           ng-show="isAwardedAchievement(achv, student.achievements)"></i>
       </td>
       <td class="gl-nobr">
-        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat">
+        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
       </td>
     </tr>
   </tbody>
@@ -69,7 +69,7 @@
     <tr>
       <td colspan="5">
         <div class="text-center gl-pad-Vxxl">
-          This class has no users.
+            No students are currently enrolled in this class. As students begin to play the game and earn achievements, you will see them here.
         </div>
       </td>
     </tr>

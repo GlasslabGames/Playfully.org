@@ -18,7 +18,7 @@ angular.module( 'student.dashboard', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all();
+        return GamesService.all('details');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -35,7 +35,6 @@ angular.module( 'student.dashboard', [
         size: 'sm',
         keyboard: false
       });
-
     }
   })
   .state( 'enrollInCourse', {
@@ -54,12 +53,71 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, ipCookie, courses, games, UserService) {
+.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games) {
   $scope.courses = courses;
   $scope.gamesInfo = {};
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });
+
+  $scope.hasLinks = function(gameId) {
+    if($scope.gamesInfo[gameId].buttons) {
+      for(var i = 0; i < $scope.gamesInfo[gameId].buttons.length; i++){
+        if( $scope.isValidLinkType($scope.gamesInfo[gameId].buttons[i]) ) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
+
+  $scope.isValidLinkType = function(button) {
+    if( (button.type == 'play' || button.type == 'download') &&
+         button.links &&
+        ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)) ) {
+      return true;
+    }
+    return false;
+  };
+
+  $scope.isSingleLinkType = function(button) {
+    if(button.links && button.links.length == 1) {
+      return true;
+    }
+    return false;
+  };
+
+  $scope.isMultiLinkType = function(button) {
+    if(button.links && button.links.length > 1) {
+      return true;
+    }
+    return false;
+  };
+
+  $scope.goToPlayGame = function(gameId) {
+
+    // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
+    if($scope.gamesInfo[gameId].play.type == 'missions') {
+      $modal.open({
+        size: 'lg',
+        keyboard: false,
+        data:{
+          parentState: 'studentDashboard'
+        },
+        resolve: {
+          gameMissions: function(GamesService) {
+            return GamesService.getGameMissions(gameId);
+          }
+        },
+        templateUrl: 'games/game-play-missions.html',
+        controller: 'GameMissionsModalCtrl'
+
+      });
+    } else {
+      $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+    }
+  };
 })
 
 .controller( 'EnrollInCourseModalCtrl',

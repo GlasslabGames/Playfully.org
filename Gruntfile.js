@@ -603,10 +603,14 @@ module.exports = function ( grunt ) {
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
+  grunt.registerTask( 'compile', 'build');
+  /*
+  // disable until fix compile
   grunt.registerTask( 'compile', [
     'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
     'index:compile'
   ]);
+  */
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
       grunt.event.once("git-describe", function(rev) {
