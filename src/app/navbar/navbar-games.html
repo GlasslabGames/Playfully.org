@@ -3,7 +3,7 @@
     Games <span class="caret"></span>
   </a>
   <ul class="dropdown-menu gl-nav-dropdown-menu" role="menu" aria-labelledby="dLabel">
-    <li ng-repeat="game in allGames"
+    <li ng-repeat="game in allGames|filter:{enabled:true}"
       ui-sref-active="gl-reports-dropdown--selected">
       <a href="#" ui-sref="games.detail.product({gameId: game.gameId})">{{ game.shortName }}</a>
     </li>
