@@ -179,11 +179,9 @@ angular.module( 'playfully', [
     $scope.isSSOLogin = UserService.isSSOLogin;
 
     if (!$rootScope.allGames) {
-      $rootScope.allGames = [{"gameId":"AA-1","enabled":true,"shortName":"Argubot Academy EDU","longName":"Mars Generation One: Argubot Academy EDU","settings":{},"license":{"type":"loginType","loginType":["glasslabv2","edmodo"],"valid":true,"message":{"invalid":"Coming Soon!"}},"thumbnail":{"small":"assets/thumb-game-AA-1.png","large":"assets/thumb-game-AA-1.png"},"developer":{"id":"GL","name":"GlassLab, Inc.","logo":{"small":"assets/glasslab-logo.png","large":"assets/glasslab-logo-2x.png"}}},{"gameId":"AW-1","enabled":true,"maintenance":{"message":"Coming Soon!"},"shortName":"Argument Wars","longName":"Argument Wars","settings":{},"license":{"type":"loginType","loginType":["icivics"],"valid":false,"message":{"invalid":"Coming Soon!"}},"thumbnail":{"small":"assets/thumb-game-AW-1.png","large":"assets/thumb-game-AW-1.png"},"play":{"type":"page","page":{"title":"Argument Wars","embed":"https://staging.icivics.org/sites/default/files/games/ArgumentWars_v1.4.2-GL-R5/Main.swf","size":{"width":940,"height":640}}},"developer":{"id":"IC","name":"iCivics","logo":{"small":"assets/icivics-logo.png","large":"assets/icivics-logo-2x.png"}}},{"gameId":"SC","enabled":true,"maintenance":{"message":"Coming Soon!"},"shortName":"SimCityEdu","longName":"SimCityEDU: Pollution Challenge!","settings":{"missionProgressLock":false},"license":{"type":"loginType","loginType":["clever"],"valid":false,"message":{"invalid":"Coming Soon!"}},"thumbnail":{"small":"assets/thumb-game-SC.png","large":"assets/thumb-game-SC.png"},"play":{"type":"missions"},"developer":{"id":"GL","name":"GlassLab, Inc.","logo":{"small":"assets/glasslab-logo.png","large":"assets/glasslab-logo-2x.png"}}}];
-      // GamesService.all('minimal')
-      //   .success(function(data, status, headers, config) {
-      //     $rootScope.allGames = data;
-      //   });
+      GamesService.all('minimal').then(function(data) {
+        $rootScope.allGames = data;
+      });
     }
 
     $scope.$on('$stateChangeSuccess',
