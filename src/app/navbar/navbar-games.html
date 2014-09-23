@@ -1,0 +1,11 @@
+<div class="dropdown">
+  <a href="#" class="dropdown-toggle gl-nav-link gl-nav-dropdown" role="button" data-toggle="dropdown" data-target="#">
+    Games <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu gl-nav-dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li ng-repeat="game in allGames|filter:{enabled:true}"
+      ui-sref-active="gl-reports-dropdown--selected">
+      <a href="#" ui-sref="games.detail.product({gameId: game.gameId})">{{ game.shortName }}</a>
+    </li>
+  </ul>
+</div>

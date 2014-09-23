@@ -92,7 +92,7 @@ angular.module( 'playfully', [
 .config(function($httpProvider) {
   //initialize get if not there
   if (!$httpProvider.defaults.headers.get) {
-    $httpProvider.defaults.headers.get = {};    
+    $httpProvider.defaults.headers.get = {};
   }
   //disable IE ajax request caching
   $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
@@ -174,13 +174,20 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, AuthService, AUTH_EVENTS) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS) {
 
     $rootScope.state = $state;
+    $rootScope.allGames = null;
     $scope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
+
+    if (!$rootScope.allGames) {
+      GamesService.all('minimal').then(function(data) {
+        $rootScope.allGames = data;
+      });
+    }
 
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
