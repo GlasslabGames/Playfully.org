@@ -37,7 +37,7 @@
           popover-title="{{ t.name }}"
           popover-trigger="mouseenter"
           popover-placement="bottom"
-          ng-repeat="t in assessment.results | limitTo:1 track by $index"></span>
+          ng-repeat="t in assessment.results track by $index"></span>
       </div>
       <div class="gl-dashboard-student-footer"></div>
     </div>
@@ -66,7 +66,7 @@
           popover-title="{{ t.name }}"
           popover-trigger="mouseenter"
           popover-placement="bottom"
-          ng-repeat="t in assessment.results | limitTo:3 track by $index"></span>
+          ng-repeat="t in assessment.results track by $index"></span>
       </div>
       <div class="gl-dashboard-student-footer"></div>
     </div>

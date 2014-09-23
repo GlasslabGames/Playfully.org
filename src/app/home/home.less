@@ -223,3 +223,51 @@ hr.gl-home-student {
 .icon-message-news {
   .image-2x('icon-msg-news.png', 25px, 25px);
 }
+
+.gl-home-stickyfoot {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: rgba(236,236,236,0.85);
+  z-index: 1001;
+}
+
+.gl-home-stickyfoot,
+.gl-home-stickyfoot label {
+  color: @grey2;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.gl-icon-follow {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  .border-radius(5px);
+  font-size: 24px;
+  background: @aquaBlue;
+  text-align: center;
+}
+
+.gl-icon-follow > .fa {
+  color: white;
+}
+
+.gl-home-stickyfoot .form-control {
+  min-width: 200px;
+}
+
+@media (max-width: 767px) {
+  .gl-home-stickyfoot .form-group {
+    display: inline-block;
+  }
+  .gl-home-stickyfoot .form-control {
+    width: 140px;
+    min-width: 100px;
+    display: inline-block;
+  }
+}

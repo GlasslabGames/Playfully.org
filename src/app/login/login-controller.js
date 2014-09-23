@@ -179,11 +179,6 @@ angular.module('playfully.login', [])
     $scope.logInWithEdmodo = function() {
       $window.location.href = '/auth/edmodo/login';
     };
-    $scope.logInWithiCivics = function() {
-      $window.location.href = '/auth/iCivics/login';
-    };
-
-
     $scope.logInWithIcivics= function() {
       $window.location.href = '/auth/icivics/login';
     };

@@ -73,7 +73,8 @@ module.exports = {
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
       'vendor/checklist-model/checklist-model.js',
       'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js',
-      'vendor/angular-order-object-by/src/ng-order-object-by.js'
+      'vendor/angular-order-object-by/src/ng-order-object-by.js',
+      'vendor/jquery/dist/jquery.min.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',

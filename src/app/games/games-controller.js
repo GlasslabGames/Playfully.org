@@ -113,6 +113,9 @@ angular.module( 'playfully.games', [
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
+          },
+          gameId: function(){
+            return gameId;
           }
         },
         templateUrl: 'games/game-play-missions.html',
@@ -206,9 +209,9 @@ angular.module( 'playfully.games', [
       btn.isOpen = !btn.isOpen;
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
   $scope.gameMissions = gameMissions;
-  $scope.gameId = $stateParams.gameId;
+  $scope.gameId = gameId;
 
   $scope.goTo = function(path, target) {
     if(target) {
@@ -238,7 +241,30 @@ angular.module( 'playfully.games', [
      gameDetails.play.page ) {
     $scope.gamePlayInfo = gameDetails.play.page;
 
-    $scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
+    //$scope.gamePlayInfo.embed = $sceDelegate.trustAs($sce.RESOURCE_URL, $scope.gamePlayInfo.embed);
+
+    setTimeout( function() {
+      var flashOutput = '' +
+        '<object name=\"flashObj\" type=\"application\/x-shockwave-flash\" data=\"' + $scope.gamePlayInfo.embed+ '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\" id=\"Sample\" style=\"float: none; vertical-align:middle\">' +
+          '<param name=\"movie\" value=\"' + $scope.gamePlayInfo.embed + '\" />' +
+          '<param name=\"quality\" value=\"high\" />' +
+          '<param name=\"bgcolor\" value=\"#ffffff\" />' +
+          '<param name=\"play\" value=\"true\" />' +
+          '<param name=\"loop\" value=\"true\" />' +
+          '<param name=\"wmode\" value=\"window\" />' +
+          '<param name=\"scale\" value=\"showall\" />' +
+          '<param name=\"menu\" value=\"true\" />' +
+          '<param name=\"devicefont\" value=\"false\" />' +
+          '<param name=\"salign\" value=\"\" />' +
+          '<param name=\"allowScriptAccess\" value=\"always\" />' +
+          '<a href=\"http://www.adobe.com/go/getflash\">' +
+            '<img src=\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
+          '</a>' +
+          '<embed name="flashObj\" src=\"' + $scope.gamePlayInfo.embed+ '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\"' +
+            'type=\"application/x-shockwave-flash\" allowScriptAccess=\"always\">' +
+          '</embed>' +
+        '</object>';
+      $( ".gl-gamePlay-embedded" ).html( flashOutput );
+    }, 100);
   }
 });
-
