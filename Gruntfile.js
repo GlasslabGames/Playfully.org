@@ -572,8 +572,7 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'delta' ] );
-
+  grunt.registerTask( 'watch', [ 'buildtest', 'karma:unit', 'delta' ] );
   /**
    * The default task is to build and compile.
    */
@@ -588,16 +587,16 @@ module.exports = function ( grunt ) {
     'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
     'createVersionFile'
   ]);
-//  grunt.registerTask( 'buildtest', [
-//    'clean', 'html2js', 'jshint', 'less:build',
-//    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-//    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
-//    'karma:continuous', 'createVersionFile'
-//  ]);
-//
-//
-//	grunt.registerTask('mocha', 'mochaProtractor');
-//	grunt.registerTask('mocha', 'protractor');
+  grunt.registerTask( 'buildtest', [
+    'clean', 'html2js', 'jshint', 'less:build',
+    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig',
+    'karma:continuous', 'createVersionFile'
+  ]);
+
+
+	grunt.registerTask('mocha', 'mochaProtractor');
+	grunt.registerTask('mocha', 'protractor');
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
