@@ -108,6 +108,9 @@ angular.module( 'student.dashboard', [
         resolve: {
           gameMissions: function(GamesService) {
             return GamesService.getGameMissions(gameId);
+          },
+          gameId: function(){
+            return gameId;
           }
         },
         templateUrl: 'games/game-play-missions.html',
