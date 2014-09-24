@@ -18,12 +18,20 @@ angular.module( 'instructor.reports', [
       activeCourses: function(CoursesService) {
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
-      myGames: function(GamesService) { return GamesService.getMyGames(); },
-      defaultGame: function($stateParams, myGames) { 
-        return myGames[0].gameId;
+      myGames: function(GamesService) {
+        return GamesService.getMyGames();
+      },
+      defaultGame: function($stateParams, myGames) {
+        if (myGames[0]) {
+          return myGames[0].gameId;
+        }
+        return null;
       },
       gameReports: function(GamesService, myGames) {
-        return GamesService.getAllReports(myGames[0].gameId);
+        if (myGames[0]) {
+          return GamesService.getAllReports(myGames[0].gameId);
+        }
+        return {};
       }
     },
     data: {
@@ -65,14 +73,6 @@ angular.module( 'instructor.reports', [
 
 .controller( 'ReportsCtrl',
   function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGame, gameReports) {
-    if (!defaultGame) {
-      // TODO replace this with logic to get first active report
-      $state.transitionTo('reports.details', {
-        reportId: 'achievements',
-        gameId: myGames[0].gameId,
-        courseId: activeCourses[0].id
-      });
-    }
 
     /* Games */
 
