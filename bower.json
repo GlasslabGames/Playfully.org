@@ -34,6 +34,10 @@
     "glasslab-sdk-as3": "~0.5.0",
     "angular-order-object-by": "~1.0.0",
     "jquery": "~2.1.1",
-    "StickyTableHeaders": "~0.1.12"
+    "StickyTableHeaders": "~0.1.12",
+    "sticky-ng": "~1.2.1"
+  },
+  "resolutions": {
+    "sticky-ng": "~1.2.0"
   }
 }

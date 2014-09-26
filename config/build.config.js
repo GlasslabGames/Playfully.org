@@ -75,7 +75,8 @@ module.exports = {
       'vendor/checklist-model/checklist-model.js',
       'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js',
       'vendor/angular-order-object-by/src/ng-order-object-by.js',
-      'vendor/StickyTableHeaders/js/jquery.stickytableheaders.js'
+      'vendor/sticky-ng/js/stickyNg.js',
+      'vendor/sticky-ng/js/jquery.stickytableheaders.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',
