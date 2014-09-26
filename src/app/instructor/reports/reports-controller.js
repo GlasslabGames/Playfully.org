@@ -193,15 +193,33 @@ angular.module( 'instructor.reports', [
         // $scope.selectCourse($event, course.id);
       }
 
-      student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
 
-      /* If any students are not selected, set isPartiallySelected to true */
-      angular.forEach(course.users, function(student) {
-        if (!student.isSelected) {
+      /**
+       * The solution below combines an earlier version of
+       * the course.isPartiallySelected iteration logic
+       * with the selection or deselection of the student.
+       *
+       * The reason we're doing this in a loop instead of just calling:
+       * student.isSelected = !student.isSelected;
+       * to toggle the selection, is because of this bug:
+       * http://jira.glasslabgames.org:8080/browse/PLAY-285
+       *
+       * Basically, we avoid the weird spacing issue by forcing the DOM
+       * to update all student rows. Otherwise, toggling just a single
+       * row seems to cause the spacing issue.
+       **/
+      var _tempStudentList = angular.copy(course.users);
+      angular.forEach(_tempStudentList, function(tempStudent) {
+        if (tempStudent.id == student.id) {
+          tempStudent.isSelected = !tempStudent.isSelected;
+        }
+        if (!tempStudent.isSelected) {
           course.isPartiallySelected = true;
         }
       });
+      course.users = _tempStudentList;
+
     };
 
 
