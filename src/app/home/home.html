@@ -154,13 +154,16 @@
           class="gl-icon-follow"><i class="fa fa-google-plus"></i></a>
       </div>
       <div class="col-md-8">
-        <form class="form-inline" role="form">
-          <div class="form-group">
-            <label for="mailing-list">Join the mailing list:&nbsp;</label>
-            <input type="email" class="form-control" id="mailing-list" placeholder="Your Email">
-          </div>
-          <button type="submit" class="btn gl-btn--blue">Subscribe</button>
-        </form>
+        <div ng-show="!showSubscribeMessage">
+          <form class="form-inline" role="form" ng-submit="subscribe()">
+            <div class="form-group">
+              <label for="mailing-list">Join the mailing list:&nbsp;</label>
+              <input type="email" class="form-control" id="mailing-list" placeholder="Your Email" ng-model="subEmail">
+            </div>
+            <button type="submit" class="btn gl-btn--blue">Subscribe</button>
+          </form>
+        </div>
+        <div ng-show="showSubscribeMessage" ng-bind="subscribeMessage"></div>
       </div>
     </div>
   </div>
