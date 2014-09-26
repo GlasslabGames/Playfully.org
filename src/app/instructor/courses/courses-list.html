@@ -57,7 +57,7 @@
                   <li ng-if="!course.lockedRegistration"><a ui-sref="lockCourse({id:course.id})">Lock Registration</a></li>
                   <li ng-if="course.lockedRegistration"><a ui-sref="unlockCourse({id:course.id})">Unlock Registration</a></li>
                   <li><a ui-sref="archiveCourse({id:course.id})">Archive Class</a></li>
-                  <li ng-hide="true"><a ui-sref="assignGamesToCourse({id:course.id})">Assign More Games</a></li>
+                  <li><a ui-sref="assignGamesToCourse({id:course.id})">Assign More Games</a></li>
                 </ul>
               </div>
             </div>
