@@ -11,20 +11,34 @@
   </div>
 </div>
 
-<table class="table gl-reports-table">
+<table class="table gl-reports-table" sticky>
   <thead>
     <tr>
-      <th class="gl-reports-achievement-header-name" width="20%" >Name</th>
+      <td colspan="9" class="gl-reports-achievement-footer text-center">
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
+          <i class="fa fa-arrow-left"></i>
+        </a> &nbsp;
+        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
+        &nbsp;
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+    <tr>
+      <th class="gl-reports-achievement-header-name" >Name</th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
           <div ng-bind="achv.title"></div>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           <div class="gl-reports-achv-footer">
-            <span class="gl-reports-achievement-header-standard"
-                  popover="{{ achv.standard.description }}"
-                  popover-title="{{ achv.standard.title }}"
-                  popover-trigger="mouseenter"
-                  popover-placement="bottom">see standards</span>
           </div>
         </div>
       </th>
@@ -34,26 +48,8 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
   </thead>
-  <tfoot>
-    <tr>
-      <td></td>
-      <td colspan="3" class="gl-reports-achievement-footer text-center">
-        <a href class="gl-reports-achv-arrow"
-          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
-          Prev Achievement <i class="fa fa-arrow-left"></i>
-        </a> &nbsp;
-        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
-        &nbsp; 
-        <a href class="gl-reports-achv-arrow"
-          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
-          <i class="fa fa-arrow-right"></i> Next Achievement
-        </a>
-      </td>
-      <td></td>
-    </tr>
-  </tfoot>
+
+  </thead>
   <tbody ng-show="courses.options[courses.selectedId].users">
   <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true}">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>

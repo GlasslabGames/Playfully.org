@@ -345,6 +345,7 @@ angular.module( 'instructor.reports', [
             $scope.achievements.active = option.list.slice(index, index + 3);
           }
         }
+          console.log($scope.achievements.active);
       });
     };
 
@@ -593,5 +594,21 @@ angular.module( 'instructor.reports', [
       }
     };
 
+})
+
+.directive("sticky", function($window,$timeout) {
+  return {
+      link: function (scope, element, attrs) {
+            $timeout(function () {
+                angular.element(element).stickyTableHeaders();
+            }, 1000);
+          scope.$watch('achievements.active', function() {
+            $timeout(function () {
+                angular.element(element).stickyTableHeaders();
+            }, 1000);
+          });
+
+      }
+  };
 });
 
