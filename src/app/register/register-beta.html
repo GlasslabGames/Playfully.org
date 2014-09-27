@@ -6,7 +6,6 @@
 
 <div ng-class="{'modal-body': !hideWrapper, 'sdk-container': hideWrapper}">
 
-
     <div class="modal-body" ng-hide="account.isRegCompleted">
         <alert ng-repeat="error in account.errors" ng-show="account.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
 

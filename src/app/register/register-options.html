@@ -1,0 +1,57 @@
+<div class="modal-header" ng-if="!hideWrapper">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Create a Playfully Account!</h3>
+</div>
+
+<div class="modal-body">
+
+    <div class="text-center small clearfix">
+      Please select your role<br/><br/>
+    </div>
+
+    <div class="text-center clearfix gl-register-options">
+      <div class="gl-register-options-wrapper">
+
+        <div class="gl-register-option">
+          <div class="gl-register-option-wrapper">
+            <div class="gl-game-card gl-game-card--linked"
+                 ng-click="state.go('registerBeta')">
+
+              <div class="gl-register-card-image gl-register-card-teacher"
+                   popover-placement="bottom"
+                   popover-trigger="mouseenter"
+                   popover="Request access to free games, student management tools, real-time reports, and professional development materials.">
+                <div class="gl-register-card-ribbon">
+                  <div class="gl-register-card-ribbon-text">Invitation Only</div>
+                </div>
+
+                <span class="gl-register-card-text">Teacher</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="gl-register-option">
+          <div class="gl-register-option-wrapper">
+            <div class="gl-game-card gl-game-card--linked" ng-click="state.go('registerStudent')">
+              <div class="gl-register-card-image gl-register-card-student">
+                <span class="gl-register-card-text">Student</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <br/>
+    <div class="text-center small clearfix">
+      Already have an account?
+      <a href="#"
+         class="link-register"
+         ng-click="state.go('loginOptions')">
+        Sign in</a>
+    </div>
+
+</div>
