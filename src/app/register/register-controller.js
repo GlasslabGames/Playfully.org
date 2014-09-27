@@ -9,7 +9,10 @@ angular.module('playfully.register', [])
   $stateProvider.state('registerOptions', {
     url: 'register',
     parent: 'modal',
-    views: { 'modal@': registerOptionsConfig }
+    views: { 'modal@': {
+      templateUrl: 'register/register-options.html',
+      controller: 'RegisterOptionsModalCtrl'
+    } }
   })
   .state('sdkRegisterOptions', {
     url: '/sdk/register',
