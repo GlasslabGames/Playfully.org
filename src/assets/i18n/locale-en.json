@@ -11,6 +11,7 @@
     "navbar.link.support": "Support",
     "navbar.link.redeem": "Redeem",
     "navbar.button.signin": "Sign In",
+    "navbar.button.register": "Get An Account",
     "navbar.button.logout": "Log Out",
 
     "home.pagetitle": "Playfully",
