@@ -14,22 +14,30 @@
 
         <div class="gl-register-option">
           <div class="gl-register-option-wrapper">
-            <div class="gl-register-card gl-game-card gl-game-card--linked" ng-click="state.go('registerBeta')">
-              <div class="gl-register-card-image gl-register-card-teacher">
+            <div class="gl-game-card gl-game-card--linked"
+                 ng-click="state.go('registerBeta')">
+
+              <div class="gl-register-card-image gl-register-card-teacher"
+                   popover-placement="bottom"
+                   popover-trigger="mouseenter"
+                   popover="Request access to free games, student management tools, real-time reports, and professional development materials.">
                 <div class="gl-register-card-ribbon">
                   <div class="gl-register-card-ribbon-text">Invitation Only</div>
                 </div>
+
+                <span class="gl-register-card-text">Teacher</span>
               </div>
-              <div ng-hide="true" class="gl-register-card-text">Teacher</div>
+
             </div>
           </div>
         </div>
 
         <div class="gl-register-option">
           <div class="gl-register-option-wrapper">
-            <div class="gl-register-card gl-game-card gl-game-card--linked" ng-click="state.go('registerStudent')">
-              <div class="gl-register-card-image gl-register-card-student"></div>
-              <div ng-hide="true" class="gl-register-card-text">Student</div>
+            <div class="gl-game-card gl-game-card--linked" ng-click="state.go('registerStudent')">
+              <div class="gl-register-card-image gl-register-card-student">
+                <span class="gl-register-card-text">Student</span>
+              </div>
             </div>
           </div>
         </div>
