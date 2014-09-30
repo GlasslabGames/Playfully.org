@@ -49,16 +49,16 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name <span ng-click="predicate.value = 'firstName'; reverse.value = !reverse.value">Sort</span></th>
+      <th class="gl-reports-achievement-header-name" >Name <i class="fa fa-sort" ng-click="predicate.value = 'firstName'; changeReverse('firstName')"></i></th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div ng-bind="achv.title"> </div><span ng-click="predicate.value = achv.title; reverse.value = !reverse.value">Sort</span>
+          <div><span ng-bind="achv.title"> </span><i class="fa fa-sort" ng-click="predicate.value = achv.title; changeReverse(achv.title)"></i></div>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           <div class="gl-reports-achv-footer">
           </div>
         </div>
       </th>
-      <th>Time Played <span ng-click="predicate.value = 'totalTimePlayed'; reverse.value = !reverse.value">Sort</span></th>
+      <th>Time Played <i class="fa fa-sort" ng-click="predicate.value = 'totalTimePlayed'; changeReverse('totalTimePlayed')"></i>
     </tr>
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>

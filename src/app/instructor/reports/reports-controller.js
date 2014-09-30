@@ -626,9 +626,9 @@ angular.module( 'instructor.reports', [
     $scope.userSortFunction = function(predicate) {
 
         return function(user) {
-            console.log('predicate:', predicate);
-            console.log('firstName: ', user.firstName,'user:', user);
-            console.log('reverse', $scope.reverse.value);
+//            console.log('predicate:', predicate);
+//            console.log('firstName: ', user.firstName,'user:', user);
+
 //            if ($scope.predicate.value === predicate) {
 //                $scope.reverse = !scope.reverse;
 //                return;
@@ -643,7 +643,6 @@ angular.module( 'instructor.reports', [
             var achievement = _.find(user.achievements, function(achv) {
                 return achv.item === predicate;
             });
-           console.log('achievement: ', achievement);
             if (achievement) {
                if (achievement.won) {
                    return 1;
@@ -655,8 +654,20 @@ angular.module( 'instructor.reports', [
             }
         };
     };
+    $scope.changeReverse = function(predicate) {
+        console.log('reverse', $scope.reverse.value);
+
+        if ($scope.predicate.last === predicate) {
+            $scope.reverse.value = !$scope.reverse.value;
+            return;
+        } else {
+            $scope.predicate.last = predicate;
+            // reset
+            $scope.reverse.value = false;
+        }
+    };
     // used for orderBy predicate, objects allow us to share variables between controllers
-    $scope.predicate = {};
+    $scope.predicate = {last:''};
     $scope.reverse = {value: false};
 });
 
