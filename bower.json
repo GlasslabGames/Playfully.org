@@ -35,7 +35,8 @@
     "angular-order-object-by": "~1.0.0",
     "jquery": "~2.1.1",
     "StickyTableHeaders": "~0.1.12",
-    "sticky-ng": "~1.2.1"
+    "sticky-ng": "~1.2.1",
+    "lodash": "~2.4.1"
   },
   "resolutions": {
     "sticky-ng": "~1.2.0"

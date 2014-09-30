@@ -6,10 +6,26 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details({reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
+<article class="legend-header">
+    <p class="legend-header"><span>{{achievements.selectedOption.description +" in this Game" }}</span></p>
+</article>
+       <table>
+            <tr>
+                <td class="gl-reports-achievement-header-achv" ng-repeat="standard in achievements.selectedOption.subGroups">
+                  <div ng-class="convertStandard(standard.title)"
+                   popover="{{ standard.description }}"
+                   popover-trigger="mouseenter"
+                   popover-placement="bottom">
+                  </div><span ng-bind="standard.title"></span>
+                </td>
+            </tr>
+        </table>
+    <hr>
+
 
 <table class="table gl-reports-table" sticky>
   <thead>
@@ -33,16 +49,27 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name</th>
+      <th class="gl-reports-achievement-header-name" >Name <span ng-click="predicate.value = 'firstName'; reverse.value = !reverse.value">Sort</span></th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div ng-bind="achv.title"></div>
+          <div ng-bind="achv.title"> </div><span ng-click="predicate.value = achv.title; reverse.value = !reverse.value">Sort</span>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           <div class="gl-reports-achv-footer">
           </div>
         </div>
       </th>
-      <th>Time Played</th>
+      <th>Time Played <span ng-click="predicate.value = 'totalTimePlayed'; reverse.value = !reverse.value">Sort</span></th>
+    </tr>
+    <tr>
+        <th class="gl-reports-achievement-header-name" >Standards</th>
+        <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
+          <div ng-class="convertStandard(achv.standard.title)"
+               popover="{{ achv.standard.description }}"
+               popover-trigger="mouseenter"
+               popover-placement="bottom">
+          </div>
+        </th>
+      <th></th>
     </tr>
     <tr>
       <th colspan="5" class="gl-reports-divider--blue"></th>
@@ -51,7 +78,7 @@
 
   </thead>
   <tbody ng-show="courses.options[courses.selectedId].users">
-  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true}">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(predicate.value):reverse.value">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
