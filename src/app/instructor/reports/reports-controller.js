@@ -24,17 +24,17 @@ angular.module( 'instructor.reports', [
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
       myGames: function(GamesService) {
-          return GamesService.getMyGames();
+        return GamesService.getMyGames();
       },
       defaultGame: function($stateParams, myGames) {
         if (myGames[0]) {
-           return myGames[0].gameId;
+          return myGames[0].gameId;
         }
         return;
       },
       gameReports: function(GamesService, myGames) {
         if (myGames[0]) {
-           return GamesService.getAllReports(myGames[0].gameId);
+          return GamesService.getAllReports(myGames[0].gameId);
         }
         return {};
       }
