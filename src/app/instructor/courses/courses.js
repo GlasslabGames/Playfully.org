@@ -265,7 +265,49 @@ angular.module( 'instructor.courses', [
     views: {
       'studentList': {
         templateUrl: 'instructor/courses/student-list.html',
-        controller: function() { }
+        controller: function ($scope, $rootScope, $state, $stateParams, $timeout, $log) {
+          var activeCourses = $scope.$parent.activeCourses;
+
+          var hasOpenCourse = function(courses) {
+            var result = false;
+            angular.forEach(courses, function (course) {
+              if (course.isOpen) { result = true; }
+            });
+            return result;
+          };
+
+          var getOpenCourseId = function(courses) {
+            var openCourseId = null;
+            angular.forEach(courses, function (course) {
+              if (course.isOpen) { openCourseId = course.id; }
+            });
+            return openCourseId;
+          };
+
+          if (!hasOpenCourse(activeCourses)) {
+            angular.forEach(activeCourses, function (course) {
+              $timeout(function() {
+                course.isOpen = (course.id == $stateParams.id);
+              }, 100);
+            });
+          } else if (getOpenCourseId(activeCourses) != $stateParams.id) {
+            angular.forEach(activeCourses, function (course) {
+              $timeout(function() {
+                course.isOpen = (course.id == $stateParams.id);
+              }, 100);
+            });
+          }
+
+          $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
+            if (toState.name == 'courses.active') {
+              $timeout(function() {
+                angular.forEach(activeCourses, function (course) {
+                  course.isOpen = false;
+                });
+              }, 100);
+            }
+          });
+        }
       }
     }
   })
@@ -412,6 +454,7 @@ angular.module( 'instructor.courses', [
     $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
     $scope.showArchived = $state.current.data.showArchived;
     $scope.courseKey = -1;
+
 
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
@@ -666,7 +709,7 @@ angular.module( 'instructor.courses', [
         .success(function(data, status, headers, config) {
           $rootScope.modalInstance.close();
           return $timeout(function () {
-            $state.go('courses.active', {}, { reload: true });
+            $state.go('showStudentList', {id:course.id}, { reload: true });
           }, 100);
         })
         .error(function(data, status, headers, config) {
@@ -677,7 +720,7 @@ angular.module( 'instructor.courses', [
   $scope.closeModal = function() {
     $scope.$close(true);
     return $timeout(function () {
-      $state.go('showStudentList', {id:course.id}, { reload: true });
+      $state.go('showStudentList', {id:course.id});
     }, 100);
   };
 
@@ -691,9 +734,9 @@ angular.module( 'instructor.courses', [
     $scope.editInfo = function(student) {
       UserService.update(student, false)
         .success(function(data, status, headers, config) {
-          $rootScope.modalInstance.close();
+          $scope.$close(true);
           return $timeout(function () {
-            $state.go('courses.active', {}, { reload: true });
+            $state.go('showStudentList', {id:course.id}, { reload: true });
           }, 100);
         })
         .error(function(data, status, headers, config) {
@@ -704,7 +747,7 @@ angular.module( 'instructor.courses', [
     $scope.closeModal = function() {
       $scope.$close(true);
       return $timeout(function () {
-        $state.go('showStudentList', {id:course.id}, { reload: true });
+        $state.go('showStudentList', {id:course.id});
       }, 100);
     };
 

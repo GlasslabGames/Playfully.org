@@ -90,17 +90,31 @@
           </div>
         </div>
 
-        <div class="row text-right gl-course-students"
-          ng-hide="state.includes('showStudentList') && state.params.id == course.id">
-          <button class="btn btn-sm gl-btn--blue"
-            ng-disabled="course.studentCount == 0"
-            ui-sref="showStudentList({id: course.id})">
-            View Student List (<span ng-bind="course.studentCount"></span>)
-          </button>
+      <div class="gl-course-students row" ng-class="{'gl-course-students--open': course.isOpen}">
+          <div class="col-md-2">
+            <span class="gl-students-heading" ng-show="course.isOpen">Last Initial</span>
+          </div>
+          <div class="col-md-3">
+            <span class="gl-students-heading" ng-show="course.isOpen">First Name</span>
+          </div>
+          <div class="col-md-3">
+            <span class="gl-students-heading" ng-show="course.isOpen">Screen Name</span>
+          </div>
+          <div class="col-md-4 text-right">
+            <button class="btn btn-sm gl-btn--blue"
+              ng-hide="course.isOpen"
+              ng-disabled="course.studentCount == 0"
+              ui-sref="showStudentList({id: course.id})">
+              View Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+            <button class="btn btn-sm gl-btn--white"
+              ng-show="course.isOpen"
+              ui-sref="courses.active">
+              Close Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+          </div>
+          <div ui-view="studentList"></div>
         </div>
-
-        <div ui-view="studentList"></div>
-
       </div>
     </div>
   </div>

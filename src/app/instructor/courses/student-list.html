@@ -1,30 +1,20 @@
-<table class="table gl-course-students-table" ng-show="state.includes('showStudentList') && state.params.id == course.id">
-  <thead>
-    <tr class="gl-course-students-header">
-      <th>Last Initial</th>
-      <th>First Name</th>
-      <th>Screen Name</th>
-      <th class="text-right">
-        <button class="btn btn-sm gl-btn--white"
-          ui-sref="courses.active">
-          Close Student List (<span ng-bind="course.studentCount"></span>)
-        </button>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="user in course.users" ng-class="">
-      <td ng-bind="user.lastName"></td>
-      <td ng-bind="user.firstName"></td>
-      <td ng-bind="user.username"></td>
-      <td class="text-right text-grey5">
-        <span ng-hide="isSSOLogin(user)">
-            <a class="gl-course-students-link"
-              ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
-            <a class="gl-course-students-link"
-              ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
-        </span>&nbsp;
-      </td>
-    </tr>
-  </tbody>
-</table>
+<accordion ng-hide="!course.isOpen">
+  <accordion-group is-open="course.isOpen">
+    <div class="row gl-students-data"
+      ng-class-even="'gl-students-data-even'"
+      ng-class-odd="'gl-students-data-odd'"
+      ng-repeat="user in course.users">
+      <div class="col-md-2" ng-bind="user.lastName"></div>
+      <div class="col-md-3" ng-bind="user.firstName"></div>
+      <div class="col-md-3" ng-bind="user.username"></div>
+      <div class="col-md-4 text-right text-grey5">
+          <span ng-hide="isSSOLogin(user)">
+              <a class="gl-course-students-link"
+                ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
+              <a class="gl-course-students-link"
+                ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
+          </span>&nbsp;
+      </div>
+    </div>
+  </accordion-group>
+</accordion>
