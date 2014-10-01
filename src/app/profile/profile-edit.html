@@ -116,7 +116,7 @@
         placeholder="Confirm password"
         ng-model="user.confirm">
       <div class="form-errors">
-        <div class="form-error" ng-show="editProfileForm.confirm.$dirty && editProfileForm.password.$error.pwmatch">
+        <div class="form-error" ng-show="(!editProfileForm.password.$pristine && editProfileForm.confirm.$pristine) || (editProfileForm.confirm.$dirty && editProfileForm.password.$error.pwmatch)">
           Passwords do not match
         </div>
       </div>
@@ -125,7 +125,7 @@
     <div class="text-center reg-submit">
       <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Close</button>
       <input type="submit" class="btn gl-btn--blue" value="Save"
-      ng-disabled="editProfileForm.$invalid">
+      ng-disabled="editProfileForm.$invalid || (!editProfileForm.password.$pristine && editProfileForm.confirm.$pristine)">
     </div>
   </form>
 </div>
