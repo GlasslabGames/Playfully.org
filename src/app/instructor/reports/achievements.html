@@ -54,7 +54,6 @@
         <div class="gl-reports-achievement-header text-center">
           <div><span ng-bind="achv.title"> </span><i class="fa fa-sort" ng-click="predicate.value = achv.title; changeReverse(achv.title)"></i></div>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
-          <div class="gl-reports-achv-footer">
           </div>
         </div>
       </th>
@@ -62,7 +61,7 @@
     </tr>
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
-        <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
+        <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
           <div ng-class="convertStandard(achv.standard.title)"
                popover="{{ achv.standard.description }}"
                popover-trigger="mouseenter"

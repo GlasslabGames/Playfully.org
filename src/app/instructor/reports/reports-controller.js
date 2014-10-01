@@ -255,7 +255,7 @@ angular.module( 'instructor.reports', [
     $scope.reports.options = [];
     angular.forEach(gameReports.list, function(report) {
       // only add enabled reports
-      console.log('report:', report);
+//      console.log('report:', report);
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
       }
@@ -315,7 +315,7 @@ angular.module( 'instructor.reports', [
     /* Retrieve the appropriate report and process the data */
     ReportsService.get($stateParams.reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(data) {
-        console.log('data:  ', data);
+//        console.log('data:  ', data);
         if( !_isValidReport($stateParams.reportId) ) {
           $state.transitionTo('reports.details', {
             reportId: _getDefaultReportId(),
@@ -350,8 +350,8 @@ angular.module( 'instructor.reports', [
             $scope.achievements.active = option.list.slice(index, index + 3);
           }
         }
-          console.log('achievements.selected:', $scope.achievements.selected);
-          console.log('achievements',$scope.achievements);
+//          console.log('achievements.selected:', $scope.achievements.selected);
+//          console.log('achievements',$scope.achievements);
       });
     };
   $scope.isAwardedAchievement = function(activeAchv, studentAchv) {
@@ -534,7 +534,7 @@ angular.module( 'instructor.reports', [
           function(option) {
             return option.id === $scope.achievements.selected;
           });
-      console.log('SELECTED OPTION:', $scope.achievements.selectedOption);
+//      console.log('SELECTED OPTION:', $scope.achievements.selectedOption);
           
         //   angular.forEach(report.achievements, function(achv) {
         //     if (achv.id == $scope.achievements.selected) {
@@ -578,23 +578,24 @@ angular.module( 'instructor.reports', [
           $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
         });
       }
-      $scope.courses.options[110].users[1].totalTimePlayed = 200000;
-      $scope.courses.options[110].users[4].totalTimePlayed = 300000;
-      $scope.courses.options[110].users[1].totalTimePlayed = 100000;
-      $scope.courses.options[110].users[2].totalTimePlayed = 500000;
-      $scope.courses.options[110].users[1].achievements[0].won = true;
-      $scope.courses.options[110].users[7].achievements[0].won = true;
-      $scope.courses.options[110].users[6].achievements[0].won = true;
-      $scope.courses.options[110].users[2].achievements[0].won = true;
-      $scope.courses.options[110].users[5].achievements[1].won = true;
-      $scope.courses.options[110].users[4].achievements[1].won = true;
-      $scope.courses.options[110].users[7].achievements[1].won = true;
-      $scope.courses.options[110].users[2].achievements[1].won = true;
-      $scope.courses.options[110].users[3].achievements[2].won = true;
-      $scope.courses.options[110].users[6].achievements[2].won = true;
-      $scope.courses.options[110].users[8].achievements[2].won = true;
-      $scope.courses.options[110].users[2].achievements[2].won = true;
-      console.log('courses:', $scope.courses.options);
+//      for testing
+//      $scope.courses.options[110].users[1].totalTimePlayed = 200000;
+//      $scope.courses.options[110].users[4].totalTimePlayed = 300000;
+//      $scope.courses.options[110].users[1].totalTimePlayed = 100000;
+//      $scope.courses.options[110].users[2].totalTimePlayed = 500000;
+//      $scope.courses.options[110].users[1].achievements[0].won = true;
+//      $scope.courses.options[110].users[7].achievements[0].won = true;
+//      $scope.courses.options[110].users[6].achievements[0].won = true;
+//      $scope.courses.options[110].users[2].achievements[0].won = true;
+//      $scope.courses.options[110].users[5].achievements[1].won = true;
+//      $scope.courses.options[110].users[4].achievements[1].won = true;
+//      $scope.courses.options[110].users[7].achievements[1].won = true;
+//      $scope.courses.options[110].users[2].achievements[1].won = true;
+//      $scope.courses.options[110].users[3].achievements[2].won = true;
+//      $scope.courses.options[110].users[6].achievements[2].won = true;
+//      $scope.courses.options[110].users[8].achievements[2].won = true;
+//      $scope.courses.options[110].users[2].achievements[2].won = true;
+//      console.log('courses:', $scope.courses.options);
     };
 
     var _getSelectedStudentIdsFromCourse = function(course) {
@@ -655,7 +656,7 @@ angular.module( 'instructor.reports', [
         };
     };
     $scope.changeReverse = function(predicate) {
-        console.log('reverse', $scope.reverse.value);
+//        console.log('reverse', $scope.reverse.value);
 
         if ($scope.predicate.last === predicate) {
             $scope.reverse.value = !$scope.reverse.value;
