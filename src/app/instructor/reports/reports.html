@@ -111,7 +111,7 @@
                       <i class="fa fa-check"></i>
                     </div>
                     {{ student.firstName }}
-                    {{ student.lastName }}.
+                    {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
                   </label>
                 </div>
               </div>
