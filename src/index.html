@@ -27,7 +27,8 @@
 
       <footer class="footer gl-footer"
         ng-if="!hideWrapper"
-        ng-class="{'gl-footer-student': isAuthorized('student')}">
+        ng-class="{'gl-footer-student': isAuthorized('student'),
+          'gl-footer--home': state.includes('home')}">
         <div class="container">
             <div class="gl-footer-nav text-center">
                 <a class="gl-footer-link" target="_blank" href="//glasslab.zendesk.com/">Support</a>

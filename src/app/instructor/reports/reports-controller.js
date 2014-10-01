@@ -496,7 +496,10 @@ angular.module( 'instructor.reports', [
     var _compileNameOfStudent = function(student) {
       var name = student.firstName;
       if(student.lastName) {
-        name += ' ' + student.lastName + '.';
+        name += ' ' + student.lastName;
+        if (student.lastName.length == 1) {
+          name += '.';
+        }
       }
 
       student.name = name;

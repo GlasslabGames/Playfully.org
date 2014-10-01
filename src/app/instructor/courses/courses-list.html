@@ -90,45 +90,31 @@
           </div>
         </div>
 
-        <div class="row text-right gl-course-students"
-          ng-hide="course.studentListExpanded">
-          <button class="btn btn-sm gl-btn--blue"
-            ng-disabled="course.studentCount == 0"
-            ng-click="course.studentListExpanded=true">
-            View Student List (<span ng-bind="course.studentCount"></span>)
-          </button>
+      <div class="gl-course-students row" ng-class="{'gl-course-students--open': course.isOpen}">
+          <div class="col-md-2">
+            <span class="gl-students-heading" ng-show="course.isOpen">Last Initial</span>
+          </div>
+          <div class="col-md-3">
+            <span class="gl-students-heading" ng-show="course.isOpen">First Name</span>
+          </div>
+          <div class="col-md-3">
+            <span class="gl-students-heading" ng-show="course.isOpen">Screen Name</span>
+          </div>
+          <div class="col-md-4 text-right">
+            <button class="btn btn-sm gl-btn--blue"
+              ng-hide="course.isOpen"
+              ng-disabled="course.studentCount == 0"
+              ui-sref="showStudentList({id: course.id})">
+              View Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+            <button class="btn btn-sm gl-btn--white"
+              ng-show="course.isOpen"
+              ui-sref="courses.active">
+              Close Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+          </div>
+          <div ui-view="studentList"></div>
         </div>
-
-        <table class="table gl-course-students-table" ng-show="course.studentListExpanded">
-          <thead>
-            <tr class="gl-course-students-header">
-              <th>Last Initial</th>
-              <th>First Name</th>
-              <th>Screen Name</th>
-              <th class="text-right">
-                <button class="btn btn-sm gl-btn--white"
-                  ng-click="course.studentListExpanded=false">
-                  Close Student List (<span ng-bind="course.studentCount"></span>)
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="user in course.users" ng-class="">
-              <td ng-bind="user.lastName"></td>
-              <td ng-bind="user.firstName"></td>
-              <td ng-bind="user.username"></td>
-              <td class="text-right text-grey5">
-                <span ng-hide="isSSOLogin(user)">
-                    <a class="gl-course-students-link"
-                      ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
-                    <a class="gl-course-students-link"
-                      ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
-                </span>&nbsp;
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
