@@ -223,7 +223,7 @@
 }
 
 .gl-reports-achievement-header {
-  padding-bottom: 20px;
+//  padding-bottom: 20px;
 }
 
 .gl-reports-achievement-header-name {
@@ -250,12 +250,14 @@
 }
 
 .gl-reports-achievement-footer {
+  background-color: @grey7;
   font-size: 12px !important;
 }
 
 .gl-reports-achievement-header-info {
   width: 100%;
   font-size: 12px;
+  color: #818181;
   margin-top: 10px;
   margin-bottom: 10px;
   /*height: 50px;*/
@@ -279,4 +281,101 @@
   padding-top: 2px;
   padding-bottom: 2px;
   .border-radiuses(4px, 4px, 4px, 4px);
+}
+
+.gl-reports-collapse-divider {
+  text-align: center;
+  padding-bottom: 0 !important;
+  background-color:#f0f0f0 !important;
+  border-bottom: 2px solid white;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.gl-reports-achievement-header-standards-footer {
+  background-color: @grey7;
+  font-size: 12px !important;
+  border-left: 2px solid white;
+}
+
+article.legend-header {
+  margin: 0px 0px 10px 0px;
+  overflow: hidden;
+  padding: 2px;
+}
+
+p.legend-header {
+  line-height: 0.5;
+  text-align: center;
+}
+p.legend-header span {
+  display: inline-block;
+  position: relative;
+}
+p.legend-header span:before,
+p.legend-header span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-top: 1px solid #eeeeee;
+  top: 0;
+  width: 300px;
+}
+p.legend-header span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+p.legend-header span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+.achievement-legend {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.blue-square {
+  background: #2453CC;
+  .achievement-legend
+}
+
+.light-blue-square {
+  background: #47DCFF;
+  .achievement-legend
+}
+
+.yellow-square {
+  background: #ffe00d;
+  .achievement-legend
+}
+
+.magenta-square {
+  background: #C847FF;
+  .achievement-legend
+}
+
+.green-square {
+  background: #99CC24;
+  .achievement-legend
+}
+
+
+.red-square {
+  background: #CC351C;
+  .achievement-legend
+}
+
+.fa-sort {
+  margin: 0px 4px 0px 5px;
+  text-align: center;
+  color: #a3a3a3;
+}
+
+.fa-sort:hover {
+  cursor: pointer;
+  color: #67cada;
 }

@@ -7,6 +7,7 @@ angular.module('reports', [])
       var apiUrl = API_BASE + '/dash/reports/' + reportId + '/game/' + gameId + '/course/' + courseId;
       return $http({method: 'GET', url: apiUrl})
         .then(function(response) {
+          console.log('reports service:', response);
           // return sampleData.partial;
           return response.data;
         }, function(response) {
