@@ -38,6 +38,9 @@ angular.module( 'playfully.games', [
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
+      },
+      myGames: function(GamesService) {
+        return GamesService.getMyGames();
       }
     },
     data: {
@@ -136,7 +139,7 @@ angular.module( 'playfully.games', [
 })
 
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, AuthService) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     // angular.forEach(games, function(game) {
     //   if (game.gameId == $stateParams.gameId) {
     //     $scope.game = game;
@@ -168,6 +171,17 @@ angular.module( 'playfully.games', [
 
     $scope.isAuthenticated = function() {
       return AuthService.isAuthenticated();
+    };
+
+    $scope.hasPermsToPlayGame = function() {
+      // find game in mygames
+      for(var i = 0; i < myGames.length; i++){
+        if(myGames[i].gameId === $scope.gameId) {
+          return true;
+        }
+      }
+      // default
+      return false;
     };
 
     $scope.goToGameSubpage = function(dest) {

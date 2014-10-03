@@ -1,7 +1,3 @@
-/**
- * Created by charles on 9/26/14.
- */
-
 angular.module('reports.const', [])
 
 .constant('REPORT_CONSTANTS', {

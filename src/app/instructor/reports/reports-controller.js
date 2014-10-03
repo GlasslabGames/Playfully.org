@@ -30,7 +30,7 @@ angular.module( 'instructor.reports', [
         if (myGames[0]) {
           return myGames[0].gameId;
         }
-        return null;
+        return;
       },
       gameReports: function(GamesService, myGames) {
         if (myGames[0]) {
@@ -202,33 +202,15 @@ angular.module( 'instructor.reports', [
         // $scope.selectCourse($event, course.id);
       }
 
+      student.isSelected = !student.isSelected;
       course.isPartiallySelected = false;
 
-      /**
-       * The solution below combines an earlier version of
-       * the course.isPartiallySelected iteration logic
-       * with the selection or deselection of the student.
-       *
-       * The reason we're doing this in a loop instead of just calling:
-       * student.isSelected = !student.isSelected;
-       * to toggle the selection, is because of this bug:
-       * http://jira.glasslabgames.org:8080/browse/PLAY-285
-       *
-       * Basically, we avoid the weird spacing issue by forcing the DOM
-       * to update all student rows. Otherwise, toggling just a single
-       * row seems to cause the spacing issue.
-       **/
-      var _tempStudentList = angular.copy(course.users);
-      angular.forEach(_tempStudentList, function(tempStudent) {
-        if (tempStudent.id == student.id) {
-          tempStudent.isSelected = !tempStudent.isSelected;
-        }
-        if (!tempStudent.isSelected) {
+      /* If any students are not selected, set isPartiallySelected to true */
+      angular.forEach(course.users, function(student) {
+        if (!student.isSelected) {
           course.isPartiallySelected = true;
         }
       });
-      course.users = _tempStudentList;
-
     };
 
 
@@ -507,10 +489,7 @@ angular.module( 'instructor.reports', [
     var _compileNameOfStudent = function(student) {
       var name = student.firstName;
       if(student.lastName) {
-        name += ' ' + student.lastName;
-        if (student.lastName.length == 1) {
-          name += '.';
-        }
+        name += ' ' + student.lastName + '.';
       }
 
       student.name = name;
@@ -650,7 +629,6 @@ angular.module( 'instructor.reports', [
         return function(user) {
 //            console.log('predicate:', predicate);
 //            console.log('firstName: ', user.firstName,'user:', user);
-
 //            if ($scope.predicate.value === predicate) {
 //                $scope.reverse = !scope.reverse;
 //                return;
@@ -678,7 +656,6 @@ angular.module( 'instructor.reports', [
     };
     $scope.changeReverse = function(predicate) {
 //        console.log('reverse', $scope.reverse.value);
-
         if ($scope.predicate.last === predicate) {
             $scope.reverse.value = !$scope.reverse.value;
             return;
