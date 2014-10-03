@@ -4,7 +4,8 @@ angular.module( 'instructor.reports', [
   'reports',
   'courses',
   'stickyNg',
-  'reports.const'
+  'reports.const',
+  'LocalStorageModule'
 ])
 
 
@@ -227,7 +228,7 @@ angular.module( 'instructor.reports', [
 
 
 .controller( 'ReportsDetailCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
 
     // First, let's make sure the requested game is okay for them to see.
     var requestedGameOK = false;
@@ -656,8 +657,6 @@ angular.module( 'instructor.reports', [
         };
     };
     $scope.changeReverse = function(predicate) {
-//        console.log('reverse', $scope.reverse.value);
-
         if ($scope.predicate.last === predicate) {
             $scope.reverse.value = !$scope.reverse.value;
             return;
@@ -667,10 +666,19 @@ angular.module( 'instructor.reports', [
             $scope.reverse.value = false;
         }
     };
+    $scope.saveState = function(key,currentState) {
+      if (localStorageService.isSupported) {
+        if (currentState) {
+          localStorageService.remove(key);
+        } else {
+          localStorageService.set(key, true);
+        }
+      }
+    };
     // used for orderBy predicate, objects allow us to share variables between controllers
     $scope.predicate = {last:''};
     $scope.reverse = {value: false};
-    $scope.isCollapsed = {value: false};
+    $scope.isCollapsed = {value: localStorageService.get('gl-reports-achievement-header-info')};
 });
 
 
