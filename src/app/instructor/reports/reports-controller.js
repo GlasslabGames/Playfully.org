@@ -24,6 +24,11 @@ angular.module( 'instructor.reports', [
       activeCourses: function(CoursesService) {
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
+      defaultCourse: function(activeCourses) {
+        if (activeCourses[0]) {
+            return activeCourses.id;
+        }
+      },
       myGames: function(GamesService) {
         return GamesService.getMyGames();
       },
@@ -102,7 +107,6 @@ angular.module( 'instructor.reports', [
     });
 
     $scope.developer = {};
-
     /* Courses */
 
     $scope.activeCourses = activeCourses;
@@ -230,6 +234,9 @@ angular.module( 'instructor.reports', [
 .controller( 'ReportsDetailCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
 
+
+      $scope.achievements.active = [];
+
     // First, let's make sure the requested game is okay for them to see.
     var requestedGameOK = false;
     angular.forEach(myGames, function(game) {
@@ -336,6 +343,8 @@ angular.module( 'instructor.reports', [
     });
 
     $scope.selectActiveAchievements = function(group, index) {
+//      console.log('group:', group);
+//      console.log('selectActiveAchievements', $scope.achievements.options);
       angular.forEach($scope.achievements.options, function(option) {
         if (option.id == group) {
           var totalItems = 0;
@@ -521,10 +530,11 @@ angular.module( 'instructor.reports', [
       });
 
       /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId) {
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
         if ($scope.achievements.options && $scope.achievements.options.length) {
+//          console.log($scope.achievements.options);
           $scope.achievements.selected = $scope.achievements.options[0].id;
         }
       }
@@ -553,6 +563,7 @@ angular.module( 'instructor.reports', [
 
 
     var _populateAchievements = function(reports) {
+//      console.log('REPORTS: ', reports);
       if (reports && reports.length) {
         for(var i = 0; i < reports.length; i++) {
           reports[i].list = [];
