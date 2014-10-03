@@ -9,6 +9,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--edmodo"
+        ng-hide="isEdmodoActive===false"
         ng-click="logInWithEdmodo()"
         popover-title="Edmodo Login"
         popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
@@ -24,9 +25,9 @@
       </button>
     </div>
 
-    <!--<div class="login-option">
+    <div class="login-option">
       <button class="login-button login-button--icivics" ng-click="logInWithIcivics()"
-        ng-disabled="isiCivicsActive===false">
+        ng-hide="isiCivicsActive===false">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--icivics"></div>
@@ -36,7 +37,7 @@
           </div>
         </div>
       </button>
-    </div>-->
+    </div>
 
   </div>
 

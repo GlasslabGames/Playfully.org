@@ -1,5 +1,6 @@
 .gl-tour .carousel-container {
   background: white !important;
+  margin-left: -10px;
   margin-bottom: 40px;
   height: 350px;
 }
@@ -9,11 +10,47 @@
 }
 
 .gl-tour .carousel-control {
-  display: none;
+  .glyphicon {
+    font-family: FontAwesome;
+    background-color: @grey6;
+    width: 35px;
+    height: 35px;
+    .border-radius( 5px );
+  }
+  .glyphicon-chevron-left:before {
+    position: relative;
+    //left: 1px;
+    top: 1px;
+    content: "\f060";
+  }
+  .glyphicon-chevron-right:before {
+    position: relative;
+    left: 1px;
+    top: 1px;
+    content: "\f061";
+  }
 }
+
+.gl-tour .carousel-control:hover, .gl-tour .carousel-control:focus {
+
+}
+
+.gl-tour .carousel-control.left {
+  left: -40px;
+  top: -120px;
+}
+
+.gl-tour .carousel-control.right {
+  right: -50px;
+  top: -120px;
+}
+
+
 
 .gl-tour .carousel-indicators {
   bottom: 5px;
+  margin-left: -10%;
+  width: initial;
   li {
     border: none;
     background: @grey6;
