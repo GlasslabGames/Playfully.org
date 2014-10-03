@@ -220,11 +220,10 @@
   position: relative;
   border-left: 2px solid white;
   width: 20%;
-  height: 50px;
 }
 
 .gl-reports-achievement-header {
-//  padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .gl-reports-achievement-header-name {
@@ -258,7 +257,6 @@
 .gl-reports-achievement-header-info {
   width: 100%;
   font-size: 12px;
-  color: #818181;
   margin-top: 10px;
   margin-bottom: 10px;
   /*height: 50px;*/
@@ -271,7 +269,6 @@
   width: 100%;
   position: absolute;
   left: 0px;
-  margin-top: 5px;
   bottom: 0px;
 }
 
@@ -284,6 +281,9 @@
   padding-bottom: 2px;
   .border-radiuses(4px, 4px, 4px, 4px);
 }
+.gl-reports-achievement-header-standards-footer {
+  border-left: 3px solid white;
+}
 
 .gl-reports-collapse-divider {
   text-align: center;
@@ -292,12 +292,6 @@
   border-bottom: 2px solid white;
   border-left: none !important;
   border-right: none !important;
-}
-
-.gl-reports-achievement-header-standards-footer {
-  background-color: @grey7;
-  font-size: 12px !important;
-  border-left: 2px solid white;
 }
 
 article.legend-header {
@@ -332,7 +326,7 @@ p.legend-header span:after {
   margin-left: 15px;
 }
 
-.achievement-legend {
+.achievement-squares {
   width: 12px;
   height: 12px;
   display: inline-block;
@@ -342,42 +336,62 @@ p.legend-header span:after {
 
 .blue-square {
   background: #2453CC;
-  .achievement-legend
+  .achievement-squares
 }
 
 .light-blue-square {
   background: #47DCFF;
-  .achievement-legend
+  .achievement-squares
 }
 
 .yellow-square {
   background: #ffe00d;
-  .achievement-legend
+  .achievement-squares
 }
 
 .magenta-square {
   background: #C847FF;
-  .achievement-legend
+  .achievement-squares
 }
 
 .green-square {
   background: #99CC24;
-  .achievement-legend
+  .achievement-squares
 }
 
 
 .red-square {
   background: #CC351C;
-  .achievement-legend
+  .achievement-squares
 }
 
 .fa-sort {
+  width: 3px;
+  cursor: pointer;
   margin: 0px 4px 0px 5px;
   text-align: center;
   color: #a3a3a3;
 }
-
 .fa-sort:hover {
+  color: #67cada;
+}
+
+.fa-caret-square-o-down {
+  font-size: 15px;
   cursor: pointer;
+  color: #a3a3a3;
+}
+
+.fa-caret-square-o-up {
+  font-size: 15px;
+  cursor: pointer;
+  color: #a3a3a3;
+}
+
+.fa-caret-square-o-down:hover {
+  color: #67cada;
+}
+
+.fa-caret-square-o-up:hover {
   color: #67cada;
 }
