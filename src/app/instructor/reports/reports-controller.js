@@ -628,13 +628,6 @@ angular.module( 'instructor.reports', [
     $scope.userSortFunction = function(predicate) {
 
         return function(user) {
-//            console.log('predicate:', predicate);
-//            console.log('firstName: ', user.firstName,'user:', user);
-
-//            if ($scope.predicate.value === predicate) {
-//                $scope.reverse = !scope.reverse;
-//                return;
-//            }
 
             if (predicate === 'firstName') {
                 return user.firstName;
@@ -657,13 +650,10 @@ angular.module( 'instructor.reports', [
         };
     };
     $scope.changeReverse = function(predicate) {
-        if ($scope.predicate.last === predicate) {
-            $scope.reverse.value = !$scope.reverse.value;
-            return;
+        if ($scope.reverse[predicate]) {
+            $scope.reverse[predicate] = !$scope.reverse[predicate];
         } else {
-            $scope.predicate.last = predicate;
-            // reset
-            $scope.reverse.value = false;
+            $scope.reverse[predicate] = true;
         }
     };
     $scope.saveState = function(key,currentState) {
