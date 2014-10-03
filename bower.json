@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "underscore": "~1.6",
+    "lodash": "~2.4.1",
     "angular": "~1.2",
     "angular-cookies": "~1.2",
     "angular-mocks": "~1.2",
