@@ -60,7 +60,6 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/jquery/dist/jquery.min.js',
-      'vendor/lodash/dist/lodash.min.js',
       'vendor/angular/angular.js',
       'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-sanitize/angular-sanitize.js',
@@ -78,6 +77,7 @@ module.exports = {
       'vendor/angular-order-object-by/src/ng-order-object-by.js',
       'vendor/sticky-ng/js/stickyNg.js',
       'vendor/sticky-ng/js/jquery.stickytableheaders.js',
+      'vendor/lodash/dist/lodash.min.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',

@@ -71,7 +71,7 @@ angular.module( 'playfully.games', [
   .state('games.detail.lessonPlans', {
     url: '/lesson-plans',
     templateUrl: 'games/game-detail-lesson-plans.html',
-    data: { authorizedRoles: ['instructor'] }
+    data: { authorizedRoles: ['instructor','admin'] }
   })
 
 
@@ -92,7 +92,7 @@ angular.module( 'playfully.games', [
   .state( 'games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student', 'instructor']
+      authorizedRoles: ['student', 'instructor','admin']
     },
     controller: 'GamePlayPageCtrl',
     templateUrl: 'games/game-play-page.html',
@@ -106,7 +106,7 @@ angular.module( 'playfully.games', [
     parent: 'games.detail.product',
     url: '/play-missions',
     data: {
-      authorizedRoles: ['student', 'instructor']
+      authorizedRoles: ['student', 'instructor','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;

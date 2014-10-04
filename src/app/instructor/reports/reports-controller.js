@@ -520,7 +520,7 @@ angular.module( 'instructor.reports', [
       });
 
       /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId) {
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
         if ($scope.achievements.options && $scope.achievements.options.length) {
@@ -629,12 +629,6 @@ angular.module( 'instructor.reports', [
         return function(user) {
 //            console.log('predicate:', predicate);
 //            console.log('firstName: ', user.firstName,'user:', user);
-
-//            if ($scope.predicate.value === predicate) {
-//                $scope.reverse = !scope.reverse;
-//                return;
-//            }
-
             if (predicate === 'firstName') {
                 return user.firstName;
             }
@@ -657,7 +651,6 @@ angular.module( 'instructor.reports', [
     };
     $scope.changeReverse = function(predicate) {
 //        console.log('reverse', $scope.reverse.value);
-
         if ($scope.predicate.last === predicate) {
             $scope.reverse.value = !$scope.reverse.value;
             return;

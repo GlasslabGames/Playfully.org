@@ -78,7 +78,7 @@
   </thead>
   <tbody ng-show="courses.options[courses.selectedId].users">
   <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(predicate.value):reverse.value">
-      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span></td></td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
           ng-show="isAwardedAchievement(achv, student.achievements)"></i>
