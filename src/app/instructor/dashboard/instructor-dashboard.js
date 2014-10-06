@@ -84,10 +84,8 @@ angular.module( 'instructor.dashboard', [
   };
 
   var _setSelectedGameById = function(gameId) {
-    angular.forEach($scope.games, function(game) {
-      if (game.gameId == $stateParams.gameId) {
-        $scope.status.selectedGame = game;
-      }
+    $scope.status.selectedGame = _.find($scope.games, function(game) {
+      return game.gameId == gameId;
     });
   };
 
