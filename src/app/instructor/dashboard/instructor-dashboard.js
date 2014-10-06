@@ -127,8 +127,10 @@ angular.module( 'instructor.dashboard', [
 
     $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
-        $state.transitionTo('instructorDashboard.gameplay',
-          { gameId: $scope.status.selectedGameId, courseId: newValue });
+        $state.transitionTo('instructorDashboard.gameplay', {
+          gameId: $scope.status.selectedGameId,
+          courseId: newValue
+        });
       }
     });
 
