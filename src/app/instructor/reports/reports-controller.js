@@ -227,7 +227,15 @@ angular.module( 'instructor.reports', [
 
 
 .controller( 'ReportsDetailCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS) {
+  function($scope, $window, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS) {
+
+    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
+    // of the reports table to be 'separate' instead of 'collapse'. Tried to
+    // use conditional IE comments in index.html, but it doesn't work with
+    // IE 10 and higher.
+    $scope.isIE = function() {
+      return $window.navigator.userAgent.test(/trident/i);
+    };
 
     // First, let's make sure the requested game is okay for them to see.
     var requestedGameOK = false;
