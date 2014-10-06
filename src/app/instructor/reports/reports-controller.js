@@ -528,7 +528,7 @@ angular.module( 'instructor.reports', [
       });
 
       /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId) {
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
         if ($scope.achievements.options && $scope.achievements.options.length) {

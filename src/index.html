@@ -17,8 +17,10 @@
       <div class="gl-navbar--top" ng-if="!hideWrapper">
         <div class="container gl-container">
           <div data-ng-include="'navbar/navbar.html'"></div>
-          <div ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
+          <div ng-if="currentUser && currentUser.role == 'instructor'" ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
             ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
+          <div ng-if="currentUser && currentUser.role == 'student'" ng-show="isAuthenticated()" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
+            ng-bind="'Welcome back, ' + currentUser.username + '!'"></div>
         </div>
       </div>
 
