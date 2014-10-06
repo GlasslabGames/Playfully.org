@@ -105,17 +105,12 @@ angular.module( 'instructor.dashboard', [
         if (data.list && data.list.length) {
           $scope.reports.options = data.list;
 
-          $scope.reports.selected = null;
-          for (var i=0; i < data.list.length; i++) {
-            if (data.list[i].id == 'sowo') {
-              $scope.reports.selected = data.list[i];
-              break;
-            }
-          }
+          $scope.reports.selected = _.find(data.list, function(report) {
+            return report.id == 'sowo';
+          }) || null;
 
           if ($scope.reports.selected) {
-            ReportsService.get($scope.reports.selected.id, $stateParams.gameId, $stateParams.courseId)
-              .then(function(data) {
+            ReportsService.get($scope.reports.selected.id, $stateParams.gameId, $stateParams.courseId).then(function(data) {
                 _populateSowo(data);
               }, function(data) {
                 $log.error(data);
