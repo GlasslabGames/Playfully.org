@@ -1,6 +1,7 @@
 <div ng-class="{'sdk-container': hideWrapper}">
   <div class="modal-header">
-    <h3 class="modal-title">Welcome back, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h3>
+    <h3 ng-if="currentUser && currentUser.role == 'instructor'" class="modal-title">Welcome back, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h3>
+    <h3 ng-if="currentUser && currentUser.role == 'student'" class="modal-title">Welcome back, {{ currentUser.username }}!</h3>
   </div>
 
   <div ng-class="modal-body">
