@@ -342,10 +342,6 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/student-unenroll.html',
         controller: 'UnenrollStudentModalCtrl'
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('showStudentList');
-          }
       });
     }
   })
@@ -387,10 +383,6 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/student-edit.html',
         controller: 'EditStudentModalCtrl'
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('showStudentList');
-          }
       });
     }
   })
