@@ -348,3 +348,51 @@
 .gl-game-card:hover {
   cursor: pointer;
 }
+
+.gl-learn-more {
+  .border-radius(8px 32px 8px 8px);
+
+  background-color: @grey7;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  padding-top: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+
+  h5 {
+    position: relative;
+    padding-top: 53px;
+    font-weight: bold;
+
+    div {
+      position: absolute;
+      top: 5px;
+      right: -5px;
+      width: 66px;
+      height: 66px;
+      .image-2x('learn-more-icon.png', 66px, 66px);
+    }
+  }
+
+  p {
+    font-size: 10pt;
+    margin-bottom: 0px;
+  }
+
+  ul {
+    font-size: 10pt;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 18px;
+    margin-bottom: 0px;
+  }
+
+  button {
+    display: block;
+    text-align: center;
+    margin: auto;
+  }
+}
