@@ -8,9 +8,7 @@
 
     <div class="modal-body" ng-show="!isVerified">
         &nbsp;
-        <p class="text-center">
-            There was a problem with verifying your account. Please email beta_playfully@glasslabgames.org
-        </p>
+        <p class="text-center" ng-bind="errorMessage"></p>
         &nbsp;
         <div class="text-center">
             <button class="btn gl-btn--blue"

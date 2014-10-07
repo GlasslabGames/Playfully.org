@@ -670,6 +670,7 @@ angular.module( 'instructor.reports', [
     // used for orderBy predicate, objects allow us to share variables between controllers
     $scope.predicate = {last:''};
     $scope.reverse = {value: false};
+    $scope.isCollapsed = {value: false};
 });
 
 
