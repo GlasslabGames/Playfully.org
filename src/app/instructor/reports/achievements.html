@@ -49,15 +49,15 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name <i class="fa fa-sort-down" ng-class="col.current=== 'firstName' ? 'highlight' : ''" ng-click="predicate.value = 'firstName'; highlight('firstName')"></i></th>
+      <th class="gl-reports-achievement-header-name" >Name <i class="fa fa-sort-down" ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="predicate.value = 'firstName'; sortSelected('firstName')"></i></th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div><span ng-bind="achv.title"> </span><i class="fa fa-sort-down" ng-class="col.current=== achv.title ? 'highlight' : ''" ng-click="predicate.value = achv.title; highlight(achv.title)"></i></div>
+          <div><span ng-bind="achv.title"> </span><i class="fa fa-sort-down" ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="predicate.value = achv.title; sortSelected(achv.title)"></i></div>
           <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           </div>
         </div>
       </th>
-      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="predicate.value = 'totalTimePlayed'; highlight('totalTimePlayed')"></i>
+      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="predicate.value = 'totalTimePlayed'; sortSelected('totalTimePlayed')"></i>
     </tr>
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
