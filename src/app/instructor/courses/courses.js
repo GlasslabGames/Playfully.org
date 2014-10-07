@@ -402,8 +402,8 @@ angular.module( 'instructor.courses', [
         size: 'lg',
         keyboard: false,
         resolve: {
-          course: function($stateParams, CoursesService) {
-            return CoursesService.get($stateParams.courseId);
+          course: function(CoursesService) {
+            return CoursesService.get(courseId);
           }
         },
         templateUrl: 'instructor/courses/lock-missions.html',
@@ -427,8 +427,8 @@ angular.module( 'instructor.courses', [
         size: 'lg',
         keyboard: false,
         resolve: {
-          course: function($stateParams, CoursesService) {
-            return CoursesService.get($stateParams.courseId);
+          course: function(CoursesService) {
+            return CoursesService.get(courseId);
           }
         },
         templateUrl: 'instructor/courses/lock-missions.html',
