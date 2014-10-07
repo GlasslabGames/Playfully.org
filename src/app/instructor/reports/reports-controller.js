@@ -263,7 +263,6 @@ angular.module( 'instructor.reports', [
     $scope.reports.options = [];
     angular.forEach(gameReports.list, function(report) {
       // only add enabled reports
-//      console.log('report:', report);
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
       }
@@ -560,6 +559,7 @@ angular.module( 'instructor.reports', [
 
 
     var _populateAchievements = function(reports) {
+//              console.log('report:', reports);
       if (reports && reports.length) {
         for(var i = 0; i < reports.length; i++) {
           reports[i].list = [];
@@ -586,9 +586,10 @@ angular.module( 'instructor.reports', [
           $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
         });
       }
+
 //      for testing
-//      $scope.courses.options[110].users[1].totalTimePlayed = 200000;
-//      $scope.courses.options[110].users[4].totalTimePlayed = 300000;
+//      $scope.courses.options[111].users[0].totalTimePlayed = 200000;
+//      $scope.courses.options[111].users[1].totalTimePlayed = 300000;
 //      $scope.courses.options[110].users[1].totalTimePlayed = 100000;
 //      $scope.courses.options[110].users[2].totalTimePlayed = 500000;
 //      $scope.courses.options[110].users[1].achievements[0].won = true;
@@ -601,9 +602,7 @@ angular.module( 'instructor.reports', [
 //      $scope.courses.options[110].users[2].achievements[1].won = true;
 //      $scope.courses.options[110].users[3].achievements[2].won = true;
 //      $scope.courses.options[110].users[6].achievements[2].won = true;
-//      $scope.courses.options[110].users[8].achievements[2].won = true;
-//      $scope.courses.options[110].users[2].achievements[2].won = true;
-//      console.log('courses:', $scope.courses.options);
+//      $scope.courses.options[111].users[0].achievements[2].won = true;
     };
 
     var _getSelectedStudentIdsFromCourse = function(course) {
@@ -632,25 +631,20 @@ angular.module( 'instructor.reports', [
     $scope.convertStandard = function(standard) {
        return REPORT_CONSTANTS.legend[standard];
     };
-    $scope.userSortFunction = function(predicate) {
 
+    // This function is used by the angular orderBy filter, it is iterated on each user object and returns a value to be compared against all other users. Closure allows us to add additional parameters
+    $scope.userSortFunction = function(colName) {
         return function(user) {
-//            console.log('predicate:', predicate);
-//            console.log('firstName: ', user.firstName,'user:', user);
 
-//            if ($scope.predicate.value === predicate) {
-//                $scope.reverse = !scope.reverse;
-//                return;
-//            }
-
-            if (predicate === 'firstName') {
+            if (colName === 'firstName') {
                 return user.firstName;
             }
-            if (predicate === 'totalTimePlayed') {
+            if (colName === 'totalTimePlayed') {
                 return user.totalTimePlayed;
             }
+            // finds user's first achievement that matches our criteria
             var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === predicate;
+                return achv.item === colName;
             });
             if (achievement) {
                if (achievement.won) {
@@ -663,21 +657,29 @@ angular.module( 'instructor.reports', [
             }
         };
     };
-    $scope.changeReverse = function(predicate) {
-//        console.log('reverse', $scope.reverse.value);
+    // Highlights currently selected column, name is the default selected column
+    $scope.sortSelected = function(colName) {
 
-        if ($scope.predicate.last === predicate) {
-            $scope.reverse.value = !$scope.reverse.value;
-            return;
-        } else {
-            $scope.predicate.last = predicate;
-            // reset
-            $scope.reverse.value = false;
+        var columns = $scope.colum;
+        // check if column exists
+        if (!columns[colName]) {
+          columns[colName] = {};
         }
+        // check if clicked column is already active
+        if (columns['current'] === colName) {
+            columns[colName].reverse = !columns[colName].reverse;
+//            console.log(columns[column]);
+            return;
+        }
+        // set previous current values to false
+        columns[columns.current].reverse = false;
+        // set clicked column as new current and to active
+        columns.current = colName;
+        return;
     };
-    // used for orderBy predicate, objects allow us to share variables between controllers
-    $scope.predicate = {last:''};
-    $scope.reverse = {value: false};
+
+    $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
+    $scope.colName = {};
 });
 
 
