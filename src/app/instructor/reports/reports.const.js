@@ -5,7 +5,8 @@ angular.module('reports.const', [])
   'CCSS.ELA-Literacy.WHST.6-8.1a': 'blue-square',
   'CCSS.ELA-Literacy.WHST.6-8.1b': 'green-square',
   'Problem Solving': 'red-square',
-  'Citizenship': 'yellow-square'
+  'Citizenship': 'yellow-square',
+  'CCSS.ELA-Literacy.RI.6-8': 'light-blue-square'
  }
 
 });

@@ -156,6 +156,9 @@
   padding-right: @spacingXXLarge;
 }
 
+.gl-reports-table--ie {
+  border-collapse: separate !important;
+}
 
 .gl-reports-table th {
   background-color: @grey7;
@@ -232,6 +235,20 @@
 
 .gl-reports-table-row .gl-reports-achievement:first-child {
   border-left: none;
+}
+
+.gl-reports-table.table > thead > tr > th,
+.gl-reports-table.table > tbody > tr > td,
+.gl-reports-table.table > tfoot > tr > td {
+  border-top-color: #fff !important;
+}
+
+.gl-reports-table.table > tbody > .gl-reports-table-row > td {
+  border-top-width: 2px;
+}
+
+.gl-reports-table.table > tbody > tr:first-child > td {
+  border-top-width: 1px;
 }
 
 .gl-reports-achv-arrow {
@@ -396,3 +413,4 @@ p.legend-header span:after {
 .fa-caret-square-o-up:hover {
   opacity: 0.5;
 }
+
