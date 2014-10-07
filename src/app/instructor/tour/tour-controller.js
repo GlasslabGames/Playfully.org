@@ -16,10 +16,6 @@ angular.module( 'instructor.tour', [
         keyboard: false,
         templateUrl: 'instructor/tour/tour.html',
         controller: 'InstructorTourModalCtrl'
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('instructorDashboard.intro');
-          }
       });
     }
   });
@@ -68,7 +64,7 @@ angular.module( 'instructor.tour', [
   $scope.closeModal = function() {
     $scope.$close(true);
     return $timeout(function () {
-      $state.go('instructorDashboard.intro', {}, { reload: true });
+      $state.go('instructorDashboard.default', {}, { reload: true });
     }, 100);
   };
 

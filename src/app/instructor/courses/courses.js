@@ -342,10 +342,6 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/student-unenroll.html',
         controller: 'UnenrollStudentModalCtrl'
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('showStudentList');
-          }
       });
     }
   })
@@ -387,10 +383,6 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/student-edit.html',
         controller: 'EditStudentModalCtrl'
-      }).result.then(function(result) {
-          if (result) {
-            return $state.transitionTo('showStudentList');
-          }
       });
     }
   })
@@ -707,7 +699,7 @@ angular.module( 'instructor.courses', [
     $scope.unenroll = function(course, student) {
       CoursesService.unenrollUser(course.id, student.id)
         .success(function(data, status, headers, config) {
-          $rootScope.modalInstance.close();
+          $scope.$close(true);
           return $timeout(function () {
             $state.go('showStudentList', {id:course.id}, { reload: true });
           }, 100);

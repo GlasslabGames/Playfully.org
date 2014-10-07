@@ -27,7 +27,8 @@
     <hr>
 
 
-<table class="table gl-reports-table" sticky>
+<table class="table gl-reports-table" 
+  ng-class="{'gl-reports-table--ie': isIE}" sticky>
   <thead>
     <tr>
       <td colspan="9" class="gl-reports-achievement-footer text-center">
@@ -53,7 +54,9 @@
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
           <div><span ng-bind="achv.title"> </span><i class="fa fa-sort" ng-click="predicate.value = achv.title; changeReverse(achv.title)"></i></div>
-          <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
+          <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
+          <div class="gl-reports-achv-footer">
+              <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value"></i>
           </div>
         </div>
       </th>
