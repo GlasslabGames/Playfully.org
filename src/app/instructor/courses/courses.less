@@ -315,22 +315,30 @@ input[type=checkbox]:checked + label > .gl-course-game-thumbnail {
   right: 30px;
   bottom: 6px;
   .image-2x('locked.png', 21px, 21px);
+  // hide lock
+  display: none;
 }
 
 .gl-course-game-thumb .gl-course-game-lock {
   right: 6px;
+  // hide lock
+  display: none;
 }
 
 form .gl-course-game-lock {
+  // hide lock
   display: none;
 }
 
 .gl-course-game-unlocked {
   .image-2x('unlocked.png', 21px, 21px);
+  // hide unlock
+  display: none;
 }
 
 input[type=checkbox]:checked + label .gl-course-game-lock {
-  display: block;
+  // hide lock
+  display: none;
 }
 
 input[type=checkbox]:checked + label .gl-course-game-indicator {
