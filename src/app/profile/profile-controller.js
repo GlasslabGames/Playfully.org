@@ -27,7 +27,7 @@ angular.module( 'playfully.profile', [])
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['instructor', 'student']
+      authorizedRoles: ['instructor', 'student','admin']
     },
     resolve: {
       user: function(UserService) {
