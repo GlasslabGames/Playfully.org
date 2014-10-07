@@ -559,7 +559,7 @@ angular.module( 'instructor.reports', [
 
 
     var _populateAchievements = function(reports) {
-              console.log('report:', reports);
+//              console.log('report:', reports);
       if (reports && reports.length) {
         for(var i = 0; i < reports.length; i++) {
           reports[i].list = [];
@@ -586,7 +586,6 @@ angular.module( 'instructor.reports', [
           $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
         });
       }
-//              console.log('courses:', $scope.courses.options);
 
 //      for testing
 //      $scope.courses.options[111].users[0].totalTimePlayed = 200000;
@@ -632,18 +631,20 @@ angular.module( 'instructor.reports', [
     $scope.convertStandard = function(standard) {
        return REPORT_CONSTANTS.legend[standard];
     };
-    $scope.userSortFunction = function(predicate) {
 
+    // This function is used by the angular orderBy filter, it is iterated on each user object and returns a value to be compared against all other users. Closure allows us to add additional parameters
+    $scope.userSortFunction = function(colName) {
         return function(user) {
 
-            if (predicate === 'firstName') {
+            if (colName === 'firstName') {
                 return user.firstName;
             }
-            if (predicate === 'totalTimePlayed') {
+            if (colName === 'totalTimePlayed') {
                 return user.totalTimePlayed;
             }
+            // finds user's first achievement that matches our criteria
             var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === predicate;
+                return achv.item === colName;
             });
             if (achievement) {
                if (achievement.won) {
@@ -656,10 +657,10 @@ angular.module( 'instructor.reports', [
             }
         };
     };
-
+    // Highlights currently selected column, name is the default selected column
     $scope.sortSelected = function(colName) {
 
-        var columns = $scope.col;
+        var columns = $scope.colum;
         // check if column exists
         if (!columns[colName]) {
           columns[colName] = {};
@@ -678,7 +679,7 @@ angular.module( 'instructor.reports', [
     };
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
-    $scope.predicate = {last:''};
+    $scope.colName = {};
 });
 
 
