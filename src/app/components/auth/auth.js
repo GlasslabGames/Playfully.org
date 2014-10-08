@@ -59,6 +59,14 @@ angular.module('auth', ['session', 'ipCookie'])
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },
 
+    // check that they are isAuthenticated but not the role
+    isAuthenticatedButNot: function (role) {
+      if (!angular.isArray(role)) {
+        role = [role];
+      }
+      return (this.isAuthenticated() &&
+              role.indexOf(Session.userRole) === -1);
+    },
 
     sendPasswordResetLink: function(emailAddress) {
       return $http({

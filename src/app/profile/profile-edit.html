@@ -9,7 +9,7 @@
   <form name="editProfileForm" novalidate class="edit-form"
     ng-submit="updateProfile(user)">
 
-    <div ng-if="user.role == 'instructor'">
+    <div ng-if="user.role != 'student'">
       <div class="form-group form-group--labeled" ng-class="{'has-error': editProfileForm.name.$dirty && editProfileForm.name.$invalid}">
         <label for="user-name">Name</label>
         <input type="text" name="name" class="form-control" id="user-name"

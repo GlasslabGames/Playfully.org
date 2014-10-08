@@ -76,17 +76,17 @@ describe('Auth', function() {
   describe("isAuthorized", function() {
     it("returns true if session has the expected role", function() {
       Session.create(25, 'student');
-      expect(AuthService.isAuthorized(['student', 'instructor','admin'])).toBeTruthy();
+      expect(AuthService.isAuthorized(['student', 'instructor', 'manager', 'admin'])).toBeTruthy();
     });
 
     it("returns false if there is no session", function() {
       Session.destroy();
-      expect(AuthService.isAuthorized(['student', 'instructor','admin'])).toBeFalsy();
+      expect(AuthService.isAuthorized(['student', 'instructor', 'manager', 'admin'])).toBeFalsy();
     });
 
     it("returns false if session's role is not allowed", function() {
       Session.create(25, 'student');
-      expect(AuthService.isAuthorized(['instructor','admin'])).toBeFalsy();
+      expect(AuthService.isAuthorized(['instructor', 'manager', 'admin'])).toBeFalsy();
     });
 
     it("can be called with a single role as a string", function() {

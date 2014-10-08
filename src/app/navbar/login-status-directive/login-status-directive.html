@@ -6,7 +6,7 @@
       <ul class="dropdown-menu" role="menu">
         <li><a ng-hide="isSSOLogin()"
                 ui-sref="editProfile">Edit My Profile</a></li>
-        <li><a ng-show="isAuthenticated() && isAuthorized(['instructor'])"
+        <li><a ng-show="isAuthenticatedButNot('student')"
                ui-sref="instructorTour">Intro Tour</a></li>
         <li><a ui-sref="logout">Log Out</a></li>
       </ul>
