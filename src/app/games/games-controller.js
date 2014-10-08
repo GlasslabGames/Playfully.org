@@ -71,7 +71,7 @@ angular.module( 'playfully.games', [
   .state('games.detail.lessonPlans', {
     url: '/lesson-plans',
     templateUrl: 'games/game-detail-lesson-plans.html',
-    data: { authorizedRoles: ['instructor','admin'] }
+    data: { authorizedRoles: ['instructor','manager','developer','admin'] }
   })
 
 
@@ -92,7 +92,7 @@ angular.module( 'playfully.games', [
   .state( 'games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student', 'instructor','admin']
+      authorizedRoles: ['student', 'instructor','developer','admin']
     },
     controller: 'GamePlayPageCtrl',
     templateUrl: 'games/game-play-page.html',
@@ -106,7 +106,7 @@ angular.module( 'playfully.games', [
     parent: 'games.detail.product',
     url: '/play-missions',
     data: {
-      authorizedRoles: ['student', 'instructor','admin']
+      authorizedRoles: ['student', 'instructor','developer','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
@@ -166,7 +166,7 @@ angular.module( 'playfully.games', [
     // });
 
     $scope.isAuthorized = function() {
-      return (AuthService.isAuthenticated() && AuthService.isAuthorized('instructor'));
+      return AuthService.isAuthenticatedButNot('student');
     };
 
     $scope.isAuthenticated = function() {
@@ -185,8 +185,7 @@ angular.module( 'playfully.games', [
     };
 
     $scope.goToGameSubpage = function(dest) {
-      if (dest.authRequired && !AuthService.isAuthorized('instructor')) {
-      } else {
+      if (!dest.authRequired || AuthService.isAuthenticatedButNot('student')) {
         $state.go('games.detail.' + dest.id);
       }
     };

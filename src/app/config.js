@@ -22,11 +22,12 @@ angular.module('playfully.config', [])
 })
 
 .constant('USER_ROLES', {
-  all: '*',
-  student: 'student',
+  all:        '*',
+  student:    'student',
   instructor: 'instructor',
-  manager: 'manager',
-  admin: 'admin'
+  manager:    'manager',
+  developer:  'developer',
+  admin:      'admin'
 })
 
 .config(function($logProvider){

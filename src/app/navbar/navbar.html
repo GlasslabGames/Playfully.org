@@ -13,7 +13,7 @@
     <!-- logo links to different place depending on login status -->
     <div class="gl-navbar-logo beta"
       ui-sref-active="active"
-      ng-if="isAuthorized(['instructor','admin'])"
+      ng-if="isAuthenticatedButNot('student')"
       ui-sref="instructorDashboard.default"></div>
     <div class="gl-navbar-logo beta"
       ui-sref-active="active"
@@ -21,7 +21,7 @@
       ui-sref="studentDashboard"></div>
     <div class="gl-navbar-logo beta"
       ui-sref-active="active"
-      ng-if="!isAuthorized(['instructor','student','admin'])"
+      ng-if="!isAuthenticatedButNot('guest')"
       ui-sref="home"></div>
     <div class="nav navbar-nav navbar-right">
 
@@ -67,7 +67,7 @@
       </ul>
 
 
-      <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized(['instructor','admin'])">
+      <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student')">
         <li ng-class="{'active': state.includes('instructorDashboard')}">
           <a class="gl-nav-link" href ui-sref="instructorDashboard.default"
             data-ng-bind="'navbar.link.dashboard' | translate">
@@ -90,7 +90,7 @@
           </a>
         </li>
 
-        <li ui-sref-active="active">
+        <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
           <a class="gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
             data-ng-bind="'navbar.link.support' | translate">
           </a>

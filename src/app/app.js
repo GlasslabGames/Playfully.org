@@ -121,7 +121,10 @@ angular.module( 'playfully', [
 
               if ($rootScope.toState) {
                 if ($rootScope.toState.url == '/' && user && user.role) {
-                  if (user.role == 'instructor') {
+                  if (user.role == 'instructor' ||
+                      user.role == 'manager' ||
+                      user.role == 'developer'
+                    ) {
                     // TODO: remove this later when we have sowo for icivics login
                     if(user.loginType == 'icivics'){
                       $state.go('courses.active');
@@ -181,6 +184,7 @@ angular.module( 'playfully', [
     $rootScope.allGames = null;
     $scope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
+    $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
 
