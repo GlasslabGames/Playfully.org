@@ -182,7 +182,8 @@ angular.module( 'instructor.reports', [
     /* Students */
 
     $scope.students = {};
-
+    // Adds students from activeCourses to student object
+    console.log('activeCourses: ', activeCourses);
     angular.forEach(activeCourses, function(course) {
       angular.forEach(course.users, function(student) {
         if (!$scope.students.hasOwnProperty(student.id)) {
@@ -328,10 +329,10 @@ angular.module( 'instructor.reports', [
     //   }
     // );
 
-    /* Retrieve the appropriate report and process the data */
+    /* Retrieve the appropriate report and process the user objects */
     ReportsService.get($stateParams.reportId, $stateParams.gameId, $stateParams.courseId)
-      .then(function(data) {
-//        console.log('data:  ', data);
+      .then(function(users) {
+        console.log('users:  ', users);
         if( !_isValidReport($stateParams.reportId) ) {
           $state.transitionTo('reports.details', {
             reportId: _getDefaultReportId(),
@@ -343,10 +344,10 @@ angular.module( 'instructor.reports', [
 
         if ($stateParams.reportId == 'sowo') {
           _resetSowo();
-          _populateSowo(data);
+          _populateSowo(users);
         } else if ($stateParams.reportId == 'achievements') {
           _initAchievements();
-          _populateStudentAchievements(data);
+          _populateStudentAchievements(users);
         }
     });
 
@@ -369,12 +370,15 @@ angular.module( 'instructor.reports', [
           }
         }
 //          console.log('achievements.selected:', $scope.achievements.selected);
-//          console.log('achievements',$scope.achievements);
+          console.log('achievements',$scope.achievements);
       });
     };
   $scope.isAwardedAchievement = function(activeAchv, studentAchv) {
+
     if(studentAchv) {
+      // if current achievement matches student achievement and
       for(var i = 0; i < studentAchv.length; i++) {
+        console.log( studentAchv[i].item,' ',  activeAchv.id, ' ', studentAchv[i].won);
         // TODO: check for subgroup
         if( (studentAchv[i].item === activeAchv.id) &&
             studentAchv[i].won
@@ -386,7 +390,7 @@ angular.module( 'instructor.reports', [
 
     return false;
   };
-
+// is this even used?
   $scope.getStudentResult = function(studentId, achievement) {
     angular.forEach($scope.students, function(student) {
       if (student.id == studentId) {
@@ -531,6 +535,7 @@ angular.module( 'instructor.reports', [
 
 
     var _initAchievements = function() {
+      console.log('gameReports: ', gameReports);
       angular.forEach(gameReports.list, function(report) {
         if (report.id == 'achievements') {
           $scope.achievements.options = report.achievements;
@@ -589,13 +594,13 @@ angular.module( 'instructor.reports', [
       }
       return reports;
     };
-
-    var _populateStudentAchievements = function(data) {
-      if (data) {
+    //
+    var _populateStudentAchievements = function(users) {
+      if (users) {
         // Attach achievements and time played to students
-        angular.forEach(data, function(d) {
-          $scope.students[d.userId].achievements    = d.achievements;
-          $scope.students[d.userId].totalTimePlayed = d.totalTimePlayed;
+        angular.forEach(users, function(user) {
+          $scope.students[user.userId].achievements    = user.achievements;
+          $scope.students[user.userId].totalTimePlayed = user.totalTimePlayed;
         });
       }
 //      for testing
@@ -615,7 +620,8 @@ angular.module( 'instructor.reports', [
 //      $scope.courses.options[110].users[6].achievements[2].won = true;
 //      $scope.courses.options[110].users[8].achievements[2].won = true;
 //      $scope.courses.options[110].users[2].achievements[2].won = true;
-//      console.log('courses:', $scope.courses.options);
+      console.log('courses:', $scope.courses.options);
+      console.log('students', $scope.students);
     };
 
     var _getSelectedStudentIdsFromCourse = function(course) {
