@@ -80,6 +80,7 @@ angular.module( 'instructor.reports', [
     url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
     templateUrl: 'instructor/reports/sowo.html',
     controller: 'SowoCtrl',
+    parameters: ['gameId','courseId'],
     resolve: {
       gameReports: function($stateParams, GamesService, myGames) {
         return GamesService.getAllReports($stateParams.gameId);
@@ -232,8 +233,8 @@ angular.module( 'instructor.reports', [
       });
     };
 
-    $scope.goToSelected = function(parameters) {
-        $state.go('reports.details' + '.' + parameters.reportId, parameters);
+    $scope.goToSelected = function(reportId, parameters) {
+        $state.go('reports.details' + '.' + reportId, parameters);
     };
 
     $scope.toggleDropdown = function($event, collection) {

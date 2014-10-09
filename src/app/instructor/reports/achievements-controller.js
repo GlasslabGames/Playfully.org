@@ -88,8 +88,7 @@ angular.module( 'instructor.reports')
     ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         if( !_isValidReport('achievements') ) {
-          $state.transitionTo('reports.details', {
-            reportId: _getDefaultReportId(),
+          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
             gameId: $stateParams.gameId,
             courseId: $stateParams.courseId
           });

@@ -49,7 +49,7 @@ angular.module( 'instructor.reports')
     // find selected report
     $scope.reports.selected = null;
     for(var r in $scope.reports.options) {
-      if ($scope.reports.options[r].id === $stateParams.reportId) {
+      if ($scope.reports.options[r].id === 'sowo') {
         $scope.reports.selected = $scope.reports.options[r];
         break;
       }
@@ -58,6 +58,7 @@ angular.module( 'instructor.reports')
     // select if report not select, and options then select first one
     if( !$scope.reports.selected &&
          $scope.reports.options.length) {
+
       $scope.reports.selected = $scope.reports.options[0];
     }
 
@@ -98,21 +99,17 @@ angular.module( 'instructor.reports')
     // );
 
     /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get($stateParams.reportId, $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-        if( !_isValidReport($stateParams.reportId) ) {
-          $state.transitionTo('reports.details', {
-            reportId: _getDefaultReportId(),
+        if( !_isValidReport('sowo') ) {
+          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
             gameId: $stateParams.gameId,
             courseId: $stateParams.courseId
           });
           return;
         }
-
-        if ($stateParams.reportId == 'sowo') {
-          _resetSowo();
-          _populateSowo(users);
-        }
+        _resetSowo();
+        _populateSowo(users);
     });
 
     $scope.selectActiveAchievements = function(group, index) {
@@ -454,6 +451,11 @@ angular.module( 'instructor.reports')
         }
       }
     };
+
+    $scope.goToSelected = function(reportId, parameters) {
+        $state.go('reports.details' + '.' + reportId, parameters);
+    };
+
     // used for orderBy predicate, objects allow us to share variables between controllers
     $scope.predicate = {last:''};
     $scope.reverse = {value: false};
