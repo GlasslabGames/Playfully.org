@@ -36,9 +36,6 @@ angular.module( 'instructor.reports')
       }
     });
 
-
-
-
     /**
      * If there is a stdntIds parameter, parse the ids and select the
      * individual students accordingly. Otherwise select all students.
@@ -62,19 +59,6 @@ angular.module( 'instructor.reports')
 
     _selectStudents();
 
-    // var preselectedStudents =
-    // angular.forEach($scope.courses.options[$scope.courses.selectedId].users,
-    //   function(student) {
-    //     if ($stateParams.stdntIds && $stateParams.stdntIds.indexOf(student.id) < 0) {
-    //       student.isSelected = false;
-    //       $scope.courses.options[$scope.courses.selectedId].isPartiallySelected = true;
-    //     }
-    //     else {
-    //       student.isSelected = true;
-    //     }
-    //   }
-    // );
-
     /* Retrieve the appropriate report and process the user objects */
     ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
@@ -88,47 +72,7 @@ angular.module( 'instructor.reports')
         _resetSowo();
         _populateSowo(users);
     });
-
-    $scope.selectActiveAchievements = function(group, index) {
-//      console.log('group:', group);
-//      console.log('selectActiveAchievements', $scope.achievements.options);
-      angular.forEach($scope.achievements.options, function(option) {
-        if (option.id == group) {
-          var totalItems = 0;
-          angular.forEach(option.subGroups, function(subGroup) {
-            totalItems += subGroup.items.length;
-          });
-          $scope.achievements.totalCount = totalItems;
-
-          if (index < 0 || totalItems < index + 3) {
-            return false;
-          } else {
-            $scope.achievements.startIndex = index;
-            $scope.achievements.active = option.list.slice(index, index + 3);
-          }
-        }
-//          console.log('achievements.selected:', $scope.achievements.selected);
-//          console.log('achievements',$scope.achievements);
-      });
-    };
-  $scope.isAwardedAchievement = function(activeAchv, studentAchv) {
-
-    if(studentAchv) {
-      // if current achievement matches student achievement and
-      for(var i = 0; i < studentAchv.length; i++) {
-//        console.log( studentAchv[i].item,' ',  activeAchv.id, ' ', studentAchv[i].won);
-        // TODO: check for subgroup
-        if( (studentAchv[i].item === activeAchv.id) &&
-            studentAchv[i].won
-          ) {
-            return true;
-        }
-      }
-    }
-
-    return false;
-  };
-// is this even used?
+    // is this even used?
   $scope.getStudentResult = function(studentId, achievement) {
     angular.forEach($scope.students, function(student) {
       if (student.id == studentId) {
@@ -140,7 +84,6 @@ angular.module( 'instructor.reports')
       }
     });
   };
-
 
     var _isValidReport = function(reportId){
       for(var i = 0; i < $scope.reports.options.length; i++) {
@@ -266,102 +209,6 @@ angular.module( 'instructor.reports')
       return overflowText;
     };
 
-
-    var _getRandomTime = function() {
-      return Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 1000) + 1000;
-    };
-
-
-    var _initAchievements = function() {
-//      console.log('gameReports: ', gameReports);
-      angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'achievements') {
-          $scope.achievements.options = report.achievements;
-        }
-      });
-
-      /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
-        $scope.achievements.selected = $stateParams.skillsId;
-      } else {
-        if ($scope.achievements.options && $scope.achievements.options.length) {
-//          console.log($scope.achievements.options);
-          $scope.achievements.selected = $scope.achievements.options[0].id;
-        }
-      }
-
-      $scope.achievements.options = _populateAchievements($scope.achievements.options);
-      $scope.selectActiveAchievements($scope.achievements.selected, 0);
-      $scope.achievements.selectedOption = _.find($scope.achievements.options,
-          function(option) {
-            return option.id === $scope.achievements.selected;
-          });
-//      console.log('SELECTED OPTION:', $scope.achievements.selectedOption);
-
-        //   angular.forEach(report.achievements, function(achv) {
-        //     if (achv.id == $scope.achievements.selected) {
-        //       achievements = achv.list;
-        //     }
-        //   });
-        // $scope.achievements.available = _populateAchievements(report.achievements);
-        // index = 0;
-        // $scope.achievements.active = $scope.achievements.available.slice(index, index + 3);
-        // }
-      // });
-    };
-
-
-
-
-    var _populateAchievements = function(reports) {
-//      console.log('REPORTS: ', reports);
-      if (reports && reports.length) {
-        for(var i = 0; i < reports.length; i++) {
-          reports[i].list = [];
-          for(var j = 0; j < reports[i].subGroups.length; j++) {
-            for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
-              reports[i].subGroups[j].items[k].standard = {
-                title:       reports[i].subGroups[j].title,
-                description: reports[i].subGroups[j].description
-              };
-
-              reports[i].list.push( reports[i].subGroups[j].items[k] );
-            }
-          }
-        }
-      }
-      return reports;
-    };
-    //
-    var _populateStudentAchievements = function(users) {
-      if (users) {
-        // Attach achievements and time played to students
-        angular.forEach(users, function(user) {
-          $scope.students[user.userId].achievements    = user.achievements;
-          $scope.students[user.userId].totalTimePlayed = user.totalTimePlayed;
-        });
-      }
-//      for testing
-//      $scope.courses.options[110].users[1].totalTimePlayed = 200000;
-//      $scope.courses.options[110].users[4].totalTimePlayed = 300000;
-//      $scope.courses.options[110].users[1].totalTimePlayed = 100000;
-//      $scope.courses.options[110].users[2].totalTimePlayed = 500000;
-//      $scope.courses.options[110].users[1].achievements[0].won = true;
-//      $scope.courses.options[110].users[7].achievements[0].won = true;
-//      $scope.courses.options[110].users[6].achievements[0].won = true;
-//      $scope.courses.options[110].users[2].achievements[0].won = true;
-//      $scope.courses.options[110].users[5].achievements[1].won = true;
-//      $scope.courses.options[110].users[4].achievements[1].won = true;
-//      $scope.courses.options[110].users[7].achievements[1].won = true;
-//      $scope.courses.options[110].users[2].achievements[1].won = true;
-//      $scope.courses.options[110].users[3].achievements[2].won = true;
-//      $scope.courses.options[110].users[6].achievements[2].won = true;
-//      $scope.courses.options[110].users[8].achievements[2].won = true;
-//      $scope.courses.options[110].users[2].achievements[2].won = true;
-//      console.log('courses:', $scope.courses.options);
-//      console.log('students', $scope.students);
-    };
-
     var _getSelectedStudentIdsFromCourse = function(course) {
       var studentIds = [];
       angular.forEach(course.users, function(student) {
@@ -385,58 +232,7 @@ angular.module( 'instructor.reports')
         return null;
       }
     };
-    $scope.convertStandard = function(standard) {
-       return REPORT_CONSTANTS.legend[standard];
-    };
-    $scope.userSortFunction = function(predicate) {
 
-        return function(user) {
-
-            if (predicate === 'firstName') {
-                return user.firstName;
-            }
-            if (predicate === 'totalTimePlayed') {
-                return user.totalTimePlayed;
-            }
-            var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === predicate;
-            });
-            if (achievement) {
-               if (achievement.won) {
-                   return 1;
-               } else {
-                   return 0;
-               }
-            } else {
-                return 0;
-            }
-        };
-    };
-    $scope.changeReverse = function(predicate) {
-        if ($scope.reverse[predicate]) {
-            $scope.reverse[predicate] = !$scope.reverse[predicate];
-        } else {
-            $scope.reverse[predicate] = true;
-        }
-    };
-    $scope.saveState = function(key,currentState) {
-      if (localStorageService.isSupported) {
-        if (currentState) {
-          localStorageService.remove(key);
-        } else {
-          localStorageService.set(key, true);
-        }
-      }
-    };
-
-    $scope.goToSelected = function(reportId, parameters) {
-        $state.go('reports.details' + '.' + reportId, parameters);
-    };
-
-    // used for orderBy predicate, objects allow us to share variables between controllers
-    $scope.predicate = {last:''};
-    $scope.reverse = {value: false};
-    $scope.isCollapsed = {value: localStorageService.get('gl-reports-achievement-header-info')};
 });
 
 
