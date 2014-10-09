@@ -232,12 +232,8 @@ angular.module( 'instructor.reports', [
       });
     };
 
-    $scope.goToSelected = function(reportId,gameId,courseId,skillsId) {
-        $state.go('reports.details' + '.' + reportId, {
-          gameId: gameId,
-          courseId: courseId,
-          skillsId: skillsId || false
-        }, {inherit: false});
+    $scope.goToSelected = function(parameters) {
+        $state.go('reports.details' + '.' + parameters.reportId, parameters);
     };
 
     $scope.toggleDropdown = function($event, collection) {
