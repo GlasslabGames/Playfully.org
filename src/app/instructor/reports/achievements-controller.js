@@ -1,9 +1,8 @@
 angular.module( 'instructor.reports')
 
 .controller( 'AchievementsCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGame, ReportsService, REPORT_CONSTANTS,localStorageService) {
 
-    console.log('game reports', gameReports);
     $scope.achievements.active = [];
 
     // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
@@ -14,52 +13,30 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-    // First, let's make sure the requested game is okay for them to see.
-    var requestedGameOK = false;
-    angular.forEach(myGames, function(game) {
-      if (game.gameId == $stateParams.gameId) {
-        requestedGameOK = true;
-      }
-    });
-    if (!requestedGameOK) { $state.transitionTo('reports.default'); }
-
-    // Reflect report selections from URL
-    $scope.games.selected = $stateParams.gameId;
-    $scope.courses.selectedId = $stateParams.courseId;
-
     // Set parent scope developer info
     if (gameReports.hasOwnProperty('developer')) {
       $scope.developer.logo = gameReports.developer.logo;
     }
 
-
-    //* Reports */
-
-    // Set up Reports dropdown based on reports available to
-    // the selected Game.
+    // Select Game, Course, and Report
+    $scope.games.selected = defaultGame;
+    $scope.courses.selectedId = $stateParams.courseId;
+    $scope.reports.selected = $state.current.name.split('.')[2];
+    console.log('selected report:', $scope.reports.selected);
+    //* Reports *//
+    var currentReport = $state.current.name.split('.')[2];
+    // Set up report dropdown based on selected game
     $scope.reports.options = [];
     angular.forEach(gameReports.list, function(report) {
-      // only add enabled reports
-      console.log('report:', report);
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
+        // select report that matches this state
+        if (currentReport === report.id) {
+          $scope.reports.selected = report;
+        }
       }
     });
 
-    // find selected report
-    $scope.reports.selected = null;
-    for(var r in $scope.reports.options) {
-      if ($scope.reports.options[r].id === 'achievements') {
-        $scope.reports.selected = $scope.reports.options[r];
-        break;
-      }
-    }
-
-    // select if report not select, and options then select first one
-    if( !$scope.reports.selected &&
-         $scope.reports.options.length) {
-      $scope.reports.selected = $scope.reports.options[0];
-    }
 
     /**
      * If there is a stdntIds parameter, parse the ids and select the
