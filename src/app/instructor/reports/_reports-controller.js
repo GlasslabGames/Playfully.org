@@ -59,8 +59,7 @@ angular.module( 'instructor.reports', [
     url: '',
     controller: function($scope, $state, $log, defaultGame, activeCourses, gameReports) {
       if (activeCourses.length) {
-        $state.transitionTo('reports.details', {
-          reportId: $scope.reports.options[0].id,
+        $state.transitionTo('reports.details' +'.' + $scope.reports.options[0].id, {
           gameId: defaultGame,
           courseId: activeCourses[0].id
         });
@@ -80,13 +79,23 @@ angular.module( 'instructor.reports', [
   .state('reports.details.sowo', {
     url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
     templateUrl: 'instructor/reports/sowo.html',
-    controller: 'SowoCtrl'
+    controller: 'SowoCtrl',
+    resolve: {
+      gameReports: function($stateParams, GamesService, myGames) {
+        return GamesService.getAllReports($stateParams.gameId);
+      }
+    }
   })
   .state('reports.details.achievements', {
     url: '/achievements/game/:gameId/course/:courseId?skillsId&stdntIds',
     templateUrl: 'instructor/reports/achievements.html',
     controller: 'AchievementsCtrl',
-    parameters: ['gameId','courseId']
+    parameters: ['gameId','courseId'],
+    resolve: {
+      gameReports: function($stateParams, GamesService, myGames) {
+        return GamesService.getAllReports($stateParams.gameId);
+      }
+    }
   });
 })
 
