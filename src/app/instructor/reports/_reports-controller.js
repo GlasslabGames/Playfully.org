@@ -22,6 +22,7 @@ angular.module( 'instructor.reports', [
     },
     resolve: {
       activeCourses: function(CoursesService) {
+        console.log('REPORTS CTRL');
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
       defaultCourse: function(activeCourses) {
@@ -45,7 +46,6 @@ angular.module( 'instructor.reports', [
         return myGames[0].gameId;
       },
       gameReports: function(GamesService, myGames,defaultGame) {
-        console.log('gameReport resolveL ', defaultGame);
 
         if (myGames[0]) {
           return GamesService.getAllReports(defaultGame);
@@ -65,6 +65,11 @@ angular.module( 'instructor.reports', [
    **/
   .state('reports.default', {
     url: '',
+    resolve: {
+      test: function() {
+        return console.log('REPORTS DEFAULT');
+      }
+    },
     controller: function($scope, $state, $log, defaultGame, activeCourses, gameReports) {
       if (activeCourses.length) {
         $state.transitionTo('reports.details' +'.' + $scope.reports.options[0].id, {
@@ -82,7 +87,12 @@ angular.module( 'instructor.reports', [
   .state( 'reports.details', {
     url: '/details',
     templateUrl: 'instructor/reports/reports-detail.html',
-    controller: 'ReportsDetailCtrl'
+    controller: 'ReportsDetailCtrl',
+    resolve: {
+      test: function() {
+        return console.log('REPORTS DETAIL');
+      }
+    }
   })
   .state('reports.details.sowo', {
     url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
@@ -91,12 +101,12 @@ angular.module( 'instructor.reports', [
     parameters: ['gameId','courseId'],
     resolve: {
       myGames: function(GamesService,ReportsService,$stateParams) {
+        console.log('REPORTS SOWO');
         return ReportsService.getCourseGames($stateParams.courseId).then(function(games) {
           return games;
         });
       },
       defaultGame: function($stateParams, myGames) {
-        console.log('stateParams: ', $stateParams);
         var defaultGame = myGames[0].gameId;
         angular.forEach(myGames, function(game) {
           console.log('game: ', game);
@@ -108,7 +118,6 @@ angular.module( 'instructor.reports', [
         return defaultGame;
       },
       gameReports: function($stateParams, GamesService, defaultGame) {
-        console.log('default Game:', defaultGame);
         return GamesService.getAllReports(defaultGame);
       }
     }
@@ -120,12 +129,12 @@ angular.module( 'instructor.reports', [
     parameters: ['gameId','courseId'],
     resolve: {
       myGames: function(GamesService,ReportsService,$stateParams) {
+        console.log('REPORTS ACHIEVEMENTS');
         return ReportsService.getCourseGames($stateParams.courseId).then(function(courseGames) {
           return courseGames;
         });
       },
       defaultGame: function($stateParams, myGames) {
-        console.log('stateParams: ', $stateParams);
         var defaultGame = myGames[0].gameId;
         angular.forEach(myGames, function(game) {
           console.log('game: ', game);

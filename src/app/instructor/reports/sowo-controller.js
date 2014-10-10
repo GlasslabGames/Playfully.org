@@ -21,7 +21,6 @@ angular.module( 'instructor.reports')
     // Select Game, Course, and Report
     $scope.games.selected = defaultGame;
     $scope.courses.selectedId = $stateParams.courseId;
-    console.log('selected report:', $scope.reports.selected);
     //* Reports *//
     var currentReport = $state.current.name.split('.')[2];
     // Set up report dropdown based on selected game
