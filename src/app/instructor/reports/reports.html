@@ -27,7 +27,11 @@
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
+<<<<<<< HEAD
+                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedId})"
+=======
                 ui-sref="reports.details({reportId:reports.selected.id,gameId:key,courseId:courses.selectedId,skillsId:'false'})"
+>>>>>>> 8ef507348729f04104aee87235a89a41af466815
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>
             </li>
@@ -47,8 +51,7 @@
             <li ng-repeat="report in reports.options | orderBy:report.name"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                ui-sref="reports.details({reportId:report.id,gameId:games.selected,courseId:courses.selectedId})"
-                ng-click="selectReport($event, report)"
+                ng-click="goToSelected(report.id, {gameId:games.selected,courseId:courses.selectedId}); selectReport($event, report)"
                 ng-bind="report.name"></a>
             </li>
           </ul>
