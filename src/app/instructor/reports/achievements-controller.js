@@ -238,18 +238,20 @@ angular.module( 'instructor.reports')
     $scope.convertStandard = function(standard) {
        return REPORT_CONSTANTS.legend[standard];
     };
-    $scope.userSortFunction = function(predicate) {
 
+    // This function is used by the angular orderBy filter, it is iterated on each user object and returns a value to be compared against all other users. Closure allows us to add additional parameters
+    $scope.userSortFunction = function(colName) {
         return function(user) {
 
-            if (predicate === 'firstName') {
+            if (colName === 'firstName') {
                 return user.firstName;
             }
-            if (predicate === 'totalTimePlayed') {
+            if (colName === 'totalTimePlayed') {
                 return user.totalTimePlayed;
             }
+            // finds user's first achievement that matches our criteria
             var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === predicate;
+                return achv.item === colName;
             });
             if (achievement) {
                if (achievement.won) {
@@ -262,13 +264,27 @@ angular.module( 'instructor.reports')
             }
         };
     };
-    $scope.changeReverse = function(predicate) {
-        if ($scope.reverse[predicate]) {
-            $scope.reverse[predicate] = !$scope.reverse[predicate];
-        } else {
-            $scope.reverse[predicate] = true;
+    // Highlights currently selected column, name is the default selected column
+    $scope.sortSelected = function(colName) {
+
+        var columns = $scope.colum;
+        // check if column exists
+        if (!columns[colName]) {
+          columns[colName] = {};
         }
+        // check if clicked column is already active
+        if (columns['current'] === colName) {
+            columns[colName].reverse = !columns[colName].reverse;
+//            console.log(columns[column]);
+            return;
+        }
+        // set previous current values to false
+        columns[columns.current].reverse = false;
+        // set clicked column as new current and to active
+        columns.current = colName;
+        return;
     };
+
     $scope.saveState = function(key,currentState) {
       if (localStorageService.isSupported) {
         if (currentState) {
@@ -278,10 +294,11 @@ angular.module( 'instructor.reports')
         }
       }
     };
-    // used for orderBy predicate, objects allow us to share variables between controllers
-    $scope.predicate = {last:''};
-    $scope.reverse = {value: false};
-    $scope.isCollapsed = {value: localStorageService.get('gl-reports-achievement-header-info')};
+
+    $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
+    $scope.colName = {};
+
+
 });
 
 
