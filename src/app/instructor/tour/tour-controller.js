@@ -8,7 +8,7 @@ angular.module( 'instructor.tour', [
     url: '/tour',
     data:{
       pageTitle: 'Instructor Tour',
-      authorizedRoles: ['instructor']
+      authorizedRoles: ['instructor','manager','developer','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       $modal.open({

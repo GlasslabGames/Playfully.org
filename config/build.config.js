@@ -60,7 +60,6 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/jquery/dist/jquery.min.js',
-      'vendor/lodash/dist/lodash.min.js',
       'vendor/angular/angular.js',
       'vendor/angular-cookie/angular-cookie.js',
       'vendor/angular-sanitize/angular-sanitize.js',
