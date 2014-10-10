@@ -267,7 +267,7 @@ angular.module( 'instructor.reports')
     // Highlights currently selected column, name is the default selected column
     $scope.sortSelected = function(colName) {
 
-        var columns = $scope.colum;
+        var columns = $scope.col;
         // check if column exists
         if (!columns[colName]) {
           columns[colName] = {};
