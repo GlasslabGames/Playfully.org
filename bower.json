@@ -35,7 +35,6 @@
     "angular-order-object-by": "~1.0.0",
     "jquery": "~2.1.1",
     "sticky-ng": "~1.2.1",
-    "modernizr": "~2.8.3",
     "angular-local-storage": "~0.1.0"
   },
   "resolutions": {
