@@ -1,8 +1,8 @@
 angular.module( 'instructor.reports')
 
 .controller( 'AchievementsCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGame, ReportsService, REPORT_CONSTANTS,localStorageService) {
-
+  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
+    console.log('gameReports:', gameReports);
     $scope.achievements.active = [];
 
     // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
@@ -19,7 +19,7 @@ angular.module( 'instructor.reports')
     }
 
     // Select Game, Course, and Report
-    $scope.games.selected = defaultGame;
+    $scope.games.selected = defaultGameId;
     $scope.courses.selectedId = $stateParams.courseId;
     $scope.reports.selected = $state.current.name.split('.')[2];
     //* Reports *//

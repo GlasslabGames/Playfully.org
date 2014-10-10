@@ -1,7 +1,8 @@
 angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGame) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId) {
+    console.log('sowo gameReports:', gameReports);
 
     $scope.achievements.active = [];
 
@@ -19,7 +20,7 @@ angular.module( 'instructor.reports')
     }
 
     // Select Game, Course, and Report
-    $scope.games.selected = defaultGame;
+    $scope.games.selected = defaultGameId;
     $scope.courses.selectedId = $stateParams.courseId;
     //* Reports *//
     var currentReport = $state.current.name.split('.')[2];
