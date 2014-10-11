@@ -13,6 +13,17 @@ angular.module( 'instructor.reports')
     $scope.games.selected = defaultGameId;
     $scope.achievements.active = [];
 
+    // clear and generate game options
+    $scope.games.options = {};
+    angular.forEach(myGames, function(game) {
+      if (game.enabled) {
+        $scope.games.options[''+game.gameId] = game;
+        if (game.gameId == $stateParams.gameId) {
+          $scope.games.selected = game.gameId;
+        }
+      }
+    });
+
     // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
     // of the reports table to be 'separate' instead of 'collapse'. Tried to
     // use conditional IE comments in index.html, but it doesn't work with
