@@ -140,6 +140,7 @@ angular.module( 'instructor.reports', [
         return coursesInfo[$stateParams.courseId].games;
       },
       defaultGameId: function($stateParams, myGames) {
+
         var defaultGameId = myGames[0].gameId;
         angular.forEach(myGames, function(game) {
           // check if requested game is available for this course
@@ -150,6 +151,7 @@ angular.module( 'instructor.reports', [
         return defaultGameId;
       },
       gameReports: function($stateParams, GamesService, myGames, defaultGameId) {
+        console.log('default game:', defaultGameId);
         return GamesService.getAllReports(defaultGameId);
       }
     }
@@ -202,31 +204,9 @@ angular.module( 'instructor.reports', [
       if ($scope.achievements.selected) {
         newState.skillsId = $scope.achievements.selected;
       }
-      ReportsService.getCourseGames(courseId).then(function(courseGames) {
-        myGames = courseGames;
-        $scope.games.options = {};
-        $scope.games.selected = null;
-        angular.forEach(myGames, function(game) {
-          // clear
-          if (game.enabled) {
-            $scope.games.options[''+game.gameId] = game;
-            // check if current selected game matches one in the available games
-            if (game.gameId === $stateParams.gameId) {
-                          console.log('selected:', $scope.games.selected);
-
-              $scope.games.selected = game.gameId;
-            }
-          }
-        });
-        // set default selected game to first game, if no available games for this course matches currently selected course
-        if (!$scope.games.selected) {
-          $scope.games.selected = myGames[0].gameId;
-          newState.gameId = myGames[0].gameId;
-        }
         _clearOtherCourses(courseId);
         $state.transitionTo('reports.details' + '.' + $scope.reports.selected.id, newState);
-      });
-    };
+      };
 
 
     // Reset all classes and their students except for the id passed in

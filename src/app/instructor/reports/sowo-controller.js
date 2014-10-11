@@ -2,8 +2,15 @@ angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId) {
-    console.log('sowo gameReports:', gameReports);
-
+        $scope.games.options = {};
+        angular.forEach(myGames, function(game) {
+          // clear
+          if (game.enabled) {
+            $scope.games.options['' + game.gameId] = game;
+            // check if current selected game matches one in the available games
+          }
+        });
+    $scope.games.selected = defaultGameId;
     $scope.achievements.active = [];
 
     // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
