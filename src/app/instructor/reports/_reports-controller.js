@@ -39,15 +39,17 @@ angular.module( 'instructor.reports', [
         });
         return courses;
       },
-      defaultCourse: function(activeCourses, coursesInfo) {
-        console.log('COURSES INFO: ', coursesInfo);
-        if (activeCourses[0]) {
-            return activeCourses[0].id;
+      defaultCourseId: function($stateParams,activeCourses) {
+        if (!$stateParams.courseId) {
+          if (activeCourses[0]) {
+              return activeCourses[0].id;
+          }
         }
+        return $stateParams.courseId;
       },
-      myGames: function(GamesService,ReportsService,defaultCourse) {
-        return ReportsService.getCourseGames(defaultCourse).then(function(courseGames) {
-          return courseGames;
+      myGames: function(GamesService,ReportsService,defaultCourseId) {
+        return ReportsService.getCourseGames(defaultCourseId).then(function(games) {
+          return games;
         });
       },
       defaultGameId: function($stateParams, myGames) {
