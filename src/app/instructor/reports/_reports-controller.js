@@ -149,6 +149,7 @@ angular.module( 'instructor.reports', [
             defaultGameId = game.gameId;
           }
         });
+        $stateParams = defaultGameId;
         return defaultGameId;
       },
       gameReports: function(myGames, defaultGameId) {
@@ -174,8 +175,6 @@ angular.module( 'instructor.reports', [
       selected: null,
       options: {}
     };
-
-
     angular.forEach(myGames, function(game) {
       if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
@@ -184,11 +183,8 @@ angular.module( 'instructor.reports', [
         }
       }
     });
-
-
     $scope.developer = {};
     /* Courses */
-
     $scope.activeCourses = activeCourses;
     $scope.courses = { selectedId: null, options: {} };
     if (activeCourses.length) {
@@ -204,15 +200,26 @@ angular.module( 'instructor.reports', [
     $scope.selectCourse = function($event, courseId) {
       $event.preventDefault();
       $event.stopPropagation();
+
+      var gameId;
       var newState = {
-        gameId: $scope.games.selected,
+        gameId: gameId,
         courseId: courseId
       };
-      if ($scope.achievements.selected) {
+      // check if selected game is available for selected course
+      ReportsService.getCourseGames(courseId).then(function(games) {
+        angular.forEach(games, function(game) {
+        if (game.gameId === $scope.games.selected) {
+          gameId = $scope.games.selected;
+        }
+        });
+        newState.gameId = gameId || games[0].gameId;
+        if ($scope.achievements.selected) {
         newState.skillsId = $scope.achievements.selected;
-      }
+        }
         _clearOtherCourses(courseId);
         $state.transitionTo('reports.details' + '.' + $scope.reports.selected.id, newState);
+      });
     };
     // Reset all classes and their students except for the id passed in
     // (which should be the newly-selected course.
@@ -254,10 +261,7 @@ angular.module( 'instructor.reports', [
     if($scope.reports.options.length) {
       $scope.reports.selected = $scope.reports.options[0];
     }
-
-
     /* Students */
-
     $scope.students = {};
     // Adds students from activeCourses to student object
     console.log('activeCourses: ', activeCourses);
@@ -268,7 +272,6 @@ angular.module( 'instructor.reports', [
         }
       });
     });
-
     /* Allow individual students to be toggled on or off. */
     $scope.toggleStudent = function($event, student, course) {
       $event.preventDefault();
