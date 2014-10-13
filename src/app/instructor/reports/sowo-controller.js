@@ -2,6 +2,7 @@ angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId) {
+    console.log('sowo ctrl');
         $scope.games.options = {};
         angular.forEach(myGames, function(game) {
           // clear
