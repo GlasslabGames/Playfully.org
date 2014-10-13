@@ -92,7 +92,7 @@ angular.module( 'playfully.games', [
   .state( 'games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student', 'instructor','developer','admin']
+      authorizedRoles: ['student','instructor','manager','developer','admin']
     },
     controller: 'GamePlayPageCtrl',
     templateUrl: 'games/game-play-page.html',
@@ -106,7 +106,7 @@ angular.module( 'playfully.games', [
     parent: 'games.detail.product',
     url: '/play-missions',
     data: {
-      authorizedRoles: ['student', 'instructor','developer','admin']
+      authorizedRoles: ['student','instructor','manager','developer','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
