@@ -1,5 +1,5 @@
 angular.module('reports', [])
-.factory('ReportsService', function ($http, $log, API_BASE) {
+.factory('ReportsService', function ($http, $log, API_BASE, CoursesService, GamesService) {
 
   var api = {
 
@@ -14,8 +14,26 @@ angular.module('reports', [])
           $log.error(response);
           return response;
         });
+    },
+    // returns an object that contains the game available for this course and their information.
+    getCourseGames: function(courseId){
+        // get gameIds available for this course
+      return CoursesService.get(courseId).then(function(courseInfo) {
+         var courses = [];
+          // get an array of game information
+          return GamesService.all().then(function(games) {
+              angular.forEach(courseInfo.games,function(game) {
+                  angular.forEach(games, function(gameInfo) {
+                      if (game.id === gameInfo.gameId) {
+                          courses.push(gameInfo);
+                      }
+                  });
+              });
+              console.log('COURSES', courses);
+              return courses;
+          });
+      });
     }
-
   };
 
   return api;

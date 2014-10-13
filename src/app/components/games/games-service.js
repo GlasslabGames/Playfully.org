@@ -117,6 +117,7 @@ angular.module('games', [])
           return response.data;
         }, function (response) {
           $log.error(response);
+
           return response;
         });
     },
