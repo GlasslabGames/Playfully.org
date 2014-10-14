@@ -35,13 +35,7 @@ angular.module( 'playfully', [
   $locationProvider.hashPrefix('!');
 
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('site', {
-    abstract: true
-    // Commented out because it seems to be redundant to the .run version.
-    // resolve: ['Authorization', function(Authorization, $log) {
-    //     return Authorization.authorize();
-    //   }]
-  })
+  $stateProvider.state('site', { abstract: true })
 
   .state( 'sdk', {
     url: '/sdk',
