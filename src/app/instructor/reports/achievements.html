@@ -1,4 +1,3 @@
-
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
   <div class="btn-group btn-group-justified">
     <label class="btn"
@@ -7,7 +6,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
@@ -28,7 +27,7 @@
     <hr>
 
 
-<table class="table gl-reports-table"
+<table class="table gl-reports-table" 
   ng-class="{'gl-reports-table--ie': isIE}" sticky>
   <thead>
     <tr>
@@ -51,17 +50,15 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name <i class="fa fa-sort" ng-click="predicate.value = 'firstName'; changeReverse('firstName')"></i></th>
+      <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i></th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div><span ng-bind="achv.title"> </span><i class="fa fa-sort" ng-click="predicate.value = achv.title; changeReverse(achv.title)"></i></div>
-          <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
-          <div class="gl-reports-achv-footer">
-              <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState('gl-reports-achievement-header-info',!isCollapsed.value)"></i>
+          <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
+          <div class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           </div>
         </div>
       </th>
-      <th>Time Played <i class="fa fa-sort" ng-click="predicate.value = 'totalTimePlayed'; changeReverse('totalTimePlayed')"></i>
+      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; sortSelected('totalTimePlayed')"></i>
     </tr>
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
@@ -81,7 +78,7 @@
 
   </thead>
   <tbody ng-show="courses.options[courses.selectedId].users">
-  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(predicate.value):reverse[predicate.value]">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"

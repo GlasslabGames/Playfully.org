@@ -1,31 +1,28 @@
 angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGame) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId) {
+    console.log('sowo ctrl');
+    console.log('SowoCtrl - gameReports: ', gameReports);
 
     $scope.achievements.active = [];
-
-    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
-    // of the reports table to be 'separate' instead of 'collapse'. Tried to
-    // use conditional IE comments in index.html, but it doesn't work with
-    // IE 10 and higher.
-    $scope.isIE = function() {
-      return $window.navigator.userAgent.test(/trident/i);
-    };
-
-    // Set parent scope developer info
-    if (gameReports.hasOwnProperty('developer')) {
-      $scope.developer.logo = gameReports.developer.logo;
-    }
-
-    // Select Game, Course, and Report
-    $scope.games.selected = defaultGame;
+    // Select course in params
     $scope.courses.selectedId = $stateParams.courseId;
-    console.log('selected report:', $scope.reports.selected);
-    //* Reports *//
-    var currentReport = $state.current.name.split('.')[2];
-    // Set up report dropdown based on selected game
+    // Select game
+    $scope.games.selected = defaultGameId;
+
+
+    // Games - Setup games options
+
+    $scope.games.options = {};
+    angular.forEach(myGames, function(game) {
+        $scope.games.options[''+game.gameId] = game;
+    });
+
+    // Reports - Setup reports options
+
     $scope.reports.options = [];
+    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
@@ -36,10 +33,25 @@ angular.module( 'instructor.reports')
       }
     });
 
+    // Set parent scope developer info
+
+    if (gameReports.hasOwnProperty('developer')) {
+      $scope.developer.logo = gameReports.developer.logo;
+    }
+
+    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
+    // of the reports table to be 'separate' instead of 'collapse'. Tried to
+    // use conditional IE comments in index.html, but it doesn't work with
+    // IE 10 and higher.
+    $scope.isIE = function() {
+      return $window.navigator.userAgent.test(/trident/i);
+    };
+
     /**
      * If there is a stdntIds parameter, parse the ids and select the
      * individual students accordingly. Otherwise select all students.
      **/
+
     var _selectStudents = function() {
       var selectedStudents = null;
       var activeCourse = $scope.courses.options[$scope.courses.selectedId];
@@ -56,53 +68,9 @@ angular.module( 'instructor.reports')
         }
       });
     };
-
     _selectStudents();
 
-    /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport('sowo') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
-        _resetSowo();
-        _populateSowo(users);
-    });
-    // is this even used?
-  $scope.getStudentResult = function(studentId, achievement) {
-    angular.forEach($scope.students, function(student) {
-      if (student.id == studentId) {
-        angular.forEach(student.achievements, function(achv) {
-          if (achv.group == achievement.group && achv.item == achievement.item) {
-            return achv.won;
-          }
-        });
-      }
-    });
-  };
-
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
+   ///////// SOWO functions ///////////////////
 
     var _resetSowo = function() {
       $scope.sowo = {
@@ -112,6 +80,39 @@ angular.module( 'instructor.reports')
         hasOverflow: false
       };
     };
+
+    //  _populateSowo helper functions
+
+    var _compileNameOfStudent = function(student) {
+      var name = student.firstName;
+      if(student.lastName) {
+        name += ' ' + student.lastName + '.';
+      }
+      student.name = name;
+      return student;
+    };
+
+    var _getOverflowText = function(results) {
+      overflowText = '';
+      angular.forEach(results, function(r, i) {
+        if (i >= 3) {
+          overflowText += '<p>' + r.description + '</p>';
+        }
+      });
+      return overflowText;
+    };
+
+    var _getSelectedStudentIdsFromCourse = function(course) {
+      var studentIds = [];
+      angular.forEach(course.users, function(student) {
+        if (student.isSelected) {
+          studentIds.push(student.id);
+        }
+      });
+      return studentIds;
+    };
+
+    //  Populates Shoutout Watchout
 
     var _populateSowo = function(data) {
       var sowo = data;
@@ -189,35 +190,51 @@ angular.module( 'instructor.reports')
       }
     };
 
-    var _compileNameOfStudent = function(student) {
-      var name = student.firstName;
-      if(student.lastName) {
-        name += ' ' + student.lastName + '.';
+    // helper functions
+
+    var _isValidReport = function(reportId){
+      for(var i = 0; i < $scope.reports.options.length; i++) {
+        if($scope.reports.options[i].id === reportId) {
+          return true;
+        }
       }
-
-      student.name = name;
-      return student;
+      return false;
     };
 
-    var _getOverflowText = function(results) {
-      overflowText = '';
-      angular.forEach(results, function(r, i) {
-        if (i >= 3) {
-          overflowText += '<p>' + r.description + '</p>';
+    var _getDefaultReportId = function() {
+      if( $scope.reports.options &&
+          $scope.reports.options[0] &&
+          $scope.reports.options[0].id) {
+        return $scope.reports.options[0].id;
+      } else {
+        return "sowo";
+      }
+    };
+
+    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        if( !_isValidReport('sowo') ) {
+          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
+            gameId: $stateParams.gameId,
+            courseId: $stateParams.courseId
+          });
+          return;
         }
-      });
-      return overflowText;
-    };
+        _resetSowo();
+        _populateSowo(users);
+    });
 
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
-    };
+      $scope.getStudentResult = function(studentId, achievement) {
+        angular.forEach($scope.students, function(student) {
+          if (student.id == studentId) {
+            angular.forEach(student.achievements, function(achv) {
+              if (achv.group == achievement.group && achv.item == achievement.item) {
+                return achv.won;
+              }
+            });
+          }
+        });
+      };
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedId];
@@ -232,6 +249,9 @@ angular.module( 'instructor.reports')
         return null;
       }
     };
+
+
+
 
 });
 
