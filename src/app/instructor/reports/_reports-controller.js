@@ -30,8 +30,10 @@ angular.module( 'instructor.reports', [
         angular.forEach(activeCourses, function(course) {
           courses[course.id] = course;
           ReportsService.getCourseGames(course.id).then(function(games) {
-            courses[course.id].games = games;
-            angular.forEach(games, function(game) {
+            courses[course.id].games = games.filter(function(game) {
+               return game.enabled;
+            });
+            angular.forEach(courses[course.id].games, function(game) {
               GamesService.getAllReports(game.gameId).then(function(report) {
                 game.reports = report;
               });
@@ -40,7 +42,8 @@ angular.module( 'instructor.reports', [
         });
         return courses;
       },
-      defaultCourseId: function($stateParams,activeCourses) {
+      defaultCourseId: function($stateParams,activeCourses, coursesInfo) {
+        console.log('coursesInfo: ', coursesInfo);
         if (!$stateParams.courseId) {
           if (activeCourses[0]) {
               return activeCourses[0].id;

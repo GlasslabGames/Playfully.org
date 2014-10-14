@@ -16,12 +16,7 @@ angular.module( 'instructor.reports')
 
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
-      if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
-        if (game.gameId == $stateParams.gameId) {
-          $scope.games.selected = game.gameId;
-        }
-      }
     });
 
     // Reports - Setup reports options
@@ -52,6 +47,28 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
+    /**
+     * If there is a stdntIds parameter, parse the ids and select the
+     * individual students accordingly. Otherwise select all students.
+     **/
+
+    var _selectStudents = function() {
+      var selectedStudents = null;
+      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      if ($stateParams.stdntIds) {
+        selectedStudents = $stateParams.stdntIds.split(',');
+      }
+      angular.forEach(activeCourse.users, function(student) {
+        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
+          student.isSelected = false;
+          activeCourse.isPartiallySelected = true;
+          activeCourse.isExpanded = true;
+        } else {
+          student.isSelected = true;
+        }
+      });
+    };
+    _selectStudents();
 
    ///////// SOWO functions ///////////////////
 
@@ -173,29 +190,6 @@ angular.module( 'instructor.reports')
       }
     };
 
-
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
-
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
-
     // helper functions
 
     var _isValidReport = function(reportId){
@@ -216,6 +210,19 @@ angular.module( 'instructor.reports')
         return "sowo";
       }
     };
+
+    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        if( !_isValidReport('sowo') ) {
+          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
+            gameId: $stateParams.gameId,
+            courseId: $stateParams.courseId
+          });
+          return;
+        }
+        _resetSowo();
+        _populateSowo(users);
+    });
 
       $scope.getStudentResult = function(studentId, achievement) {
         angular.forEach($scope.students, function(student) {
@@ -243,22 +250,6 @@ angular.module( 'instructor.reports')
       }
     };
 
-
-    _selectStudents();
-
-    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport('sowo') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
-        _resetSowo();
-        _populateSowo(users);
-    });
-    // is this even used?
 
 
 
