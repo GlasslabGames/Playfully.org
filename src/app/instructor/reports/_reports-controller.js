@@ -22,7 +22,6 @@ angular.module( 'instructor.reports', [
     },
     resolve: {
       activeCourses: function(CoursesService) {
-        console.log('reports resolve');
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
       coursesInfo: function(activeCourses, ReportsService) {
@@ -72,7 +71,6 @@ angular.module( 'instructor.reports', [
     url: '',
     controller: function($scope, $state, $log, defaultGameId, activeCourses) {
       if (activeCourses.length) {
-        console.log('default controller');
         $state.transitionTo('reports.details' +'.' + $scope.reports.options[0].id, {
           gameId: defaultGameId,
           courseId: activeCourses[0].id
@@ -98,14 +96,11 @@ angular.module( 'instructor.reports', [
         parameters: ['gameId','courseId'],
         resolve: {
           myGames: function($stateParams,coursesInfo) {
-            console.log('reports.details.sowo resolve');
             // all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
           defaultGameId: function($stateParams, myGames, coursesInfo) {
             // set default game
-            console.log('coursesInfo[111].games - ', coursesInfo[111].games);
-            console.log('coursesInfo[111] - ', coursesInfo[$stateParams.courseId]);
             var defaultGameId = myGames[0].gameId;
             angular.forEach(myGames, function(game) {
               if (game.gameId === $stateParams.gameId) {
@@ -117,7 +112,6 @@ angular.module( 'instructor.reports', [
           gameReports: function(myGames, defaultGameId) {
             // set game report for default game
             var reports = {};
-            console.log('reports.details.sowo - myGames:', myGames);
             angular.forEach(myGames,function(game) {
               if (game.gameId === defaultGameId) {
                 reports = game.reports;
@@ -134,7 +128,6 @@ angular.module( 'instructor.reports', [
         parameters: ['gameId','courseId'],
         resolve: {
           myGames: function($stateParams,coursesInfo) {
-            console.log('reports.details.achievements resolve');
             // set all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
@@ -168,7 +161,6 @@ angular.module( 'instructor.reports', [
 
 .controller( 'ReportsCtrl',
   function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports,ReportsService) {
-    console.log('reports ctrl');
 
     $scope.games = {};
     $scope.developer = {};

@@ -2,8 +2,6 @@ angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
-    console.log('sowo ctrl');
-    console.log('SowoCtrl - gameReports: ', gameReports);
 
     $scope.achievements.active = [];
     // Select course in params
