@@ -102,73 +102,81 @@ angular.module( 'instructor.reports', [
     templateUrl: 'instructor/reports/reports-detail.html',
     controller: 'ReportsDetailCtrl'
   })
-  .state('reports.details.sowo', {
-    url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
-    templateUrl: 'instructor/reports/sowo.html',
-    controller: 'SowoCtrl',
-    parameters: ['gameId','courseId'],
-    resolve: {
-      myGames: function($stateParams,coursesInfo) {
-        console.log('reports.details.sowo resolve');
-        // all available games for this course
-        return coursesInfo[$stateParams.courseId].games;
-      },
-      defaultGameId: function($stateParams, myGames) {
-        // set default game
-        var defaultGameId = myGames[0].gameId;
-        angular.forEach(myGames, function(game) {
-          if (game.gameId === $stateParams.gameId) {
-            defaultGameId = game.gameId;
+
+    .state('reports.details.sowo', {
+        url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
+        templateUrl: 'instructor/reports/sowo.html',
+        controller: 'SowoCtrl',
+        parameters: ['gameId','courseId'],
+        resolve: {
+          myGames: function($stateParams,coursesInfo) {
+            console.log('reports.details.sowo resolve');
+            // all available games for this course
+            return coursesInfo[$stateParams.courseId].games;
+          },
+          defaultGameId: function($stateParams, myGames, coursesInfo) {
+            // set default game
+            console.log('coursesInfo[111].games - ', coursesInfo[111].games);
+            console.log('coursesInfo[111] - ', coursesInfo[$stateParams.courseId]);
+            var defaultGameId = myGames[0].gameId;
+            angular.forEach(myGames, function(game) {
+              if (game.gameId === $stateParams.gameId) {
+                defaultGameId = game.gameId;
+              }
+            });
+            return defaultGameId;
+          },
+          gameReports: function(myGames, defaultGameId, coursesInfo,$stateParams) {
+            // set game report for default game
+            var reports = {};
+            console.log('reports.details.sowo - myGames:', myGames);
+            angular.forEach(myGames,function(game) {
+              if (game.gameId === defaultGameId) {
+                reports = game.reports;
+              }
+            });
+            return reports;
           }
-        });
-        return defaultGameId;
-      },
-      gameReports: function(myGames, defaultGameId) {
-        // set game report for default game
-        var reports = {};
-        angular.forEach(myGames,function(game) {
-          if (game.gameId === defaultGameId) {
-            reports = game.reports;
+        }
+    })
+    .state('reports.details.achievements', {
+        url: '/achievements/game/:gameId/course/:courseId?skillsId&stdntIds',
+        templateUrl: 'instructor/reports/achievements.html',
+        controller: 'AchievementsCtrl',
+        parameters: ['gameId','courseId'],
+        resolve: {
+          myGames: function($stateParams,coursesInfo) {
+            console.log('reports.details.achievements resolve');
+            // set all available games for this course
+            return coursesInfo[$stateParams.courseId].games;
+          },
+          defaultGameId: function($stateParams, myGames) {
+            var defaultGameId = myGames[0].gameId;
+            angular.forEach(myGames, function(game) {
+              if (game.gameId === $stateParams.gameId) {
+                defaultGameId = game.gameId;
+              }
+            });
+            $stateParams = defaultGameId;
+            return defaultGameId;
+          },
+          gameReports: function(myGames, defaultGameId) {
+            // set game report for default game
+            var reports = {};
+            angular.forEach(myGames,function(game) {
+              if (game.gameId === defaultGameId) {
+                reports = game.reports;
+              }
+            });
+            return reports;
           }
-        });
-        return reports;
-      }
-    }
-  })
-  .state('reports.details.achievements', {
-    url: '/achievements/game/:gameId/course/:courseId?skillsId&stdntIds',
-    templateUrl: 'instructor/reports/achievements.html',
-    controller: 'AchievementsCtrl',
-    parameters: ['gameId','courseId'],
-    resolve: {
-      myGames: function($stateParams,coursesInfo) {
-        console.log('reports.details.achievements resolve');
-        // set all available games for this course
-        return coursesInfo[$stateParams.courseId].games;
-      },
-      defaultGameId: function($stateParams, myGames) {
-        var defaultGameId = myGames[0].gameId;
-        angular.forEach(myGames, function(game) {
-          if (game.gameId === $stateParams.gameId) {
-            defaultGameId = game.gameId;
-          }
-        });
-        $stateParams = defaultGameId;
-        return defaultGameId;
-      },
-      gameReports: function(myGames, defaultGameId) {
-        // set game report for default game
-        var reports = {};
-        angular.forEach(myGames,function(game) {
-          if (game.gameId === defaultGameId) {
-            reports = game.reports;
-          }
-        });
-        return reports;
-      }
-    }
-  });
+        }
+    });
+
 })
+
+
+
 
 .controller( 'ReportsCtrl',
   function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports,ReportsService) {

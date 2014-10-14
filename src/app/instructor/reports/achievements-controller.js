@@ -1,7 +1,9 @@
 angular.module( 'instructor.reports')
 
+
 .controller( 'AchievementsCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
+    console.log('AchievementsCtrl - gameReports: ', gameReports);
     console.log('achievements ctrl');
     $scope.achievements.active = [];
 
