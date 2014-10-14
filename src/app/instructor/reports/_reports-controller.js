@@ -25,25 +25,12 @@ angular.module( 'instructor.reports', [
         console.log('reports resolve');
         return CoursesService.getActiveEnrollmentsWithStudents();
       },
-      coursesInfo: function(activeCourses, ReportsService,GamesService) {
-        var courses = {};
-        angular.forEach(activeCourses, function(course) {
-          courses[course.id] = course;
-          ReportsService.getCourseGames(course.id).then(function(games) {
-            courses[course.id].games = games.filter(function(game) {
-               return game.enabled;
-            });
-            angular.forEach(courses[course.id].games, function(game) {
-              GamesService.getAllReports(game.gameId).then(function(report) {
-                game.reports = report;
-              });
-            });
-          });
-        });
-        return courses;
+      coursesInfo: function(activeCourses, ReportsService) {
+        return ReportsService.getCourseInfo(activeCourses);
       },
       defaultCourseId: function($stateParams,activeCourses, coursesInfo) {
         console.log('coursesInfo: ', coursesInfo);
+
         if (!$stateParams.courseId) {
           if (activeCourses[0]) {
               return activeCourses[0].id;
@@ -129,7 +116,7 @@ angular.module( 'instructor.reports', [
             });
             return defaultGameId;
           },
-          gameReports: function(myGames, defaultGameId, coursesInfo,$stateParams) {
+          gameReports: function(myGames, defaultGameId) {
             // set game report for default game
             var reports = {};
             console.log('reports.details.sowo - myGames:', myGames);

@@ -1,9 +1,7 @@
 angular.module('reports', [])
-.factory('ReportsService', function ($http, $log, API_BASE, CoursesService, GamesService) {
+.service('ReportsService', function ($http, $log, API_BASE, CoursesService, GamesService) {
 
-  var api = {
-
-    get: function(reportId, gameId, courseId) {
+    this.get = function(reportId, gameId, courseId) {
       var apiUrl = API_BASE + '/dash/reports/' + reportId + '/game/' + gameId + '/course/' + courseId;
       return $http({method: 'GET', url: apiUrl})
         .then(function(response) {
@@ -14,10 +12,10 @@ angular.module('reports', [])
           $log.error(response);
           return response;
         });
-    },
-    // returns an object that contains the game available for this course and their information.
-    getCourseGames: function(courseId){
-        // get gameIds available for this course
+    };
+    // returns an object that contains the games available for this course and their information.
+    this.getCourseGames = function(courseId){
+        // get games available for this course
       return CoursesService.get(courseId).then(function(courseInfo) {
          var courses = [];
           // get an array of game information
@@ -32,10 +30,44 @@ angular.module('reports', [])
               return courses;
           });
       });
-    }
-  };
+    };
+    this.getCourseInfo = function(activeCourses) {
+        var deferred = $q.defer();
+        var courses = {};
+        var gamePromises = [];
+        var reportPromises = [];
 
-  return api;
+        angular.forEach(activeCourses, function(course) {
+            courses[course.id] = course;
+            gamePromises.push(this.getCourseGames(course.id).then(function(games) {
+                // set course games that are enabled
+                courses[course.id].games = games.filter(function(game) {
+                    return game.enabled;
+                });
+                return;
+            }, function() {
+                console.err('ReportsService - getCourseInfo: failed to retrieve course games');
+            }));
+        }.bind(this));
+        $q.all(gamePromises).then(function() {
+            angular.forEach(activeCourses, function(course) {
+                angular.forEach(courses[course.id].games, function(game) {
+                  reportPromises.push(GamesService.getAllReports(game.gameId).then(function(report) {
+                    game.reports = report;
+                  }));
+                });
+            });
+            $q.all(reportPromises).then(function() {
+               deferred.resolve(courses);
+            }, function() {
+               console.err('ReportsService - getCourseInfo: failed to retrieve game reports');
+               deferred.reject('failed to retrieve game reports');
+            });
+        });
+
+        return deferred;
+
+    };
 
 });
 /**
