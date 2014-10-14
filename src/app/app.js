@@ -15,6 +15,7 @@ angular.module( 'playfully', [
   'games',
   'reports',
   'checkSpec',
+  'research',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -114,7 +115,10 @@ angular.module( 'playfully', [
 
               if ($rootScope.toState) {
                 if ($rootScope.toState.url == '/' && user && user.role) {
-                  if (user.role == 'instructor') {
+                  if (user.role == 'instructor' ||
+                      user.role == 'manager' ||
+                      user.role == 'developer'
+                    ) {
                     // TODO: remove this later when we have sowo for icivics login
                     if(user.loginType == 'icivics'){
                       $state.go('courses.active');
@@ -174,6 +178,7 @@ angular.module( 'playfully', [
     $rootScope.allGames = null;
     $scope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
+    $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
 
@@ -197,6 +202,7 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
+      console.log('currentUser: ',user);
       $scope.currentUser = user;
       if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();

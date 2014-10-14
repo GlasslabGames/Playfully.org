@@ -27,12 +27,12 @@ angular.module( 'playfully.profile', [])
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['instructor', 'student']
+      authorizedRoles: ['student','instructor','manager','developer','admin']
     },
     resolve: {
       user: function(UserService) {
         return UserService.currentUser();
-      },
+      }
     }
   });
 })

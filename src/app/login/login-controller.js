@@ -88,14 +88,14 @@ angular.module('playfully.login', [])
     .state('authEdmodo', {
       url: '/auth/edmodo/finish',
       parent: 'modal',
-      data: { authorizedRoles: ['student', 'instructor'] },
+      data: { authorizedRoles: ['student','instructor','developer','admin'] },
       views: { 'modal@': authEdmodoConfig },
       resolve: edmodoResolve
     })
     .state('sdkAuthEdmodo', {
       url: '/sdk/auth/edmodo',
       parent: 'site',
-      data: { authorizedRoles: ['student', 'instructor'], hideWrapper: true },
+      data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
       views: { 'main@': authEdmodoConfig },
       resolve: edmodoResolve
     });
@@ -103,7 +103,7 @@ angular.module('playfully.login', [])
     $stateProvider.state('sdkPasswordPrompt', {
       url: '/sdk/login/confirm',
       parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
       views: {
         'main@': {
           templateUrl: 'login/sdk-password-prompt.html',
@@ -119,7 +119,7 @@ angular.module('playfully.login', [])
     .state('sdkLoginSuccess', {
       url: '/sdk/login/success',
       parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
       views: {
         'main@': {
           templateUrl: 'login/sdk-login-success.html',
@@ -134,7 +134,7 @@ angular.module('playfully.login', [])
     .state('sdkLoginResetData', {
       url: '/sdk/login/resetdata',
       parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor'] },
+      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
       views: {
         'main@': {
           templateUrl: 'login/sdk-resetdata-prompt.html',
@@ -192,7 +192,6 @@ angular.module('playfully.login', [])
     $scope.login = function ( credentials ) {
       $scope.loginForm.isSubmitting = true;
       $scope.authError = null;
-
       AuthService.login(credentials).then(function(result) {
         $scope.loginForm.isSubmitting = false;
         if ($state.current.data.hideWrapper) {
