@@ -70,7 +70,26 @@ angular.module( 'playfully', [
       }
     },
     data:{ pageTitle: "Children's Privacy Policy" }
+  })
 
+  // survey redirects for MGO (AA)
+  .state('survey_aa_pre', {
+    url: '/AA-Pre',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/MGO-Pre-Survey";
+    }
+  })
+  .state('survey_aa_post', {
+    url: '/AA-Post',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/84e668acebce";
+    }
+  })
+  .state('survey_aa_feed', {
+    url: '/AA-Feed',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
+    }
   })
 
   .state( 'modal', {
