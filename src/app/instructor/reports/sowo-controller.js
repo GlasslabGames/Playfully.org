@@ -1,7 +1,7 @@
 angular.module( 'instructor.reports')
 
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
     console.log('sowo ctrl');
     console.log('SowoCtrl - gameReports: ', gameReports);
 
@@ -10,7 +10,6 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedId = $stateParams.courseId;
     // Select game
     $scope.games.selected = defaultGameId;
-
 
     // Games - Setup games options
 
@@ -46,29 +45,6 @@ angular.module( 'instructor.reports')
     $scope.isIE = function() {
       return $window.navigator.userAgent.test(/trident/i);
     };
-
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
-
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
-    _selectStudents();
 
    ///////// SOWO functions ///////////////////
 
@@ -211,6 +187,7 @@ angular.module( 'instructor.reports')
       }
     };
 
+    // get sowo report
     ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         if( !_isValidReport('sowo') ) {
@@ -223,6 +200,29 @@ angular.module( 'instructor.reports')
         _resetSowo();
         _populateSowo(users);
     });
+
+    /**
+     * If there is a stdntIds parameter, parse the ids and select the
+     * individual students accordingly. Otherwise select all students.
+     **/
+
+    var _selectStudents = function() {
+      var selectedStudents = null;
+      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      if ($stateParams.stdntIds) {
+        selectedStudents = $stateParams.stdntIds.split(',');
+      }
+      angular.forEach(activeCourse.users, function(student) {
+        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
+          student.isSelected = false;
+          activeCourse.isPartiallySelected = true;
+          activeCourse.isExpanded = true;
+        } else {
+          student.isSelected = true;
+        }
+      });
+    };
+    _selectStudents();
 
       $scope.getStudentResult = function(studentId, achievement) {
         angular.forEach($scope.students, function(student) {
