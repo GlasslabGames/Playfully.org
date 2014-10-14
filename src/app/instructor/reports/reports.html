@@ -27,7 +27,7 @@
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedId})"
+                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedId,skillsId:'false'})"
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>
             </li>

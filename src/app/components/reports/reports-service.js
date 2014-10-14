@@ -1,5 +1,5 @@
 angular.module('reports', [])
-.service('ReportsService', function ($http, $log, API_BASE, CoursesService, GamesService) {
+.service('ReportsService', function ($http, $log, API_BASE, CoursesService, GamesService, $q) {
 
     this.get = function(reportId, gameId, courseId) {
       var apiUrl = API_BASE + '/dash/reports/' + reportId + '/game/' + gameId + '/course/' + courseId;
@@ -65,7 +65,7 @@ angular.module('reports', [])
             });
         });
 
-        return deferred;
+        return deferred.promise;
 
     };
 

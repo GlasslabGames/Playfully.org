@@ -28,9 +28,7 @@ angular.module( 'instructor.reports', [
       coursesInfo: function(activeCourses, ReportsService) {
         return ReportsService.getCourseInfo(activeCourses);
       },
-      defaultCourseId: function($stateParams,activeCourses, coursesInfo) {
-        console.log('coursesInfo: ', coursesInfo);
-
+      defaultCourseId: function($stateParams,activeCourses) {
         if (!$stateParams.courseId) {
           if (activeCourses[0]) {
               return activeCourses[0].id;
@@ -61,7 +59,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','admin'],
+      authorizedRoles: ['instructor','manager','admin'],
       pageTitle: 'Reports'
     }
   })
@@ -72,7 +70,7 @@ angular.module( 'instructor.reports', [
    **/
   .state('reports.default', {
     url: '',
-    controller: function($scope, $state, $log, defaultGameId, activeCourses, gameReports) {
+    controller: function($scope, $state, $log, defaultGameId, activeCourses) {
       if (activeCourses.length) {
         console.log('default controller');
         $state.transitionTo('reports.details' +'.' + $scope.reports.options[0].id, {
@@ -82,7 +80,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','admin'],
+      authorizedRoles: ['instructor','manager','admin'],
       pageTitle: 'Reports'
     }
   })
