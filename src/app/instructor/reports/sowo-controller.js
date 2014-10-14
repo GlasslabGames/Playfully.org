@@ -187,7 +187,7 @@ angular.module( 'instructor.reports')
       }
     };
 
-    // get sowo report
+    // Get SOWO reports
     ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         if( !_isValidReport('sowo') ) {
@@ -200,6 +200,8 @@ angular.module( 'instructor.reports')
         _resetSowo();
         _populateSowo(users);
     });
+
+    // Select Course students
 
     /**
      * If there is a stdntIds parameter, parse the ids and select the
