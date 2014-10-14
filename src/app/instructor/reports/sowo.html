@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6 text-center">
@@ -74,7 +73,7 @@
     <div class="gl-dashboard-sowo-footer">
       <button type="button"
               class="btn gl-btn--blue"
-              ng-click="goToSelected('sowo', {gameId:status.selectedOption.gameId, courseId:status.selectedCourseId})"
+              ui-sref="reports.details({reportId:'sowo', gameId:status.selectedOption.gameId, courseId:status.selectedCourseId})"
               ng-if="sowo.hasOverflow">See More</button>
     </div>
   </div>

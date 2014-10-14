@@ -29,7 +29,6 @@ angular.module('reports', [])
                       }
                   });
               });
-              console.log('COURSES', courses);
               return courses;
           });
       });
