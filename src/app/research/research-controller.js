@@ -135,7 +135,6 @@ angular.module('research', [])
         $scope.loading = true;
 
         $scope.selectGame = function() {
-            console.log("gameId:", $scope.gameId);
             getCSVData($scope.gameId);
         };
 

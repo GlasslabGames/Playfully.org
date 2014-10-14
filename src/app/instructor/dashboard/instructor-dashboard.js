@@ -7,7 +7,7 @@ angular.module( 'instructor.dashboard', [
     abstract: true,
     url: '/dashboard',
     data: {
-      authorizedRoles: ['instructor', 'admin'],
+      authorizedRoles: ['instructor','manager','developer','admin'],
       pageTitle: 'Dashboard'
     },
     resolve: {

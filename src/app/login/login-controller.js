@@ -88,14 +88,14 @@ angular.module('playfully.login', [])
     .state('authEdmodo', {
       url: '/auth/edmodo/finish',
       parent: 'modal',
-      data: { authorizedRoles: ['student', 'instructor','admin'] },
+      data: { authorizedRoles: ['student','instructor','developer','admin'] },
       views: { 'modal@': authEdmodoConfig },
       resolve: edmodoResolve
     })
     .state('sdkAuthEdmodo', {
       url: '/sdk/auth/edmodo',
       parent: 'site',
-      data: { authorizedRoles: ['student', 'instructor','admin'], hideWrapper: true },
+      data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
       views: { 'main@': authEdmodoConfig },
       resolve: edmodoResolve
     });

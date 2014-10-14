@@ -5,7 +5,7 @@
       ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <h3 class="modal-title" ng-if="!user">Login with Edmodo</h3>
     <h3 class="modal-title" ng-if="user && user.role == 'student'">Almost Done!</h3>
-    <h3 class="modal-title" ng-if="user && user.role == 'instructor'">Welcome!</h3>
+    <h3 class="modal-title" ng-if="user && user.role != 'student'">Welcome!</h3>
   </div>
 
   <div class="modal-body">

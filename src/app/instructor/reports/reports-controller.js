@@ -40,7 +40,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','admin'],
+      authorizedRoles: ['instructor','manager','developer','admin'],
       pageTitle: 'Reports'
     }
   })
@@ -61,7 +61,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','admin'],
+      authorizedRoles: ['instructor','manager','developer','admin'],
       pageTitle: 'Reports'
     }
   })
