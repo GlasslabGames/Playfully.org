@@ -452,7 +452,6 @@ angular.module( 'instructor.courses', [
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
-    console.log($scope.gamesInfo);
 
     $scope.showCourseEdit = function(_course){
       if( _course &&
