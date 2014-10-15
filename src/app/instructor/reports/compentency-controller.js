@@ -1,22 +1,22 @@
 angular.module( 'instructor.reports')
 
 
-.controller( 'AchievementsCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
+.controller( 'CompetencyCtrl',
+  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
 
-    if(!$scope.achievements) {
-      $scope.achievements = {};
+    var reportId = 'competency';
+
+    if(!$scope.comps) {
+      $scope.comps = {};
     }
 
-    if(!$scope.studentsData) {
-      $scope.studentsData = {};
-    }
-
-    $scope.achievements.active = [];
+    $scope.comps.active = [];
     // Select course in params
     $scope.courses.selectedId = $stateParams.courseId;
     // Select game
     $scope.games.selected = defaultGameId;
+    //
+    $scope.comps.standards = {};
 
     // Games - Setup games options
 
@@ -54,39 +54,39 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-    ////// Achievements functions //////////////
+    ////// Comps functions //////////////
 
-    $scope.selectActiveAchievements = function(group, index) {
-      angular.forEach($scope.achievements.options, function(option) {
+    $scope.selectActiveComps = function(group, index) {
+      angular.forEach($scope.comps.options, function(option) {
         if (option.id == group) {
           var totalItems = 0;
           angular.forEach(option.subGroups, function(subGroup) {
             totalItems += subGroup.items.length;
           });
-          $scope.achievements.totalCount = totalItems;
+          $scope.comps.totalCount = totalItems;
 
           if (index < 0 || totalItems < index + 3) {
             return false;
           } else {
-            $scope.achievements.startIndex = index;
-            $scope.achievements.active = option.list.slice(index, index + 3);
+            $scope.comps.startIndex = index;
+            $scope.comps.active = option.list.slice(index, index + 3);
           }
         }
       });
     };
 
-    var _populateAchievements = function(reports) {
+    var _populateComps = function(reports) {
       if (reports && reports.length) {
         for(var i = 0; i < reports.length; i++) {
           reports[i].list = [];
-          for(var j = 0; j < reports[i].subGroups.length; j++) {
-            for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
-              reports[i].subGroups[j].items[k].standard = {
-                title:       reports[i].subGroups[j].title,
-                description: reports[i].subGroups[j].description
+          for(var j = 0; j < reports[i].variant.length; j++) {
+            for(var k = 0; k < reports[i].variant[j].levels.length; k++) {
+              reports[i].variant[j].levels[k].standard = {
+                title:       reports[i].variant[j].title,
+                description: reports[i].variant[j].description
               };
 
-              reports[i].list.push( reports[i].subGroups[j].items[k] );
+              reports[i].list.push( reports[i].variant[j].levels[k] );
             }
           }
         }
@@ -94,28 +94,32 @@ angular.module( 'instructor.reports')
       return reports;
     };
 
-    var _initAchievements = function() {
+    var _initComps = function() {
       angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'achievements') {
-          $scope.achievements.options = report.achievements;
+
+        if (report.id == reportId) {
+          // prep data for display, copy data in root of report to each child so it can access it there
+          $scope.comps.options   = angular.copy(report.competency);
+          $scope.comps.standards = angular.copy(report.levels);
+
+          angular.forEach($scope.comps.options, function(competency) {
+            competency.variant = angular.copy(report.variant);
+          });
         }
       });
+      //console.log("competency:", $scope.comps.options);
 
       /* Select one of the skill types (or default to the first) */
       if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
-        $scope.achievements.selected = $stateParams.skillsId;
+        $scope.comps.selected = $stateParams.skillsId;
       } else {
-        if ($scope.achievements.options && $scope.achievements.options.length) {
-          $scope.achievements.selected = $scope.achievements.options[0].id;
+        if ($scope.comps.options && $scope.comps.options.length) {
+          $scope.comps.selected = $scope.comps.options[0].id;
         }
       }
 
-      $scope.achievements.options = _populateAchievements($scope.achievements.options);
-      $scope.selectActiveAchievements($scope.achievements.selected, 0);
-      $scope.achievements.selectedOption = _.find($scope.achievements.options,
-          function(option) {
-            return option.id === $scope.achievements.selected;
-          });
+      //$scope.comps.options = _populateComps($scope.comps.options);
+      $scope.selectActiveComps($scope.comps.selected, 0);
     };
 
     // helper functions
@@ -139,30 +143,31 @@ angular.module( 'instructor.reports')
       }
     };
 
-    var _populateStudentAchievements = function(users) {
+    var _populateStudentComps = function(users) {
       if (users) {
-        // Attach achievements and time played to students
+        console.log("competency users:", users);
+        // Attach comps and time played to students
         angular.forEach(users, function(user) {
-          $scope.students[user.userId].achievements    = user.achievements;
-          $scope.students[user.userId].totalTimePlayed = user.totalTimePlayed;
+          if(user) {
+            $scope.students[user.userId].comps = user.results;
+          }
         });
       }
     };
 
     /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-        if( !_isValidReport('achievements') ) {
+        if( !_isValidReport(reportId) ) {
           $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
             gameId: $stateParams.gameId,
             courseId: $stateParams.courseId
           });
           return;
         }
-        // initiate achievements and populate student achievements
-        _initAchievements();
-        _populateStudentAchievements(users);
-
+        // initiate comps and populate student comps
+        _initComps();
+        _populateStudentComps(users);
     });
 
     //// Course Functions //////
@@ -214,20 +219,17 @@ angular.module( 'instructor.reports')
       }
     };
 
-    $scope.isAwardedAchievement = function(activeAchv, studentId) {
-      if($scope.students[studentId]) {
-        var studentAchv = $scope.students[studentId].achievements || [];
-
-        for(var i = 0; i < studentAchv.length; i++) {
+    $scope.isAwardedComp = function(active, student) {
+      if(student) {
+        for(var i = 0; i < student.length; i++) {
           // TODO: check for subgroup
-          if( (studentAchv[i].item === activeAchv.id) &&
-            studentAchv[i].won
+          if( (student[i].item === active.id) &&
+              student[i].won
             ) {
-            return true;
+              return true;
           }
         }
       }
-
       return false;
     };
 
@@ -244,12 +246,12 @@ angular.module( 'instructor.reports')
             if (colName === 'totalTimePlayed') {
                 return user.totalTimePlayed;
             }
-            // finds user's first achievement that matches our criteria
-            var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === colName;
+            // finds user's first comp that matches our criteria
+            var comp = _.find(user.comps, function(a) {
+                return a.item === colName;
             });
-            if (achievement) {
-               if (achievement.won) {
+            if (comp) {
+               if (comp.won) {
                    return 1;
                } else {
                    return 0;

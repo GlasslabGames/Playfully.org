@@ -152,6 +152,38 @@ angular.module( 'instructor.reports', [
             return reports;
           }
         }
+    })
+    .state('reports.details.competency', {
+      url: '/competency/game/:gameId/course/:courseId?skillsId&stdntIds',
+      templateUrl: 'instructor/reports/competency.html',
+      controller: 'CompetencyCtrl',
+      parameters: ['gameId','courseId'],
+      resolve: {
+        myGames: function($stateParams,coursesInfo) {
+          // set all available games for this course
+          return coursesInfo[$stateParams.courseId].games;
+        },
+        defaultGameId: function($stateParams, myGames) {
+          var defaultGameId = myGames[0].gameId;
+          angular.forEach(myGames, function(game) {
+            if (game.gameId === $stateParams.gameId) {
+              defaultGameId = game.gameId;
+            }
+          });
+          $stateParams = defaultGameId;
+          return defaultGameId;
+        },
+        gameReports: function(myGames, defaultGameId) {
+          // set game report for default game
+          var reports = {};
+          angular.forEach(myGames,function(game) {
+            if (game.gameId === defaultGameId) {
+              reports = game.reports;
+            }
+          });
+          return reports;
+        }
+      }
     });
 
 })
@@ -166,10 +198,8 @@ angular.module( 'instructor.reports', [
     $scope.developer = {};
     $scope.courses = {};
     $scope.activeCourses = activeCourses;
-    $scope.achievements = {};
     $scope.reports = {};
     $scope.students = {};
-
 
     // Games - Setup game options and selected game //////////////
 
@@ -271,14 +301,13 @@ angular.module( 'instructor.reports', [
       // check if selected game is available for selected course
       ReportsService.getCourseGames(courseId).then(function(games) {
         angular.forEach(games, function(game) {
-        if (game.gameId === $scope.games.selected) {
-          gameId = $scope.games.selected;
-        }
+          if (game.gameId === $scope.games.selected) {
+            gameId = $scope.games.selected;
+          }
         });
+
         newState.gameId = gameId || games[0].gameId;
-        if ($scope.achievements.selected) {
-        newState.skillsId = $scope.achievements.selected;
-        }
+
         _clearOtherCourses(courseId);
         $state.transitionTo('reports.details' + '.' + $scope.reports.selected.id, newState);
       });

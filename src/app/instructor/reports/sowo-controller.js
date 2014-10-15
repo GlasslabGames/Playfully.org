@@ -3,7 +3,6 @@ angular.module( 'instructor.reports')
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
-    $scope.achievements.active = [];
     // Select course in params
     $scope.courses.selectedId = $stateParams.courseId;
     // Select game
@@ -223,18 +222,6 @@ angular.module( 'instructor.reports')
       });
     };
     _selectStudents();
-
-      $scope.getStudentResult = function(studentId, achievement) {
-        angular.forEach($scope.students, function(student) {
-          if (student.id == studentId) {
-            angular.forEach(student.achievements, function(achv) {
-              if (achv.group == achievement.group && achv.item == achievement.item) {
-                return achv.won;
-              }
-            });
-          }
-        });
-      };
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedId];
