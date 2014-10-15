@@ -82,7 +82,7 @@
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
-          ng-show="isAwardedAchievement(achv, student.achievements)"></i>
+          ng-show="isAwardedAchievement(achv, student.id)"></i>
       </td>
       <td class="gl-nobr">
         <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>

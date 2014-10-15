@@ -1,1 +1,78 @@
-Competency
+<div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
+  <div class="btn-group btn-group-justified">
+    <label class="btn"
+      ng-if="comps.options.length > 1"
+      ng-repeat="comp in comps.options"
+      ng-model="comps.selected"
+      ng-class="{'gl-btn--ltgrey': comps.selected != comp.id,
+        'gl-btn--blue': comps.selected == comp.id}"
+      ui-sref="reports.details.competency({compTitle: comp.title, reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:comp.id, stdntIds: getSelectedStudents()})"
+      ng-bind="comp.title | translate"></label>
+  </div>
+</div>
+<article class="legend-header">
+    <p class="legend-header"><span>Competency Levels</span></p>
+</article>
+       <table>
+            <tr>
+                <td class="gl-reports-achievement-header-standard" ng-repeat="standard in comps.standards">
+                  <div ng-class="convertStandard(standard.title)"
+                   popover="{{ standard.description }}"
+                   popover-trigger="mouseenter"
+                   popover-placement="bottom">
+                  </div><span ng-bind="standard.title"></span>
+                </td>
+            </tr>
+        </table>
+    <hr>
+
+
+<table class="table gl-reports-table" 
+  ng-class="{'gl-reports-table--ie': isIE}" sticky>
+  <thead>
+    <tr>
+      <th class="gl-reports-comp-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i></th>
+      <th class="gl-reports-comp-header-comp" ng-repeat="comp in comps.active">
+        <div class="gl-reports-comp-header text-center">
+          <div><span ng-bind="comp.title"> </span><i ng-class="col.current===comp.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = comp.title; sortSelected(comp.title)"></i></div>
+          <div class="gl-reports-comp-header-info" ng-bind="comp.info"></div>
+          </div>
+        </div>
+      </th>
+    </tr>
+    <tr>
+        <th class="gl-reports-comp-header-name" >Standards</th>
+        <th class="gl-reports-comp-header-standards-footer" ng-repeat="comp in comps.active">
+          <div ng-class="convertStandard(comp.standard.title)"
+               popover="{{ comp.standard.description }}"
+               popover-trigger="mouseenter"
+               popover-placement="bottom">
+          </div>
+        </th>
+      <th></th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+  </thead>
+
+  </thead>
+  <tbody ng-show="courses.options[courses.selectedId].users">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-reports-comp" ng-repeat="comp in comps.active">
+        <i class="fa fa-check-circle-o"
+          ng-show="isAwardedComp(comp, student.id)"></i>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-hide="courses.options[courses.selectedId].users">
+    <tr>
+      <td colspan="5">
+        <div class="text-center gl-pad-Vxxl">
+            No students are currently enrolled in this class. As students begin to play the game and earn comps, you will see them here.
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
