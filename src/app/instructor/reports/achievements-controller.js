@@ -282,7 +282,8 @@ angular.module( 'instructor.reports')
         return;
     };
 
-    $scope.saveState = function(key,currentState) {
+    $scope.saveState = function(currentState) {
+      var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {
           localStorageService.remove(key);
@@ -295,7 +296,8 @@ angular.module( 'instructor.reports')
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};
-    $scope.isCollapsed = {value: localStorageService.get('gl-reports-achievement-header-info')};
+    console.log('state:', JSON.stringify($stateParams));
+    $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 });
 
 

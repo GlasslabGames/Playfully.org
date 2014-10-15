@@ -56,7 +56,7 @@
           <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
           <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
           <div class="gl-reports-achv-footer">
-              <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState('gl-reports-achievement-header-info',!isCollapsed.value)"></i>
+              <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
           </div>
         </div>
       </th>
