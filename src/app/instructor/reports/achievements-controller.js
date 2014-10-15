@@ -100,9 +100,11 @@ angular.module( 'instructor.reports')
           $scope.achievements.options = report.achievements;
         }
       });
-
       /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
+      var achvExists = _.some($scope.achievements.options, function(achievement) {
+            return achievement.id === $stateParams.skillsId;
+      });
+      if ($stateParams.skillsId && achvExists) {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
         if ($scope.achievements.options && $scope.achievements.options.length) {
