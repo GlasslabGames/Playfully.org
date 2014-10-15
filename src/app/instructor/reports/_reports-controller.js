@@ -27,28 +27,18 @@ angular.module( 'instructor.reports', [
       coursesInfo: function(activeCourses, ReportsService) {
         return ReportsService.getCourseInfo(activeCourses);
       },
-      defaultCourseId: function($stateParams,activeCourses) {
-        if (!$stateParams.courseId) {
+      defaultCourseId: function(activeCourses) {
           if (activeCourses[0]) {
               return activeCourses[0].id;
           }
+      },
+      myGames: function(defaultCourseId,coursesInfo) {
+        return coursesInfo[defaultCourseId].games;
+      },
+      defaultGameId: function(myGames) {
+        if (myGames[0]) {
+            return myGames[0].gameId;
         }
-        return $stateParams.courseId;
-      },
-      myGames: function(GamesService,ReportsService,defaultCourseId) {
-        // TODO: use courseInfo
-        return ReportsService.getCourseGames(defaultCourseId).then(function(games) {
-          return games;
-        });
-      },
-      defaultGameId: function($stateParams, myGames) {
-        angular.forEach(myGames, function(game) {
-          // check if requested game is available for this course
-          if (game.gameId === $stateParams.gameId) {
-            return game.gameId;
-          }
-        });
-        return myGames[0].gameId;
       },
       gameReports: function(GamesService, myGames,defaultGameId) {
         if (myGames[0]) {

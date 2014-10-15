@@ -100,9 +100,11 @@ angular.module( 'instructor.reports')
           $scope.achievements.options = report.achievements;
         }
       });
-
       /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
+      var achvExists = _.some($scope.achievements.options, function(achievement) {
+            return achievement.id === $stateParams.skillsId;
+      });
+      if ($stateParams.skillsId && achvExists) {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
         if ($scope.achievements.options && $scope.achievements.options.length) {
@@ -280,7 +282,8 @@ angular.module( 'instructor.reports')
         return;
     };
 
-    $scope.saveState = function(key,currentState) {
+    $scope.saveState = function(currentState) {
+      var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {
           localStorageService.remove(key);
@@ -290,10 +293,11 @@ angular.module( 'instructor.reports')
       }
     };
 
+
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};
-
-
+    console.log('state:', JSON.stringify($stateParams));
+    $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 });
 
 
