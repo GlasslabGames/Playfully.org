@@ -14,9 +14,9 @@ angular.module( 'instructor.reports')
 
     $scope.achievements.active = [];
     // Select course in params
-    $scope.courses.selectedId = $stateParams.courseId;
+    $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
-    $scope.games.selected = defaultGameId;
+    $scope.games.selectedGameId = defaultGameId;
 
     // Games - Setup games options
 
@@ -175,7 +175,7 @@ angular.module( 'instructor.reports')
      **/
     var _selectStudents = function() {
       var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if ($stateParams.stdntIds) {
         selectedStudents = $stateParams.stdntIds.split(',');
       }
@@ -203,7 +203,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
         studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
         if (studentIds.length > 0) {
