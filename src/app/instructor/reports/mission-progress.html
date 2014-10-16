@@ -23,17 +23,17 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i></th>
+      <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; highLightSelected('firstName')"></i></th>
       <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
+          <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; highLightSelected(achv.title)"></i></div>
           <!--<div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.description"></div>-->
           <!--<div class="gl-reports-achv-footer">-->
               <!--<i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>-->
           <!--</div>-->
         </div>
       </th>
-      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; sortSelected('totalTimePlayed')"></i>
+      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; highLightSelected('totalTimePlayed')"></i>
     </tr>
     <!--<tr>-->
         <!--<th class="gl-reports-achievement-header-name" >Standards</th>-->
@@ -57,10 +57,7 @@
   <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
-        <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(achv, student.id) === 3}"></div>
-         <div ng-class="{'gl-reports-mission-progress-silver': isAwardedAchievement(achv, student.id) === 2}"></div>
-         <div ng-class="{'gl-reports-mission-progress-bronze': isAwardedAchievement(achv, student.id) === 1}"></div>
-
+        <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(achv, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(achv, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(achv, student.id) === 1}">{{achv.data.score.stars}}</div>
       </td>
       <td class="gl-nobr">
         <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>

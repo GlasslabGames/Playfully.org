@@ -59,6 +59,8 @@ angular.module( 'instructor.reports')
         $scope.achievements.startIndex = index;
         $scope.achievements.active = $scope.achievements.options.slice(index, index + 3);
       }
+          console.log($scope.achievements.active);
+
     };
 
     var _initAchievements = function() {
@@ -202,11 +204,9 @@ angular.module( 'instructor.reports')
       return false;
     };
 
-    $scope.convertStandard = function(standard) {
-       return REPORT_CONSTANTS.legend[standard];
-    };
 
     $scope.userSortFunction = function(colName) {
+    // an iterator applied on each user object
         return function(user) {
 
             if (colName === 'firstName') {
@@ -215,23 +215,21 @@ angular.module( 'instructor.reports')
             if (colName === 'totalTimePlayed') {
                 return user.totalTimePlayed;
             }
-            // finds user's first achievement that matches our criteria
-            var achievement = _.find(user.achievements, function(achv) {
-                return achv.item === colName;
+            // finds user's first mission that matches our criteria
+            var mission = _.find(user.missions, function(mission) {
+                return mission.linkText === colName;
             });
-            if (achievement) {
-               if (achievement.won) {
-                   return 1;
-               } else {
-                   return 0;
-               }
-            } else {
+            if (!mission.completed) {
                 return 0;
+            }
+            var numberOfStars = mission.data.score.stars;
+            if (numberOfStars) {
+               return parseInt(numberOfStars);
             }
         };
     };
     // Highlights currently selected column, name is the default selected column
-    $scope.sortSelected = function(colName) {
+    $scope.highLightSelected = function(colName) {
 
         var columns = $scope.col;
         // check if column exists
@@ -262,8 +260,9 @@ angular.module( 'instructor.reports')
       }
     };
 
+
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
-    $scope.colName = {};
+    $scope.colName = {value:'firstName'};
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 });
 
