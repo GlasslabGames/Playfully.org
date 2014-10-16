@@ -35,6 +35,16 @@ angular.module( 'playfully', [
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
+  $urlRouterProvider.rule(function ($injector, $location) {
+    var path = $location.path();
+    var normalized = path.toLowerCase();
+
+    if (path != normalized) {
+      //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+      $location.replace().path(normalized);
+    }
+  });
+
   $urlRouterProvider.otherwise('/');
   $stateProvider.state('site', {
     abstract: true
@@ -74,19 +84,37 @@ angular.module( 'playfully', [
 
   // survey redirects for MGO (AA)
   .state('survey_aa_pre', {
-    url: '/AA-Pre',
+    url: '/aa-pre',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/MGO-Pre-Survey";
     }
   })
   .state('survey_aa_post', {
-    url: '/AA-Post',
+    url: '/aa-post',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/84e668acebce";
     }
   })
   .state('survey_aa_feed', {
-    url: '/AA-Feed',
+    url: '/aa-feed',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
+    }
+  })
+  .state('survey_aapre', {
+    url: '/aapre',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/MGO-Pre-Survey";
+    }
+  })
+  .state('survey_aapost', {
+    url: '/aapost',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/84e668acebce";
+    }
+  })
+  .state('survey_aafeed', {
+    url: '/aafeed',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }

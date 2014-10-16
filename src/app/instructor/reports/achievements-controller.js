@@ -296,7 +296,6 @@ angular.module( 'instructor.reports')
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};
-    console.log('state:', JSON.stringify($stateParams));
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 });
 
