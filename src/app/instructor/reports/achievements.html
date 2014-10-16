@@ -6,7 +6,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selected, courseId:courses.selectedId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
@@ -15,7 +15,7 @@
 </article>
        <table>
             <tr>
-                <td class="gl-reports-achievement-header-achv" ng-repeat="standard in achievements.selectedOption.subGroups">
+                <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
                   <div ng-class="convertStandard(standard.title)"
                    popover="{{ standard.description }}"
                    popover-trigger="mouseenter"
@@ -32,16 +32,16 @@
   <thead>
     <tr>
       <td colspan="9" class="gl-reports-achievement-footer text-center">
-        <a href class="gl-reports-achv-arrow"
+        <a href class="gl-reports-achievement-arrow"
           ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
+          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex == 0}">
           <i class="fa fa-arrow-left"></i>
         </a> &nbsp;
         Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
         &nbsp;
-        <a href class="gl-reports-achv-arrow"
+        <a href class="gl-reports-achievement-arrow"
           ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
+          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
           <i class="fa fa-arrow-right"></i>
         </a>
       </td>
@@ -51,7 +51,7 @@
     </tr>
     <tr>
       <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i></th>
-      <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
+      <th class="gl-reports-achievement-header-achievement" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
           <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
           <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
@@ -79,8 +79,8 @@
   </thead>
 
   </thead>
-  <tbody ng-show="courses.options[courses.selectedId].users">
-  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+  <tbody ng-show="courses.options[courses.selectedCourseId].users">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
@@ -91,7 +91,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-hide="courses.options[courses.selectedId].users">
+  <tbody ng-hide="courses.options[courses.selectedCourseId].users">
     <tr>
       <td colspan="5">
         <div class="text-center gl-pad-Vxxl">

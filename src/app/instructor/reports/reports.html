@@ -18,7 +18,7 @@
           <button type="button"
             class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
             ng-click="toggleDropdown($event, 'games')"
-            ng-bind="games.options[games.selected].shortName"></button>
+            ng-bind="games.options[games.selectedGameId].shortName"></button>
           <button type="button" class="btn gl-btn--blue dropdown-toggle">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
@@ -27,7 +27,7 @@
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedId})"
+                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>
             </li>
@@ -47,7 +47,7 @@
             <li ng-repeat="report in reports.options | orderBy:report.name"
               ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                ng-click="goToSelected(report.id, {gameId:games.selected,courseId:courses.selectedId}); selectReport($event, report)"
+                ng-click="goToSelected(report.id, {gameId:games.selectedGameId,courseId:courses.selectedCourseId}); selectReport($event, report)"
                 ng-bind="report.name"></a>
             </li>
           </ul>
@@ -83,7 +83,7 @@
               <div>
                 <label class="gl-reports-nav-course" ng-click="selectCourse($event, key)">
                   <div class="gl-reports-nav-selector"
-                    ng-class="{'gl-reports-nav-selector--selected': course.id == courses.selectedId,
+                    ng-class="{'gl-reports-nav-selector--selected': course.id == courses.selectedCourseId,
                       'gl-reports-nav-selector--partial': course.isPartiallySelected}">
                     <i class="fa fa-check"></i>
                     <span class="gl-reports-course-partial" ng-show="course.isPartiallySelected">&mdash;</span>

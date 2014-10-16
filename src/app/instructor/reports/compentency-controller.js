@@ -1,32 +1,51 @@
 angular.module( 'instructor.reports')
 
+/**
+   Students are scored on a 3-point scale for each mission.
+     0: actual reasoning
+     1: reasoning with one factor (univariate)
+     2: reasoning with multiple factors (multivariate)
+
+   Dot for Univariate column:
+     IF score = 0, red
+     IF score = 1, green
+     IF score = 2, green
+     IF no score yet, gray
+
+   Dot for Multivariate column:
+     IF score = 0, red
+     IF score = 1, red
+     IF score = 2, green
+     IF no score yet, gray
+*/
 
 .controller( 'CompetencyCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
 
     var reportId = 'competency';
 
-    if(!$scope.comps) {
-      $scope.comps = {};
+    if(!$scope.reportInfo) {
+      $scope.reportInfo = {};
     }
 
-    $scope.comps.active = [];
+    // reset to empty
+    $scope.reportInfo.selectedGroupId = null;
+    $scope.reportInfo.labels  = [];
+    $scope.reportInfo.headers = [];
+    $scope.reportInfo.groups  = [];
+
     // Select course in params
-    $scope.courses.selectedId = $stateParams.courseId;
+    $scope.courses.selectedCourseId = $stateParams.courseId;
+
     // Select game
-    $scope.games.selected = defaultGameId;
-    //
-    $scope.comps.standards = {};
-
+    $scope.games.selectedGameId = defaultGameId;
     // Games - Setup games options
-
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
     // Reports - Setup reports options
-
     $scope.reports.options = [];
     var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
@@ -40,90 +59,30 @@ angular.module( 'instructor.reports')
     });
 
     // Set parent scope developer info
-
     if (gameReports.hasOwnProperty('developer')) {
       $scope.developer.logo = gameReports.developer.logo;
     }
 
-    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
-    // of the reports table to be 'separate' instead of 'collapse'. Tried to
-    // use conditional IE comments in index.html, but it doesn't work with
-    // IE 10 and higher.
-
-    $scope.isIE = function() {
-      return $window.navigator.userAgent.test(/trident/i);
-    };
-
     ////// Comps functions //////////////
 
-    $scope.selectActiveComps = function(group, index) {
-      angular.forEach($scope.comps.options, function(option) {
-        if (option.id == group) {
-          var totalItems = 0;
-          angular.forEach(option.subGroups, function(subGroup) {
-            totalItems += subGroup.items.length;
-          });
-          $scope.comps.totalCount = totalItems;
-
-          if (index < 0 || totalItems < index + 3) {
-            return false;
-          } else {
-            $scope.comps.startIndex = index;
-            $scope.comps.active = option.list.slice(index, index + 3);
-          }
-        }
-      });
-    };
-
-    var _populateComps = function(reports) {
-      if (reports && reports.length) {
-        for(var i = 0; i < reports.length; i++) {
-          reports[i].list = [];
-          for(var j = 0; j < reports[i].variant.length; j++) {
-            for(var k = 0; k < reports[i].variant[j].levels.length; k++) {
-              reports[i].variant[j].levels[k].standard = {
-                title:       reports[i].variant[j].title,
-                description: reports[i].variant[j].description
-              };
-
-              reports[i].list.push( reports[i].variant[j].levels[k] );
-            }
-          }
-        }
-      }
-      return reports;
-    };
-
-    var _initComps = function() {
-      angular.forEach(gameReports.list, function(report) {
-
-        if (report.id == reportId) {
-          // prep data for display, copy data in root of report to each child so it can access it there
-          $scope.comps.options   = angular.copy(report.competency);
-          $scope.comps.standards = angular.copy(report.levels);
-
-          angular.forEach($scope.comps.options, function(competency) {
-            competency.variant = angular.copy(report.variant);
-          });
-        }
-      });
-      //console.log("competency:", $scope.comps.options);
-
-      /* Select one of the skill types (or default to the first) */
-      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
-        $scope.comps.selected = $stateParams.skillsId;
-      } else {
-        if ($scope.comps.options && $scope.comps.options.length) {
-          $scope.comps.selected = $scope.comps.options[0].id;
-        }
-      }
-
-      //$scope.comps.options = _populateComps($scope.comps.options);
-      $scope.selectActiveComps($scope.comps.selected, 0);
-    };
-
+    // TODO: move to it's own service/factory
     // helper functions
+    /* Retrieve the appropriate report and process the user objects */
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(usersReportData) {
+        if( !_isValidReport(reportId) ) {
+          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
+            gameId: $stateParams.gameId,
+            courseId: $stateParams.courseId
+          });
+          return;
+        }
+        // initiate and populate student data
+        _init();
+        _populateStudentWithReportData(usersReportData, reportId);
+    });
 
+    // TODO: move to it's own service/factory
     var _isValidReport = function(reportId){
       for(var i = 0; i < $scope.reports.options.length; i++) {
         if($scope.reports.options[i].id === reportId) {
@@ -133,42 +92,116 @@ angular.module( 'instructor.reports')
       return false;
     };
 
+    // TODO: move to it's own service/factory
     var _getDefaultReportId = function() {
       if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
+        $scope.reports.options[0] &&
+        $scope.reports.options[0].id) {
         return $scope.reports.options[0].id;
       } else {
         return "sowo";
       }
     };
 
-    var _populateStudentComps = function(users) {
-      if (users) {
-        console.log("competency users:", users);
-        // Attach comps and time played to students
-        angular.forEach(users, function(user) {
-          if(user) {
-            $scope.students[user.userId].comps = user.results;
-          }
+    var _init = function() {
+      angular.forEach(gameReports.list, function(report) {
+
+        if (report.id == reportId) {
+          // save report table info into reportInfo table
+          $scope.reportInfo.labels  = (!!report.table.labels)  ? angular.copy(report.table.labels)  : [];
+          $scope.reportInfo.headers = (!!report.table.headers) ? angular.copy(report.table.headers) : [];
+          $scope.reportInfo.groups  = (!!report.table.groups)  ? angular.copy(report.table.groups)  : [];
+        }
+      });
+
+      /* Select one of the group types (or default to the first) */
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
+        $scope.reportInfo.selectedGroupId = $stateParams.skillsId;
+      } else {
+        if ($scope.reportInfo.groups && $scope.reportInfo.groups.length) {
+          $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[0].id;
+        }
+      }
+    };
+
+    /* for each user replace reportInfo with results from API */
+    var _populateStudentWithReportData = function(usersReportData, reportId) {
+      if ( usersReportData &&
+           $scope.courses &&
+           $scope.courses.options &&
+           $scope.courses.selectedCourseId &&
+           $scope.courses.options[$scope.courses.selectedCourseId]
+        ) {
+        var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
+        angular.forEach(students, function(student) {
+          //console.log("usersReportData:", usersReportData);
+          var userReportData = _findUserByUserId(student.id, usersReportData) || {};
+          var columns = _processUsersReportData(userReportData.results || {});
+
+          student[reportId] = columns;
         });
       }
     };
 
-    /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport(reportId) ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
+    // find user
+    var _findUserByUserId = function(userId, users){
+      for(var i = 0; i < users.length; i++) {
+        if( users[i] &&
+            userId == users[i].userId) {
+          return users[i];
         }
-        // initiate comps and populate student comps
-        _initComps();
-        _populateStudentComps(users);
-    });
+      }
+      return null;
+    };
+
+    var _processUsersReportData = function(usersReportData){
+      var columns = angular.copy($scope.reportInfo.headers);
+
+      // for each column
+      angular.forEach(columns, function(col) {
+        // add column meta info
+        /*
+          Dot for Univariate column:
+           IF score = 0, not-mastered
+           IF score = 1, mastered
+           IF score = 2, mastered
+           IF no score yet, not-enough-info
+
+          Dot for Multivariate column:
+           IF score = 0, not-mastered
+           IF score = 1, not-mastered
+           IF score = 2, mastered
+           IF no score yet, not-enough-info
+        */
+
+        col.groups = {};
+
+        // for each group in each column
+        angular.forEach($scope.reportInfo.groups, function(group) {
+          col.groups[group.id] = {};
+
+          // default not-enough-info (user might not have any report data
+          col.groups[group.id].level = 'not-enough-info';
+
+          // for each user report data, determine what level
+          angular.forEach(usersReportData, function(item, key) {
+            if(key == group.id) {
+              if(item.level === 0) {
+                col.groups[group.id].level = 'not-mastered';
+              }
+              else if(item.level === 1) {
+                col.groups[group.id].level = (col.id === 'uni') ? 'mastered' : 'not-mastered';
+              }
+              else if(item.level === 2) {
+                col.groups[group.id].level = 'mastered';
+              }
+            }
+          });
+        });
+      });
+
+      return columns;
+    };
 
     //// Course Functions //////
 
@@ -178,7 +211,7 @@ angular.module( 'instructor.reports')
      **/
     var _selectStudents = function() {
       var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if ($stateParams.stdntIds) {
         selectedStudents = $stateParams.stdntIds.split(',');
       }
@@ -206,7 +239,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
         studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
         if (studentIds.length > 0) {
@@ -219,22 +252,13 @@ angular.module( 'instructor.reports')
       }
     };
 
-    $scope.isAwardedComp = function(active, student) {
-      if(student) {
-        for(var i = 0; i < student.length; i++) {
-          // TODO: check for subgroup
-          if( (student[i].item === active.id) &&
-              student[i].won
-            ) {
-              return true;
-          }
-        }
-      }
-      return false;
-    };
-
-    $scope.convertStandard = function(standard) {
-       return REPORT_CONSTANTS.legend[standard];
+    $scope.getLabelClass = function(label) {
+        var labelClasses = {
+          'mastered':        'gl-reports-competency-circle-green',
+          'not-mastered':    'gl-reports-competency-circle-red',
+          'not-enough-info': 'gl-reports-competency-circle-gray'
+        };
+       return labelClasses[label];
     };
 
     $scope.userSortFunction = function(colName) {

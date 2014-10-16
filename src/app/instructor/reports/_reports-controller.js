@@ -194,25 +194,25 @@ angular.module( 'instructor.reports', [
     // Games - Setup game options and selected game //////////////
 
     $scope.games.isOpen = false;
-    $scope.games.selected = null;
+    $scope.games.selectedGameId = null;
     $scope.games.options = {};
 
     angular.forEach(myGames, function(game) {
       if (game.enabled) {
         $scope.games.options[''+game.gameId] = game;
         if (game.gameId == $stateParams.gameId) {
-          $scope.games.selected = game.gameId;
+          $scope.games.selectedGameId = game.gameId;
         }
       }
     });
 
     // Courses - Setup course options and select course ///////////
 
-    $scope.courses.selectedId = null;
+    $scope.courses.selectedCourseId = null;
     $scope.courses.options = {};
 
     if (activeCourses.length) {
-      $scope.courses.selectedId = activeCourses[0].id;
+      $scope.courses.selectedCourseId = activeCourses[0].id;
     }
 
     angular.forEach(activeCourses, function(course) {
@@ -262,7 +262,7 @@ angular.module( 'instructor.reports', [
       // For now, don't allow students in unselected courses to be selected
       // TODO: Maybe figure out a way to update course and select student via
       // the URL?
-      if (course.id != $scope.courses.selectedId) {
+      if (course.id != $scope.courses.selectedCourseId) {
         return false;
       }
 
@@ -291,8 +291,8 @@ angular.module( 'instructor.reports', [
       // check if selected game is available for selected course
       ReportsService.getCourseGames(courseId).then(function(games) {
         angular.forEach(games, function(game) {
-          if (game.gameId === $scope.games.selected) {
-            gameId = $scope.games.selected;
+          if (game.gameId === $scope.games.selectedGameId) {
+            gameId = $scope.games.selectedGameId;
           }
         });
 
@@ -323,6 +323,14 @@ angular.module( 'instructor.reports', [
       $event.preventDefault();
       $event.stopPropagation();
       $scope[collection].isOpen = !$scope[collection].isOpen;
+    };
+
+    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
+    // of the reports table to be 'separate' instead of 'collapse'. Tried to
+    // use conditional IE comments in index.html, but it doesn't work with
+    // IE 10 and higher.
+    $scope.isIE = function() {
+      return $window.navigator.userAgent.test(/trident/i);
     };
 })
 
