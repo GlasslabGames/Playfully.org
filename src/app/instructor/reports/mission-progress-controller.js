@@ -1,7 +1,7 @@
 angular.module( 'instructor.reports')
 
 
-.controller( 'AchievementsCtrl',
+.controller( 'MissionProgressCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
     if(!$scope.achievements) {
       $scope.achievements = {};
@@ -52,47 +52,19 @@ angular.module( 'instructor.reports')
     ////// Achievements functions //////////////
 
     $scope.selectActiveAchievements = function(group, index) {
-      angular.forEach($scope.achievements.options, function(option) {
-        if (option.id == group) {
-          var totalItems = 0;
-          angular.forEach(option.subGroups, function(subGroup) {
-            totalItems += subGroup.items.length;
-          });
-          $scope.achievements.totalCount = totalItems;
-
-          if (index < 0 || totalItems < index + 3) {
-            return false;
-          } else {
-            $scope.achievements.startIndex = index;
-            $scope.achievements.active = option.list.slice(index, index + 3);
-          }
-        }
-      });
-    };
-
-    var _populateAchievements = function(reports) {
-      if (reports && reports.length) {
-        for(var i = 0; i < reports.length; i++) {
-          reports[i].list = [];
-          for(var j = 0; j < reports[i].subGroups.length; j++) {
-            for(var k = 0; k < reports[i].subGroups[j].items.length; k++) {
-              reports[i].subGroups[j].items[k].standard = {
-                title:       reports[i].subGroups[j].title,
-                description: reports[i].subGroups[j].description
-              };
-
-              reports[i].list.push( reports[i].subGroups[j].items[k] );
-            }
-          }
-        }
+      $scope.achievements.totalCount = $scope.achievements.options.length;
+      if (index < 0 || $scope.achievements.totalCount < index + 3) {
+        return false;
+      } else {
+        $scope.achievements.startIndex = index;
+        $scope.achievements.active = $scope.achievements.options.slice(index, index + 3);
       }
-      return reports;
     };
 
     var _initAchievements = function() {
       angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'achievements') {
-          $scope.achievements.options = report.achievements;
+        if (report.id == 'mission-progress') {
+          $scope.achievements.options = report.table.headers;
         }
       });
       /* Select one of the skill types (or default to the first) */
@@ -107,7 +79,6 @@ angular.module( 'instructor.reports')
         }
       }
 
-      $scope.achievements.options = _populateAchievements($scope.achievements.options);
       $scope.selectActiveAchievements($scope.achievements.selected, 0);
       $scope.achievements.selectedOption = _.find($scope.achievements.options,
           function(option) {
@@ -140,27 +111,30 @@ angular.module( 'instructor.reports')
       if (users) {
         // Attach achievements and time played to students
         angular.forEach(users, function(user) {
-          $scope.students[user.userId].achievements    = user.achievements;
+          $scope.students[user.userId].missions    = user.missions;
           $scope.students[user.userId].totalTimePlayed = user.totalTimePlayed;
         });
       }
     };
 
     /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get('mission-progress', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-        if( !_isValidReport('achievements') ) {
+        if( !_isValidReport('mission-progress') ) {
           $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
             gameId: $stateParams.gameId,
             courseId: $stateParams.courseId
           });
           return;
         }
+        console.log('users: ', users);
         // initiate achievements and populate student achievements
         _initAchievements();
         _populateStudentAchievements(users);
 
     });
+
+
 
     //// Course Functions //////
 
@@ -213,13 +187,14 @@ angular.module( 'instructor.reports')
 
     $scope.isAwardedAchievement = function(activeAchv, studentId) {
       if($scope.students[studentId]) {
-        var studentAchv = $scope.students[studentId].achievements || [];
-
+        var studentAchv = $scope.students[studentId].missions || [];
         for(var i = 0; i < studentAchv.length; i++) {
-          if( (studentAchv[i].item === activeAchv.id) &&
-            studentAchv[i].won
+          if( (studentAchv[i].id === activeAchv.id) &&
+              studentAchv[i].completed
+//            studentAchv[i].won
             ) {
-            return true;
+            var numberOfStars = studentAchv[i].data.score.stars;
+            return parseInt(numberOfStars);
           }
         }
       }
