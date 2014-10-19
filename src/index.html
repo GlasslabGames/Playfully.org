@@ -20,7 +20,7 @@
           <div ng-if="isAuthenticatedButNot('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
             ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
           <div ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
-            ng-bind="'Welcome back, ' + currentUser.username + '!'"></div>
+            ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
         </div>
       </div>
 

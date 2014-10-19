@@ -18,7 +18,8 @@
         <input type="text" name="username" class="form-control"
           placeholder="Screen name"
           required autofocus ng-model="credentials.username"
-          ng-minlength="2">
+          ng-minlength="2"
+          ng-maxlength="250">
           <div class="form-errors">
             <div class="form-error" ng-show="loginForm.username.$dirty && loginForm.username.$invalid">
               Please enter a valid screen name

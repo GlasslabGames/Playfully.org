@@ -279,6 +279,15 @@ angular.module( 'playfully', [
       $state.go('home');
     });
 
+    $scope.truncateUsername = function (username) {
+      if (username.length > 40) {
+        var part1 = username.substring(0, 19);
+        var part2 = username.substring(username.length-19, username.length);
+        return part1 + '…' + part2;
+      } else {
+        return username;
+      }
+    };
 
 
     // Hack to cause popovers to hide when user clicks outside of them.
