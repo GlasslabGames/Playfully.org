@@ -29,6 +29,15 @@ angular.module( 'instructor.reports')
       }
     });
 
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport('sowo',$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId('sowo',$scope.reports.options), {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+    }
+
     // Set parent scope developer info
 
     if (gameReports.hasOwnProperty('developer')) {
@@ -187,13 +196,7 @@ angular.module( 'instructor.reports')
     // Get SOWO reports
     ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-        if( !_isValidReport('sowo') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
+
         _resetSowo();
         _populateSowo(users);
     });

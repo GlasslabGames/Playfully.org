@@ -69,6 +69,25 @@ angular.module('reports', [])
 
     };
 
+    this.isValidReport = function(reportId,reportOptions){
+      for(var i = 0; i < reportOptions.length; i++) {
+        if(reportOptions[i].id === reportId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    this.getDefaultReportId = function(fallBackId,reportOptions) {
+      if( reportOptions &&
+          reportOptions[0] &&
+          reportOptions[0].id) {
+        return reportOptions[0].id;
+      } else {
+        return fallBackId;
+      }
+    };
+
 });
 /**
  * Sample data to be used for development

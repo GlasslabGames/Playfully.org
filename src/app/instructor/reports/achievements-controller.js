@@ -34,6 +34,15 @@ angular.module( 'instructor.reports')
       }
     });
 
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport('achievements',$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId('achievements',$scope.reports.options), {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+    }
+
     // Set parent scope developer info
 
     if (gameReports.hasOwnProperty('developer')) {
@@ -117,25 +126,6 @@ angular.module( 'instructor.reports')
 
     // helper functions
 
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
-
     var _populateStudentAchievements = function(users) {
       if (users) {
         // Attach achievements and time played to students
@@ -149,13 +139,6 @@ angular.module( 'instructor.reports')
     /* Retrieve the appropriate report and process the user objects */
     ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-        if( !_isValidReport('achievements') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
         // initiate achievements and populate student achievements
         _initAchievements();
         _populateStudentAchievements(users);
