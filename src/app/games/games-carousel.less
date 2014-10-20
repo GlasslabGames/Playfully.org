@@ -1,0 +1,83 @@
+
+/**
+ * DOM structure of ui-bootstrap carousel (for reference)
+ *
+ * div.carousel
+ *   ol.carousel-indicators
+ *     li.active?
+ *     li
+ *   div.carousel-inner
+ *     div.item.text-center
+ *       img
+ *   a.carousel-control.left
+ *     span.glyphicon.glyphicon-chevron-left
+ *   a.carousel-control.right
+ *     span.glyphicon.glyphicon-chevron-right
+ *
+ **/
+
+
+// Put all rules into the container to help with precedence / overriding
+// ui-bootstrap's own rules.
+
+.gl-games-carousel {
+
+  .glyphicon {
+    font-family: FontAwesome;
+  }
+  .glyphicon-chevron-right:before {
+    content: "\f061";
+  }
+  .glyphicon-chevron-left:before {
+    content: "\f060";
+  }
+  .carousel img {
+    width: auto; 
+    max-width: 80%;
+  }
+
+
+  /**
+   * .carousel-indicators are the dots beneath the image that
+   * track the user's position in the progression of slides.
+   **/
+  .carousel-indicators {
+    bottom: -40px;
+    li {
+      border: none;
+      background: @grey6;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    .active {
+      background: @aquaBlue;
+    }
+  }
+
+  /**
+   * .carousel-control is the left and right arrow that allow the user
+   * to manually move to the next slide in the progression.
+   **/
+  .carousel-control {
+    width: 10%;
+    background: @grey6;
+
+    .glyphicon {
+      position: absolute;
+    }
+
+    // Override a setting in Bootstrap causing the right arrow
+    // to not align centrally in its carousel-control.
+    .glyphicon-chevron-right {
+      right: auto;
+      left: 50%;
+    }
+  }
+
+  .carousel-control:hover {
+    cursor: pointer;
+  }
+
+
+}
+
