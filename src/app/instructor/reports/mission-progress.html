@@ -1,0 +1,76 @@
+<div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
+
+<table class="table gl-reports-table" 
+  ng-class="{'gl-reports-table--ie': isIE}" sticky>
+  <thead>
+    <tr>
+      <td colspan="9" class="gl-reports-achievement-footer text-center">
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex == 0}">
+          <i class="fa fa-arrow-left"></i>
+        </a> &nbsp;
+        Mission {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
+        &nbsp;
+        <a href class="gl-reports-achv-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
+          ng-class="{'gl-reports-achv-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+    <tr>
+      <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; highLightSelected('firstName')"></i></th>
+      <th class="gl-reports-achievement-header-achv" ng-repeat="achv in achievements.active">
+        <div class="gl-reports-achievement-header text-center">
+          <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; highLightSelected(achv.title)"></i></div>
+          <!--<div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.description"></div>-->
+          <!--<div class="gl-reports-achv-footer">-->
+              <!--<i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>-->
+          <!--</div>-->
+        </div>
+      </th>
+      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; highLightSelected('totalTimePlayed')"></i>
+    </tr>
+    <!--<tr>-->
+        <!--<th class="gl-reports-achievement-header-name" >Standards</th>-->
+        <!--<th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">-->
+          <!--<div ng-class="convertStandard(achv.standard.title)"-->
+               <!--popover="{{ achv.standard.description }}"-->
+               <!--popover-trigger="mouseenter"-->
+               <!--popover-placement="bottom">-->
+          <!--</div>-->
+        <!--</th>-->
+      <!--<th></th>-->
+    <!--</tr>-->
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+  </thead>
+
+  </thead>
+  <tbody ng-show="courses.options[courses.selectedId].users">
+
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
+        <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(achv, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(achv, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(achv, student.id) === 1}">{{achv.data.score.stars}}</div>
+      </td>
+      <td class="gl-nobr">
+        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-hide="courses.options[courses.selectedId].users">
+    <tr>
+      <td colspan="5">
+        <div class="text-center gl-pad-Vxxl">
+            No students are currently enrolled in this class. As students begin to play the game and earn achievements, you will see them here.
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -8,8 +8,6 @@ angular.module( 'instructor.reports', [
   'LocalStorageModule'
 ])
 
-
-
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state( 'reports', {
     abstract: true,
@@ -174,6 +172,38 @@ angular.module( 'instructor.reports', [
           return reports;
         }
       }
+    })
+    .state('reports.details.mission-progress', {
+        url: '/mission-progress/game/:gameId/course/:courseId?skillsId&stdntIds',
+        templateUrl: 'instructor/reports/mission-progress.html',
+        controller: 'MissionProgressCtrl',
+        parameters: ['gameId','courseId'],
+        resolve: {
+          myGames: function($stateParams,coursesInfo) {
+            // set all available games for this course
+            return coursesInfo[$stateParams.courseId].games;
+          },
+          defaultGameId: function($stateParams, myGames) {
+            var defaultGameId = myGames[0].gameId;
+            angular.forEach(myGames, function(game) {
+              if (game.gameId === $stateParams.gameId) {
+                defaultGameId = game.gameId;
+              }
+            });
+            $stateParams = defaultGameId;
+            return defaultGameId;
+          },
+          gameReports: function(myGames, defaultGameId) {
+            // set game report for default game
+            var reports = {};
+            angular.forEach(myGames,function(game) {
+              if (game.gameId === defaultGameId) {
+                reports = game.reports;
+              }
+            });
+            return reports;
+          }
+        }
     });
 
 })
