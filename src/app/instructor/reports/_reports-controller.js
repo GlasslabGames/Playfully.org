@@ -87,7 +87,7 @@ angular.module( 'instructor.reports', [
             // all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
-          defaultGameId: function($stateParams, myGames, coursesInfo) {
+          defaultGameId: function($stateParams, myGames) {
             // set default game
             var defaultGameId = myGames[0].gameId;
             angular.forEach(myGames, function(game) {
@@ -119,7 +119,7 @@ angular.module( 'instructor.reports', [
             // set all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
-          defaultGameId: function(myGames) {
+          defaultGameId: function($stateParams, myGames) {
             var defaultGameId = myGames[0].gameId;
             angular.forEach(myGames, function(game) {
               if (game.gameId === $stateParams.gameId) {
@@ -136,7 +136,6 @@ angular.module( 'instructor.reports', [
                 reports = game.reports;
               }
             });
-            console.log(defaultGameId, ':', reports);
             return reports;
           }
         }
