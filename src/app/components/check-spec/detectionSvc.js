@@ -112,7 +112,7 @@ angular.module('checkSpec')
                     {
                         string: document.documentMode ? 'Internet Explorer' : null,
                         subString: 'Internet Explorer',
-                        identity: 'Internet Explorer Explorer',
+                        identity: 'Internet Explorer',
                         versionSearch: 'Internet Explorer'
                     },
                     {
