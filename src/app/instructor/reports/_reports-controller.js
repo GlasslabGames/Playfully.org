@@ -119,14 +119,13 @@ angular.module( 'instructor.reports', [
             // set all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
-          defaultGameId: function($stateParams, myGames) {
+          defaultGameId: function(myGames) {
             var defaultGameId = myGames[0].gameId;
             angular.forEach(myGames, function(game) {
               if (game.gameId === $stateParams.gameId) {
                 defaultGameId = game.gameId;
               }
             });
-            $stateParams = defaultGameId;
             return defaultGameId;
           },
           gameReports: function(myGames, defaultGameId) {

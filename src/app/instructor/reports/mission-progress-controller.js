@@ -8,7 +8,7 @@ angular.module( 'instructor.reports')
     }
     $scope.missions.active = [];
     // Select course in params
-    $scope.courses.selectedId = $stateParams.courseId;
+    $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
     $scope.games.selectedGameId = defaultGameId;
 
@@ -40,6 +40,7 @@ angular.module( 'instructor.reports')
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
+      return;
     }
 
     // Set parent scope developer info
@@ -120,7 +121,7 @@ angular.module( 'instructor.reports')
      **/
     var _selectStudents = function() {
       var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if ($stateParams.stdntIds) {
         selectedStudents = $stateParams.stdntIds.split(',');
       }

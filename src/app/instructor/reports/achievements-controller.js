@@ -41,6 +41,7 @@ angular.module( 'instructor.reports')
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
+      return;
     }
 
     // Set parent scope developer info
