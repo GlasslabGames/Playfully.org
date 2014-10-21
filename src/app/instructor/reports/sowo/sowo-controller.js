@@ -3,24 +3,27 @@ angular.module( 'instructor.reports')
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
-    // Select course in params
-    $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
-    $scope.games.selectedGameId = defaultGameId;
-    // Set current report
-    var reportId = 'sowo';
+    ///// Setup selections /////
 
-    // Games - Setup games options
+    // Report
+    var reportId = 'sowo';
+    // Courses
+    $scope.courses.selectedCourseId = $stateParams.courseId;
+    // Games
+    $scope.games.selectedGameId = defaultGameId;
+
+    ///// Setup options /////
+
+    // Games
 
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
-    // Reports - Setup reports options
+    // Reports
 
     $scope.reports.options = [];
-
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
@@ -56,7 +59,15 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-   ///////// SOWO functions ///////////////////
+    ///// SOWO functions /////
+
+   // Retrieve report and populate table
+
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        _resetSowo();
+        _populateSowo(users);
+    });
 
     var _resetSowo = function() {
       $scope.sowo = {
@@ -176,12 +187,7 @@ angular.module( 'instructor.reports')
       }
     };
 
-    // Get SOWO reports
-    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        _resetSowo();
-        _populateSowo(users);
-    });
+
 
     // Select Course students
 

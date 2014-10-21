@@ -3,29 +3,26 @@ angular.module( 'instructor.reports')
 
 .controller( 'AchievementsCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
-    if(!$scope.achievements) {
-      $scope.achievements = {};
-    }
 
-    // reset to empty
-    $scope.achievements.active = [];
 
-    // Set current Report
+    ///// Setup selections /////
+
+    // Report
     var reportId = 'achievements';
-    // Select course in params
+    // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    // Games
     $scope.games.selectedGameId = defaultGameId;
 
-    // Games - Setup games options
+    ///// Setup options /////
 
+    // Games
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
-    // Reports - Setup reports options
-
+    // Reports
     $scope.reports.options = [];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
@@ -37,7 +34,7 @@ angular.module( 'instructor.reports')
       }
     });
 
-    // Check if game has selected report
+    // Check if selected game has selected report
 
     if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
       $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
@@ -62,8 +59,22 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-    ////// Achievements functions //////////////
+    ///// Achievements Functions /////
 
+    if(!$scope.achievements) {
+      $scope.achievements = {};
+    }
+
+    $scope.achievements.active = [];
+
+    // Retrieve report and populate table
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        _initAchievements();
+        _populateStudentAchievements(users);
+    });
+
+    // Populates achievements selector
     $scope.selectActiveAchievements = function(group, index) {
       angular.forEach($scope.achievements.options, function(option) {
         if (option.id == group) {
@@ -102,6 +113,7 @@ angular.module( 'instructor.reports')
       return reports;
     };
 
+    // Populate achievements table
     var _initAchievements = function() {
       angular.forEach(gameReports.list, function(report) {
         if (report.id == reportId) {
@@ -128,8 +140,6 @@ angular.module( 'instructor.reports')
           });
     };
 
-    // helper functions
-
     var _populateStudentAchievements = function(users) {
       if (users) {
         // Attach achievements and time played to students
@@ -140,14 +150,7 @@ angular.module( 'instructor.reports')
       }
     };
 
-    /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        // initiate achievements and populate student achievements
-        _initAchievements();
-        _populateStudentAchievements(users);
 
-    });
 
     //// Course Functions //////
 
