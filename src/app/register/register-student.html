@@ -23,6 +23,7 @@
           required
           autofocus="autofocus"
           ng-model="confirmation.code"
+          ng-pattern="/^[a-zA-Z\d]+$/"
           ng-minlength="5"
           autocorrect="off">
           &nbsp;<span class="fa fa-question-circle"
