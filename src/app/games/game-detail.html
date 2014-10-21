@@ -102,42 +102,43 @@
       <p ng-show="currentPage.id == 'product'"
         ng-bind="gameDetails.pages.product.header"></p>
 
+      <div ng-hide="hideGameDetails.hide">
+          <hr class="rule rule--blue" />
 
-      <hr class="rule rule--blue" />
+          <div class="container-fluid gl-game-details">
+            <div class="row gl-margin--Bm">
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--price"></span>
+                Price: <span ng-bind="gameDetails.price"></span>
+              </div>
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--type"></span>
+                Type: <span ng-bind="gameDetails.type"></span>
+              </div>
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--subject"></span>
+                Subject: <span ng-bind="gameDetails.subject"></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--releaseDate"></span>
+                Release: <span ng-bind="gameDetails.releaseDate"></span>
+              </div>
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--platform"></span>
+                Platform: <span ng-bind="gameDetails.platform"></span>
+              </div>
+              <div class="col-md-4">
+                <span class="gl-icon-game gl-icon-game--grades"></span>
+                Grade: <span ng-bind="gameDetails.grades"></span>
+              </div>
 
-      <div class="container-fluid gl-game-details">
-        <div class="row gl-margin--Bm">
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--price"></span>
-            Price: <span ng-bind="gameDetails.price"></span>
-          </div>
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--type"></span>
-            Type: <span ng-bind="gameDetails.type"></span>
-          </div>
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--subject"></span>
-            Subject: <span ng-bind="gameDetails.subject"></span>
-          </div>
-        </div> 
-        <div class="row">
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--releaseDate"></span>
-            Release: <span ng-bind="gameDetails.releaseDate"></span>
-          </div>
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--platform"></span>
-            Platform: <span ng-bind="gameDetails.platform"></span>
-          </div>
-          <div class="col-md-4">
-            <span class="gl-icon-game gl-icon-game--grades"></span>
-            Grade: <span ng-bind="gameDetails.grades"></span>
+            </div>
           </div>
 
-        </div> 
+          <hr class="rule rule--blue" />
       </div>
-
-      <hr class="rule rule--blue" />
 
       <div ui-view></div>
 
