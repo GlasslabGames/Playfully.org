@@ -267,6 +267,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.saveState = function(currentState) {
+      console.log(currentState);
       var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {

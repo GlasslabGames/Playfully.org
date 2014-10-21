@@ -22,6 +22,7 @@ angular.module( 'instructor.reports')
     });
 
     // Reports
+
     $scope.reports.options = [];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
@@ -63,6 +64,7 @@ angular.module( 'instructor.reports')
     if(!$scope.missions) {
       $scope.missions = {};
     }
+
     $scope.missions.active = [];
 
     // Retrieve report and populate table
@@ -93,18 +95,9 @@ angular.module( 'instructor.reports')
           $scope.missions.options = report.table.headers;
         }
       });
-      /* Select one of the skill types (or default to the first) */
-      var achvExists = _.some($scope.missions.options, function(achievement) {
-            return achievement.id === $stateParams.skillsId;
-      });
-      if ($stateParams.skillsId && achvExists) {
-        $scope.missions.selected = $stateParams.skillsId;
-      } else {
-        if ($scope.missions.options && $scope.missions.options.length) {
-          $scope.missions.selected = $scope.missions.options[0].id;
-        }
+      if ($scope.missions.options && $scope.missions.options.length) {
+        $scope.missions.selected = $scope.missions.options[0].id;
       }
-
       $scope.selectActiveMissions($scope.missions.selected, 0);
       $scope.missions.selectedOption = _.find($scope.missions.options,
           function(option) {
@@ -184,7 +177,6 @@ angular.module( 'instructor.reports')
           }
         }
       }
-
       return false;
     };
 
