@@ -36,9 +36,10 @@ angular.module( 'instructor.reports')
 
     // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
-
     // Select game
     $scope.games.selectedGameId = defaultGameId;
+    // Set current Report
+
     // Games - Setup games options
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
@@ -47,16 +48,25 @@ angular.module( 'instructor.reports')
 
     // Reports - Setup reports options
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
     });
+
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,   $scope.reports.options), {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+      return;
+    }
 
     // Set parent scope developer info
     if (gameReports.hasOwnProperty('developer')) {
@@ -65,43 +75,14 @@ angular.module( 'instructor.reports')
 
     ////// Comps functions //////////////
 
-    // TODO: move to it's own service/factory
-    // helper functions
     /* Retrieve the appropriate report and process the user objects */
     ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(usersReportData) {
-        if( !_isValidReport(reportId) ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
+
         // initiate and populate student data
         _init();
         _populateStudentWithReportData(usersReportData, reportId);
     });
-
-    // TODO: move to it's own service/factory
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    // TODO: move to it's own service/factory
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-        $scope.reports.options[0] &&
-        $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
 
     var _init = function() {
       angular.forEach(gameReports.list, function(report) {
@@ -306,7 +287,8 @@ angular.module( 'instructor.reports')
         return;
     };
 
-    $scope.saveState = function(key,currentState) {
+    $scope.saveState = function(currentState) {
+      var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {
           localStorageService.remove(key);
@@ -318,7 +300,7 @@ angular.module( 'instructor.reports')
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};
-
+    $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 
 });
 
