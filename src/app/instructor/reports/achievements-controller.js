@@ -7,7 +7,11 @@ angular.module( 'instructor.reports')
       $scope.achievements = {};
     }
 
+    // reset to empty
     $scope.achievements.active = [];
+
+    // Set current Report
+    var reportId = 'achievements';
     // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
@@ -23,12 +27,11 @@ angular.module( 'instructor.reports')
     // Reports - Setup reports options
 
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
@@ -36,8 +39,8 @@ angular.module( 'instructor.reports')
 
     // Check if game has selected report
 
-    if (!ReportsService.isValidReport('achievements',$scope.reports.options))  {
-      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId('achievements',$scope.reports.options), {
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
@@ -101,7 +104,7 @@ angular.module( 'instructor.reports')
 
     var _initAchievements = function() {
       angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'achievements') {
+        if (report.id == reportId) {
           $scope.achievements.options = report.achievements;
         }
       });
@@ -138,7 +141,7 @@ angular.module( 'instructor.reports')
     };
 
     /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         // initiate achievements and populate student achievements
         _initAchievements();

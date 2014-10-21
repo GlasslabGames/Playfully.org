@@ -36,9 +36,10 @@ angular.module( 'instructor.reports')
 
     // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
-
     // Select game
     $scope.games.selectedGameId = defaultGameId;
+    // Set current Report
+
     // Games - Setup games options
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
@@ -47,12 +48,11 @@ angular.module( 'instructor.reports')
 
     // Reports - Setup reports options
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
@@ -60,8 +60,8 @@ angular.module( 'instructor.reports')
 
     // Check if game has selected report
 
-    if (!ReportsService.isValidReport('competency',$scope.reports.options))  {
-      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId('competency',   $scope.reports.options), {
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,   $scope.reports.options), {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });

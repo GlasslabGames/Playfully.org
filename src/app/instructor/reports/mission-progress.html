@@ -1,20 +1,20 @@
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
 
 <table class="table gl-reports-table" 
-  ng-class="{'gl-reports-table--ie': isIE}">
+  ng-class="{'gl-reports-table--ie': isIE}" sticky selector-items="missions.active">
   <thead>
     <tr>
-      <td colspan="9" class="gl-reports-achievement-selector text-center">
-        <a href class="gl-reports-achv-arrow"
+      <td colspan="9" class="gl-reports-mission-progress-selector text-center">
+        <a href class="gl-reports-mission-progress-arrow"
           ng-click="selectActiveMissions(missions.selected, missions.startIndex - 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': missions.startIndex == 0}">
+          ng-class="{'gl-reports-m-arrow--disabled': missions.startIndex == 0}">
           <i class="fa fa-arrow-left"></i>
         </a> &nbsp;
         Mission {{ missions.startIndex + 1 }}-{{ missions.startIndex + 3 }} / {{ missions.totalCount }}
         &nbsp;
-        <a href class="gl-reports-achv-arrow"
+        <a href class="gl-reports-mission-progress-arrow"
           ng-click="selectActiveMissions(missions.selected, missions.startIndex + 1)"
-          ng-class="{'gl-reports-achv-arrow--disabled': missions.startIndex + 3 == missions.totalCount}">
+          ng-class="{'gl-reports-mission-progress-arrow--disabled': missions.startIndex + 3 == missions.totalCount}">
           <i class="fa fa-arrow-right"></i>
         </a>
       </td>
@@ -23,11 +23,11 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
     </tr>
     <tr>
-      <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; highLightSelected('firstName')"></i></th>
-      <th class="gl-reports-achievement-header-achv" ng-repeat="achv in missions.active">
-        <div class="gl-reports-achievement-header text-center">
+      <th class="gl-reports-mission-progress-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; highLightSelected('firstName')"></i></th>
+      <th class="gl-reports-mission-progress-header-achv" ng-repeat="achv in missions.active">
+        <div class="gl-reports-mission-progress-header text-center">
           <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; highLightSelected(achv.title)"></i></div>
-          <!--<div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.description"></div>-->
+          <!--<div collapse="isCollapsed.value" class="gl-reports-mission-progress-header-info" ng-bind="achv.description"></div>-->
           <!--<div class="gl-reports-achv-footer">-->
               <!--<i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>-->
           <!--</div>-->
@@ -36,8 +36,8 @@
       <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; highLightSelected('totalTimePlayed')"></i>
     </tr>
     <!--<tr>-->
-        <!--<th class="gl-reports-achievement-header-name" >Standards</th>-->
-        <!--<th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in missions.active">-->
+        <!--<th class="gl-reports-mission-progress-header-name" >Standards</th>-->
+        <!--<th class="gl-reports-mission-progress-header-standards-footer" ng-repeat="achv in missions.active">-->
           <!--<div ng-class="convertStandard(achv.standard.title)"-->
                <!--popover="{{ achv.standard.description }}"-->
                <!--popover-trigger="mouseenter"-->
@@ -52,11 +52,11 @@
   </thead>
 
   </thead>
-  <tbody ng-show="courses.options[courses.selectedId].users">
+  <tbody ng-show="courses.options[courses.selectedCourseId].users">
 
-  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-      <td class="gl-reports-achievement" ng-repeat="achv in missions.active">
+      <td class="gl-reports-mission-progress" ng-repeat="achv in missions.active">
         <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(achv, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(achv, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(achv, student.id) === 1}">{{achv.data.score.stars}}</div>
       </td>
       <td class="gl-nobr">
@@ -64,7 +64,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-hide="courses.options[courses.selectedId].users">
+  <tbody ng-hide="courses.options[courses.selectedCourseId].users">
     <tr>
       <td colspan="5">
         <div class="text-center gl-pad-Vxxl">

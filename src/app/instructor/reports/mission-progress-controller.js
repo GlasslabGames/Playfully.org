@@ -11,6 +11,8 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
     $scope.games.selectedGameId = defaultGameId;
+    // Set current Report
+    var reportId = 'mission-progress';
 
     // Games - Setup games options
 
@@ -22,12 +24,12 @@ angular.module( 'instructor.reports')
     // Reports - Setup reports options
 
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
+
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
@@ -35,8 +37,8 @@ angular.module( 'instructor.reports')
 
     // Check if game has selected report
 
-    if (!ReportsService.isValidReport('mission-progress',$scope.reports.options))  {
-      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId('mission-progress',$scope.reports.options), {
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
@@ -72,7 +74,7 @@ angular.module( 'instructor.reports')
 
     var _initAchievements = function() {
       angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'mission-progress') {
+        if (report.id == reportId) {
           $scope.missions.options = report.table.headers;
         }
       });
@@ -106,7 +108,7 @@ angular.module( 'instructor.reports')
     };
 
     /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('mission-progress', $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         // initiate missions and populate student missions
         _initAchievements();
@@ -149,7 +151,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedId];
+      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
         studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
         if (studentIds.length > 0) {
@@ -194,7 +196,8 @@ angular.module( 'instructor.reports')
             var mission = _.find(user.missions, function(mission) {
                 return mission.linkText === colName;
             });
-            if (!mission.completed) {
+            if (!mission ||
+                !mission.completed) {
                 return 0;
             }
             var numberOfStars = mission.data.score.stars;

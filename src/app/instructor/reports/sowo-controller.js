@@ -7,6 +7,8 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
     $scope.games.selectedGameId = defaultGameId;
+    // Set current report
+    var reportId = 'sowo';
 
     // Games - Setup games options
 
@@ -18,13 +20,12 @@ angular.module( 'instructor.reports')
     // Reports - Setup reports options
 
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
 
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
@@ -32,8 +33,8 @@ angular.module( 'instructor.reports')
 
     // Check if game has selected report
 
-    if (!ReportsService.isValidReport('sowo',$scope.reports.options))  {
-      var yeah = ReportsService.getDefaultReportId('sowo',$scope.reports.options);
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      var yeah = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
       $state.transitionTo('reports.details' + '.' + yeah, {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
@@ -176,7 +177,7 @@ angular.module( 'instructor.reports')
     };
 
     // Get SOWO reports
-    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
         _resetSowo();
         _populateSowo(users);
