@@ -6,7 +6,14 @@
     </div>
     <div class="media-bd">
       <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
-      Developed by {{ gameDetails.developer.name }}
+      <div>Developed by {{ gameDetails.developer.name }}</div>
+      <div class="gl-pad--Txs">
+        <a ng-repeat="(name, url) in gameDetails.social"
+          target="_blank" href="{{ url }}"
+          ga="'send', 'pageview', {title: name, location: url}"
+          class="gl-icon-social gl-icon-social--{{ name }}">
+        </a>
+      </div>
     </div>
   </div>
 
@@ -87,14 +94,6 @@
                     ng-bind="button.name"></button>
           </div>
         </div>
-      </div>
-
-      <div>
-        <a ng-repeat="(name, url) in gameDetails.social"
-          target="_blank" href="{{ url }}"
-          ga="'send', 'pageview', {title: name, location: url}"
-          class="gl-icon-social gl-icon-social--{{ name }}">
-        </a>
       </div>
     </div>
     <div class="col-md-9">
