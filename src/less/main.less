@@ -35,6 +35,7 @@
 @import '../app/instructor/dashboard/instructor-dashboard.less';
 @import '../app/instructor/courses/courses.less';
 @import '../app/games/games.less';
+@import '../app/games/games-carousel.less';
 @import '../app/instructor/reports/reports.less';
 @import '../app/instructor/reports/mission-progress.less';
 @import '../app/instructor/reports/achievements.less';
@@ -110,7 +111,7 @@
   -o-transform:      rotate(@deg);
 }
 
-
+.ng-cloak { display: none !important; }
 
 a:link {
   color: @oceanBlue;
@@ -394,6 +395,7 @@ h2 {
 .gl-main {
   position: relative;
   z-index: 1;
+  min-height:500px;
 }
 
 .gl-game-card-AW-1 {

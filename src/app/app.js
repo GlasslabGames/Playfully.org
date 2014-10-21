@@ -16,6 +16,7 @@ angular.module( 'playfully', [
   'reports',
   'checkSpec',
   'research',
+  'gl-enter',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -32,17 +33,24 @@ angular.module( 'playfully', [
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+  });
   $locationProvider.hashPrefix('!');
 
+  $urlRouterProvider.rule(function ($injector, $location) {
+    var path = $location.path();
+    var normalized = path.toLowerCase();
+
+    if (path != normalized) {
+      //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+      $location.replace().path(normalized);
+    }
+  });
+
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('site', {
-    abstract: true
-    // Commented out because it seems to be redundant to the .run version.
-    // resolve: ['Authorization', function(Authorization, $log) {
-    //     return Authorization.authorize();
-    //   }]
-  })
+  $stateProvider.state('site', { abstract: true })
 
   .state( 'sdk', {
     url: '/sdk',
@@ -74,19 +82,37 @@ angular.module( 'playfully', [
 
   // survey redirects for MGO (AA)
   .state('survey_aa_pre', {
-    url: '/AA-Pre',
+    url: '/aa-pre',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/MGO-Pre-Survey";
     }
   })
   .state('survey_aa_post', {
-    url: '/AA-Post',
+    url: '/aa-post',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/84e668acebce";
     }
   })
   .state('survey_aa_feed', {
-    url: '/AA-Feed',
+    url: '/aa-feed',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
+    }
+  })
+  .state('survey_aapre', {
+    url: '/aapre',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/MGO-Pre-Survey";
+    }
+  })
+  .state('survey_aapost', {
+    url: '/aapost',
+    onEnter: function($window) {
+      $window.location = "http://sgiz.mobi/s3/84e668acebce";
+    }
+  })
+  .state('survey_aafeed', {
+    url: '/aafeed',
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }
@@ -122,6 +148,24 @@ angular.module( 'playfully', [
 })
 
 .config(function ($translateProvider) {
+  $translateProvider.translations('en', {
+    "navbar.link.home": "Home",
+    "navbar.link.dashboard": "Dashboard",
+    "navbar.link.myclass": "My Class",
+    "navbar.link.games": "Games",
+    "navbar.link.mygames": "My Games",
+    "navbar.link.gamecatalog": "Game Catalog",
+    "navbar.link.classes": "Classes",
+    "navbar.link.reports": "Reports",
+    "navbar.link.licenses": "Licenses",
+    "navbar.link.support": "Support",
+    "navbar.link.redeem": "Redeem",
+    "navbar.link.research": "Research",
+    "navbar.button.signin": "Sign In",
+    "navbar.button.register": "Get an Account",
+    "navbar.button.logout": "Log Out",
+  });
+
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
     suffix: '.json'
@@ -254,6 +298,15 @@ angular.module( 'playfully', [
       $state.go('home');
     });
 
+    $scope.truncateUsername = function (username) {
+      if (username.length > 40) {
+        var part1 = username.substring(0, 19);
+        var part2 = username.substring(username.length-19, username.length);
+        return part1 + '…' + part2;
+      } else {
+        return username;
+      }
+    };
 
 
     // Hack to cause popovers to hide when user clicks outside of them.

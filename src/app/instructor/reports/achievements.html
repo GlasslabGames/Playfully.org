@@ -28,10 +28,11 @@
 
 
 <table class="table gl-reports-table" 
-  ng-class="{'gl-reports-table--ie': isIE}" sticky>
-  <thead ng-cloak>
+
+  ng-class="{'gl-reports-table--ie': isIE}" sticky  collapse-class=".gl-reports-achievement-header-info">
+  <thead>
     <tr>
-      <td colspan="9" class="gl-reports-achievement-footer text-center">
+      <td colspan="9" class="gl-reports-achievement-selector text-center">
         <a href class="gl-reports-achievement-arrow"
           ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
           ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex == 0}">
@@ -55,7 +56,7 @@
         <div class="gl-reports-achievement-header text-center">
           <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
           <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
-          <div class="gl-reports-achv-footer">
+          <div class="gl-reports-achievement-collapse">
               <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
           </div>
         </div>
