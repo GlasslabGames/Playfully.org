@@ -17,9 +17,9 @@
       <div class="gl-navbar--top" ng-if="!hideWrapper">
         <div class="container gl-container">
           <div data-ng-include="'navbar/navbar.html'"></div>
-          <div ng-if="isAuthenticatedButNot('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
+          <div ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
             ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
-          <div ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
+          <div ng-cloak ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
             ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
         </div>
       </div>
