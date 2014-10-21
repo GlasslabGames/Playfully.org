@@ -73,13 +73,13 @@ angular.module( 'instructor.reports', [
 
   .state( 'reports.details', {
     url: '/details',
-    templateUrl: 'instructor/reports/reports-detail.html',
+    template: '<div ui-view></div>',
     controller: 'ReportsDetailCtrl'
   })
 
     .state('reports.details.sowo', {
         url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
-        templateUrl: 'instructor/reports/sowo.html',
+        templateUrl: 'instructor/reports/sowo/sowo.html',
         controller: 'SowoCtrl',
         parameters: ['gameId','courseId'],
         resolve: {
@@ -111,7 +111,7 @@ angular.module( 'instructor.reports', [
     })
     .state('reports.details.achievements', {
         url: '/achievements/game/:gameId/course/:courseId?skillsId&stdntIds',
-        templateUrl: 'instructor/reports/achievements.html',
+        templateUrl: 'instructor/reports/achievements/achievements.html',
         controller: 'AchievementsCtrl',
         parameters: ['gameId','courseId'],
         resolve: {
@@ -142,7 +142,7 @@ angular.module( 'instructor.reports', [
     })
     .state('reports.details.competency', {
       url: '/competency/game/:gameId/course/:courseId?skillsId&stdntIds',
-      templateUrl: 'instructor/reports/competency.html',
+      templateUrl: 'instructor/reports/compentency/competency.html',
       controller: 'CompetencyCtrl',
       parameters: ['gameId','courseId'],
       resolve: {
@@ -174,7 +174,7 @@ angular.module( 'instructor.reports', [
     })
     .state('reports.details.mission-progress', {
         url: '/mission-progress/game/:gameId/course/:courseId?skillsId&stdntIds',
-        templateUrl: 'instructor/reports/mission-progress.html',
+        templateUrl: 'instructor/reports/mission-progress/mission-progress.html',
         controller: 'MissionProgressCtrl',
         parameters: ['gameId','courseId'],
         resolve: {
