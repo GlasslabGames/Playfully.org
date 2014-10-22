@@ -110,10 +110,10 @@ angular.module('checkSpec')
                         identity: 'Netscape'
                     },
                     {
-                        string: navigator.userAgent,
-                        subString: 'MSIE',
-                        identity: 'Explorer',
-                        versionSearch: 'MSIE'
+                        string: document.documentMode ? 'Internet Explorer' : null,
+                        subString: 'Internet Explorer',
+                        identity: 'Internet Explorer',
+                        versionSearch: 'Internet Explorer'
                     },
                     {
                         string: navigator.userAgent,
@@ -200,7 +200,7 @@ angular.module('checkSpec')
                         version: 23
                     },
                     {
-                        identity: 'Explorer',
+                        identity: 'Internet Explorer',
                         version: 10
                     }
                     /*,
@@ -443,7 +443,7 @@ angular.module('checkSpec')
 
                     // Initialize.
                     response.identity = service.searchString(service.dataBrowser) || 'An unknown browser';
-                    response.version = service.searchVersion(navigator.userAgent) || service.searchVersion(navigator.appVersion) || 'an unknown version';
+                    response.version = service.searchVersion(navigator.userAgent) || service.searchVersion(navigator.appVersion) || document.documentMode || 'an unknown version';
                     response.supported = service.isBrowserSupported(response.identity, response.version);
 
                     if (response.supported) {

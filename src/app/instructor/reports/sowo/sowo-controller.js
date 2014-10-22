@@ -3,31 +3,47 @@ angular.module( 'instructor.reports')
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
-    // Select course in params
+    ///// Setup selections /////
+
+    // Report
+    var reportId = 'sowo';
+    // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    // Games
     $scope.games.selectedGameId = defaultGameId;
 
-    // Games - Setup games options
+    ///// Setup options /////
+
+    // Games
 
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
-    // Reports - Setup reports options
+    // Reports
 
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
     });
+
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      var yeah = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
+      $state.transitionTo('reports.details' + '.' + yeah, {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+      return;
+    }
 
     // Set parent scope developer info
 
@@ -43,7 +59,15 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-   ///////// SOWO functions ///////////////////
+    ///// SOWO functions /////
+
+   // Retrieve report and populate table
+
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        _resetSowo();
+        _populateSowo(users);
+    });
 
     var _resetSowo = function() {
       $scope.sowo = {
@@ -163,40 +187,7 @@ angular.module( 'instructor.reports')
       }
     };
 
-    // helper functions
 
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
-
-    // Get SOWO reports
-    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport('sowo') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
-        _resetSowo();
-        _populateSowo(users);
-    });
 
     // Select Course students
 
