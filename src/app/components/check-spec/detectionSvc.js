@@ -435,7 +435,7 @@ angular.module('checkSpec')
 
                     // Initialize.
                     response.identity = service.searchString(service.dataBrowser) || 'An unknown browser';
-                    response.version = service.searchVersion(navigator.userAgent) || service.searchVersion(navigator.appVersion) || 'an unknown version';
+                    response.version = service.searchVersion(navigator.userAgent) || service.searchVersion(navigator.appVersion) || document.documentMode || 'an unknown version';
                     response.supported = service.isBrowserSupported(response.identity, response.version);
 
                     if (response.supported) {
