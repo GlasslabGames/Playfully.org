@@ -88,6 +88,33 @@ angular.module('reports', [])
       }
     };
 
+    this.selectStudents = function(activeCourse,studentIds) {
+      // If there are studentIds in parameters, select those students
+      // else select all students
+      var selectedStudents = null;
+      if (studentIds) {
+        selectedStudents = studentIds.split(',');
+      }
+      angular.forEach(activeCourse.users, function(student) {
+        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
+          student.isSelected = false;
+          activeCourse.isPartiallySelected = true;
+          activeCourse.isExpanded = true;
+        } else {
+          student.isSelected = true;
+        }
+      });
+    };
+
+    this.getSelectedStudentIds = function(course) {
+      var studentIds = [];
+      angular.forEach(course.users, function(student) {
+        if (student.isSelected) {
+          studentIds.push(student.id);
+        }
+      });
+      return studentIds;
+    };
 });
 /**
  * Sample data to be used for development

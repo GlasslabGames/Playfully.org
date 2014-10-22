@@ -99,16 +99,6 @@ angular.module( 'instructor.reports')
       return overflowText;
     };
 
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
-    };
-
     //  Populates Shoutout Watchout
 
     var _populateSowo = function(data) {
@@ -187,42 +177,20 @@ angular.module( 'instructor.reports')
       }
     };
 
-
-
     // Select Course students
 
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
+    $scope.activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
 
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
-    _selectStudents();
+    // If there are studentIds in parameters, set student's isSelected property as true
+    // else set all student's isSelected property as true
+
+    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
-        studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
-        if (studentIds.length > 0) {
-          return studentIds;
-        } else {
-          return null;
-        }
+        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
+        return studentIds.length > 0 ? studentIds : null;
       } else {
         return null;
       }

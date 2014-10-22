@@ -6,7 +6,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
@@ -16,7 +16,7 @@
        <table >
             <tr>
                 <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
-                  <div ng-class="convertStandard(standard.title)"
+                  <div ng-class="getLabelClass(standard.title)"
                    popover="{{ standard.description }}"
                    popover-trigger="mouseenter"
                    popover-placement="bottom">
@@ -26,25 +26,13 @@
         </table>
     <hr>
 
+      <item-selector achievements="achievements"></item-selector>
+
 
 <table class="table gl-reports-table"
   ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-achievement-header-info" selector-items="achievements.active">
   <thead>
     <tr>
-      <td colspan="9" class="gl-reports-achievement-selector text-center">
-        <a href class="gl-reports-achievement-arrow"
-          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
-          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex == 0}">
-          <i class="fa fa-arrow-left"></i>
-        </a> &nbsp;
-        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
-        &nbsp;
-        <a href class="gl-reports-achievement-arrow"
-          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
-          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
-          <i class="fa fa-arrow-right"></i>
-        </a>
-      </td>
     </tr>
     <tr>
       <th colspan="5" class="gl-reports-divider--blue"></th>

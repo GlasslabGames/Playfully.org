@@ -116,53 +116,12 @@ angular.module( 'instructor.reports')
     };
 
     //// Course Functions  //////
+    $scope.activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
 
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
+    // If there are studentIds in parameters, set student's isSelected property as true
+    // else set all student's isSelected property as true
 
-    _selectStudents();
-
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
-    };
-
-    $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if (activeCourse.isPartiallySelected) {
-        studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
-        if (studentIds.length > 0) {
-          return studentIds;
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    };
+    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
 
     $scope.isAwardedAchievement = function(activeAchv, studentId) {
       if($scope.students[studentId]) {
@@ -170,7 +129,6 @@ angular.module( 'instructor.reports')
         for(var i = 0; i < studentAchv.length; i++) {
           if( (studentAchv[i].id === activeAchv.id) &&
               studentAchv[i].completed
-//            studentAchv[i].won
             ) {
             var numberOfStars = studentAchv[i].data.score.stars;
             return parseInt(numberOfStars);
@@ -179,7 +137,6 @@ angular.module( 'instructor.reports')
       }
       return false;
     };
-
 
     $scope.userSortFunction = function(colName) {
     // an iterator applied on each user object
