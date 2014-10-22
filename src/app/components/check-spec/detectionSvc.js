@@ -233,10 +233,6 @@ angular.module('checkSpec')
                  @return {Number} Browser version
                  **/
                 searchVersion: function (dataString) {
-                    // check if IE
-                    if (document.documentMode) {
-                        return document.documentMode;
-                    }
                     var index = dataString.indexOf(service.versionSearchString);
                     if (index === -1) {
                         return;
@@ -251,10 +247,6 @@ angular.module('checkSpec')
                  @param {String} data String to search
                  **/
                 searchString: function (data) {
-                    // check if IE
-                    if (document.documentMode) {
-                        return 'Internet Explorer';
-                    }
                     for (var i = 0; i < data.length; i++) {
                         var dataString = data[i].string;
                         var dataProp = data[i].prop;
