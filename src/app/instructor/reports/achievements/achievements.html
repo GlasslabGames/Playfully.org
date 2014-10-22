@@ -26,13 +26,25 @@
         </table>
     <hr>
 
-      <item-selector achievements="achievements"></item-selector>
-
 
 <table class="table gl-reports-table"
   ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-achievement-header-info" selector-items="achievements.active">
   <thead>
     <tr>
+      <td colspan="9" class="gl-reports-achievement-selector text-center">
+        <a href class="gl-reports-achievement-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex - 1)"
+          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex == 0}">
+          <i class="fa fa-arrow-left"></i>
+        </a> &nbsp;
+        Achievement {{ achievements.startIndex + 1 }}-{{ achievements.startIndex + 3 }} / {{ achievements.totalCount }}
+        &nbsp;
+        <a href class="gl-reports-achievement-arrow"
+          ng-click="selectActiveAchievements(achievements.selected, achievements.startIndex + 1)"
+          ng-class="{'gl-reports-achievement-arrow--disabled': achievements.startIndex + 3 == achievements.totalCount}">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </td>
     </tr>
     <tr>
       <th colspan="5" class="gl-reports-divider--blue"></th>
@@ -58,7 +70,7 @@
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
         <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
-          <div ng-class="convertStandard(achv.standard.title)"
+          <div ng-class="getLabelClass(achv.standard.title)"
                popover="{{ achv.standard.description }}"
                popover-trigger="mouseenter"
                popover-placement="bottom">
