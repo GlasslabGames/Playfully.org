@@ -121,6 +121,9 @@ angular.module( 'student.dashboard', [
       $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
     }
   };
+  $scope.goToLink = function(link) {
+    $window.open(link);
+  };
 })
 
 .controller( 'EnrollInCourseModalCtrl',

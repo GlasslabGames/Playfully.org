@@ -53,13 +53,18 @@
               </div>
 
               <div ng-if="isSingleLinkType(button)"
-                   ng-switch="button.links[0].type"
+                   ng-switch="button.type"
                    class="gl-btn--outlined gl-student-dash-btn">
                 <button ng-switch-when="play"
                         type="button"
                         class="btn gl-btn--green gl-student-dash-btn"
                         ng-click="goToPlayGame(game.id)"
                         ng-bind="button.name"></button>
+                <button ng-switch-when="download"
+                    type="download"
+                    class="btn gl-btn--green gl-student-dash-btn"
+                    ng-click="goToLink(button.links[0].link)"
+                    ng-bind="button.name"></button>
               </div>
 
             </div>
