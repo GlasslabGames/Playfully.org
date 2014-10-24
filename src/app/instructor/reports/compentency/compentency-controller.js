@@ -222,14 +222,17 @@ angular.module( 'instructor.reports')
                 return user.totalTimePlayed;
             }
             // finds user's first comp that matches our criteria
-            var comp = _.find(user.comps, function(a) {
-                return a.item === colName;
+            var comp = _.find(user.competency, function(a) {
+                return a.title === colName;
             });
             if (comp) {
-               if (comp.won) {
-                   return 1;
-               } else {
+                comp = comp.groups[$scope.reportInfo.selectedGroupId];
+               if (comp.level === "not-enough-info") {
                    return 0;
+               } else if (comp.level === "not-mastered") {
+                   return 1;
+               } else if (comp.level === "mastered") {
+                   return 2;
                }
             } else {
                 return 0;
@@ -247,7 +250,6 @@ angular.module( 'instructor.reports')
         // check if clicked column is already active
         if (columns['current'] === colName) {
             columns[colName].reverse = !columns[colName].reverse;
-//            console.log(columns[column]);
             return;
         }
         // set previous current values to false
