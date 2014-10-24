@@ -6,7 +6,7 @@
       ng-model="reportInfo.selected"
       ng-class="{'gl-btn--ltgrey': reportInfo.selectedGroupId != group.id,
         'gl-btn--blue': reportInfo.selectedGroupId == group.id}"
-      ui-sref="reports.details.competency({compTitle: group.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:group.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details.competency({compTitle: group.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:group.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="group.title | translate"></label>
   </div>
 </div>
@@ -38,18 +38,14 @@
   <thead>
     <tr>
       <th class="gl-reports-competency-header-name" >Name
-        <!--
         <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
            ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
-           -->
       </th>
       <th class="gl-reports-competency-header-competency" ng-repeat="header in reportInfo.headers">
         <div class="gl-reports-competency-header text-center">
           <div><span ng-bind="header.title"> </span>
-            <!--
             <i ng-class="col.current===header.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-               ng-click="colName.value = comp.title; sortSelected(comp.title)"></i>
-               -->
+               ng-click="colName.value = header.title; sortSelected(header.title)"></i>
           </div>
           <div collapse="isCollapsed.value" class="gl-reports-competency-header-info" ng-bind="header.description"></div>
         </div>

@@ -6,7 +6,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
@@ -16,7 +16,7 @@
        <table >
             <tr>
                 <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
-                  <div ng-class="convertStandard(standard.title)"
+                  <div ng-class="getLabelClass(standard.title)"
                    popover="{{ standard.description }}"
                    popover-trigger="mouseenter"
                    popover-placement="bottom">
@@ -70,7 +70,7 @@
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
         <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
-          <div ng-class="convertStandard(achv.standard.title)"
+          <div ng-class="getLabelClass(achv.standard.title)"
                popover="{{ achv.standard.description }}"
                popover-trigger="mouseenter"
                popover-placement="bottom">
