@@ -6,17 +6,17 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents()})"
+      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>
 <article class="legend-header">
     <p class="legend-header"><span>{{achievements.selectedOption.description +" in this Game" }}</span></p>
 </article>
-       <table>
+       <table >
             <tr>
                 <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
-                  <div ng-class="convertStandard(standard.title)"
+                  <div ng-class="getLabelClass(standard.title)"
                    popover="{{ standard.description }}"
                    popover-trigger="mouseenter"
                    popover-placement="bottom">
@@ -27,8 +27,8 @@
     <hr>
 
 
-<table class="table gl-reports-table" 
-  ng-class="{'gl-reports-table--ie': isIE}" sticky  collapse-class=".gl-reports-achievement-header-info">
+<table class="table gl-reports-table"
+  ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-achievement-header-info" selector-items="achievements.active">
   <thead>
     <tr>
       <td colspan="9" class="gl-reports-achievement-selector text-center">
@@ -53,19 +53,24 @@
       <th class="gl-reports-achievement-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i></th>
       <th class="gl-reports-achievement-header-achievement" ng-repeat="achv in achievements.active">
         <div class="gl-reports-achievement-header text-center">
-          <div><span ng-bind="achv.title"> </span><i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i></div>
-          <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info"></div>
+          <div>
+              <span ng-bind="achv.title"> </span>
+              <i ng-class="col.current===achv.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = achv.title; sortSelected(achv.title)"></i>
+          </div>
+          <div collapse="isCollapsed.value" class="gl-reports-achievement-header-info" ng-bind="achv.info">
+          </div>
           <div class="gl-reports-achievement-collapse">
               <i ng-class="$index === 1 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
           </div>
         </div>
       </th>
       <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; sortSelected('totalTimePlayed')"></i>
+      </th>
     </tr>
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
         <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
-          <div ng-class="convertStandard(achv.standard.title)"
+          <div ng-class="getLabelClass(achv.standard.title)"
                popover="{{ achv.standard.description }}"
                popover-trigger="mouseenter"
                popover-placement="bottom">

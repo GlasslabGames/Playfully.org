@@ -45,10 +45,15 @@
       <label for="user-username">Screen Name</label>
       <input type="text" name="username" class="form-control" id="user-username"
         placeholder=""
-        ng-model="user.username">
+        ng-model="user.username"
+        ng-minlength="2"
+        ng-maxlength="250">
         <div class="form-errors">
-          <div class="form-error" ng-show="editProfileForm.email.$dirty && editProfileForm.email.$invalid">
-            Please enter a valid email address
+          <div class="form-error" ng-show="editProfileForm.username.$dirty && editProfileForm.username.$invalid && editProfileForm.username.$error.minlength">
+            Name must be at least 2 characters
+          </div>
+          <div class="form-error" ng-show="editProfileForm.username.$dirty && editProfileForm.username.$invalid && editProfileForm.username.$error.maxlength">
+            Name cannot be longer than 250 characters
           </div>
         </div>
     </div>

@@ -1,0 +1,65 @@
+
+
+<table class="table gl-reports-table" 
+  ng-class="{'gl-reports-table--ie': isIE}" sticky selector-items="missions.active">
+  <thead>
+    <tr>
+      <td colspan="9" class="gl-reports-mission-progress-selector text-center">
+        <a href class="gl-reports-mission-progress-arrow"
+          ng-click="selectActiveMissions(missions.selected, missions.startIndex - 1)"
+          ng-class="{'gl-reports-mission-progress-arrow--disabled': missions.startIndex == 0}">
+          <i class="fa fa-arrow-left"></i>
+        </a> &nbsp;
+        Mission {{ missions.startIndex + 1 }}-{{ missions.startIndex + 3 }} / {{ missions.totalCount }}
+        &nbsp;
+        <a href class="gl-reports-mission-progress-arrow"
+          ng-click="selectActiveMissions(missions.selected, missions.startIndex + 1)"
+          ng-class="{'gl-reports-mission-progress-arrow--disabled': missions.startIndex + 3 == missions.totalCount}">
+          <i class="fa fa-arrow-right"></i>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+    <tr>
+      <th class="gl-reports-mission-progress-header-name" >Name <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; highLightSelected('firstName')"></i></th>
+      <th class="gl-reports-mission-progress-header-mission" ng-repeat="mission in missions.active">
+        <div class="gl-reports-mission-progress-header text-center">
+          <div>
+              <span ng-bind="mission.title"></span>
+              <i ng-class="col.current===mission.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = mission.title; highLightSelected(mission.title)"></i>
+          </div>
+        </div>
+      </th>
+      <th>Time Played <i ng-class="col.current==='totalTimePlayed' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'totalTimePlayed'; highLightSelected('totalTimePlayed')"></i>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+  </thead>
+
+  </thead>
+  <tbody ng-show="courses.options[courses.selectedCourseId].users">
+
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-reports-mission-progress" ng-repeat="mission in missions.active">
+        <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(mission, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(mission, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(mission, student.id) === 1}">{{mission.data.score.stars}}</div>
+      </td>
+      <td class="gl-nobr">
+        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-hide="courses.options[courses.selectedCourseId].users">
+    <tr>
+      <td colspan="5">
+        <div class="text-center gl-pad-Vxxl">
+            No students are currently enrolled in this class. As students begin to play the game and earn missions, you will see them here.
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

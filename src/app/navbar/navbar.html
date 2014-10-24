@@ -1,14 +1,4 @@
 <div class="navbar gl-navbar" data-ng-controller="NavbarCtrl">
-  <!--div class="navbar-header">
-    <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
-      ng-click="menuCollapsed = ! menuCollapsed">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </div-->
-
   <div>
     <!-- logo links to different place depending on login status -->
     <div class="gl-navbar-logo beta"
@@ -27,7 +17,7 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
         <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="home"
+          <a class="ng-cloak gl-nav-link" href ui-sref="home"
             data-ng-bind="'navbar.link.home' | translate">
           </a>
         </li>
@@ -37,13 +27,13 @@
         </li>
 
         <li ui-sref-active="active">
-          <a class="gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
              data-ng-bind="'navbar.link.support' | translate">
           </a>
         </li>
 
         <li ui-sref-active="active" ng-hide="true">
-          <a class="gl-nav-link" href ui-sref="redeem"
+          <a class="ng-cloak gl-nav-link" href ui-sref="redeem"
             data-ng-bind="'navbar.link.redeem' | translate">
           </a>
         </li>
@@ -56,7 +46,7 @@
 
       <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
         <li ui-sref-active="active">
-          <a class="gl-nav-link" href ui-sref="studentDashboard"
+          <a class="ng-cloak gl-nav-link" href ui-sref="studentDashboard"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
@@ -69,7 +59,7 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student')">
         <li ng-class="{'active': state.includes('instructorDashboard')}">
-          <a class="gl-nav-link" href ui-sref="instructorDashboard.default"
+          <a class="ng-cloak gl-nav-link" href ui-sref="instructorDashboard.default"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
@@ -79,25 +69,25 @@
         </li>
 
         <li ng-class="{'active': state.includes('courses')}">
-          <a class="gl-nav-link" href ui-sref="courses.active"
+          <a class="ng-cloak gl-nav-link" href ui-sref="courses.active"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>
         </li>
 
         <li ng-class="{'active': state.includes('reports')}">
-          <a class="gl-nav-link" href ui-sref="reports.default"
+          <a class="ng-cloak gl-nav-link" href ui-sref="reports.default"
             data-ng-bind="'navbar.link.reports' | translate">
           </a>
         </li>
 
         <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
-          <a class="gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
             data-ng-bind="'navbar.link.support' | translate">
           </a>
         </li>
 
         <li ui-sref-active="active" ng-if="isAuthorized('admin')">
-          <a class="gl-nav-link" href ui-sref="research.parser"
+          <a class="ng-cloak gl-nav-link" href ui-sref="research.parser"
             data-ng-bind="'navbar.link.research' | translate">
           </a>
         </li>

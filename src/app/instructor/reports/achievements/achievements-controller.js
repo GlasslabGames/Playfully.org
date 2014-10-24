@@ -4,40 +4,45 @@ angular.module( 'instructor.reports')
 .controller( 'AchievementsCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
 
-    if(!$scope.achievements) {
-      $scope.achievements = {};
-    }
 
-    if(!$scope.studentsData) {
-      $scope.studentsData = {};
-    }
+    ///// Setup selections /////
 
-    $scope.achievements.active = [];
-    // Select course in params
+    // Report
+    var reportId = 'achievements';
+    // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    // Games
     $scope.games.selectedGameId = defaultGameId;
 
-    // Games - Setup games options
+    ///// Setup options /////
 
+    // Games
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
-    // Reports - Setup reports options
-
+    // Reports
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
     });
+
+    // Check if selected game has selected report
+
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+      return;
+    }
 
     // Set parent scope developer info
 
@@ -54,8 +59,22 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-    ////// Achievements functions //////////////
+    ///// Achievements Functions /////
 
+    if(!$scope.achievements) {
+      $scope.achievements = {};
+    }
+
+    $scope.achievements.active = [];
+
+    // Retrieve report and populate table
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        _initAchievements();
+        _populateStudentAchievements(users);
+    });
+
+    // Populates achievements selector
     $scope.selectActiveAchievements = function(group, index) {
       angular.forEach($scope.achievements.options, function(option) {
         if (option.id == group) {
@@ -94,9 +113,10 @@ angular.module( 'instructor.reports')
       return reports;
     };
 
+    // Populate achievements table
     var _initAchievements = function() {
       angular.forEach(gameReports.list, function(report) {
-        if (report.id == 'achievements') {
+        if (report.id == reportId) {
           $scope.achievements.options = report.achievements;
         }
       });
@@ -120,27 +140,6 @@ angular.module( 'instructor.reports')
           });
     };
 
-    // helper functions
-
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
-
     var _populateStudentAchievements = function(users) {
       if (users) {
         // Attach achievements and time played to students
@@ -151,61 +150,20 @@ angular.module( 'instructor.reports')
       }
     };
 
-    /* Retrieve the appropriate report and process the user objects */
-    ReportsService.get('achievements', $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport('achievements') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
-        // initiate achievements and populate student achievements
-        _initAchievements();
-        _populateStudentAchievements(users);
-
-    });
-
     //// Course Functions //////
 
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
+    // Select Course students
 
-    _selectStudents();
+    $scope.activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
 
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
-    };
+    // If there are studentIds in parameters, set student's isSelected property as true
+    // else set all student's isSelected property as true
 
-    $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
+    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
+
+    $scope.getSelectedStudents = function(activeCourse) {
       if (activeCourse.isPartiallySelected) {
-        studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
+        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
         if (studentIds.length > 0) {
           return studentIds;
         } else {
@@ -221,7 +179,6 @@ angular.module( 'instructor.reports')
         var studentAchv = $scope.students[studentId].achievements || [];
 
         for(var i = 0; i < studentAchv.length; i++) {
-          // TODO: check for subgroup
           if( (studentAchv[i].item === activeAchv.id) &&
             studentAchv[i].won
             ) {
@@ -233,13 +190,12 @@ angular.module( 'instructor.reports')
       return false;
     };
 
-    $scope.convertStandard = function(standard) {
+    $scope.getLabelClass = function(standard) {
        return REPORT_CONSTANTS.legend[standard];
     };
 
     $scope.userSortFunction = function(colName) {
         return function(user) {
-
             if (colName === 'firstName') {
                 return user.firstName;
             }
@@ -283,6 +239,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.saveState = function(currentState) {
+      console.log(currentState);
       var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {
@@ -292,7 +249,6 @@ angular.module( 'instructor.reports')
         }
       }
     };
-
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};

@@ -81,7 +81,7 @@ angular.module('playfully.password-reset', [])
     };
 })
 
-.controller('PasswordUpdateModalCtrl', function ($scope, $log, $rootScope, $stateParams, AuthService, confirmation) {
+.controller('PasswordUpdateModalCtrl', function ($scope, $log, $rootScope, $state, $stateParams, AuthService, confirmation) {
 
   $scope.confirmation = confirmation;
   $scope.isPasswordUpdated = false;
@@ -95,6 +95,10 @@ angular.module('playfully.password-reset', [])
       .error(function(data, status, headers, config) {
         $log.error(data);
       });
+  };
+
+  $scope.goToInstructorLogin = function() {
+    $state.go('loginInstructor');
   };
 
 });
