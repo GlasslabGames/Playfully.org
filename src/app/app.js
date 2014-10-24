@@ -148,6 +148,7 @@ angular.module( 'playfully', [
 })
 
 .config(function ($translateProvider) {
+
   $translateProvider.translations('en', {
     "navbar.link.home": "Home",
     "navbar.link.dashboard": "Dashboard",
@@ -163,14 +164,17 @@ angular.module( 'playfully', [
     "navbar.link.research": "Research",
     "navbar.button.signin": "Sign In",
     "navbar.button.register": "Get an Account",
-    "navbar.button.logout": "Log Out",
+    "navbar.button.logout": "Log Out"
   });
-
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
     suffix: '.json'
   });
-  $translateProvider.preferredLanguage('en');
+  // CT: changed en to english because translateProvider does not reload a language if it has already been loaded
+  $translateProvider.preferredLanguage('english');
+
+
+
 })
 
 .factory('Authorization', function ($rootScope, $log, $state, $window, UserService, AuthService, AUTH_EVENTS) {
