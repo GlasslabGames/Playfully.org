@@ -155,7 +155,7 @@ angular.module( 'instructor.dashboard', [
 
         if (assessment.results.hasOwnProperty('shoutout') &&
             assessment.results.shoutout.length) {
-          if (soTotal < $scope.sowo.max) {
+          if (soTotal <= $scope.sowo.max) {
             $scope.sowo.shoutOuts[soTotal] = {
               student: student,
               results: assessment.results['shoutout'],
@@ -172,7 +172,7 @@ angular.module( 'instructor.dashboard', [
         }
         if (assessment.results.hasOwnProperty('watchout') &&
             assessment.results.watchout.length) {
-          if (woTotal < $scope.sowo.max) {
+          if (woTotal <= $scope.sowo.max) {
             $scope.sowo.watchOuts[woTotal] = {
               student: student,
               results: assessment.results['watchout'],
