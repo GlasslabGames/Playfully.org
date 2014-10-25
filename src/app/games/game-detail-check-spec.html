@@ -3,14 +3,17 @@
         <div class="span12">
             <div class="gl-monitor">
                 <div class="page-header">
-                    <h1> {{gameDetails.shortName}} Technical Requirements</h1>
-                    <p class="lead">
+                    <h3 class="headline-4">Systems Requirements Check</h3>
+                    <p>
                         To ensure a smooth {{gameDetails.shortName}} experience, this page tests your environment
-                        for the minimum requirements needed to run the {{gameDetails.shortName}} dashboard application.
+                        for the minimum requirements needed to run the application.
                     </p>
                 </div>
+
+                <div gl-monitor-panel gl-monitor-application="Application Requirements"></div>
+                <h3 class ="headline-4">Tests verify the following requirements:</h3>
                 <div class="gl-monitor-body">
-                    <h2>Tests verify the below requirements:</h2>
+
                     <div class="gl-monitor-column">
                         <dl>
                             <dt>Browser</dt>
@@ -58,7 +61,6 @@
                         </dl>
                     </div>
                 </div>
-                <div gl-monitor-panel gl-monitor-application="Application Requirements"></div>
             </div>
         </div>
     </div>

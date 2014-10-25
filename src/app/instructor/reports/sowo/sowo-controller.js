@@ -3,31 +3,47 @@ angular.module( 'instructor.reports')
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
-    // Select course in params
+    ///// Setup selections /////
+
+    // Report
+    var reportId = 'sowo';
+    // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    // Games
     $scope.games.selectedGameId = defaultGameId;
 
-    // Games - Setup games options
+    ///// Setup options /////
+
+    // Games
 
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
         $scope.games.options[''+game.gameId] = game;
     });
 
-    // Reports - Setup reports options
+    // Reports
 
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
     });
+
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      var yeah = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
+      $state.transitionTo('reports.details' + '.' + yeah, {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+      return;
+    }
 
     // Set parent scope developer info
 
@@ -43,7 +59,15 @@ angular.module( 'instructor.reports')
       return $window.navigator.userAgent.test(/trident/i);
     };
 
-   ///////// SOWO functions ///////////////////
+    ///// SOWO functions /////
+
+   // Retrieve report and populate table
+
+    ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
+      .then(function(users) {
+        _resetSowo();
+        _populateSowo(users);
+    });
 
     var _resetSowo = function() {
       $scope.sowo = {
@@ -73,16 +97,6 @@ angular.module( 'instructor.reports')
         }
       });
       return overflowText;
-    };
-
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
     };
 
     //  Populates Shoutout Watchout
@@ -163,75 +177,20 @@ angular.module( 'instructor.reports')
       }
     };
 
-    // helper functions
-
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-          $scope.reports.options[0] &&
-          $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
-
-    // Get SOWO reports
-    ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
-      .then(function(users) {
-        if( !_isValidReport('sowo') ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
-        _resetSowo();
-        _populateSowo(users);
-    });
-
     // Select Course students
 
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
+    $scope.activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
 
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
-    _selectStudents();
+    // If there are studentIds in parameters, set student's isSelected property as true
+    // else set all student's isSelected property as true
+
+    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
-        studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
-        if (studentIds.length > 0) {
-          return studentIds;
-        } else {
-          return null;
-        }
+        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
+        return studentIds.length > 0 ? studentIds : null;
       } else {
         return null;
       }

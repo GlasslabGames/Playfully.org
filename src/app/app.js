@@ -16,6 +16,7 @@ angular.module( 'playfully', [
   'reports',
   'checkSpec',
   'research',
+  'gl-enter',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -147,11 +148,33 @@ angular.module( 'playfully', [
 })
 
 .config(function ($translateProvider) {
+
+  $translateProvider.translations('en', {
+    "navbar.link.home": "Home",
+    "navbar.link.dashboard": "Dashboard",
+    "navbar.link.myclass": "My Class",
+    "navbar.link.games": "Games",
+    "navbar.link.mygames": "My Games",
+    "navbar.link.gamecatalog": "Game Catalog",
+    "navbar.link.classes": "Classes",
+    "navbar.link.reports": "Reports",
+    "navbar.link.licenses": "Licenses",
+    "navbar.link.support": "Support",
+    "navbar.link.redeem": "Redeem",
+    "navbar.link.research": "Research",
+    "navbar.button.signin": "Sign In",
+    "navbar.button.register": "Get an Account",
+    "navbar.button.logout": "Log Out"
+  });
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
     suffix: '.json'
   });
-  $translateProvider.preferredLanguage('en');
+  // CT: changed en to english because translateProvider does not reload a language if it has already been loaded
+  $translateProvider.preferredLanguage('english');
+
+
+
 })
 
 .factory('Authorization', function ($rootScope, $log, $state, $window, UserService, AuthService, AUTH_EVENTS) {
@@ -279,6 +302,15 @@ angular.module( 'playfully', [
       $state.go('home');
     });
 
+    $scope.truncateUsername = function (username) {
+      if (username.length > 40) {
+        var part1 = username.substring(0, 19);
+        var part2 = username.substring(username.length-19, username.length);
+        return part1 + '…' + part2;
+      } else {
+        return username;
+      }
+    };
 
 
     // Hack to cause popovers to hide when user clicks outside of them.

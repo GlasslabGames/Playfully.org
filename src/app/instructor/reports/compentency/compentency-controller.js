@@ -36,9 +36,10 @@ angular.module( 'instructor.reports')
 
     // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
-
     // Select game
     $scope.games.selectedGameId = defaultGameId;
+    // Set current Report
+
     // Games - Setup games options
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
@@ -47,16 +48,25 @@ angular.module( 'instructor.reports')
 
     // Reports - Setup reports options
     $scope.reports.options = [];
-    var currentReport = $state.current.name.split('.')[2];
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
         // select report that matches this state
-        if (currentReport === report.id) {
+        if (reportId === report.id) {
           $scope.reports.selected = report;
         }
       }
     });
+
+    // Check if game has selected report
+
+    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,   $scope.reports.options), {
+        gameId: $stateParams.gameId,
+        courseId: $stateParams.courseId
+      });
+      return;
+    }
 
     // Set parent scope developer info
     if (gameReports.hasOwnProperty('developer')) {
@@ -65,43 +75,14 @@ angular.module( 'instructor.reports')
 
     ////// Comps functions //////////////
 
-    // TODO: move to it's own service/factory
-    // helper functions
     /* Retrieve the appropriate report and process the user objects */
     ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(usersReportData) {
-        if( !_isValidReport(reportId) ) {
-          $state.transitionTo('reports.details' + '.' + _getDefaultReportId(), {
-            gameId: $stateParams.gameId,
-            courseId: $stateParams.courseId
-          });
-          return;
-        }
+
         // initiate and populate student data
         _init();
         _populateStudentWithReportData(usersReportData, reportId);
     });
-
-    // TODO: move to it's own service/factory
-    var _isValidReport = function(reportId){
-      for(var i = 0; i < $scope.reports.options.length; i++) {
-        if($scope.reports.options[i].id === reportId) {
-          return true;
-        }
-      }
-      return false;
-    };
-
-    // TODO: move to it's own service/factory
-    var _getDefaultReportId = function() {
-      if( $scope.reports.options &&
-        $scope.reports.options[0] &&
-        $scope.reports.options[0].id) {
-        return $scope.reports.options[0].id;
-      } else {
-        return "sowo";
-      }
-    };
 
     var _init = function() {
       angular.forEach(gameReports.list, function(report) {
@@ -205,43 +186,18 @@ angular.module( 'instructor.reports')
 
     //// Course Functions //////
 
-    /**
-     * If there is a stdntIds parameter, parse the ids and select the
-     * individual students accordingly. Otherwise select all students.
-     **/
-    var _selectStudents = function() {
-      var selectedStudents = null;
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if ($stateParams.stdntIds) {
-        selectedStudents = $stateParams.stdntIds.split(',');
-      }
-      angular.forEach(activeCourse.users, function(student) {
-        if (selectedStudents && selectedStudents.indexOf(''+student.id) < 0) {
-          student.isSelected = false;
-          activeCourse.isPartiallySelected = true;
-          activeCourse.isExpanded = true;
-        } else {
-          student.isSelected = true;
-        }
-      });
-    };
+    // Select Course students
 
-    _selectStudents();
+    $scope.activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
 
-    var _getSelectedStudentIdsFromCourse = function(course) {
-      var studentIds = [];
-      angular.forEach(course.users, function(student) {
-        if (student.isSelected) {
-          studentIds.push(student.id);
-        }
-      });
-      return studentIds;
-    };
+    // If there are studentIds in parameters, set student's isSelected property as true
+    // else set all student's isSelected property as true
 
-    $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
+    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
+
+    $scope.getSelectedStudents = function(activeCourse) {
       if (activeCourse.isPartiallySelected) {
-        studentIds = _getSelectedStudentIdsFromCourse(activeCourse);
+        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
         if (studentIds.length > 0) {
           return studentIds;
         } else {
@@ -253,12 +209,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.getLabelClass = function(label) {
-        var labelClasses = {
-          'mastered':        'gl-reports-competency-circle-green',
-          'not-mastered':    'gl-reports-competency-circle-red',
-          'not-enough-info': 'gl-reports-competency-circle-gray'
-        };
-       return labelClasses[label];
+        return REPORT_CONSTANTS.legend[label];
     };
 
     $scope.userSortFunction = function(colName) {
@@ -271,14 +222,17 @@ angular.module( 'instructor.reports')
                 return user.totalTimePlayed;
             }
             // finds user's first comp that matches our criteria
-            var comp = _.find(user.comps, function(a) {
-                return a.item === colName;
+            var comp = _.find(user.competency, function(a) {
+                return a.title === colName;
             });
             if (comp) {
-               if (comp.won) {
-                   return 1;
-               } else {
+                comp = comp.groups[$scope.reportInfo.selectedGroupId];
+               if (comp.level === "not-enough-info") {
                    return 0;
+               } else if (comp.level === "not-mastered") {
+                   return 1;
+               } else if (comp.level === "mastered") {
+                   return 2;
                }
             } else {
                 return 0;
@@ -296,7 +250,6 @@ angular.module( 'instructor.reports')
         // check if clicked column is already active
         if (columns['current'] === colName) {
             columns[colName].reverse = !columns[colName].reverse;
-//            console.log(columns[column]);
             return;
         }
         // set previous current values to false
@@ -306,7 +259,8 @@ angular.module( 'instructor.reports')
         return;
     };
 
-    $scope.saveState = function(key,currentState) {
+    $scope.saveState = function(currentState) {
+      var key = JSON.stringify($stateParams);
       if (localStorageService.isSupported) {
         if (currentState) {
           localStorageService.remove(key);
@@ -318,7 +272,7 @@ angular.module( 'instructor.reports')
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {};
-
+    $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 
 });
 

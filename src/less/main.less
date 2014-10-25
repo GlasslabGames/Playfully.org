@@ -35,11 +35,15 @@
 @import '../app/instructor/dashboard/instructor-dashboard.less';
 @import '../app/instructor/courses/courses.less';
 @import '../app/games/games.less';
+@import '../app/games/games-carousel.less';
 @import '../app/instructor/reports/reports.less';
-@import '../app/instructor/reports/achievements.less';
-@import '../app/instructor/reports/competency.less';
+@import '../app/instructor/reports/achievements/achievements';
+@import '../app/instructor/reports/compentency/competency';
+@import '../app/instructor/reports/mission-progress/mission-progress';
 @import '../app/instructor/tour/tour.less';
 @import '../app/student/student.less';
+
+.ng-cloak { display:none; }
 
 /* Mixins */
 
@@ -108,8 +112,6 @@
   -ms-transform:     rotate(@deg);
   -o-transform:      rotate(@deg);
 }
-
-
 
 a:link {
   color: @oceanBlue;
@@ -279,8 +281,6 @@ h2 {
 
 
 
-
-
 /**
  * Footer
  */
@@ -393,6 +393,7 @@ h2 {
 .gl-main {
   position: relative;
   z-index: 1;
+  min-height:500px;
 }
 
 .gl-game-card-AW-1 {
@@ -570,3 +571,4 @@ h2 {
 [popover]:hover {
   cursor: pointer;
 }
+
