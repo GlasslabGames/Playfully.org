@@ -150,21 +150,7 @@ angular.module( 'playfully', [
 .config(function ($translateProvider) {
 
   $translateProvider.translations('en', {
-    "navbar.link.home": "Home",
-    "navbar.link.dashboard": "Dashboard",
-    "navbar.link.myclass": "My Class",
-    "navbar.link.games": "Games",
-    "navbar.link.mygames": "My Games",
-    "navbar.link.gamecatalog": "Game Catalog",
-    "navbar.link.classes": "Classes",
-    "navbar.link.reports": "Reports",
-    "navbar.link.licenses": "Licenses",
-    "navbar.link.support": "Support",
-    "navbar.link.redeem": "Redeem",
-    "navbar.link.research": "Research",
-    "navbar.button.signin": "Sign In",
-    "navbar.button.register": "Get an Account",
-    "navbar.button.logout": "Log Out"
+    // prevents flash of untranslated content 
   });
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
