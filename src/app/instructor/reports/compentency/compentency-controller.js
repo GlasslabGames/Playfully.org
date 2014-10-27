@@ -2,20 +2,20 @@ angular.module( 'instructor.reports')
 
 /**
    Students are scored on a 3-point scale for each mission.
-     0: actual reasoning
-     1: reasoning with one factor (univariate)
-     2: reasoning with multiple factors (multivariate)
+     1: actual reasoning
+     2: reasoning with one factor (univariate)
+     3: reasoning with multiple factors (multivariate)
 
    Dot for Univariate column:
-     IF score = 0, red
-     IF score = 1, green
+     IF score = 1, red
      IF score = 2, green
+     IF score = 3, green
      IF no score yet, gray
 
    Dot for Multivariate column:
-     IF score = 0, red
      IF score = 1, red
-     IF score = 2, green
+     IF score = 2, red
+     IF score = 3, green
      IF no score yet, gray
 */
 
@@ -167,13 +167,13 @@ angular.module( 'instructor.reports')
           // for each user report data, determine what level
           angular.forEach(usersReportData, function(item, key) {
             if(key == group.id) {
-              if(item.level === 0) {
+              if(item.level === 1) {
                 col.groups[group.id].level = 'not-mastered';
               }
-              else if(item.level === 1) {
+              else if(item.level === 2) {
                 col.groups[group.id].level = (col.id === 'uni') ? 'mastered' : 'not-mastered';
               }
-              else if(item.level === 2) {
+              else if(item.level === 3) {
                 col.groups[group.id].level = 'mastered';
               }
             }
