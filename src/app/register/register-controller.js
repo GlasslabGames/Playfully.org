@@ -103,12 +103,13 @@ angular.module('playfully.register', [])
 .controller('RegisterBetaCtrl',
 function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
     var user = null;
-
+    $scope.states = ['colorado', 'california'];
     $scope.account = {
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
+        state: '',
         school: '',
         district: '',
         password: '',

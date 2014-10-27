@@ -12,7 +12,11 @@
 
   <form name="regForm" novalidate class="reg-form"
     ng-submit="register(account)">
-
+    <div class="gl-input-row">
+      <div class="gl-input-group">
+        <select ng-model="account.state" ng-options="state in states"></select>
+      </div>
+    </div>
     <div class="gl-input-row">
       <div class="gl-input-group">
         <div class="form-group" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
