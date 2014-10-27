@@ -150,7 +150,7 @@ angular.module( 'playfully', [
 .config(function ($translateProvider) {
 
   $translateProvider.translations('en', {
-    // prevents flash of untranslated content 
+    // prevents flash of untranslated content
   });
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/i18n/locale-',
