@@ -2,11 +2,11 @@
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
         <li class="gl-tab"
             ng-class="{'active': !showArchived}">
-            <a href ui-sref="newcourses({courseStatus:''})">Active Classes</a>
+            <a href ui-sref="courses({courseStatus:''})">Active Classes</a>
         </li>
         <li class="gl-tab"
             ng-class="{'active': showArchived}">
-            <a href ui-sref="newcourses({courseStatus:'/archived'})">Archived Classes</a>
+            <a href ui-sref="courses({courseStatus:'/archived'})">Archived Classes</a>
         </li>
     </ul>
 </div>
@@ -123,7 +123,7 @@
             </button>
             <button class="btn btn-sm gl-btn--white"
               ng-show="course.isOpen"
-              ui-sref="newcourses({courseType: (showArchived ? '/archived' : '')})">
+              ui-sref="courses({courseType: (showArchived ? '/archived' : '')})">
               Close Student List (<span ng-bind="course.studentCount"></span>)
             </button>
           </div>
@@ -134,7 +134,5 @@
   </div>
 </div>
 <!-- END: courses-list.html -->
-
-<!-- <div ui-view="coursesList"></div> -->
 
 <div ui-view="courseModal"></div>
