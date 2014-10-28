@@ -14,11 +14,11 @@ angular.module('playfully.password-reset', [])
       data:{ pageTitle: 'Forgot Password'}
     })
     .state('sdkPasswordReset', {
-      url: '/sdk/forgot-password?type',
+      url: '/sdk/v2/forgot-password?type',
       parent: 'site',
       views: {
         'main@': {
-          templateUrl: 'password-reset/sdk-password-reset.html',
+          templateUrl: 'password-reset/v2/sdk-password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
       },

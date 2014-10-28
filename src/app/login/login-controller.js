@@ -16,11 +16,11 @@ angular.module('playfully.login', [])
     }
   }})
   .state('sdkLoginOptions', {
-    url: '/sdk/login',
+    url: '/sdk/v2/login',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'login/sdk-login.html',
+      templateUrl: 'login/v2/sdk-login.html',
       controller: 'sdkLoginCtrl'
       }
     }
@@ -38,11 +38,11 @@ angular.module('playfully.login', [])
     data:{ pageTitle: 'Instructor Sign In'}
   })
   .state('sdkLoginInstructor', {
-    url: '/sdk/login/instructor',
+    url: '/sdk/v2/login/instructor',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'login/sdk-login-instructor.html',
+      templateUrl: 'login/v2/sdk-login-instructor.html',
       controller: 'LoginCtrl'
     } }
   });
@@ -120,12 +120,12 @@ angular.module('playfully.login', [])
       }
     })
     .state('sdkLoginStudentSuccess', {
-      url: '/sdk/login/success',
+      url: '/sdk/v2/login/success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student'] },
       views: {
         'main@': {
-          templateUrl: 'login/sdk-login-student-success.html',
+          templateUrl: 'login/v2/sdk-login-student-success.html',
           controller: function($scope, $window, $log, courses) {
             console.log("courses:", courses);
 
@@ -143,12 +143,12 @@ angular.module('playfully.login', [])
       }
     })
     .state('sdkLoginInstructorSuccess', {
-      url: '/sdk/login/success',
+      url: '/sdk/v2/login/success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['instructor','admin'] },
       views: {
         'main@': {
-          templateUrl: 'login/sdk-login-instructor-success.html',
+          templateUrl: 'login/v2/sdk-login-instructor-success.html',
           controller: function($scope, $window, $log) {
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
