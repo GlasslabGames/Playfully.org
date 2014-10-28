@@ -64,6 +64,7 @@ angular.module( 'instructor.dashboard', [
   $scope.courses = activeCourses;
   $scope.games = games;
   $scope.myGames = myGames;
+
   $scope.status = {
     selectedGameId: $stateParams.gameId,
     selectedCourseId: $stateParams.courseId,

@@ -255,6 +255,15 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
 
+    $rootScope.alert = {
+      type: 'gl-notify',
+      msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"#\">Download here</a>"
+    };
+
+    $rootScope.closeAlert = function() {
+      $rootScope.alert = null;
+    };
+
     if (!$rootScope.allGames) {
       GamesService.all('minimal').then(function(data) {
         $rootScope.allGames = data;
