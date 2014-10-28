@@ -41,7 +41,10 @@ angular.module('playfully.login', [])
     url: '/sdk/login/instructor',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': loginInstructorConfig }
+    views: { 'main@': {
+      templateUrl: 'login/sdk-login-instructor.html',
+      controller: 'LoginCtrl'
+    } }
   });
 
 
@@ -116,13 +119,36 @@ angular.module('playfully.login', [])
         }
       }
     })
-    .state('sdkLoginSuccess', {
+    .state('sdkLoginStudentSuccess', {
       url: '/sdk/login/success',
       parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+      data: { hideWrapper: true, authorizedRoles: ['student'] },
       views: {
         'main@': {
-          templateUrl: 'login/sdk-login-success.html',
+          templateUrl: 'login/sdk-login-student-success.html',
+          controller: function($scope, $window, $log, courses) {
+            console.log("courses:", courses);
+
+            $scope.courses = courses;
+            $scope.closeWindow = function() {
+              $window.location.search = 'action=SUCCESS';
+            };
+          }
+        }
+      },
+      resolve: {
+        courses: function(CoursesService) {
+          return CoursesService.getEnrollments();
+        }
+      }
+    })
+    .state('sdkLoginInstructorSuccess', {
+      url: '/sdk/login/success',
+      parent: 'site',
+      data: { hideWrapper: true, authorizedRoles: ['instructor','admin'] },
+      views: {
+        'main@': {
+          templateUrl: 'login/sdk-login-instructor-success.html',
           controller: function($scope, $window, $log) {
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
@@ -194,11 +220,7 @@ angular.module('playfully.login', [])
       $scope.authError = null;
       AuthService.login(credentials).then(function(result) {
         $scope.loginForm.isSubmitting = false;
-        if ($state.current.data.hideWrapper) {
-          $state.go('sdkLoginSuccess');
-        } else {
-          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
-        }
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
       }, function(result) {
         $log.error(result);
         $scope.loginForm.isSubmitting = false;
@@ -223,7 +245,13 @@ angular.module('playfully.login', [])
 
       AuthService.login(credentials).then(function(result) {
         $scope.studentLoginForm.isSubmitting = false;
-        $state.go('sdkLoginSuccess');
+
+        if(result.data.role == 'student') {
+          $state.go('sdkLoginStudentSuccess');
+        } else {
+          $state.go('sdkLoginInstructorSuccess');
+        }
+
       }, function(result) {
         $log.error(result);
         $scope.studentLoginForm.isSubmitting = false;

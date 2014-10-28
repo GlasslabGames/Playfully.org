@@ -18,7 +18,7 @@ angular.module('playfully.password-reset', [])
       parent: 'site',
       views: {
         'main@': {
-          templateUrl: 'password-reset/password-reset.html',
+          templateUrl: 'password-reset/sdk-password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
       },
