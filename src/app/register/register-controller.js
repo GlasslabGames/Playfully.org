@@ -1,4 +1,4 @@
-angular.module('playfully.register', [])
+angular.module('playfully.register', ['register.const'])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
 
@@ -103,13 +103,11 @@ angular.module('playfully.register', [])
 .controller('RegisterBetaCtrl',
 function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
     var user = null;
-    $scope.states = ['colorado', 'california'];
     $scope.account = {
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        state: '',
         school: '',
         district: '',
         password: '',
@@ -157,14 +155,16 @@ function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, E
 
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
       var user = null;
 
-      $scope.account = {
+        $scope.account = {
         firstName: '',
         lastName: '',
         email: '',
         password: '',
+        state: null,
+        school: '',
         confirm: '',
         role: 'instructor',
         acceptedTerms: false,
@@ -172,6 +172,8 @@ function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, E
         errors: [],
         isRegCompleted: false
       };
+
+      $scope.states = REGISTER_CONSTANTS.states;
 
       $scope.register = function( account ) {
         $scope.regForm.isSubmitting = true;
@@ -198,6 +200,7 @@ function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, E
             }
           });
       };
+
 
     $scope.finish = function() {
       if (user !== null) {
