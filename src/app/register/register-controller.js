@@ -18,10 +18,7 @@ angular.module('playfully.register', [])
     url: '/sdk/register',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': {
-      templateUrl: 'register/sdk-register-options.html',
-      controller: 'RegisterOptionsModalCtrl'
-    } }
+    views: { 'main@': registerOptionsConfig }
   });
 
 
@@ -54,19 +51,7 @@ angular.module('playfully.register', [])
     url: '/sdk/register/beta',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': {
-      templateUrl: 'register/sdk-register-beta.html',
-      controller: 'RegisterBetaCtrl'
-    } }
-  })
-  .state('sdkRegisterPlayfullyInfo', {
-    url: '/sdk/register/playfully/info',
-    parent: 'site',
-    data: { hideWrapper: true },
-    views: { 'main@': {
-      templateUrl: 'register/sdk-register-playfully-info.html',
-      controller: 'RegisterBetaCtrl'
-    } }
+    views: { 'main@': registerBetaConfig }
   });
 
 
@@ -83,10 +68,7 @@ angular.module('playfully.register', [])
     url: '/sdk/register/student',
     parent: 'site',
     data: { hideWrapper: true },
-    views: { 'main@': {
-      templateUrl: 'register/sdk-register-student.html',
-      controller: 'RegisterStudentModalCtrl'
-    } }
+    views: { 'main@': registerStudentConfig }
   })
   .state('sdkRegisterStudentSuccess', {
     url: '/sdk/register/student/success',

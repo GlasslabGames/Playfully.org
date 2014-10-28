@@ -1,131 +1,85 @@
-<div class="modal-header gl-sdk-login">
+<div class="modal-header">
   <!--button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button-->
-  <h3 class="modal-title">
-    <i class="gl-sdk-header-logo gl-sdk-playfully-logo"></i>
-  </h3>
+  <h3 class="modal-title">Sign In</h3>
 </div>
 
-<div class="container-fluid gl-sdk-login-wrapper">
+<div class="sdk-container">
 
-  <div class="col-md-6">
-    <div class="row gl-sdk-login-form">
-      <alert class="gl-margin--Tm" ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
-      <div class="container-fluid">
-        <form name="studentLoginForm" novalidate class="login-form"
-              ng-submit="login(credentials)">
+  <alert class="gl-margin--Tm" ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
-          <div class="gl-sdk-login-form-header">
-            Student Sign In
-          </div>
-          <div class="gl-input-group">
-            <div class="form-group" ng-class="{'has-error': loginForm.username.$dirty && loginForm.username.$invalid}">
-              <input type="text" name="username" class="form-control"
-                     placeholder="Screen name"
-                     required autofocus ng-model="credentials.username"
-                     ng-minlength="2">
+  <form name="studentLoginForm" novalidate class="login-form"
+    ng-submit="login(credentials)">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group" ng-class="{'has-error': studentLoginForm.username.$dirty && studentLoginForm.username.$invalid}">
+            <input type="text" name="username" class="form-control"
+              placeholder="Screen Name or Email"
+              required autofocus ng-model="credentials.username"
+              tabindex="1"
+              ng-minlength="2"
+              ng-maxlength="250"
+              autocorrect="off">
               <div class="form-errors">
-                <div class="form-error" ng-show="loginForm.username.$dirty && loginForm.username.$invalid">
+                <div class="form-error" ng-show="studentLoginForm.username.$dirty && studentLoginForm.username.$invalid">
                   Please enter a valid screen name
                 </div>
               </div>
-            </div>
           </div>
 
-          <div class="gl-input-group">
-            <div class="form-group">
-              <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
-              <span class="small help-block">
-                <a ui-sref="passwordReset({type: 'student'})"
-                   class="link-forgot-password"
-                   ng-if="!hideWrapper">Forgot your password?</a>
-                <a ui-sref="sdkPasswordReset({type: 'student'})"
-                   class="link-forgot-password"
-                   ng-if="hideWrapper">
-                  Forgot your password?</a>
-              </span>
+          <div class="login-option">
+            <button type="button" tabindex="3" class="login-button login-button--edmodo login-button--flexible"
+              ng-disabled="isEdmodoActive==false"
+              onclick="window.location.href='/auth/edmodo/login'">
+              <div class="media media--collapsed">
+                <div class="media-img media-img--collapsed">
+                  <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
+                </div>
+                <div class="media-bd">
+                  Log in with <strong>Edmodo</strong>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div class="form-group">
+            <input tabindex="2" type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+            <div class="gl-margin--Tm">
+              <a ui-sref="sdkPasswordReset({type: 'student'})"
+                class="link-forgot-password"> 
+                Forgot your password?</a>
             </div>
           </div>
+        </div>
 
+        <div class="col-md-2">
           <div class="text-center">
             <input type="submit" class="btn gl-btn--blue"
-                   value="{{ loginForm.isSubmitting ? 'Sending...' : 'Submit'}}"
-                   ng-disabled="loginForm.$invalid || loginForm.isSubmitting">
+              value="{{ studentLoginForm.isSubmitting ? 'Sending...' : 'Sign In'}}"
+              ng-disabled="studentLoginForm.$invalid || studentLoginForm.isSubmitting">
           </div>
-
-
-          <div class="gl-sdk-login-or-circle gl-login-circle">
-            <div class="gl-sdk-login-or-circle-inner">OR</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="gl-divider-line text-center">
+            <div class="gl-divider-circle--outer">
+              <div class="gl-divider-circle">OR</div>
+            </div>
           </div>
-        </form>
+          <div class="text-center">
+            <button ui-sref="sdkRegisterStudent" class="btn gl-btn--blue">
+              Enter a Class Code
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 
-  <div class="col-md-6">
-    <div class="row">
-
-      <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-        <button class="login-button login-button--instructor"
-                ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')">
-          <div class="media media--collapsed">
-            <div class="media-img media-img--collapsed">
-              <div class="login-icon--playfully"></div>
-            </div>
-            <div class="media-bd">
-              Teacher/Parent Sign In
-            </div>
-          </div>
-        </button>
-      </div>
-
-      <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
-        <button class="login-button login-button--edmodo"
-                ng-hide="isEdmodoActive===false"
-                ng-click="logInWithEdmodo()"
-                popover-title="Edmodo Login"
-                popover="Too many passwords to remember? Sign in using your Edmodo username and password and you will get access to everything in Playfully!"
-                popover-trigger="mouseenter" popover-placement="bottom">
-          <div class="media media--collapsed">
-            <div class="media-img media-img--collapsed">
-              <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
-            </div>
-            <div class="media-bd">
-              Log in with <strong>Edmodo</strong>
-            </div>
-          </div>
-        </button>
-      </div>
-
-      <div class="login-option">
-        <button class="login-button login-button--icivics" ng-click="logInWithIcivics()"
-                ng-hide="isiCivicsActive===false">
-          <div class="media media--collapsed">
-            <div class="media-img media-img--collapsed">
-              <div class="login-icon--icivics"></div>
-            </div>
-            <div class="media-bd">
-              Log in with <strong>iCivics</strong>
-            </div>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="text-center large clearfix gl-sdk-login-get-account ">
-        <table>
-          <tr><td>
-          Don&rsquo;t have an account?
-          <a href="#"
-             class="link-register"
-             ng-click="state.go('sdkRegisterOptions')">
-            <!--ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">-->
-            Sign Up</a>
-          </td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
 
 </div>
+

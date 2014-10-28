@@ -50,20 +50,6 @@ angular.module( 'student.dashboard', [
       pageTitle: 'Add a Class Code',
       authorizedRoles: ['student']
     }
-  })
-  .state( 'sdkEnrollInCourse', {
-    parent: 'site',
-    url: '/sdk/enroll',
-    views: {
-      'main@': {
-        controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/sdk-course-enroll.html'
-      }
-    },
-    data:{
-      hideWrapper: true,
-      authorizedRoles: ['student']
-    }
   });
 })
 
