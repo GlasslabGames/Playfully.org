@@ -1,0 +1,34 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+  <div class="modal-header">
+    <h3 class="modal-title">Reset all game progress?</h3>
+  </div>
+
+  <div ng-class="modal-body">
+    <p class="gl-sdk-body">
+        This action cannot be undone! All game progress and associated data will be cleared. To reset the game please enter your password below and hit the submit button.
+    </p>
+
+    <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
+    <form name="loginForm" novalidate class="login-form"
+      ng-submit="login(credentials)">
+
+      <div class="gl-input-group">
+        <div class="form-group">
+          <input type="password" class="form-control" id="credentials-password"
+          placeholder="Password"
+          required
+          ng-model="credentials.password">
+          <span class="small help-block">
+            Not {{ currentUser.username }}?
+            <a ui-sref="sdkLogout">Sign Out</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <input type="submit" class="btn gl-btn--blue" value="Submit"
+        ng-disabled="loginForm.$invalid">
+      </div>
+    </form>
+  </div>
+</div>

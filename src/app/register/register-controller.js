@@ -80,6 +80,12 @@ angular.module('playfully.register', [])
     views: { 'modal@': registerStudentConfig } 
   })
   .state('sdkRegisterStudent', {
+    url: '/sdk/register/student',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': registerStudentConfig }
+  })
+  .state('sdkv2RegisterStudent', {
     url: '/sdk/v2/register/student',
     parent: 'site',
     data: { hideWrapper: true },
