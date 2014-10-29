@@ -12,7 +12,7 @@
       <alert class="gl-margin--Tm" ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
 
       <div class="container-fluid">
-        <form name="studentLoginForm" novalidate class="login-form"
+        <form name="loginForm" novalidate class="login-form"
               ng-submit="login(credentials)">
 
           <div class="gl-sdk-login-form-header">
@@ -39,7 +39,7 @@
                 <a ui-sref="passwordReset({type: 'student'})"
                    class="link-forgot-password"
                    ng-if="!hideWrapper">Forgot your password?</a>
-                <a ui-sref="sdkPasswordReset({type: 'student'})"
+                <a ui-sref="sdkv2PasswordReset({type: 'student'})"
                    class="link-forgot-password"
                    ng-if="hideWrapper">
                   Forgot your password?</a>

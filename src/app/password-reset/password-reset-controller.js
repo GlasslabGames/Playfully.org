@@ -18,7 +18,18 @@ angular.module('playfully.password-reset', [])
       parent: 'site',
       views: {
         'main@': {
-          templateUrl: 'password-reset/sdk-password-reset.html',
+          templateUrl: 'password-reset/password-reset.html',
+          controller: 'PasswordResetModalCtrl'
+        }
+      },
+      data:{ hideWrapper: true }
+    })
+    .state('sdkv2PasswordReset', {
+      url: '/sdk/v2/forgot-password?type',
+      parent: 'site',
+      views: {
+        'main@': {
+          templateUrl: 'password-reset/v2/sdk-password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
       },

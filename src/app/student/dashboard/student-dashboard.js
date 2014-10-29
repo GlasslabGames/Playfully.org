@@ -53,11 +53,11 @@ angular.module( 'student.dashboard', [
   })
   .state( 'sdkEnrollInCourse', {
     parent: 'site',
-    url: '/sdk/enroll',
+    url: '/sdk/v2/enroll',
     views: {
       'main@': {
         controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/sdk-course-enroll.html'
+        templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
       }
     },
     data:{

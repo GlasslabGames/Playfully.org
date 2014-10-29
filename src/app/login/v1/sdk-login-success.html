@@ -1,0 +1,17 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+  <div class="modal-header">
+    <h3 ng-if="currentUser && currentUser.role != 'student'" class="modal-title">Welcome back, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h3>
+    <h3 ng-if="currentUser && currentUser.role == 'student'" class="modal-title">Welcome back, <span class="gl-nobr">{{ truncateUsername(currentUser.username) }}</span>!</h3>
+  </div>
+
+  <div ng-class="modal-body">
+    <p class="gl-pad-Vxxl gl-margin-Vxl text-center">You have successfully signed in.</p>
+
+    <form class="login-form">
+      <div class="text-center">
+        <input type="submit" class="btn gl-btn--blue gl-btn--minwidth" value="Play"
+               ng-click="closeWindow()">
+      </div>
+    </form>
+  </div>
+</div>
