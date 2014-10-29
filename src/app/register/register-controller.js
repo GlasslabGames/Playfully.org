@@ -15,11 +15,11 @@ angular.module('playfully.register', ['register.const'])
     } }
   })
   .state('sdkRegisterOptions', {
-    url: '/sdk/register',
+    url: '/sdk/v2/register',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'register/sdk-register-options.html',
+      templateUrl: 'register/v2/sdk-register-options.html',
       controller: 'RegisterOptionsModalCtrl'
     } }
   });
@@ -51,20 +51,20 @@ angular.module('playfully.register', ['register.const'])
     views: { 'modal@': registerBetaConfig }
   })
   .state('sdkRegisterBeta', {
-    url: '/sdk/register/beta',
+    url: '/sdk/v2/register/beta',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'register/sdk-register-beta.html',
+      templateUrl: 'register/v2/sdk-register-beta.html',
       controller: 'RegisterBetaCtrl'
     } }
   })
   .state('sdkRegisterPlayfullyInfo', {
-    url: '/sdk/register/playfully/info',
+    url: '/sdk/v2/register/playfully/info',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'register/sdk-register-playfully-info.html',
+      templateUrl: 'register/v2/sdk-register-playfully-info.html',
       controller: 'RegisterBetaCtrl'
     } }
   });
@@ -83,8 +83,14 @@ angular.module('playfully.register', ['register.const'])
     url: '/sdk/register/student',
     parent: 'site',
     data: { hideWrapper: true },
+    views: { 'main@': registerStudentConfig }
+  })
+  .state('sdkv2RegisterStudent', {
+    url: '/sdk/v2/register/student',
+    parent: 'site',
+    data: { hideWrapper: true },
     views: { 'main@': {
-      templateUrl: 'register/sdk-register-student.html',
+      templateUrl: 'register/v2/sdk-register-student.html',
       controller: 'RegisterStudentModalCtrl'
     } }
   })
