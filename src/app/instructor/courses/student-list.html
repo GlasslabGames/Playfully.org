@@ -6,8 +6,8 @@
       ng-repeat="user in course.users">
       <div class="col-md-2" ng-bind="user.lastName"></div>
       <div class="col-md-3" ng-bind="user.firstName"></div>
-      <div class="col-md-3" ng-bind="user.username"></div>
-      <div class="col-md-4 text-right text-grey5">
+      <div class="col-md-4 gl-students-username" ng-bind="user.username"></div>
+      <div class="col-md-3 text-right text-grey5">
           <span ng-hide="isSSOLogin(user)">
               <a class="gl-course-students-link"
                 ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
