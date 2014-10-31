@@ -572,12 +572,21 @@ h2 {
   cursor: pointer;
 }
 
-.alert-gl-notify {
+.alert-gl-notify-container {
   position: relative;
+}
+
+.alert-gl-notify {
+  position: absolute;
+  width: 100%;
   top: -5px;
-  padding-top: 20px;
   background: #fd9337;
   color: white;
+  &.alert {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+  }
 
   a {
     font-weight: bold;
