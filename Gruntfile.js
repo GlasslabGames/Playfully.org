@@ -144,7 +144,7 @@ module.exports = function ( grunt ) {
         files: [
           {
             src: [ '**' ],
-            dest: '<%= build_dir %>/assets',
+            dest: '<%= compile_dir %>/assets',
             cwd: 'src/assets',
             expand: true
           }
@@ -208,7 +208,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.common.dest %>', 
           'module.suffix' 
         ],
-        dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
+        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.js'
       }
     },
 
@@ -255,7 +255,7 @@ module.exports = function ( grunt ) {
       },
       compile: {
         files: {
-          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
+          '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
         },
         options: {
           cleancss: true,
@@ -422,10 +422,10 @@ module.exports = function ( grunt ) {
        * file. Now we're back!
        */
       compile: {
-        dir: '<%= build_dir %>',
+        dir: '<%= compile_dir %>',
         src: [
           '<%= concat.compile_js.dest %>',
-          '<%= vendor_files.css %>',
+          //'<%= vendor_files.css %>',
           '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
         ]
       }
@@ -602,14 +602,12 @@ module.exports = function ( grunt ) {
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', 'build');
-  /*
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
+    'build', 'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
     'index:compile'
   ]);
-  */
+  
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
       grunt.event.once("git-describe", function(rev) {
