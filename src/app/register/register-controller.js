@@ -280,7 +280,30 @@ function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, E
             }
           });
       };
+      $scope.registerV2 = function (account) {
+        $scope.regForm.isSubmitting = true;
+        UserService.register(account)
+            .success(function (data, status, headers, config) {
+                $scope.regForm.isSubmitting = false;
+                user = data;
+                Session.create(user.id, user.role, data.loginType);
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
+                if ($state.current.data.hideWrapper) {
+                    $state.go('sdkv2LoginStudentSuccess');
+                }
+            })
+            .error(function (data, status, headers, config) {
+                $log.error(data);
+                $scope.regForm.isSubmitting = false;
+                $scope.account.isRegCompleted = false;
+                if (data.error) {
+                    $scope.account.errors.push(data.error);
+                } else {
+                    $scope.account.errors.push(ERRORS['general']);
+                }
+            });
+      };
       $scope.register = function(account) {
         $scope.regForm.isSubmitting = true;
         UserService.register(account)

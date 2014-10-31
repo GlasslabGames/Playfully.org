@@ -153,7 +153,6 @@ angular.module('playfully.login', [])
         'main@': {
           templateUrl: 'login/v1/sdk-login-success.html',
           controller: function($scope, $window, $log, courses) {
-            console.log("courses:", courses);
 
             $scope.courses = courses;
             $scope.closeWindow = function() {
@@ -176,7 +175,6 @@ angular.module('playfully.login', [])
         'main@': {
           templateUrl: 'login/v2/sdk-login-student-success.html',
           controller: function($scope, $window, $log, courses) {
-            console.log("courses:", courses);
 
             $scope.courses = courses;
             $scope.closeWindow = function() {
@@ -199,7 +197,6 @@ angular.module('playfully.login', [])
         'main@': {
           templateUrl: 'login/v2/sdk-login-instructor-success.html',
           controller: function($scope, $window, $log) {
-            console.log( "?" );
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
             };
