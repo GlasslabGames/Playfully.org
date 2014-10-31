@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h3 class="modal-title">
+      <i class="gl-sdk-header-logo gl-sdk-playfully-logo"></i>
+    </h3>
+</div>
+
+<div class="modal-body">
+
+  <div class="gl-sdk-register-playfully-info"
+       ng-click="state.go('sdkRegisterPlayfullyInfo')">
+    <i class="login-icon--playfully"></i><span>What is Playfully?</span>
+  </div>
+
+  <h3 class="modal-title gl-sdk-register-title">Please select your role</h3>
+
+  <div class="container-fluid">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="row">
+
+        <div class="gl-sdk-register-options">
+          <div class="text-center clearfix gl-register-options">
+            <div class="gl-register-options-wrapper">
+
+              <div class="gl-register-option">
+                <div class="gl-register-option-wrapper">
+                  <div class="gl-game-card gl-game-card--linked"
+                       ng-click="state.go('sdkRegisterBeta')">
+
+                    <div class="gl-register-card-image gl-register-card-teacher"
+                         popover-placement="bottom"
+                         popover-trigger="mouseenter"
+                         popover="Request access to free games, student management tools, real-time reports, and professional development materials.">
+                      <span class="gl-register-card-text">Teacher</span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="gl-register-option">
+                <div class="gl-register-option-wrapper">
+                  <div class="gl-game-card gl-game-card--linked" ng-click="state.go('sdkv2RegisterStudent')">
+                    <div class="gl-register-card-image gl-register-card-student">
+                      <span class="gl-register-card-text">Student</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <br/>
+        <div class="text-center large clearfix">
+          Already have an account?
+          <a href="#"
+             class="link-register"
+             ng-click="state.go('sdkv2LoginOptions')">
+            Sign In</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
