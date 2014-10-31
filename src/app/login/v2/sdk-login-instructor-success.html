@@ -10,7 +10,11 @@
 
   <form class="login-form">
     <div class="text-center">
-      <a href="www.playfully.org" class="btn gl-btn--blue gl-btn--minwidth">Go to Playfully</a>
+      <a href="www.playfully.org">
+        <button ng-click="goToLink('www.playfully.org')" class="btn gl-btn--blue  gl-btn--minwidth">
+          <div class="gl-sdk-playfully-btn"></div>Go to Playfully
+        </button>
+      </a>
       <input type="submit" class="btn gl-btn--blue gl-btn--minwidth" value="Play"
              ng-click="closeWindow()">
     </div>

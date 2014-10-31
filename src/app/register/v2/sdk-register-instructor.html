@@ -141,7 +141,7 @@
 
             <div class="text-center reg-submit">
                 <input type="submit" class="btn gl-btn--blue"
-                       value="{{ regForm.isSubmitting ? 'Sending...' : 'Register'}}"
+                       value="{{ regForm.isSubmitting ? 'Sending...' : 'Submit'}}"
                        ng-disabled="regForm.$invalid || regForm.isSubmitting">
             </div>
         </form>
@@ -150,14 +150,13 @@
 
     <div class="modal-body" ng-show="account.isRegCompleted">
         <p class="text-center">
-            Thanks for signing up {{account.firstName}}! A confirmation link was sent to {{account.email}}. Click on the
-            link to complete creating your account.
+            Thanks for signing up {{account.firstName}}! A confirmation link was sent to {{account.email}}. Click on it to finish creating your Playfully account.
         </p>
 
         <div class="text-center reg-submit">
             <button class="btn gl-btn--blue"
-                    ng-click="finish()"
-                    ng-hide="hideWrapper">Okay
+                    ng-click="closeWindow()"
+                    ng-show="hideWrapper">Play Now
             </button>
         </div>
     </div>

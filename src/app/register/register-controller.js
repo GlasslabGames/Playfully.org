@@ -41,7 +41,7 @@ angular.module('playfully.register', ['register.const'])
     views: { 'main@': registerInstructorConfig }
   })
   .state('sdkv2RegisterInstructor', {
-      url: '/sdk/register/instructor',
+      url: '/sdk/v2/register/instructor',
       parent: 'site',
       data: {hideWrapper: true},
       views: {
@@ -135,7 +135,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
       var user = null;
 
         $scope.account = {
@@ -186,6 +186,9 @@ angular.module('playfully.register', ['register.const'])
       if (user !== null) {
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
       }
+    };
+    $scope.closeWindow = function () {
+        $window.location.search = 'action=SUCCESS';
     };
 
 })

@@ -12,7 +12,7 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="row">
         <ul class="list-group gl-sdk-login-class-list-group">
-          <li class="list-group-item" ng-repeat="course in courses.reverse()">
+          <li class="list-group-item" ng-repeat="course in courses">
             {{course.teacher.firstName}}<span ng-if="course.teacher.lastName"> {{course.teacher.lastName}}</span>'s class: {{course.title}} | Classcode: {{course.code}}
           </li>
         </ul>
