@@ -75,6 +75,7 @@ angular.module('user', [])
     },
 
     register: function(regInfo) {
+      console.log('regInfo', regInfo);
       return $http({
         method: 'POST',
         url: API_BASE + '/auth/user/register',

@@ -1,15 +1,15 @@
 <div class="navbar gl-navbar" data-ng-controller="NavbarCtrl">
   <div>
     <!-- logo links to different place depending on login status -->
-    <div class="gl-navbar-logo beta"
+    <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthenticatedButNot('student')"
       ui-sref="instructorDashboard.default"></div>
-    <div class="gl-navbar-logo beta"
+    <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthorized('student')"
       ui-sref="studentDashboard"></div>
-    <div class="gl-navbar-logo beta"
+    <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
       ui-sref="home"></div>
@@ -69,7 +69,7 @@
         </li>
 
         <li ng-class="{'active': state.includes('courses')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="courses.active"
+          <a class="ng-cloak gl-nav-link" href ui-sref="courses"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>
         </li>
