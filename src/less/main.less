@@ -579,9 +579,17 @@ h2 {
 .alert-gl-notify {
   position: absolute;
   width: 100%;
-  top: -5px;
   background: #fd9337;
   color: white;
+  -webkit-transition:-webkit-transform .5s ease;
+     -moz-transition:   -moz-transform .5s ease;
+      -ms-transition:    -ms-transform .5s ease;
+          transition:        transform .5s ease;
+  -webkit-transform: translate(0, -65px);
+      -moz-transform: translate(0, -65px);
+      -ms-transform: translate(0, -65px);
+          transform: translate(0, -65px);
+
   &.alert {
     padding-top: 15px;
     padding-bottom: 10px;
@@ -603,4 +611,11 @@ h2 {
       opacity: 1.0;
     }
   }
+}
+
+.alert-gl-notify--visible .alert-gl-notify {
+  -webkit-transform: translate(0, -5px);
+     -moz-transform: translate(0, -5px);
+      -ms-transform: translate(0, -5px);
+          transform: translate(0, -5px);
 }

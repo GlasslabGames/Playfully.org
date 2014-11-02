@@ -1,7 +1,10 @@
 <div class="gl-bg-dashboard">
-  <div class="container alert-gl-notify-container" ng-show="alert">
-    <alert type="{{alert.type}}" close="closeAlert()">
-    <span ng-bind-html="alert.msg"></span></alert>
+  <div class="container alert-gl-notify-container"
+    ng-class="{'alert-gl-notify--visible': showNotification}"
+    ng-show="alert">
+    <alert type="{{alert.type}}" close="hideNotification()">
+      <span ng-bind-html="alert.msg"></span>
+    </alert>
   </div>
 
   <!--div ng-show="!currentUser.isConfirmed" class="gl-navbar-alert">

@@ -26,7 +26,24 @@ angular.module( 'instructor.dashboard', [
     views: {
       main: {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, myGames) { $scope.myGames = myGames; }
+        controller: function ($scope, $timeout, myGames) { 
+          $scope.myGames = myGames; 
+
+          $scope.showNotification = false;
+
+          $scope.alert = {
+            type: 'gl-notify',
+            msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"#\">Download here</a>"
+          };
+
+          $timeout(function() {
+            $scope.showNotification = true;
+          }, 1000);
+
+          $scope.hideNotification = function() {
+            $scope.showNotification = false;
+          };
+        }
       }
     }
   })
@@ -58,7 +75,7 @@ angular.module( 'instructor.dashboard', [
 })
 
 
-.controller('InstructorDashboardCtrl', function($scope, $state, $stateParams, $log, activeCourses, games, myGames, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, games, myGames, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = activeCourses;
