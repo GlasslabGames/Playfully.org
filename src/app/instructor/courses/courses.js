@@ -49,7 +49,7 @@ angular.module( 'instructor.courses', [
         controller: 'NewCourseModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -76,7 +76,7 @@ angular.module( 'instructor.courses', [
         controller: 'UpdateCourseModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -103,7 +103,7 @@ angular.module( 'instructor.courses', [
         controller: 'UpdateCourseModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.go('courses', {courseStatus:'/archived'},{ reload: true });
       });
     }
@@ -132,7 +132,7 @@ angular.module( 'instructor.courses', [
 
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -160,7 +160,7 @@ angular.module( 'instructor.courses', [
         controller: 'UpdateCourseModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -187,7 +187,7 @@ angular.module( 'instructor.courses', [
         controller: 'UpdateCourseModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -217,7 +217,7 @@ angular.module( 'instructor.courses', [
         controller: 'AssignGamesModalCtrl'
       });
 
-      modalInstance.result.then(function(result) {
+      modalInstance.result.finally(function(result) {
         return $state.transitionTo('courses');
       });
     }
@@ -248,7 +248,7 @@ angular.module( 'instructor.courses', [
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
       var studentId = $stateParams.studentId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -269,6 +269,10 @@ angular.module( 'instructor.courses', [
         templateUrl: 'instructor/courses/student-unenroll.html',
         controller: 'UnenrollStudentModalCtrl'
       });
+
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('showStudentList', { id: courseId});
+      });
     }
   })
 
@@ -282,7 +286,7 @@ angular.module( 'instructor.courses', [
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.id;
       var studentId = $stateParams.studentId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -310,6 +314,10 @@ angular.module( 'instructor.courses', [
         templateUrl: 'instructor/courses/student-edit.html',
         controller: 'EditStudentModalCtrl'
       });
+
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('showStudentList', { id: courseId});
+      });
     }
   })
 
@@ -324,7 +332,7 @@ angular.module( 'instructor.courses', [
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.courseId;
       var gameId = $stateParams.gameId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -334,6 +342,10 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/lock-missions.html',
         controller: 'LockMissionsModalCtrl'
+      });
+
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('courses');
       });
     }
   })
@@ -349,7 +361,7 @@ angular.module( 'instructor.courses', [
     onEnter: function($stateParams, $state, $modal) {
       var courseId = $stateParams.courseId;
       var gameId = $stateParams.gameId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -359,6 +371,10 @@ angular.module( 'instructor.courses', [
         },
         templateUrl: 'instructor/courses/lock-missions.html',
         controller: 'LockMissionsModalCtrl'
+      });
+
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('courses');
       });
     }
   });

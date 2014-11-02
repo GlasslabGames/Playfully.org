@@ -113,7 +113,7 @@ angular.module( 'playfully.games', [
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -126,7 +126,10 @@ angular.module( 'playfully.games', [
         },
         templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
+      });
 
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('games.detail.product', { gameId: gameId });
       });
     }
   });

@@ -35,6 +35,10 @@ angular.module( 'student.dashboard', [
         size: 'sm',
         keyboard: false
       });
+
+      $rootScope.modalInstance.result.finally(function(result) {
+        return $state.transitionTo('studentDashboard');
+      });
     }
   })
   .state( 'enrollInCourse', {
