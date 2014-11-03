@@ -581,6 +581,15 @@ h2 {
   width: 100%;
   background: #fd9337;
   color: white;
+  /* Non-animated version:
+   * Fixed top position and hide the close button. */
+  top: -5px;
+  .close {
+    display: none;
+  }
+
+  /*
+    Animated version (default state is closed)
   -webkit-transition:-webkit-transform .5s ease;
      -moz-transition:   -moz-transform .5s ease;
       -ms-transition:    -ms-transform .5s ease;
@@ -589,6 +598,7 @@ h2 {
       -moz-transform: translate(0, -65px);
       -ms-transform: translate(0, -65px);
           transform: translate(0, -65px);
+          */
 
   &.alert {
     padding-top: 15px;
