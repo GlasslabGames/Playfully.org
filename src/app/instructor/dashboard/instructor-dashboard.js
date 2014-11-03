@@ -28,7 +28,6 @@ angular.module( 'instructor.dashboard', [
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
         controller: function ($scope, $timeout, myGames) { 
           $scope.myGames = myGames; 
-
           $scope.showNotification = false;
 
           $scope.alert = {
@@ -94,6 +93,7 @@ angular.module( 'instructor.dashboard', [
     selected: null,
     options: []
   };
+  /*
   $scope.sowo = {
     shoutOuts: null,
     watchOuts: null,
@@ -102,11 +102,28 @@ angular.module( 'instructor.dashboard', [
     // to display show more button
     hasOverflow: false
   };
+  */
 
   var _setSelectedGameById = function(gameId) {
-    $scope.status.selectedGame = _.find($scope.games, function(game) {
+    $log.info($scope.games);
+    var selectedIndex = _.findIndex($scope.games, function(game) {
       return game.gameId == gameId;
     });
+    $scope.status.selectedGame = $scope.games[selectedIndex];
+    $scope.status.prevGameId = $scope.games[_getPrevIndex($scope.games, selectedIndex)].gameId;
+    $scope.status.nextGameId = $scope.games[_getNextIndex($scope.games, selectedIndex)].gameId;
+  };
+
+  var _getPrevIndex = function(ary, idx) {
+    var prevIndex = idx - 1;
+    if (prevIndex < 0) { prevIndex = ary.length - 1; }
+    return prevIndex;
+  };
+
+  var _getNextIndex = function(ary, idx) {
+    var nextIndex = idx + 1;
+    if (nextIndex > ary.length - 1) { nextIndex = 0; }
+    return nextIndex;
   };
 
   var _populateStudentsListFromCourses = function(courseList) {
@@ -169,12 +186,14 @@ angular.module( 'instructor.dashboard', [
             students: []
           };
         }
-        watchOuts[wo.id].students.push(_compileNameOfStudent($scope.students[obj.userId]));
+        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
+        watchOuts[wo.id].students.push(studentObj);
       });
     });
     $scope.watchOuts = watchOuts;
   };
 
+  /*
   var _populateSowo = function(data) {
     var sowo = data;
     var soTotal = 0;
@@ -249,6 +268,7 @@ angular.module( 'instructor.dashboard', [
       }
     }
   };
+  */
 
   var _compileNameOfStudent = function(student) {
     if (!student) { return ''; }
