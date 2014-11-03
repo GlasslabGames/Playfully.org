@@ -81,6 +81,8 @@ angular.module( 'instructor.dashboard', [
   $scope.courses = activeCourses;
   $scope.games = games;
   $scope.myGames = myGames;
+  $scope.watchOuts = null;
+  
 
   $scope.status = {
     selectedGameId: $stateParams.gameId,
@@ -129,7 +131,7 @@ angular.module( 'instructor.dashboard', [
 
           if ($scope.reports.selected) {
             ReportsService.get($scope.reports.selected.id, $stateParams.gameId, $stateParams.courseId).then(function(data) {
-                _populateSowo(data);
+                _populateWo(data);
               }, function(data) {
                 $log.error(data);
               });
@@ -155,6 +157,23 @@ angular.module( 'instructor.dashboard', [
     _getReports();
   };
 
+  var _populateWo = function(data) {
+    var watchOuts = {};
+
+    _.each(data, function(obj) {
+      _.each(obj.results.watchout, function(wo) {
+        if (!watchOuts.hasOwnProperty(wo.id)) {
+          watchOuts[wo.id] = {
+            name: wo.name,
+            description: wo.description,
+            students: []
+          };
+        }
+        watchOuts[wo.id].students.push(_compileNameOfStudent($scope.students[obj.userId]));
+      });
+    });
+    $scope.watchOuts = watchOuts;
+  };
 
   var _populateSowo = function(data) {
     var sowo = data;
@@ -232,6 +251,7 @@ angular.module( 'instructor.dashboard', [
   };
 
   var _compileNameOfStudent = function(student) {
+    if (!student) { return ''; }
     var name = student.firstName;
     if(student.lastName) {
       name += ' ' + student.lastName + '.';
@@ -252,5 +272,7 @@ angular.module( 'instructor.dashboard', [
   };
 
   _initDashboard();
+
+
 });
 

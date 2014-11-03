@@ -99,8 +99,14 @@
                 </div>
                 {{ gamesInfo[game.id].longName }} 
               </div>
-            </div>
 
+              <div ng-if="course.games.length < 3" class="gl-course-game text-center text-grey5" ui-sref="assignGamesToCourse({id:course.id})">
+                <div class="gl-course-game-thumb gl-thumb-game-add">
+                  <div class="bu-add-circle bu-add-circle--grey"></div>
+                </div>
+                Assign More Games
+              </div>
+            </div>
           </div>
         </div>
 

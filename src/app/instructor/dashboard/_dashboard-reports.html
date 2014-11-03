@@ -47,13 +47,63 @@
   </div>
   <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl">
       <div class="container-fluid">
-          <div class="row">
+          <div class="row gl-margin--Txl gl-margin--Bl">
               <div class="col-md-12">
-                  <h1 class="headline-2 text-center gl-margin--Tl" ng-bind="reports.selected.header.text"></h1>
-                  <p class="text-center" ng-bind="reports.selected.description"></p>
+                <h1 class="headline-2 text-center gl-margin--Tl">
+                  Students in Need of Intervention Now
+                </h1>
               </div>
           </div>
+          <div class="row gl-row-border--top gl-row-border--bottom gl-pad-Vxs">
+            <div class="col-md-3 gl-watchouts-heading">
+              Watch Out!
+            </div>
+            <div class="col-md-5">
+              &nbsp;
+            </div>
+            <div class="col-md-4 gl-watchouts-heading">
+              Students
+            </div>
+          </div>
+          <div class="row gl-row-border--bottom gl-pad-Vs"
+            ng-repeat="(woId, woData) in watchOuts">
+            <div class="col-md-2">
+              <span class="gl-icon-watchout-landing-big"></span>
+            </div>
+            <div class="col-md-6">
+              <div class="gl-watchouts-subheading" ng-bind="woData.name"></div>
+              <p ng-bind="woData.description"></p>
+            </div>
+            <div class="col-md-4">
+              <div class="gl-watchouts-subheading"
+                ng-pluralize
+                count="woData.students.length"
+                when="{'0': 'No students',
+                  'one': 'One Student',
+                  'other': '{} Students'}">
+              </div>
+              <div ng-repeat="student in woData.students">
+                <span ng-bind="student.name"></span>
+              </div>
+            </div>
+          </div>
+          <div class="row gl-pad-Vl">
+            <div class="col-md-12 text-center">
+              <span class="gl-icon-watchout-landing"></span>
+              Get more information about students with Watch Outs! and see next
+              steps from instruction. 
+              <span class="gl-icon-shoutout-landing"></span>
+              Celebrate your students&rsquo; successes.
+              You can find information about students who are excelling in the
+              game by viewing the Shout Outs!
+            </div>
+          </div>
+          <div class="row gl-pad-Vl text-center">
+            <button class="btn gl-btn--blue"
+              ui-sref="reports.details.sowo({gameId:status.selectedGameId, courseId:status.selectedCourseId})">
+              Go to <strong>Shout Out! Watch Out! Report</strong>
+            </button>
+          </div>
       </div>
-      <div ng-include src="'instructor/reports/sowo/sowo.html'"></div>
   </div>
 </div>
