@@ -1,6 +1,6 @@
 {
   "name": "playfully",
-  "version": "0.0.1",
+  "version": "0.7.0",
   "homepage": "http://playfully.org/",
   "authors": [
     "Gregg Hartling <gregg@incrediblylifelike.com>"
@@ -36,8 +36,5 @@
     "jquery": "~2.1.1",
     "sticky-ng": "~1.4.4",
     "angular-local-storage": "~0.1.0"
-  },
-  "resolutions": {
-    "angular-translate": "~2.4.2"
   }
 }

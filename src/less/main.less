@@ -572,3 +572,50 @@ h2 {
   cursor: pointer;
 }
 
+.alert-gl-notify-container {
+  position: relative;
+}
+
+.alert-gl-notify {
+  position: absolute;
+  width: 100%;
+  background: #fd9337;
+  color: white;
+  -webkit-transition:-webkit-transform .5s ease;
+     -moz-transition:   -moz-transform .5s ease;
+      -ms-transition:    -ms-transform .5s ease;
+          transition:        transform .5s ease;
+  -webkit-transform: translate(0, -65px);
+      -moz-transform: translate(0, -65px);
+      -ms-transform: translate(0, -65px);
+          transform: translate(0, -65px);
+
+  &.alert {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+  }
+
+  a {
+    font-weight: bold;
+    color: white;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .close {
+    color: white;
+    opacity: 0.67;
+    &:hover {
+      opacity: 1.0;
+    }
+  }
+}
+
+.alert-gl-notify--visible .alert-gl-notify {
+  -webkit-transform: translate(0, -5px);
+     -moz-transform: translate(0, -5px);
+      -ms-transform: translate(0, -5px);
+          transform: translate(0, -5px);
+}

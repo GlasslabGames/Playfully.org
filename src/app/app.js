@@ -241,6 +241,7 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
 
+
     if (!$rootScope.allGames) {
       GamesService.all('minimal').then(function(data) {
         $rootScope.allGames = data;
