@@ -82,9 +82,10 @@
                   'one': 'One Student',
                   'other': '{} Students'}">
               </div>
-              <div ng-repeat="student in woData.students">
+              <div ng-repeat="student in woData.students | limitTo:7">
                 <span ng-bind="student.name"></span>
               </div>
+              <div ng-if="woData.students.length > 7">&hellip;</div>
             </div>
           </div>
           <div class="row gl-pad-Vl">
