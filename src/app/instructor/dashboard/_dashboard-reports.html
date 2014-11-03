@@ -4,23 +4,6 @@
     <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
   </div>
   <div class="col-md-4 text-right">
-    <div ng-if="myGames.length > 1">
-      Game: <div class="btn-group" dropdown is-open="status.isopen">
-        <button type="button" class="btn btn-default dropdown-toggle"
-          ng-disabled="disabled">
-          {{ status.selectedGame.shortName }} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-          <li ng-repeat="game in games | filter:{enabled: true}"
-            ui-sref-active="gl-reports-dropdown--selected">
-            <a ng-hide="game.maintenance"
-              ui-sref="instructorDashboard.gameplay({gameId: game.gameId, courseId: status.selectedCourseId})"
-              href="#"
-              ng-bind="game.shortName"></a>
-          </li>
-        </ul>
-      </div>
-    </div>
   </div>
 </div>
 
