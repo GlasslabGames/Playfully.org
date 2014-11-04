@@ -6,7 +6,8 @@
 
 <div ng-class="modal-body">
   <h3 class="modal-title gl-sdk-register-title">Hi <span class="gl-nobr" ng-bind="currentUser.username"></span>!
-  You are joining:</h3>
+  <h3 class="modal-title gl-sdk-register-title" ng-show="hasCourses"> You are joining:</h3>
+  <h3 class="modal-title gl-sdk-register-title" ng-show="!hasCourses">You currently have no classes that have this game.</h3>
 
   <div class="container-fluid">
     <div class="col-md-8 col-md-offset-2">

@@ -174,15 +174,21 @@ angular.module('playfully.login', [])
         'main@': {
           templateUrl: 'login/v2/sdk-login-student-success.html',
           controller: function($scope, $window, $log, $stateParams, courses) {
-            $scope.gameId = $stateParams.gameId.toUpperCase();
-            // filters for courses that contains the current game.
-            $scope.courses =_.filter(courses,function(course) {
-              return _.any(course.games, function(game) {
-                return game.id === $scope.gameId;
+            if ($stateParams.gameId) {
+              $scope.gameId = $stateParams.gameId.toUpperCase();
+              // filters for courses that contains the current game.
+              $scope.courses = _.filter(courses, function (course) {
+                return _.any(course.games, function (game) {
+                  return game.id === $scope.gameId;
+                });
               });
-            });
-            // show most recently added courses
-            $scope.courses.reverse();
+              if ($scope.courses.length) {
+                $scope.hasCourses = true;
+                // show most recently added courses
+                $scope.courses.reverse();
+              }
+            }
+
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
             };
@@ -346,7 +352,7 @@ angular.module('playfully.login', [])
 
 .controller('sdkv2LoginCtrl',
   function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
-
+    $scope.gameId = $stateParams.gameId;
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
     $scope.credentials = { username: '', password: '' };

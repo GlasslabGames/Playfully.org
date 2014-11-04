@@ -14,13 +14,13 @@ angular.module('playfully.register', ['register.const'])
       controller: 'RegisterOptionsModalCtrl'
     } }
   })
-  .state('sdkRegisterOptions', {
-    url: '/sdk/v2/register',
+  .state('sdkv2RegisterOptions', {
+    url: '/sdk/v2/game/:gameId/register',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
       templateUrl: 'register/v2/sdk-register-options.html',
-      controller: 'RegisterOptionsModalCtrl'
+      controller: 'sdkv2RegisterOptionsModalCtrl'
     } }
   });
 
@@ -97,13 +97,24 @@ angular.module('playfully.register', ['register.const'])
     views: { 'main@': registerStudentConfig }
   })
   .state('sdkv2RegisterStudent', {
-    url: '/sdk/v2/register/student',
+    url: '/sdk/v2/game/:gameId/register/student',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
       templateUrl: 'register/v2/sdk-register-student.html',
-      controller: 'RegisterStudentModalCtrl'
+      controller: 'sdkv2RegisterStudentModalCtrl'
     } }
+  })
+  .state('sdkv2RegisterStudentSuccess', {
+      url: '/sdk/register/student/success',
+      parent: 'site',
+      data: {hideWrapper: true},
+      views: {
+          'main@': {
+              templateUrl: 'register/sdk-register-student-success.html',
+              controller: 'sdkv2RegisterStudentModalCtrl'
+          }
+      }
   })
   .state('sdkRegisterStudentSuccess', {
     url: '/sdk/register/student/success',
@@ -133,7 +144,12 @@ angular.module('playfully.register', ['register.const'])
   $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
 })
+.controller('sdkv2RegisterOptionsModalCtrl', function ($scope,$stateParams, THIRD_PARTY_AUTH) {
+    $scope.gameId = $stateParams.gameId;
+    $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
+    $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
+})
 .controller('RegisterInstructorCtrl',
     function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
       var user = null;
@@ -195,7 +211,7 @@ angular.module('playfully.register', ['register.const'])
 
 
 .controller('RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.confirmation = {
@@ -288,6 +304,103 @@ angular.module('playfully.register', ['register.const'])
           });
       };
 })
+.controller('sdkv2RegisterStudentModalCtrl',
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
+        var user = null;
+
+        $scope.confirmation = {
+            code: null,
+            errors: []
+        };
+
+        $scope.course = null;
+
+        $scope.account = null;
+
+        $scope.gameId = $stateParams.gameId;
+
+        var _blankAccount = {
+            username: '',
+            password: '',
+            confirm: '',
+            firstName: '',
+            lastName: '',
+            role: 'student',
+            regCode: null,
+            errors: [],
+            isRegCompleted: false
+        };
+
+        $scope.closeWindow = function () {
+            $window.location.search = 'action=SUCCESS';
+        };
+
+        $scope.confirmCode = function (conf) {
+            $scope.regInit.isSubmitting = true;
+            $scope.confirmation.errors = [];
+            CoursesService.verifyCode(conf.code)
+                .then(function (resp) {
+                    $scope.regInit.isSubmitting = false;
+                    $scope.course = resp.data;
+                    $scope.account = angular.copy(_blankAccount);
+                    $scope.account.regCode = $scope.confirmation.code;
+                    return;
+                }, function (resp) {
+                    $scope.regInit.isSubmitting = false;
+                    if (resp.data.error) {
+                        $scope.confirmation.errors.push(resp.data.error);
+                    }
+                });
+        };
+        $scope.registerV2 = function (account) {
+            $scope.regForm.isSubmitting = true;
+            UserService.register(account)
+                .success(function (data, status, headers, config) {
+                    $scope.regForm.isSubmitting = false;
+                    user = data;
+                    Session.create(user.id, user.role, data.loginType);
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+
+                    if ($state.current.data.hideWrapper) {
+                        $state.go('sdkv2LoginStudentSuccess', {gameId: $scope.gameId });
+                    }
+                })
+                .error(function (data, status, headers, config) {
+                    $log.error(data);
+                    $scope.regForm.isSubmitting = false;
+                    $scope.account.isRegCompleted = false;
+                    if (data.error) {
+                        $scope.account.errors.push(data.error);
+                    } else {
+                        $scope.account.errors.push(ERRORS['general']);
+                    }
+                });
+        };
+        $scope.register = function (account) {
+            $scope.regForm.isSubmitting = true;
+            UserService.register(account)
+                .success(function (data, status, headers, config) {
+                    $scope.regForm.isSubmitting = false;
+                    user = data;
+                    Session.create(user.id, user.role, data.loginType);
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+
+                    if ($state.current.data.hideWrapper) {
+                        $state.go('sdkRegisterStudentSuccess');
+                    }
+                })
+                .error(function (data, status, headers, config) {
+                    $log.error(data);
+                    $scope.regForm.isSubmitting = false;
+                    $scope.account.isRegCompleted = false;
+                    if (data.error) {
+                        $scope.account.errors.push(data.error);
+                    } else {
+                        $scope.account.errors.push(ERRORS['general']);
+                    }
+                });
+        };
+})
 .controller('RegisterBetaCtrl',
     function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
         var user = null;
@@ -340,5 +453,8 @@ angular.module('playfully.register', ['register.const'])
         };
 
 });
+
+
+
 
 
