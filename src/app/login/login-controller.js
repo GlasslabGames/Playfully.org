@@ -306,15 +306,16 @@ angular.module('playfully.login', [])
     $scope.login = function ( credentials ) {
       $scope.loginForm.isSubmitting = true;
       $scope.authError = null;
-      AuthService.login(credentials).then(function(result) {
-        $scope.loginForm.isSubmitting = false;
-        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
-      }, function(result) {
-        $log.error(result);
-        $scope.loginForm.isSubmitting = false;
-        $scope.authError = result.data.error;
-        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-      });
+      AuthService.login(credentials)
+          .then(function(result) {
+            $scope.loginForm.isSubmitting = false;
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+          }, function(result) {
+            $log.error(result);
+            $scope.loginForm.isSubmitting = false;
+            $scope.authError = result.data.error;
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+          });
 
   };
 })
@@ -361,21 +362,22 @@ angular.module('playfully.login', [])
     $scope.login = function ( credentials ) {
       $scope.authError = null;
       $scope.loginForm.isSubmitting = true;
+      AuthService.login(credentials)
+          .then(function(result) {
+            $scope.loginForm.isSubmitting = false;
+            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
+            if(result.data.role === "student") {
+              $state.go('sdkv2LoginStudentSuccess',{gameId:$stateParams.gameId});
+            } else {
+              $state.go('sdkv2LoginInstructorSuccess');
+            }
 
-      AuthService.login(credentials).then(function(result) {
-        $scope.loginForm.isSubmitting = false;
-        if(result.data.role == 'student') {
-          $state.go('sdkv2LoginStudentSuccess',{gameId:$stateParams.gameId});
-        } else {
-          $state.go('sdkv2LoginInstructorSuccess');
-        }
-
-      }, function(result) {
-        $log.error(result);
-        $scope.loginForm.isSubmitting = false;
-        $scope.authError = result.data.error;
-        $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
-      });
+          }, function(result) {
+            $log.error(result);
+            $scope.loginForm.isSubmitting = false;
+            $scope.authError = result.data.error;
+            $rootScope.$broadcast(AUTH_EVENTS.loginFailure);
+          });
 
   };
 
