@@ -26,7 +26,7 @@ angular.module('playfully.login', [])
     }
   })
   .state('sdkv2LoginOptions', {
-    url: '/sdk/v2/login',
+    url: '/sdk/v2/game/:gameId/login',
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
@@ -153,7 +153,6 @@ angular.module('playfully.login', [])
         'main@': {
           templateUrl: 'login/v1/sdk-login-success.html',
           controller: function($scope, $window, $log, courses) {
-
             $scope.courses = courses;
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
@@ -168,15 +167,22 @@ angular.module('playfully.login', [])
       }
     })
     .state('sdkv2LoginStudentSuccess', {
-      url: '/sdk/v2/login/student-success',
+      url: '/sdk/v2/game/:gameId/login/student-success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['student'] },
       views: {
         'main@': {
           templateUrl: 'login/v2/sdk-login-student-success.html',
-          controller: function($scope, $window, $log, courses) {
-
-            $scope.courses = courses;
+          controller: function($scope, $window, $log, $stateParams, courses) {
+            $scope.gameId = $stateParams.gameId.toUpperCase();
+            // filters for courses that contains the current game.
+            $scope.courses =_.filter(courses,function(course) {
+              return _.any(course.games, function(game) {
+                return game.id === $scope.gameId;
+              });
+            });
+            // show most recently added courses
+            $scope.courses.reverse();
             $scope.closeWindow = function() {
               $window.location.search = 'action=SUCCESS';
             };
@@ -201,6 +207,7 @@ angular.module('playfully.login', [])
               $window.location.search = 'action=SUCCESS';
             };
             $scope.goToLink = function (link) {
+              //$window.location.search = 'action=URL';
               $window.open(link);
             };
           }
@@ -338,7 +345,7 @@ angular.module('playfully.login', [])
 })
 
 .controller('sdkv2LoginCtrl',
-  function ($scope, $rootScope, $log, $window, $state, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
+  function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
 
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
@@ -352,7 +359,7 @@ angular.module('playfully.login', [])
       AuthService.login(credentials).then(function(result) {
         $scope.loginForm.isSubmitting = false;
         if(result.data.role == 'student') {
-          $state.go('sdkv2LoginStudentSuccess');
+          $state.go('sdkv2LoginStudentSuccess',{gameId:$stateParams.gameId});
         } else {
           $state.go('sdkv2LoginInstructorSuccess');
         }

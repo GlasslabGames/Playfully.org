@@ -55,6 +55,28 @@ angular.module( 'student.dashboard', [
       authorizedRoles: ['student']
     }
   })
+  .state('sdkv2EnrollInCourse', {
+    parent: 'site',
+    url: '/sdk/v2/game/:gameId/enroll',
+    resolve: {
+      games: function (GamesService) {
+        return GamesService.all('details');
+      },
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
+    views: {
+      'main@': {
+        controller: 'EnrollInCourseModalCtrl',
+        templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
+      }
+    },
+    data: {
+      hideWrapper: true,
+      authorizedRoles: ['student']
+    }
+  })
   .state( 'sdkEnrollInCourse', {
     parent: 'site',
     url: '/sdk/v2/enroll',
@@ -153,7 +175,7 @@ angular.module( 'student.dashboard', [
 })
 
 .controller( 'EnrollInCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $log, $timeout, courses, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService) {
 
     $scope.verification = {
       code: null,
@@ -190,7 +212,7 @@ angular.module( 'student.dashboard', [
           .then(function() {
             CoursesService.enroll(verification.code)
                 .then(function() {
-                  $state.go('sdkv2LoginStudentSuccess');
+                  $state.go('sdkv2LoginStudentSuccess',{gameId: $stateParams.gameId});
                 });
           })
         ;
