@@ -35,6 +35,10 @@ angular.module( 'student.dashboard', [
         size: 'sm',
         keyboard: false
       });
+
+      $rootScope.modalInstance.result.finally(function(result) {
+        return $state.transitionTo('studentDashboard');
+      });
     }
   })
   .state( 'enrollInCourse', {
@@ -54,6 +58,14 @@ angular.module( 'student.dashboard', [
   .state( 'sdkEnrollInCourse', {
     parent: 'site',
     url: '/sdk/v2/enroll',
+    resolve: {
+      games: function (GamesService) {
+        return GamesService.all('details');
+      },
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
     views: {
       'main@': {
         controller: 'EnrollInCourseModalCtrl',
@@ -174,7 +186,14 @@ angular.module( 'student.dashboard', [
             if ( result.data.error ) {
               $scope.verification.errors.push(result.data.error);
             }
-          });
+          })
+          .then(function() {
+            CoursesService.enroll(verification.code)
+                .then(function() {
+                  $state.go('sdkv2LoginStudentSuccess');
+                });
+          })
+        ;
       } else {
         msg = "You have already enrolled in this course: " + enrolledCourse.title;
         $scope.verification.errors.push(msg);

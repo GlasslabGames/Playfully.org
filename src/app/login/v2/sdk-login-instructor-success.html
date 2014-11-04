@@ -5,13 +5,16 @@
 </div>
 
 <div ng-class="modal-body">
-  <h3 ng-if="currentUser && currentUser.role != 'student'" class="modal-title gl-sdk-register-title">Welcome back, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h3>
-  <h3 ng-if="currentUser && currentUser.role == 'student'" class="modal-title gl-sdk-register-title">Welcome back, <span class="gl-nobr">{{ truncateUsername(currentUser.username) }}</span>!</h3>
-
-  <p class="text-center">You have successfully signed in.</p>
+  <h3 ng-if="currentUser && currentUser.role != 'student'" class="modal-title gl-sdk-register-title">Hi {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}, Are you ready ?</h3>
+  <h3 ng-if="currentUser && currentUser.role == 'student'" class="modal-title gl-sdk-register-title">Hi <span class="gl-nobr">{{ truncateUsername(currentUser.username) }}</span>,Are you ready?</h3>
 
   <form class="login-form">
     <div class="text-center">
+      <a href="www.playfully.org">
+        <button ng-click="goToLink('www.playfully.org')" class="btn gl-btn--blue  gl-btn--minwidth">
+          <div class="gl-sdk-playfully-btn"></div>Go to Playfully
+        </button>
+      </a>
       <input type="submit" class="btn gl-btn--blue gl-btn--minwidth" value="Play"
              ng-click="closeWindow()">
     </div>
