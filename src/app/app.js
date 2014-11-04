@@ -167,7 +167,7 @@ angular.module( 'playfully', [
   return {
     authorize: function() {
       AuthService.isLoggedIn()
-        .then(function(data) {
+        .then(function() {
           UserService.currentUser()
             .then(function(user) {
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);

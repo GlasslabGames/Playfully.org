@@ -47,6 +47,17 @@ angular.module('playfully.login', [])
     views: { 'modal@': loginInstructorConfig },
     data:{ pageTitle: 'Instructor Sign In'}
   })
+  .state('sdkv2LoginInstructor', {
+    url: '/sdk/v2/game/:gameId/login/instructor',
+    parent: 'site',
+    data: {hideWrapper: true},
+    views: {
+      'main@': {
+        templateUrl: 'login/v2/sdk-login-instructor.html',
+        controller: 'sdkv2LoginCtrl'
+      }
+    }
+  })
   .state('sdkLoginInstructor', {
     url: '/sdk/v2/login/instructor',
     parent: 'site',
@@ -202,7 +213,7 @@ angular.module('playfully.login', [])
       }
     })
     .state('sdkv2LoginInstructorSuccess', {
-      url: '/sdk/v2/login/instructor-success',
+      url: '/sdk/v2/game/:gameId/login/instructor-success',
       parent: 'site',
       data: { hideWrapper: true, authorizedRoles: ['instructor','admin'] },
       views: {
@@ -369,7 +380,7 @@ angular.module('playfully.login', [])
             if(result.data.role === "student") {
               $state.go('sdkv2LoginStudentSuccess',{gameId:$stateParams.gameId});
             } else {
-              $state.go('sdkv2LoginInstructorSuccess');
+              $state.go('sdkv2LoginInstructorSuccess', {gameId: $stateParams.gameId});
             }
 
           }, function(result) {
