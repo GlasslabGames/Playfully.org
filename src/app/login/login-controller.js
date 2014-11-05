@@ -1,6 +1,9 @@
 angular.module('playfully.login', [])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
+
+  // Login Options
+
   $stateProvider.state('loginOptions', {
     url: 'login',
     parent: 'modal',
@@ -36,6 +39,7 @@ angular.module('playfully.login', [])
     }
   });
 
+  // Instructor Login
 
   var loginInstructorConfig = {
     templateUrl: 'login/login-instructor.html',
@@ -68,7 +72,7 @@ angular.module('playfully.login', [])
     } }
   });
 
-
+  // Student Login
 
   var loginStudentConfig = {
     templateUrl: 'login/login-student.html',
@@ -87,213 +91,231 @@ angular.module('playfully.login', [])
       views: { 'main@': loginStudentConfig }
     });
 
-    var authEdmodoConfig = {
-      templateUrl: 'login/login-edmodo.html',
-      controller: 'LoginEdmodoCtrl'
-    };
-    var edmodoResolve = {
+  // Edomodo Login
+
+  var authEdmodoConfig = {
+    templateUrl: 'login/login-edmodo.html',
+    controller: 'LoginEdmodoCtrl'
+  };
+  var edmodoResolve = {
+    currentUser: function(UserService) {
+      return UserService.currentUser();
+    },
+    enrollments: function(CoursesService) {
+      return CoursesService.getEnrollments();
+    }
+  };
+  $stateProvider.state('edmodo', {
+    url: '/auth/edmodo',
+    onEnter: function($state, $log, ipCookie) {
+      if (ipCookie('inSDK')) {
+        $state.go('sdkAuthEdmodo');
+      } else {
+        $state.go('authEdmodo');
+      }
+    }
+  })
+  .state('authEdmodo', {
+    url: '/auth/edmodo/finish',
+    parent: 'modal',
+    data: { authorizedRoles: ['student','instructor','developer','admin'] },
+    views: { 'modal@': authEdmodoConfig },
+    resolve: edmodoResolve
+  })
+  .state('sdkAuthEdmodo', {
+    url: '/sdk/auth/edmodo',
+    parent: 'site',
+    data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
+    views: { 'main@': authEdmodoConfig },
+    resolve: edmodoResolve
+  });
+
+  // Password Prompt
+  $stateProvider.state('sdkPasswordPrompt', {
+    url: '/sdk/login/confirm',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v1/sdk-password-prompt.html',
+        controller: 'sdkLoginConfirmCtrl'
+      }
+    },
+    resolve: {
       currentUser: function(UserService) {
         return UserService.currentUser();
-      },
-      enrollments: function(CoursesService) {
+      }
+    }
+  })
+  .state('sdkv2PasswordPrompt', {
+    url: '/sdk/v2/login/confirm',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v2/sdk-password-prompt.html',
+        controller: 'sdkv2LoginConfirmCtrl'
+      }
+    },
+    resolve: {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      }
+    }
+  })
+
+  // Login Success
+
+  .state('sdkLoginSuccess', {
+    url: '/sdk/login/success',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v1/sdk-login-success.html',
+        controller: function($scope, $window, $log, courses) {
+          $scope.courses = courses;
+          $scope.closeWindow = function() {
+            $window.location.search = 'action=SUCCESS';
+          };
+        }
+      }
+    },
+    resolve: {
+      courses: function(CoursesService) {
         return CoursesService.getEnrollments();
       }
-    };
-    $stateProvider.state('edmodo', {
-      url: '/auth/edmodo',
-      onEnter: function($state, $log, ipCookie) {
-        if (ipCookie('inSDK')) {
-          $state.go('sdkAuthEdmodo');
-        } else {
-          $state.go('authEdmodo');
-        }
-      }
-    })
-    .state('authEdmodo', {
-      url: '/auth/edmodo/finish',
-      parent: 'modal',
-      data: { authorizedRoles: ['student','instructor','developer','admin'] },
-      views: { 'modal@': authEdmodoConfig },
-      resolve: edmodoResolve
-    })
-    .state('sdkAuthEdmodo', {
-      url: '/sdk/auth/edmodo',
-      parent: 'site',
-      data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
-      views: { 'main@': authEdmodoConfig },
-      resolve: edmodoResolve
-    });
+    }
+  })
 
-    $stateProvider.state('sdkPasswordPrompt', {
-      url: '/sdk/login/confirm',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v1/sdk-password-prompt.html',
-          controller: 'sdkLoginConfirmCtrl'
-        }
-      },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
-      }
-    })
-    .state('sdkv2PasswordPrompt', {
-      url: '/sdk/v2/login/confirm',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v2/sdk-password-prompt.html',
-          controller: 'sdkv2LoginConfirmCtrl'
-        }
-      },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
-      }
-    })
-    .state('sdkLoginSuccess', {
-      url: '/sdk/login/success',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v1/sdk-login-success.html',
-          controller: function($scope, $window, $log, courses) {
-            $scope.courses = courses;
-            $scope.closeWindow = function() {
-              $window.location.search = 'action=SUCCESS';
-            };
-          }
-        }
-      },
-      resolve: {
-        courses: function(CoursesService) {
-          return CoursesService.getEnrollments();
-        }
-      }
-    })
-    .state('sdkv2LoginStudentSuccess', {
-      url: '/sdk/v2/game/:gameId/login/student-success',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v2/sdk-login-student-success.html',
-          controller: function($scope, $window, $log, $stateParams, courses) {
-            if ($stateParams.gameId) {
-              $scope.gameId = $stateParams.gameId.toUpperCase();
-              // filters for courses that contains the current game.
-              $scope.courses = _.filter(courses, function (course) {
-                return _.any(course.games, function (game) {
-                  return game.id === $scope.gameId;
-                });
+  // Student Login Success
+
+  .state('sdkv2LoginStudentSuccess', {
+    url: '/sdk/v2/game/:gameId/login/student-success',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v2/sdk-login-student-success.html',
+        controller: function($scope, $window, $log, $stateParams, courses) {
+          if ($stateParams.gameId) {
+            $scope.gameId = $stateParams.gameId.toUpperCase();
+            // filters for courses that contains the current game.
+            $scope.courses = _.filter(courses, function (course) {
+              return _.any(course.games, function (game) {
+                return game.id === $scope.gameId;
               });
-              if ($scope.courses.length) {
-                $scope.hasCourses = true;
-                // show most recently added courses
-                $scope.courses.reverse();
-              }
+            });
+            if ($scope.courses.length) {
+              $scope.hasCourses = true;
+              // show most recently added courses
+              $scope.courses.reverse();
             }
+          }
 
-            $scope.closeWindow = function() {
-              $window.location.search = 'action=SUCCESS';
-            };
-          }
-        }
-      },
-      resolve: {
-        courses: function(CoursesService) {
-          return CoursesService.getEnrollments();
+          $scope.closeWindow = function() {
+            $window.location.search = 'action=SUCCESS';
+          };
         }
       }
-    })
-    .state('sdkv2LoginInstructorSuccess', {
-      url: '/sdk/v2/game/:gameId/login/instructor-success',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v2/sdk-login-instructor-success.html',
-          controller: function($scope, $state,$rootScope, $window, $log) {
-            $scope.closeWindow = function() {
-              $window.location.search = 'action=SUCCESS';
-            };
-            $scope.goToLink = function (link) {
-              //$window.location.search = 'action=URL';
-              $window.open(link);
-            };
-          }
+    },
+    resolve: {
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    }
+  })
+
+  // Instructor Login Success
+
+  .state('sdkv2LoginInstructorSuccess', {
+    url: '/sdk/v2/game/:gameId/login/instructor-success',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v2/sdk-login-instructor-success.html',
+        controller: function($scope, $state,$rootScope, $window, $log) {
+          $scope.closeWindow = function() {
+            $window.location.search = 'action=SUCCESS';
+          };
+          $scope.goToLink = function (link) {
+            //$window.location.search = 'action=URL';
+            $window.open(link);
+          };
         }
       }
-    })
-    .state('sdkLoginResetData', {
-      url: '/sdk/login/resetdata',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v1/sdk-resetdata-prompt.html',
-          controller: 'sdkLoginConfirmCtrl'
-        }
-      },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
+    }
+  })
+
+  // Reset Login Data
+
+  .state('sdkLoginResetData', {
+    url: '/sdk/login/resetdata',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v1/sdk-resetdata-prompt.html',
+        controller: 'sdkLoginConfirmCtrl'
       }
-    })
-    .state('sdkv2LoginResetData', {
-      url: '/sdk/v2/login/resetdata',
-      parent: 'site',
-      data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
-      views: {
-        'main@': {
-          templateUrl: 'login/v2/sdk-resetdata-prompt.html',
-          controller: 'sdkv2LoginConfirmCtrl'
-        }
-      },
-      resolve: {
-        currentUser: function(UserService) {
-          return UserService.currentUser();
-        }
+    },
+    resolve: {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
       }
-    })
-    .state('logout', {
-      parent: 'site',
-      url: '/logout',
-      resolve: {
-        data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
-          AuthService.logout().then(function(response) {
-            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-          }, function(response) {
-            $log.error(response);  
-          });
-        }
+    }
+  })
+  .state('sdkv2LoginResetData', {
+    url: '/sdk/v2/login/resetdata',
+    parent: 'site',
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    views: {
+      'main@': {
+        templateUrl: 'login/v2/sdk-resetdata-prompt.html',
+        controller: 'sdkv2LoginConfirmCtrl'
       }
-    })
-    .state('sdkLogout', {
-      parent: 'site',
-      url: '/sdk/logout',
-      onEnter: function($state, AuthService) {
-        AuthService.logout().then(function() {
-          $state.transitionTo('sdkLoginOptions');
+    },
+    resolve: {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      }
+    }
+  })
+
+  // Logout
+
+  .state('logout', {
+    parent: 'site',
+    url: '/logout',
+    resolve: {
+      data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
+        AuthService.logout().then(function(response) {
+          $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+        }, function(response) {
+          $log.error(response);
         });
       }
-    })
-    .state('sdkv2Logout', {
-      parent: 'site',
-      url: '/sdk/v2/logout',
-      onEnter: function($state, AuthService) {
-        AuthService.logout().then(function() {
-          $state.transitionTo('sdkv2LoginOptions');
-        });
-      }
-    });
+    }
+  })
+  .state('sdkLogout', {
+    parent: 'site',
+    url: '/sdk/logout',
+    onEnter: function($state, AuthService) {
+      AuthService.logout().then(function() {
+        $state.transitionTo('sdkLoginOptions');
+      });
+    }
+  })
+  .state('sdkv2Logout', {
+    parent: 'site',
+    url: '/sdk/v2/logout',
+    onEnter: function($state, AuthService) {
+      AuthService.logout().then(function() {
+        $state.transitionTo('sdkv2LoginOptions');
+      });
+    }
+  });
 })
 
 .controller('LoginOptionsCtrl',
@@ -376,7 +398,6 @@ angular.module('playfully.login', [])
       AuthService.login(credentials)
           .then(function(result) {
             $scope.loginForm.isSubmitting = false;
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
             if(result.data.role === "student") {
               $state.go('sdkv2LoginStudentSuccess',{gameId:$stateParams.gameId});
             } else {
