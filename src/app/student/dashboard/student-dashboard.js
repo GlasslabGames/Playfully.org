@@ -255,21 +255,21 @@ function ($scope, $rootScope, $state, $stateParams, $log, $timeout, courses, Cou
     if (courses.length) {
       angular.forEach(courses, function (course) {
         if (verification.code === course.code) {
-          // check if current game is in selected course
-          courseHasCurrentGame = _.any(course.games, function (game) {
-            return game.id === $stateParams.gameId;
-          });
+          //// check if current game is in selected course
+          //courseHasCurrentGame = _.any(course.games, function (game) {
+          //  return game.id === $stateParams.gameId;
+          //});
           userNotEnrolledInCourse = false;
           enrolledCourse = course;
         }
       });
     }
 
-    if (!courseHasCurrentGame) {
-      msg = "The class you tried to join does not have this game.";
-      $scope.verification.errors.push(msg);
-      return;
-    }
+    //if (!courseHasCurrentGame) {
+    //  msg = "The class you tried to join does not have this game.";
+    //  $scope.verification.errors.push(msg);
+    //  return;
+    //}
 
     // Only verify the code if the user isn't already in the course
     if (userNotEnrolledInCourse) {
@@ -284,10 +284,14 @@ function ($scope, $rootScope, $state, $stateParams, $log, $timeout, courses, Cou
             }
           })
           .then(function () {
-            CoursesService.enroll(verification.code)
-                .then(function () {
-                  $state.go('sdkv2LoginStudentSuccess', {gameId: $stateParams.gameId});
-                });
+            CoursesService.get($scope.enrollment.id)
+                .then(function(course) {
+                  CoursesService.enroll(verification.code)
+                      .then(function () {
+                        $state.go('sdkv2LoginStudentSuccess', {gameId: $stateParams.gameId});
+                      });
+            });
+
           })
       ;
     } else {

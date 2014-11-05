@@ -29,7 +29,8 @@ angular.module( 'playfully', [
   'playfully.profile',
   'playfully.password-reset',
   'playfully.support',
-  'playfully.verify-email'
+  'playfully.verify-email',
+  'playfully.login-sdk'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
