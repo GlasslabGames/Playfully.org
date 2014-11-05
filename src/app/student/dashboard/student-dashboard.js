@@ -55,6 +55,28 @@ angular.module( 'student.dashboard', [
       authorizedRoles: ['student']
     }
   })
+  .state('sdkv2EnrollInCourse', {
+    parent: 'site',
+    url: '/sdk/v2/game/:gameId/enroll',
+    resolve: {
+      games: function (GamesService) {
+        return GamesService.all('details');
+      },
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
+    views: {
+      'main@': {
+        controller: 'sdkv2EnrollInCourseModalCtrl',
+        templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
+      }
+    },
+    data: {
+      hideWrapper: true,
+      authorizedRoles: ['student']
+    }
+  })
   .state( 'sdkEnrollInCourse', {
     parent: 'site',
     url: '/sdk/v2/enroll',
@@ -69,7 +91,7 @@ angular.module( 'student.dashboard', [
     views: {
       'main@': {
         controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
+        templateUrl: 'student/dashboard/sdk-course-enroll.html'
       }
     },
     data:{
@@ -153,14 +175,13 @@ angular.module( 'student.dashboard', [
 })
 
 .controller( 'EnrollInCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $log, $timeout, courses, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService) {
 
     $scope.verification = {
       code: null,
       errors: []
     };
 
-    
     $scope.verify = function(verification) {
       $scope.enrollment = null;
       $scope.verification.errors = [];
@@ -186,16 +207,9 @@ angular.module( 'student.dashboard', [
             if ( result.data.error ) {
               $scope.verification.errors.push(result.data.error);
             }
-          })
-          .then(function() {
-            CoursesService.enroll(verification.code)
-                .then(function() {
-                  $state.go('sdkv2LoginStudentSuccess');
-                });
-          })
-        ;
+          });
       } else {
-        msg = "You have already enrolled in this course: " + enrolledCourse.title;
+        var msg = "You have already enrolled in this course: " + enrolledCourse.title;
         $scope.verification.errors.push(msg);
       }
     };
@@ -220,6 +234,72 @@ angular.module( 'student.dashboard', [
         $state.go('studentDashboard', {}, { reload: true });
       }, 100);
     };
+
+})
+
+.controller('sdkv2EnrollInCourseModalCtrl',
+function ($scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService) {
+
+  $scope.verification = {
+    code: null,
+    errors: []
+  };
+  $scope.enroll = function (verification) {
+    $scope.enrollment = null;
+    $scope.verification.errors = [];
+    var msg;
+    var userNotEnrolledInCourse = true;
+    var courseHasCurrentGame = false;
+    var enrolledCourse = null;
+    // Check whether the user is already enrolled
+    if (courses.length) {
+      angular.forEach(courses, function (course) {
+        if (verification.code === course.code) {
+          //// check if current game is in selected course
+          //courseHasCurrentGame = _.any(course.games, function (game) {
+          //  return game.id === $stateParams.gameId;
+          //});
+          userNotEnrolledInCourse = false;
+          enrolledCourse = course;
+        }
+      });
+    }
+
+    //if (!courseHasCurrentGame) {
+    //  msg = "The class you tried to join does not have this game.";
+    //  $scope.verification.errors.push(msg);
+    //  return;
+    //}
+
+    // Only verify the code if the user isn't already in the course
+    if (userNotEnrolledInCourse) {
+      CoursesService.verifyCode(verification.code)
+          .then(function (result) {
+            $scope.enrollment = result.data;
+            $scope.enrollment.courseCode = $scope.verification.code;
+            $scope.enrollment.errors = [];
+          }, function (result) {
+            if (result.data.error) {
+              $scope.verification.errors.push(result.data.error);
+            }
+          })
+          .then(function () {
+            CoursesService.get($scope.enrollment.id)
+                .then(function(course) {
+                  CoursesService.enroll(verification.code)
+                      .then(function () {
+                        $state.go('sdkv2LoginStudentSuccess', {gameId: $stateParams.gameId});
+                      });
+            });
+
+          })
+      ;
+    } else {
+      msg = "You have already enrolled in this course: " + enrolledCourse.title;
+      $scope.verification.errors.push(msg);
+    }
+  };
+
 
 });
 

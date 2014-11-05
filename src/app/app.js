@@ -29,7 +29,8 @@ angular.module( 'playfully', [
   'playfully.profile',
   'playfully.password-reset',
   'playfully.support',
-  'playfully.verify-email'
+  'playfully.verify-email',
+  'playfully.login-sdk'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -167,7 +168,7 @@ angular.module( 'playfully', [
   return {
     authorize: function() {
       AuthService.isLoggedIn()
-        .then(function(data) {
+        .then(function() {
           UserService.currentUser()
             .then(function(user) {
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
