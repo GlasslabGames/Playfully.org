@@ -95,6 +95,19 @@ angular.module('playfully.register', ['register.const'])
         templateUrl: 'register/sdk-register-student-success.html',
         controller: 'RegisterStudentModalCtrl'
     } }
+  })
+  .state('sdkv2RegisterPlayfullyInfo', {
+      url: '/sdk/v2/game/:gameId/register/playfully/info',
+      parent: 'site',
+      data: {hideWrapper: true},
+      views: {
+          'main@': {
+              templateUrl: 'register/v2/sdk-register-playfully-info.html',
+              controller: function ($scope,$stateParams) {
+                  $scope.gameId = $stateParams.gameId;
+              }
+          }
+      }
   });
 })
 
@@ -116,15 +129,7 @@ angular.module('playfully.register', ['register.const'])
 //     controller: 'RegisterBetaCtrl'
 //   } }
 // })
-// .state('sdkRegisterPlayfullyInfo', {
-//   url: '/sdk/v2/register/playfully/info',
-//   parent: 'site',
-//   data: { hideWrapper: true },
-//   views: { 'main@': {
-//     templateUrl: 'register/v2/sdk-register-playfully-info.html',
-//     controller: 'RegisterBetaCtrl'
-//   } }
-// });
+
 
 
     .directive('pwConfirm', [function () {
@@ -397,6 +402,7 @@ angular.module('playfully.register', ['register.const'])
         $scope.confirmCode = function (conf) {
             $scope.regInit.isSubmitting = true;
             $scope.confirmation.errors = [];
+            // check if code is valid
             CoursesService.verifyCode(conf.code)
                 .then(function (resp) {
                     $scope.regInit.isSubmitting = false;
@@ -415,7 +421,6 @@ angular.module('playfully.register', ['register.const'])
                             $scope.account.regCode = $scope.confirmation.code;
                         },
                         function (result) {
-                            console.log(result);
                             $scope.regInit.isSubmitting = false;
                             if (result.data && result.data.error) {
                                 $scope.confirmation.errors.push(result.data.error);
