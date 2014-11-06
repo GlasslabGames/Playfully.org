@@ -11,7 +11,8 @@ angular.module('reports.const', [])
   // Competency
   'mastered': 'gl-reports-competency-circle-green',
   'not-mastered': 'gl-reports-competency-circle-red',
-  'not-enough-info': 'gl-reports-competency-circle-gray'
+  'not-enough-info': 'gl-reports-competency-circle-yellow',
+  'not-covered': 'gl-reports-competency-circle-gray'
  }
 
 });
