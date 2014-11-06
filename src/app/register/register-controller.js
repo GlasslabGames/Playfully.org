@@ -402,6 +402,9 @@ angular.module('playfully.register', ['register.const'])
         $scope.confirmCode = function (conf) {
             $scope.regInit.isSubmitting = true;
             $scope.confirmation.errors = [];
+            if ($scope.currentUser) {
+
+            }
             // check if code is valid
             CoursesService.verifyCode(conf.code)
                 .then(function (resp) {
