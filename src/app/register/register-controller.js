@@ -376,7 +376,7 @@ angular.module('playfully.register', ['register.const'])
 
         $scope.account = null;
 
-        $scope.gameId = $stateParams.gameId;
+        $scope.gameId = $stateParams.gameId.toUpperCase();
 
         var _blankAccount = {
             username: '',
@@ -401,14 +401,26 @@ angular.module('playfully.register', ['register.const'])
                 .then(function (resp) {
                     $scope.regInit.isSubmitting = false;
                     $scope.course = resp.data;
-                    $scope.account = angular.copy(_blankAccount);
-                    $scope.account.regCode = $scope.confirmation.code;
-                    return;
                 }, function (resp) {
                     $scope.regInit.isSubmitting = false;
                     if (resp.data.error) {
                         $scope.confirmation.errors.push(resp.data.error);
                     }
+                })
+                .then(function () {
+                    // Check if current game is in course
+                    CoursesService.verifyGameInCourse($scope.course.id, $scope.gameId)
+                        .then(function() {
+                            $scope.account = angular.copy(_blankAccount);
+                            $scope.account.regCode = $scope.confirmation.code;
+                        },
+                        function (result) {
+                            console.log(result);
+                            $scope.regInit.isSubmitting = false;
+                            if (result.data && result.data.error) {
+                                $scope.confirmation.errors.push(result.data.error);
+                            }
+                        });
                 });
         };
         $scope.registerV2 = function (account) {
