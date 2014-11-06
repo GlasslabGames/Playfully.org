@@ -187,8 +187,11 @@ angular.module('courses', [])
 
     verifyCode: function(code) {
       return $http.get(API_BASE + '/lms/course/code/' + code + '/verify');
-    }
+    },
 
+    verifyGameInCourse: function(courseId, gameId) {
+      return $http.get(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/verify-course');
+    }
   };
 
   return api;
