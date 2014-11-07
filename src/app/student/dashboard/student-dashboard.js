@@ -1,4 +1,4 @@
-angular.module( 'student.dashboard-sdk', [
+angular.module( 'student.dashboard', [
   'ui.router'
 ])
 
