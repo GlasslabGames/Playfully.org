@@ -31,7 +31,8 @@ angular.module( 'playfully', [
   'playfully.support',
   'playfully.verify-email',
   'playfully.login-sdk',
-  'playfully.register-sdk'
+  'playfully.register-sdk',
+  'student.dashboard-sdk'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
