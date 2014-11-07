@@ -20,10 +20,7 @@
       <td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
         <div class="gl-reports-competency-label-container">
           <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle" ng-class="getLabelClass(label.id)"
-                 popover="{{ label.description }}"
-                 popover-trigger="mouseenter"
-                 popover-placement="bottom">
+            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
             </div>
           </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
         </div>
@@ -67,7 +64,11 @@
       <td ng-repeat="comp in student.competency">
         <div class="gl-reports-competency-table-cell">
           <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle-large" ng-class="getLabelClass(comp.groups[reportInfo.selectedGroupId].level)"></div>
+            <div class="gl-reports-competency-circle-large"
+                 ng-class="getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'class')"
+                 popover="{{getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'text')}}"
+                 popover-trigger="mouseenter"
+                 popover-placement="bottom"></div>
           </div>
         </div>
       </td>
