@@ -217,8 +217,8 @@ angular.module( 'instructor.reports')
       }
     };
 
-    $scope.getLabelClass = function(label) {
-        return REPORT_CONSTANTS.legend[label];
+    $scope.getLabelInfo = function(label,type) {
+        return REPORT_CONSTANTS.legend[label][type];
     };
 
     $scope.userSortFunction = function(colName) {

@@ -26,13 +26,13 @@ angular.module( 'instructor.dashboard', [
     views: {
       main: {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, myGames) { 
-          $scope.myGames = myGames; 
+        controller: function ($scope, $timeout, myGames) {
+          $scope.myGames = myGames;
           $scope.showNotification = false;
 
           $scope.alert = {
             type: 'gl-notify',
-            msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"#\">Download here</a>"
+            msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
           };
 
           $timeout(function() { $scope.showNotification = true; }, 1000);
@@ -79,7 +79,7 @@ angular.module( 'instructor.dashboard', [
   $scope.games = games;
   $scope.myGames = myGames;
   $scope.watchOuts = null;
-  
+
 
   $scope.status = {
     selectedGameId: $stateParams.gameId,
