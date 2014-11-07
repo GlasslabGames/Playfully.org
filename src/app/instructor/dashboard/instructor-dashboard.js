@@ -26,8 +26,8 @@ angular.module( 'instructor.dashboard', [
     views: {
       main: {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, myGames) { 
-          $scope.myGames = myGames; 
+        controller: function ($scope, $timeout, myGames) {
+          $scope.myGames = myGames;
           $scope.showNotification = false;
 
           $scope.alert = {
@@ -79,7 +79,7 @@ angular.module( 'instructor.dashboard', [
   $scope.games = games;
   $scope.myGames = myGames;
   $scope.watchOuts = null;
-  
+
 
   $scope.status = {
     selectedGameId: $stateParams.gameId,
