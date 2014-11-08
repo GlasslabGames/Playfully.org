@@ -53,8 +53,11 @@ angular.module('playfully.register-sdk', ['register.const'])
             views: {
                 'main@': {
                     templateUrl: 'register/v2/sdk-register-playfully-info.html',
-                    controller: function ($scope, $stateParams) {
+                    controller: function ($scope, $stateParams, $window) {
                         $scope.gameId = $stateParams.gameId;
+                        $scope.goToLink = function(link) {
+                            $window.open('www.playfully.org');
+                        };
                     }
                 }
             }
