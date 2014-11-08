@@ -175,7 +175,7 @@ angular.module( 'instructor.reports')
           }
           // for each user report data, determine what level
           angular.forEach(usersReportData, function(item, key) {
-            if(key == group.id) {
+            if(key == group.id && col.groups[group.id].level !== 'not-covered' ) {
               if(item.level === 1) {
                 col.groups[group.id].level = 'not-mastered';
               }

@@ -26,6 +26,7 @@
               placeholder="Class Code"
               required
               autofocus="autofocus"
+              ng-pattern="/^[a-zA-Z\d]+$/"
               ng-model="confirmation.code"
               ng-minlength="5"
               autocorrect="off">
