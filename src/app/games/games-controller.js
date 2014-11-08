@@ -32,7 +32,7 @@ angular.module( 'playfully.games', [
   })
   .state('games.detail', {
     abstract: true,
-    url: '/:gameId',
+    url: '/:gameId?scrollTo',
     templateUrl: 'games/game-detail.html',
     controller: 'GameDetailCtrl',
     resolve: {
@@ -41,6 +41,14 @@ angular.module( 'playfully.games', [
       },
       myGames: function(GamesService) {
         return GamesService.getMyGames();
+      }
+    },
+    onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
+      // GH: Added in a last-minute fashion prior to a Friday release to
+      // support in-page targeting for the Download button.
+      if ($stateParams.scrollTo) {
+        $location.hash($stateParams.scrollTo);
+        $anchorScroll();
       }
     },
     data: {
@@ -113,7 +121,7 @@ angular.module( 'playfully.games', [
     },
     onEnter: function($stateParams, $state, $modal) {
       var gameId = $stateParams.gameId;
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         resolve: {
@@ -126,7 +134,10 @@ angular.module( 'playfully.games', [
         },
         templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
+      });
 
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('games.detail.product', { gameId: gameId });
       });
     }
   });

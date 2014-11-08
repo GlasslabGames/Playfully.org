@@ -33,8 +33,9 @@ angular.module( 'instructor.reports')
     $scope.reportInfo.labels  = [];
     $scope.reportInfo.headers = [];
     $scope.reportInfo.groups  = [];
+    $scope.reportInfo.covered = {};
 
-    // Select course in params
+      // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
     // Select game
     $scope.games.selectedGameId = defaultGameId;
@@ -85,6 +86,7 @@ angular.module( 'instructor.reports')
     });
 
     var _init = function() {
+
       angular.forEach(gameReports.list, function(report) {
 
         if (report.id == reportId) {
@@ -103,6 +105,13 @@ angular.module( 'instructor.reports')
           $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[0].id;
         }
       }
+        // Populates reportInfo.covered with skills covered for each level
+        angular.forEach($scope.reportInfo.groups, function(group) {
+            $scope.reportInfo.covered[group.id] = {};
+            angular.forEach(group.categories, function(category) {
+                $scope.reportInfo.covered[group.id][category] = true;
+            });
+        });
     };
 
     /* for each user replace reportInfo with results from API */
@@ -115,16 +124,13 @@ angular.module( 'instructor.reports')
         ) {
         var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
         angular.forEach(students, function(student) {
-          //console.log("usersReportData:", usersReportData);
           var userReportData = _findUserByUserId(student.id, usersReportData) || {};
           var columns = _processUsersReportData(userReportData.results || {});
-
           student[reportId] = columns;
         });
       }
     };
 
-    // find user
     var _findUserByUserId = function(userId, users){
       for(var i = 0; i < users.length; i++) {
         if( users[i] &&
@@ -161,12 +167,15 @@ angular.module( 'instructor.reports')
         angular.forEach($scope.reportInfo.groups, function(group) {
           col.groups[group.id] = {};
 
-          // default not-enough-info (user might not have any report data
+          // default not-enough-info (user might not have any report data)
           col.groups[group.id].level = 'not-enough-info';
-
+          // default to not-covered if level does not cover current skill
+          if (!$scope.reportInfo.covered[group.id][col.id]) {
+            col.groups[group.id].level = 'not-covered';
+          }
           // for each user report data, determine what level
           angular.forEach(usersReportData, function(item, key) {
-            if(key == group.id) {
+            if(key == group.id && col.groups[group.id].level !== 'not-covered' ) {
               if(item.level === 1) {
                 col.groups[group.id].level = 'not-mastered';
               }
@@ -208,8 +217,8 @@ angular.module( 'instructor.reports')
       }
     };
 
-    $scope.getLabelClass = function(label) {
-        return REPORT_CONSTANTS.legend[label];
+    $scope.getLabelInfo = function(label,type) {
+        return REPORT_CONSTANTS.legend[label][type];
     };
 
     $scope.userSortFunction = function(colName) {

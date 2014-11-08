@@ -26,7 +26,21 @@ angular.module( 'instructor.dashboard', [
     views: {
       main: {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, myGames) { $scope.myGames = myGames; }
+        controller: function ($scope, $timeout, myGames) {
+          $scope.myGames = myGames;
+          $scope.showNotification = false;
+
+          $scope.alert = {
+            type: 'gl-notify',
+            msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
+          };
+
+          $timeout(function() { $scope.showNotification = true; }, 1000);
+
+          $scope.hideNotification = function() {
+            $scope.showNotification = false;
+          };
+        }
       }
     }
   })
@@ -58,41 +72,55 @@ angular.module( 'instructor.dashboard', [
 })
 
 
-.controller('InstructorDashboardCtrl', function($scope, $state, $stateParams, $log, activeCourses, games, myGames, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, games, myGames, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = activeCourses;
   $scope.games = games;
   $scope.myGames = myGames;
+  $scope.watchOuts = null;
+
+
   $scope.status = {
     selectedGameId: $stateParams.gameId,
     selectedCourseId: $stateParams.courseId,
-    selectedGame: null
-  };
-  $scope.reports = {
-    isOpen: false,
-    selected: null,
-    options: []
-  };
-  $scope.sowo = {
-    shoutOuts: null,
-    watchOuts: null,
-    // set max rows for SOWO
-    max: 7,
-    // to display show more button
-    hasOverflow: false
+    selectedGame: null,
+    nextGameId: null,
+    prevGameId: null,
+    selectedReport: null
   };
 
   var _setSelectedGameById = function(gameId) {
-    $scope.status.selectedGame = _.find($scope.games, function(game) {
-      return game.gameId == gameId;
-    });
+    var selectedIndex = _.findIndex($scope.games, {'gameId': gameId});
+    $scope.status.selectedGame = $scope.games[selectedIndex];
+
+    var prevIndex = _getPrevIndex($scope.games, selectedIndex);
+    $scope.status.prevGameId = $scope.games[prevIndex].gameId;
+
+    var nextIndex = _getNextIndex($scope.games, selectedIndex);
+    $scope.status.nextGameId = $scope.games[nextIndex].gameId;
   };
 
+  /* Given an array and current index, find the previous index */
+  var _getPrevIndex = function(ary, idx) {
+    var prevIndex = idx - 1;
+    if (prevIndex < 0) { prevIndex = ary.length - 1; }
+    return prevIndex;
+  };
+
+  /* Given an array and current index, find the next index */
+  var _getNextIndex = function(ary, idx) {
+    var nextIndex = idx + 1;
+    if (nextIndex > ary.length - 1) { nextIndex = 0; }
+    return nextIndex;
+  };
+
+
+  /* Create an object whose keys are student.id and value is student */
   var _populateStudentsListFromCourses = function(courseList) {
-    angular.forEach(courseList, function(course) {
-      angular.forEach(course.users, function(student) {
-        if (!$scope.students.hasOwnProperty(student.id)) {
+    _.each(courseList, function(course) {
+      _.each(course.users, function(student) {
+        if (!_.has($scope.students, student.id)) {
           $scope.students[student.id] = student;
         }
       });
@@ -100,26 +128,18 @@ angular.module( 'instructor.dashboard', [
   };
 
   var _getReports = function() {
-    GamesService.getAllReports($stateParams.gameId)
-      .then(function(data) {
-        if (data.list && data.list.length) {
-          $scope.reports.options = data.list;
+    GamesService.getAllReports($stateParams.gameId).then(function(data) {
+      if (data.list && data.list.length) {
+        $scope.status.selectedReport = _.find(data.list, {'id': 'sowo'}) || null;
 
-          $scope.reports.selected = _.find(data.list, function(report) {
-            return report.id == 'sowo';
-          }) || null;
-
-          if ($scope.reports.selected) {
-            ReportsService.get($scope.reports.selected.id, $stateParams.gameId, $stateParams.courseId).then(function(data) {
-                _populateSowo(data);
-              }, function(data) {
-                $log.error(data);
-              });
-          }
+        if ($scope.status.selectedReport) {
+          ReportsService.get($scope.status.selectedReport.id, $stateParams.gameId, $stateParams.courseId)
+            .then(function(data) { _populateWo(data); },
+              function(data) { $log.error(data); });
         }
-      });
+      }
+    });
   };
-
 
   var _initDashboard = function() {
     _populateStudentsListFromCourses(activeCourses);
@@ -137,83 +157,27 @@ angular.module( 'instructor.dashboard', [
     _getReports();
   };
 
+  var _populateWo = function(data) {
+    var watchOuts = {};
 
-  var _populateSowo = function(data) {
-    var sowo = data;
-    var soTotal = 0;
-    var woTotal = 0;
-
-    if (sowo.length) {
-      $scope.sowo.shoutOuts = [];
-      $scope.sowo.watchOuts = [];
-
-      // sowo count sorted by server
-      // sort alpha in view
-      angular.forEach(sowo, function(assessment) {
-        var student = $scope.students[assessment.userId];
-        student = _compileNameOfStudent(student);
-
-        if (assessment.results.hasOwnProperty('shoutout') &&
-            assessment.results.shoutout.length) {
-          if (soTotal <= $scope.sowo.max) {
-            $scope.sowo.shoutOuts[soTotal] = {
-              student: student,
-              results: assessment.results['shoutout'],
-              overflowText: _getOverflowText(assessment.results['shoutout']),
-              order: [
-                assessment.results['shoutout'].length,
-                student.name
-              ]
-            };
-            soTotal++;
-          } else {
-            $scope.sowo.hasOverflow = true;
-          }
-        }
-        if (assessment.results.hasOwnProperty('watchout') &&
-            assessment.results.watchout.length) {
-          if (woTotal <= $scope.sowo.max) {
-            $scope.sowo.watchOuts[woTotal] = {
-              student: student,
-              results: assessment.results['watchout'],
-              overflowText: _getOverflowText(assessment.results['watchout']),
-              order: [
-                assessment.results['watchout'].length,
-                student.name
-              ]
-            };
-            woTotal++;
-          } else {
-            $scope.sowo.hasOverflow = true;
-          }
-        }
-      });
-
-      // get max totals
-      var total = Math.max(soTotal, woTotal);
-      var listToBackfill = null;
-      if ($scope.sowo.shoutOuts.length < total) {
-        listToBackfill = $scope.sowo.shoutOuts; 
-      } else if ($scope.sowo.watchOuts.length != total) {
-        listToBackfill = $scope.sowo.watchOuts;
-      }
-
-      // Populate the end of the shorter array with empty records
-      // so that we have an even number
-      if (listToBackfill) {
-        for (var i = listToBackfill.length; i < total; i++) {
-          listToBackfill[i] = {
-            student: {},
-            results: [],
-            overflowText: '',
-            order: [0, '']
+    _.each(data, function(obj) {
+      _.each(obj.results.watchout, function(wo) {
+        if (!watchOuts.hasOwnProperty(wo.id)) {
+          watchOuts[wo.id] = {
+            name: wo.name,
+            description: wo.description,
+            students: []
           };
         }
-      }
-    }
+        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
+        watchOuts[wo.id].students.push(studentObj);
+      });
+    });
+    $scope.watchOuts = watchOuts;
   };
 
   var _compileNameOfStudent = function(student) {
+    if (!student) { return ''; }
     var name = student.firstName;
     if(student.lastName) {
       name += ' ' + student.lastName + '.';
@@ -221,16 +185,6 @@ angular.module( 'instructor.dashboard', [
 
     student.name = name;
     return student;
-  };
-
-  var _getOverflowText = function(results) {
-    overflowText = '';
-    angular.forEach(results, function(r, i) {
-      if (i >= 3) {
-        overflowText += '<p>' + r.description + '</p>';
-      }
-    });
-    return overflowText;
   };
 
   _initDashboard();

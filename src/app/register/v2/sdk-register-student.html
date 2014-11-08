@@ -4,16 +4,15 @@
     <i class="gl-sdk-header-logo gl-sdk-playfully-logo"></i>
   </h3>
 </div>
-
 <div class="modal-body" ng-hide="account">
   <div class="container-fluid">
     <div class="col-md-12">
       <div class="row">
-
         <h3 class="modal-title gl-sdk-register-title">Create a Playfully Account!</h3>
 
+
         <p class="text-center">
-          Hi there! Please enter your registration code to begin registration.
+          Hello! Please enter your Class Code to join a class.
         </p>
 
         <alert ng-repeat="error in confirmation.errors" ng-show="confirmation.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
@@ -27,6 +26,7 @@
               placeholder="Class Code"
               required
               autofocus="autofocus"
+              ng-pattern="/^[a-zA-Z\d]+$/"
               ng-model="confirmation.code"
               ng-minlength="5"
               autocorrect="off">
@@ -42,7 +42,7 @@
 
           <div class="text-center reg-submit" ng-class="{'reg-submit--nomargin': hideWrapper}">
             &nbsp;<input type="submit" class="btn gl-btn--blue"
-            value="{{ regInit.isSubmitting ? 'Confirming...' : 'Confirm Classcode'}}"
+            value="{{ regInit.isSubmitting ? 'Confirming...' : 'Submit'}}"
             ng-disabled="regInit.$invalid || regInit.isSubmitting">&nbsp;
           </div>
         </form>
@@ -54,22 +54,11 @@
 
 
 <div class="modal-body" ng-show="account">
-
+  <h3 class="modal-title gl-sdk-register-title">Create a Playfully Account!</h3>
   <form name="regForm" novalidate class="reg-form"
-        ng-submit="register(account)">
+        ng-submit="registerV2(account)">
 
     <div class="container-fluid">
-
-      <div class="col-md-12">
-        <div class="row">
-          <div class="gl-class-info text-center">
-            <div>This is {{ course.teacher.firstName }}
-              {{ course.teacher.lastName }}&rsquo;s class: {{ course.title }}</div>
-            <div>Classcode: {{ account.regCode }}</div>
-          </div>
-        </div>
-      </div>
-
       <div class="col-md-6">
         <div class="row">
 
@@ -198,7 +187,7 @@
 
       <div class="text-center reg-submit">
         <input type="submit" class="btn gl-btn--blue"
-               value="{{ regForm.isSubmitting ? 'Sending...' : 'Register'}}"
+               value="{{ regForm.isSubmitting ? 'Sending...' : 'Submit'}}"
                ng-disabled="regForm.$invalid || regForm.isSubmitting">&nbsp;
       </div>
 
@@ -206,3 +195,4 @@
 
   </form>
 </div>
+

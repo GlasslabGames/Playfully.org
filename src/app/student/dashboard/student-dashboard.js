@@ -35,6 +35,10 @@ angular.module( 'student.dashboard', [
         size: 'sm',
         keyboard: false
       });
+
+      $rootScope.modalInstance.result.finally(function(result) {
+        return $state.transitionTo('studentDashboard');
+      });
     }
   })
   .state( 'enrollInCourse', {
@@ -51,13 +55,22 @@ angular.module( 'student.dashboard', [
       authorizedRoles: ['student']
     }
   })
+
   .state( 'sdkEnrollInCourse', {
     parent: 'site',
     url: '/sdk/v2/enroll',
+    resolve: {
+      games: function (GamesService) {
+        return GamesService.all('details');
+      },
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
     views: {
       'main@': {
         controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
+        templateUrl: 'student/dashboard/sdk-course-enroll.html'
       }
     },
     data:{
@@ -141,14 +154,13 @@ angular.module( 'student.dashboard', [
 })
 
 .controller( 'EnrollInCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $log, $timeout, courses, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService) {
 
     $scope.verification = {
       code: null,
       errors: []
     };
 
-    
     $scope.verify = function(verification) {
       $scope.enrollment = null;
       $scope.verification.errors = [];
@@ -176,7 +188,7 @@ angular.module( 'student.dashboard', [
             }
           });
       } else {
-        msg = "You have already enrolled in this course: " + enrolledCourse.title;
+        var msg = "You have already enrolled in this course: " + enrolledCourse.title;
         $scope.verification.errors.push(msg);
       }
     };
@@ -203,5 +215,9 @@ angular.module( 'student.dashboard', [
     };
 
 });
+
+
+
+
 
 
