@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div 
+    <div
       class="gl-courses--blank text-center"
       ng-show="state.includes('courses.archived') && archivedCourses.length == 0">
         None of your classes have been archived
@@ -94,14 +94,15 @@
                     </div>
                   </div>
                 </div>
-                {{ gamesInfo[game.id].longName }} 
+                {{ gamesInfo[game.id].longName }}
               </div>
 
               <div ng-if="course.games.length < 3" class="gl-course-game text-center text-grey5" ui-sref="assignGamesToCourse({id:course.id})">
                 <div class="gl-course-game-thumb gl-thumb-game-add">
                   <div class="bu-add-circle bu-add-circle--grey"></div>
                 </div>
-                Assign More Games
+                <span ng-if="course.games.length > 0">Assign More Games</span>
+                <span ng-if="course.games.length == 0">Assign a Game</span>
               </div>
             </div>
           </div>

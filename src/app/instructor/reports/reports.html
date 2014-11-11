@@ -1,4 +1,4 @@
-<div class="gl-bg--gray">
+<div class="gl-bg--gray gl-bg--stretched">
   <div class="container" ng-if="!activeCourses.length">
     <div class="gl-reports--blank text-center">
       <h2 class="headline-2">You do not have any active classes</h2>
@@ -8,59 +8,65 @@
     </div>
   </div>
 
+
   <div class="container" ng-if="activeCourses.length">
-    <hr class="rule rule--aqua" />
-
-    <div class="row">
-      <div class="col-md-8">
-        Game:
-        <div class="btn-group" dropdown is-open="games.isOpen">
-          <button type="button"
-            class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
-            ng-click="toggleDropdown($event, 'games')"
-            ng-bind="games.options[games.selectedGameId].shortName"></button>
-          <button type="button" class="btn gl-btn--blue dropdown-toggle">
-            <span class="caret"></span>
-            <span class="sr-only">Split button!</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
-              ui-sref-active="gl-reports-dropdown--selected">
-              <a href="#"
-                ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
-                ng-bind="game.shortName"
-                ng-hide="game.maintenance"></a>
-            </li>
-          </ul>
-        </div>
-        &nbsp;
-        Report:
-        <div class="btn-group" dropdown is-open="reports.isOpen">
-          <button type="button" class="btn btn-default gl-reports-dropdown"
-            ng-click="toggleDropdown($event, 'reports')"
-            ng-bind="reports.selected.name"></button>
-          <button type="button" class="btn gl-btn--blue dropdown-toggle">
-            <span class="caret"></span>
-            <span class="sr-only">Split button!</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="report in reports.options | orderBy:report.name"
-              ui-sref-active="gl-reports-dropdown--selected">
-              <a href="#"
-                ng-click="goToSelected(report.id, {gameId:games.selectedGameId,courseId:courses.selectedCourseId}); selectReport($event, report)"
-                ng-bind="report.name"></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-4 text-right">
-        <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
-        <button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
-      </div>
+    <div ng-if="!games.hasGames()">
+      &nbsp;<br>&nbsp;
     </div>
+    <div ng-if="games.hasGames()">
+      <hr class="rule rule--aqua" />
 
-    <hr class="rule rule--aqua" />
+      <div class="row">
+        <div class="col-md-8">
+          Game:
+          <div class="btn-group" dropdown is-open="games.isOpen">
+            <button type="button"
+              class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
+              ng-click="toggleDropdown($event, 'games')"
+              ng-bind="games.options[games.selectedGameId].shortName"></button>
+            <button type="button" class="btn gl-btn--blue dropdown-toggle">
+              <span class="caret"></span>
+              <span class="sr-only">Split button!</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
+                ui-sref-active="gl-reports-dropdown--selected">
+                <a href="#"
+                  ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
+                  ng-bind="game.shortName"
+                  ng-hide="game.maintenance"></a>
+              </li>
+            </ul>
+          </div>
+          &nbsp;
+          Report:
+          <div class="btn-group" dropdown is-open="reports.isOpen">
+            <button type="button" class="btn btn-default gl-reports-dropdown"
+              ng-click="toggleDropdown($event, 'reports')"
+              ng-bind="reports.selected.name"></button>
+            <button type="button" class="btn gl-btn--blue dropdown-toggle">
+              <span class="caret"></span>
+              <span class="sr-only">Split button!</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="report in reports.options | orderBy:report.name"
+                ui-sref-active="gl-reports-dropdown--selected">
+                <a href="#"
+                  ng-click="goToSelected(report.id, {gameId:games.selectedGameId,courseId:courses.selectedCourseId}); selectReport($event, report)"
+                  ng-bind="report.name"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-4 text-right">
+          <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
+          <button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
+        </div>
+      </div>
+
+      <hr class="rule rule--aqua" />
+    </div>
 
     <div class="row">
       <div class="col-md-12">
@@ -121,14 +127,29 @@
 
       <div class="col-md-9">
         <div class="gl-reports-container gl-margin--Bxl">
+          <div ng-if="games.hasGames()">
 
-          <h1 class="headline-2 text-center gl-margin--Tl"
-            ng-bind="reports.selected.header.text"></h1>
+            <h1 class="headline-2 text-center gl-margin--Tl"
+              ng-bind="reports.selected.header.text"></h1>
 
-          <p class="text-center" ng-bind="reports.selected.description">
-          </p>
+            <p class="text-center" ng-bind="reports.selected.description">
+            </p>
 
-          <div ui-view></div>
+            <div ui-view></div>
+          </div>
+
+          <div ng-if="!games.hasGames()">
+            <h1 class="headline-2 text-center gl-margin--Tl">
+              Course has no games
+            </h1>
+            <p class="text-center gl-margin--Txxl">
+              The selected course has no games associated with it.
+            </p>
+            <p class="text-center gl-margin--Bxxl">
+              Please go to the <a href="#" ui-sref="courses">Classes</a> section and
+              add at least one game to the course.
+            </p>
+          </div>
 
         </div>
       </div>

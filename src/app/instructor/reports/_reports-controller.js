@@ -26,25 +26,22 @@ angular.module( 'instructor.reports', [
         return ReportsService.getCourseInfo(activeCourses);
       },
       defaultCourseId: function(activeCourses) {
-          if (activeCourses[0]) {
-            return activeCourses[0].id;
-          } else {
-            return null;
-          }
+        if (activeCourses[0]) {
+          return activeCourses[0].id;
+        }
+        return null;
       },
       myGames: function(defaultCourseId,coursesInfo) {
         if (defaultCourseId) {
           return coursesInfo[defaultCourseId].games;
-        } else {
-          return {};
         }
+        return {};
       },
       defaultGameId: function(myGames) {
         if (myGames[0]) {
             return myGames[0].gameId;
-        } else {
-          return null;
         }
+        return null;
       },
       gameReports: function(GamesService, myGames,defaultGameId) {
         if (myGames[0]) {
@@ -66,11 +63,13 @@ angular.module( 'instructor.reports', [
   .state('reports.default', {
     url: '',
     controller: function($scope, $state, $log, defaultGameId, activeCourses) {
-      if (activeCourses.length) {
-        $state.transitionTo('reports.details' +'.' + $scope.reports.options[0].id, {
+      if (activeCourses.length && defaultGameId) {
+        $state.transitionTo('reports.details.' + $scope.reports.options[0].id, {
           gameId: defaultGameId,
           courseId: activeCourses[0].id
         });
+      } else {
+        // First course doesn't have any games
       }
     },
     data: {
@@ -233,6 +232,10 @@ angular.module( 'instructor.reports', [
     $scope.games.isOpen = false;
     $scope.games.selectedGameId = null;
     $scope.games.options = {};
+    // Utility function for template
+    $scope.games.hasGames = function() {
+      return !_.isEmpty($scope.games.options);
+    };
 
     angular.forEach(myGames, function(game) {
       if (game.enabled) {
@@ -280,7 +283,7 @@ angular.module( 'instructor.reports', [
 
     // Adds students from activeCourses to student object
 
-      angular.forEach(activeCourses, function(course) {
+    angular.forEach(activeCourses, function(course) {
       angular.forEach(course.users, function(student) {
         if (!$scope.students.hasOwnProperty(student.id)) {
           $scope.students[student.id] = student;
@@ -336,7 +339,12 @@ angular.module( 'instructor.reports', [
         newState.gameId = gameId || games[0].gameId;
 
         _clearOtherCourses(courseId);
-        $state.transitionTo('reports.details' + '.' + $scope.reports.selected.id, newState);
+
+        if ($scope.reports.selected) {
+          $state.transitionTo('reports.details.' + $scope.reports.selected.id, newState);
+        } else {
+          $state.transitionTo('reports.details.achievements', newState);
+        }
       });
     };
     // Reset all classes and their students except for the id passed in
