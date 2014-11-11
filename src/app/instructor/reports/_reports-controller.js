@@ -27,15 +27,23 @@ angular.module( 'instructor.reports', [
       },
       defaultCourseId: function(activeCourses) {
           if (activeCourses[0]) {
-              return activeCourses[0].id;
+            return activeCourses[0].id;
+          } else {
+            return null;
           }
       },
       myGames: function(defaultCourseId,coursesInfo) {
-        return coursesInfo[defaultCourseId].games;
+        if (defaultCourseId) {
+          return coursesInfo[defaultCourseId].games;
+        } else {
+          return {};
+        }
       },
       defaultGameId: function(myGames) {
         if (myGames[0]) {
             return myGames[0].gameId;
+        } else {
+          return null;
         }
       },
       gameReports: function(GamesService, myGames,defaultGameId) {
@@ -142,7 +150,7 @@ angular.module( 'instructor.reports', [
     })
     .state('reports.details.competency', {
       url: '/competency/game/:gameId/course/:courseId?skillsId&stdntIds',
-      templateUrl: 'instructor/reports/compentency/competency.html',
+      templateUrl: 'instructor/reports/competency/competency.html',
       controller: 'CompetencyCtrl',
       parameters: ['gameId','courseId'],
       resolve: {
