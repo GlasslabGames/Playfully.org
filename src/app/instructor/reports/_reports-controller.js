@@ -142,7 +142,7 @@ angular.module( 'instructor.reports', [
     })
     .state('reports.details.competency', {
       url: '/competency/game/:gameId/course/:courseId?skillsId&stdntIds',
-      templateUrl: 'instructor/reports/compentency/competency.html',
+      templateUrl: 'instructor/reports/competency/competency.html',
       controller: 'CompetencyCtrl',
       parameters: ['gameId','courseId'],
       resolve: {

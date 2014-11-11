@@ -19,8 +19,9 @@ angular.module( 'instructor.tour', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('instructorDashboard');
+        return $state.transitionTo('instructorDashboard.intro');
       });
+    }
   });
 })
 
