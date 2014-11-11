@@ -56,7 +56,7 @@ angular.module('playfully.register-sdk', ['register.const'])
                     controller: function ($scope, $stateParams, $window) {
                         $scope.gameId = $stateParams.gameId;
                         $scope.goToLink = function(link) {
-                            $window.open('www.playfully.org');
+                            $window.location.search = 'openURL='+link;
                         };
                     }
                 }
@@ -121,6 +121,9 @@ angular.module('playfully.register-sdk', ['register.const'])
             if (user !== null) {
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
             }
+        };
+        $scope.goToLink = function (link) {
+            $window.location.search = 'openURL=' + link;
         };
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
