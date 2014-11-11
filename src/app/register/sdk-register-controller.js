@@ -56,7 +56,7 @@ angular.module('playfully.register-sdk', ['register.const'])
                     controller: function ($scope, $stateParams, $window) {
                         $scope.gameId = $stateParams.gameId;
                         $scope.goToLink = function(link) {
-                            $window.location.search = 'openURL={'+link+'}';
+                            $window.location.search = 'openURL='+link;
                         };
                     }
                 }
@@ -123,7 +123,7 @@ angular.module('playfully.register-sdk', ['register.const'])
             }
         };
         $scope.goToLink = function (link) {
-            $window.location.search = 'openURL={' + link + '}';
+            $window.location.search = 'openURL=' + link;
         };
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
