@@ -286,22 +286,22 @@ angular.module( 'instructor.reports', [
         if ($scope.reports.selected && $scope.reports.selected.id == 'sowo') {
           return false;
         }
+        student.isSelected = !student.isSelected;
         // For now, don't allow students in unselected courses to be selected
         // TODO: Maybe figure out a way to update course and select student via
         // the URL?
-        if (course.id != $scope.courses.selectedCourseId) {
-          return false;
-        }
+        //if (course.id != $scope.courses.selectedCourseId) {
+        //  return false;
+        //}
 
-        student.isSelected = !student.isSelected;
-        course.isPartiallySelected = false;
+        //course.isPartiallySelected = false;
 
         /* If any students are not selected, set isPartiallySelected to true */
-        angular.forEach(course.users, function (student) {
-          if (!student.isSelected) {
-            course.isPartiallySelected = true;
-          }
-        });
+        //angular.forEach(course.users, function (student) {
+        //  if (!student.isSelected) {
+        //    course.isPartiallySelected = true;
+        //  }
+        //});
       };
 
 
