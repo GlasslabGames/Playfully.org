@@ -12,30 +12,32 @@
     <hr class="rule rule--aqua" />
 
     <div class="row">
-
-      <div class="col-md-12">
+      <div class="col-md-10">
         Class:
-        <div class="btn-group" dropdown is-open="class.isOpen">
-          <button type="button" class="btn btn-default gl-reports-dropdown"
-                  ng-click="toggleDropdown($event, 'classes')"
-                  ng-bind="classes.options[classes.selectedCourseId].title"></button>
+        <div class="btn-group" dropdown is-open="course.isOpen">
+          <button type="button"
+                  class="btn btn-default gl-reports-dropdown--course"
+                  ng-click="toggleDropdown($event, 'courses')"
+                  ng-bind="courses.options[courses.selectedCourseId].title">
+          </button>
           <button type="button" class="btn gl-btn--blue dropdown-toggle">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key, course) in classes.options | orderBy:course.title"
+            <li ng-repeat="(key, course) in courses.options"
                 ui-sref-active="gl-reports-dropdown--selected">
               <a href="#"
-                 ng-click="selectCourse($event, key);"
-                 ng-bind="course.title"></a>
+                 ng-click="selectCourse($event,key)"
+                 ng-bind="course.title">
+              </a>
             </li>
           </ul>
         </div>
         Game:
         <div class="btn-group" dropdown is-open="games.isOpen">
           <button type="button"
-            class="btn btn-default gl-reports-dropdown gl-reports-dropdown--game"
+            class="btn btn-default gl-reports-dropdown--game"
             ng-click="toggleDropdown($event, 'games')"
             ng-bind="games.options[games.selectedGameId].shortName"></button>
           <button type="button" class="btn gl-btn--blue dropdown-toggle">
@@ -73,11 +75,10 @@
         </div>
       </div>
 
-      <!--<div class="col-md-2 text-right">-->
-        <!--<button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>-->
-        <!--<button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>-->
-      <!--</div>-->
-    </div>
+      <div class="col-md-2 text-right">
+        <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i></button>
+        <button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i></button>
+      </div>
     </div>
 
     <hr class="rule rule--aqua" />
@@ -96,35 +97,17 @@
     <div class="row">
       <div class="col-md-3">
         <div class="gl-reports-container gl-margin--Bxl">
-          <h3 class="headline-5 gl-margin--Tn">Class / Players</h3>
+          <h3 class="headline-5 gl-margin--Tn">Students</h3>
           <div>
-            <div class="gl-reports-nav-courses"
-              ng-repeat="(key, course) in courses.options">
-              <div>
-                <label class="gl-reports-nav-course" ng-click="selectCourse($event, key)">
-                  <div class="gl-reports-nav-selector"
-                    ng-class="{'gl-reports-nav-selector--selected': course.id == courses.selectedCourseId,
-                      'gl-reports-nav-selector--partial': course.isPartiallySelected}">
-                    <i class="fa fa-check"></i>
-                    <span class="gl-reports-course-partial" ng-show="course.isPartiallySelected">&mdash;</span>
-                  </div>
-                  <input class="gl-reports-nav-course-checkbox" type="checkbox" ng-model="course.isSelected">
-                  {{ course.title }}
-                </label>
-                <div class="gl-arrow-right gl-reports-course-toggle"
-                  ng-class="{'gl-arrow-right--expanded': course.isExpanded}"
-                  ng-click="course.isExpanded = !course.isExpanded"></div>
-              </div>
               <div class="gl-reports-nav-students"
                 ng-class="{'gl-reports-nav-students--disabled': reports.selected.id == 'sowo',
-                  'gl-reports-nav-students--empty': !course.users.length}"
-                ng-show="course.isExpanded">
-                <div ng-if="!course.users.length" class="text-grey5">
+                  'gl-reports-nav-students--empty': !courses.selected.users.length}">
+                <div ng-if="!courses.selected.users.length" class="text-grey5">
                   No students in class
                 </div>
-                <div ng-if="course.users.length"
-                  ng-repeat="student in course.users | orderBy:'firstName'">
-                  <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">
+                <div ng-if="courses.selected.users.length"
+                  ng-repeat="student in courses.selected.users | orderBy:'firstName'">
+                  <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, courses.selected)">
                     <div class="gl-reports-nav-selector"
                       ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
                       <i class="fa fa-check"></i>
@@ -134,7 +117,6 @@
                   </label>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
