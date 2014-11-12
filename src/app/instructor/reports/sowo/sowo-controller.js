@@ -9,6 +9,7 @@ angular.module( 'instructor.reports')
     var reportId = 'sowo';
     // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
+    $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
     $scope.games.selectedGameId = defaultGameId;
 

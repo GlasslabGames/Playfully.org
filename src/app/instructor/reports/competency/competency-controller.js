@@ -37,7 +37,9 @@ angular.module( 'instructor.reports')
 
       // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+
+      // Select game
     $scope.games.selectedGameId = defaultGameId;
     // Set current Report
 
