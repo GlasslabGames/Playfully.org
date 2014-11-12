@@ -17,7 +17,26 @@
       <hr class="rule rule--aqua" />
 
       <div class="row">
-        <div class="col-md-8">
+
+        <div class="col-md-12">
+          Class:
+          <div class="btn-group" dropdown is-open="class.isOpen">
+            <button type="button" class="btn btn-default gl-reports-dropdown"
+                    ng-click="toggleDropdown($event, 'classes')"
+                    ng-bind="classes.options[classes.selectedCourseId].title"></button>
+            <button type="button" class="btn gl-btn--blue dropdown-toggle">
+              <span class="caret"></span>
+              <span class="sr-only">Split button!</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="(key, course) in classes.options | orderBy:course.title"
+                  ui-sref-active="gl-reports-dropdown--selected">
+                <a href="#"
+                  ng-click="selectCourse($event, key);"
+                  ng-bind="course.title"></a>
+              </li>
+            </ul>
+          </div>
           Game:
           <div class="btn-group" dropdown is-open="games.isOpen">
             <button type="button"
@@ -38,34 +57,18 @@
               </li>
             </ul>
           </div>
-          &nbsp;
-          Report:
-          <div class="btn-group" dropdown is-open="reports.isOpen">
-            <button type="button" class="btn btn-default gl-reports-dropdown"
-              ng-click="toggleDropdown($event, 'reports')"
-              ng-bind="reports.selected.name"></button>
-            <button type="button" class="btn gl-btn--blue dropdown-toggle">
-              <span class="caret"></span>
-              <span class="sr-only">Split button!</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="report in reports.options | orderBy:report.name"
-                ui-sref-active="gl-reports-dropdown--selected">
-                <a href="#"
-                  ng-click="goToSelected(report.id, {gameId:games.selectedGameId,courseId:courses.selectedCourseId}); selectReport($event, report)"
-                  ng-bind="report.name"></a>
-              </li>
-            </ul>
+
+          <div class="col-md-4 text-right">
+            <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
+            <button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
           </div>
         </div>
 
-        <div class="col-md-4 text-right">
-          <button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>
-          <button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>
-        </div>
+        <!--<div class="col-md-2 text-right">-->
+          <!--<button disabled class="btn gl-btn--blue"><i class="fa fa-download"></i> Download PDF</button>-->
+          <!--<button disabled class="btn gl-btn--blue"><i class="fa fa-print"></i> Print</button>-->
+        <!--</div>-->
       </div>
-
-      <hr class="rule rule--aqua" />
     </div>
 
     <div class="row">

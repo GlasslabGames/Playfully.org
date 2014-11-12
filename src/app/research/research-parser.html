@@ -23,6 +23,15 @@
                 </div>
             </div>
             <br>
+            Start Hour:
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input type="number" class="form-control" name="input" ng-model="startHour" min="0">
+                    </p>
+                </div>
+            </div>
+            <br>
             End Date:
             <div class="row">
                 <div class="col-md-6">
@@ -31,6 +40,15 @@
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="endDateOpen($event)"><i class="fa fa-calendar"></i></button>
                   </span>
+                    </p>
+                </div>
+            </div>
+            <br>
+            End Hour:
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input type="number" class="form-control" name="input" ng-model="endHour" min="0">
                     </p>
                 </div>
             </div>

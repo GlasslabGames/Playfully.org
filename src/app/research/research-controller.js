@@ -36,7 +36,9 @@ angular.module('research', [])
     $scope.gameId = "aa-1";
     $scope.userIds = "";
     $scope.startDate = "";
+    $scope.startHour = 0;
     $scope.endDate = "";
+    $scope.endHour = 23;
     $scope.outData = "";
     $scope.numEvents = 0;
     $scope.saveToFile = false;
@@ -48,6 +50,8 @@ angular.module('research', [])
         if ($scope.gameId) {
             var sd = "";
             var ed = "";
+            var sh = 0;
+            var eh = 23;
 
             if($scope.startDate) {
                 sd = new Date($scope.startDate);
@@ -63,6 +67,13 @@ angular.module('research', [])
                 }
             }
 
+            if( $scope.startHour ) {
+                sh = $scope.startHour;
+            }
+            if( $scope.endHour ) {
+                eh = $scope.endHour;
+            }
+
             //console.log("startDate:", sd);
             //console.log("endDate:", ed);
 
@@ -71,7 +82,13 @@ angular.module('research', [])
             if($scope.saveToFile) {
                 url += "?startDate="+sd+
                        "&endDate="+ed+
-                       "&saveToFile="+$scope.saveToFile;
+                       "&saveToFile="+$scope.saveToFile+
+                       "&startDateHour="+sh+
+                       "&endDateHour="+eh+
+                       "&startDateMin=0"+
+                       "&startDateSec=0"+
+                       "&endDateMin=59"+
+                       "&endDateSec=59";
                 $window.open(url);
             } else {
                 $scope.outData = "";
@@ -82,7 +99,13 @@ angular.module('research', [])
                         params: {
                             startDate:  sd,
                             endDate:    ed,
-                            saveToFile: $scope.saveToFile
+                            saveToFile: $scope.saveToFile,
+                            startDateHour: sh,
+                            endDateHour:   eh,
+                            startDateMin:  0,
+                            startDateSec:  0,
+                            endDateMin:    59,
+                            endDateSec:    59
                         }
                     }).success(function(data){
                     $scope.loading = false;
