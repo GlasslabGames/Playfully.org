@@ -103,7 +103,7 @@
                   No students in class
                 </div>
                 <div ng-if="course.users.length"
-                  ng-repeat="student in course.users">
+                  ng-repeat="student in course.users | orderBy:'firstName'">
                   <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, course)">
                     <div class="gl-reports-nav-selector"
                       ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
