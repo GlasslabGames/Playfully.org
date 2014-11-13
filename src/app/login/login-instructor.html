@@ -13,8 +13,11 @@
 
     <div class="gl-input-group">
       <div class="form-group" ng-class="{'has-error': loginForm.email.$dirty && loginForm.email.$invalid}">
-        <input type="email" name="email" class="form-control" placeholder="Email address"
-          required autofocus ng-model="credentials.username">
+        <input type="email" name="email" class="form-control"
+          ng-model="credentials.username"
+          ng-pattern="emailValidationPattern"
+          placeholder="Email address"
+          required autofocus>
           <div class="form-errors">
             <div class="form-error" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
               Please enter a valid email address
@@ -28,10 +31,10 @@
         <span class="small help-block">
           <a ui-sref="passwordReset({type: 'instructor'})"
             class="link-forgot-password"
-            ng-if="!hideWrapper">Forgot your password?</a> 
+            ng-if="!hideWrapper">Forgot your password?</a>
           <a ui-sref="sdkv2PasswordReset({type: 'instructor'})"
             class="link-forgot-password"
-            ng-if="hideWrapper"> 
+            ng-if="hideWrapper">
             Forgot your password?</a>
         </span>
       </div>
