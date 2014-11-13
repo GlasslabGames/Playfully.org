@@ -1,87 +1,72 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-6 text-center">
-      &nbsp;
-      <div class="icon-shoutout--large"></div>
-      &nbsp;
-    </div>
-    <div class="col-md-6 text-center">
-      &nbsp;
-      <div class="icon-watchout--large"></div>
-      &nbsp;
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="text-center headline-4 gl-dashboard-student-heading">
-        SHOUT OUT!
-      </div>
-      <hr class="gl-dashboard-student-divider">
-
-      <div ng-if="!sowo.shoutOuts.length"
-        class="gl-pad-Vxxl text-center gl-dashboard-student--odd">
-        No shoutouts for this class
-      </div>
-
-      <div ng-repeat="assessment in sowo.shoutOuts | orderBy:['-order[0]','order[1]']"
-        class="gl-dashboard-student"
-        ng-if="sowo.shoutOuts.length"
-        ng-class-odd="'gl-dashboard-student--odd'"
-        ng-class-even="'gl-dashboard-student--even'">
-        <span class="gl-dashboard-student-name"
-              ng-if="assessment.student.name"
-              ng-bind="assessment.student.name">
-        </span>
-        <span class="icon-shoutout--small"
-          popover="{{ t.description }}"
-          popover-title="{{ t.name }}"
-          popover-trigger="mouseenter"
-          popover-placement="bottom"
-          ng-repeat="t in assessment.results track by $index"></span>
-      </div>
-      <div class="gl-dashboard-student-footer"></div>
-    </div>
-    <div class="col-md-6">
-      <div class="text-center headline-4 gl-dashboard-student-heading">
-        WATCH OUT!
-      </div>
-      <hr class="gl-dashboard-student-divider">
-
-      <div ng-if="!sowo.watchOuts.length"
-        class="gl-pad-Vxxl text-center gl-dashboard-student--odd">
-        No watchouts for this class
-      </div>
-
-      <div ng-repeat="assessment in sowo.watchOuts | orderBy:['-order[0]','order[1]']"
-        class="gl-dashboard-student"
-        ng-if="sowo.watchOuts.length"
-        ng-class-odd="'gl-dashboard-student--odd'"
-        ng-class-even="'gl-dashboard-student--even'">
-        <span class="gl-dashboard-student-name"
-              ng-if="assessment.student.name"
-              ng-bind="assessment.student.name">
-        </span>
-        <span class="icon-watchout--small icon-watchout--yellow"
-          popover="{{ t.description }}"
-          popover-title="{{ t.name }}"
-          popover-trigger="mouseenter"
-          popover-placement="bottom"
-          ng-repeat="t in assessment.results track by $index"></span>
-      </div>
-      <div class="gl-dashboard-student-footer"></div>
-    </div>
-    <div class="gl-dashboard-sowo-footer">
-      <button type="button"
-              class="btn gl-btn--blue"
-              ui-sref="reports.details.sowo({gameId:status.selectedGameId, courseId:status.selectedCourseId})"
-              ng-if="sowo.hasOverflow">See More</button>
-    </div>
-  </div>
-  <!--<div class="row">
-    <div class="col-md-12 text-center">
-      &nbsp;<br>
-      <button class="btn gl-btn--blue">See More</button>
-      <br>&nbsp;
-    </div> -->
+<div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
+  <div class="btn-group btn-group-justified">
+    <label class="btn"
+           ng-if="reportInfo.groups.length > 1"
+           ng-repeat="group in reportInfo.groups"
+           ng-model="reportInfo.selected"
+           ng-class="{'gl-btn--ltgrey': reportInfo.selectedGroupId != group.id,
+        'gl-btn--blue': reportInfo.selectedGroupId == group.id}"
+           ui-sref="reports.details.competency({compTitle: group.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:group.id, stdntIds: getSelectedStudents(activeCourse)})"
+           ng-bind="group.title | translate"></label>
   </div>
 </div>
+
+<hr/>
+
+<table class="table gl-reports-table"
+       ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-competency-header-info">
+  <thead>
+  <tr>
+    <th class="gl-reports-competency-header-name">Name
+      <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+         ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
+    </th>
+    <th class="gl-reports-competency-header-competency" ng-repeat="header in reportInfo.headers"> 
+      <div class="gl-reports-competency-header text-center">
+        <div><span ng-bind="header.title"> </span>
+          <i ng-class="col.current===header.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+             ng-click="colName.value = header.title; sortSelected(header.title)"></i>
+        </div>
+        <div collapse="isCollapsed.value" class="gl-reports-competency-header-info"
+             ng-bind="header.description"></div>
+      </div>
+      <div class="gl-reports-achievement-collapse">
+        <i ng-class="$index === 0 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''"
+           ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
+      </div>
+    </th>
+  </tr>
+  <tr>
+    <th colspan="5" class="gl-reports-divider--blue"></th>
+  </tr>
+  </thead>
+
+  </thead>
+  <!--<tbody ng-show="courses.options[courses.selectedCourseId].users">-->
+  <!--<tr class="gl-reports-table-row"-->
+      <!--ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">-->
+    <!--<td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>-->
+    <!--<td ng-repeat="comp in student.competency">-->
+      <!--<div class="gl-reports-competency-table-cell">-->
+        <!--<div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">-->
+          <!--<div class="gl-reports-competency-circle-large"-->
+               <!--ng-class="getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'class')"-->
+               <!--popover="{{getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'text')}}"-->
+               <!--popover-trigger="mouseenter"-->
+               <!--popover-placement="bottom"></div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+  <!--<tbody ng-hide="courses.options[courses.selectedCourseId].users">-->
+  <tr>
+    <td colspan="5">
+      <div class="text-center gl-pad-Vxxl">
+        No students are currently enrolled in this class. As students begin to play the game and earn comps, you
+        will see them here.
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

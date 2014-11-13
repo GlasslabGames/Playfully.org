@@ -7,6 +7,14 @@ angular.module( 'instructor.reports')
 
     // Report
     var reportId = 'sowo';
+
+    if (!$scope.reportInfo) {
+      $scope.reportInfo = {};
+    }
+    $scope.reportInfo.groups = [];
+    $scope.reportInfo.selectedGroup = {};
+    $scope.reportInfo.selectedGroupId = null;
+    $scope.reportInfo.headers = [];
     // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
@@ -38,8 +46,8 @@ angular.module( 'instructor.reports')
     // Check if game has selected report
 
     if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
-      var yeah = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
-      $state.transitionTo('reports.details' + '.' + yeah, {
+      var id = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
+      $state.transitionTo('reports.details' + '.' + id, {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
@@ -66,10 +74,38 @@ angular.module( 'instructor.reports')
 
     ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
+        _init();
         _resetSowo();
         _populateSowo(users);
     });
+    var _init = function () {
 
+      // Get both groups, shoutout and watchout
+      angular.forEach(gameReports.list, function (report) {
+        if (report.id == reportId) {
+          $scope.reportInfo.groups = (!!report.table.groups) ? angular.copy(report.table.groups) : [];
+        }
+      });
+
+      // Get currently selectedGroupId
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
+        $scope.reportInfo.selectedGroupId = $stateParams.skillsId;
+      } else {
+        if ($scope.reportInfo.groups && $scope.reportInfo.groups.length) {
+          $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[0].id;
+        }
+      }
+
+      // Get currently selected group or default to first
+      $scope.reportInfo.selectedGroup = _.find($scope.reportInfo.groups,
+          function (group) {
+            return group.id === $scope.reportInfo.selectedGroupId;
+          });
+
+      // Get headers of currently selected group
+      $scope.reportInfo.headers = (!!$scope.reportInfo.selectedGroup.headers) ? $scope.reportInfo.selectedGroup.headers : [];
+
+    };
     var _resetSowo = function() {
       $scope.sowo = {
         shoutOuts: [],
@@ -196,9 +232,40 @@ angular.module( 'instructor.reports')
         return null;
       }
     };
+    // Highlights currently selected column, name is the default selected column
+    $scope.sortSelected = function (colName) {
 
+      var columns = $scope.col;
+      // check if column exists
+      if (!columns[colName]) {
+        columns[colName] = {};
+      }
+      // check if clicked column is already active
+      if (columns['current'] === colName) {
+        columns[colName].reverse = !columns[colName].reverse;
+        return;
+      }
+      // set previous current values to false
+      columns[columns.current].reverse = false;
+      // set clicked column as new current and to active
+      columns.current = colName;
+      return;
+    };
 
+    $scope.saveState = function (currentState) {
+      var key = JSON.stringify($stateParams);
+      if (localStorageService.isSupported) {
+        if (currentState) {
+          localStorageService.remove(key);
+        } else {
+          localStorageService.set(key, true);
+        }
+      }
+    };
 
+    $scope.col = {firstName: {reverse: false}, totalTimePlayed: {}, current: 'firstName'};
+    $scope.colName = {value: 'firstName'};
+    $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 
 });
 
