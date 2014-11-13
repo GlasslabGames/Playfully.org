@@ -18,7 +18,7 @@ angular.module( 'playfully.profile', [])
   })
   .state( 'editProfile', {
     parent: 'profileModal',
-    url: '/edit-profile',
+    url: 'edit-profile',
     views: {
       'modal@': {
         controller: 'EditProfileModalCtrl',
@@ -44,6 +44,10 @@ angular.module( 'playfully.profile', [])
   }
   $scope.user = angular.copy(user);
 
+  // Make sure these fields are empty
+  $scope.user.password = '';
+  $scope.user.confirm = '';
+
   $scope.updateProfile = function(user) {
     if (user.name) {
       // name has space
@@ -66,6 +70,7 @@ angular.module( 'playfully.profile', [])
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.user.errors = [data.error];
       });
   };
 });
