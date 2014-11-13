@@ -53,15 +53,16 @@
                     </div>
                 </div>
             </div>
-            <div class="gl-input-group">
-                <div class="form-group">
-                    <input type="text" name="school" class="form-control" placeholder="School/Organization"
-                           required ng-class="{'has-error': regForm.school.$dirty && regForm.school.$invalid}"
-                           ng-model="account.school">
-                </div>
-            </div>
+
 
             <div class="gl-input-row">
+                <div class="gl-input-group">
+                    <div class="form-group">
+                        <input type="text" name="school" class="form-control" placeholder="School/Organization"
+                               required ng-class="{'has-error': regForm.school.$dirty && regForm.school.$invalid}"
+                               ng-model="account.school">
+                    </div>
+                </div>
                 <div class="gl-input-group">
                     <select name="state" ng-model="account.state" ng-options="state for state in states"
                             class="gl-register-select-field form-control"
@@ -120,7 +121,7 @@
                             <input type="checkbox" value="" ng-model="account.acceptedTerms"
                                    ng-checked="account.acceptedTerms" ng-required="true">
               <span class="small">
-                I have read and accepted the <a target="_blank" ui-sref="privacy" href="#">Privacy Policy</a>
+                I have read and accepted the <span class="gl-sdk-playfully-link" ng-click="goToLink('www.playfully.org/privacy')">Privacy Policy</span>
               </span>
                         </label>
                     </div>

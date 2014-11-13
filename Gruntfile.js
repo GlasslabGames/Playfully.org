@@ -605,7 +605,7 @@ module.exports = function ( grunt ) {
   // disable until fix compile
   grunt.registerTask( 'compile', [
     'build', 'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
-    'index:compile'
+    'index:compile', 'createDistVersionFile'
   ]);
   
 
@@ -613,6 +613,20 @@ module.exports = function ( grunt ) {
       grunt.event.once("git-describe", function(rev) {
         //grunt.log.writeln("Git Revision: ", rev);
         grunt.file.write(grunt.config('build_dir')+'/version.json', JSON.stringify({
+          tag: rev.tag,
+          since: rev.since,
+          object: rev.object,
+          revision: rev.toString(),
+          date: grunt.template.today()
+        }));
+      });
+      grunt.task.run('git-describe');
+    });
+
+  grunt.registerTask('createDistVersionFile', 'Tag the current build revision', function () {
+      grunt.event.once("git-describe", function(rev) {
+        //grunt.log.writeln("Git Revision: ", rev);
+        grunt.file.write(grunt.config('compile_dir')+'/version.json', JSON.stringify({
           tag: rev.tag,
           since: rev.since,
           object: rev.object,

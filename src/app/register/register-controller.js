@@ -54,7 +54,7 @@ angular.module('playfully.register', ['register.const'])
     parent: 'site',
     data: { hideWrapper: true },
     views: { 'main@': {
-        templateUrl: 'v2/sdk-register-student-success.html',
+        templateUrl: 'register/v2/sdk-register-student-success.html',
         controller: 'RegisterStudentModalCtrl'
     } }
   });
