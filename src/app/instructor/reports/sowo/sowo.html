@@ -80,5 +80,24 @@
       </div>
     </td>
   </tr>
+    <tr style="height:100px">
+        <div class="gl-reports-what-now-container">
+            <td colspan="5" class="gl-reports-what-now-header text-center">
+            <h5 class="gl-reports-what-now-text">What Now ?</h5>
+            <p>Here are some actions your students can take:</p>
+            <i ng-class="whatNow.isCollapsed ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up'"
+                ng-click="whatNow.isCollapsed  = !whatNow.isCollapsed"></i>
+                <div class="gl-reports-what-now-body text-center" collapse="whatNow.isCollapsed">
+                    </br>
+                    </br>
+                    Coming Soon!
+                    </br>
+                    </br>
+                    </br>
+                </div>
+            </td>
+
+        </div>
+    </tr>
   </tbody>
 </table>
