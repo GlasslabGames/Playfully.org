@@ -45,15 +45,14 @@ angular.module( 'instructor.reports')
     });
 
     // Check if game has selected report
-
-    if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
-      var id = ReportsService.getDefaultReportId(reportId,$scope.reports.options);
-      $state.transitionTo('reports.details' + '.' + id, {
-        gameId: $stateParams.gameId,
-        courseId: $stateParams.courseId
-      });
-      return;
-    }
+console.log($scope.reports.options);
+      if (!ReportsService.isValidReport(reportId, $scope.reports.options)) {
+          $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId, $scope.reports.options), {
+              gameId: $stateParams.gameId,
+              courseId: $stateParams.courseId
+          });
+          return;
+      }
 
     // Set parent scope developer info
 
@@ -75,10 +74,8 @@ angular.module( 'instructor.reports')
 
     ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
-          console.log('users,', users);
         _init();
         _populateStudentWithReportData(users,reportId);
-        console.log('$scope.courses.options[$scope.courses.selectedCourseId].users', $scope.courses.options[$scope.courses.selectedCourseId].users);
     });
     var _init = function () {
 
