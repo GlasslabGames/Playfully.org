@@ -15,7 +15,7 @@
 
     <div class="text-center gl-courses-submit">
       <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
-      <input type="submit" class="btn gl-btn--blue" value="Save">
+      <input type="submit" class="btn gl-btn--blue" value="Save" ng-disabled="course.games < 1">
     </div>
   </form>
 </div>
