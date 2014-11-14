@@ -94,7 +94,7 @@ angular.module( 'instructor.reports')
         $scope.reportInfo.selectedGroupId = $stateParams.skillsId;
       } else {
         if ($scope.reportInfo.groups && $scope.reportInfo.groups.length) {
-          $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[0].id;
+          $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[1].id;
         }
       }
 
@@ -125,7 +125,7 @@ angular.module( 'instructor.reports')
         angular.forEach(students, function (student) {
           var userReportData = _findUserByUserId(student.id, usersReportData) || {};
           var id = ($scope.reportInfo.selectedGroupId === "so") ? 'shoutout' : 'watchout';
-          student[reportId] = userReportData.results[id] || {};
+          student[reportId] = userReportData.results ? (userReportData.results[id] || {}) : {};
         });
       }
     };
@@ -172,18 +172,6 @@ angular.module( 'instructor.reports')
 
     ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
 
-    $scope.getSelectedStudents = function (activeCourse) {
-      if (activeCourse.isPartiallySelected) {
-        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
-        if (studentIds.length > 0) {
-          return studentIds;
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    };
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
@@ -194,9 +182,29 @@ angular.module( 'instructor.reports')
         return null;
       }
     };
+
+      $scope.userSortFunction = function (colName) {
+          return function (user) {
+              if (colName === 'firstName') {
+                  return user.firstName;
+              }
+              var hasSOWO = 0;
+              if (user[reportId]) {
+                  var selectedGroup = user[reportId];
+                  for (var i = 0; i < selectedGroup.length; i ++) {
+                      if (selectedGroup[i].title = colName) {
+                          hasSOWO = true;
+                      }
+                  }
+              }
+              return hasSOWO ? 1 : 0;
+          };
+      };
     // Highlights currently selected column, name is the default selected column
     $scope.sortSelected = function (colName) {
-
+        if ($scope.col[$scope.col.current]) {
+            console.log($scope.col[$scope.col.current].reverse);
+        }
       var columns = $scope.col;
       // check if column exists
       if (!columns[colName]) {
@@ -204,7 +212,7 @@ angular.module( 'instructor.reports')
       }
       // check if clicked column is already active
       if (columns['current'] === colName) {
-        columns[colName].reverse = !columns[colName].reverse;
+        columns[colName].reverse = !!!columns[colName].reverse;
         return;
       }
       // set previous current values to false
@@ -212,6 +220,11 @@ angular.module( 'instructor.reports')
       // set clicked column as new current and to active
       columns.current = colName;
       return;
+    };
+
+    $scope.getLabelInfo = function (label, type) {
+        console.log(REPORT_CONSTANTS.legend[label]);
+      return REPORT_CONSTANTS.legend[label];
     };
 
     $scope.saveState = function (currentState) {
@@ -224,7 +237,6 @@ angular.module( 'instructor.reports')
         }
       }
     };
-
     $scope.col = {firstName: {reverse: false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {value: 'firstName'};
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};

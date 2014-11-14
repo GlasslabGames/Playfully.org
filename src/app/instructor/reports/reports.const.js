@@ -12,7 +12,10 @@ angular.module('reports.const', [])
   'mastered': {class:'gl-reports-competency-circle-green',text: 'Mastered'},
   'not-mastered': {class:'gl-reports-competency-circle-red',text: 'Not Mastered'},
   'not-enough-info': {class:'gl-reports-competency-circle-gray',text: 'Not Enough Info'},
-  'not-covered': {class:'gl-reports-competency-circle-white',text: 'Not Covered'}
+  'not-covered': {class:'gl-reports-competency-circle-white',text: 'Not Covered'},
+  // Shoutout Watchout
+  'so':'gl-reports-so-icon',
+  'wo':'gl-reports-wo-icon'
  }
 
 });

@@ -23,12 +23,12 @@
              ng-class="{'gl-reports-achievement-arrow--disabled': reportInfo.startIndex == 0}">
               <i class="fa fa-arrow-left"></i>
           </a> &nbsp;
-          {{ reportInfo.startIndex + 1 }}-{{ reportInfo.startIndex + 3 }} / {{
-          reportInfo.totalCount }}
+          {{ (reportInfo.startIndex + 1) }}{{ (reportInfo.totalCount < 3 ? '' : '-' + (reportInfo.startIndex + 3)) }} / {{
+          reportInfo.totalCount }} {{reportInfo.selectedGroup.title}}
           &nbsp;
           <a href class="gl-reports-achievement-arrow"
              ng-click="selectActiveHeaders(reportInfo.activeHeaders, reportInfo.startIndex + 1)"
-             ng-class="{'gl-reports-achievement-arrow--disabled': reportInfo.startIndex + 3 == reportInfo.totalCount}">
+             ng-class="{'gl-reports-achievement-arrow--disabled': reportInfo.startIndex + 3 == reportInfo.totalCount || reportInfo.totalCount < 3}">
               <i class="fa fa-arrow-right"></i>
           </a>
       </td>
@@ -67,8 +67,8 @@
         ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
         <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
         <td class="gl-reports-achievement" ng-repeat="sowo in reportInfo.activeHeaders">
-            <i class="fa fa-check-circle-o"
-               ng-show="hasSOWO(sowo.id, student)"></i>
+            <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+               ng-show="hasSOWO(sowo.id, student)"></div>
         </td>
     </tr>
     </tbody>
