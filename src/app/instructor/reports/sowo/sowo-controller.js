@@ -15,7 +15,8 @@ angular.module( 'instructor.reports')
     $scope.reportInfo.selectedGroup = {};
     $scope.reportInfo.selectedGroupId = null;
     $scope.reportInfo.headers = [];
-    // Courses
+    $scope.reportInfo.activeHeaders = [];
+      // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
@@ -74,9 +75,10 @@ angular.module( 'instructor.reports')
 
     ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
       .then(function(users) {
+          console.log('users,', users);
         _init();
-        _resetSowo();
-        _populateSowo(users);
+        _populateStudentWithReportData(users,reportId);
+        console.log('$scope.courses.options[$scope.courses.selectedCourseId].users', $scope.courses.options[$scope.courses.selectedCourseId].users);
     });
     var _init = function () {
 
@@ -105,114 +107,61 @@ angular.module( 'instructor.reports')
       // Get headers of currently selected group
       $scope.reportInfo.headers = (!!$scope.reportInfo.selectedGroup.headers) ? $scope.reportInfo.selectedGroup.headers : [];
 
+      // Setup selector
+      $scope.reportInfo.activeHeaders = $scope.reportInfo.headers.slice(0, 3);
+      $scope.reportInfo.startIndex = 0;
+      $scope.reportInfo.totalCount = $scope.reportInfo.headers.length;
     };
-    var _resetSowo = function() {
-      $scope.sowo = {
-        shoutOuts: [],
-        watchOuts: [],
-        // to display show more button
-        hasOverflow: false
+
+    /* for each user replace reportInfo with results from API */
+    var _populateStudentWithReportData = function (usersReportData, reportId) {
+      if (usersReportData &&
+          $scope.courses &&
+          $scope.courses.options &&
+          $scope.courses.selectedCourseId &&
+          $scope.courses.options[$scope.courses.selectedCourseId]
+      ) {
+        var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
+        angular.forEach(students, function (student) {
+          var userReportData = _findUserByUserId(student.id, usersReportData) || {};
+          var id = ($scope.reportInfo.selectedGroupId === "so") ? 'shoutout' : 'watchout';
+          student[reportId] = userReportData.results[id] || {};
+        });
+      }
+    };
+
+    var _findUserByUserId = function (userId, users) {
+        var found;
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].userId == userId) {
+                 found = users[i];
+            }
+        }
+        return found || null;
+    };
+
+      $scope.hasSOWO = function (sowo, student) {
+         if (student &&
+             student[reportId]&&
+             sowo) {
+             return _.any(student[reportId],
+                 function(studentSOWO) {
+                    return studentSOWO.id === sowo;
+                 });
+         }
+         return false;
       };
-    };
-
-    //  _populateSowo helper functions
-
-    var _compileNameOfStudent = function(student) {
-      var name = student.firstName;
-      if(student.lastName) {
-        name += ' ' + student.lastName + '.';
-      }
-      student.name = name;
-      return student;
-    };
-
-    var _getOverflowText = function(results) {
-      overflowText = '';
-      angular.forEach(results, function(r, i) {
-        if (i >= 3) {
-          overflowText += '<p>' + r.description + '</p>';
-        }
-      });
-      return overflowText;
-    };
-
-    //  Populates Shoutout Watchout
-
-    var _populateSowo = function(data) {
-      var sowo = data;
-      var soTotal = 0;
-      var woTotal = 0;
-      var total = 0;
-
-      if (sowo.length) {
-        // calc total columns
-        angular.forEach(sowo, function(assessment) {
-          if (assessment.results.hasOwnProperty('shoutout') &&
-            assessment.results.shoutout.length) {
-            soTotal++;
-          }
-          if (assessment.results.hasOwnProperty('watchout') &&
-            assessment.results.watchout.length) {
-            woTotal++;
-          }
-        });
-        total = Math.max(soTotal, woTotal);
-
-        // pre fill data
-        $scope.sowo.shoutOuts = [];
-        $scope.sowo.watchOuts = [];
-        for(var i = 0; i < total; i++) {
-          $scope.sowo.shoutOuts[i] = {
-            student: {},
-            results: [],
-            overflowText: "",
-            order: [0, ""]
-          };
-          $scope.sowo.watchOuts[i] = {
-            student: {},
-            results: [],
-            overflowText: "",
-            order: [0, ""]
-          };
-        }
-
-        // sowo count sorted by server
-        // sort alpha in view
-        soTotal = 0;
-        woTotal = 0;
-        angular.forEach(sowo, function(assessment) {
-          var student = $scope.students[assessment.userId];
-          student = _compileNameOfStudent(student);
-
-          if (assessment.results.hasOwnProperty('shoutout') &&
-            assessment.results.shoutout.length) {
-              $scope.sowo.shoutOuts[soTotal] = {
-                student: student,
-                results: assessment.results['shoutout'],
-                overflowText: _getOverflowText(assessment.results['shoutout']),
-                order: [
-                  assessment.results['shoutout'].length,
-                  student.name
-                ]
-              };
-              soTotal++;
-          }
-          if (assessment.results.hasOwnProperty('watchout') &&
-            assessment.results.watchout.length) {
-              $scope.sowo.watchOuts[woTotal] = {
-                student: student,
-                results: assessment.results['watchout'],
-                overflowText: _getOverflowText(assessment.results['watchout']),
-                order: [
-                  assessment.results['watchout'].length,
-                  student.name
-                ]
-              };
-              woTotal++;
-          }
-        });
-      }
-    };
+      // Populates achievements selector
+      $scope.selectActiveHeaders = function (activeHeaders, index) {
+          $scope.reportInfo.totalCount =  $scope.reportInfo.headers.length;
+              if (index < 0 || $scope.reportInfo.totalCount < index + 3) {
+                  return false;
+              } else {
+                  $scope.reportInfo.startIndex = index;
+                  $scope.reportInfo.activeHeaders = $scope.reportInfo.headers.slice(index, index + 3);
+              }
+      };
+    //// Course Functions //////
 
     // Select Course students
 
@@ -222,6 +171,19 @@ angular.module( 'instructor.reports')
     // else set all student's isSelected property as true
 
     ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
+
+    $scope.getSelectedStudents = function (activeCourse) {
+      if (activeCourse.isPartiallySelected) {
+        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
+        if (studentIds.length > 0) {
+          return studentIds;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    };
 
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
