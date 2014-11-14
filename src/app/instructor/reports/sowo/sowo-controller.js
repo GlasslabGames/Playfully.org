@@ -45,7 +45,6 @@ angular.module( 'instructor.reports')
     });
 
     // Check if game has selected report
-console.log($scope.reports.options);
       if (!ReportsService.isValidReport(reportId, $scope.reports.options)) {
           $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId, $scope.reports.options), {
               gameId: $stateParams.gameId,
@@ -200,7 +199,6 @@ console.log($scope.reports.options);
     // Highlights currently selected column, name is the default selected column
     $scope.sortSelected = function (colName) {
         if ($scope.col[$scope.col.current]) {
-            console.log($scope.col[$scope.col.current].reverse);
         }
       var columns = $scope.col;
       // check if column exists
@@ -220,7 +218,6 @@ console.log($scope.reports.options);
     };
 
     $scope.getLabelInfo = function (label, type) {
-        console.log(REPORT_CONSTANTS.legend[label]);
       return REPORT_CONSTANTS.legend[label];
     };
 
