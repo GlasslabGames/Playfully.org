@@ -37,7 +37,9 @@ angular.module( 'instructor.reports')
 
       // Select course in params
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Select game
+    $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+
+      // Select game
     $scope.games.selectedGameId = defaultGameId;
     // Set current Report
 
@@ -280,7 +282,7 @@ angular.module( 'instructor.reports')
     };
 
     $scope.col = {firstName: {reverse:false}, totalTimePlayed: {}, current: 'firstName'};
-    $scope.colName = {};
+    $scope.colName = { value: 'firstName' };
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 
 });

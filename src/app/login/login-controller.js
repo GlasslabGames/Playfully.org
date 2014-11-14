@@ -65,14 +65,7 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-edmodo.html',
     controller: 'LoginEdmodoCtrl'
   };
-  var edmodoResolve = {
-    currentUser: function(UserService) {
-      return UserService.currentUser();
-    },
-    enrollments: function(CoursesService) {
-      return CoursesService.getEnrollments();
-    }
-  };
+
   $stateProvider.state('edmodo', {
     url: '/auth/edmodo',
     onEnter: function($state, $log, ipCookie) {
@@ -88,14 +81,28 @@ angular.module('playfully.login', [])
     parent: 'modal',
     data: { authorizedRoles: ['student','instructor','developer','admin'] },
     views: { 'modal@': authEdmodoConfig },
-    resolve: edmodoResolve
+    resolve: {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      },
+      enrollments: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    }
   })
   .state('sdkAuthEdmodo', {
     url: '/sdk/auth/edmodo',
     parent: 'site',
     data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
     views: { 'main@': authEdmodoConfig },
-    resolve: edmodoResolve
+    resolve:  {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      },
+      enrollments: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    }
   });
 
   // Password Prompt

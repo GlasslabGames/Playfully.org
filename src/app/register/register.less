@@ -1,3 +1,5 @@
+
+
 .reg-form input.form-control {
   width: 92%;
   display: inline-block;
@@ -59,17 +61,17 @@
 }
 
 .gl-register-card-teacher:hover {
-  .image-2x('register-teacher-hover.png', 111px, 112px);
+  .image-2x('../../assets/register-teacher-hover.png', 111px, 112px);
   background-position: center;
 }
 
 .gl-register-card-student {
-  .image-2x('register-student.png', 111px, 112px);
+  .image-2x('../../assets/register-student.png', 111px, 112px);
   background-position: center;
 }
 
 .gl-register-card-student:hover {
-  .image-2x('register-student-hover.png', 111px, 112px);
+  .image-2x('../../assets/register-student-hover.png', 111px, 112px);
   background-position: center;
 }
 
@@ -80,7 +82,7 @@
   height: 85px;
   top: -8px;
   left: -8px;
-  .image-2x('register-card-ribbon-dark-blue.png', 85px, 85px);
+  .image-2x('../../assets/register-card-ribbon-dark-blue.png', 85px, 85px);
 }
 
 .gl-register-card-ribbon-text {
@@ -143,24 +145,31 @@ select.gl-register-select-field.selected {
 }
 
 .gl-sdk-register-playfully-info {
+
+  color: white;
   display: table;
   position: absolute;
+  height: 50px;
   left: 0px;
-  top: 30px;
+  top: 40px;
+  padding: 5px;
+
   background-color: #5BC3D5;
-  color: white;
-  padding: 10px;
   .border-right-radius(5px);
 
   i {
+    vertical-align: middle;
+    margin-right: 5px;
+    padding-top: 10px;
     display: inline-block;
   }
 
   span {
+    padding-top:5px;
     display: table-cell;
-    vertical-align: middle;
+    vertical-align: top;
     height: 25px;
-    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 
@@ -189,7 +198,7 @@ select.gl-register-select-field.selected {
   display: inline-block;
   width: 150px;
   height: 40px;
-  .image-2x('sdk-playfully-logo.png', 150px, 40px);
+  .image-2x('../../assets/sdk-playfully-logo.png', 150px, 40px);
 }
 
 .gl-sdk-register-pull-left {
@@ -199,11 +208,9 @@ select.gl-register-select-field.selected {
 
 .gl-sdk-playfully-btn {
   float: left;
-  background-image: url(logo-login-playfully@2x.png);
+  background-image: url(../../assets/logo-login-playfully@2x.png);
   background-size: 25px 25px;
 }
-
-
 
 .gl-sdk-playfully-link {
   text-decoration: underline;
@@ -212,6 +219,11 @@ select.gl-register-select-field.selected {
   color: blue;
 }
 
-.gl-sdk-playfully-link:hover {
-  cursor: pointer;
+.gl-modal-title-reset-progress {
+  color: red;
+}
+
+.gl-reset-progress-checkbox {
+  margin: 5px;
+  display: inline-block;
 }

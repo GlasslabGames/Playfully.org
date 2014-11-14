@@ -10,7 +10,8 @@ angular.module( 'instructor.reports')
     var reportId = 'mission-progress';
     // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
-    // Games
+    $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+      // Games
     $scope.games.selectedGameId = defaultGameId;
 
     ///// Setup options /////
