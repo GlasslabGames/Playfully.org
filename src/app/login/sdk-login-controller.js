@@ -159,6 +159,7 @@ angular.module('playfully.login-sdk', [])
 })
 .controller('sdkv2LoginConfirmCtrl',
     function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
+        $scope.resetProgressConfirm = false;
         if (!currentUser) {
             $state.transitionTo('sdkv2LoginOptions');
         } else {

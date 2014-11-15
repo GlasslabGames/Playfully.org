@@ -289,26 +289,7 @@ angular.module( 'instructor.reports', [
       $scope.toggleStudent = function ($event, student, course) {
         $event.preventDefault();
         $event.stopPropagation();
-        // Students are not selectable for Shout Out / Watch Out
-        if ($scope.reports.selected && $scope.reports.selected.id == 'sowo') {
-          return false;
-        }
         student.isSelected = !student.isSelected;
-        // For now, don't allow students in unselected courses to be selected
-        // TODO: Maybe figure out a way to update course and select student via
-        // the URL?
-        //if (course.id != $scope.courses.selectedCourseId) {
-        //  return false;
-        //}
-
-        //course.isPartiallySelected = false;
-
-        /* If any students are not selected, set isPartiallySelected to true */
-        //angular.forEach(course.users, function (student) {
-        //  if (!student.isSelected) {
-        //    course.isPartiallySelected = true;
-        //  }
-        //});
       };
 
 
@@ -448,7 +429,7 @@ angular.module( 'instructor.reports', [
       $event.preventDefault();
       $event.stopPropagation();
       // Students are not selectable for Shout Out / Watch Out
-      if ($scope.reports.selected && $scope.reports.selected.id == 'sowo') {
+      if ($scope.reports.selected) {
         return false;
       }
       // For now, don't allow students in unselected courses to be selected

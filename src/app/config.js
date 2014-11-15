@@ -30,6 +30,9 @@ angular.module('playfully.config', [])
   admin:      'admin'
 })
 
+.constant('EMAIL_VALIDATION_PATTERN',
+  /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
+
 .config(function($logProvider){
   $logProvider.debugEnabled(false);
 });
