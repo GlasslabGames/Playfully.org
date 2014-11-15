@@ -435,13 +435,6 @@ angular.module( 'instructor.courses', [
     game.settings.missionProgressLock = !game.settings.missionProgressLock;
   };
 
-  $scope.finish = function() {
-    $scope.$close(true);
-    // return $timeout(function () {
-    //   $state.go('courses', {}, { reload: true });
-    // }, 100);
-  };
-
   $scope.createCourse = function (course) {
     CoursesService.create(course)
       .success(function(data, status, headers, config) {
@@ -454,19 +447,12 @@ angular.module( 'instructor.courses', [
         $scope.formProgress.errors.push(data.error);
       });
   };
-  $scope.dismiss = function() {
-    $scope.$dismiss();
-  };
-
-  $scope.closeModal = function() {
-    $scope.$close(true);
-  };
 
   $scope.reset();
 })
 
-.controller( 'UpdateCourseModalCtrl', 
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, CoursesService) {
+.controller( 'UpdateCourseModalCtrl',
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, $modalInstance, course, CoursesService) {
 
   if ($state.current.data.hasOwnProperty('actionType')) {
     $scope.actionType = $state.current.data.actionType;
@@ -489,15 +475,10 @@ angular.module( 'instructor.courses', [
     $scope.updateType = 'archive';
   }
 
-
-  var finishSuccessfulAction = function(destState) {
-    $scope.$close(true);
-  };
-
   $scope.archiveCourse = function (courseData) {
     CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
-        finishSuccessfulAction();
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -507,7 +488,7 @@ angular.module( 'instructor.courses', [
   $scope.unarchiveCourse = function (courseData) {
     CoursesService.unarchive(courseData)
       .success(function(data, status, headers, config) {
-        finishSuccessfulAction();
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -517,7 +498,7 @@ angular.module( 'instructor.courses', [
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
       .success(function(data, status, headers, config) {
-        finishSuccessfulAction();
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -527,7 +508,7 @@ angular.module( 'instructor.courses', [
   $scope.unlockCourse = function (courseData) {
     CoursesService.unlock(courseData)
       .success(function(data, status, headers, config) {
-        finishSuccessfulAction();
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -537,7 +518,7 @@ angular.module( 'instructor.courses', [
   $scope.updateCourse = function (courseData) {
     CoursesService.update(courseData)
       .success(function(data, status, headers, config) {
-        finishSuccessfulAction();
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -545,13 +526,10 @@ angular.module( 'instructor.courses', [
       });
   };
 
-  $scope.closeModal = function() {
-    $scope.$close(true);
-  };
 })
 
-.controller( 'AssignGamesModalCtrl', 
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
+.controller( 'AssignGamesModalCtrl',
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, $modalInstance, course, games, CoursesService) {
   /* TODO: Clean this up. */
 
   _gamesById = {};
@@ -582,26 +560,16 @@ angular.module( 'instructor.courses', [
   $scope.updateCourse = function (courseData) {
     CoursesService.updateGames(courseData)
       .success(function(data, status, headers, config) {
-        $scope.$close(true);
-        return $timeout(function () {
-          $state.go('courses', {}, { reload: true });
-        }, 100);
+        $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
       });
   };
 
-  $scope.closeModal = function() {
-    $scope.$close(true);
-    return $timeout(function () {
-      $state.go('courses', {}, { reload: true });
-    }, 100);
-  };
-
 })
 
-.controller('StudentListCtrl', 
+.controller('StudentListCtrl',
   function ($scope, $rootScope, $state, $stateParams, $timeout, $log) {
     var activeCourses = $scope.$parent.courses;
 
@@ -647,7 +615,7 @@ angular.module( 'instructor.courses', [
   })
 
 .controller('UnenrollStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
+  function($scope, $rootScope, $state, $log, $timeout, $modalInstance, course, student, CoursesService) {
     if (course.status < 300) {
       $scope.course = course.data;
     }
@@ -657,54 +625,34 @@ angular.module( 'instructor.courses', [
     $scope.unenroll = function(course, student) {
       CoursesService.unenrollUser(course.id, student.id)
         .success(function(data, status, headers, config) {
-          $scope.$close(true);
-          return $timeout(function () {
-            $state.go('showStudentList', {id:course.id}, { reload: true });
-          }, 100);
+          $modalInstance.close();
         })
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
     };
 
-  $scope.closeModal = function() {
-    $scope.$close(true);
-    return $timeout(function () {
-      $state.go('showStudentList', {id:course.id});
-    }, 100);
-  };
-
 })
 
 .controller('EditStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, course, student, UserService) {
+  function($scope, $rootScope, $state, $log, $timeout, $modalInstance, course, student, UserService) {
     $scope.course = course;
     $scope.student = student;
 
     $scope.editInfo = function(student) {
       UserService.update(student, false)
         .success(function(data, status, headers, config) {
-          $scope.$close(true);
-          return $timeout(function () {
-            $state.go('showStudentList', {id:course.id}, { reload: true });
-          }, 100);
+          $modalInstance.close();
         })
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
     };
 
-    $scope.closeModal = function() {
-      $scope.$close(true);
-      return $timeout(function () {
-        $state.go('showStudentList', {id:course.id});
-      }, 100);
-    };
-
 })
 
 .controller('LockMissionsModalCtrl',
-  function($scope, $state, $stateParams, $rootScope, $timeout, $log, course, CoursesService) {
+  function($scope, $state, $stateParams, $rootScope, $timeout, $log, $modalInstance, course, CoursesService) {
 
     $scope.actionType = $state.current.data.actionType;
     $scope.course = course;
@@ -723,21 +671,11 @@ angular.module( 'instructor.courses', [
 
       CoursesService.updateGames(course)
         .success(function(data, status, headers, config) {
-          $scope.$close(true);
-          return $timeout(function () {
-            $state.go('courses', {}, { reload: true });
-          }, 100);
+          $modalInstance.close();
         })
         .error(function(data, status, headers, config) {
           $log.error(data);
         });
-    };
-
-    $scope.closeModal = function() {
-      $scope.$close(true);
-      return $timeout(function () {
-        $state.go('courses', {}, { reload: true });
-      }, 100);
     };
 
 });

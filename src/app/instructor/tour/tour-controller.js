@@ -11,11 +11,15 @@ angular.module( 'instructor.tour', [
       authorizedRoles: ['instructor','manager','developer','admin']
     },
     onEnter: function($stateParams, $state, $modal) {
-      $modal.open({
+      var modalInstance = $modal.open({
         size: 'lg',
         keyboard: false,
         templateUrl: 'instructor/tour/tour.html',
         controller: 'InstructorTourModalCtrl'
+      });
+
+      modalInstance.result.finally(function(result) {
+        return $state.transitionTo('instructorDashboard.intro');
       });
     }
   });
@@ -29,7 +33,7 @@ angular.module( 'instructor.tour', [
     { id: 1, text: "Applause and happy dance! You are now a registered user and have access to all the wonders this site has to offer, including student management and reporting tools, professional development videos and more!",
       image: { url: "/assets/tour-1.png", width: 382, height: 382}
     },
-    { id: 2, 
+    { id: 2,
       destUrl: 'http://vimeo.com/103535906',
       video: {
         url: '//player.vimeo.com/video/103535906',
@@ -60,7 +64,7 @@ angular.module( 'instructor.tour', [
     }
   ];
 
-  
+
   $scope.closeModal = function() {
     $scope.$close(true);
     return $timeout(function () {

@@ -35,9 +35,11 @@
 
         <div class="gl-input-group">
           <div class="form-group" ng-class="{'has-error': regForm.email.$dirty && regForm.email.$invalid}">
-            <input type="email" name="email" class="form-control" placeholder="Email address"
-              required
-              ng-model="account.email">
+            <input type="email" name="email" class="form-control"
+              ng-model="account.email"
+              ng-pattern="emailValidationPattern"
+              placeholder="Email address"
+              required>
               &nbsp;<span class="fa fa-question-circle"
                 popover-placement="top"
                 popover="We will never share your email address with anyone."></span>
