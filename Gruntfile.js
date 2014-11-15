@@ -140,6 +140,14 @@ module.exports = function ( grunt ) {
           }
         ]
       },
+      compile_glasslabsdk: {
+        files: [
+          {
+            src: [ 'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js' ],
+            dest: '<%= compile_dir %>/vendor/glasslab-sdk-as3/lib/glasslab-sdk.js'
+          }
+        ]
+      },
       compile_assets: {
         files: [
           {
@@ -604,7 +612,7 @@ module.exports = function ( grunt ) {
    */
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'build', 'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'ngAnnotate', 'concat:compile_js', 'uglify',
+    'build', 'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'ngAnnotate', 'concat:compile_js', 'uglify',
     'index:compile', 'createDistVersionFile'
   ]);
   
