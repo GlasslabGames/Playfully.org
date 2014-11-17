@@ -57,7 +57,7 @@
       </ul>
 
 
-      <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student')">
+      <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')">
         <li ng-class="{'active': state.includes('instructorDashboard')}">
           <a class="ng-cloak gl-nav-link" href ui-sref="instructorDashboard.default"
             data-ng-bind="'navbar.link.dashboard' | translate">
@@ -87,6 +87,19 @@
         </li>
 
         <li ui-sref-active="active" ng-if="isAuthorized('admin')">
+          <a class="ng-cloak gl-nav-link" href ui-sref="research.parser"
+            data-ng-bind="'navbar.link.research' | translate">
+          </a>
+        </li>
+
+        <li class="gl-login-button">
+          <login-status type="modal"></login-status>
+        </li>
+      </ul>
+
+
+      <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized('developer')">
+        <li ui-sref-active="active">
           <a class="ng-cloak gl-nav-link" href ui-sref="research.parser"
             data-ng-bind="'navbar.link.research' | translate">
           </a>

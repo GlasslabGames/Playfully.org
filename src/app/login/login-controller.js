@@ -47,20 +47,31 @@ angular.module('playfully.login', [])
     controller: 'LoginCtrl'
   };
   $stateProvider.state('loginStudent', {
-      url: 'login/student',
-      parent: 'modal',
-      views: { 'modal@': loginStudentConfig },
-      data:{ pageTitle: 'Student Sign In'}
-    })
-    .state('sdkLoginStudent', {
-      url: '/sdk/login/student',
-      parent: 'site',
-      data: { hideWrapper: true },
-      views: { 'main@': loginStudentConfig }
-    });
+    url: 'login/student',
+    parent: 'modal',
+    views: { 'modal@': loginStudentConfig },
+    data:{ pageTitle: 'Student Sign In'}
+  })
+  .state('sdkLoginStudent', {
+    url: '/sdk/login/student',
+    parent: 'site',
+    data: { hideWrapper: true },
+    views: { 'main@': loginStudentConfig }
+  });
+
+  // Developer Login
+  var loginDeveloperConfig = {
+    templateUrl: 'login/login-developer.html',
+    controller: 'LoginCtrl'
+  };
+  $stateProvider.state('loginDeveloper', {
+    url: 'login/developer',
+    parent: 'modal',
+    views: { 'modal@': loginDeveloperConfig },
+    data:{ pageTitle: 'Developer Sign In'}
+  });
 
   // Edomodo Login
-
   var authEdmodoConfig = {
     templateUrl: 'login/login-edmodo.html',
     controller: 'LoginEdmodoCtrl'

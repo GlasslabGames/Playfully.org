@@ -59,6 +59,17 @@ angular.module('playfully.register', ['register.const'])
     } }
   });
 
+
+  var registerDeveloperConfig = {
+    templateUrl: 'register/register-developer.html',
+    controller: 'RegisterDeveloperCtrl'
+  };
+  $stateProvider.state('registerDeveloper', {
+    url: 'register/developer',
+    parent: 'modal',
+    views: { 'modal@': registerDeveloperConfig }
+  });
+
 })
 
 //var registerBetaConfig = {
@@ -307,9 +318,59 @@ angular.module('playfully.register', ['register.const'])
             }
         };
 
+})
+
+
+.controller('RegisterDeveloperCtrl',
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+      var user = null;
+
+      $scope.account = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirm: '',
+        role: 'developer',
+        errors: [],
+        isRegCompleted: false
+      };
+
+      $scope.register = function( account ) {
+        $scope.regForm.isSubmitting = true;
+        if (account.firstName && account.firstName.indexOf(' ') > -1) {
+          firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
+          $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
+          $scope.account.firstName = firstName;
+        }
+        UserService.register(account)
+          .success(function(data, status, headers, config) {
+            user = data;
+            Session.create(user.id, user.role, data.loginType);
+            $scope.regForm.isSubmitting = false;
+            $scope.account.isRegCompleted = true;
+          })
+          .error(function(data, status, headers, config) {
+            $log.error(data);
+            $scope.regForm.isSubmitting = false;
+            $scope.account.isRegCompleted = false;
+            if ( data.error ) {
+              $scope.account.errors.push(data.error);
+            } else {
+              $scope.account.errors.push(ERRORS['general']);
+            }
+          });
+      };
+
+
+    $scope.finish = function() {
+      if (user !== null) {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+      }
+    };
+    $scope.closeWindow = function () {
+        $window.location.search = 'action=SUCCESS';
+    };
+
 });
-
-
-
-
 

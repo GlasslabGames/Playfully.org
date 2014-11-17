@@ -1,0 +1,42 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
+    ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">Developer Sign In</h3>
+</div>
+
+<div class="modal-body">
+  <alert ng-show="authError" type="danger"><strong>Error:</strong> <span ng-bind="authError"></span></alert>
+  <form name="loginForm" novalidate class="login-form"
+    ng-submit="login(credentials)">
+
+    <div class="gl-input-group">
+      <div class="form-group" ng-class="{'has-error': loginForm.email.$dirty && loginForm.email.$invalid}">
+        <input type="email" name="email" class="form-control"
+          ng-model="credentials.username"
+          ng-pattern="emailValidationPattern"
+          placeholder="Email address"
+          required autofocus>
+          <div class="form-errors">
+            <div class="form-error" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+              Please enter a valid email address
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="gl-input-group">
+      <div class="form-group">
+        <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+      </div>
+    </div>
+
+    <div class="text-center">
+      <input type="submit" class="btn gl-btn--blue"
+        value="{{ loginForm.isSubmitting ? 'Sending...' : 'Sign In'}}"
+        ng-disabled="loginForm.$invalid || loginForm.isSubmitting">
+    </div>
+  </form>
+</div>
+
+</div>
