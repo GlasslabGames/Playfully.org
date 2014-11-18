@@ -2,7 +2,8 @@ angular.module( 'instructor.courses', [
   'playfully.config',
   'ui.router',
   'courses',
-  'checklist-model'
+  'checklist-model',
+  'gl-unique-in-group'
 ])
 
 .config(function ( $stateProvider, USER_ROLES) {
@@ -43,6 +44,9 @@ angular.module( 'instructor.courses', [
         resolve: {
           games: function(GamesService) {
             return GamesService.all();
+          },
+          courses: function(CoursesService) {
+            return CoursesService.getEnrollments();
           }
         },
         templateUrl: 'instructor/courses/new-course.html',
@@ -404,7 +408,7 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'NewCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, CoursesService) {
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService) {
   $scope.games = games;
   $scope.course = null;
   $scope.createdCourse = null;
@@ -419,6 +423,9 @@ angular.module( 'instructor.courses', [
     grade: [],
     games: []
   };
+
+  $scope.existingCourseTitles = _.map(courses, 'title'); 
+  $log.info($scope.existingCourseTitles);
 
   $scope.reset = function() {
     $scope.course = angular.copy(_emptyCourse);

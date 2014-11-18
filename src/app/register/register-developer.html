@@ -1,0 +1,107 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
+      ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title" ng-hide="account.isRegCompleted">Create a Developer Account!</h3>
+    <h3 class="modal-title" ng-show="account.isRegCompleted">Confirm your email address</h3>
+  </div>
+
+  <div class="modal-body" ng-hide="account.isRegCompleted">
+    <alert ng-repeat="error in account.errors" ng-show="account.errors.length" type="danger">{{ error }}</alert>
+
+    <form name="regForm" novalidate class="reg-form"
+      ng-submit="register(account)">
+
+      <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
+            <input type="text" name="firstName" class="form-control"
+              placeholder="Name (example John Doe, Bob)"
+              required
+              autofocus="autofocus"
+              ng-model="account.firstName"
+              ng-minlength="2">
+              &nbsp;<span class="fa fa-question-circle"
+                popover-placement="bottom"
+                popover="How would you like your name to be displayed?"></span>
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.firstName.$dirty && regForm.firstName.$invalid">
+                  Name must be at least 2 characters
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <div class="gl-input-row">
+        <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.email.$dirty && regForm.email.$invalid}">
+            <input type="email" name="email" class="form-control"
+              ng-model="account.email"
+              ng-pattern="emailValidationPattern"
+              placeholder="Email address"
+              required>
+              &nbsp;<span class="fa fa-question-circle"
+                popover-placement="top"
+                popover="We will never share your email address with anyone."></span>
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.email.$dirty && regForm.email.$invalid">
+                  Please enter a valid email address
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gl-input-row">
+        <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.password.$dirty && regForm.password.$error.minlength}">
+            <input type="password" name="password" class="form-control" id="account-password" placeholder="Choose a password" required ng-model="account.password"
+            ng-minlength="6"
+            pw-confirm="account.confirm">
+              &nbsp;<span class="fa fa-question-circle"
+                popover-placement="top"
+                popover="At least 6 characters"></span>
+            <div class="form-errors">
+              <div class="form-error" ng-show="regForm.password.$dirty && regForm.password.$error.minlength">
+                Your password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.confirm.$dirty && regForm.password.$invalid}">
+            <input type="password" name="confirm" class="form-control" id="account-confirm" placeholder="Confirm password" required
+            ng-model="account.confirm">
+            <div class="form-errors">
+              <div class="form-error" ng-show="regForm.confirm.$dirty && regForm.password.$error.pwmatch">
+                Passwords do not match
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center reg-submit">
+        <input type="submit" class="btn gl-btn--blue"
+          value="{{ regForm.isSubmitting ? 'Registering...' : 'Register'}}"
+          ng-disabled="regForm.$invalid || regForm.isSubmitting">
+      </div>
+    </form>
+  </div>
+
+
+  <div class="modal-body" ng-show="account.isRegCompleted">
+    <p class="text-center">
+      Thanks for registering with our Developer program! We need to approve your account before you can begin accessing the dashboard features. A response will be sent to {{account.email}}.
+    </p>
+    <div class="text-center reg-submit">
+      <button class="btn gl-btn--blue"
+        ng-click="finish()"
+        ng-hide="hideWrapper">Okay</button>
+      <button class="btn gl-btn--blue"
+        ng-click="finish()"
+        ng-show="hideWrapper">Play Now</button>
+    </div>
+  </div>
+</div>

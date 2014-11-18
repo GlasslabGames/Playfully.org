@@ -10,7 +10,7 @@ angular.module('research', [])
             }
         },
         data: {
-            authorizedRoles: ['admin']
+            authorizedRoles: ['admin','developer']
         }
     })
     .state('research.parser', {
@@ -18,7 +18,7 @@ angular.module('research', [])
         templateUrl: 'research/research-parser.html',
         controller: 'ResearchParserCtrl',
         data: {
-          authorizedRoles: ['admin']
+          authorizedRoles: ['admin','developer']
         }
     })
     .state('research.editCsv', {

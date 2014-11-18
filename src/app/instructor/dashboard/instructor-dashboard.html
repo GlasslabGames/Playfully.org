@@ -70,7 +70,8 @@
   <div ng-if="myGames.length" class="container gl-margin--Txl">
     <div class="col" ng-repeat="game in myGames | filter:{enabled: true}">
       <div class="col-md-4">
-        <div class="gl-game-card" ui-sref="games.detail.product({gameId:game.gameId})">
+        <div class="gl-game-card"
+          ui-sref="games.detail.product({gameId:game.gameId, scrollTo:'top'})">
           <div class="gl-game-thumbnail gl-game-card-{{game.gameId}}">
             <div ng-if="game.maintenance" class="gl-game-ribbon">
               <div class="gl-game-ribbon-text">{{game.maintenance.message}}</div>
@@ -83,7 +84,7 @@
             <h4>{{game.shortName}}</h4>
             <p>{{game.shortDescription}}</p>
             <p>
-              <a ng-hide="game.maintenance" ng-href="games/{{game.gameId}}" href class="gl-link--dkgrey text-bold">
+              <a ng-hide="game.maintenance" ui-sref="games.detail.product({gameId:game.gameId, scrollTo:'top'})" href="#" class="gl-link--dkgrey text-bold">
                 <i class="fa fa-arrow-circle-right"></i>&nbsp;
                 Learn more
               </a>

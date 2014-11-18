@@ -5,11 +5,15 @@
     placeholder="e.g. First Period Science"
     required
     autofocus="autofocus"
+    gl-unique-in-group="existingCourseTitles"
     ng-model="course.title"
     ng-minlength="2">
     <div class="form-errors">
-      <div class="form-error" ng-show="courseForm.title.$dirty && courseForm.title.$invalid">
+      <div class="form-error" ng-show="courseForm.title.$dirty && courseForm.title.$error.minlength">
         Name must be at least 2 characters
+      </div>
+      <div class="form-error" ng-show="courseForm.title.$dirty && courseForm.title.$error.isUniqueInGroup">
+        Course name must be unique
       </div>
     </div>
 </div>
