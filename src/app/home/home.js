@@ -23,7 +23,6 @@ angular.module( 'playfully.home', [
   $scope.subEmail = "";
   $scope.showSubscribeMessage = false;
   $scope.subscribeMessage = "";
-
   $scope.subscribe = function() {
     if( $scope.subEmail &&
         $scope.subEmail.length > 1) {

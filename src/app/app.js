@@ -1,4 +1,6 @@
 angular.module( 'playfully', [
+  'ngAnimate',
+  'ui.bootstrap.collapse.custom',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
@@ -32,7 +34,7 @@ angular.module( 'playfully', [
   'playfully.verify-email',
   'playfully.login-sdk',
   'playfully.register-sdk',
-  'student.dashboard-sdk',
+  'student.dashboard-sdk'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -251,9 +253,17 @@ angular.module( 'playfully', [
         $rootScope.allGames = data;
       });
     }
+    $scope.panel = {
+      isCollapsed: true
+    };
+    $scope.closePanel = function() {
+      $scope.panel.isCollapsed = !$scope.panel.isCollapsed;
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+    };
 
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
+        $scope.panel.isCollapsed = true;
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {
