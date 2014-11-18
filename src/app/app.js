@@ -1,6 +1,5 @@
 angular.module( 'playfully', [
   'ngAnimate',
-  'ui.bootstrap.collapse.custom',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
