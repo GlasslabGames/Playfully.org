@@ -56,14 +56,18 @@
                    ng-switch="button.type"
                    class="gl-btn--outlined gl-student-dash-btn">
                 <button ng-switch-when="play"
-                        type="button"
-                        class="btn gl-btn--green gl-student-dash-btn"
-                        ng-click="goToPlayGame(game.id)"
-                        ng-bind="button.name"></button>
+                    type="button"
+                    class="btn gl-btn--green gl-student-dash-btn"
+                    ng-click="goToPlayGame(game.id);
+                              ga('send', 'event', 'button', 'click', 'play', game.id);
+                              console.log('GA-click!! - play')"
+                    ng-bind="button.name"></button>
                 <button ng-switch-when="download"
                     type="download"
                     class="btn gl-btn--green gl-student-dash-btn"
-                    ng-click="goToLink(button.links[0].link)"
+                    ng-click="goToLink(button.links[0].link);
+                              ga('send', 'event', 'button', 'click', 'download', game.id);
+                              console.log('GA-click!! - download')"
                     ng-bind="button.name"></button>
               </div>
 

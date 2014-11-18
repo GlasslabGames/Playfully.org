@@ -220,7 +220,7 @@ angular.module( 'playfully', [
   };
 })
 
-.run(function($rootScope, ipCookie, $log, $state, $urlRouter, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
+.run(function($rootScope, ipCookie, $log, $state, $urlRouter, $window, $location, Session, Authorization, AuthService, UserService, AUTH_EVENTS) {
   $rootScope.$on('$stateChangeStart', function(event, next) {
     if (next.name !== 'logout') {
       if (next && next.url && next.url.indexOf('sdk') > -1) {
@@ -230,6 +230,11 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
+  $rootScope.$on('$stateChangeSuccess', function(event){
+    if (!$window.ga) { return; }
+    $window.ga('send', 'pageview', { page: $location.path() });
+  });
+
 })
 
 .controller('AppCtrl',
