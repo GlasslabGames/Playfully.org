@@ -50,7 +50,7 @@
         </p>
       </div>
       <div ng-show="!isAuthenticated(); gameDetails.type==='App'">
-        <button class="btn gl-btn--blue gl-games-sidebar-btn" ng-click="goTo(gameDetails.applink)">Download</button>
+        <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink)"></div>
       </div>
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
