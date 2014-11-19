@@ -425,7 +425,6 @@ angular.module( 'instructor.courses', [
   };
 
   $scope.existingCourseTitles = _.map(courses, 'title'); 
-  $log.info($scope.existingCourseTitles);
 
   $scope.reset = function() {
     $scope.course = angular.copy(_emptyCourse);
