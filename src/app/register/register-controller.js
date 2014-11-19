@@ -7,7 +7,7 @@ angular.module('playfully.register', ['register.const'])
     controller: 'RegisterOptionsModalCtrl'
   };
   $stateProvider.state('registerOptions', {
-    url: 'register',
+    url: '/register',
     parent: 'modal',
     views: { 'modal@': {
       templateUrl: 'register/register-options.html',
