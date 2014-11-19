@@ -1,0 +1,131 @@
+
+.gl-how-it-works-panel {
+  background: lightgrey;
+  position: relative;
+  z-index: 10;
+  min-height: 600px;
+  .drop-shadow(@blur:5px);
+}
+
+.how-it-works-step-top {
+  height: 90px;
+}
+
+.step-button {
+  background-color: white;
+  font-weight: bold;
+  width: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.how-it-works-steps-title {
+  font-family: 'Bitter', serif;
+  font-size: 16px;
+  color: #555555;
+}
+
+.how-it-works-col {
+  // direct child
+  >div {
+    float: left;
+  }
+  padding: 0px;
+  margin-top:50px;
+  text-align: center;
+}
+
+.how-it-works-steps {
+  height: 258px;
+  padding: 20px;
+  color: white;
+  margin: 0px;
+  p {
+    font-family: sans-serif;
+    font-weight: 100;
+  }
+}
+
+.how-it-works-step-1 {
+  .how-it-works-steps;
+  @base: rgba(140, 195, 74, 1);
+  width: 206px;
+  background-color: @base;
+  margin-right: 8px;
+  .step-button {
+    color: @base;
+  }
+}
+
+.how-it-works-step-2 {
+  .how-it-works-steps;
+  @base: #5bc0de;
+  width: 140px;
+  background-color: @base;
+  margin-right: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  .step-button {
+    color: @base;
+  }
+}
+
+.how-it-works-step-3 {
+  .how-it-works-steps;
+  @base: #4387fd;
+  width: 160px;
+  background-color: @base;
+  margin-right: 8px;
+  .step-button {
+    color: @base;
+  }
+}
+
+.how-it-works-step-4 {
+  .how-it-works-steps;
+  @base: #5bc0de;
+  width: 206px;
+  background-color: @base;
+  margin-right: 8px;
+  .step-button {
+    color: @base;
+  }
+}
+
+.how-it-works-step-5 {
+  .how-it-works-steps;
+  @base: rgba(140, 195, 74, 1);
+  width: 208px;
+  background: @base;
+  padding-right: 10px;
+  padding-left: 10px;
+  .step-button {
+    color: @base;
+  }
+}
+
+.how-it-works-footer {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.how-it-works-close {
+  color: rgb(200, 200, 200);
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  right: -100px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.how-it-works-close:hover {
+  cursor: pointer;
+}

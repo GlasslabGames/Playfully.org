@@ -1,5 +1,8 @@
 <div class="gl-home-lead-container">
-  <div class="gl-home-bg"></div>
+  <div>
+    <div class="gl-home-bg"></div>
+
+  </div>
   <div class="gl-home-lead-content">
     <div class="gl-home-event-count" ng-show="eventCount != null">
       <div class="container">
@@ -8,30 +11,27 @@
         </h3>
       </div>
     </div>
+    <div class="gl-home-banner-footer">
+      <div class="container">
+        <button type="button" class="btn gl-btn--blue" ng-click="state.go('registerInstructor')">Teachers Start Here</button>
+        <button type="button" class="btn gl-btn-green" ng-click="state.go('registerStudent')">Students Start Here</button>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 gl-home-col-md-6">
+        <div class="col-md-12">
           <div class="gl-home-title">
             <h1 class="gl-home-logo" data-ng-bind="'home.pagetitle' | translate"></h1>
-            <p class="lead gl-lead" data-ng-bind="'home.tagline' | translate">
-            </p>
+            </br>
+            </br>
+            <button type="button" class="btn btn-primary" ng-click="closePanel()">How it works</button>
           </div>
-        </div>
-        <div class="col-md-2 gl-home-col-md-2">&nbsp;</div>
-        <div class="col-md-4 gl-home-col-md-4 gl-register-col">
-          <!--request access banner-->
-          <!--<div class="gl-home-register">-->
-            <!--<h3 class="gl-home-register-title" data-ng-bind="'home.register.title.beta' | translate"></h3>-->
-            <!--<hr class="gl-home-hr">-->
-            <!--<p data-ng-bind="'home.register.description.beta' | translate"></p>-->
-            <!--<button type="button" class="btn btn-info gl-bu-register"-->
-            <!--ui-sref="registerBeta"-->
-            <!--data-ng-bind="'home.register.button.beta' | translate"></button>-->
-          <!--</div>-->
 
+        </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 

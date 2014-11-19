@@ -14,21 +14,21 @@
 <hr/>
 
 <table class="table gl-reports-table"
-       ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-competency-header-info">
+       ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-sowo-header-info">
   <thead>
   <tr>
-      <td colspan="9" class="gl-reports-achievement-selector text-center">
-          <a href class="gl-reports-achievement-arrow"
+      <td colspan="9" class="gl-reports-sowo-selector text-center">
+          <a href class="gl-reports-sowo-arrow"
              ng-click="selectActiveHeaders(reportInfo.activeHeaders, reportInfo.startIndex - 1)"
-             ng-class="{'gl-reports-achievement-arrow--disabled': reportInfo.startIndex == 0}">
+             ng-class="{'gl-reports-sowo-arrow--disabled': reportInfo.startIndex == 0}">
               <i class="fa fa-arrow-left"></i>
           </a> &nbsp;
           {{ (reportInfo.startIndex + 1) }}{{ (reportInfo.totalCount < 3 ? '' : '-' + (reportInfo.startIndex + 3)) }} / {{
           reportInfo.totalCount }} {{reportInfo.selectedGroup.title}}
           &nbsp;
-          <a href class="gl-reports-achievement-arrow"
+          <a href class="gl-reports-sowo-arrow"
              ng-click="selectActiveHeaders(reportInfo.activeHeaders, reportInfo.startIndex + 1)"
-             ng-class="{'gl-reports-achievement-arrow--disabled': reportInfo.startIndex + 3 == reportInfo.totalCount || reportInfo.totalCount < 3}">
+             ng-class="{'gl-reports-sowo-arrow--disabled': reportInfo.startIndex + 3 == reportInfo.totalCount || reportInfo.totalCount < 3}">
               <i class="fa fa-arrow-right"></i>
           </a>
       </td>
@@ -37,20 +37,20 @@
       <th colspan="5" class="gl-reports-divider--blue"></th>
   </tr>
   <tr>
-    <th class="gl-reports-competency-header-name">Name
+    <th class="gl-reports-sowo-header-name">Name
       <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
          ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
     </th>
-    <th class="gl-reports-competency-header-competency" ng-repeat="header in reportInfo.activeHeaders">
-      <div class="gl-reports-competency-header text-center">
+    <th class="gl-reports-sowo-header-sowo" ng-repeat="header in reportInfo.activeHeaders">
+      <div class="gl-reports-sowo-header text-center">
         <div><span ng-bind="header.title"> </span>
           <i ng-class="col.current===header.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
              ng-click="colName.value = header.title; sortSelected(header.title)"></i>
         </div>
-        <div collapse="isCollapsed.value" class="gl-reports-competency-header-info"
+        <div collapse="isCollapsed.value" class="gl-reports-sowo-header-info"
              ng-bind="header.description"></div>
       </div>
-      <div class="gl-reports-achievement-collapse">
+      <div class="gl-reports-sowo-collapse">
         <i ng-class="$index === 0 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''"
            ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
       </div>
@@ -66,7 +66,7 @@
     <tr class="gl-reports-table-row"
         ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
         <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-        <td class="gl-reports-achievement" ng-repeat="sowo in reportInfo.activeHeaders">
+        <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
             <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
                ng-show="hasSOWO(sowo.id, student)"></div>
         </td>

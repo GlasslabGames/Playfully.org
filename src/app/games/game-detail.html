@@ -33,11 +33,11 @@
         </li>
       </ul>
 
-      <div ng-hide="isAuthenticated()"
+      <div ng-hide="isAuthenticated(); gameDetails.type==='App'"
            class="gl-learn-more">
         <h5>Want to learn more? <div></div></h5>
         <p>
-          Create a free Playfully account to access:<br/>
+          Create a free teacher account to access:<br/>
           <ul>
             <li>Lesson plans</li>
             <li>Standards alignments</li>
@@ -49,7 +49,9 @@
                   ng-click="state.go('registerOptions')">Create an Account</button>
         </p>
       </div>
-
+      <div ng-show="!isAuthenticated(); gameDetails.type==='App'">
+        <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink)"></div>
+      </div>
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
         <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">

@@ -109,7 +109,7 @@ angular.module( 'instructor.reports')
       $scope.reportInfo.totalCount = $scope.reportInfo.headers.length;
     };
 
-    /* for each user replace reportInfo with results from API */
+    /* for each user augment reportInfo with results from API */
     var _populateStudentWithReportData = function (usersReportData, reportId) {
       if (usersReportData &&
           $scope.courses &&
@@ -147,6 +147,7 @@ angular.module( 'instructor.reports')
          }
          return false;
       };
+
       // Populates achievements selector
       $scope.selectActiveHeaders = function (activeHeaders, index) {
           $scope.reportInfo.totalCount =  $scope.reportInfo.headers.length;
@@ -157,6 +158,7 @@ angular.module( 'instructor.reports')
                   $scope.reportInfo.activeHeaders = $scope.reportInfo.headers.slice(index, index + 3);
               }
       };
+
     //// Course Functions //////
 
     // Select Course students
@@ -172,7 +174,7 @@ angular.module( 'instructor.reports')
     $scope.getSelectedStudents = function() {
       var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
       if (activeCourse.isPartiallySelected) {
-        studentIds = ReportsService.getSelectedStudentIds(activeCourse);
+        var studentIds = ReportsService.getSelectedStudentIds(activeCourse);
         return studentIds.length > 0 ? studentIds : null;
       } else {
         return null;

@@ -7,24 +7,23 @@
 
     <div class="gl-game-missions">
         <div class="gl-game-missions-wrapper">
-
             <div ng-repeat="groupMission in gameMissions.groups"
                  class="gl-game-mission-group">
-
                 <div ng-if="groupMission.missions.length"
                       ng-repeat="mission in groupMission.missions">
-
                     <div ng-if="mission.enabled" class="gl-game-mission">
                         <button class="gl-game-mission-button" ng-click="goTo(mission.links[0].link, '_self')">
                             <div class="gl-game-{{gameId}}-missions-blue" ng-class="{'gl-game-{{gameId}}-missions-green': isAuthorized('student')}"></div>
                           {{mission.linkText}}
                         </button>
                     </div>
-
                 </div>
-
             </div>
         </div>
+        </br>
+        <p class="text-center">
+            *Before playing the game, please make sure that you've already downloaded SimcityEDU to your computer!
+        </p>
     </div>
 </div>
 
