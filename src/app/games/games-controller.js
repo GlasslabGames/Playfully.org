@@ -216,7 +216,6 @@ angular.module( 'playfully.games', [
     $scope.goToPlayGame = function(gameId) {
       $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
     };
-
     /**
      * The API is providing a relative path, causing the image to break if
      * we're not at the top level. In the event that we switch to a CDN we

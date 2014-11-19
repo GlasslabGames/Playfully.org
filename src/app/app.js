@@ -259,10 +259,11 @@ angular.module( 'playfully', [
       $scope.panel.isCollapsed = !$scope.panel.isCollapsed;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     };
-
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
-        $scope.panel.isCollapsed = true;
+        if (!$scope.panel.isCollapsed) {
+          $scope.panel.isCollapsed = true;
+        }
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {
