@@ -1,5 +1,4 @@
 angular.module( 'playfully', [
-  'ngAnimate',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
