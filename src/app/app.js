@@ -256,6 +256,10 @@ angular.module( 'playfully', [
         $rootScope.allGames = data;
       });
     }
+
+    $scope.goTo = function(link) {
+      $window.open(link);
+    };
     $scope.panel = {
       isCollapsed: true
     };
