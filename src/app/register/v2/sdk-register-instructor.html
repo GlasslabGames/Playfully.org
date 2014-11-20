@@ -3,7 +3,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
                 ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h3 class="modal-title" ng-hide="account.isRegCompleted">Create a Playfully Account!</h3>
+        <h3 class="modal-title" ng-hide="account.isRegCompleted">Create a GlassLab Games Account!</h3>
 
         <h3 class="modal-title" ng-show="account.isRegCompleted">Confirm your email address</h3>
     </div>
@@ -121,7 +121,7 @@
                             <input type="checkbox" value="" ng-model="account.acceptedTerms"
                                    ng-checked="account.acceptedTerms" ng-required="true">
               <span class="small">
-                I have read and accepted the <span class="gl-sdk-playfully-link" ng-click="goToLink('www.playfully.org/privacy')">Privacy Policy</span>
+                I have read and accepted the <span class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/privacy')">Privacy Policy</span>
               </span>
                         </label>
                     </div>
