@@ -1,13 +1,13 @@
-<div class="modal-header">
+s<div class="modal-header">
   <h3 class="modal-title">
-    <i class="gl-sdk-header-logo gl-sdk-playfully-logo"></i>
+    <i class="gl-sdk-header-logo gl-sdk-glasslabgames-logo"></i>
   </h3>
 </div>
 
 <div ng-class="modal-body">
   <h3 class="modal-title gl-sdk-register-title">Hi <span class="gl-nobr" ng-bind="currentUser.username"></span>!
-  <h3 class="modal-title gl-sdk-register-title" ng-show="hasCourses"> You are joining:</h3>
-  <h3 class="modal-title gl-sdk-register-title" ng-show="!hasCourses">You currently have no classes that have this game.</h3>
+  <span class="modal-title gl-sdk-register-title" ng-show="hasCourses"> You are joining:</span>
+  <span class="modal-title gl-sdk-register-title" ng-show="!hasCourses">You currently have no classes that have this game.</span></h3>
 
   <div class="container-fluid">
     <div class="col-md-8 col-md-offset-2">
@@ -23,7 +23,7 @@
 
   <form class="login-form gl-sdk-login-success-buttons">
     <div class="text-center">
-      <input type="submit" class="btn gl-btn--gray gl-btn--minwidth" value="Enter New Class Code"
+      <input type="submit" class="btn gl-btn--green gl-btn--minwidth" value="Enter New Class Code"
              ng-click="state.go('sdkv2EnrollInCourse',{gameId:gameId})">
       <span class="gl-sdk-login-button-gap"></span>
       <input type="submit" ng-show="hasCourses" class="btn gl-btn--blue gl-btn--minwidth" value="Play Game"
