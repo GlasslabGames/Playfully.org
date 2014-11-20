@@ -33,7 +33,7 @@
         </li>
       </ul>
 
-      <div ng-hide="isAuthenticated(); gameDetails.type==='App'"
+      <div ng-hide="isAuthenticated() || gameDetails.type==='App'"
            class="gl-learn-more">
         <h5>Want to learn more? <div></div></h5>
         <p>
@@ -49,8 +49,9 @@
                   ng-click="state.go('registerOptions')">Create an Account</button>
         </p>
       </div>
-      <div ng-show="!isAuthenticated(); gameDetails.type==='App'">
-        <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink)"></div>
+      <div ng-show="!isAuthenticated() && gameDetails.type==='App'">
+        <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink,
+        '_blank')"></div>
       </div>
       <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
@@ -76,11 +77,10 @@
           <div ng-if="button.links && button.links.length == 1"
                ng-switch="button.links[0].type">
             <!-- temporarily hardcoded for initial launch -->
-            <a ng-switch-when="ios-appstore"
-               href="#"
-               class="gl-btn-appstore"
+            <div ng-switch-when="ios-appstore"
+               class="gl-game-app-store-download"
                ng-click="goTo(button.links[0].link, button.links[0].target)">
-            </a>
+            </div>
             <button ng-if="hasPermsToPlayGame()"
                     ng-switch-when="play"
                     type="button"
