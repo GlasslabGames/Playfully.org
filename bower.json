@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "lodash": "~2.4.1",
-    "angular": "1.2.26",
+    "angular": "1.2.27",
     "angular-cookies": "~1.2",
     "angular-mocks": "~1.2",
     "bootstrap": "~3.1",
