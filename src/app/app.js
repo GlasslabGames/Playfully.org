@@ -272,7 +272,7 @@ angular.module( 'playfully', [
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {
-          $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
+          $scope.pageTitle = toState.data.pageTitle + ' | GlassLab Games' ;
         }
         if (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.hideWrapper)) {
