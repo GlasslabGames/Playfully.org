@@ -8,6 +8,7 @@ angular.module( 'playfully', [
   'pascalprecht.translate',
   'angularMoment',
   'ui.router',
+  'ct.ui.router.extras',
   'ui.bootstrap',
   'playfully.config',
   'auth',
@@ -35,27 +36,39 @@ angular.module( 'playfully', [
   'student.dashboard-sdk'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
+  $stickyStateProvider.enableDebug(false);
+  $stickyStateProvider.enableDebug(true);
+
   $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
   });
   $locationProvider.hashPrefix('!');
 
-  $urlRouterProvider.rule(function ($injector, $location) {
-    var path = $location.path();
-    var normalized = path.toLowerCase();
+  /*$urlRouterProvider.rule(function ($injector, $location) {
 
     if (path != normalized) {
       //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
       $location.replace().path(normalized);
     }
-  });
+  });*/
 
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('site', { abstract: true })
 
-  .state( 'sdk', {
+  
+  $stateProvider.state('root', {
+    url: '/',
+    abstract: true,
+    sticky: true
+  });
+
+
+
+
+  // $stateProvider.state('site', { abstract: true })
+
+  $stateProvider.state( 'sdk', {
     url: '/sdk',
     onEnter: function($log, $location, ipCookie) {
       var search = $location.search();

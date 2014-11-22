@@ -26,7 +26,7 @@
         <li class="gl-games-subnav-item"
           ng-repeat="navItem in navItems | orderObjectBy: 'order'"
           ng-if="navItem.enabled && (!navItem.authRequired || (navItem.authRequired && isAuthorized()))">
-          <a ui-sref="{{ 'games.detail.' + navItem.id }}"
+          <a ui-sref="{{ 'root.games.detail.' + navItem.id }}"
             class="gl-games-subnav-link"
             ui-sref-active="gl-games-subnav-link--active"
             ng-bind="navItem.title"></a>

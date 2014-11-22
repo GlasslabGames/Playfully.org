@@ -12,12 +12,12 @@
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
-      ui-sref="home"></div>
+      ui-sref="root.home"></div>
     <div class="nav navbar-nav navbar-right">
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="home"
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.home"
             data-ng-bind="'navbar.link.home' | translate">
           </a>
         </li>
