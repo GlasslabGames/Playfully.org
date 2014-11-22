@@ -1,23 +1,42 @@
 angular.module('playfully.login', [])
 
-.config(function config( $stateProvider, $urlRouterProvider ) {
+.config(function config( $stateProvider, $stickyStateProvider, $urlRouterProvider ) {
+  $stickyStateProvider.enableDebug(true);
 
   // Login Options
 
   $stateProvider.state('loginOptions', {
-    url: 'login',
-    parent: 'modal',
-    views: { 'modal@': {
-      templateUrl: 'login/login.html',
-      controller: 'LoginOptionsCtrl'
-      }
-    },
+    url: '/login',
+    template: '<div ui-view></div>',
     data:{ pageTitle: 'Sign In'},
-    onEnter: function($state, $log, ipCookie) {
+    onEnter: function ($state, $log, $modal, $previousState, ipCookie) {
+
       if (ipCookie('inSDK')) {
         ipCookie.remove('inSDK');
+      }
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        templateUrl: 'login/login.html',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['login']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
     }
-  }})
+  })
   .state('sdkLoginOptions', {
     url: '/sdk/login',
     parent: 'site',
