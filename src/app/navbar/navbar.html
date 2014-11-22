@@ -32,6 +32,12 @@
           </a>
         </li>
 
+        <li ui-sref-active="active">
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org"
+             data-ng-bind="'navbar.link.about' | translate">
+          </a>
+        </li>
+
         <li ui-sref-active="active" ng-hide="true">
           <a class="ng-cloak gl-nav-link" href ui-sref="redeem"
             data-ng-bind="'navbar.link.redeem' | translate">
@@ -83,6 +89,12 @@
         <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
           <a class="ng-cloak gl-nav-link" target="_blank" href="http://glasslab.zendesk.com"
             data-ng-bind="'navbar.link.support' | translate">
+          </a>
+        </li>
+
+        <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org"
+             data-ng-bind="'navbar.link.about' | translate">
           </a>
         </li>
 

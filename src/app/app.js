@@ -271,11 +271,12 @@ angular.module( 'playfully', [
       function(event, toState, toParams, fromState, fromParams){
         if (!$scope.panel.isCollapsed) {
           $scope.panel.isCollapsed = true;
+          document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {
-          $scope.pageTitle = toState.data.pageTitle + ' | Playfully' ;
+          $scope.pageTitle = toState.data.pageTitle + ' | GlassLab Games' ;
         }
         if (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.hideWrapper)) {
