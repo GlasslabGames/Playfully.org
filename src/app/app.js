@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'ct.ui.router.extras',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',

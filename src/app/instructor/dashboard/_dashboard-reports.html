@@ -34,7 +34,7 @@
           ui-sref="instructorDashboard.gameplay({gameId: status.prevGameId, courseId: status.selectedCourseId})">
           <i class="fa fa-chevron-left gl-fa-3"></i>
         </a>
-        <img src="/assets/skinny-banner-{{ status.selectedGameId }}.jpg" width="620" height="73">
+          <img src="/assets/skinny-banner-{{ status.selectedGameId }}.jpg" width="620" height="73" border-radius="6px">
         <a href="#"
           ui-sref="instructorDashboard.gameplay({gameId: status.nextGameId, courseId: status.selectedCourseId})">
           <i class="fa fa-chevron-right gl-fa-3"></i>
@@ -44,7 +44,7 @@
         
           <div class="row gl-margin--Txl gl-margin--Bl">
               <div class="col-md-12">
-                <h1 class="headline-2 text-center gl-margin--Tl">
+                <h1 class="headline-4 text-center gl-margin--Tl">
                   Students in Need of Intervention Now
                 </h1>
               </div>
@@ -83,11 +83,12 @@
               <div ng-if="woData.students.length > 7">&hellip;</div>
             </div>
           </div>
-          <div class="row gl-pad-Vl">
-            <div class="col-md-12 text-center">
+          <div class="row gl-pad-Vl gl-margin--Ts">
+            <div class="col-md-12">
               <span class="gl-icon-watchout-landing"></span>
               Get more information about students with Watch Outs! and see next
-              steps from instruction. <br />
+              steps from instruction.
+              <br />
               <span class="gl-icon-shoutout-landing"></span>
               Celebrate your students&rsquo; successes.
               You can find information about students who are excelling in the
