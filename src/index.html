@@ -5,7 +5,7 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <!-- FB OpenGraph tags -->
     <meta property="og:site_name" content="GlassLab Games"/>
-    <meta property="og:image" content="http://www.playfully.org/assets/home-banner@2x.jpg" />
+    <meta property="og:image" content="http://www.glasslabgames.org/assets/home-banner@2x.jpg" />
     <meta property="og:description" content="GlassLab Games delivers a delightful user experience covering the most critical learning standards. Our games are as engaging as the games students and educators choose to play in their free time." />
 
     <link href="//fonts.googleapis.com/css?family=Bitter:700" rel="stylesheet" type="text/css">
@@ -30,18 +30,6 @@
   </head>
   <body>
 
-  <div class="container gl-container">
-    <div class="playfully-relocation">
-      <div class="blinky-relocation"></div>
-      <div class="playfully-text-content">
-        <h1 class="playfully-main-header">We've Moved!</h1>
-        <p class="playfully-relocation-desc gl-margin--V40">Hello friends! Playfully has undergone a redesign, changed its name, and moved to GlassLabGames.org. Please
-          update your favorites, and click the button below to go to your
-          new home for high-impact digital games!</p>
-        <button type="button" class="btn btn-info navbar-btn gl-bu-login" ng-click="goTo('http://www.glasslabgames.org')">Take me to GlassLab Games</button>
-      </div>
-    </div>
-    <div>
   <!--<div class="snippet-content">-->
     <!--<h1>GlassLab Games</h1>-->
     <!--<img src="http://www.playfully.org/assets/gl-games-beta-logo@2x.png">-->
@@ -63,8 +51,8 @@
         <!--</div>-->
       <!--</div>-->
 
-      <!--<div class="gl-main" ui-view="main">-->
-      <!--</div>-->
+      <div class="gl-main" ui-view="main">
+      </div>
 
       <!--<footer class="footer gl-footer"-->
         <!--ng-if="!hideWrapper"-->
@@ -83,7 +71,6 @@
           <!--</div>-->
         <!--</div>-->
       <!--</footer>-->
-    </div>
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="/<%= file %>"></script><% }); %>
