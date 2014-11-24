@@ -256,17 +256,17 @@ angular.module( 'playfully', [
         $rootScope.allGames = data;
       });
     }
-    $scope.panel = {
+    $scope.howItWorksPanel = {
       isCollapsed: true
     };
     $scope.closePanel = function() {
-      $scope.panel.isCollapsed = !$scope.panel.isCollapsed;
+      $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     };
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
-        if (!$scope.panel.isCollapsed) {
-          $scope.panel.isCollapsed = true;
+        if (!$scope.howItWorksPanel.isCollapsed) {
+          $scope.howItWorksPanel.isCollapsed = true;
           document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
         var hasPageTitle = (angular.isDefined(toState.data) &&

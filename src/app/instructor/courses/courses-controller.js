@@ -275,7 +275,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList', null, {reload: true});
+        return $state.transitionTo('showStudentList');
       });
     }
   })
@@ -320,7 +320,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList', null, {reload: true});
+        return $state.transitionTo('showStudentList');
       });
     }
   })
