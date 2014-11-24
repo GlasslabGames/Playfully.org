@@ -1,42 +1,19 @@
 angular.module('playfully.login', [])
 
 .config(function config( $stateProvider, $stickyStateProvider, $urlRouterProvider ) {
-  $stickyStateProvider.enableDebug(true);
 
   // Login Options
 
-  $stateProvider.state('loginOptions', {
+  $stateProvider.state('modal.login', {
     url: '/login',
-    template: '<div ui-view></div>',
     data:{ pageTitle: 'Sign In'},
-    onEnter: function ($state, $log, $modal, $previousState, ipCookie) {
-
-      if (ipCookie('inSDK')) {
-        ipCookie.remove('inSDK');
+    views: {
+      'modal@': {
+        templateUrl: 'login/login.html'
       }
-      // remember the previous state with memoName "modalInvoker"
-      $previousState.memo("modalInvoker");
-      $modal.open({
-        templateUrl: 'login/login.html',
-        controller: function($modalInstance, $scope) {
-          var isopen = true;
-          $modalInstance.result.finally(function() {
-            isopen = false;
-            $previousState.go("modalInvoker"); // return to previous state
-          });
-          $scope.close = function () {
-            $modalInstance.dismiss('close');
-            $previousState.go("modalInvoker"); // return to previous state
-          };
-          $scope.$on("$stateChangeStart", function(evt, toState) {
-            if (!toState.$$state().includes['login']) {
-              $modalInstance.dismiss('close');
-            }
-          });
-        }
-      });
     }
   })
+
   .state('sdkLoginOptions', {
     url: '/sdk/login',
     parent: 'site',
@@ -53,9 +30,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-instructor.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginInstructor', {
-    url: 'login/instructor',
-    parent: 'modal',
+  $stateProvider.state('modal.login.instructor', {
+    url: '/instructor',
     views: { 'modal@': loginInstructorConfig },
     data:{ pageTitle: 'Instructor Sign In'}
   });
@@ -65,9 +41,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-student.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginStudent', {
-    url: 'login/student',
-    parent: 'modal',
+  $stateProvider.state('modal.login.student', {
+    url: '/student',
     views: { 'modal@': loginStudentConfig },
     data:{ pageTitle: 'Student Sign In'}
   })
@@ -195,8 +170,7 @@ angular.module('playfully.login', [])
   })
 
   // Logout
-  .state('logout', {
-    parent: 'site',
+  .state('root.logout', {
     url: '/logout',
     resolve: {
       data: function($rootScope, $log, AuthService, AUTH_EVENTS) {

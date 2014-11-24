@@ -37,7 +37,6 @@ angular.module( 'playfully', [
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
-  $stickyStateProvider.enableDebug(false);
   $stickyStateProvider.enableDebug(true);
 
   $locationProvider.html5Mode({
@@ -61,6 +60,37 @@ angular.module( 'playfully', [
     url: '/',
     abstract: true,
     sticky: true
+  });
+
+  $stateProvider.state('modal', {
+    abstract: true,
+    onEnter: function ($modal, $previousState, $log) {
+      $log.info('$previousState');
+      $log.info($previousState.get());
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        template: '<div ui-view="modal"></div>',
+        backdrop: 'static',
+        size: 'sm',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['modal']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
+    }
   });
 
 
@@ -132,9 +162,9 @@ angular.module( 'playfully', [
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }
-  })
+  });
 
-  .state( 'modal', {
+  /*.state( 'modal', {
     abstract: true,
     parent: 'home',
     url: '',
@@ -148,7 +178,7 @@ angular.module( 'playfully', [
         $state.go('home');
       });
     }
-  });
+  });*/
 })
 
 .config(function($httpProvider) {
@@ -189,7 +219,7 @@ angular.module( 'playfully', [
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
               if ($rootScope.toState) {
-                if ($rootScope.toState.url == '/' && user && user.role) {
+                if ($rootScope.toState.name == 'root.home' && user && user.role) {
                   if (user.role == 'instructor' ||
                       user.role == 'manager' ||
                       user.role == 'developer'
@@ -198,14 +228,14 @@ angular.module( 'playfully', [
                     if(user.loginType == 'icivics'){
                       $state.go('courses.active');
                     } else {
-                      $state.go('instructorDashboard.default');
+                      $state.go('root.instructorDashboard.default');
                     }
                   } else {
                     $state.go('studentDashboard');
                   }
                 }
 
-                var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
+                var authorizedRoles = ($rootScope.toState.data && $rootScope.toState.data.authorizedRoles) || null;
 
                 if (authorizedRoles) {
                   if (AuthService.isAuthorized(authorizedRoles)) {
@@ -295,10 +325,10 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
-      if ($rootScope.modalInstance) {
+      /*if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
-      }
-      $state.go('home', {}, { reload: true });
+      }*/
+      $state.go('root.home');
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
@@ -313,11 +343,11 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-      $state.go('home');
+      $state.go('root.home');
     });
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-      $state.go('home');
+      $state.go('root.home');
     });
 
     $scope.truncateUsername = function (username) {

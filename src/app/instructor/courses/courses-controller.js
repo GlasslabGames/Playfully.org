@@ -7,15 +7,15 @@ angular.module( 'instructor.courses', [
 ])
 
 .config(function ( $stateProvider, USER_ROLES) {
-  $stateProvider.state('courses', {
+  $stateProvider.state('root.courses', {
     /* Use regex to capture optional courseStatus (archived vs other) */
-    url: '/classes{courseStatus:(?:/[^/]+)?}',
+    url: 'classes{courseStatus:(?:/[^/]+)?}',
     data: {
       pageTitle: 'Classes',
       authorizedRoles: ['instructor','manager','developer','admin']
     },
     views: {
-      'main': {
+      'main@': {
         templateUrl: 'instructor/courses/courses.html',
         controller: 'CoursesCtrl'
       }

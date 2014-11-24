@@ -6,7 +6,7 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register.html',
     controller: 'RegisterOptionsModalCtrl'
   };
-  $stateProvider.state('registerOptions', {
+  $stateProvider.state('modal.register', {
     url: '/register',
     parent: 'modal',
     views: { 'modal@': {
@@ -20,9 +20,8 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-instructor.html',
     controller: 'RegisterInstructorCtrl'
   };
-  $stateProvider.state('registerInstructor', {
-    url: 'register/instructor',
-    parent: 'modal',
+  $stateProvider.state('modal.register.instructor', {
+    url: '/instructor',
     views: { 'modal@': registerInstructorConfig }
   })
   .state('sdkRegisterInstructor', {
@@ -37,9 +36,8 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-student.html',
     controller: 'RegisterStudentModalCtrl'
   };
-  $stateProvider.state('registerStudent', {
-    url: 'register/student',
-    parent: 'modal',
+  $stateProvider.state('modal.register.student', {
+    url: '/student',
     views: { 'modal@': registerStudentConfig } 
   })
   .state('sdkRegisterStudent', {
@@ -64,9 +62,8 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-developer.html',
     controller: 'RegisterDeveloperCtrl'
   };
-  $stateProvider.state('registerDeveloper', {
-    url: 'register/developer',
-    parent: 'modal',
+  $stateProvider.state('modal.register.developer', {
+    url: '/developer',
     views: { 'modal@': registerDeveloperConfig }
   });
 

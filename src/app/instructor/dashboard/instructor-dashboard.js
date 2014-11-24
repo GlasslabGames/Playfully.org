@@ -3,9 +3,9 @@ angular.module( 'instructor.dashboard', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state('instructorDashboard', {
+  $stateProvider.state('root.instructorDashboard', {
     abstract: true,
-    url: '/dashboard',
+    url: 'dashboard',
     data: {
       authorizedRoles: ['instructor','manager','admin'],
       pageTitle: 'Dashboard'
@@ -24,9 +24,10 @@ angular.module( 'instructor.dashboard', [
       myGames: function(GamesService) { return GamesService.getMyGames(); }
     },
     views: {
-      main: {
+      'main@': {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, myGames) {
+        controller: function ($scope, $timeout, $log, myGames) {
+          $log.info('we are in the basic controller');
           $scope.myGames = myGames;
           $scope.showNotification = false;
 
@@ -45,26 +46,29 @@ angular.module( 'instructor.dashboard', [
     }
   })
 
-  .state('instructorDashboard.default', {
+  .state('root.instructorDashboard.default', {
     url: '',
     controller: function($scope, $state, $log, myGames, activeCourses) {
+      $log.info('did we even get here???');
       // Decide which state to send the instructor to, based on whether
       // they have courses set up.
       if (!myGames.length) {
-        $state.transitionTo('instructorDashboard.intro');
+        $log.info('should go to intro');
+        $state.go('root.instructorDashboard.intro');
       } else {
-        $state.transitionTo('instructorDashboard.gameplay',
+        $log.info('should go to gameplay');
+        $state.go('root.instructorDashboard.gameplay',
           { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
       }
     }
   })
 
-  .state('instructorDashboard.intro', {
+  .state('root.instructorDashboard.intro', {
     url: '/intro',
     templateUrl: 'instructor/dashboard/_dashboard-intro.html'
   })
 
-  .state('instructorDashboard.gameplay', {
+  .state('root.instructorDashboard.gameplay', {
     url: '/game/:gameId/course/:courseId',
     templateUrl: 'instructor/dashboard/_dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
@@ -147,7 +151,7 @@ angular.module( 'instructor.dashboard', [
 
     $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
-        $state.transitionTo('instructorDashboard.gameplay', {
+        $state.go('root.instructorDashboard.gameplay', {
           gameId: $scope.status.selectedGameId,
           courseId: newValue
         });

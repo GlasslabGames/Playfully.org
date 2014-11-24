@@ -9,11 +9,11 @@ angular.module( 'instructor.reports', [
 ])
 
 .config(function ( $stateProvider, USER_ROLES) {
-  $stateProvider.state( 'reports', {
+  $stateProvider.state( 'root.reports', {
     abstract: true,
-    url: '/reports',
+    url: 'reports',
     views: {
-      main: {
+      'main@': {
         templateUrl: 'instructor/reports/new-reports.html',
         controller: 'newReportsCtrl'
       }
@@ -60,11 +60,11 @@ angular.module( 'instructor.reports', [
    * If the user navigates the default Reports route, we need to choose
    * the first game and first course.
    **/
-  .state('reports.default', {
+  .state('root.reports.default', {
     url: '',
     controller: function($scope, $state, $log, defaultGameId, activeCourses) {
       if (activeCourses.length && defaultGameId) {
-        $state.transitionTo('reports.details.' + $scope.reports.options[0].id, {
+        $state.go('root.reports.details.' + $scope.reports.options[0].id, {
           gameId: defaultGameId,
           courseId: activeCourses[0].id
         });
@@ -78,13 +78,13 @@ angular.module( 'instructor.reports', [
     }
   })
 
-  .state( 'reports.details', {
+  .state( 'root.reports.details', {
     url: '/details',
     template: '<div ui-view></div>',
     controller: 'ReportsDetailCtrl'
   })
 
-    .state('reports.details.sowo', {
+    .state('root.reports.details.sowo', {
         url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
         templateUrl: 'instructor/reports/sowo/sowo.html',
         controller: 'SowoCtrl',
@@ -116,7 +116,7 @@ angular.module( 'instructor.reports', [
           }
         }
     })
-    .state('reports.details.achievements', {
+    .state('root.reports.details.achievements', {
         url: '/achievements/game/:gameId/course/:courseId?skillsId&stdntIds',
         templateUrl: 'instructor/reports/achievements/achievements.html',
         controller: 'AchievementsCtrl',
@@ -147,7 +147,7 @@ angular.module( 'instructor.reports', [
           }
         }
     })
-    .state('reports.details.competency', {
+    .state('root.reports.details.competency', {
       url: '/competency/game/:gameId/course/:courseId?skillsId&stdntIds',
       templateUrl: 'instructor/reports/competency/competency.html',
       controller: 'CompetencyCtrl',
@@ -179,7 +179,7 @@ angular.module( 'instructor.reports', [
         }
       }
     })
-    .state('reports.details.mission-progress', {
+    .state('root.reports.details.mission-progress', {
         url: '/mission-progress/game/:gameId/course/:courseId?skillsId&stdntIds',
         templateUrl: 'instructor/reports/mission-progress/mission-progress.html',
         controller: 'MissionProgressCtrl',

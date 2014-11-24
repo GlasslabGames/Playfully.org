@@ -11,7 +11,7 @@
         <div class="gl-register-option">
           <div class="gl-register-option-wrapper">
             <div class="gl-game-card gl-game-card--linked"
-                 ng-click="state.go('registerInstructor')">
+                 ng-click="state.go('modal.register.instructor')">
               <div class="gl-register-card-image gl-register-card-teacher"
                    popover-placement="bottom"
                    popover-trigger="mouseenter"
@@ -25,7 +25,7 @@
 
         <div class="gl-register-option">
           <div class="gl-register-option-wrapper">
-            <div class="gl-game-card gl-game-card--linked" ng-click="state.go('registerStudent')">
+            <div class="gl-game-card gl-game-card--linked" ng-click="state.go('modal.register.student')">
               <div class="gl-register-card-image gl-register-card-student">
                 <span class="gl-register-card-text">Student</span>
               </div>
@@ -41,7 +41,7 @@
       Already have an account?
       <a href="#"
          class="link-register"
-         ng-click="state.go('loginOptions')">
+         ng-click="state.go('modal.login')">
         Sign in</a>
     </div>
 
