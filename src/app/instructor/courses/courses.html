@@ -2,11 +2,11 @@
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
         <li class="gl-tab"
             ng-class="{'active': !showArchived}">
-            <a href ui-sref="courses({courseStatus:''})">Active Classes</a>
+            <a href ui-sref="root.courses({courseStatus:''})">Active Classes</a>
         </li>
         <li class="gl-tab"
             ng-class="{'active': showArchived}">
-            <a href ui-sref="courses({courseStatus:'/archived'})">Archived Classes</a>
+            <a href ui-sref="root.courses.archived">Archived Classes</a>
         </li>
     </ul>
 </div>

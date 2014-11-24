@@ -9,7 +9,7 @@ angular.module( 'instructor.courses', [
 .config(function ( $stateProvider, USER_ROLES) {
   $stateProvider.state('root.courses', {
     /* Use regex to capture optional courseStatus (archived vs other) */
-    url: 'classes{courseStatus:(?:/[^/]+)?}',
+    url: 'classes',
     data: {
       pageTitle: 'Classes',
       authorizedRoles: ['instructor','manager','developer','admin']
@@ -28,6 +28,28 @@ angular.module( 'instructor.courses', [
         return CoursesService.getEnrollmentsWithStudents();
       }
     }
+  })
+  .state('root.courses.archived', {
+    url: '/archived',
+    data: {
+      pageTitle: 'Archived Classes',
+      authorizedRoles: ['instructor','manager','developer','admin']
+    },
+    views: {
+      'main@': {
+        templateUrl: 'instructor/courses/courses.html',
+        controller: 'CoursesCtrl'
+      }
+    },
+    resolve: {
+      games: function(GamesService) {
+        return GamesService.all();
+      },
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollmentsWithStudents();
+      }
+    }
+
   })
 
   .state( 'newCourse', {
@@ -393,7 +415,8 @@ angular.module( 'instructor.courses', [
     $scope.courses = courses;
     $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
     $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
-    $scope.showArchived = ($state.params.courseStatus == '/archived');
+    // Decide whether to show active or archived courses
+    $scope.showArchived = !!$state.includes('root.courses.archived');
     $scope.courseKey = -1;
 
     $scope.gamesInfo = {};
