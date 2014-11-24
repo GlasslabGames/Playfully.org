@@ -9,6 +9,9 @@ angular.module('playfully.register', ['register.const'])
   $stateProvider.state('modal.register', {
     url: '/register',
     parent: 'modal',
+    data: {
+      modalSize: 'lg'
+    },
     views: { 'modal@': {
       templateUrl: 'register/register-options.html',
       controller: 'RegisterOptionsModalCtrl'

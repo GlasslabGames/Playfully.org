@@ -65,8 +65,6 @@ angular.module( 'playfully', [
   $stateProvider.state('modal', {
     abstract: true,
     onEnter: function ($modal, $previousState, $log) {
-      $log.info('$previousState');
-      $log.info($previousState.get());
       // remember the previous state with memoName "modalInvoker"
       $previousState.memo("modalInvoker");
       $modal.open({
@@ -93,6 +91,34 @@ angular.module( 'playfully', [
     }
   });
 
+  $stateProvider.state('modal-lg', {
+    abstract: true,
+    onEnter: function ($modal, $previousState, $log) {
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        template: '<div ui-view="modal"></div>',
+        backdrop: 'static',
+        size: 'lg',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['modal-lg']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
+    }
+  });
 
 
 

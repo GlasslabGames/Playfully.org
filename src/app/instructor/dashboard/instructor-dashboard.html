@@ -64,14 +64,14 @@
   <h3 class="gl-headline--underlined headline-2">My Games</h3>
   <div ng-if="!myGames.length" class="container gl-margin--Txl">
       You have not yet assigned any games to your classes. Click on the
-      <a ui-sref="courses" href>Classes</a>
+      <a ui-sref="root.courses" href>Classes</a>
       tab above to get started creating classes and making game assignments.
   </div>
   <div ng-if="myGames.length" class="container gl-margin--Txl">
     <div class="col" ng-repeat="game in myGames | filter:{enabled: true}">
       <div class="col-md-4">
         <div class="gl-game-card"
-          ui-sref="games.detail.product({gameId:game.gameId, scrollTo:'top'})">
+          ui-sref="root.games.detail.product({gameId:game.gameId, scrollTo:'top'})">
           <div class="gl-game-thumbnail gl-game-card-{{game.gameId}}">
             <div ng-if="game.maintenance" class="gl-game-ribbon">
               <div class="gl-game-ribbon-text">{{game.maintenance.message}}</div>
@@ -84,7 +84,7 @@
             <h4>{{game.shortName}}</h4>
             <p>{{game.shortDescription}}</p>
             <p>
-              <a ng-hide="game.maintenance" ui-sref="games.detail.product({gameId:game.gameId, scrollTo:'top'})" href="#" class="gl-link--dkgrey text-bold">
+              <a ng-hide="game.maintenance" ui-sref="root.games.detail.product({gameId:game.gameId, scrollTo:'top'})" href="#" class="gl-link--dkgrey text-bold">
                 <i class="fa fa-arrow-circle-right"></i>&nbsp;
                 Learn more
               </a>
