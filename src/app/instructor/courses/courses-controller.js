@@ -54,7 +54,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -81,7 +81,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -137,7 +137,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -165,7 +165,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -192,7 +192,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -222,7 +222,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -275,7 +275,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList', { id: courseId});
+        return $state.transitionTo('showStudentList', null, {reload: true});
       });
     }
   })
@@ -320,7 +320,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList', { id: courseId});
+        return $state.transitionTo('showStudentList', null, {reload: true});
       });
     }
   })
@@ -349,7 +349,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   })
@@ -378,7 +378,7 @@ angular.module( 'instructor.courses', [
       });
 
       modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses');
+        return $state.transitionTo('courses', null, {reload: true});
       });
     }
   });
@@ -395,7 +395,6 @@ angular.module( 'instructor.courses', [
     $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
     $scope.showArchived = ($state.params.courseStatus == '/archived');
     $scope.courseKey = -1;
-
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
       $scope.gamesInfo[game.gameId] = game;
@@ -440,7 +439,6 @@ angular.module( 'instructor.courses', [
     $event.stopPropagation();
     game.settings.missionProgressLock = !game.settings.missionProgressLock;
   };
-
   $scope.createCourse = function (course) {
     CoursesService.create(course)
       .success(function(data, status, headers, config) {
@@ -453,6 +451,10 @@ angular.module( 'instructor.courses', [
         $scope.formProgress.errors.push(data.error);
       });
   };
+
+    var _updateCourseCtrl = function () {
+      $scope.courses = courses;
+    };
 
   $scope.reset();
 })
