@@ -314,7 +314,7 @@ angular.module( 'instructor.reports', [
           newState.gameId = gameId || games[0].gameId;
 
           _clearOtherCourses(courseId);
-          $state.transitionTo('reports.details' + '.' + $scope.reports.selected.id, newState);
+          $state.go('root.reports.details.' + $scope.reports.selected.id, newState);
         });
       };
       // Reset all classes and their students except for the id passed in
@@ -331,7 +331,7 @@ angular.module( 'instructor.reports', [
       };
 
       $scope.goToSelected = function (reportId, parameters) {
-        $state.go('reports.details' + '.' + reportId, parameters);
+        $state.go('root.reports.details' + '.' + reportId, parameters);
       };
 
       $scope.toggleDropdown = function ($event, collection) {
@@ -474,9 +474,9 @@ angular.module( 'instructor.reports', [
         _clearOtherCourses(courseId);
 
         if ($scope.reports.selected) {
-          $state.transitionTo('reports.details.' + $scope.reports.selected.id, newState);
+          $state.go('root.reports.details.' + $scope.reports.selected.id, newState);
         } else {
-          $state.transitionTo('reports.details.achievements', newState);
+          $state.go('root.reports.details.achievements', newState);
         }
       });
     };
@@ -494,7 +494,7 @@ angular.module( 'instructor.reports', [
     };
 
     $scope.goToSelected = function(reportId, parameters) {
-        $state.go('reports.details' + '.' + reportId, parameters);
+        $state.go('root.reports.details' + '.' + reportId, parameters);
     };
 
     $scope.toggleDropdown = function($event, collection) {

@@ -38,7 +38,7 @@ angular.module( 'instructor.reports')
     // Check if selected game has selected report
 
     if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
-      $state.transitionTo('reports.details' + '.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
+      $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
         gameId: $stateParams.gameId,
         courseId: $stateParams.courseId
       });
