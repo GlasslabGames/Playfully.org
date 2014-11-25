@@ -153,7 +153,7 @@ angular.module( 'playfully.games', [
 })
 
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, DetectionSvc) {
     // angular.forEach(games, function(game) {
     //   if (game.gameId == $stateParams.gameId) {
     //     $scope.game = game;
@@ -164,7 +164,11 @@ angular.module( 'playfully.games', [
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
     $scope.hideGameDetails = {hide:false};
+    $scope.currentOS = null;
 
+    if (DetectionSvc.getOSSupport().supported) {
+       $scope.currentOS = DetectionSvc.getOSSupport().identity;
+    }
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
         // $log.info(toState);

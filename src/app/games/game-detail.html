@@ -53,48 +53,7 @@
         <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink,
         '_blank')"></div>
       </div>
-      <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
 
-        <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
-          <div ng-if="button.links && button.links.length > 1">
-            <!-- TODO: remove ng-if="isAuthenticated()" at a later date -->
-            <div class="btn-group gl-games-sidebar-btn" dropdown is-open="button.isOpen">
-              <button type="button" class="btn gl-btn--blue gl-games-btn-trigger"
-                ng-click="toggleDropdown($event, button)"
-                ng-bind="button.name"></button>
-              <button type="button" class="btn gl-btn--blue dropdown-toggle">
-                <span class="caret"></span>
-                <span class="sr-only"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="link in button.links">
-                  <a href="{{ link.link }}" ng-bind="link.name" target="{{(link.target)?link.target:''}}"></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div ng-if="button.links && button.links.length == 1"
-               ng-switch="button.links[0].type">
-            <!-- temporarily hardcoded for initial launch -->
-            <div ng-switch-when="ios-appstore"
-               class="gl-game-app-store-download"
-               ng-click="goTo(button.links[0].link, button.links[0].target)">
-            </div>
-            <button ng-if="hasPermsToPlayGame()"
-                    ng-switch-when="play"
-                    type="button"
-                    class="btn gl-btn--blue gl-games-sidebar-btn"
-                    ng-click="goToPlayGame(gameId)"
-                    ng-bind="button.name"></button>
-            <button ng-switch-default
-                    type="button"
-                    class="btn gl-btn--blue gl-games-sidebar-btn"
-                    ng-click="goTo(button.links[0].link, button.links[0].target)"
-                    ng-bind="button.name"></button>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="col-md-9">
 
@@ -103,41 +62,76 @@
         ng-bind="gameDetails.pages.product.header"></p>
 
       <div ng-hide="hideGameDetails.hide">
-          <hr class="rule rule--blue" />
+
 
           <div class="container-fluid gl-game-details">
-            <div class="row gl-margin--Bm">
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--price"></span>
-                Price: <span ng-bind="gameDetails.price"></span>
+            <div class="gl-game-details-top">
+              <div class="row gl-margin--Bm">
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--price"></span>
+                  Price: <span ng-bind="gameDetails.price"></span>
+                </div>
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--type"></span>
+                  Type: <span ng-bind="gameDetails.type"></span>
+                </div>
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--subject"></span>
+                  Subject: <span ng-bind="gameDetails.subject"></span>
+                </div>
               </div>
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--type"></span>
-                Type: <span ng-bind="gameDetails.type"></span>
-              </div>
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--subject"></span>
-                Subject: <span ng-bind="gameDetails.subject"></span>
+              <div class="row">
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--releaseDate"></span>
+                  Release: <span ng-bind="gameDetails.releaseDate"></span>
+                </div>
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--platform"></span>
+                  Platform: <span ng-bind="gameDetails.platform"></span>
+                </div>
+                <div class="col-md-4">
+                  <span class="gl-icon-game gl-icon-game--grades"></span>
+                  Grade: <span ng-bind="gameDetails.grades"></span>
+                </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--releaseDate"></span>
-                Release: <span ng-bind="gameDetails.releaseDate"></span>
-              </div>
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--platform"></span>
-                Platform: <span ng-bind="gameDetails.platform"></span>
-              </div>
-              <div class="col-md-4">
-                <span class="gl-icon-game gl-icon-game--grades"></span>
-                Grade: <span ng-bind="gameDetails.grades"></span>
-              </div>
+            <div class="gl-game-details-bottom">
+              <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
+                <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
+                  <div ng-if="button.links && button.links.length > 1">
+                    <!-- TODO: remove ng-if="isAuthenticated()" at a later date -->
+                        <div ng-repeat="link in button.links">
+                          <button ng-if="currentOS===link.name" type="button" class="btn gl-btn--blue gl-games-sidebar-btn"
+                                  ng-click="goTo(link.link,link.target)"
+                                  ng-bind="button.name"></button>
+                        </div>
+                  </div>
 
+                  <div ng-if="button.links && button.links.length == 1"
+                       ng-switch="button.links[0].type">
+                    <!-- temporarily hardcoded for initial launch -->
+                    <div ng-switch-when="ios-appstore"
+                         class="gl-game-app-store-download"
+                         ng-click="goTo(button.links[0].link, button.links[0].target)">
+                    </div>
+                    <button ng-if="hasPermsToPlayGame()"
+                            ng-switch-when="play"
+                            type="button"
+                            class="btn gl-btn--blue gl-games-sidebar-btn"
+                            ng-click="goToPlayGame(gameId)"
+                            ng-bind="button.name"></button>
+                    <button ng-switch-default
+                            type="button"
+                            class="btn gl-btn--blue gl-games-sidebar-btn"
+                            ng-click="goTo(button.links[0].link, button.links[0].target)"
+                            ng-bind="button.name">Play</button>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn" ng-hide="isAuthenticated()">Sign Up and Play Game</button>
             </div>
           </div>
 
-          <hr class="rule rule--blue" />
       </div>
 
       <div ui-view></div>
