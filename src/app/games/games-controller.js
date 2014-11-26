@@ -70,10 +70,7 @@ angular.module( 'playfully.games', [
   })
   .state('games.detail.check', {
     url: '/check',
-    templateUrl: 'games/game-detail-check-spec.html',
-    controller: function($scope) {
-        $scope.hideGameDetails.hide = true;
-    }
+    templateUrl: 'games/game-detail-check-spec.html'
   })
   .state('games.detail.reviews', {
     url: '/reviews',
@@ -163,7 +160,6 @@ angular.module( 'playfully.games', [
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
-    $scope.hideGameDetails = {hide:false};
 
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
