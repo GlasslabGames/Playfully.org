@@ -80,7 +80,13 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games) {
+.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games, DetectionSvc) {
+  $scope.currentOS = null;
+
+  if (DetectionSvc.getOSSupport().supported) {
+    $scope.currentOS = DetectionSvc.getOSSupport().identity;
+  }
+
   $scope.courses = courses;
   $scope.gamesInfo = {};
   angular.forEach(games, function(game) {

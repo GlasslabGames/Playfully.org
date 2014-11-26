@@ -41,15 +41,11 @@
 
               <div ng-if="isMultiLinkType(button)"
                    class="gl-btn--outlined gl-student-dash-btn">
-                <div class="btn-group" dropdown>
-                  <button type="button" class="btn dropdown-toggle gl-btn--green gl-games-btn-trigger gl-student-dash-menu-btn"
-                          ng-bind="button.name"></button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="link in button.links">
-                      <a href="{{ link.link }}" ng-bind="link.name" target="{{(link.target)?link.target:''}}"></a>
-                    </li>
-                  </ul>
-                </div>
+                  <div ng-repeat="link in button.links">
+                      <button ng-if="currentOS===link.OS" type="button" class="btn gl-btn--blue gl-student-dash-btn"
+                              ng-click="goToLink(link.link,link.target)"
+                              ng-bind="button.name"></button>
+                  </div>
               </div>
 
               <div ng-if="isSingleLinkType(button)"
