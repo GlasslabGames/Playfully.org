@@ -33,14 +33,14 @@
         </li>
       </ul>
 
-      <div ng-hide="isAuthenticated() || gameDetails.type==='App'"
+      <div ng-hide="isAuthenticated()"
            class="gl-learn-more">
-        <h5>Want to learn more? <div></div></h5>
+        <h3 class="headline-4">Want to learn more?</h3>
         <p>
-          Create a free teacher account to access:<br/>
+          Create a free GlassLab Games account to:<br/>
           <ul>
-            <li>Lesson plans</li>
-            <li>Standards alignments</li>
+            <li>Access lesson plans</li>
+            <li>View student reports</li>
           </ul>
           ... and more!<br/>
           <br/>
@@ -49,53 +49,48 @@
                   ng-click="state.go('registerOptions')">Create an Account</button>
         </p>
       </div>
-      <div ng-show="!isAuthenticated() && gameDetails.type==='App'">
-        <div class="gl-game-app-store-download" ng-click="goTo(gameDetails.applink,
-        '_blank')"></div>
-      </div>
-
     </div>
     <div class="col-md-9">
-
-      <h2 class="headline-2" ng-bind="currentPage.title"></h2>
-      <p ng-show="currentPage.id == 'product'"
-        ng-bind="gameDetails.pages.product.header"></p>
-
-      <div ng-hide="hideGameDetails.hide">
+      <!--<h2 class="headline-2" ng-bind="currentPage.title"></h2>-->
+      <!--<p ng-show="currentPage.id == 'product'"-->
+        <!--ng-bind="gameDetails.pages.product.header"></p>-->
+      <div>
 
 
-          <div class="container-fluid gl-game-details">
+          <div class="container-fluid gl-game-details gl-margin--Bl">
             <div class="gl-game-details-top">
               <div class="row gl-margin--Bm">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--price"></span>
                   Price: <span ng-bind="gameDetails.price"></span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--type"></span>
                   Type: <span ng-bind="gameDetails.type"></span>
                 </div>
-                <div class="col-md-4">
+              </div>
+              <div class="row gl-margin--Bm">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--subject"></span>
                   Subject: <span ng-bind="gameDetails.subject"></span>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--releaseDate"></span>
                   Release: <span ng-bind="gameDetails.releaseDate"></span>
                 </div>
-                <div class="col-md-4">
+              </div>
+              <div class="row">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--platform"></span>
                   Platform: <span ng-bind="gameDetails.platform"></span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--grades"></span>
                   Grade: <span ng-bind="gameDetails.grades"></span>
                 </div>
               </div>
             </div>
-            <div class="gl-game-details-bottom">
+            <div class="gl-game-details-bottom text-center">
               <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
                 <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
                   <div ng-if="button.links && button.links.length > 1">
@@ -128,7 +123,14 @@
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn" ng-hide="isAuthenticated()">Sign Up and Play Game</button>
+              <div ng-switch="gameDetails.type" ng-hide="isAuthenticated()">
+                <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn" ng-switch-default
+                        ui-sref="registerOptions">Sign Up and Play Game</button>
+                <div ng-switch-when="App"
+                       class="gl-game-app-store-download"
+                       ng-click="goTo(button.links[0].link, button.links[0].target)">
+                </div>
+              </div>
             </div>
           </div>
 
