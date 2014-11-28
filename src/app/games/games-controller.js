@@ -1,4 +1,5 @@
 angular.module( 'playfully.games', [
+  'angular-carousel',
   'ngOrderObjectBy',
   'ui.router',
   'games'
@@ -28,6 +29,19 @@ angular.module( 'playfully.games', [
       } else {
         $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
       }
+    }
+  })
+  .state('games.catalog', {
+    url: '/catalog',
+    templateUrl: 'games/game-catalog.html',
+    controller: 'GameCatalogCtrl',
+    resolve: {
+      allGamesInfo: function(GamesService) {
+        return GamesService.all();
+      }
+    },
+    data: {
+      pageTitle: 'Game Catalog'
     }
   })
   .state('games.detail', {
@@ -148,7 +162,18 @@ angular.module( 'playfully.games', [
             $window.location = "/";
         }
 })
+.controller('GameCatalogCtrl',
+    function($scope,$stateParams,allGamesInfo) {
+      $scope.allGamesInfo = allGamesInfo;
 
+      for (var i = 0; i < allGamesInfo.length; i++) {
+        console.log(allGamesInfo[i].shortName);
+      }
+
+      console.log(allGamesInfo);
+
+    }
+)
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     // angular.forEach(games, function(game) {
@@ -201,7 +226,7 @@ angular.module( 'playfully.games', [
       }
     };
 
-    $scope.goTo = function(path, target) {
+    $scope.goToLink = function(path, target) {
         if(target) {
             $window.open(path, target);
         } else {

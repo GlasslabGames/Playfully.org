@@ -1,3 +1,58 @@
-/**
- * Created by charles on 11/26/14.
- */
+<h3 class="headline-4--serif">Featured Games</h3>
+<div class="gl-game-catalog-carousel-container gl-margin--V40 gl-margin--H40">
+    <carousel interval="3000" class="gl-games-carousel">
+        <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-image">
+            <div ng-style="{'background-image':'url(../{{game.banners.product}})'}" style="margin:auto;" class="gl-game-catalog-image">
+            <div class="gl-game-ribbon">
+                <div class="gl-game-ribbon-text">Featured</div>
+            </div>
+                </div>
+        </slide>
+    </carousel>
+</div>
+
+<hr>
+<div class="gl-game-catalog-games-container">
+    <h3 class="headline-4--serif">Premium Games</h3>
+    <div class="gl-game-catalog-games-section">
+        <div class="gl-game-catalog-game-box gl-margin--H40" ng-repeat="game in allGamesInfo">
+            <img src="/{{game.card.small}}">
+            <div class="gl-game-catalog-game-box-description">
+                <h3 class="headline-5">{{game.shortName}}</h3>
+                <ul>
+                    <li>Subject: {{game.subject}}</li>
+                    <li>Grade: {{game.grades}}</li>
+                    <li>Developed by {{game.developer.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h3 class="headline-4--serif">Free Games</h3>
+
+    <div class="gl-game-catalog-games-section">
+        <div class="gl-game-catalog-game-box gl-margin--H40" ng-repeat="game in allGamesInfo">
+            <img src="/{{game.card.small}}">
+
+            <div class="gl-game-catalog-game-box-description">
+                <h3 class="headline-5">{{game.shortName}}</h3>
+                <ul>
+                    <li>Subject: {{game.subject}}</li>
+                    <li>Grade: {{game.grades}}</li>
+                    <li>Developed by {{game.developer.name}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<ul rn-carousel style="height:300px" class="image" rn-carousel-auto-slide="5" rn-carousel-controls>-->
+    <!--<li>-->
+        <!--<div class="layer"><img ng-src="/assets/game-banner-AA-1.png"></div>-->
+    <!--</li>-->
+    <!--<li>-->
+        <!--<div class="layer">-->
+            <!--<img ng-src="/assets/game-banner-AW-1.jpg">-->
+        <!--</div>-->
+    <!--</li>-->
+<!--</ul>-->

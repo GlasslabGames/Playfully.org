@@ -78,11 +78,14 @@ module.exports = {
       'vendor/sticky-ng/js/stickyNg.js',
       'vendor/sticky-ng/js/jquery.stickytableheaders.js',
       'vendor/lodash/dist/lodash.min.js',
-      'vendor/angular-local-storage/dist/angular-local-storage.min.js'
+      'vendor/angular-local-storage/dist/angular-local-storage.min.js',
+      'vendor/angular-touch/angular-touch.min.js',
+      'vendor/angular-carousel/dist/angular-carousel.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',
-      'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
+      'vendor/bootstrap/dist/css/bootstrap-theme.min.css',
+      'vendor/angular-carousel/dist/angular-carousel.css'
     ],
     assets: [
     ]

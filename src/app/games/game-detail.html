@@ -114,7 +114,7 @@
                     <!-- temporarily hardcoded for initial launch -->
                     <div ng-switch-when="ios-appstore"
                          class="gl-game-app-store-download"
-                         ng-click="goTo(button.links[0].link, button.links[0].target)">
+                         ng-click="goToLink(button.links[0].link, button.links[0].target)">
                     </div>
                     <button ng-if="hasPermsToPlayGame()"
                             ng-switch-when="play"
@@ -125,7 +125,7 @@
                     <button ng-switch-default
                             type="button"
                             class="btn gl-btn--blue gl-games-sidebar-btn"
-                            ng-click="goTo(button.links[0].link, button.links[0].target)"
+                            ng-click="goToLink(button.links[0].link, button.links[0].target)"
                             ng-bind="button.name">Play</button>
                   </div>
                 </div>
@@ -135,7 +135,7 @@
                         ui-sref="registerOptions">Sign Up and Play Game</button>
                 <div ng-switch-when="App"
                        class="gl-game-app-store-download"
-                       ng-click="goTo(button.links[0].link, button.links[0].target)">
+                       ng-click="goToLink(button.links[0].link, button.links[0].target)">
                 </div>
               </div>
             </div>

@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'angular-carousel',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
