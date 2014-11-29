@@ -433,6 +433,11 @@ angular.module( 'instructor.courses', [
       });
   };
 
+  $scope.finish = function() {
+    $rootScope.$broadcast('courses:updated');
+    $scope.close();
+  };
+
   $scope.reset();
 })
 
