@@ -27,7 +27,6 @@ angular.module( 'instructor.dashboard', [
       'main@': {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
         controller: function ($scope, $timeout, $log, myGames) {
-          $log.info('we are in the basic controller');
           $scope.myGames = myGames;
           $scope.showNotification = false;
 
@@ -49,14 +48,11 @@ angular.module( 'instructor.dashboard', [
   .state('root.instructorDashboard.default', {
     url: '',
     controller: function($scope, $state, $log, myGames, activeCourses) {
-      $log.info('did we even get here???');
       // Decide which state to send the instructor to, based on whether
       // they have courses set up.
       if (!myGames.length) {
-        $log.info('should go to intro');
         $state.go('root.instructorDashboard.intro');
       } else {
-        $log.info('should go to gameplay');
         $state.go('root.instructorDashboard.gameplay',
           { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
       }

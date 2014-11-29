@@ -48,7 +48,6 @@ angular.module( 'playfully.games', [
       }
     },
     onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
-      $log.info('root.games.detail');
       // GH: Added in a last-minute fashion prior to a Friday release to
       // support in-page targeting for the Download button.
       if ($stateParams.scrollTo) {
