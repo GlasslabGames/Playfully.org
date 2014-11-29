@@ -195,8 +195,7 @@ angular.module( 'instructor.courses', [
     }
   })
 
-  .state( 'showStudentList', {
-    parent: 'courses',
+  .state( 'root.courses.showStudentList', {
     url: '/:id/students',
     data: {
       pageTitle: 'View Student List',
@@ -209,6 +208,21 @@ angular.module( 'instructor.courses', [
       }
     }
   })
+
+  .state( 'root.courses.archived.showStudentList', {
+    url: '/:id/students',
+    data: {
+      pageTitle: 'View Student List',
+      authorizedRoles: ['instructor','manager','admin']
+    },
+    views: {
+      'studentList': {
+        templateUrl: 'instructor/courses/student-list.html',
+        controller: 'StudentListCtrl'
+      }
+    }
+  })
+
 
   .state( 'unenrollStudent', {
     parent: 'showStudentList',
@@ -375,6 +389,24 @@ angular.module( 'instructor.courses', [
 
     $scope.showCourseEdit = function(course) {
       return (course && !course.archived && (course.lmsType == 'glasslab'));
+    };
+
+    $scope.collapseList = function() {
+      $timeout(function() {
+        angular.forEach($scope.courses, function (course) {
+          course.isOpen = false;
+        });
+      }, 100).then(function() {
+        // We need this timeout to give the list enough time to collapse
+        // before transitioning back to the main courses state.
+        $timeout(function() {
+          if ($scope.showArchived) {
+            $state.go('root.courses.archived'); 
+          } else {
+            $state.go('root.courses'); 
+          }
+        }, 600);
+      });
     };
 
     $rootScope.$on('courses:updated', function(event, data) {
@@ -578,11 +610,7 @@ angular.module( 'instructor.courses', [
     var activeCourses = $scope.$parent.courses;
 
     var hasOpenCourse = function(courses) {
-      var result = false;
-      angular.forEach(courses, function (course) {
-        if (course.isOpen) { result = true; }
-      });
-      return result;
+      return _.any(courses, function(course) { return _.has(course, 'isOpen'); });
     };
 
     var getOpenCourseId = function(courses) {
@@ -597,25 +625,16 @@ angular.module( 'instructor.courses', [
       angular.forEach(activeCourses, function (course) {
         $timeout(function() {
           course.isOpen = (course.id == $stateParams.id);
-        }, 100);
+        }, 10);
       });
     } else if (getOpenCourseId(activeCourses) != $stateParams.id) {
       angular.forEach(activeCourses, function (course) {
         $timeout(function() {
           course.isOpen = (course.id == $stateParams.id);
-        }, 100);
+        }, 10);
       });
     }
 
-    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-      if (toState.name === 'courses') {
-        $timeout(function() {
-          angular.forEach(activeCourses, function (course) {
-            course.isOpen = false;
-          });
-        }, 100);
-      }
-    });
   })
 
 .controller('UnenrollStudentModalCtrl',

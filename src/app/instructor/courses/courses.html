@@ -120,14 +120,22 @@
           </div>
           <div class="col-md-4 text-right">
             <button class="btn btn-sm gl-btn--blue"
+              ng-if="!showArchived"
               ng-hide="course.isOpen"
               ng-disabled="course.studentCount == 0"
-              ui-sref="showStudentList({id: course.id})">
+              ui-sref="root.courses.showStudentList({id: course.id})">
+              View Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+            <button class="btn btn-sm gl-btn--blue"
+              ng-if="showArchived"
+              ng-hide="course.isOpen"
+              ng-disabled="course.studentCount == 0"
+              ui-sref="root.courses.archived.showStudentList({id: course.id})">
               View Student List (<span ng-bind="course.studentCount"></span>)
             </button>
             <button class="btn btn-sm gl-btn--white"
               ng-show="course.isOpen"
-              ui-sref="courses({courseType: (showArchived ? '/archived' : '')})">
+              ng-click="collapseList()">
               Close Student List (<span ng-bind="course.studentCount"></span>)
             </button>
           </div>
