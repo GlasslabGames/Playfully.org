@@ -357,10 +357,13 @@ angular.module( 'instructor.courses', [
 
 
 .controller( 'CoursesCtrl',
-  function ($scope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
-    $scope.courses = courses;
-    $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
-    $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
+    var setUpCourses = function(courseList) {
+      $scope.courses = courseList;
+      $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
+      $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
+    };
+    setUpCourses(courses);
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
     $scope.courseKey = -1;
@@ -373,6 +376,13 @@ angular.module( 'instructor.courses', [
     $scope.showCourseEdit = function(course) {
       return (course && !course.archived && (course.lmsType == 'glasslab'));
     };
+
+    $rootScope.$on('courses:updated', function(event, data) {
+      CoursesService.getEnrollmentsWithStudents()
+        .then(function(response) {
+          setUpCourses(response); 
+        });
+    });
 
 })
 
@@ -427,18 +437,20 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'EditCourseModalCtrl',
-  function ($scope, $log, $timeout, course, courses, CoursesService) {
+  function ($scope, $rootScope, $state, $log, $timeout, course, courses, CoursesService) {
 
-    $log.info('EditCourseModalCtrl');
     $scope.course = course; 
     $scope.course.grade = _.map(course.grade, function(gradeStr) { return parseInt(gradeStr); });
-    $log.info($scope.course);
+    // Extract a list of course titles to check against for duplicates
     $scope.existingCourseTitles = _.map(courses, 'title');
+    // Don't include the current course title, since user should be able to
+    // return to previous title state while editing
     _.remove($scope.existingCourseTitles, function(title) { return title == $scope.course.title; });
 
     $scope.updateCourse = function (courseData) {
       CoursesService.update(courseData)
         .success(function(data, status, headers, config) {
+          $rootScope.$broadcast('courses:updated');
           $scope.close();
         })
         .error(function(data, status, headers, config) {
@@ -451,6 +463,8 @@ angular.module( 'instructor.courses', [
 
 .controller( 'UpdateCourseModalCtrl',
   function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, CoursesService) {
+
+  $scope.course = course;
 
   if ($state.current.data.hasOwnProperty('actionType')) {
     $scope.actionType = $state.current.data.actionType;
@@ -469,6 +483,7 @@ angular.module( 'instructor.courses', [
   $scope.archiveCourse = function (courseData) {
     CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
+        $rootScope.$broadcast('courses:updated');
         $scope.close();
       })
       .error(function(data, status, headers, config) {
@@ -479,6 +494,7 @@ angular.module( 'instructor.courses', [
   $scope.unarchiveCourse = function (courseData) {
     CoursesService.unarchive(courseData)
       .success(function(data, status, headers, config) {
+        $rootScope.$broadcast('courses:updated');
         $scope.close();
       })
       .error(function(data, status, headers, config) {
@@ -489,9 +505,8 @@ angular.module( 'instructor.courses', [
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
       .success(function(data, status, headers, config) {
-        $timeout(function() {
-          $scope.close();
-        }, 100);
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -501,9 +516,8 @@ angular.module( 'instructor.courses', [
   $scope.unlockCourse = function (courseData) {
     CoursesService.unlock(courseData)
       .success(function(data, status, headers, config) {
-        $timeout(function() {
-          $scope.close();
-        }, 100);
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -544,8 +558,8 @@ angular.module( 'instructor.courses', [
   $scope.updateCourse = function (courseData) {
     CoursesService.updateGames(courseData)
       .success(function(data, status, headers, config) {
+        $rootScope.$broadcast('courses:updated');
         $scope.close();
-        // $modalInstance.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);

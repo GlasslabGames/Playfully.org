@@ -55,7 +55,7 @@ angular.module( 'playfully', [
 
   $urlRouterProvider.otherwise('/');
 
-  
+
   $stateProvider.state('root', {
     url: '/',
     abstract: true,
