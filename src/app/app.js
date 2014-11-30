@@ -142,10 +142,10 @@ angular.module( 'playfully', [
     }
   })
 
-  .state('privacy', {
-    url: '/privacy',
+  .state('root.privacy', {
+    url: 'privacy',
     views: {
-      "main": {
+      'main@': {
         templateUrl: 'privacy/privacy.html'
       }
     },
@@ -189,22 +189,6 @@ angular.module( 'playfully', [
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }
   });
-
-  /*.state( 'modal', {
-    abstract: true,
-    parent: 'home',
-    url: '',
-    onEnter: function($rootScope, $modal, $state) {
-      $rootScope.modalInstance = $modal.open({
-        template: '<div ui-view="modal"></div>',
-        size: 'sm'
-      });
-
-      $rootScope.modalInstance.result.finally(function() {
-        $state.go('home');
-      });
-    }
-  });*/
 })
 
 .config(function($httpProvider) {
