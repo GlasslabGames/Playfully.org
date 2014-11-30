@@ -242,41 +242,32 @@ angular.module( 'instructor.courses', [
   })
 
 
-  .state( 'unenrollStudent', {
-    parent: 'showStudentList',
-    url: '/:studentId/unenroll',
+  .state( 'modal-lg.unenrollStudent', {
+    url: '/classes/:id/students/:studentId/unenroll',
     data:{
       pageTitle: 'Unenroll Student',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var studentId = $stateParams.studentId;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId);
-          },
-          student: function(UserService) {
-            return UserService.getById($stateParams.studentId)
-              .then(function(response) {
-                if (response.status < 300) {
-                  return response.data;
-                } else {
-                  return response;
-                }
-              });
-          }
-        },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/student-unenroll.html',
         controller: 'UnenrollStudentModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList', { id: courseId});
-      });
+      }
+    },
+    resolve: {
+      course: function(CoursesService, $stateParams) {
+        return CoursesService.get($stateParams.id);
+      },
+      student: function(UserService, $stateParams) {
+        return UserService.getById($stateParams.studentId)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      }
     }
   })
 
@@ -653,7 +644,7 @@ angular.module( 'instructor.courses', [
   })
 
 .controller('UnenrollStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, $modalInstance, course, student, CoursesService) {
+  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
     if (course.status < 300) {
       $scope.course = course.data;
     }
@@ -663,9 +654,11 @@ angular.module( 'instructor.courses', [
     $scope.unenroll = function(course, student) {
       CoursesService.unenrollUser(course.id, student.id)
         .success(function(data, status, headers, config) {
-          $modalInstance.close();
+          $rootScope.$broadcast('student:updated');
+          $scope.close();
         })
         .error(function(data, status, headers, config) {
+          $scope.error = data.error;
           $log.error(data);
         });
     };
@@ -680,7 +673,7 @@ angular.module( 'instructor.courses', [
     $scope.editInfo = function(student) {
       UserService.update(student, false)
         .success(function(data, status, headers, config) {
-          $rootScope.$broadcast('student:updated', { student: data });
+          $rootScope.$broadcast('student:updated');
           $scope.close();
         })
         .error(function(data, status, headers, config) {
