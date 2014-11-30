@@ -41,7 +41,7 @@
 
     <div ng-show="courses.length">
       <div class="gl-course container-fluid"
-        ng-repeat="(courseKey,course) in courses | filter:{archived: showArchived}">
+        ng-repeat="(courseKey,course) in courses">
         <div class="row gl-course-info">
           <div class="col-md-3 gl-course-desc">
             <h3 class="gl-course-title" ng-bind="course.title"></h3>
