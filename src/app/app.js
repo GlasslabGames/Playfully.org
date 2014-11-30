@@ -257,7 +257,7 @@ angular.module( 'playfully', [
                       $state.go('root.instructorDashboard.default');
                     }
                   } else {
-                    $state.go('studentDashboard');
+                    $state.go('root.studentDashboard');
                   }
                 }
 

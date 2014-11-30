@@ -8,7 +8,7 @@
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthorized('student')"
-      ui-sref="studentDashboard"></div>
+      ui-sref="root.studentDashboard"></div>
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
@@ -52,7 +52,7 @@
 
       <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="studentDashboard"
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.studentDashboard"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
