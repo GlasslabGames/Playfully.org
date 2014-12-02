@@ -164,6 +164,7 @@ angular.module( 'playfully.games', [
 })
 .controller('GameCatalogCtrl',
     function($scope,$stateParams,allGamesInfo) {
+      console.log(allGamesInfo);
       $scope.allGamesInfo = allGamesInfo;
       // sort into free, premium and coming soon
       $scope.freeGames = [];
@@ -172,14 +173,19 @@ angular.module( 'playfully.games', [
       for (var j = 0; j < 4; j++) {
         allGamesInfo.push(angular.copy(allGamesInfo[j]));
       }
-      console.log(allGamesInfo);
       for (var i = 0; i < allGamesInfo.length; i++) {
         if (allGamesInfo[i].price === 'Free') { $scope.freeGames.push(allGamesInfo[i]);}
         if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.push(allGamesInfo[i]);}
         if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.push(allGamesInfo[i]);}
       }
-      console.log($scope.premiumGames);
-
+      $scope.truncateText = function (text,limit) {
+        if (text.length > limit) {
+          var truncated = text.substring(0, limit);
+          return truncated + '…';
+        } else {
+          return text;
+        }
+      };
     }
 )
 .controller( 'GameDetailCtrl',
@@ -189,6 +195,7 @@ angular.module( 'playfully.games', [
     //     $scope.game = game;
     //   }
     // });
+    document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;

@@ -22,8 +22,10 @@
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('games')}">
-          <div data-ng-include="'navbar/navbar-games.html'"></div>
+        <li ng-class="{'active': state.includes('games.catalog')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="games.catalog"
+             data-ng-bind="'navbar.link.games' | translate">
+          </a>
         </li>
 
         <li ui-sref-active="active">
@@ -70,8 +72,10 @@
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('games')}">
-          <div data-ng-include="'navbar/navbar-games.html'"></div>
+        <li ng-class="{'active': state.includes('games.catalog')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="games.catalog"
+             data-ng-bind="'navbar.link.games' | translate">
+          </a>
         </li>
 
         <li ng-class="{'active': state.includes('courses')}">

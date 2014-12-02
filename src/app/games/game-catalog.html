@@ -3,11 +3,11 @@
 <div class="gl-game-catalog-carousel-container gl-margin--V40">
     <carousel interval="5000" class="gl-games-carousel">
         <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
-            <div ng-style="{'background-image':'url(../{{game.banners.product}})'}" class="gl-game-catalog-banner">
+            <img ng-src="/{{game.banners.product}}" class="gl-game-catalog-banner">
                 <div class="gl-game-ribbon">
                     <div class="gl-game-ribbon-text">Featured</div>
                 </div>
-            </div>
+            </img>
         </slide>
     </carousel>
 </div>
@@ -17,13 +17,16 @@
     <h3 class="headline-4--serif gl-margin--B40 gl-game-catalog-section-title">Premium Games</h3>
     <div class="gl-game-catalog-games-section">
         <div class="col-md-4" ng-repeat="game in premiumGames">
-            <div class="gl-game-catalog-game-box gl-margin--Bl" ng-init="game.hover=false" ng-mouseover="game.hover=true"
-                 ng-mouseleave="game.hover=false">
+            <div class="gl-game-catalog-game-box gl-margin--Bl"
+                 ng-init="game.hover=false"
+                 ng-mouseover="game.hover=true"
+                 ng-mouseleave="game.hover=false"
+                 ui-sref="games.detail.product({gameId:game.gameId})">
                 <div class="gl-game-catalog-game-card-wrapper">
                     <div class="gl-game-catalog-developer-logo"><img ng-src="/{{game.developer.logo.small}}"></div>
                     <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
                     <div class="gl-game-catalog-game-description" ng-show="game.hover">
-                        <p>{{game.shortDescription}}</p>
+                        <p>{{truncateText(game.description,170)}}</p>
                         <button class="btn gl-btn--blue">Learn More</button>
                     </div>
                 </div>
@@ -36,8 +39,8 @@
                     </ul>
                 </div>
                 <div class="gl-game-catalog-platform-triangle">
-                    <div ng-style="{'background-image':'url(../{{game.platform.icon.small}})'}"
-                         class="gl-game-catalog-platform-icon"></div>
+                    <img ng-src="/{{game.platform.icon.small}}"
+                         class="gl-game-catalog-platform-icon">
                 </div>
             </div>
         </div>
@@ -48,15 +51,17 @@
 
     <div class="gl-game-catalog-games-section">
         <div class="col-md-4" ng-repeat="game in freeGames">
-            <div class="gl-game-catalog-game-box gl-margin--Bl" ng-init="game.hover=false"
+            <div class="gl-game-catalog-game-box gl-margin--Bl"
+                 ng-init="game.hover=false"
                  ng-mouseover="game.hover=true"
-                 ng-mouseleave="game.hover=false">
+                 ng-mouseleave="game.hover=false"
+                 ui-sref="games.detail.product({gameId:game.gameId})">
                 <div class="gl-game-catalog-game-card-wrapper">
                     <div class="gl-game-catalog-developer-logo"><img ng-src="/{{game.developer.logo.small}}"></div>
                     <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
 
                     <div class="gl-game-catalog-game-description" ng-show="game.hover">
-                        <p>{{game.shortDescription}}</p>
+                        <p>{{truncateText(game.description,170)}}</p>
                         <button class="btn gl-btn--blue">Learn More</button>
                     </div>
                 </div>
@@ -69,8 +74,8 @@
                     </ul>
                 </div>
                 <div class="gl-game-catalog-platform-triangle">
-                    <div ng-style="{'background-image':'url(../{{game.platform.icon.small}})'}"
-                         class="gl-game-catalog-platform-icon"></div>
+                    <img ng-src="/{{game.platform.icon.small}}"
+                         class="gl-game-catalog-platform-icon">
                 </div>
             </div>
         </div>
@@ -81,25 +86,31 @@
     <div class="gl-game-catalog-games-section">
         <hr>
         <div class="col-md-4" ng-repeat="game in comingSoonGames">
-            <div class="gl-game-catalog-game-box gl-margin--Bl">
-                <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
-
-                <div class="gl-game-catalog-game-description">
-                </div>
-                </img>
-                <div class="gl-game-catalog-game-box-info">
+            <div class="gl-game-catalog-game-box gl-margin--Bl"
+                 ng-init="game.hover=false"
+                 ng-mouseover="game.hover=true"
+                 ng-mouseleave="game.hover=false"
+                 ui-sref="games.detail.product({gameId:game.gameId})">
+                <div class="gl-game-catalog-game-card-wrapper">
                     <div class="gl-game-catalog-developer-logo"><img ng-src="/{{game.developer.logo.small}}"></div>
+                    <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+
+                    <div class="gl-game-catalog-game-description" ng-show="game.hover">
+                        <p>{{truncateText(game.description,170)}}</p>
+                        <button class="btn gl-btn--blue">Learn More</button>
+                    </div>
+                </div>
+                <div class="gl-game-catalog-game-box-info">
                     <h4>{{game.shortName}}</h4>
                     <ul>
                         <li>Subject: {{game.subject}}</li>
                         <li>Grade: {{game.grades}}</li>
                         <li>Developed by {{game.developer.name}}</li>
                     </ul>
-                </div>
-                <div class="gl-game-catalog-platform-triangle">
-                    <div ng-style="{'background-image':'url(../{{game.platform.icon.small}})'}"
-                         class="gl-game-catalog-platform-icon"></div>
-                </div>
+                    <div class="gl-game-catalog-platform-triangle">
+                        <img ng-src="/{{game.platform.icon.small}}"
+                             class="gl-game-catalog-platform-icon">
+                    </div>
             </div>
         </div>
     </div>
