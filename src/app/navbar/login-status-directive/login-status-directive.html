@@ -5,10 +5,10 @@
       </button>
       <ul class="dropdown-menu" role="menu">
         <li><a ng-hide="isSSOLogin()"
-                ui-sref="editProfile">Edit My Profile</a></li>
+                ui-sref="modal.profile">Edit My Profile</a></li>
         <li><a ng-show="isAuthenticatedButNot('student')"
-               ui-sref="instructorTour">Intro Tour</a></li>
-        <li><a ui-sref="logout">Log Out</a></li>
+               ui-sref="modal-lg.instructorTour">Intro Tour</a></li>
+        <li><a ui-sref="root.logout">Log Out</a></li>
       </ul>
     </span>
   </div>
@@ -16,9 +16,9 @@
   <div ng-hide="isAuthenticated()">
     <button type="button" class="btn btn-info navbar-btn gl-bu-login"
       data-ng-bind="'navbar.button.signin' | translate"
-      ui-sref="loginOptions"></button>
+      ui-sref="modal.login"></button>
     <button type="button" class="btn btn-info navbar-btn gl-btn-green"
             data-ng-bind="'navbar.button.register' | translate"
-            ui-sref="registerOptions"></button>
+            ui-sref="modal.register"></button>
   </div>
 </div>

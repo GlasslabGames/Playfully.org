@@ -26,6 +26,16 @@ angular.module('courses', [])
         });
     },
 
+    getWithStudents: function (courseId) {
+      var apiUrl = API_BASE + '/lms/course/' + courseId + '/info';
+      return $http({ method: 'GET', url: apiUrl, params: { showMembers: 1 }})
+        .then(function(response) {
+          return response.data;
+        }, function(response) {
+          return response;
+        });
+    },
+
     update: function (course) {
       /* Sort the array of grades (numerically) and
        * turn into a string for the API */

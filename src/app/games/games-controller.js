@@ -8,16 +8,16 @@ angular.module( 'playfully.games', [
 })
 
 .config(function ( $stateProvider) {
-  $stateProvider.state( 'games', {
+  $stateProvider.state( 'root.games', {
     abstract: true,
-    url: '/games',
+    url: 'games',
     views: {
-      'main': {
+      'main@root': {
         template: '<div ui-view></div>'
       }
     }
   })
-  .state('games.default', {
+  .state('root.games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
       if(AuthService.isLoginType('clever')){
@@ -30,11 +30,15 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state('games.detail', {
+  .state('root.games.detail', {
     abstract: true,
     url: '/:gameId?scrollTo',
-    templateUrl: 'games/game-detail.html',
-    controller: 'GameDetailCtrl',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-detail.html',
+        controller: 'GameDetailCtrl',
+      }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
@@ -56,27 +60,27 @@ angular.module( 'playfully.games', [
     }
 
   })
-  .state('games.detail.product', {
+  .state('root.games.detail.product', {
     url: '',
-    templateUrl: 'games/game-detail-product.html'
+    templateUrl: 'games/game-detail-product.html',
   })
-  .state('games.detail.standards', {
+  .state('root.games.detail.standards', {
     url: '/standards',
     templateUrl: 'games/game-detail-standards.html'
   })
-  .state('games.detail.research', {
+  .state('root.games.detail.research', {
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
-  .state('games.detail.check', {
+  .state('root.games.detail.check', {
     url: '/check',
     templateUrl: 'games/game-detail-check-spec.html'
   })
-  .state('games.detail.reviews', {
+  .state('root.games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
   })
-  .state('games.detail.lessonPlans', {
+  .state('root.games.detail.lessonPlans', {
     url: '/lesson-plans',
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor','manager','developer','admin'] }

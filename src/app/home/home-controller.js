@@ -1,11 +1,8 @@
-angular.module( 'playfully.home', [
-  'ui.router'
-])
+angular.module( 'playfully.home', ['ui.router'])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'home', {
-    parent: 'site',
-    url: '/',
+  $stateProvider.state( 'root.home', {
+    url: '',
     views: {
       'main@': {
         controller: 'HomeCtrl',
