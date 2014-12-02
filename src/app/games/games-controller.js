@@ -165,12 +165,20 @@ angular.module( 'playfully.games', [
 .controller('GameCatalogCtrl',
     function($scope,$stateParams,allGamesInfo) {
       $scope.allGamesInfo = allGamesInfo;
-
-      for (var i = 0; i < allGamesInfo.length; i++) {
-        console.log(allGamesInfo[i].shortName);
+      // sort into free, premium and coming soon
+      $scope.freeGames = [];
+      $scope.premiumGames = [];
+      $scope.comingSoonGames = [];
+      for (var j = 0; j < 4; j++) {
+        allGamesInfo.push(angular.copy(allGamesInfo[j]));
       }
-
       console.log(allGamesInfo);
+      for (var i = 0; i < allGamesInfo.length; i++) {
+        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.push(allGamesInfo[i]);}
+      }
+      console.log($scope.premiumGames);
 
     }
 )
