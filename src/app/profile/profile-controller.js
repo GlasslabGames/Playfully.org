@@ -1,21 +1,25 @@
 angular.module( 'playfully.profile', [])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'profileModal', {
-    abstract: true,
-    parent: 'home',
-    url: '',
-    onEnter: function($rootScope, $modal, $state) {
-      $rootScope.modalInstance = $modal.open({
-        template: '<div ui-view="modal"></div>',
-        size: 'sm'
-      });
-
-      $rootScope.modalInstance.result.finally(function() {
-        $state.go('home');
-      });
+  $stateProvider.state( 'modal.profile', {
+    url: 'edit-profile',
+    views: {
+      'modal@': {
+        controller: 'EditProfileModalCtrl',
+        templateUrl: 'profile/profile-edit.html'
+      }
+    },
+    data:{
+      pageTitle: 'Edit Profile',
+      authorizedRoles: ['student','instructor','manager','developer','admin']
+    },
+    resolve: {
+      user: function(UserService) {
+        return UserService.currentUser();
+      }
     }
-  })
+  });
+  /*
   .state( 'editProfile', {
     parent: 'profileModal',
     url: 'edit-profile',
@@ -34,7 +38,7 @@ angular.module( 'playfully.profile', [])
         return UserService.currentUser();
       }
     }
-  });
+  });*/
 })
 
 .controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService ) {
@@ -63,10 +67,7 @@ angular.module( 'playfully.profile', [])
     }
     UserService.update(user)
       .success(function(data, status, headers, config) {
-        $rootScope.modalInstance.close();
-        return $timeout(function () {
-          $state.go(user.role + 'Dashboard', {}, { reload: true });
-        }, 100);
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);

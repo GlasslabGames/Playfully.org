@@ -3,16 +3,16 @@
     <div class="row gl-students-data"
       ng-class-even="'gl-students-data-even'"
       ng-class-odd="'gl-students-data-odd'"
-      ng-repeat="user in course.users">
+      ng-repeat="user in students">
       <div class="col-md-2" ng-bind="user.lastName"></div>
       <div class="col-md-3" ng-bind="user.firstName"></div>
       <div class="col-md-4 gl-students-username" ng-bind="user.username"></div>
       <div class="col-md-3 text-right text-grey5">
           <span ng-hide="isSSOLogin(user)">
               <a class="gl-course-students-link"
-                ui-sref="unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
+                ui-sref="modal-lg.unenrollStudent({id: course.id, studentId: user.id})"><i class="fa fa-times"></i> Remove</a> |
               <a class="gl-course-students-link"
-                ui-sref="editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
+                ui-sref="modal-lg.editStudent({id: course.id, studentId: user.id})"><i class="fa fa-pencil"></i> Edit</a>
           </span>&nbsp;
       </div>
     </div>

@@ -2,9 +2,8 @@ angular.module('playfully.password-reset', [])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
-    .state('passwordReset', {
+    .state('modal.passwordReset', {
       url: 'forgot-password?type',
-      parent: 'modal',
       views: {
         'modal@': {
           templateUrl: 'password-reset/password-reset.html',
@@ -38,9 +37,8 @@ angular.module('playfully.password-reset', [])
 
 
 
-    .state('passwordUpdate', {
+    .state('modal.passwordUpdate', {
       url: 'reset-password/:hashCode',
-      parent: 'modal',
       views: {
         'modal@': {
           templateUrl: 'password-reset/password-update.html',

@@ -3,24 +3,18 @@ angular.module( 'instructor.tour', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'instructorTour', {
-    parent: 'instructorDashboard.intro',
+  $stateProvider.state( 'modal-lg.instructorTour', {
+    // parent: 'instructorDashboard.intro',
     url: '/tour',
     data:{
       pageTitle: 'Instructor Tour',
       authorizedRoles: ['instructor','manager','developer','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
+    views: {
+      'modal@': {
         templateUrl: 'instructor/tour/tour.html',
         controller: 'InstructorTourModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('instructorDashboard.intro');
-      });
+      }
     }
   });
 })
@@ -64,13 +58,6 @@ angular.module( 'instructor.tour', [
     }
   ];
 
-
-  $scope.closeModal = function() {
-    $scope.$close(true);
-    return $timeout(function () {
-      $state.go('instructorDashboard.default', {}, { reload: true });
-    }, 100);
-  };
 
 });
 

@@ -48,7 +48,7 @@
 
     <div class="login-option" ng-if="!hideWrapper">
       <button class="login-button login-button--instructor"
-        ng-click="state.go(hideWrapper ? 'sdkRegisterInstructor' : 'registerInstructor')">
+        ng-click="state.go(hideWrapper ? 'sdkRegisterInstructor' : 'modal.register.instructor')">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--glasslabgames"></div>
@@ -78,7 +78,7 @@
   <div class="text-center small clearfix">
     Already have an account?
     <a href="#"
-      ng-click="state.go(hideWrapper ? 'sdkv2LoginOptions' : 'loginOptions')">
+      ng-click="state.go(hideWrapper ? 'sdkv2LoginOptions' : 'modal.login')">
       Sign In</a>
   </div>
 </div>
