@@ -105,19 +105,54 @@
 
 .gl-game-catalog-image {
   height: 293px !important;
-  width: 919px !important;
+  max-width: 940px !important;
 }
 .gl-game-catalog-game-box {
-  width: 301px;
+  position: relative;
+  max-width: 301px;
   border: 1px solid #dddddd;
 }
+.gl-game-catalog-game-card {
+  max-width: 100%;
+  height: auto;
+}
 .gl-game-catalog-game-box-description {
-  padding: 10px;
+  position: relative;
+  padding: 5px;
+  margin: 5px;
   ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
   }
+}
+
+.gl-game-catalog-developer-logo {
+  position: absolute;
+  top: -85px;
+  right: 5px;
+  background: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.gl-game-catalog-platform-icon {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 15px;
+  right: 5px;
+}
+
+.gl-game-catalog-platform-triangle {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 45px 45px;
+  border-color: transparent transparent @grey5 transparent;
 }
 
 .gl-game-catalog-games-section {
@@ -194,15 +229,15 @@
 .gl-icon-game--type {
   background-position: 0 -80px;
 }
-            
+
 .gl-icon-game--subject {
   background-position: 0 -160px;
 }
-            
+
 .gl-icon-game--releaseDate {
   background-position: 0 -40px;
 }
-            
+
 .gl-icon-game--platform {
   background-position: 0 -120px;
 }

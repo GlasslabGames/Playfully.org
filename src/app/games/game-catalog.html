@@ -1,46 +1,57 @@
+<div class="container gl-container">
 <h3 class="headline-4--serif">Featured Games</h3>
-<div class="gl-game-catalog-carousel-container gl-margin--V40 gl-margin--H40">
-    <carousel interval="3000" class="gl-games-carousel">
+<div class="gl-game-catalog-carousel-container gl-margin--V40">
+    <carousel interval="5000" class="gl-games-carousel">
         <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-image">
-            <div ng-style="{'background-image':'url(../{{game.banners.product}})'}" style="margin:auto;" class="gl-game-catalog-image">
-            <div class="gl-game-ribbon">
-                <div class="gl-game-ribbon-text">Featured</div>
-            </div>
+            <div ng-style="{'background-image':'url(../{{game.banners.product}})'}" class="gl-game-catalog-image">
+                <div class="gl-game-ribbon">
+                    <div class="gl-game-ribbon-text">Featured</div>
                 </div>
+            </div>
         </slide>
     </carousel>
 </div>
 
 <hr>
 <div class="gl-game-catalog-games-container">
-    <h3 class="headline-4--serif">Premium Games</h3>
+    <h3 class="headline-4--serif gl-margin--B40">Premium Games</h3>
     <div class="gl-game-catalog-games-section">
-        <div class="gl-game-catalog-game-box gl-margin--H40" ng-repeat="game in allGamesInfo">
-            <img src="/{{game.card.small}}">
+        <div class="gl-game-catalog-game-box"  ng-repeat="game in allGamesInfo" ng-class="(($index+1)%3!==0)?'gl-margin--R40':''">
+            <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
             <div class="gl-game-catalog-game-box-description">
-                <h3 class="headline-5">{{game.shortName}}</h3>
+                <div class="gl-game-catalog-developer-logo"><img ng-src="/{{game.developer.logo.small}}"></div>
+                <h4>{{game.shortName}}</h4>
+                <ul>
+                    <li>Subject: {{game.subject}}</li>
+                    <li>Grade: {{game.grades}}</li>
+                    <li>Developed by {{game.developer.name}} </li>
+                </ul>
+            </div>
+            <div class="gl-game-catalog-platform-triangle">
+                <div ng-style="{'background-image':'url(../{{game.platform.icon.small}})'}"
+                     class="gl-game-catalog-platform-icon"></div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h3 class="headline-4--serif gl-margin--B40">Free Games</h3>
+    <div class="gl-game-catalog-games-section">
+        <div class="gl-game-catalog-game-box" ng-repeat="game in allGamesInfo"
+             ng-class="(($index+1)%3!==0)?'gl-margin--R40':''">
+            <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+
+            <div class="gl-game-catalog-game-box-description">
+                <div class="gl-game-catalog-developer-logo"><img ng-src="/{{game.developer.logo.small}}"></div>
+                <h4>{{game.shortName}}</h4>
                 <ul>
                     <li>Subject: {{game.subject}}</li>
                     <li>Grade: {{game.grades}}</li>
                     <li>Developed by {{game.developer.name}}</li>
                 </ul>
             </div>
-        </div>
-    </div>
-    <hr>
-    <h3 class="headline-4--serif">Free Games</h3>
-
-    <div class="gl-game-catalog-games-section">
-        <div class="gl-game-catalog-game-box gl-margin--H40" ng-repeat="game in allGamesInfo">
-            <img src="/{{game.card.small}}">
-
-            <div class="gl-game-catalog-game-box-description">
-                <h3 class="headline-5">{{game.shortName}}</h3>
-                <ul>
-                    <li>Subject: {{game.subject}}</li>
-                    <li>Grade: {{game.grades}}</li>
-                    <li>Developed by {{game.developer.name}}</li>
-                </ul>
+            <div class="gl-game-catalog-platform-triangle">
+                <div ng-style="{'background-image':'url(../{{game.platform.icon.small}})'}"
+                     class="gl-game-catalog-platform-icon"></div>
             </div>
         </div>
     </div>
@@ -56,3 +67,5 @@
         <!--</div>-->
     <!--</li>-->
 <!--</ul>-->
+
+</div>
