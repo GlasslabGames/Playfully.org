@@ -164,20 +164,24 @@ angular.module( 'playfully.games', [
 })
 .controller('GameCatalogCtrl',
     function($scope,$stateParams,allGamesInfo) {
-      console.log(allGamesInfo);
       $scope.allGamesInfo = allGamesInfo;
-      // sort into free, premium and coming soon
-      $scope.freeGames = [];
-      $scope.premiumGames = [];
-      $scope.comingSoonGames = [];
-      for (var j = 0; j < 4; j++) {
-        allGamesInfo.push(angular.copy(allGamesInfo[j]));
-      }
+
+      $scope.freeGames = {name:'Free Games', games: []};
+      $scope.premiumGames = {name: 'Premium Games', games: []};
+      $scope.comingSoonGames = {name: 'Coming Soon', games: []};
+
+      $scope.sections = [
+        $scope.premiumGames,
+        $scope.freeGames,
+        $scope.comingSoonGames
+      ];
+
       for (var i = 0; i < allGamesInfo.length; i++) {
-        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
       }
+
       $scope.truncateText = function (text,limit) {
         if (text.length > limit) {
           var truncated = text.substring(0, limit);
