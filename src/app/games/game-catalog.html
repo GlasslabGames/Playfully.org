@@ -5,8 +5,7 @@
             <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
                 <img ng-src="/{{game.banners.product}}"
                      class="gl-game-catalog-banner"
-                     ui-sref="root.games.detail.product({gameId:game.gameId})"
-                    >
+                     ui-sref="root.games.detail.product({gameId:game.gameId})">
                     <div class="gl-game-ribbon">
                         <div class="gl-game-ribbon-text">Featured</div>
                     </div>
