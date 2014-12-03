@@ -119,13 +119,18 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games.play-page', {
+  .state( 'root.games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','manager','developer','admin'],
+      pageTitle: 'Play'
     },
-    controller: 'GamePlayPageCtrl',
-    templateUrl: 'games/game-play-page.html',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-play-page.html',
+        controller: 'GamePlayPageCtrl'
+      }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
@@ -309,6 +314,7 @@ angular.module( 'playfully.games', [
   };
 })
 .controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
+  console.log('GamePlayPageCtrl');
   $scope.gamePlayInfo = {};
 
   if(gameDetails &&
