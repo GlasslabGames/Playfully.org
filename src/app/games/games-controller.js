@@ -257,7 +257,18 @@ angular.module( 'playfully.games', [
         $state.go('games.detail.' + dest.id);
       }
     };
+    $scope.isValidLinkType = function (button) {
+      return ((button.type == 'play' || button.type == 'download') &&
+      button.links && ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)));
+    };
 
+    $scope.isSingleLinkType = function (button) {
+      return (button.links && button.links.length == 1);
+    };
+
+    $scope.isMultiLinkType = function (button) {
+      return (button.links && button.links.length > 1);
+    };
     $scope.goToLink = function(path, target) {
         if(target) {
             $window.open(path, target);
@@ -314,7 +325,6 @@ angular.module( 'playfully.games', [
   };
 })
 .controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
-  console.log('GamePlayPageCtrl');
   $scope.gamePlayInfo = {};
 
   if(gameDetails &&

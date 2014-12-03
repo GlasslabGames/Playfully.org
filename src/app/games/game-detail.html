@@ -93,7 +93,7 @@
             <div class="gl-game-details-bottom text-center">
               <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
                 <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
-                  <div ng-if="button.links && button.links.length > 1">
+                  <div ng-if="isMultiLinkType(button)">
                     <!-- TODO: remove ng-if="isAuthenticated()" at a later date -->
                     <div class="btn-group gl-game-btn-group" dropdown is-open="button.isOpen">
                       <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn dropdown-toggle"
@@ -109,7 +109,7 @@
                     </div>
                   </div>
 
-                  <div ng-if="button.links && button.links.length == 1"
+                  <div ng-if="isSingleLinkType(button)"
                        ng-switch="button.links[0].type">
                     <!-- temporarily hardcoded for initial launch -->
                     <div ng-switch-when="ios-appstore"
