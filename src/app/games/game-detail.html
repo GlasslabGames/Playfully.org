@@ -130,13 +130,12 @@
                   </div>
                 </div>
               </div>
-              <div ng-switch="gameDetails.type" ng-hide="isAuthenticated()">
-                <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn" ng-switch-default
-                        ui-sref="registerOptions">Sign Up and Play Game</button>
-                <div ng-switch-when="App"
-                       class="gl-game-app-store-download"
-                       ng-click="goToLink(button.links[0].link, button.links[0].target)">
-                </div>
+              <div ng-hide="gameDetails.type==='App'||isAuthenticated()">
+                <button type="button"
+                        class="btn gl-btn--blue gl-games-sidebar-btn"
+                        ng-click="state.go('modal.register')">
+                  Sign Up and Play Game
+                </button>
               </div>
             </div>
           </div>

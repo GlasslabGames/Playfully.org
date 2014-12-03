@@ -33,8 +33,12 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.catalog', {
     url: '/catalog',
-    templateUrl: 'games/game-catalog.html',
-    controller: 'GameCatalogCtrl',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-catalog.html',
+        controller: 'GameCatalogCtrl'
+      }
+    },
     resolve: {
       allGamesInfo: function(GamesService) {
         return GamesService.all();
@@ -50,7 +54,7 @@ angular.module( 'playfully.games', [
     views: {
       'main@': {
         templateUrl: 'games/game-detail.html',
-        controller: 'GameDetailCtrl',
+        controller: 'GameDetailCtrl'
       }
     },
     resolve: {
@@ -76,7 +80,7 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.detail.product', {
     url: '',
-    templateUrl: 'games/game-detail-product.html',
+    templateUrl: 'games/game-detail-product.html'
   })
   .state('root.games.detail.standards', {
     url: '/standards',

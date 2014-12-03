@@ -3,7 +3,10 @@
     <div class="gl-game-catalog-carousel-container gl-margin--V40">
         <carousel interval="5000" class="gl-games-carousel">
             <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
-                <img ng-src="/{{game.banners.product}}" class="gl-game-catalog-banner">
+                <img ng-src="/{{game.banners.product}}"
+                     class="gl-game-catalog-banner"
+                     ui-sref="root.games.detail.product({gameId:game.gameId})"
+                    >
                     <div class="gl-game-ribbon">
                         <div class="gl-game-ribbon-text">Featured</div>
                     </div>
@@ -13,7 +16,7 @@
     </div>
     <hr>
     <div class="gl-game-catalog-games-container">
-        <div ng-repeat="section in sections">
+        <div ng-repeat="section in sections" ng-if="section.games.length">
             <h3 class="headline-4--serif gl-margin--B40 gl-game-catalog-section-title">{{section.name}}</h3>
             <div class="gl-game-catalog-games-section">
                 <div class="col-md-4" ng-repeat="game in section.games">
@@ -21,7 +24,7 @@
                          ng-init="game.hover=false"
                          ng-mouseover="game.hover=true"
                          ng-mouseleave="game.hover=false"
-                         ui-sref="games.detail.product({gameId:game.gameId})">
+                         ui-sref="root.games.detail.product({gameId:game.gameId})">
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
                                 <img ng-src="/{{game.developer.logo.small}}">
