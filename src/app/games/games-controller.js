@@ -1,4 +1,5 @@
 angular.module( 'playfully.games', [
+  'angular-carousel',
   'ngOrderObjectBy',
   'ui.router',
   'games'
@@ -30,13 +31,30 @@ angular.module( 'playfully.games', [
       }
     }
   })
+  .state('root.games.catalog', {
+    url: '/catalog',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-catalog.html',
+        controller: 'GameCatalogCtrl'
+      }
+    },
+    resolve: {
+      allGamesInfo: function(GamesService) {
+        return GamesService.all();
+      }
+    },
+    data: {
+      pageTitle: 'Game Catalog'
+    }
+  })
   .state('root.games.detail', {
     abstract: true,
     url: '/:gameId?scrollTo',
     views: {
       'main@': {
         templateUrl: 'games/game-detail.html',
-        controller: 'GameDetailCtrl',
+        controller: 'GameDetailCtrl'
       }
     },
     resolve: {
@@ -62,7 +80,7 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.detail.product', {
     url: '',
-    templateUrl: 'games/game-detail-product.html',
+    templateUrl: 'games/game-detail-product.html'
   })
   .state('root.games.detail.standards', {
     url: '/standards',
@@ -101,13 +119,18 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games.play-page', {
+  .state( 'root.games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','manager','developer','admin'],
+      pageTitle: 'Play'
     },
-    controller: 'GamePlayPageCtrl',
-    templateUrl: 'games/game-play-page.html',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-play-page.html',
+        controller: 'GamePlayPageCtrl'
+      }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
@@ -152,7 +175,36 @@ angular.module( 'playfully.games', [
             $window.location = "/";
         }
 })
+.controller('GameCatalogCtrl',
+    function($scope,$stateParams,allGamesInfo) {
+      $scope.allGamesInfo = allGamesInfo;
 
+      $scope.freeGames = {name:'Free Games', games: []};
+      $scope.premiumGames = {name: 'Premium Games', games: []};
+      $scope.comingSoonGames = {name: 'Coming Soon', games: []};
+
+      $scope.sections = [
+        $scope.premiumGames,
+        $scope.freeGames,
+        $scope.comingSoonGames
+      ];
+
+      for (var i = 0; i < allGamesInfo.length; i++) {
+        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
+      }
+
+      $scope.truncateText = function (text,limit) {
+        if (text.length > limit) {
+          var truncated = text.substring(0, limit);
+          return truncated + '…';
+        } else {
+          return text;
+        }
+      };
+    }
+)
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     // angular.forEach(games, function(game) {
@@ -160,6 +212,7 @@ angular.module( 'playfully.games', [
     //     $scope.game = game;
     //   }
     // });
+    document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
@@ -204,8 +257,19 @@ angular.module( 'playfully.games', [
         $state.go('games.detail.' + dest.id);
       }
     };
+    $scope.isValidLinkType = function (button) {
+      return ((button.type == 'play' || button.type == 'download') &&
+      button.links && ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)));
+    };
 
-    $scope.goTo = function(path, target) {
+    $scope.isSingleLinkType = function (button) {
+      return (button.links && button.links.length == 1);
+    };
+
+    $scope.isMultiLinkType = function (button) {
+      return (button.links && button.links.length > 1);
+    };
+    $scope.goToLink = function(path, target) {
         if(target) {
             $window.open(path, target);
         } else {
