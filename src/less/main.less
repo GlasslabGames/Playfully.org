@@ -120,10 +120,20 @@ a:link {
   color: @oceanBlue;
 }
 
-.footer a:link {
-  color: white;
+.gl-footer a:link,
+.gl-footer a:visited {
+  color: #606060;
 }
 
+.col-md-4_5 {
+  float: left;
+  width: 37.5%;
+}
+
+.col-md-1_5 {
+  float: left;
+  width: 12.5%;
+}
 
 /**
  * Typography
@@ -488,35 +498,37 @@ h2 {
 
 
 .gl-footer {
-  background: #6bcad9;
-  border-top: 10px solid #b2e4ed;
-  color: white;
+  background: #f2f2f2;
+  border-top: 10px solid @aquaBlue;
+  color: #606060;
   margin-top: 0;
+  font-size: 12px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  h5 {
+    margin-top: 25px;
+  }
+}
+.gl-footer--home {
+  padding-bottom: 90px;
+}
+
+.gl-footer-logo {
+  .image-2x('logo-footer.png', 150px, 60px);
+  width: 150px;
+  height: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
 }
 
 .gl-footer-student {
-  background: #8dc152;
-  border-top-color: #c6e0a8; 
+  border-top-color: @grassGreen; 
 }
 
 .gl-footer .footer-inner {
   border-top: none;
-}
-
-.gl-footer-nav {
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-
-.gl-footer-link {
-  display: inline-block;
-  color: white;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.gl-footer-link:hover {
-  color: white;
 }
 
 .gl-footer-link--disabled {
@@ -529,8 +541,24 @@ h2 {
   text-decoration: none;
 }
 
+.gl-footer-list {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  > li {
+    margin-bottom: 2px;
+  }
+}
+
 .gl-copyright {
   margin-bottom: 30px;
+}
+
+.gl-copyright-elem {
+  font-size: 12px;
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 
