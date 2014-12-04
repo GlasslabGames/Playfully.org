@@ -1,5 +1,4 @@
 angular.module( 'playfully.games', [
-  'angular-carousel',
   'ngOrderObjectBy',
   'ui.router',
   'games'
