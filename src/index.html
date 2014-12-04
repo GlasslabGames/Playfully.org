@@ -56,9 +56,67 @@
       <footer class="footer gl-footer"
         ng-if="!hideWrapper"
         ng-class="{'gl-footer-student': isAuthorized('student'),
-          'gl-footer--home': state.includes('home')}">
+          'gl-footer--home': state.includes('root.home')}">
         <div class="container">
-            <div class="gl-footer-nav text-center">
+          <div class="row">
+            <div class="col-md-4_5 text-center">
+              <div class="gl-footer-logo"></div>
+              GlassLab creates and enables high-impact<br>
+              games that make learning visible.
+            </div>
+            <div class="col-md-1_5">
+              <h5>About Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="#">Company</a></li>
+                <li><a href="#">Press</a></li>
+                <li><a href="#">Careers</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Get Involved</h5>
+              <ul class="gl-footer-list">
+                <li><a href="#">Teacher Network</a></li>
+                <li><a href="#">District Network</a></li>
+                <li><a href="#">Donate</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Get to Know Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="#">Read Our Blog</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Google+</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Contact Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="#">Contact</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Support</h5>
+              <ul class="gl-footer-list">
+                <li><a href="#">Help Center</a></li>
+              </ul>
+            </div>
+          </div>
+          <hr class="rule rule--grey rule--1" />
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span class="gl-copyright-elem">
+                &copy;2014 GlassLab, Inc. All rights reserved.
+              </span>
+              <span class="gl-copyright-elem">
+                GlassLab is registered as a 501(c)(3) non-profit organization.
+              </span>
+              <span class="gl-copyright-elem">
+                <a ui-sref="root.privacy" href="#">Privacy Policy</a>
+              </span>
+            </div>
+          </div>
+            <!--div class="gl-footer-nav text-center">
                 <a class="gl-footer-link" target="_blank" href="//glasslab.zendesk.com/">Support</a>
                 <a class="gl-footer-link" target="_blank" href="http://about.glasslabgames.org/">About</a>
                 <a class="gl-footer-link" ui-sref="root.privacy" href="#">Privacy Policy</a>
@@ -67,7 +125,7 @@
             </div>
           <div class="text-center gl-copyright">
             &copy; 2014 GlassLab, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;GlassLab is a registered 501c3.
-          </div>
+          </div-->
         </div>
       </footer>
     </div>
