@@ -174,6 +174,14 @@ module.exports = function ( grunt ) {
           }
         ]
       },
+      compile_favicon: {
+        files: [
+          {
+            src: [ '**/favicon.ico' ],
+            dest: '<%= compile_dir %>/favicon.ico'
+          }
+        ]
+      },
       css:  {
         files: [
           {
@@ -612,7 +620,7 @@ module.exports = function ( grunt ) {
    */
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'build', 'less:compile', 'copy:crossdomain', 'copy:favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'ngAnnotate', 'concat:compile_js', 'uglify',
+    'build', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'ngAnnotate', 'concat:compile_js', 'uglify',
     'index:compile', 'createDistVersionFile'
   ]);
   
