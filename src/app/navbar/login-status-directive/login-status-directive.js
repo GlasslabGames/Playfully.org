@@ -24,7 +24,7 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
     link: function($scope, $element, $attrs, $controller) {
 
       $scope.logout = function() {
-        $state.transitionTo('logout');
+        $state.transitionTo('root.logout');
       };
     }
   };
