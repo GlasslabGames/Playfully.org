@@ -3,7 +3,7 @@ angular.module('playfully.password-reset', [])
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
     .state('modal.passwordReset', {
-      url: 'forgot-password?type',
+      url: '/forgot-password?type',
       views: {
         'modal@': {
           templateUrl: 'password-reset/password-reset.html',
