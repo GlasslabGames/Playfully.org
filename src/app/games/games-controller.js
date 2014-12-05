@@ -136,33 +136,46 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games.missions', {
-    parent: 'games.detail.product',
-    url: '/play-missions',
+  .state( 'modal-lg.missions', {
+    url: '/:gameId/play-missions',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var gameId = $stateParams.gameId;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          gameMissions: function(GamesService) {
-            return GamesService.getGameMissions(gameId);
-          },
-          gameId: function(){
-            return gameId;
-          }
-        },
+    resolve: {
+      gameMissions: function($stateParams, GamesService) {
+        return GamesService.getGameMissions($stateParams.gameId);
+      },
+      gameId: function($stateParams){
+        return $stateParams.gameId;
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('games.detail.product', { gameId: gameId });
-      });
+      }
     }
+    //onEnter: function($stateParams, $state, $modal) {
+    //  var gameId = $stateParams.gameId;
+    //  var modalInstance = $modal.open({
+    //    size: 'lg',
+    //    keyboard: false,
+    //    resolve: {
+    //      gameMissions: function(GamesService) {
+    //        return GamesService.getGameMissions(gameId);
+    //      },
+    //      gameId: function(){
+    //        return gameId;
+    //      }
+    //    },
+    //    templateUrl: 'games/game-play-missions.html',
+    //    controller: 'GameMissionsModalCtrl'
+    //  });
+    //
+    //  modalInstance.result.finally(function(result) {
+    //    return $state.transitionTo('games.detail.product', { gameId: gameId });
+    //  });
+    //}
   });
 })
 
@@ -277,7 +290,11 @@ angular.module( 'playfully.games', [
     };
 
     $scope.goToPlayGame = function(gameId) {
-      $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
+      if (gameDetails.play.type==='missions') {
+        $state.go('modal-lg.missions',{gameId: gameId});
+      } else {
+        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+      }
     };
     /**
      * The API is providing a relative path, causing the image to break if
@@ -302,7 +319,13 @@ angular.module( 'playfully.games', [
 .controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
-
+  $scope.goToLink = function (path, target) {
+    if (target) {
+      $window.open(path, target);
+    } else {
+      $window.location = path;
+    }
+  };
   $scope.goTo = function(path, target) {
     if(target) {
       $window.open(path, target);

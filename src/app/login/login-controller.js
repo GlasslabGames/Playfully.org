@@ -9,7 +9,8 @@ angular.module('playfully.login', [])
     data:{ pageTitle: 'Sign In'},
     views: {
       'modal@': {
-        templateUrl: 'login/login.html'
+        templateUrl: 'login/login.html',
+        controller: 'LoginOptionsCtrl'
       }
     }
   })
