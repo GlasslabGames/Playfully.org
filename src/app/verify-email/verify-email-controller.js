@@ -24,7 +24,6 @@ angular.module('playfully.verify-email', [])
 
 .controller('verifyModalCtrl',
   function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService) {
-    console.log('verifyModal Ctrl');
     $scope.errorMessage = "";
 
     $scope.verifyEmailCode = function () {
