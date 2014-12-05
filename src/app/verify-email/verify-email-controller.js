@@ -3,9 +3,8 @@ angular.module('playfully.verify-email', [])
 .config(function config( $stateProvider, $urlRouterProvider ) {
   $stateProvider
 
-    .state('verifyEmail', {
-      url: 'verify-email/:hashCode',
-      parent: 'modal',
+    .state('modal.verifyEmail', {
+      url: '/verify-email/:hashCode',
       views: {
         'modal@': {
           templateUrl: 'verify-email/verify-email.html',
