@@ -348,7 +348,7 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
       return $timeout(function () {
-        $location.path('/');
+        $location.path('root.home');
       }, 100);
     });
 
