@@ -1,5 +1,5 @@
 <p>
-    <h2 ng-hide="loading">Get Data!</h2>
+    <h2 ng-hide="loading">Query Data in Month</h2>
     <h2 ng-show="loading">Loading...</h2>
     <br>
 
@@ -59,7 +59,13 @@
             Example: "1", "2,3,4" or<br> leave blank for all users<br>
             -->
             Save To File: <input type="checkbox" ng-model="saveToFile" /><br>
-            <input type="submit" id="submit" value="Run!" /><br>
+            <div>
+                <input type="submit" id="submit" value="Run!" />
+                <div ng-show="download">
+                    <a class="downloadCSVs" ng-click="nextLoad()">download files</a>
+                </div>
+            </div>
+            <br>
             <br>
             Output (# Events {{numEvents}}):
             <textarea readonly rows="20" cols="100" name="csvData" ng-model="outData" ></textarea>

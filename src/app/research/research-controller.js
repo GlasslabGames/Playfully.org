@@ -1,4 +1,4 @@
-angular.module('research', [])
+angular.module('playfully.research', ['research'])
 
 .config(function($stateProvider) {
     $stateProvider.state('research', {
@@ -40,8 +40,8 @@ angular.module('research', [])
 })
 
 
-.controller('ResearchParserCtrl', function ($scope, $http, $window) {
-    $scope.gameId = "aa-1";
+.controller('ResearchParserCtrl', function ($scope, $http, $window, ResearchService) {
+    $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
     $scope.startHour = 0;
@@ -49,10 +49,12 @@ angular.module('research', [])
     $scope.endHour = 23;
     $scope.outData = "";
     $scope.numEvents = 0;
+    $scope.download = false;
     $scope.saveToFile = false;
     $scope.loading = false;
     $scope.startDateOpened = false;
     $scope.endDateOpened = false;
+    var signedUrls = [];
 
     $scope.submit = function() {
         if ($scope.gameId) {
@@ -101,27 +103,30 @@ angular.module('research', [])
             } else {
                 $scope.outData = "";
                 $scope.loading = true;
-                    $http({
-                        method: 'GET',
-                        url: url,
-                        params: {
-                            startDate:  sd,
-                            endDate:    ed,
-                            saveToFile: $scope.saveToFile,
-                            startDateHour: sh,
-                            endDateHour:   eh,
-                            startDateMin:  0,
-                            startDateSec:  0,
-                            endDateMin:    59,
-                            endDateSec:    59
-                        }
-                    }).success(function(data){
+                $http({
+                    method: 'GET',
+                    url: url,
+                    params: {
+                        startDate:  sd,
+                        endDate:    ed,
+                        saveToFile: $scope.saveToFile,
+                        startDateHour: sh,
+                        endDateHour:   eh,
+                        startDateMin:  0,
+                        startDateSec:  0,
+                        endDateMin:    59,
+                        endDateSec:    59
+                    }
+                }).success(function(data){
                     $scope.loading = false;
-
-                    //console.log("events data:", data);
-                    $scope.outData = data.data;
-                    $scope.numEvents = data.numEvents;
-
+                    if(data.numCSVs === undefined){
+                        $scope.outData = data.data;
+                        $scope.numEvents = data.numEvents;
+                    } else{
+                        $scope.outData = "Too many events for this query.  Click the above link to download the CSVs for those days.";
+                        signedUrls = data.urls;
+                        $scope.download = true;
+                    }
                 }).error(function(err){
                     console.error("parse-schema:", err);
                     $scope.loading = false;
@@ -130,11 +135,17 @@ angular.module('research', [])
         }
     };
 
+    $scope.nextLoad = function(){
+        $scope.download = false;
+        $scope.outData = '';
+        ResearchService.nextLoad($scope, signedUrls, 0);
+    };
+
     $scope.today = function() {
         $scope.startDate = new Date();
         $scope.startDate.setHours(0,0,0,0);
     };
-    $scope.today();
+    //$scope.today();
 
     $scope.clear = function () {
         $scope.startDate = null;
@@ -150,6 +161,11 @@ angular.module('research', [])
         $event.stopPropagation();
         $scope.endDateOpened = true;
     };
+
+    updateMinMaxDate = ResearchService.updateMinMaxDate.bind($scope);
+    // listen on datepicker calendar.  when dates are changed, update min and max
+    $scope.$watch('startDateOpened', updateMinMaxDate);
+    $scope.$watch('endDateOpened', updateMinMaxDate);
 
     $scope.minDate = null;
     $scope.maxDate = new Date();
@@ -201,7 +217,8 @@ angular.module('research', [])
 
         getCSVData($scope.gameId);
   })
-.controller('ResearchDownloadCtrl', function ($scope, $http, $window, $timeout) {
+    // need good messaging, that this section only allows querying within one month
+.controller('ResearchDownloadCtrl', function ($scope, $http, $window, ResearchService) {
     $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
@@ -210,15 +227,11 @@ angular.module('research', [])
     $scope.loading = false;
     $scope.startDateOpened = false;
     $scope.endDateOpened = false;
-    var signedUrls = [];
-    var urlIndex = 0;
 
     $scope.submit = function() {
         if ($scope.gameId) {
             var sd = "";
             var ed = "";
-            var sh = 0;
-            var eh = 23;
 
             if($scope.startDate) {
                 sd = new Date($scope.startDate);
@@ -234,9 +247,6 @@ angular.module('research', [])
                 }
             }
 
-            //console.log("startDate:", sd);
-            //console.log("endDate:", ed);
-
             var url = "/api/v2/research/game/"+$scope.gameId+"/urls";
             $scope.loading = true;
             $http({
@@ -247,14 +257,10 @@ angular.module('research', [])
                     endDate:    ed
                 }
             }).success(function(data){
-                $scope.loading = false;
-
                 //console.log("events data:", data);
                 $scope.numCSVs = data.numCSVs;
-                signedUrls = data.urls;
-                nextLoad();
-                //getWithSignedUrls(signedUrls[urlIndex]);
-
+                var signedUrls = data.urls;
+                ResearchService.nextLoad($scope, signedUrls, 0);
             }).error(function(err){
                 console.error("parse-schema:", err);
                 $scope.loading = false;
@@ -267,7 +273,6 @@ angular.module('research', [])
         $scope.startDate = new Date();
         $scope.startDate.setHours(0,0,0,0);
     };
-    //$scope.today();
 
     $scope.clear = function () {
         $scope.startDate = null;
@@ -289,6 +294,8 @@ angular.module('research', [])
     $scope.minDate = null;
     $scope.maxDate = new Date();
 
+    var updateMinMaxDate = ResearchService.updateMinMaxDate.bind($scope);
+    // listen on datepicker calendar.  when dates are changed, update min and max
     $scope.$watch('startDateOpened', updateMinMaxDate);
     $scope.$watch('endDateOpened', updateMinMaxDate);
 
@@ -298,56 +305,4 @@ angular.module('research', [])
 
     $scope.format = 'yyyy-MM-dd';
 
-    function updateMinMaxDate(){
-        if($scope.startDate){
-            $scope.minDate = new Date($scope.startDate);
-        } else {
-            $scope.minDate = null;
-        }
-        if($scope.minDate){
-            var afterDate = new Date($scope.minDate);
-            afterDate.setMonth(afterDate.getMonth()+1);
-            afterDate.setDate(0);
-            if(afterDate < $scope.maxDate || $scope.maxDate < $scope.minDate){
-                $scope.maxDate = afterDate;
-            }
-            $scope.endDate = $scope.endDate || new Date($scope.maxDate);
-            if($scope.maxDate < $scope.endDate || $scope.endDate < $scope.startDate){
-                $scope.endDate = new Date($scope.maxDate);
-            }
-        }
-    }
-
-    function nextLoad(){
-        window.open(signedUrls[urlIndex]);
-        urlIndex++;
-        if(urlIndex < signedUrls.length){
-            $timeout(nextLoad, 100);
-        } else{
-            urlIndex = 0;
-            signedUrls = [];
-            $scope.loading = false;
-        }
-    }
-    //function getWithSignedUrls(url){
-    //    $http({
-    //        method:'GET',
-    //        url: url
-    //    }).success(function(data){
-    //        urlIndex++;
-    //        if(urlIndex < signedUrls.length){
-    //            url = signedUrls[urlIndex];
-    //            getWithSignedUrls(url);
-    //        } else{
-    //            $scope.loading = false;
-    //            urlIndex = 0;
-    //            signedUrls = [];
-    //        }
-    //    }).error(function(err){
-    //        console.error("aws get:", err);
-    //        $scope.loading = false;
-    //        urlIndex = 0;
-    //        signedUrls = [];
-    //    });
-    //}
 });
