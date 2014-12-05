@@ -20,6 +20,7 @@
 }
 
 .gl-game-catalog-games-section {
+  width: 972px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -55,11 +56,12 @@
   color: white;
   padding: 20px;
   background-color: rgba(17, 23, 39, 0.90);
+  overflow: hidden;
+  text-overflow: ellipsis;
   button {
     position: absolute;
     left: 33%;
     bottom: 20px;
-
   }
 }
 
@@ -68,10 +70,19 @@
   padding: 5px;
   margin: 5px;
   ul {
+    white-space: nowrap;
+    overflow: hidden;
     font-size: 14px;
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+  }
+  overflow: hidden;
+  .text-end-fade {
+    height: 87px;
+    width: 10px;
+    top: 3px;
+    right: 0;
   }
 }
 

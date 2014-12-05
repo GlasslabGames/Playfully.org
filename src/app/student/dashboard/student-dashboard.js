@@ -117,29 +117,33 @@ angular.module( 'student.dashboard', [
 
   $scope.goToPlayGame = function(gameId) {
 
-    // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
-    if($scope.gamesInfo[gameId].play.type == 'missions') {
-      $modal.open({
-        size: 'lg',
-        keyboard: false,
-        data:{
-          parentState: 'studentDashboard'
-        },
-        resolve: {
-          gameMissions: function(GamesService) {
-            return GamesService.getGameMissions(gameId);
-          },
-          gameId: function(){
-            return gameId;
-          }
-        },
-        templateUrl: 'games/game-play-missions.html',
-        controller: 'GameMissionsModalCtrl'
-
-      });
+    if (gameDetails.play.type === 'missions') {
+      $state.go('modal-lg.missions', {gameId: gameId});
     } else {
-      $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+      $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
     }
+    // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
+    //  $modal.open({
+    //    size: 'lg',
+    //    keyboard: false,
+    //    data:{
+    //      parentState: 'studentDashboard'
+    //    },
+    //    resolve: {
+    //      gameMissions: function(GamesService) {
+    //        return GamesService.getGameMissions(gameId);
+    //      },
+    //      gameId: function(){
+    //        return gameId;
+    //      }
+    //    },
+    //    templateUrl: 'games/game-play-missions.html',
+    //    controller: 'GameMissionsModalCtrl'
+    //
+    //  });
+    //} else {
+    //  $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+    //}
   };
   $scope.goToLink = function(link) {
     $window.open(link);
