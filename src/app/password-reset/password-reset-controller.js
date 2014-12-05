@@ -47,10 +47,8 @@ angular.module('playfully.password-reset', [])
       },
       resolve: {
         confirmation: function($stateParams, $log, AuthService) {
-          console.log('confirmation resolve');
           return AuthService.verifyPasswordResetCode($stateParams.hashCode)
             .then(function(data) {
-                console.log('inside verify password');
                 return data;
               },
               function(data) { return data; });
