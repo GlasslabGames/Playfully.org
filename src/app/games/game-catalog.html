@@ -1,0 +1,62 @@
+<div class="container gl-container">
+    <h3 class="headline-4--serif">Featured Games</h3>
+    <div class="gl-game-catalog-carousel-container gl-margin--V40">
+        <carousel interval="5000" class="gl-games-carousel">
+            <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
+                <img ng-src="/{{game.banners.product}}"
+                     class="gl-game-catalog-banner"
+                     ui-sref="root.games.detail.product({gameId:game.gameId})">
+                    <div class="gl-game-ribbon">
+                        <div class="gl-game-ribbon-text">Featured</div>
+                    </div>
+                </img>
+            </slide>
+        </carousel>
+    </div>
+    <hr>
+    <div class="gl-game-catalog-games-container">
+        <div ng-repeat="section in sections" ng-if="section.games.length">
+            <h3 class="headline-4--serif gl-margin--B40 gl-game-catalog-section-title">{{section.name}}</h3>
+            <div class="gl-game-catalog-games-section">
+                <div class="col-md-4" ng-repeat="game in section.games">
+                    <div class="gl-game-catalog-game-box gl-margin--Bl"
+                         ng-init="game.hover=false"
+                         ng-mouseover="game.hover=true"
+                         ng-mouseleave="game.hover=false"
+                         ui-sref="root.games.detail.product({gameId:game.gameId})">
+                        <div class="gl-game-catalog-game-card-wrapper">
+                            <div class="gl-game-catalog-developer-logo">
+                                <img ng-src="/{{game.developer.logo.small}}">
+                            </div>
+                            <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+                            <div class="gl-game-catalog-game-description" ng-show="game.hover">
+                                <p>
+                                    {{truncateText(game.description,200)}}
+                                </p>
+                                <button class="btn gl-btn--blue">Learn More</button>
+                            </div>
+                        </div>
+                        <div class="gl-game-catalog-game-box-info">
+                            <span class="gl-game-catalog-game-title">
+                                {{game.shortName}}
+                                <span class="gl-text-end-fade"></span>
+                            </span>
+                            <ul>
+                                <li>Subject: {{game.subject}}
+                                </li>
+                                <li>Grade: {{game.grades}}</li>
+                                <li>Developed by {{game.developer.name}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="gl-game-catalog-platform-triangle">
+                            <img ng-src="/{{game.platform.icon.small}}"
+                                 class="gl-game-catalog-platform-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="gl-game-report-divider">
+        </div>
+    </div>
+</div>

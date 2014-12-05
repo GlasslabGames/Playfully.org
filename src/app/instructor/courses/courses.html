@@ -2,11 +2,11 @@
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
         <li class="gl-tab"
             ng-class="{'active': !showArchived}">
-            <a href ui-sref="courses({courseStatus:''})">Active Classes</a>
+            <a href ui-sref="root.courses({courseStatus:''})">Active Classes</a>
         </li>
         <li class="gl-tab"
             ng-class="{'active': showArchived}">
-            <a href ui-sref="courses({courseStatus:'/archived'})">Archived Classes</a>
+            <a href ui-sref="root.courses.archived">Archived Classes</a>
         </li>
     </ul>
 </div>
@@ -17,7 +17,7 @@
   <div class="container">
     <div ng-show="!showArchived">
       <hr class="rule rule--blue" />
-      <div class="gl-courses-add gl-courses-add--blue" ui-sref="newCourse">
+      <div class="gl-courses-add gl-courses-add--blue" ui-sref="modal-lg.newCourse">
         <div class="bu-add-circle bu-add-circle--blue"></div>
         Create New Class
       </div>
@@ -41,7 +41,7 @@
 
     <div ng-show="courses.length">
       <div class="gl-course container-fluid"
-        ng-repeat="(courseKey,course) in courses | filter:{archived: showArchived}">
+        ng-repeat="(courseKey,course) in courses">
         <div class="row gl-course-info">
           <div class="col-md-3 gl-course-desc">
             <h3 class="gl-course-title" ng-bind="course.title"></h3>
@@ -59,7 +59,7 @@
             <div class="gl-margin--Ts">
               <button type="button" class="btn gl-btn--blue"
                 ng-if="course.archived"
-                ui-sref="unarchiveCourse({id: course.id})">
+                ui-sref="modal-lg.unarchiveCourse({id: course.id})">
                 Reactivate This Class
               </button>
               <div ng-if="showCourseEdit(course)" class="btn-group" dropdown is-open="status.isopen">
@@ -67,11 +67,11 @@
                   Edit <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a ui-sref="editCourse({id:course.id})">Edit Class Info</a></li>
-                  <li ng-if="!course.lockedRegistration"><a ui-sref="lockCourse({id:course.id})">Lock Registration</a></li>
-                  <li ng-if="course.lockedRegistration"><a ui-sref="unlockCourse({id:course.id})">Unlock Registration</a></li>
-                  <li><a ui-sref="archiveCourse({id:course.id})">Archive Class</a></li>
-                  <li><a ui-sref="assignGamesToCourse({id:course.id})">Assign More Games</a></li>
+                  <li><a ui-sref="modal-lg.editCourse({id:course.id})">Edit Class Info</a></li>
+                  <li ng-if="!course.lockedRegistration"><a ui-sref="modal-lg.lockCourse({id:course.id})">Lock Registration</a></li>
+                  <li ng-if="course.lockedRegistration"><a ui-sref="modal-lg.unlockCourse({id:course.id})">Unlock Registration</a></li>
+                  <li><a ui-sref="modal-lg.archiveCourse({id:course.id})">Archive Class</a></li>
+                  <li><a ui-sref="modal-lg.assignGamesToCourse({id:course.id})">Assign More Games</a></li>
                 </ul>
               </div>
             </div>
@@ -97,7 +97,7 @@
                 {{ gamesInfo[game.id].longName }}
               </div>
 
-              <div ng-if="course.games.length < 3" class="gl-course-game text-center text-grey5" ui-sref="assignGamesToCourse({id:course.id})">
+              <div ng-if="course.games.length < 3" class="gl-course-game text-center text-grey5" ui-sref="modal-lg.assignGamesToCourse({id:course.id})">
                 <div class="gl-course-game-thumb gl-thumb-game-add">
                   <div class="bu-add-circle bu-add-circle--grey"></div>
                 </div>
@@ -120,14 +120,22 @@
           </div>
           <div class="col-md-4 text-right">
             <button class="btn btn-sm gl-btn--blue"
+              ng-if="!showArchived"
               ng-hide="course.isOpen"
               ng-disabled="course.studentCount == 0"
-              ui-sref="showStudentList({id: course.id})">
+              ui-sref="root.courses.showStudentList({id: course.id})">
+              View Student List (<span ng-bind="course.studentCount"></span>)
+            </button>
+            <button class="btn btn-sm gl-btn--blue"
+              ng-if="showArchived"
+              ng-hide="course.isOpen"
+              ng-disabled="course.studentCount == 0"
+              ui-sref="root.courses.archived.showStudentList({id: course.id})">
               View Student List (<span ng-bind="course.studentCount"></span>)
             </button>
             <button class="btn btn-sm gl-btn--white"
               ng-show="course.isOpen"
-              ui-sref="courses({courseType: (showArchived ? '/archived' : '')})">
+              ng-click="collapseList()">
               Close Student List (<span ng-bind="course.studentCount"></span>)
             </button>
           </div>

@@ -12,7 +12,7 @@
                 <div ng-if="groupMission.missions.length"
                       ng-repeat="mission in groupMission.missions">
                     <div ng-if="mission.enabled" class="gl-game-mission">
-                        <button class="gl-game-mission-button" ng-click="goTo(mission.links[0].link, '_self')">
+                        <button class="gl-game-mission-button" ng-click="goToLink(mission.links[0].link, '_self')">
                             <div class="gl-game-{{gameId}}-missions-blue" ng-class="{'gl-game-{{gameId}}-missions-green': isAuthorized('student')}"></div>
                           {{mission.linkText}}
                         </button>

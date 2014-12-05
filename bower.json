@@ -20,7 +20,8 @@
     "angular-mocks": "~1.2",
     "bootstrap": "~3.1",
     "angular-bootstrap": "~0.11.0",
-    "angular-ui-router": "https://github.com/angular-ui/ui-router.git#46de3210c3dfd9f46226787009eddfba97b4b517",
+    "angular-ui-router": "~0.2.13",
+    "ui-router-extras": "~0.0.11",
     "jasmine-jquery": "~2.0",
     "angular-translate": "~2.4.0",
     "angular-translate-loader-static-files": "~2.4.0",
@@ -35,12 +36,11 @@
     "angular-order-object-by": "~1.0.0",
     "jquery": "~2.1.1",
     "sticky-ng": "~1.4.4",
-    "angular-local-storage": "~0.1.0",
-    "ui-router-extras": "~0.0.11"
+    "angular-local-storage": "~0.1.0"
   },
   "resolutions": {
     "angular-translate": "~2.4.0",
-    "angular": "1.3.3",
+    "angular": "^1.2",
     "angular-ui-router": "~0.2.8"
   }
 }

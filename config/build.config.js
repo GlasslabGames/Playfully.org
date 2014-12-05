@@ -60,7 +60,7 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/jquery/dist/jquery.min.js',
-      'vendor/angular/angular.min.js',
+      'vendor/angular/angular.js',
       'vendor/angular-cookie/angular-cookie.min.js',
       'vendor/angular-sanitize/angular-sanitize.min.js',
       'vendor/angular-ga/ga.js',
@@ -69,6 +69,7 @@ module.exports = {
       'vendor/moment/moment.js',
       'vendor/angular-moment/angular-moment.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
+      'vendor/ui-router-extras/release/ct-ui-router-extras.js',
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-translate/angular-translate.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',

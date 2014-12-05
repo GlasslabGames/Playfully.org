@@ -1,23 +1,19 @@
 angular.module('playfully.login', [])
 
-.config(function config( $stateProvider, $urlRouterProvider ) {
+.config(function config( $stateProvider, $stickyStateProvider, $urlRouterProvider ) {
 
   // Login Options
 
-  $stateProvider.state('loginOptions', {
-    url: 'login',
-    parent: 'modal',
-    views: { 'modal@': {
-      templateUrl: 'login/login.html',
-      controller: 'LoginOptionsCtrl'
-      }
-    },
+  $stateProvider.state('modal.login', {
+    url: '/login',
     data:{ pageTitle: 'Sign In'},
-    onEnter: function($state, $log, ipCookie) {
-      if (ipCookie('inSDK')) {
-        ipCookie.remove('inSDK');
+    views: {
+      'modal@': {
+        templateUrl: 'login/login.html'
+      }
     }
-  }})
+  })
+
   .state('sdkLoginOptions', {
     url: '/sdk/login',
     parent: 'site',
@@ -34,9 +30,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-instructor.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginInstructor', {
-    url: 'login/instructor',
-    parent: 'modal',
+  $stateProvider.state('modal.login.instructor', {
+    url: '/instructor',
     views: { 'modal@': loginInstructorConfig },
     data:{ pageTitle: 'Instructor Sign In'}
   });
@@ -46,9 +41,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-student.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginStudent', {
-    url: 'login/student',
-    parent: 'modal',
+  $stateProvider.state('modal.login.student', {
+    url: '/student',
     views: { 'modal@': loginStudentConfig },
     data:{ pageTitle: 'Student Sign In'}
   })
@@ -176,8 +170,7 @@ angular.module('playfully.login', [])
   })
 
   // Logout
-  .state('logout', {
-    parent: 'site',
+  .state('root.logout', {
     url: '/logout',
     resolve: {
       data: function($rootScope, $log, AuthService, AUTH_EVENTS) {

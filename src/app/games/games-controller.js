@@ -8,16 +8,16 @@ angular.module( 'playfully.games', [
 })
 
 .config(function ( $stateProvider) {
-  $stateProvider.state( 'games', {
+  $stateProvider.state( 'root.games', {
     abstract: true,
-    url: '/games',
+    url: 'games',
     views: {
-      'main': {
+      'main@root': {
         template: '<div ui-view></div>'
       }
     }
   })
-  .state('games.default', {
+  .state('root.games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
       if(AuthService.isLoginType('clever')){
@@ -30,11 +30,32 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state('games.detail', {
+  .state('root.games.catalog', {
+    url: '/catalog',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-catalog.html',
+        controller: 'GameCatalogCtrl'
+      }
+    },
+    resolve: {
+      allGamesInfo: function(GamesService) {
+        return GamesService.all();
+      }
+    },
+    data: {
+      pageTitle: 'Game Catalog'
+    }
+  })
+  .state('root.games.detail', {
     abstract: true,
     url: '/:gameId?scrollTo',
-    templateUrl: 'games/game-detail.html',
-    controller: 'GameDetailCtrl',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-detail.html',
+        controller: 'GameDetailCtrl'
+      }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
@@ -56,30 +77,27 @@ angular.module( 'playfully.games', [
     }
 
   })
-  .state('games.detail.product', {
+  .state('root.games.detail.product', {
     url: '',
     templateUrl: 'games/game-detail-product.html'
   })
-  .state('games.detail.standards', {
+  .state('root.games.detail.standards', {
     url: '/standards',
     templateUrl: 'games/game-detail-standards.html'
   })
-  .state('games.detail.research', {
+  .state('root.games.detail.research', {
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
-  .state('games.detail.check', {
+  .state('root.games.detail.check', {
     url: '/check',
-    templateUrl: 'games/game-detail-check-spec.html',
-    controller: function($scope) {
-        $scope.hideGameDetails.hide = true;
-    }
+    templateUrl: 'games/game-detail-check-spec.html'
   })
-  .state('games.detail.reviews', {
+  .state('root.games.detail.reviews', {
     url: '/reviews',
     templateUrl: 'games/game-detail-reviews.html'
   })
-  .state('games.detail.lessonPlans', {
+  .state('root.games.detail.lessonPlans', {
     url: '/lesson-plans',
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor','manager','developer','admin'] }
@@ -100,46 +118,64 @@ angular.module( 'playfully.games', [
       }
     }
   })
-  .state( 'games.play-page', {
+  .state( 'root.games.play-page', {
     url: '/:gameId/play-page',
     data: {
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','manager','developer','admin'],
+      pageTitle: 'Play'
     },
-    controller: 'GamePlayPageCtrl',
-    templateUrl: 'games/game-play-page.html',
+    views: {
+      'main@': {
+        templateUrl: 'games/game-play-page.html',
+        controller: 'GamePlayPageCtrl'
+      }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
       }
     }
   })
-  .state( 'games.missions', {
-    parent: 'games.detail.product',
-    url: '/play-missions',
+  .state( 'modal-lg.missions', {
+    url: '/:gameId/play-missions',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var gameId = $stateParams.gameId;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          gameMissions: function(GamesService) {
-            return GamesService.getGameMissions(gameId);
-          },
-          gameId: function(){
-            return gameId;
-          }
-        },
+    resolve: {
+      gameMissions: function($stateParams, GamesService) {
+        return GamesService.getGameMissions($stateParams.gameId);
+      },
+      gameId: function($stateParams){
+        return $stateParams.gameId;
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'games/game-play-missions.html',
         controller: 'GameMissionsModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('games.detail.product', { gameId: gameId });
-      });
+      }
     }
+    //onEnter: function($stateParams, $state, $modal) {
+    //  var gameId = $stateParams.gameId;
+    //  var modalInstance = $modal.open({
+    //    size: 'lg',
+    //    keyboard: false,
+    //    resolve: {
+    //      gameMissions: function(GamesService) {
+    //        return GamesService.getGameMissions(gameId);
+    //      },
+    //      gameId: function(){
+    //        return gameId;
+    //      }
+    //    },
+    //    templateUrl: 'games/game-play-missions.html',
+    //    controller: 'GameMissionsModalCtrl'
+    //  });
+    //
+    //  modalInstance.result.finally(function(result) {
+    //    return $state.transitionTo('games.detail.product', { gameId: gameId });
+    //  });
+    //}
   });
 })
 
@@ -151,7 +187,36 @@ angular.module( 'playfully.games', [
             $window.location = "/";
         }
 })
+.controller('GameCatalogCtrl',
+    function($scope,$stateParams,allGamesInfo) {
+      $scope.allGamesInfo = allGamesInfo;
 
+      $scope.freeGames = {name:'Free Games', games: []};
+      $scope.premiumGames = {name: 'Premium Games', games: []};
+      $scope.comingSoonGames = {name: 'Coming Soon', games: []};
+
+      $scope.sections = [
+        $scope.premiumGames,
+        $scope.freeGames,
+        $scope.comingSoonGames
+      ];
+
+      for (var i = 0; i < allGamesInfo.length; i++) {
+        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(allGamesInfo[i]);}
+        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
+      }
+
+      $scope.truncateText = function (text,limit) {
+        if (text.length > limit) {
+          var truncated = text.substring(0, limit);
+          return truncated + '…';
+        } else {
+          return text;
+        }
+      };
+    }
+)
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     // angular.forEach(games, function(game) {
@@ -159,11 +224,11 @@ angular.module( 'playfully.games', [
     //     $scope.game = game;
     //   }
     // });
+    document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
-    $scope.hideGameDetails = {hide:false};
 
     // $scope.$on('$stateChangeSuccess',
     //   function(event, toState, toParams, fromState, fromParams) {
@@ -204,8 +269,19 @@ angular.module( 'playfully.games', [
         $state.go('games.detail.' + dest.id);
       }
     };
+    $scope.isValidLinkType = function (button) {
+      return ((button.type == 'play' || button.type == 'download') &&
+      button.links && ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)));
+    };
 
-    $scope.goTo = function(path, target) {
+    $scope.isSingleLinkType = function (button) {
+      return (button.links && button.links.length == 1);
+    };
+
+    $scope.isMultiLinkType = function (button) {
+      return (button.links && button.links.length > 1);
+    };
+    $scope.goToLink = function(path, target) {
         if(target) {
             $window.open(path, target);
         } else {
@@ -214,7 +290,11 @@ angular.module( 'playfully.games', [
     };
 
     $scope.goToPlayGame = function(gameId) {
-      $window.location = "/games/"+gameId+"/play-"+gameDetails.play.type;
+      if (gameDetails.play.type==='missions') {
+        $state.go('modal-lg.missions',{gameId: gameId});
+      } else {
+        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+      }
     };
     /**
      * The API is providing a relative path, causing the image to break if
@@ -239,7 +319,13 @@ angular.module( 'playfully.games', [
 .controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
-
+  $scope.goToLink = function (path, target) {
+    if (target) {
+      $window.open(path, target);
+    } else {
+      $window.location = path;
+    }
+  };
   $scope.goTo = function(path, target) {
     if(target) {
       $window.open(path, target);

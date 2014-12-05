@@ -31,12 +31,12 @@
   <div class="col-md-9 gl-course-progress-container gl-pad--Bxxl gl-pad-Hm">
       <div class="gl-margin--Txl text-center">
         <a href="#"
-          ui-sref="instructorDashboard.gameplay({gameId: status.prevGameId, courseId: status.selectedCourseId})">
+          ui-sref="root.instructorDashboard.gameplay({gameId: status.prevGameId, courseId: status.selectedCourseId})">
           <i class="fa fa-chevron-left gl-fa-3"></i>
         </a>
           <img src="/assets/skinny-banner-{{ status.selectedGameId }}.jpg"  class="gl-dashboard-skinny-banner gl-margin-Hs">
         <a href="#"
-          ui-sref="instructorDashboard.gameplay({gameId: status.nextGameId, courseId: status.selectedCourseId})">
+          ui-sref="root.instructorDashboard.gameplay({gameId: status.nextGameId, courseId: status.selectedCourseId})">
           <i class="fa fa-chevron-right gl-fa-3"></i>
         </a>
       </div>
@@ -99,7 +99,7 @@
           </div>
           <div class="row gl-pad-Vl text-center">
             <button class="btn gl-btn--blue"
-              ui-sref="reports.details.sowo({gameId:status.selectedGameId, courseId:status.selectedCourseId})">
+              ui-sref="root.reports.details.sowo({gameId:status.selectedGameId, courseId:status.selectedCourseId})">
               Go to <strong>Shout Out! Watch Out! Report</strong>
             </button>
           </div>

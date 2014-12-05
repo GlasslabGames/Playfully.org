@@ -56,18 +56,76 @@
       <footer class="footer gl-footer"
         ng-if="!hideWrapper"
         ng-class="{'gl-footer-student': isAuthorized('student'),
-          'gl-footer--home': state.includes('home')}">
+          'gl-footer--home': state.includes('root.home')}">
         <div class="container">
-            <div class="gl-footer-nav text-center">
+          <div class="row">
+            <div class="col-md-4_5 text-center">
+              <div class="gl-footer-logo"></div>
+              GlassLab creates and enables high-impact<br>
+              games that make learning visible.
+            </div>
+            <div class="col-md-1_5">
+              <h5>About Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="http://about.glasslabgames.org/">Company</a></li>
+                <li><a href="http://about.glasslabgames.org/news/">Press</a></li>
+                <li><a href="http://about.glasslabgames.org/about/#careers">Careers</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Get Involved</h5>
+              <ul class="gl-footer-list">
+                <li><a href="http://about.glasslabgames.org/community/">Teacher Network</a></li>
+                <li><a href="http://about.glasslabgames.org/community/">District Network</a></li>
+                <li><a href="http://about.glasslabgames.org/donate/">Donate</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Get to Know Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="http://about.glasslabgames.org/blog/news/">Read Our Blog</a></li>
+                <li><a href="https://www.facebook.com/glasslabgames">Facebook</a></li>
+                <li><a href="https://twitter.com/glasslabgames">Twitter</a></li>
+                <li><a href="http://google.com/+GlasslabgamesOrg">Google+</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Contact Us</h5>
+              <ul class="gl-footer-list">
+                <li><a href="http://about.glasslabgames.org/about/#contact_us">Contact</a></li>
+              </ul>
+            </div>
+            <div class="col-md-1_5">
+              <h5>Support</h5>
+              <ul class="gl-footer-list">
+                <li><a href="https://glasslab.zendesk.com/hc/en-us">Help Center</a></li>
+              </ul>
+            </div>
+          </div>
+          <hr class="rule rule--grey rule--1" />
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span class="gl-copyright-elem">
+                &copy;2014 GlassLab, Inc. All rights reserved.
+              </span>
+              <span class="gl-copyright-elem">
+                GlassLab is registered as a 501(c)(3) non-profit organization.
+              </span>
+              <span class="gl-copyright-elem">
+                <a ui-sref="root.privacy" href="#">Privacy Policy</a>
+              </span>
+            </div>
+          </div>
+            <!--div class="gl-footer-nav text-center">
                 <a class="gl-footer-link" target="_blank" href="//glasslab.zendesk.com/">Support</a>
                 <a class="gl-footer-link" target="_blank" href="http://about.glasslabgames.org/">About</a>
-                <a class="gl-footer-link" ui-sref="privacy" href="#">Privacy Policy</a>
+                <a class="gl-footer-link" ui-sref="root.privacy" href="#">Privacy Policy</a>
                 <a ng-hide="isAuthorized('student')"
                    class="gl-footer-link" target="_blank" href="https://plus.google.com/117864084582459836584/posts">Community</a>
             </div>
           <div class="text-center gl-copyright">
             &copy; 2014 GlassLab, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;GlassLab is a registered 501c3.
-          </div>
+          </div-->
         </div>
       </footer>
     </div>
