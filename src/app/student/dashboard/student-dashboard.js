@@ -117,10 +117,10 @@ angular.module( 'student.dashboard', [
 
   $scope.goToPlayGame = function(gameId) {
 
-    if (gameDetails.play.type === 'missions') {
+    if ($scope.gamesInfo[gameId].play.type === 'missions') {
       $state.go('modal-lg.missions', {gameId: gameId});
     } else {
-      $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+      $window.location = "/games/" + gameId + "/play-" + $scope.gamesInfo[gameId].play.type;
     }
     // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
     //  $modal.open({
