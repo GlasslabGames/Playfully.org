@@ -38,7 +38,7 @@ angular.module('playfully.password-reset', [])
 
 
     .state('modal.passwordUpdate', {
-      url: 'reset-password/:hashCode',
+      url: '/reset-password/:hashCode',
       views: {
         'modal@': {
           templateUrl: 'password-reset/password-update.html',
@@ -47,8 +47,12 @@ angular.module('playfully.password-reset', [])
       },
       resolve: {
         confirmation: function($stateParams, $log, AuthService) {
+          console.log('confirmation resolve');
           return AuthService.verifyPasswordResetCode($stateParams.hashCode)
-            .then(function(data) { return data;},
+            .then(function(data) {
+                console.log('inside verify password');
+                return data;
+              },
               function(data) { return data; });
         }
       }
@@ -107,7 +111,7 @@ angular.module('playfully.password-reset', [])
   };
 
   $scope.goToInstructorLogin = function() {
-    $state.go('loginInstructor');
+    $state.go('modal.login.instructor');
   };
 
 });
