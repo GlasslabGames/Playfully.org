@@ -20,7 +20,7 @@ angular.module( 'instructor.dashboard', [
         deferred.resolve(active);
         return deferred.promise;
       },
-      games: function(GamesService) { return GamesService.all(); },
+      games: function(GamesService) { return GamesService.active(); },
       myGames: function(GamesService) { return GamesService.getMyGames(); }
     },
     views: {

@@ -305,7 +305,7 @@ angular.module( 'playfully', [
 
 
     if (!$rootScope.allGames) {
-      GamesService.all('minimal').then(function(data) {
+      GamesService.active('minimal').then(function(data) {
         $rootScope.allGames = data;
       });
     }

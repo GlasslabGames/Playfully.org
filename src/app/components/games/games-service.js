@@ -60,6 +60,19 @@ angular.module('games', [])
         });
     },
 
+    active: function (type) {
+      var url = '/dash/games/active';
+      if (type) { url += "/" + type; }
+      return $http
+          .get(API_BASE + url)
+          .then(function (response) {
+            return response.data;
+          }, function (response) {
+            $log.error(response);
+            return response;
+          });
+    },
+
     save: function (gameId) {
       return $http
         .post(API_BASE + '/data/game/' + gameId)
