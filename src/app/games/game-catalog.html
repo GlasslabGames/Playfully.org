@@ -2,7 +2,7 @@
     <h3 class="headline-4--serif">Featured Games</h3>
     <div class="gl-game-catalog-carousel-container gl-margin--V40">
         <carousel interval="5000" class="gl-games-carousel">
-            <slide ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
+            <slide ng-if="game.price!=='Coming Soon'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
                 <img ng-src="/{{game.banners.product}}"
                      class="gl-game-catalog-banner"
                      ui-sref="root.games.detail.product({gameId:game.gameId})">
@@ -23,7 +23,7 @@
                          ng-init="game.hover=false"
                          ng-mouseover="game.hover=true"
                          ng-mouseleave="game.hover=false"
-                         ui-sref="root.games.detail.product({gameId:game.gameId})">
+                         ng-click="goToGameDetail(game.price,game.gameId)">
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
                                 <img ng-src="/{{game.developer.logo.small}}">
@@ -33,7 +33,7 @@
                                 <p>
                                     {{truncateText(game.description,200)}}
                                 </p>
-                                <button class="btn gl-btn--blue">Learn More</button>
+                                <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
                             </div>
                         </div>
                         <div class="gl-game-catalog-game-box-info">

@@ -17,7 +17,7 @@ angular.module( 'student.dashboard', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -44,12 +44,11 @@ angular.module( 'student.dashboard', [
     }
   })
 
-  .state( 'sdkEnrollInCourse', {
-    parent: 'site',
-    url: '/sdk/v2/enroll',
+  .state( 'sdk.sdkEnrollInCourse', {
+    url: '/v2/enroll',
     resolve: {
       games: function (GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function (CoursesService) {
         return CoursesService.getEnrollments();
@@ -117,10 +116,10 @@ angular.module( 'student.dashboard', [
 
   $scope.goToPlayGame = function(gameId) {
 
-    if (gameDetails.play.type === 'missions') {
+    if ($scope.gamesInfo[gameId].play.type === 'missions') {
       $state.go('modal-lg.missions', {gameId: gameId});
     } else {
-      $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+      $window.location = "/games/" + gameId + "/play-" + $scope.gamesInfo[gameId].play.type;
     }
     // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
     //  $modal.open({

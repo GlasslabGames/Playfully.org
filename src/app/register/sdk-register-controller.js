@@ -2,9 +2,8 @@ angular.module('playfully.register-sdk', ['register.const'])
 
 .config(function config($stateProvider, $urlRouterProvider) {
 
-        $stateProvider.state('sdkv2RegisterOptions', {
-            url: '/sdk/v2/game/:gameId/register',
-            parent: 'site',
+        $stateProvider.state('sdk.sdkv2RegisterOptions', {
+            url: '/v2/game/:gameId/register',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -13,9 +12,8 @@ angular.module('playfully.register-sdk', ['register.const'])
                 }
             }
         })
-        .state('sdkv2RegisterInstructor', {
-            url: '/sdk/v2/game/:gameId/register/instructor',
-            parent: 'site',
+        .state('sdk.sdkv2RegisterInstructor', {
+            url: '/v2/game/:gameId/register/instructor',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -24,9 +22,8 @@ angular.module('playfully.register-sdk', ['register.const'])
                 }
             }
         })
-        .state('sdkv2RegisterStudent', {
-            url: '/sdk/v2/game/:gameId/register/student',
-            parent: 'site',
+        .state('sdk.sdkv2RegisterStudent', {
+            url: '/v2/game/:gameId/register/student',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -35,9 +32,8 @@ angular.module('playfully.register-sdk', ['register.const'])
                 }
             }
         })
-        .state('sdkv2RegisterStudentSuccess', {
-            url: '/sdk/register/student/success',
-            parent: 'site',
+        .state('sdk.sdkv2RegisterStudentSuccess', {
+            url: '/register/student/success',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -46,9 +42,8 @@ angular.module('playfully.register-sdk', ['register.const'])
                 }
             }
         })
-        .state('sdkv2RegisterPlayfullyInfo', {
-            url: '/sdk/v2/game/:gameId/register/playfully/info',
-            parent: 'site',
+        .state('sdk.sdkv2RegisterPlayfullyInfo', {
+            url: '/v2/game/:gameId/register/playfully/info',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -203,7 +198,7 @@ angular.module('playfully.register-sdk', ['register.const'])
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
                     if ($state.current.data.hideWrapper) {
-                        $state.go('sdkv2LoginStudentSuccess', {gameId: $scope.gameId});
+                        $state.go('sdk.sdkv2LoginStudentSuccess', {gameId: $scope.gameId});
                     }
                 })
                 .error(function (data, status, headers, config) {
