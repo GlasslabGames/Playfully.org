@@ -2,9 +2,8 @@ angular.module('playfully.login-sdk', [])
 
 .config(function config($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('sdkv2LoginOptions', {
-            url: '/sdk/v2/game/:gameId/login',
-            parent: 'site',
+        .state('sdk.sdkv2LoginOptions', {
+            url: '/v2/game/:gameId/login',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -13,9 +12,8 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2LoginInstructor', {
-            url: '/sdk/v2/game/:gameId/login/instructor',
-            parent: 'site',
+        .state('sdk.sdkv2LoginInstructor', {
+            url: '/v2/game/:gameId/login/instructor',
             data: {hideWrapper: true},
             views: {
                 'main@': {
@@ -24,9 +22,8 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2LoginStudentSuccess', {
-            url: '/sdk/v2/game/:gameId/login/student-success',
-            parent: 'site',
+        .state('sdk.sdkv2LoginStudentSuccess', {
+            url: '/v2/game/:gameId/login/student-success',
             data: {hideWrapper: true, authorizedRoles: ['student']},
             views: {
                 'main@': {
@@ -40,9 +37,8 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2LoginInstructorSuccess', {
-            url: '/sdk/v2/game/:gameId/login/instructor-success',
-            parent: 'site',
+        .state('sdk.sdkv2LoginInstructorSuccess', {
+            url: '/v2/game/:gameId/login/instructor-success',
             data: {hideWrapper: true, authorizedRoles: ['instructor', 'admin']},
             views: {
                 'main@': {
@@ -51,9 +47,8 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2PasswordPrompt', {
-            url: '/sdk/v2/login/confirm',
-            parent: 'site',
+        .state('sdk.sdkv2PasswordPrompt', {
+            url: '/v2/login/confirm',
             data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin']},
             views: {
                 'main@': {
@@ -67,9 +62,8 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2LoginResetData', {
-            url: '/sdk/v2/login/resetdata',
-            parent: 'site',
+        .state('sdk.sdkv2LoginResetData', {
+            url: '/v2/login/resetdata',
             data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin']},
             views: {
                 'main@': {
@@ -83,12 +77,11 @@ angular.module('playfully.login-sdk', [])
                 }
             }
         })
-        .state('sdkv2Logout', {
-            parent: 'site',
-            url: '/sdk/v2/logout',
+        .state('sdk.sdkv2Logout', {
+            url: '/v2/logout',
             onEnter: function ($state, AuthService) {
                 AuthService.logout().then(function () {
-                    $state.transitionTo('sdkv2LoginOptions');
+                    $state.transitionTo('sdk.sdkv2LoginOptions');
                 });
             }
         });
@@ -109,9 +102,9 @@ angular.module('playfully.login-sdk', [])
                 .then(function (result) {
                     $scope.loginForm.isSubmitting = false;
                     if (result.data.role === "student") {
-                        $state.go('sdkv2LoginStudentSuccess', {gameId: $stateParams.gameId});
+                        $state.go('sdk.sdkv2LoginStudentSuccess', {gameId: $stateParams.gameId});
                     } else {
-                        $state.go('sdkv2LoginInstructorSuccess', {gameId: $stateParams.gameId});
+                        $state.go('sdk.sdkv2LoginInstructorSuccess', {gameId: $stateParams.gameId});
                     }
 
                 }, function (result) {
@@ -161,7 +154,7 @@ angular.module('playfully.login-sdk', [])
     function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
         $scope.resetProgressConfirm = false;
         if (!currentUser) {
-            $state.transitionTo('sdkv2LoginOptions');
+            $state.transitionTo('sdk.sdkv2LoginOptions');
         } else {
             $scope.credentials = {
                 username: currentUser.username,
