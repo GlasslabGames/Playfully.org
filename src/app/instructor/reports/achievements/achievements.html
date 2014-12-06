@@ -6,7 +6,7 @@
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
-      ui-sref="reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents(activeCourse)})"
+      ui-sref="root.reports.details.achievements({achvTitle: achv.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:achv.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="achv.title | translate"></label>
   </div>
 </div>

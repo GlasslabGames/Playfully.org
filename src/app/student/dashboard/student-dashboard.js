@@ -3,9 +3,8 @@ angular.module( 'student.dashboard', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'studentDashboard', {
-    // parent: 'site',
-    url: '/home',
+  $stateProvider.state('root.studentDashboard', {
+    url: 'home',
     views: {
       'main@': {
         controller: 'DashboardStudentCtrl',
@@ -18,31 +17,15 @@ angular.module( 'student.dashboard', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
       }
     }
   })
-  .state( 'studentDashboardModal', {
-    abstract: true,
-    parent: 'studentDashboard',
-    url: '',
-    onEnter: function($rootScope, $modal, $state) {
-      $rootScope.modalInstance = $modal.open({
-        template: '<div ui-view="modal"></div>',
-        size: 'sm',
-        keyboard: false
-      });
 
-      $rootScope.modalInstance.result.finally(function(result) {
-        return $state.transitionTo('studentDashboard');
-      });
-    }
-  })
-  .state( 'enrollInCourse', {
-    parent: 'studentDashboardModal',
+  .state( 'modal.enrollInCourse', {
     url: '/enroll',
     views: {
       'modal@': {
@@ -53,15 +36,19 @@ angular.module( 'student.dashboard', [
     data:{
       pageTitle: 'Add a Class Code',
       authorizedRoles: ['student']
+    },
+    resolve: {
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
     }
   })
 
-  .state( 'sdkEnrollInCourse', {
-    parent: 'site',
-    url: '/sdk/v2/enroll',
+  .state( 'sdk.sdkEnrollInCourse', {
+    url: '/v2/enroll',
     resolve: {
       games: function (GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function (CoursesService) {
         return CoursesService.getEnrollments();
@@ -80,73 +67,82 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games) {
+.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games, DetectionSvc) {
+  $scope.currentOS = null;
+
+  if (DetectionSvc.getOSSupport().supported) {
+    $scope.currentOS = DetectionSvc.getOSSupport().identity;
+  }
+
   $scope.courses = courses;
   $scope.gamesInfo = {};
+
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });
 
+  /**
+   * This method has been updated to cache the result of whether a particular game
+   * has valid links, to avoid doing a lot of the previous looping.
+   **/
   $scope.hasLinks = function(gameId) {
-    if($scope.gamesInfo[gameId].buttons) {
-      for(var i = 0; i < $scope.gamesInfo[gameId].buttons.length; i++){
-        if( $scope.isValidLinkType($scope.gamesInfo[gameId].buttons[i]) ) {
-          return true;
-        }
+    var game = $scope.gamesInfo[gameId];
+    if (_.has(game, 'hasLinks')) {
+      return game.hasLinks;
+    } else {
+      var result = false;
+      if (game.buttons) {
+        result = _.any(game.buttons, function(button) {
+          return $scope.isValidLinkType(button);
+        });
+        $scope.gamesInfo[gameId].hasLinks = result;
+        return result;
       }
     }
-
-    return false;
   };
 
   $scope.isValidLinkType = function(button) {
-    if( (button.type == 'play' || button.type == 'download') &&
-         button.links &&
-        ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)) ) {
-      return true;
-    }
-    return false;
+    return ((button.type == 'play' || button.type == 'download') &&
+         button.links && ($scope.isSingleLinkType(button) || $scope.isMultiLinkType(button)));
   };
 
   $scope.isSingleLinkType = function(button) {
-    if(button.links && button.links.length == 1) {
-      return true;
-    }
-    return false;
+    return (button.links && button.links.length == 1);
   };
 
   $scope.isMultiLinkType = function(button) {
-    if(button.links && button.links.length > 1) {
-      return true;
-    }
-    return false;
+    return (button.links && button.links.length > 1);
   };
 
   $scope.goToPlayGame = function(gameId) {
 
-    // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
-    if($scope.gamesInfo[gameId].play.type == 'missions') {
-      $modal.open({
-        size: 'lg',
-        keyboard: false,
-        data:{
-          parentState: 'studentDashboard'
-        },
-        resolve: {
-          gameMissions: function(GamesService) {
-            return GamesService.getGameMissions(gameId);
-          },
-          gameId: function(){
-            return gameId;
-          }
-        },
-        templateUrl: 'games/game-play-missions.html',
-        controller: 'GameMissionsModalCtrl'
-
-      });
+    if ($scope.gamesInfo[gameId].play.type === 'missions') {
+      $state.go('modal-lg.missions', {gameId: gameId});
     } else {
-      $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+      $window.location = "/games/" + gameId + "/play-" + $scope.gamesInfo[gameId].play.type;
     }
+    // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
+    //  $modal.open({
+    //    size: 'lg',
+    //    keyboard: false,
+    //    data:{
+    //      parentState: 'studentDashboard'
+    //    },
+    //    resolve: {
+    //      gameMissions: function(GamesService) {
+    //        return GamesService.getGameMissions(gameId);
+    //      },
+    //      gameId: function(){
+    //        return gameId;
+    //      }
+    //    },
+    //    templateUrl: 'games/game-play-missions.html',
+    //    controller: 'GameMissionsModalCtrl'
+    //
+    //  });
+    //} else {
+    //  $window.location = "/games/"+gameId+"/play-"+$scope.gamesInfo[gameId].play.type;
+    //}
   };
   $scope.goToLink = function(link) {
     $window.open(link);
@@ -197,9 +193,9 @@ angular.module( 'student.dashboard', [
       $scope.enrollment.errors = [];
       CoursesService.enroll(enrollment.courseCode)
         .success(function(data, status, headers, config) {
-          $rootScope.modalInstance.close();
+          $scope.close();
           return $timeout(function () {
-            $state.go('studentDashboard', {}, { reload: true });
+            $state.go($state.current, {}, {reload: true});
           }, 100);
         })
         .error(function(data, status, config) {
@@ -207,17 +203,4 @@ angular.module( 'student.dashboard', [
         });
     };
 
-    $scope.closeModal = function() {
-      $scope.$close(true);
-      return $timeout(function () {
-        $state.go('studentDashboard', {}, { reload: true });
-      }, 100);
-    };
-
 });
-
-
-
-
-
-

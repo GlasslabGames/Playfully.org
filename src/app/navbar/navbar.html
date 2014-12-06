@@ -4,26 +4,28 @@
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthenticatedButNot('student')"
-      ui-sref="instructorDashboard.default"></div>
+      ui-sref="root.instructorDashboard.default"></div>
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthorized('student')"
-      ui-sref="studentDashboard"></div>
+      ui-sref="root.studentDashboard"></div>
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
-      ui-sref="home"></div>
+      ui-sref="root.home"></div>
     <div class="nav navbar-nav navbar-right">
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="home"
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.home"
             data-ng-bind="'navbar.link.home' | translate">
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('games')}">
-          <div data-ng-include="'navbar/navbar-games.html'"></div>
+        <li ng-class="{'active': state.includes('root.games.catalog')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog"
+             data-ng-bind="'navbar.link.games' | translate">
+          </a>
         </li>
 
         <li ui-sref-active="active">
@@ -52,7 +54,7 @@
 
       <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="studentDashboard"
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.studentDashboard"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
@@ -64,24 +66,26 @@
 
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')">
-        <li ng-class="{'active': state.includes('instructorDashboard')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="instructorDashboard.default"
+        <li ng-class="{'active': state.includes('root.instructorDashboard')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.instructorDashboard.default"
             data-ng-bind="'navbar.link.dashboard' | translate">
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('games')}">
-          <div data-ng-include="'navbar/navbar-games.html'"></div>
+        <li ng-class="{'active': state.includes('root.games.catalog')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog"
+             data-ng-bind="'navbar.link.games' | translate">
+          </a>
         </li>
 
-        <li ng-class="{'active': state.includes('courses')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="courses"
+        <li ng-class="{'active': state.includes('root.courses')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.courses"
             data-ng-bind="'navbar.link.classes' | translate">
           </a>
         </li>
 
-        <li ng-class="{'active': state.includes('reports')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="reports.default"
+        <li ng-class="{'active': state.includes('root.reports')}">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.reports.default"
             data-ng-bind="'navbar.link.reports' | translate">
           </a>
         </li>

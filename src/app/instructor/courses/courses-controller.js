@@ -7,232 +7,211 @@ angular.module( 'instructor.courses', [
 ])
 
 .config(function ( $stateProvider, USER_ROLES) {
-  $stateProvider.state('courses', {
+  $stateProvider.state('root.courses', {
     /* Use regex to capture optional courseStatus (archived vs other) */
-    url: '/classes{courseStatus:(?:/[^/]+)?}',
+    url: 'classes',
     data: {
       pageTitle: 'Classes',
       authorizedRoles: ['instructor','manager','developer','admin']
     },
     views: {
-      'main': {
+      'main@': {
         templateUrl: 'instructor/courses/courses.html',
         controller: 'CoursesCtrl'
       }
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all();
+        return GamesService.active();
       },
-      courses: function(CoursesService) {
-        return CoursesService.getEnrollmentsWithStudents();
+      courses: function(CoursesService, $filter) {
+        return CoursesService.getEnrollments()
+          .then(function(response) {
+            return $filter('filter')(response, { archived: false });
+          });
       }
     }
   })
+  .state('root.courses.archived', {
+    url: '/archived',
+    data: {
+      pageTitle: 'Archived Classes',
+      authorizedRoles: ['instructor','manager','developer','admin']
+    },
+    views: {
+      'main@': {
+        templateUrl: 'instructor/courses/courses.html',
+        controller: 'CoursesCtrl'
+      }
+    },
+    resolve: {
+      games: function(GamesService) {
+        return GamesService.active();
+      },
+      courses: function(CoursesService, $filter) {
+        return CoursesService.getEnrollments()
+          .then(function(response) {
+            return $filter('filter')(response, { archived: true });
+          });
+      }
+    }
 
-  .state( 'newCourse', {
-    parent: 'courses',
-    url: '/new',
+  })
+
+  .state('modal-lg.newCourse', {
+    url: '/classes/new',
     data:{
       pageTitle: 'New Course',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          games: function(GamesService) {
-            return GamesService.all();
-          },
-          courses: function(CoursesService) {
-            return CoursesService.getEnrollments();
-          }
-        },
+    resolve: {
+      games: function(GamesService) {
+        return GamesService.active();
+      },
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/new-course.html',
         controller: 'NewCourseModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+      }
     }
   })
-
-  .state( 'archiveCourse', {
-    parent: 'courses',
-    url: '/:id/archive',
+  .state('modal-lg.archiveCourse', {
+    url: '/courses/:id/archive',
     data: {
       pageTitle: 'Archive Class',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function($stateParams, CoursesService) {
-            return CoursesService.get(courseId);
-          }
-        },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/archive-course.html',
         controller: 'UpdateCourseModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+      }
     }
   })
 
-  .state( 'unarchiveCourse', {
-    parent: 'courses',
-    url: '/:id/unarchive',
+  .state( 'modal-lg.unarchiveCourse', {
+    url: '/classes/:id/unarchive',
     data: {
       pageTitle: 'Unarchive Class',
       authorizedRoles: ['instructor','manager','developer','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId);
-          }
-        },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/archive-course.html',
         controller: 'UpdateCourseModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.go('courses', {courseStatus:'/archived'},{ reload: true });
-      });
+      }
     }
   })
 
-  .state( 'lockCourse', {
-    parent: 'courses',
-    url: '/:id/lock',
+  .state( 'modal-lg.lockCourse', {
+    url: '/classes/:id/lock',
     data: {
       pageTitle: 'Lock Course',
       authorizedRoles: ['instructor','manager','admin'],
       actionType: 'lock'
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId);
-          }
-        },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/lock-course.html',
         controller: 'UpdateCourseModalCtrl'
-
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+      }
     }
   })
 
-  .state( 'unlockCourse', {
-    parent: 'courses',
-    url: '/:id/unlock',
+  .state( 'modal-lg.unlockCourse', {
+    url: '/classes/:id/unlock',
     data: {
       pageTitle: 'Unlock Course',
       authorizedRoles: ['instructor','manager','admin'],
       actionType: 'unlock'
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId);
-          }
-        },
+    resolve: {
+      course: function($stateParams,CoursesService) {
+        return CoursesService.get($stateParams.id);
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/lock-course.html',
         controller: 'UpdateCourseModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+      }
     }
   })
 
-  .state( 'editCourse', {
-    parent: 'courses',
-    url: '/:id/edit',
+  .state( 'modal-lg.editCourse', {
+    url: '/classes/:id/edit',
     data: {
       pageTitle: 'Edit Class Info',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function($stateParams, CoursesService) {
-            return CoursesService.get(courseId);
-          }
-        },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      },
+      courses: function(CoursesService) {
+        return CoursesService.getEnrollments();
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/edit-course.html',
-        controller: 'UpdateCourseModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+        controller: 'EditCourseModalCtrl'
+      }
     }
   })
 
-  .state( 'assignGamesToCourse', {
-    parent: 'courses',
-    url: '/:id/games',
+  .state('modal-lg.assignGamesToCourse', {
+    url: '/classes/:id/games',
     data: {
       pageTitle: 'Assign Games',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function($stateParams, CoursesService) {
-            return CoursesService.get(courseId);
-          },
-          games: function(GamesService) {
-            return GamesService.all();
-          }
-        },
+    resolve: {
+      course: function($stateParams, CoursesService) {
+        return CoursesService.get($stateParams.id);
+      },
+      games: function(GamesService) {
+        return GamesService.active();
+      }
+    },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/assign-games.html',
         controller: 'AssignGamesModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('courses', null, {reload: true});
-      });
+      }
     }
   })
 
-  .state( 'showStudentList', {
-    parent: 'courses',
+  .state( 'root.courses.showStudentList', {
     url: '/:id/students',
     data: {
       pageTitle: 'View Student List',
       authorizedRoles: ['instructor','manager','admin']
+    },
+    resolve: {
+      students: function(CoursesService, $stateParams) {
+        return CoursesService.getWithStudents($stateParams.id)
+          .then(function(response) { return response.users; });
+      }
     },
     views: {
       'studentList': {
@@ -242,86 +221,89 @@ angular.module( 'instructor.courses', [
     }
   })
 
-  .state( 'unenrollStudent', {
-    parent: 'showStudentList',
-    url: '/:studentId/unenroll',
+  .state( 'root.courses.archived.showStudentList', {
+    url: '/:id/students',
+    data: {
+      pageTitle: 'View Student List',
+      authorizedRoles: ['instructor','manager','admin']
+    },
+    resolve: {
+      students: function(CoursesService, $stateParams) {
+        return CoursesService.getWithStudents($stateParams.id)
+          .then(function(response) { return response.users; });
+      }
+    },
+    views: {
+      'studentList': {
+        templateUrl: 'instructor/courses/student-list.html',
+        controller: 'StudentListCtrl'
+      }
+    }
+  })
+
+
+  .state( 'modal-lg.unenrollStudent', {
+    url: '/classes/:id/students/:studentId/unenroll',
     data:{
       pageTitle: 'Unenroll Student',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var studentId = $stateParams.studentId;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId);
-          },
-          student: function(UserService) {
-            return UserService.getById($stateParams.studentId)
-              .then(function(response) {
-                if (response.status < 300) {
-                  return response.data;
-                } else {
-                  return response;
-                }
-              });
-          }
-        },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/student-unenroll.html',
         controller: 'UnenrollStudentModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList');
-      });
+      }
+    },
+    resolve: {
+      course: function(CoursesService, $stateParams) {
+        return CoursesService.get($stateParams.id);
+      },
+      student: function(UserService, $stateParams) {
+        return UserService.getById($stateParams.studentId)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      }
     }
   })
 
-  .state( 'editStudent', {
-    parent: 'showStudentList',
-    url: '/:studentId/edit',
+  .state( 'modal-lg.editStudent', {
+    url: '/classes/:id/students/:studentId/edit',
     data:{
       pageTitle: 'Edit Student Information',
       authorizedRoles: ['instructor','manager','admin']
     },
-    onEnter: function($stateParams, $state, $modal) {
-      var courseId = $stateParams.id;
-      var studentId = $stateParams.studentId;
-      var modalInstance = $modal.open({
-        size: 'lg',
-        keyboard: false,
-        resolve: {
-          course: function(CoursesService) {
-            return CoursesService.get(courseId)
-              .then(function(response) {
-                if (response.status < 300) {
-                  return response.data;
-                } else {
-                  return response;
-                }
-              });
-          },
-          student: function(UserService) {
-            return UserService.getById(studentId)
-              .then(function(response) {
-                if (response.status < 300) {
-                  return response.data;
-                } else {
-                  return response;
-                }
-              });
-          }
-        },
+    views: {
+      'modal@': {
         templateUrl: 'instructor/courses/student-edit.html',
         controller: 'EditStudentModalCtrl'
-      });
-
-      modalInstance.result.finally(function(result) {
-        return $state.transitionTo('showStudentList');
-      });
+      }
+    },
+    resolve: {
+      course: function(CoursesService, $stateParams) {
+        return CoursesService.get($stateParams.id)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      },
+      student: function(UserService, $stateParams) {
+        return UserService.getById($stateParams.studentId)
+          .then(function(response) {
+            if (response.status < 300) {
+              return response.data;
+            } else {
+              return response;
+            }
+          });
+      }
     }
   })
 
@@ -389,11 +371,12 @@ angular.module( 'instructor.courses', [
 
 
 .controller( 'CoursesCtrl',
-  function ($scope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
+
     $scope.courses = courses;
-    $scope.activeCourses = $filter('filter')($scope.courses, { archived: false });
-    $scope.archivedCourses = $filter('filter')($scope.courses, { archived: true });
-    $scope.showArchived = ($state.params.courseStatus == '/archived');
+
+    // Decide whether to show active or archived courses
+    $scope.showArchived = !!$state.includes('root.courses.archived');
     $scope.courseKey = -1;
     $scope.gamesInfo = {};
     angular.forEach(games, function(game) {
@@ -403,6 +386,31 @@ angular.module( 'instructor.courses', [
     $scope.showCourseEdit = function(course) {
       return (course && !course.archived && (course.lmsType == 'glasslab'));
     };
+
+    $scope.collapseList = function() {
+      $timeout(function() {
+        angular.forEach($scope.courses, function (course) {
+          course.isOpen = false;
+        });
+      }, 100).then(function() {
+        // We need this timeout to give the list enough time to collapse
+        // before transitioning back to the main courses state.
+        $timeout(function() {
+          if ($scope.showArchived) {
+            $state.go('root.courses.archived'); 
+          } else {
+            $state.go('root.courses'); 
+          }
+        }, 600);
+      });
+    };
+
+    $rootScope.$on('courses:updated', function(event, data) {
+      CoursesService.getEnrollments()
+        .then(function(response) {
+          $state.go($state.current, {}, {reload: true});
+        });
+    });
 
 })
 
@@ -423,7 +431,7 @@ angular.module( 'instructor.courses', [
     games: []
   };
 
-  $scope.existingCourseTitles = _.map(courses, 'title'); 
+  $scope.existingCourseTitles = _.map(courses, 'title');
 
   $scope.reset = function() {
     $scope.course = angular.copy(_emptyCourse);
@@ -452,15 +460,43 @@ angular.module( 'instructor.courses', [
       });
   };
 
-    var _updateCourseCtrl = function () {
-      $scope.courses = courses;
-    };
+  $scope.finish = function() {
+    $rootScope.$broadcast('courses:updated');
+    $scope.close();
+  };
 
   $scope.reset();
 })
 
+.controller( 'EditCourseModalCtrl',
+  function ($scope, $rootScope, $state, $log, $timeout, course, courses, CoursesService) {
+
+    $scope.course = course; 
+    $scope.course.grade = _.map(course.grade, function(gradeStr) { return parseInt(gradeStr); });
+    // Extract a list of course titles to check against for duplicates
+    $scope.existingCourseTitles = _.map(courses, 'title');
+    // Don't include the current course title, since user should be able to
+    // return to previous title state while editing
+    _.remove($scope.existingCourseTitles, function(title) { return title == $scope.course.title; });
+
+    $scope.updateCourse = function (courseData) {
+      CoursesService.update(courseData)
+        .success(function(data, status, headers, config) {
+          $rootScope.$broadcast('courses:updated');
+          $scope.close();
+        })
+        .error(function(data, status, headers, config) {
+          $log.error(data);
+          $scope.error = data.error;
+        });
+    };
+
+})
+
 .controller( 'UpdateCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, $modalInstance, course, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, CoursesService) {
+
+  $scope.course = course;
 
   if ($state.current.data.hasOwnProperty('actionType')) {
     $scope.actionType = $state.current.data.actionType;
@@ -468,25 +504,19 @@ angular.module( 'instructor.courses', [
 
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
-  } else {
-    var gradeNumbersArray = [];
-    angular.forEach(course.grade, function(gradeString) {
-      gradeNumbersArray.push(parseInt(gradeString));
-    });
-    course.grade = angular.copy(gradeNumbersArray);
-    $scope.course = course;
   }
 
-  if ($state.includes('unarchiveCourse')) {
+  if ($state.includes('modal-lg.unarchiveCourse')) {
     $scope.updateType = 'unarchive';
-  } else if ($state.current.name.indexOf('archive') > -1) {
+  } else if ($state.includes('modal-lg.archiveCourse')) {
     $scope.updateType = 'archive';
   }
 
   $scope.archiveCourse = function (courseData) {
     CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
-        $modalInstance.close();
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -496,7 +526,8 @@ angular.module( 'instructor.courses', [
   $scope.unarchiveCourse = function (courseData) {
     CoursesService.unarchive(courseData)
       .success(function(data, status, headers, config) {
-        $modalInstance.close();
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -506,7 +537,8 @@ angular.module( 'instructor.courses', [
   $scope.lockCourse = function (courseData) {
     CoursesService.lock(courseData)
       .success(function(data, status, headers, config) {
-        $modalInstance.close();
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -516,28 +548,18 @@ angular.module( 'instructor.courses', [
   $scope.unlockCourse = function (courseData) {
     CoursesService.unlock(courseData)
       .success(function(data, status, headers, config) {
-        $modalInstance.close();
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
-      });
-  };
-
-  $scope.updateCourse = function (courseData) {
-    CoursesService.update(courseData)
-      .success(function(data, status, headers, config) {
-        $modalInstance.close();
-      })
-      .error(function(data, status, headers, config) {
-        $log.error(data);
-        $scope.error = data.error;
       });
   };
 
 })
 
 .controller( 'AssignGamesModalCtrl',
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, $modalInstance, course, games, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
   /* TODO: Clean this up. */
 
   _gamesById = {};
@@ -568,7 +590,8 @@ angular.module( 'instructor.courses', [
   $scope.updateCourse = function (courseData) {
     CoursesService.updateGames(courseData)
       .success(function(data, status, headers, config) {
-        $modalInstance.close();
+        $rootScope.$broadcast('courses:updated');
+        $scope.close();
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
@@ -578,15 +601,12 @@ angular.module( 'instructor.courses', [
 })
 
 .controller('StudentListCtrl',
-  function ($scope, $rootScope, $state, $stateParams, $timeout, $log) {
+  function ($scope, $rootScope, $state, $stateParams, $timeout, $log, students, CoursesService) {
+    $scope.students = students;
     var activeCourses = $scope.$parent.courses;
 
     var hasOpenCourse = function(courses) {
-      var result = false;
-      angular.forEach(courses, function (course) {
-        if (course.isOpen) { result = true; }
-      });
-      return result;
+      return _.any(courses, function(course) { return _.has(course, 'isOpen'); });
     };
 
     var getOpenCourseId = function(courses) {
@@ -597,33 +617,31 @@ angular.module( 'instructor.courses', [
       return openCourseId;
     };
 
+    $rootScope.$on('student:updated', function(event, args) {
+      CoursesService.getWithStudents($stateParams.id)
+        .then(function(response) {
+          $scope.students = response.users;
+        });
+    });
+
     if (!hasOpenCourse(activeCourses)) {
       angular.forEach(activeCourses, function (course) {
         $timeout(function() {
           course.isOpen = (course.id == $stateParams.id);
-        }, 100);
+        }, 10);
       });
     } else if (getOpenCourseId(activeCourses) != $stateParams.id) {
       angular.forEach(activeCourses, function (course) {
         $timeout(function() {
           course.isOpen = (course.id == $stateParams.id);
-        }, 100);
+        }, 10);
       });
     }
 
-    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-      if (toState.name === 'courses') {
-        $timeout(function() {
-          angular.forEach(activeCourses, function (course) {
-            course.isOpen = false;
-          });
-        }, 100);
-      }
-    });
   })
 
 .controller('UnenrollStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, $modalInstance, course, student, CoursesService) {
+  function($scope, $rootScope, $state, $log, $timeout, course, student, CoursesService) {
     if (course.status < 300) {
       $scope.course = course.data;
     }
@@ -633,9 +651,11 @@ angular.module( 'instructor.courses', [
     $scope.unenroll = function(course, student) {
       CoursesService.unenrollUser(course.id, student.id)
         .success(function(data, status, headers, config) {
-          $modalInstance.close();
+          $rootScope.$broadcast('student:updated');
+          $scope.close();
         })
         .error(function(data, status, headers, config) {
+          $scope.error = data.error;
           $log.error(data);
         });
     };
@@ -643,17 +663,19 @@ angular.module( 'instructor.courses', [
 })
 
 .controller('EditStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, $modalInstance, course, student, UserService) {
+  function($scope, $rootScope, $state, $log, $timeout, course, student, UserService) {
     $scope.course = course;
     $scope.student = student;
 
     $scope.editInfo = function(student) {
       UserService.update(student, false)
         .success(function(data, status, headers, config) {
-          $modalInstance.close();
+          $rootScope.$broadcast('student:updated');
+          $scope.close();
         })
         .error(function(data, status, headers, config) {
           $log.error(data);
+          $scope.error = data.error;
         });
     };
 

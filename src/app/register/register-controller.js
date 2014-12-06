@@ -6,9 +6,12 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register.html',
     controller: 'RegisterOptionsModalCtrl'
   };
-  $stateProvider.state('registerOptions', {
+  $stateProvider.state('modal.register', {
     url: '/register',
     parent: 'modal',
+    data: {
+      modalSize: 'lg'
+    },
     views: { 'modal@': {
       templateUrl: 'register/register-options.html',
       controller: 'RegisterOptionsModalCtrl'
@@ -20,14 +23,12 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-instructor.html',
     controller: 'RegisterInstructorCtrl'
   };
-  $stateProvider.state('registerInstructor', {
-    url: 'register/instructor',
-    parent: 'modal',
+  $stateProvider.state('modal.register.instructor', {
+    url: '/instructor',
     views: { 'modal@': registerInstructorConfig }
   })
-  .state('sdkRegisterInstructor', {
-    url: '/sdk/register/instructor',
-    parent: 'site',
+  .state('sdk.sdkRegisterInstructor', {
+    url: '/register/instructor',
     data: { hideWrapper: true },
     views: { 'main@': registerInstructorConfig }
   });
@@ -37,21 +38,18 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-student.html',
     controller: 'RegisterStudentModalCtrl'
   };
-  $stateProvider.state('registerStudent', {
-    url: 'register/student',
-    parent: 'modal',
+  $stateProvider.state('modal.register.student', {
+    url: '/student',
     views: { 'modal@': registerStudentConfig } 
   })
-  .state('sdkRegisterStudent', {
-    url: '/sdk/register/student',
-    parent: 'site',
+  .state('sdk.sdkRegisterStudent', {
+    url: '/register/student',
     data: { hideWrapper: true },
     views: { 'main@': registerStudentConfig }
   })
 
-  .state('sdkRegisterStudentSuccess', {
-    url: '/sdk/register/student/success',
-    parent: 'site',
+  .state('sdk.sdkRegisterStudentSuccess', {
+    url: '/register/student/success',
     data: { hideWrapper: true },
     views: { 'main@': {
         templateUrl: 'register/v2/sdk-register-student-success.html',
@@ -64,9 +62,8 @@ angular.module('playfully.register', ['register.const'])
     templateUrl: 'register/register-developer.html',
     controller: 'RegisterDeveloperCtrl'
   };
-  $stateProvider.state('registerDeveloper', {
-    url: 'register/developer',
-    parent: 'modal',
+  $stateProvider.state('modal.register.developer', {
+    url: '/developer',
     views: { 'modal@': registerDeveloperConfig }
   });
 
@@ -226,7 +223,7 @@ angular.module('playfully.register', ['register.const'])
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
                 if ($state.current.data.hideWrapper) {
-                    $state.go('sdkv2LoginStudentSuccess');
+                    $state.go('sdk.sdkv2LoginStudentSuccess');
                 }
             })
             .error(function (data, status, headers, config) {
@@ -250,7 +247,7 @@ angular.module('playfully.register', ['register.const'])
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
 
             if ($state.current.data.hideWrapper) {
-              $state.go('sdkRegisterStudentSuccess');
+              $state.go('sdk.sdkRegisterStudentSuccess');
             }
           })
           .error(function(data, status, headers, config) {

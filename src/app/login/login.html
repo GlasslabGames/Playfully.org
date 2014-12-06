@@ -47,7 +47,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--instructor"
-        ng-click="state.go(hideWrapper ? 'sdkLoginInstructor' : 'loginInstructor')">
+        ng-click="state.go(hideWrapper ? 'sdk.sdkLoginInstructor' : 'modal.login.instructor')">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--glasslabgames"></div>
@@ -61,7 +61,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--student"
-        ng-click="state.go(hideWrapper ? 'sdkLoginStudent' : 'loginStudent')">
+        ng-click="state.go(hideWrapper ? 'sdk.sdkLoginStudent' : 'modal.login.student')">
         <!-- ui-sref="loginStudent" -->
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
@@ -79,7 +79,7 @@
     Don&rsquo;t have an account?
     <a href="#"
       class="link-register"
-      ng-click="state.go('registerOptions')">Create an Account</a>
+      ng-click="state.go('modal.register')">Create an Account</a>
   </div>
 </div>
 

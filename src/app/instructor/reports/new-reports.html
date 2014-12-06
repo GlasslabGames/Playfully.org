@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-md-10">
         Class:
-        <div class="btn-group" dropdown is-open="course.isOpen">
+        <div class="btn-group" dropdown is-open="courses.isOpen">
           <button type="button"
                   class="btn btn-default gl-reports-dropdown--course"
                   ng-click="toggleDropdown($event, 'courses')"
@@ -86,7 +86,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="gl-reports-header" ng-show="reports.selected.header.skinny">
-          <img src="/{{reports.selected.header.skinny}}">
+          <img src="/{{reports.selected.header.large}}">
           <div class="gl-reports-header-logo">
             <img src="/{{developer.logo.small}}">
           </div>

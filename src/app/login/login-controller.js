@@ -1,26 +1,23 @@
 angular.module('playfully.login', [])
 
-.config(function config( $stateProvider, $urlRouterProvider ) {
+.config(function config( $stateProvider, $stickyStateProvider, $urlRouterProvider ) {
 
   // Login Options
 
-  $stateProvider.state('loginOptions', {
-    url: 'login',
-    parent: 'modal',
-    views: { 'modal@': {
-      templateUrl: 'login/login.html',
-      controller: 'LoginOptionsCtrl'
-      }
-    },
+  $stateProvider.state('modal.login', {
+    url: '/login',
     data:{ pageTitle: 'Sign In'},
-    onEnter: function($state, $log, ipCookie) {
-      if (ipCookie('inSDK')) {
-        ipCookie.remove('inSDK');
+    views: {
+      'modal@': {
+        templateUrl: 'login/login.html',
+        controller: 'LoginOptionsCtrl'
+      }
     }
-  }})
-  .state('sdkLoginOptions', {
-    url: '/sdk/login',
-    parent: 'site',
+  })
+
+  .state('sdk.sdkLoginOptions', {
+    url: '/login',
+    parent: 'sdk',
     data: { hideWrapper: true },
     views: { 'main@': {
       templateUrl: 'login/v1/sdk-login.html',
@@ -34,9 +31,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-instructor.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginInstructor', {
-    url: 'login/instructor',
-    parent: 'modal',
+  $stateProvider.state('modal.login.instructor', {
+    url: '/instructor',
     views: { 'modal@': loginInstructorConfig },
     data:{ pageTitle: 'Instructor Sign In'}
   });
@@ -46,15 +42,13 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-student.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginStudent', {
-    url: 'login/student',
-    parent: 'modal',
+  $stateProvider.state('modal.login.student', {
+    url: '/student',
     views: { 'modal@': loginStudentConfig },
     data:{ pageTitle: 'Student Sign In'}
   })
-  .state('sdkLoginStudent', {
-    url: '/sdk/login/student',
-    parent: 'site',
+  .state('sdk.sdkLoginStudent', {
+    url: '/login/student',
     data: { hideWrapper: true },
     views: { 'main@': loginStudentConfig }
   });
@@ -101,9 +95,8 @@ angular.module('playfully.login', [])
       }
     }
   })
-  .state('sdkAuthEdmodo', {
-    url: '/sdk/auth/edmodo',
-    parent: 'site',
+  .state('sdk.sdkAuthEdmodo', {
+    url: '/auth/edmodo',
     data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
     views: { 'main@': authEdmodoConfig },
     resolve:  {
@@ -117,9 +110,8 @@ angular.module('playfully.login', [])
   });
 
   // Password Prompt
-  $stateProvider.state('sdkPasswordPrompt', {
-    url: '/sdk/login/confirm',
-    parent: 'site',
+  $stateProvider.state('sdk.sdkPasswordPrompt', {
+    url: '/login/confirm',
     data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
     views: {
       'main@': {
@@ -135,9 +127,8 @@ angular.module('playfully.login', [])
   })
 
   // Login Success
-  .state('sdkLoginSuccess', {
-    url: '/sdk/login/success',
-    parent: 'site',
+  .state('sdk.sdkLoginSuccess', {
+    url: '/login/success',
     data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin'] },
     views: {
       'main@': {
@@ -158,9 +149,8 @@ angular.module('playfully.login', [])
   })
 
   // Reset Login Data
-  .state('sdkLoginResetData', {
-    url: '/sdk/login/resetdata',
-    parent: 'site',
+  .state('sdk.sdkLoginResetData', {
+    url: '/login/resetdata',
     data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
     views: {
       'main@': {
@@ -176,8 +166,7 @@ angular.module('playfully.login', [])
   })
 
   // Logout
-  .state('logout', {
-    parent: 'site',
+  .state('root.logout', {
     url: '/logout',
     resolve: {
       data: function($rootScope, $log, AuthService, AUTH_EVENTS) {
@@ -189,9 +178,8 @@ angular.module('playfully.login', [])
       }
     }
   })
-  .state('sdkLogout', {
-    parent: 'site',
-    url: '/sdk/logout',
+  .state('sdk.sdkLogout', {
+    url: '/logout',
     onEnter: function($state, AuthService) {
       AuthService.logout().then(function() {
         $state.transitionTo('sdkLoginOptions');
@@ -247,7 +235,7 @@ angular.module('playfully.login', [])
       AuthService.login(credentials).then(function(result) {
         $scope.studentLoginForm.isSubmitting = false;
 
-        $state.go('sdkLoginSuccess');
+        $state.go('sdk.sdkLoginSuccess');
 
       }, function(result) {
         $log.error(result);
@@ -265,7 +253,7 @@ angular.module('playfully.login', [])
 .controller('sdkLoginConfirmCtrl',
   function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {
     if (!currentUser) {
-      $state.transitionTo('sdkLoginOptions');
+      $state.transitionTo('sdk.sdkLoginOptions');
     } else {
       $scope.credentials = {
         username: currentUser.username,

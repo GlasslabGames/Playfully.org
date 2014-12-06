@@ -8,6 +8,7 @@ angular.module( 'playfully', [
   'pascalprecht.translate',
   'angularMoment',
   'ui.router',
+  'ct.ui.router.extras',
   'ui.bootstrap',
   'playfully.config',
   'auth',
@@ -35,27 +36,95 @@ angular.module( 'playfully', [
   'student.dashboard-sdk'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
+  $stickyStateProvider.enableDebug(true);
+
   $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
   });
   $locationProvider.hashPrefix('!');
 
-  $urlRouterProvider.rule(function ($injector, $location) {
-    var path = $location.path();
-    var normalized = path.toLowerCase();
+  /*$urlRouterProvider.rule(function ($injector, $location) {
 
     if (path != normalized) {
       //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
       $location.replace().path(normalized);
     }
-  });
+  });*/
 
   $urlRouterProvider.otherwise('/');
-  $stateProvider.state('site', { abstract: true })
 
-  .state( 'sdk', {
+
+  $stateProvider.state('root', {
+    url: '/',
+    abstract: true,
+    sticky: true
+  });
+
+  $stateProvider.state('modal', {
+    abstract: true,
+    onEnter: function ($modal, $previousState, $log) {
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        template: '<div ui-view="modal"></div>',
+        backdrop: 'static',
+        size: 'sm',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['modal']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
+    }
+  });
+
+  $stateProvider.state('modal-lg', {
+    abstract: true,
+    onEnter: function ($modal, $previousState, $log) {
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        template: '<div ui-view="modal"></div>',
+        backdrop: 'static',
+        size: 'lg',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['modal-lg']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
+    }
+  });
+
+
+
+  // $stateProvider.state('site', { abstract: true })
+
+  $stateProvider.state( 'sdk', {
     url: '/sdk',
     onEnter: function($log, $location, ipCookie) {
       var search = $location.search();
@@ -73,10 +142,10 @@ angular.module( 'playfully', [
     }
   })
 
-  .state('privacy', {
-    url: '/privacy',
+  .state('root.privacy', {
+    url: 'privacy',
     views: {
-      "main": {
+      'main@': {
         templateUrl: 'privacy/privacy.html'
       }
     },
@@ -119,22 +188,6 @@ angular.module( 'playfully', [
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }
-  })
-
-  .state( 'modal', {
-    abstract: true,
-    parent: 'home',
-    url: '',
-    onEnter: function($rootScope, $modal, $state) {
-      $rootScope.modalInstance = $modal.open({
-        template: '<div ui-view="modal"></div>',
-        size: 'sm'
-      });
-
-      $rootScope.modalInstance.result.finally(function() {
-        $state.go('home');
-      });
-    }
   });
 })
 
@@ -176,7 +229,7 @@ angular.module( 'playfully', [
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
               if ($rootScope.toState) {
-                if ($rootScope.toState.url == '/' && user && user.role) {
+                if ($rootScope.toState.name == 'root.home' && user && user.role) {
                   if (user.role == 'instructor' ||
                       user.role == 'manager' ||
                       user.role == 'developer'
@@ -185,14 +238,14 @@ angular.module( 'playfully', [
                     if(user.loginType == 'icivics'){
                       $state.go('courses.active');
                     } else {
-                      $state.go('instructorDashboard.default');
+                      $state.go('root.instructorDashboard.default');
                     }
                   } else {
-                    $state.go('studentDashboard');
+                    $state.go('root.studentDashboard');
                   }
                 }
 
-                var authorizedRoles = $rootScope.toState.data.authorizedRoles || null;
+                var authorizedRoles = ($rootScope.toState.data && $rootScope.toState.data.authorizedRoles) || null;
 
                 if (authorizedRoles) {
                   if (AuthService.isAuthorized(authorizedRoles)) {
@@ -252,7 +305,7 @@ angular.module( 'playfully', [
 
 
     if (!$rootScope.allGames) {
-      GamesService.all('minimal').then(function(data) {
+      GamesService.active('minimal').then(function(data) {
         $rootScope.allGames = data;
       });
     }
@@ -282,10 +335,10 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
-      if ($rootScope.modalInstance) {
+      /*if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
-      }
-      $state.go('home', {}, { reload: true });
+      }*/
+      $state.go('root.home');
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
@@ -295,16 +348,16 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
       return $timeout(function () {
-        $location.path('/');
+        $location.path('root.home');
       }, 100);
     });
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-      $state.go('home');
+      $state.go('root.home');
     });
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-      $state.go('home');
+      $state.go('root.home');
     });
 
     $scope.truncateUsername = function (username) {
