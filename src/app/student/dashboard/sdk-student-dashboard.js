@@ -9,7 +9,7 @@ angular.module('student.dashboard-sdk', [
         url: '/sdk/v2/game/:gameId/enroll',
         resolve: {
             games: function (GamesService) {
-                return GamesService.all('details');
+                return GamesService.active('details');
             },
             courses: function (CoursesService) {
                 return CoursesService.getEnrollments();

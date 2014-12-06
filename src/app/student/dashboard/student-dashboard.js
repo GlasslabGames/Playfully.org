@@ -17,7 +17,7 @@ angular.module( 'student.dashboard', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -49,7 +49,7 @@ angular.module( 'student.dashboard', [
     url: '/sdk/v2/enroll',
     resolve: {
       games: function (GamesService) {
-        return GamesService.all('details');
+        return GamesService.active('details');
       },
       courses: function (CoursesService) {
         return CoursesService.getEnrollments();
