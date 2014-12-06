@@ -207,6 +207,12 @@ angular.module( 'playfully.games', [
         if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
       }
 
+      $scope.goToGameDetail = function(price,gameId) {
+        if (price!=='Coming Soon') {
+          $state.go('root.games.detail.product', {gameId: gameId});
+        }
+      };
+
       $scope.truncateText = function (text,limit) {
         if (text.length > limit) {
           var truncated = text.substring(0, limit);

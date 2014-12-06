@@ -44,9 +44,8 @@ angular.module( 'student.dashboard', [
     }
   })
 
-  .state( 'sdkEnrollInCourse', {
-    parent: 'site',
-    url: '/sdk/v2/enroll',
+  .state( 'sdk.sdkEnrollInCourse', {
+    url: '/v2/enroll',
     resolve: {
       games: function (GamesService) {
         return GamesService.active('details');

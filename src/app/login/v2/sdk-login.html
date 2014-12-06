@@ -39,7 +39,7 @@
                 <a ui-sref="passwordReset({type: 'student'})"
                    class="link-forgot-password"
                    ng-if="!hideWrapper">Forgot your password?</a>
-                <a ui-sref="sdkv2PasswordReset({type: 'student'})"
+                <a ui-sref="sdk.sdkv2PasswordReset({type: 'student'})"
                    class="link-forgot-password"
                    ng-if="hideWrapper">
                   Forgot your password?</a>
@@ -66,7 +66,7 @@
     <div class="row">
       <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
         <button class="login-button login-button--instructor"
-                ng-click="state.go(hideWrapper ? 'sdkv2LoginInstructor' : 'loginInstructor', {gameId:gameId})">
+                ng-click="state.go(hideWrapper ? 'sdk.sdkv2LoginInstructor' : 'loginInstructor', {gameId:gameId})">
           <div class="media media--collapsed">
             <div class="media-img media-img--collapsed">
               <div class="login-icon--glasslabgames"></div>
@@ -114,7 +114,7 @@
           Don&rsquo;t have an account?
           <a href="#"
              class="link-register"
-             ng-click="state.go('sdkv2RegisterOptions',{gameId:gameId})">
+             ng-click="state.go('sdk.sdkv2RegisterOptions',{gameId:gameId})">
             <!--ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">-->
             Sign Up</a>
   </div>
