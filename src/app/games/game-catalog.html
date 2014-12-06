@@ -23,6 +23,7 @@
                          ng-init="game.hover=false"
                          ng-mouseover="game.hover=true"
                          ng-mouseleave="game.hover=false"
+                         ng-class="{'no-hover':game.price==='Coming Soon'}"
                          ng-click="goToGameDetail(game.price,game.gameId)">
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
