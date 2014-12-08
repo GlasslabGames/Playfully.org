@@ -136,8 +136,22 @@ angular.module('games', [])
     },
 
     getAllReports: function (gameId) {
+      var _modifyOrderOfReports = function (list) {
+        var dict = {
+          'sowo': 1,
+          'mission-progress': 2,
+          'achievements': 3,
+          'competency': 4
+        };
+        list.sort(function (a, b) {
+          return dict[a.id] - dict[b.id];
+        });
+        return list;
+      };
+      
       return $http.get(API_BASE + '/dash/game/' + gameId + '/reports/all')
         .then (function(response) {
+          response.data.list = _modifyOrderOfReports(response.data.list);
           $log.debug(response);
           return response.data;
         }, function (response) {
