@@ -148,7 +148,7 @@ angular.module('games', [])
         });
         return list;
       };
-      
+
       return $http.get(API_BASE + '/dash/game/' + gameId + '/reports/all')
         .then (function(response) {
           response.data.list = _modifyOrderOfReports(response.data.list);
