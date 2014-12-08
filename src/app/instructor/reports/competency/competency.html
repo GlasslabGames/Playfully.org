@@ -65,8 +65,8 @@
         <div class="gl-reports-competency-table-cell">
           <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
             <div class="gl-reports-competency-circle-large"
-                 ng-class="getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'class')"
-                 popover="{{getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'text')}}"
+                 ng-class="getCompetencyLabelInfo(comp,'class',reportInfo.selectedGroupId)"
+                 popover="{{getCompetencyLabelInfo(comp,'text',reportInfo.selectedGroupId)}}"
                  popover-trigger="mouseenter"
                  popover-placement="bottom"></div>
           </div>
