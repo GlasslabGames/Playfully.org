@@ -374,6 +374,7 @@ angular.module( 'instructor.courses', [
   function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
 
     $scope.courses = courses;
+    $scope.MAX_GAMES_COUNT = 4;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
