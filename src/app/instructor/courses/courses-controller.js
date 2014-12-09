@@ -398,9 +398,9 @@ angular.module( 'instructor.courses', [
         // before transitioning back to the main courses state.
         $timeout(function() {
           if ($scope.showArchived) {
-            $state.go('root.courses.archived'); 
+            $state.go('root.courses.archived');
           } else {
-            $state.go('root.courses'); 
+            $state.go('root.courses');
           }
         }, 600);
       });
@@ -472,7 +472,7 @@ angular.module( 'instructor.courses', [
 .controller( 'EditCourseModalCtrl',
   function ($scope, $rootScope, $state, $log, $timeout, course, courses, CoursesService) {
 
-    $scope.course = course; 
+    $scope.course = course;
     $scope.course.grade = _.map(course.grade, function(gradeStr) { return parseInt(gradeStr); });
     // Extract a list of course titles to check against for duplicates
     $scope.existingCourseTitles = _.map(courses, 'title');
