@@ -188,7 +188,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope,$stateParams,allGamesInfo) {
+    function($scope,$stateParams,allGamesInfo, $state) {
       $scope.allGamesInfo = allGamesInfo;
 
       $scope.freeGames = {name:'Free Games', games: []};
