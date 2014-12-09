@@ -4,7 +4,7 @@
       ng-if="reportInfo.groups.length > 1"
       ng-repeat="group in reportInfo.groups"
       ng-model="reportInfo.selected"
-      ng-class="{'gl-btn--ltgrey': reportInfo.selectedGroupId != group.id,
+      ng-class="{'gl-btn--ltgrey gl-reports-competency-group-selector': reportInfo.selectedGroupId != group.id,
         'gl-btn--blue': reportInfo.selectedGroupId == group.id}"
       ui-sref="root.reports.details.competency({compTitle: group.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:group.id, stdntIds: getSelectedStudents(activeCourse)})"
       ng-bind="group.title | translate"></label>
@@ -65,8 +65,8 @@
         <div class="gl-reports-competency-table-cell">
           <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
             <div class="gl-reports-competency-circle-large"
-                 ng-class="getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'class')"
-                 popover="{{getLabelInfo(comp.groups[reportInfo.selectedGroupId].level,'text')}}"
+                 ng-class="getCompetencyLabelInfo(comp,'class',reportInfo.selectedGroupId)"
+                 popover="{{getCompetencyLabelInfo(comp,'text',reportInfo.selectedGroupId)}}"
                  popover-trigger="mouseenter"
                  popover-placement="bottom"></div>
           </div>

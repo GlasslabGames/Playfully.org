@@ -219,7 +219,17 @@ angular.module( 'instructor.reports')
       }
     };
 
-    $scope.getLabelInfo = function(label,type) {
+    $scope.getCompetencyLabelInfo = function(comp,type,selectedGroupId) {
+        if (comp &&
+            comp.groups &&
+            selectedGroupId) {
+            var label = comp.groups[selectedGroupId].level;
+            return REPORT_CONSTANTS.legend[label][type];
+        } else {
+            return null;
+        }
+    };
+    $scope.getLabelInfo = function(label, type) {
         return REPORT_CONSTANTS.legend[label][type];
     };
 
