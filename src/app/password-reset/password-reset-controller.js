@@ -12,9 +12,8 @@ angular.module('playfully.password-reset', [])
       },
       data:{ pageTitle: 'Forgot Password'}
     })
-    .state('sdkPasswordReset', {
-      url: '/sdk/forgot-password?type',
-      parent: 'site',
+    .state('sdk.sdkPasswordReset', {
+      url: '/forgot-password?type',
       views: {
         'main@': {
           templateUrl: 'password-reset/password-reset.html',
@@ -23,9 +22,8 @@ angular.module('playfully.password-reset', [])
       },
       data:{ hideWrapper: true }
     })
-    .state('sdkv2PasswordReset', {
-      url: '/sdk/v2/forgot-password?type',
-      parent: 'site',
+    .state('sdk.sdkv2PasswordReset', {
+      url: '/v2/forgot-password?type',
       views: {
         'main@': {
           templateUrl: 'password-reset/v2/sdk-password-reset.html',

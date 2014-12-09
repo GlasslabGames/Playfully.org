@@ -23,6 +23,7 @@
                          ng-init="game.hover=false"
                          ng-mouseover="game.hover=true"
                          ng-mouseleave="game.hover=false"
+                         ng-class="{'no-hover':game.price==='Coming Soon'}"
                          ng-click="goToGameDetail(game.price,game.gameId)">
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
@@ -31,7 +32,7 @@
                             <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
                             <div class="gl-game-catalog-game-description" ng-show="game.hover">
                                 <p>
-                                    {{truncateText(game.description,200)}}
+                                    {{truncateText(game.description,250)}}
                                 </p>
                                 <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
                             </div>
