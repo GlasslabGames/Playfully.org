@@ -11,17 +11,24 @@ angular.module( 'instructor.dashboard', [
       pageTitle: 'Dashboard'
     },
     resolve: {
-      courses: function(CoursesService) {
+      courses: function (CoursesService) {
         return CoursesService.getEnrollmentsWithStudents();
       },
-      activeCourses: function(courses, $q, $filter) {
+      activeCourses: function (courses, $q, $filter) {
         var deferred = $q.defer();
         var active = $filter('filter')(courses, {archived: false});
         deferred.resolve(active);
         return deferred.promise;
       },
-      games: function(GamesService) { return GamesService.active(); },
-      myGames: function(GamesService) { return GamesService.getMyGames(); }
+      coursesInfo: function (activeCourses, ReportsService) {
+        return ReportsService.getCourseInfo(activeCourses);
+      },
+      myGames: function (coursesInfo,activeCourses) {
+        if (activeCourses[0]) {
+          return coursesInfo[activeCourses[0].id].games;
+        }
+        return {};
+      }
     },
     views: {
       'main@': {
