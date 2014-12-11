@@ -31,6 +31,7 @@ angular.module('reports', [])
           });
       });
     };
+    // Returns all courses for current user, auguments each course with its available games and reports
     this.getCourseInfo = function(activeCourses) {
         var deferred = $q.defer();
         var courses = {};

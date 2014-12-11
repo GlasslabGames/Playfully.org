@@ -34,19 +34,19 @@ angular.module( 'instructor.dashboard', [
       'main@': {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
         controller: function ($scope, $timeout, $log, myGames) {
-          $scope.myGames = myGames;
-          $scope.showNotification = false;
-
-          $scope.alert = {
-            type: 'gl-notify',
-            msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
-          };
-
-          $timeout(function() { $scope.showNotification = true; }, 1000);
-
-          $scope.hideNotification = function() {
-            $scope.showNotification = false;
-          };
+          //$scope.myGames = myGames;
+          //$scope.showNotification = false;
+          //
+          //$scope.alert = {
+          //  type: 'gl-notify',
+          //  msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
+          //};
+          //
+          //$timeout(function() { $scope.showNotification = true; }, 1000);
+          //
+          //$scope.hideNotification = function() {
+          //  $scope.showNotification = false;
+          //};
         }
       }
     }
@@ -73,6 +73,22 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.gameplay', {
     url: '/game/:gameId/course/:courseId',
+    resolve: {
+      myGames: function ($stateParams, coursesInfo) {
+        // all available games for this course
+        return coursesInfo[$stateParams.courseId].games;
+      },
+      defaultGameId: function ($stateParams, myGames) {
+        var defaultGameId = myGames[0].gameId;
+        // check if current game is in course, if not, set default as first available game.
+        angular.forEach(myGames, function (game) {
+          if (game.gameId === $stateParams.gameId) {
+            defaultGameId = game.gameId;
+          }
+        });
+        return defaultGameId;
+      }
+    },
     templateUrl: 'instructor/dashboard/_new-dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
   });
@@ -80,20 +96,20 @@ angular.module( 'instructor.dashboard', [
 
 
 
-.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, myGames, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = {};
   $scope.myGames = myGames;
-  $scope.watchOuts = null;
-
+  $scope.shoutOuts = [];
+  $scope.watchOuts = [];
+  $scope.averageMissionProgress = null;
 
   $scope.status = {
-    selectedGameId: $stateParams.gameId,
+    selectedGameId: defaultGameId,
     selectedGame: null,
     nextGameId: null,
-    prevGameId: null,
-    selectedReport: null
+    prevGameId: null
   };
 
   // Courses - Setup course options and select course ///////////
@@ -146,16 +162,26 @@ angular.module( 'instructor.dashboard', [
     });
   };
 
-  // gets all reports info for this game, finds sowo, and sets as selected report
   var _getReports = function() {
     GamesService.getAllReports($stateParams.gameId).then(function(data) {
       if (data.list && data.list.length) {
-        $scope.status.selectedReport = _.find(data.list, {'id': 'sowo'}) || null;
-        // gets report data for current game and course
-        if ($scope.status.selectedReport) {
-          ReportsService.get($scope.status.selectedReport.id, $stateParams.gameId, $stateParams.courseId)
-            .then(function(data) { _populateWo(data); },
+        var hasSOWO = _.some(data.list, {'id': 'sowo'});
+        var hasMissionProgress = _.some(data.list, {'id': 'mission-progress'});
+
+        if (hasSOWO) {
+          ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
+            .then(function(data) {
+                _populateSOWO(data); },
               function(data) { $log.error(data); });
+        }
+        if (hasMissionProgress) {
+          ReportsService.get('mission-progress',$stateParams.gameId, $stateParams.courseId)
+              .then(function (data) {
+                _calculateMissionProgress(data);
+              },
+              function (data) {
+                $log.error(data);
+              });
         }
       }
     });
@@ -187,24 +213,45 @@ angular.module( 'instructor.dashboard', [
     _getReports();
   };
 
-  var _populateWo = function(data) {
-    var watchOuts = {};
+  var _calculateMissionProgress = function(students) {
+    var numOfStudents = students.length;
+    var totalAverage = 0;
+    _.each(students,function(student) {
+      var totalCompleted = 0;
+      _.each(student.missions, function(mission) {
+        if (mission.completed) {
+          totalCompleted++;
+        }
+      });
+      var average = totalCompleted/student.missions.length;
+      totalAverage += average;
+    });
+    $scope.averageMissionProgress = totalAverage / numOfStudents;
+  };
+
+  var _populateSOWO = function(data) {
+    var watchOuts = [];
+    var shoutOuts = [];
 
     _.each(data, function(obj) {
+       var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
-        if (!watchOuts.hasOwnProperty(wo.id)) {
-          watchOuts[wo.id] = {
-            name: wo.name,
-            description: wo.description,
-            students: []
-          };
-        }
-        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
-        watchOuts[wo.id].students.push(studentObj);
+        wo.user = studentObj;
+        wo.timestamp = moment(new Date(1415838021807)).fromNow();
+        watchOuts.push(wo);
+      });
+      _.each(obj.results.shoutout, function (so) {
+        so.user = studentObj;
+        so.timestamp = moment(new Date(1415838021807)).fromNow();
+        shoutOuts.push(so);
       });
     });
+
     $scope.watchOuts = watchOuts;
+    $scope.shoutOuts = shoutOuts;
   };
+
+
 
   var _compileNameOfStudent = function(student) {
     if (!student) { return ''; }

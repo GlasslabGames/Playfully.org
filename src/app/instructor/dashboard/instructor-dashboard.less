@@ -52,6 +52,8 @@
 }
 
 .gl-course-progress-container {
+  border: 1px solid @grey5;
+  padding: 0px;
   position: relative;
   z-index: 1;
   .border-radius(6px);
@@ -260,5 +262,67 @@
 
   &:hover {
     color: @aquaBlue;
+  }
+}
+
+.gl-dashboard-banner {
+  margin: 0px;
+  position: relative;
+  @height: 279px;
+  .gl-dashboard-banner-left {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    left: 0px;
+    top: @height/2.5;
+    padding: 15px;
+    i {
+      color: white;
+    }
+  }
+  .gl-dashboard-banner-right {
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+    right: 0px;
+    top: @height/2.5;
+    padding: 15px;
+    i {
+      color: white;
+    }
+  }
+  img {
+    width: 100%;
+    height: @height;
+  }
+
+}
+
+.gl-dashboard-game-selector {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15px;
+//  border: 1px solid red;
+  .gl-dashboard-game {
+    color: @grey4;
+    font-weight: 500;
+    background-color: @grey7;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 25px;
+  }
+  .gl-dashboard-game:hover {
+    background-color: steelblue;
+    color: white;
+    cursor: pointer;
+  }
+  .gl-dashboard-game-active {
+    background-color: steelblue;
+    color: white;
+    cursor: default;
   }
 }

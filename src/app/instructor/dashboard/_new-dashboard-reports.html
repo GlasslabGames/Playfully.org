@@ -22,17 +22,31 @@
 </div>
 <div class="row">
     <div class="col-md-12 gl-course-progress-container gl-pad--Bxxl gl-pad-Hm">
-        <div class="gl-margin--Txl text-center">
-            <a href="#"
-               ng-click="status.selectedGameId=status.prevGameId">
-                <i class="fa fa-chevron-left gl-fa-3"></i>
-            </a>
-            <img src="/assets/skinny-banner-{{ status.selectedGameId }}.jpg"
-                 class="gl-dashboard-skinny-banner gl-margin-Hs">
-            <a href="#"
-               ng-click="status.selectedGameId=status.nextGameId">
-                <i class="fa fa-chevron-right gl-fa-3"></i>
-            </a>
+        <div class="gl-dashboard-game-selector">
+            <div class="gl-dashboard-game"
+                 ng-class="{'gl-dashboard-game-active':status.selectedGameId===game.gameId}"
+                 ng-repeat="game in myGames">
+                <span
+                   ng-click="status.selectedGameId=game.gameId"
+                   ng-bind="game.shortName">
+                </span>
+            </div>
+        </div>
+        <div class="gl-dashboard-banner">
+            <div class="gl-dashboard-banner-left">
+                <a href="#"
+                   ng-click="status.selectedGameId=status.prevGameId">
+                    <i class="fa fa-chevron-left gl-fa-3"></i>
+                </a>
+            </div>
+            <img src="/{{ status.selectedGame.banners.product }}"
+                 class="gl-margin-Vs">
+            <div class="gl-dashboard-banner-right">
+                <a href="#"
+                   ng-click="status.selectedGameId=status.nextGameId">
+                    <i class="fa fa-chevron-right gl-fa-3"></i>
+                </a>
+            </div>
         </div>
         <div class="container-fluid">
 
@@ -55,26 +69,31 @@
                 </div>
             </div>
             <div class="row gl-row-border--bottom gl-pad-Vs"
-                 ng-repeat="(woId, woData) in watchOuts">
+                 ng-repeat="wo in watchOuts">
                 <div class="col-md-2">
                     <span class="gl-icon-watchout-landing-big"></span>
                 </div>
                 <div class="col-md-6">
-                    <div class="gl-watchouts-subheading" ng-bind="woData.name"></div>
-                    <p ng-bind="woData.description"></p>
+                    <div>
+                        <span>{{wo.user.firstName+''+wo.user.lastName}}</span>
+                        <span>{{wo.timestamp}}</span>
+                    </div>
+                    <div class="gl-watchouts-subheading" ng-bind="wo.name"></div>
+                    <p ng-bind="wo.description"></p>
                 </div>
-                <div class="col-md-4">
-                    <div class="gl-watchouts-subheading"
-                         ng-pluralize
-                         count="woData.students.length"
-                         when="{'0': 'No students',
-                  'one': 'One Student',
-                  'other': '{} Students'}">
+            </div>
+            <div class="row gl-row-border--bottom gl-pad-Vs"
+                 ng-repeat="so in shoutOuts">
+                <div class="col-md-2">
+                    <span class="gl-icon-watchout-landing-big"></span>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <span>{{so.user.firstName+''+so.user.lastName}}</span>
+                        <span>{{so.timestamp}}</span>
                     </div>
-                    <div ng-repeat="student in woData.students | limitTo:7">
-                        <span ng-bind="student.name"></span>
-                    </div>
-                    <div ng-if="woData.students.length > 7">&hellip;</div>
+                    <div class="gl-watchouts-subheading" ng-bind="so.name"></div>
+                    <p ng-bind="so.description"></p>
                 </div>
             </div>
             <div class="row gl-pad-Vl gl-margin--Ts">
@@ -97,6 +116,29 @@
                     Go to <strong>Shout Out! Watch Out! Report</strong>
                 </button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h4>Average Mission Progress:</h4>
+    <div ng-bind="averageMissionProgress"></div>
+</div>
+<div class="row">
+    <div>
+        <h1>Assigned Games</h1>
+        <div ng-repeat="game in myGames">
+            <div class="gl-game-catalog-game-box-info">
+                <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+                            <span class="gl-game-catalog-game-title">
+                                {{game.shortName}}
+                                <span class="gl-text-end-fade"></span>
+                            </span>
+                <ul>
+                    <li>Developed by {{game.developer.name}}
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </div>
