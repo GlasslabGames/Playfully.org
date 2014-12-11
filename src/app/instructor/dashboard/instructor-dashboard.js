@@ -73,16 +73,17 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.gameplay', {
     url: '/game/:gameId/course/:courseId',
-    templateUrl: 'instructor/dashboard/_dashboard-reports.html',
+    templateUrl: 'instructor/dashboard/_new-dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
   });
 })
 
 
+
 .controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, games, myGames, GamesService, ReportsService) {
 
   $scope.students = {};
-  $scope.courses = activeCourses;
+  $scope.courses = {};
   $scope.games = games;
   $scope.myGames = myGames;
   $scope.watchOuts = null;
@@ -90,12 +91,23 @@ angular.module( 'instructor.dashboard', [
 
   $scope.status = {
     selectedGameId: $stateParams.gameId,
-    selectedCourseId: $stateParams.courseId,
     selectedGame: null,
     nextGameId: null,
     prevGameId: null,
     selectedReport: null
   };
+
+  // Courses - Setup course options and select course ///////////
+  $scope.courses.isOpen = false;
+  $scope.courses.selectedCourseId = $stateParams.courseId;
+  $scope.courses.options = {};
+
+  angular.forEach(activeCourses, function (course) {
+    $scope.courses.options[course.id] = course;
+  });
+
+  $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+
 
   var _setSelectedGameById = function(gameId) {
     var selectedIndex = _.findIndex($scope.games, {'gameId': gameId});
@@ -124,6 +136,7 @@ angular.module( 'instructor.dashboard', [
 
 
   /* Create an object whose keys are student.id and value is student */
+  // All students from all courses
   var _populateStudentsListFromCourses = function(courseList) {
     _.each(courseList, function(course) {
       _.each(course.users, function(student) {
@@ -134,11 +147,12 @@ angular.module( 'instructor.dashboard', [
     });
   };
 
+  // gets all reports info for this game, finds sowo, and sets as selected report
   var _getReports = function() {
     GamesService.getAllReports($stateParams.gameId).then(function(data) {
       if (data.list && data.list.length) {
         $scope.status.selectedReport = _.find(data.list, {'id': 'sowo'}) || null;
-
+        // gets report data for current game and course
         if ($scope.status.selectedReport) {
           ReportsService.get($scope.status.selectedReport.id, $stateParams.gameId, $stateParams.courseId)
             .then(function(data) { _populateWo(data); },
@@ -149,10 +163,12 @@ angular.module( 'instructor.dashboard', [
   };
 
   var _initDashboard = function() {
+    // populates student list
     _populateStudentsListFromCourses(activeCourses);
+    // set current game
     _setSelectedGameById($stateParams.gameId);
 
-    $scope.$watch('status.selectedCourseId', function(newValue, oldValue) {
+    $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
         $state.go('root.instructorDashboard.gameplay', {
           gameId: $scope.status.selectedGameId,
@@ -160,7 +176,7 @@ angular.module( 'instructor.dashboard', [
         });
       }
     });
-
+    // retrieve all reports for game
     _getReports();
   };
 

@@ -1,7 +1,7 @@
 angular.module('games', [
   'reports.const'
 ])
-.factory('GamesService', function ($http, $log, API_BASE) {
+.factory('GamesService', function ($http, $log, API_BASE, REPORT_CONSTANTS) {
 
   var api = {
 
@@ -157,7 +157,7 @@ angular.module('games', [
           return response;
         });
     },
-
+    // Returns basic info for all games current user has in all his classes
     getMyGames: function () {
       return $http.get(API_BASE + '/dash/myGames')
         .then (function(response) {

@@ -206,7 +206,7 @@ angular.module( 'playfully.games', [
         if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(angular.copy(allGamesInfo[i]));}
         if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(angular.copy(allGamesInfo[i]));}
       }
-      console.log($scope.freeGames);
+
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});
