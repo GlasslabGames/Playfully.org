@@ -28,6 +28,9 @@ angular.module( 'instructor.reports', [
         deferred.resolve(active);
         return deferred.promise;
       },
+      coursesInfo: function(activeCourses, ReportsService) {
+        return ReportsService.getCourseInfo(activeCourses);
+      },
       defaultCourseId: function(activeCourses) {
         if (activeCourses[0]) {
           return activeCourses[0].id;

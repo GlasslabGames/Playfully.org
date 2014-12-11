@@ -80,11 +80,10 @@ angular.module( 'instructor.dashboard', [
 
 
 
-.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, games, myGames, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, myGames, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = {};
-  $scope.games = games;
   $scope.myGames = myGames;
   $scope.watchOuts = null;
 
@@ -110,14 +109,14 @@ angular.module( 'instructor.dashboard', [
 
 
   var _setSelectedGameById = function(gameId) {
-    var selectedIndex = _.findIndex($scope.games, {'gameId': gameId});
-    $scope.status.selectedGame = $scope.games[selectedIndex];
+    var selectedIndex = _.findIndex($scope.myGames, {'gameId': gameId});
+    $scope.status.selectedGame = $scope.myGames[selectedIndex];
 
-    var prevIndex = _getPrevIndex($scope.games, selectedIndex);
-    $scope.status.prevGameId = $scope.games[prevIndex].gameId;
+    var prevIndex = _getPrevIndex($scope.myGames, selectedIndex);
+    $scope.status.prevGameId = $scope.myGames[prevIndex].gameId;
 
-    var nextIndex = _getNextIndex($scope.games, selectedIndex);
-    $scope.status.nextGameId = $scope.games[nextIndex].gameId;
+    var nextIndex = _getNextIndex($scope.myGames, selectedIndex);
+    $scope.status.nextGameId = $scope.myGames[nextIndex].gameId;
   };
 
   /* Given an array and current index, find the previous index */
@@ -175,7 +174,15 @@ angular.module( 'instructor.dashboard', [
           courseId: newValue
         });
       }
-    });
+      });
+      $scope.$watch('status.selectedGameId', function (newValue, oldValue) {
+        if (newValue) {
+          $state.go('root.instructorDashboard.gameplay', {
+            gameId: newValue,
+            courseId: $scope.courses.selectedCourseId
+          });
+        }
+      });
     // retrieve all reports for game
     _getReports();
   };
