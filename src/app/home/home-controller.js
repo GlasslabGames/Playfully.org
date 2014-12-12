@@ -1,8 +1,9 @@
 angular.module( 'playfully.home', ['ui.router'])
 
 .config(function config( $stateProvider ) {
+
   $stateProvider.state( 'root.home', {
-    url: '',
+    abstract: true,
     views: {
       'main@': {
         controller: 'HomeCtrl',
@@ -11,6 +12,20 @@ angular.module( 'playfully.home', ['ui.router'])
     },
     data:{
       pageTitle: 'Home'
+    }
+  })
+  .state('root.home.default', {
+    url: '',
+    resolve: {
+      allGamesInfo: function (GamesService) {
+        return GamesService.all();
+      }
+    },
+    views: {
+      'catalog': {
+        controller: 'GameCatalogCtrl',
+        templateUrl: 'home/home-game-catalog.html'
+      }
     }
   });
 })
