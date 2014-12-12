@@ -19,6 +19,14 @@ angular.module('reports.const', [])
   // Shoutout Watchout
   'so':'gl-reports-so-icon',
   'wo':'gl-reports-wo-icon'
+ },
+ // Order of reports dropdown and default report
+ orderOfReports: {
+  'sowo': 1,
+  'mission-progress': 2,
+  'achievements': 3,
+  'competency': 4
  }
+
 
 });
