@@ -339,11 +339,8 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
       
-      ga(‘set’, ‘dimension1’, user.id); // Send uid to GA for improved analytics
-      
-      /*if ($rootScope.modalInstance) {
-        $rootScope.modalInstance.close();
-      }*/
+      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {
         $previousState.forget('modalInvoker');
