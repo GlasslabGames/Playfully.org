@@ -40,7 +40,7 @@ angular.module( 'playfully', [
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
-  $stickyStateProvider.enableDebug(true);
+  $stickyStateProvider.enableDebug(false);
 
   $locationProvider.html5Mode({
       enabled: true,
@@ -295,7 +295,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, $previousState) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -341,6 +341,10 @@ angular.module( 'playfully', [
       /*if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
       }*/
+      /** Student login/register always redirects back to dashboard **/
+      if (user.role==='student') {
+        $previousState.forget('modalInvoker');
+      }
       $state.go('root.home');
     });
 
