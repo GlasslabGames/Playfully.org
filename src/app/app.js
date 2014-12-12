@@ -18,6 +18,7 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
+  'playfully.research',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
