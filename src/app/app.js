@@ -14,10 +14,12 @@ angular.module( 'playfully', [
   'auth',
   'user',
   'games',
+  'dash',
   'reports',
   'checkSpec',
   'research',
   'gl-enter',
+  'playfully.admin',
   'playfully.research',
   'playfully.navbar',
   'playfully.home',
@@ -336,6 +338,9 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
+      
+      ga(‘set’, ‘dimension1’, user.id); // Send uid to GA for improved analytics
+      
       /*if ($rootScope.modalInstance) {
         $rootScope.modalInstance.close();
       }*/
