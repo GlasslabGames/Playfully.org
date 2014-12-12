@@ -37,7 +37,7 @@ angular.module( 'playfully', [
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
-  $stickyStateProvider.enableDebug(true);
+  $stickyStateProvider.enableDebug(false);
 
   $locationProvider.html5Mode({
       enabled: true,
