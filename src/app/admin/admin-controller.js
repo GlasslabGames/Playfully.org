@@ -23,6 +23,18 @@ angular.module('playfully.admin', ['dash'])
     $scope.mcOutput = "";
 
     $scope.submit = function() {
-        $scope.mcOutput = "Hello?";
+        $scope.mcOutput = "Processing...";
+
+        var messageData = {};
+        messageData.subject = $scope.mcSubject;
+        messageData.message = $scope.mcMessage;
+        messageData.icon = $scope.mcIcon;
+
+        DashService.postMessage("message", messageData).then(function(data) {
+            $scope.mcOutput = data;
+            $scope.mcSubject = "";
+            $scope.mcMessage = "";
+            $scope.mcIcon = "";
+        });
     };
 });
