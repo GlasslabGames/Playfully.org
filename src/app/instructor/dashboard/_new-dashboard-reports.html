@@ -39,8 +39,7 @@
                     <i class="fa fa-chevron-left gl-fa-3"></i>
                 </a>
             </div>
-            <img src="/{{ status.selectedGame.banners.product }}"
-                 class="gl-margin-Vs">
+            <img src="/{{ status.selectedGame.banners.product }}">
             <div class="gl-dashboard-banner-right">
                 <a href="#"
                    ng-click="status.selectedGameId=status.nextGameId">
@@ -48,54 +47,58 @@
                 </a>
             </div>
         </div>
-        <div class="container-fluid">
+            <div class="col-md-4 gl-dashboard-data-col">
+                <h4>Average Mission Progress:</h4>
+                <progress-arc
+                        size="{{progressArc.size}}"
+                        stroke="{{progressArc.stroke}}"
+                        stroke-width="{{progressArc.strokeWidth}}"
+                        background="{{progressArc.background}}"
+                        complete="progressArc.progress">
+                        <div ng-bind="status.averageMissionProgress" class="averageMissionProgressText"></div>
+                </progress-arc>
 
-            <div class="row gl-margin--Txl gl-margin--Bl">
-                <div class="col-md-12">
-                    <h1 class="headline-4 text-center gl-margin--Tl">
-                        Students in Need of Intervention Now
-                    </h1>
-                </div>
             </div>
-            <div class="row gl-row-border--top gl-row-border--bottom gl-pad-Vxs">
-                <div class="col-md-3 gl-watchouts-heading">
-                    Watch Out!
+            <div class="col-md-4 gl-dashboard-data-col">
+                <div class="gl-watchouts-heading text-center">
+                    <span class="headline-4">Watch Out!</span>
                 </div>
-                <div class="col-md-5">
-                    &nbsp;
-                </div>
-                <div class="col-md-4 gl-watchouts-heading">
-                    Students
-                </div>
-            </div>
-            <div class="row gl-row-border--bottom gl-pad-Vs"
-                 ng-repeat="wo in watchOuts">
-                <div class="col-md-2">
-                    <span class="gl-icon-watchout-landing-big"></span>
-                </div>
-                <div class="col-md-6">
+                <div class="gl-watchouts-box" ng-repeat="wo in watchOuts">
                     <div>
-                        <span>{{wo.user.firstName+''+wo.user.lastName}}</span>
-                        <span>{{wo.timestamp}}</span>
+                        <span class="gl-icon-watchout-landing-big"></span>
+                        <div class="gl-dashboard-watchout-info">
+                            <span class="gl-watchouts-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
+                                <span class="timestamp">{{wo.timestamp}}</span>
+                            <hr>
+                            <div class="gl-watchouts-title" ng-bind="wo.name"></div>
+                            <p ng-bind="wo.description"></p>
+                        </div>
                     </div>
-                    <div class="gl-watchouts-subheading" ng-bind="wo.name"></div>
-                    <p ng-bind="wo.description"></p>
+
                 </div>
             </div>
-            <div class="row gl-row-border--bottom gl-pad-Vs"
-                 ng-repeat="so in shoutOuts">
-                <div class="col-md-2">
-                    <span class="gl-icon-watchout-landing-big"></span>
+            <div class="col-md-4 gl-dashboard-data-col">
+                <div class="gl-watchouts-heading text-center">
+                    <span class="headline-4">Shout Out!</span>
                 </div>
-                <div class="col-md-6">
+
+                <div class="gl-watchouts-box" ng-repeat="so in shoutOuts">
                     <div>
-                        <span>{{so.user.firstName+''+so.user.lastName}}</span>
-                        <span>{{so.timestamp}}</span>
+                        <span class="gl-icon-shoutout-landing-big"></span>
+                        <div class="gl-dashboard-watchout-info">
+                            <span class="gl-watchouts-username">{{so.user.firstName+''+so.user.lastName}}</span>
+                            <span class="timestamp">{{so.timestamp}}</span>
+                            <hr>
+                            <div class="gl-watchouts-title" ng-bind="so.name"></div>
+                            <p ng-bind="so.description"></p>
+                        </div>
                     </div>
-                    <div class="gl-watchouts-subheading" ng-bind="so.name"></div>
-                    <p ng-bind="so.description"></p>
+
                 </div>
             </div>
+
+
+
             <div class="row gl-pad-Vl gl-margin--Ts">
                 <div class="gl-progress-legend col-md-12">
                     <span class="gl-icon-watchout-landing"></span>
@@ -117,12 +120,8 @@
                 </button>
             </div>
         </div>
-    </div>
 </div>
-<div class="row">
-    <h4>Average Mission Progress:</h4>
-    <div ng-bind="averageMissionProgress"></div>
-</div>
+
 <div class="row">
     <div>
         <h1>Assigned Games</h1>

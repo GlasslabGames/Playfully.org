@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'angular-progress-arc',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',

@@ -123,6 +123,16 @@ angular.module( 'instructor.dashboard', [
 
   $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
+  // Mission Progress directive
+
+  $scope.progressArc = {
+    size: 100,
+    progress: $scope.status.averageMissionProgress,
+    strokeWidth: 20,
+    stroke: 'darkcyan',
+    counterClockwise: '',
+    background: 'whitesmoke'
+  };
 
   var _setSelectedGameById = function(gameId) {
     var selectedIndex = _.findIndex($scope.myGames, {'gameId': gameId});
@@ -226,7 +236,7 @@ angular.module( 'instructor.dashboard', [
       var average = totalCompleted/student.missions.length;
       totalAverage += average;
     });
-    $scope.averageMissionProgress = totalAverage / numOfStudents;
+    $scope.status.averageMissionProgress = totalAverage / numOfStudents;
   };
 
   var _populateSOWO = function(data) {
@@ -239,18 +249,19 @@ angular.module( 'instructor.dashboard', [
         wo.user = studentObj;
         wo.timestamp = moment(new Date(1415838021807)).fromNow();
         watchOuts.push(wo);
+        watchOuts.push(angular.copy(wo));
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
         so.timestamp = moment(new Date(1415838021807)).fromNow();
         shoutOuts.push(so);
+        shoutOuts.push(angular.copy(so));
       });
     });
 
     $scope.watchOuts = watchOuts;
     $scope.shoutOuts = shoutOuts;
   };
-
 
 
   var _compileNameOfStudent = function(student) {
@@ -265,5 +276,7 @@ angular.module( 'instructor.dashboard', [
   };
 
   _initDashboard();
-});
+
+      console.log('$scope.status.averageMissionProgress',$scope.status.averageMissionProgress);
+    });
 
