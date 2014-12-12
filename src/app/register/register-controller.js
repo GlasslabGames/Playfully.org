@@ -248,8 +248,6 @@ angular.module('playfully.register', ['register.const'])
 
             if ($state.current.data.hideWrapper) {
               $state.go('sdk.sdkRegisterStudentSuccess');
-            } else {
-                $state.go('root.home');
             }
           })
           .error(function(data, status, headers, config) {

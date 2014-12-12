@@ -10,7 +10,6 @@ angular.module( 'playfully.home', ['ui.router'])
       }
     },
     data:{
-      authorizedRoles: ['instructor', 'student', 'manager', 'admin'],
       pageTitle: 'Home'
     }
   });
