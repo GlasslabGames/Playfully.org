@@ -1,8 +1,18 @@
 angular.module('dash', [])
 .service('DashService', function ($http, $log, API_BASE) {
 
-    this.getMessages = function(messageId) {
+    this.getMessages = function(messageId, limit, asc) {
       var apiUrl = API_BASE + '/dash/message-center/' + messageId;
+      if( limit ) {
+        apiUrl += "?limit=" + limit;
+        if( asc ) {
+          apiUrl += "&asc=" + asc;
+        }
+      }
+      else if( asc ) {
+        apiUrl += "?asc=" + asc;
+      }
+
       return $http({
           method: 'GET',
           url: apiUrl
