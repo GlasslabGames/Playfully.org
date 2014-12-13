@@ -1,5 +1,14 @@
 angular.module( 'instructor.reports')
 
+.filter('hasSOWO', function() {
+  return function(studentList, reportType) {
+    var result = _.filter(studentList, function(student) {
+      return _.has(student, 'sowo') && student.sowo.length > 0;
+    });
+    return result;
+  };
+})
+
 .controller( 'SowoCtrl',
   function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 

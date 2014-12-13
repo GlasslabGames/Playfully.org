@@ -286,10 +286,12 @@ angular.module( 'instructor.reports', [
       });
 
       /* Allow individual students to be toggled on or off. */
-      $scope.toggleStudent = function ($event, student, course) {
+      $scope.toggleStudent = function ($event, student, course, reportId) {
         $event.preventDefault();
         $event.stopPropagation();
-        student.isSelected = !student.isSelected;
+        if (reportId !== 'sowo') {
+          student.isSelected = !student.isSelected;
+        }
       };
 
 
