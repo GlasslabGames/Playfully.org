@@ -232,7 +232,7 @@ angular.module( 'playfully', [
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
               if ($rootScope.toState) {
-                if ($rootScope.toState.name == 'root.home' && user && user.role) {
+                if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
                       user.role == 'manager' ||
                       user.role == 'developer'
@@ -339,16 +339,13 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
       
-      ga(‘set’, ‘dimension1’, user.id); // Send uid to GA for improved analytics
-      
-      /*if ($rootScope.modalInstance) {
-        $rootScope.modalInstance.close();
-      }*/
+      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {
         $previousState.forget('modalInvoker');
       }
-      $state.go('root.home');
+      $state.go('root.home.default');
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
@@ -358,16 +355,16 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
       return $timeout(function () {
-        $location.path('root.home');
+        $location.path('root.home.default');
       }, 100);
     });
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-      $state.go('root.home');
+      $state.go('root.home.default');
     });
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-      $state.go('root.home');
+      $state.go('root.home.default');
     });
 
     $scope.truncateUsername = function (username) {
