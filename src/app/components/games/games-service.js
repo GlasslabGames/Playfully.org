@@ -1,5 +1,7 @@
-angular.module('games', [])
-.factory('GamesService', function ($http, $log, API_BASE) {
+angular.module('games', [
+  'reports.const'
+])
+.factory('GamesService', function ($http, $log, API_BASE, REPORT_CONSTANTS) {
 
   var api = {
 
@@ -136,13 +138,9 @@ angular.module('games', [])
     },
 
     getAllReports: function (gameId) {
+      /** Sets order of reports dropdown and default report in Reports Page **/
       var _modifyOrderOfReports = function (list) {
-        var dict = {
-          'sowo': 1,
-          'mission-progress': 2,
-          'achievements': 3,
-          'competency': 4
-        };
+        var dict = REPORT_CONSTANTS.orderOfReports;
         list.sort(function (a, b) {
           return dict[a.id] - dict[b.id];
         });
