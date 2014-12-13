@@ -1,0 +1,48 @@
+<p>
+<h2 ng-hide="loading">Download Data By Month</h2>
+<h2 ng-show="loading">Loading...</h2>
+<br>
+
+<div ng-hide="loading">
+    <form ng-submit="submit()" name="parseData" class="parseData">
+        Game ID: <select name="gameId" ng-model="gameId">
+        <option value="SC">SimCityEDU</option>
+        <option selected value="AA-1">Arugbot Academy</option>
+        <option value="AW-1">Argument Wars</option>
+        <option value="PVZ">Plants vs. Zombies EDU</option>
+    </select><br>
+        <br>
+        Start Date:
+        <div class="row">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="startDate" is-open="startDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" close-text="Close" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="startDateOpen($event)"><i class="fa fa-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+        </div>
+        <br>
+        End Date:
+        <div class="row">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="endDate" is-open="endDateOpened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" close-text="Close" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="endDateOpen($event)"><i class="fa fa-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+        </div>
+        <br>
+        <!--
+        User ID(s): <input name="userIds" name="input" ng-model="userIds"><br>
+        Example: "1", "2,3,4" or<br> leave blank for all users<br>
+        -->
+        <input type="submit" id="submit" value="Run!" /><br>
+        <br>
+        Output (# CSV Files {{numCSVs}}):
+    </form>
+</div>
+</p>

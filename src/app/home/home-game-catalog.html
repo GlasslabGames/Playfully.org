@@ -1,22 +1,11 @@
-<div class="container gl-container">
-    <h3 class="headline-4--serif">Featured Games</h3>
-    <div class="gl-game-catalog-carousel-container gl-margin--V40">
-        <carousel interval="5000" class="gl-games-carousel">
-            <slide ng-if="game.price!=='Coming Soon'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
-                <img ng-src="/{{game.banners.product}}"
-                     class="gl-game-catalog-banner"
-                     ui-sref="root.games.detail.product({gameId:game.gameId})">
-                    <div class="gl-game-ribbon">
-                        <div class="gl-game-ribbon-text">Featured</div>
-                    </div>
-                </img>
-            </slide>
-        </carousel>
-    </div>
-    <hr>
-    <div class="gl-game-catalog-games-container">
+<div class="container container-fixed gl-home-game-catalog">
+    <div class="container">
+
+        <h3 class="headline-1 text-center gl-margin--V40">Featured Games</h3>
+        <div class="gl-margin-Vl">&nbsp</div>
+
+        <div class="gl-game-catalog-games-container">
         <div ng-repeat="section in sections" ng-if="section.games.length">
-            <h3 class="headline-4--serif gl-margin--B40 gl-game-catalog-section-title">{{section.name}}</h3>
             <div class="gl-game-catalog-games-section">
                 <div class="col-md-4" ng-repeat="game in section.games | orderBy: 'releaseDate':true">
                     <div class="gl-game-catalog-game-box gl-margin--Bl"
@@ -25,14 +14,18 @@
                          ng-mouseleave="game.hover=false"
                          ng-class="{'no-hover':game.price==='Coming Soon'}"
                          ng-click="goToGameDetail(game.price,game.gameId)">
+                        <div class="gl-game-ribbon" ng-hide="game.hover">
+                            <div class="gl-game-ribbon-text">{{game.price}}</div>
+                        </div>
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
                                 <img ng-src="/{{game.developer.logo.small}}">
                             </div>
                             <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+
                             <div class="gl-game-catalog-game-description" ng-show="game.hover">
                                 <p>
-                                    {{truncateText(game.description,250)}}
+                                    {{truncateText(game.description,300)}}
                                 </p>
                                 <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
                             </div>
@@ -57,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="gl-game-report-divider">
         </div>
     </div>
+</div>
 </div>
