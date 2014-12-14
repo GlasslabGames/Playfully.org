@@ -5,8 +5,8 @@ angular.module('reports', [])
       var apiUrl = API_BASE + '/dash/reports/' + reportId + '/game/' + gameId + '/course/' + courseId;
       return $http({method: 'GET', url: apiUrl})
         .then(function(response) {
-          // return sampleData;
-          return response.data;
+          return sampleData;
+          // return response.data;
         }, function(response) {
           $log.error(response);
           return response;
@@ -116,9 +116,6 @@ angular.module('reports', [])
     };
 });
 
-/**
- * New sample data for sowo report
- *
 var sampleData = [  
   {  
     "gameId":"AA-1",
@@ -561,4 +558,4 @@ var sampleData = [
     }
   }
 ];
-*/
+
