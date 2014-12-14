@@ -236,6 +236,7 @@ angular.module( 'instructor.reports')
       if (sowoId.indexOf('wo') !== 0) { return false; }
       // Need to hook this up to a service.
       $window.alert('Remove ' + sowoId + ' for ' + student.firstName);
+      ReportsService.removeWatchOut(student.id, $scope.games.selectedGameId, sowoId);
     };
 
     $scope.saveState = function (currentState) {

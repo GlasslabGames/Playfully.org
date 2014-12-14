@@ -114,7 +114,12 @@ angular.module('reports', [])
       });
       return studentIds;
     };
+
+    this.removeWatchOut = function (studentId, gameId, sowoId) {
+      $log.info('called removeWatchOut', arguments);
+    };
 });
+
 
 /*
 var sampleData = [  
