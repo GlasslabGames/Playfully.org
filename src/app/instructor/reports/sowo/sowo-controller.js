@@ -10,7 +10,7 @@ angular.module( 'instructor.reports')
 })
 
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
+  function($scope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
     ///// Setup selections /////
 
@@ -230,6 +230,12 @@ angular.module( 'instructor.reports')
 
     $scope.getLabelInfo = function (label, type) {
       return REPORT_CONSTANTS.legend[label];
+    };
+
+    $scope.removeWO = function(sowoId, student) {
+      if (sowoId.indexOf('wo') !== 0) { return false; }
+      // Need to hook this up to a service.
+      $window.alert('Remove ' + sowoId + ' for ' + student.firstName);
     };
 
     $scope.saveState = function (currentState) {
