@@ -5,7 +5,7 @@
 
 <div class="modal-body" ng-hide="enrollment">
   <p class="text-center">
-    Hi there! Type in the class code:
+    Hi there! Type in the Class Code:
   </p>
   &nbsp;
 
@@ -16,7 +16,7 @@
 
     <div class="form-group" ng-class="{'has-error': verifyForm.code.$dirty && verifyForm.code.$invalid}">
       <input type="text" name="code" class="form-control"
-        placeholder="Classcode"
+        placeholder="Class Code"
         required
         autocomplete="off"
         autosuggest="off"
@@ -25,10 +25,10 @@
         ng-minlength="5">
         &nbsp;<span class="fa fa-question-circle"
           popover-placement="top"
-          popover="If you don't have a classcode, ask your teacher for one"></span>
+          popover="If you don't have a Class Code, ask your teacher for one"></span>
         <div class="form-errors">
           <div class="form-error" ng-show="verifyForm.code.$dirty && verifyForm.code.$invalid">
-            Classcode must be at least 5 characters
+            Class Code must be at least 5 characters
           </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
 
     <div class="text-center gl-class-info">
       This is {{ enrollment.title }}<br>
-      Classcode: {{ verification.code }}
+      Class Code: {{ verification.code }}
     </div>
     
 

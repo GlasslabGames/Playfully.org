@@ -1,7 +1,16 @@
 angular.module( 'instructor.reports')
 
+.filter('hasSOWO', function() {
+  return function(studentList, reportType) {
+    var result = _.filter(studentList, function(student) {
+      return _.has(student, 'sowo') && student.sowo.length > 0;
+    });
+    return result;
+  };
+})
+
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
+  function($scope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
     ///// Setup selections /////
 
@@ -221,6 +230,13 @@ angular.module( 'instructor.reports')
 
     $scope.getLabelInfo = function (label, type) {
       return REPORT_CONSTANTS.legend[label];
+    };
+
+    $scope.removeWO = function(sowoId, student) {
+      if (sowoId.indexOf('wo') !== 0) { return false; }
+      // Need to hook this up to a service.
+      $window.alert('Remove ' + sowoId + ' for ' + student.firstName);
+      ReportsService.removeWatchOut(student.id, $scope.games.selectedGameId, sowoId);
     };
 
     $scope.saveState = function (currentState) {
