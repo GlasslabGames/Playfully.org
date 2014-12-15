@@ -282,7 +282,7 @@ angular.module('playfully.login', [])
     $scope.user = currentUser;
 
     // If the student is already enrolled, just finish the login
-    // process. (Otherwise we will ask for a class code.)
+    // process. (Otherwise we will ask for a Class Code.)
     if (currentUser.role == 'student' && enrollments.length > 0) {
       $scope.finishLogin();
     }

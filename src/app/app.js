@@ -295,7 +295,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, $previousState) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, $previousState) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -305,6 +305,7 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
+    $rootScope.features = FEATURES;
 
 
     if (!$rootScope.allGames) {

@@ -16,6 +16,15 @@ angular.module('playfully.config', [])
   'general': "We encountered an error. Please try again."
 })
 
+/**
+ * Use FEATURES.can[DoSomething] to create toggles for app features
+ * that can be turned on / off depending whether they're ready.
+ * These are surfaced through $rootScope.features.can[DoSomething]
+ **/
+.constant('FEATURES', {
+  'canRemoveWO': false
+})
+
 .constant('THIRD_PARTY_AUTH', {
   edmodo: true,
   icivics: true
