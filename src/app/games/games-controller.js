@@ -41,6 +41,15 @@ angular.module( 'playfully.games', [
     resolve: {
       allGamesInfo: function(GamesService) {
         return GamesService.all();
+      },
+      freeGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Free' });
+      },
+      premiumGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Premium Subscription' });
+      },
+      comingSoonGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
       }
     },
     data: {
@@ -188,24 +197,18 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope,$stateParams,allGamesInfo, $state) {
+    function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
       $scope.allGamesInfo = allGamesInfo;
 
-      $scope.freeGames = {name:'Free Games', games: []};
-      $scope.premiumGames = {name: 'Premium Games', games: []};
-      $scope.comingSoonGames = {name: 'Coming Soon', games: []};
+      $scope.freeGames = {name:'Free Games', games: freeGames};
+      $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
+      $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
 
       $scope.sections = [
         $scope.premiumGames,
         $scope.freeGames,
         $scope.comingSoonGames
       ];
-
-      for (var i = 0; i < allGamesInfo.length; i++) {
-        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
-      }
 
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {

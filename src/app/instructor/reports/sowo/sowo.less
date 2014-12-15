@@ -88,19 +88,27 @@
 
 
 .gl-reports-so-icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin: auto;
   background-repeat: no-repeat;
-  background-image: url("../../../../assets/SO-icon.png");
+  .image-2x('SO-icon.png', 30px, 30px);
 }
 
 .gl-reports-wo-icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin: auto;
   background-repeat: no-repeat;
-  background-image: url("../../../../assets/WO-icon.png");
+  .image-2x('WO-icon.png', 30px, 30px);
+}
+
+.gl-reports-wo-icon--removable {
+  &:hover {
+    cursor: pointer;
+    opacity: 0.67;
+    .image-2x('WO-remove-icon.png', 30px, 30px);
+  }
 }
 
 .gl-reports-what-now-header {

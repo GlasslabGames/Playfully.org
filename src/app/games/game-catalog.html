@@ -1,8 +1,8 @@
 <div class="container gl-container">
     <h3 class="headline-4--serif">Featured Games</h3>
     <div class="gl-game-catalog-carousel-container gl-margin--V40">
-        <carousel interval="5000" class="gl-games-carousel">
-            <slide ng-if="game.price!=='Coming Soon'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
+        <carousel interval="5000" class="gl-games-carousel gl-games-carousel--full">
+            <slide ng-if="game.price!=='Coming Soon' && game.price!=='TBD'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
                 <img ng-src="/{{game.banners.product}}"
                      class="gl-game-catalog-banner"
                      ui-sref="root.games.detail.product({gameId:game.gameId})">

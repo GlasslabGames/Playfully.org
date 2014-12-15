@@ -37,10 +37,5 @@
     "jquery": "~2.1.1",
     "sticky-ng": "~1.4.4",
     "angular-local-storage": "~0.1.0"
-  },
-  "resolutions": {
-    "angular-translate": "~2.4.0",
-    "angular": "^1.2",
-    "angular-ui-router": "~0.2.8"
   }
 }
