@@ -10,7 +10,7 @@ angular.module( 'instructor.reports')
 })
 
 .controller( 'SowoCtrl',
-  function($scope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
+  function($scope, $rootScope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
 
     ///// Setup selections /////
 
@@ -229,7 +229,12 @@ angular.module( 'instructor.reports')
     };
 
     $scope.getLabelInfo = function (label, type) {
-      return REPORT_CONSTANTS.legend[label];
+      var result = REPORT_CONSTANTS.legend[label];
+      /* Check whether WO removal feature is enabled */
+      if (label == 'wo' && !!$rootScope.features.canRemoveWO) {
+        result += ' gl-reports-wo-icon--removable';
+      }
+      return result;
     };
 
     $scope.removeWO = function(sowoId, student) {
