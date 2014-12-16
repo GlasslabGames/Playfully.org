@@ -280,11 +280,17 @@ angular.module( 'instructor.dashboard', [
         wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
         watchOuts.push(angular.copy(wo));
+        watchOuts.push(angular.copy(wo));
+        watchOuts.push(angular.copy(wo));
+        watchOuts.push(angular.copy(wo));
+        watchOuts.push(angular.copy(wo));
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
-        so.timestamp = moment(new Date(wo.timestamp)).fromNow();
+        so.timestamp = moment(new Date(so.timestamp)).fromNow();
         shoutOuts.push(so);
+        shoutOuts.push(angular.copy(so));
+        shoutOuts.push(angular.copy(so));
         shoutOuts.push(angular.copy(so));
       });
     });

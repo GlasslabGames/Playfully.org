@@ -45,19 +45,26 @@
   color: @grey1;
 }
 
-.gl-course-list-item--selected,
-.gl-course-progress-container {
+.gl-dashboard-container {
   background: white;
   border: 1px solid @grey6;
-}
-
-.gl-course-progress-container {
-  border: 1px solid @grey5;
+  width: 940px;
   padding: 0px;
   position: relative;
   z-index: 1;
-  .border-radius(6px);
 }
+
+.gl-dashboard-container-top {
+  .gl-dashboard-container;
+  height: 1000px;
+}
+
+.gl-dashboard-container-bottom {
+  .gl-dashboard-container;
+  height: 590px;
+}
+
+
 
 .gl-progress-legend {
   span {
@@ -373,6 +380,7 @@
   height: 420px;
   border: 1px solid @grey7;
   padding: 10px;
+  overflow: hidden;
 
   .gl-icon-watchout-landing-big,
   .gl-icon-shoutout-landing-big {
@@ -415,23 +423,58 @@
   }
 }
 
-
+.gl-dashboard-col-messages {
+  padding: 0px;
+  height: 590px;
+  overflow: scroll;
+  .gl-dashboard-message-box {
+    padding:20px;
+    border-bottom: 1px solid @grey7;
+    .gl-dashboard-message-icon-box {
+      display: inline-block;
+      width: 58px;
+      height: 58px;
+      margin-right: 20px;
+      vertical-align: top;
+    }
+    .gl-dashboard-message-icon {
+    }
+    .gl-dashboard-message-box-info {
+      display: inline-block;
+      width: 325px;
+      .gl-dashboard-message-subject {
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .timestamp {
+        font-size: 12px;
+        color: @grey4;
+        float: right;
+      }
+      p {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
 
 .gl-dashboard-data-col-games {
   border: 1px solid @grey7;
   overflow: scroll;
+  width: 100%;
   height: 590px;
   padding: 0px;
   .gl-dashboard-game-box {
     width: 100%;
     height: 152px;
-    border: 1px solid @grey6;
+    border-bottom: 1px solid @grey6;
     display: flex;
     justify-content: flex-start;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 20px;
-    padding-left:20px
+    padding-left:20px;
   }
   .gl-dashboard-game-box-info {
     display: inline-block;
@@ -463,3 +506,4 @@
     margin-right: 20px;
   }
 }
+
