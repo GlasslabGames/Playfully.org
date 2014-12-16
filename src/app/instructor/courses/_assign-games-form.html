@@ -15,7 +15,8 @@
       ng-disabled="game.maintenance">
     <label for="game-{{ game.gameId }}" ng-click="logIt()">
       <div ng-if="game.maintenance" class="gl-game-maintenance-ribbon">
-          <div class="gl-game-maintenance-ribbon-text">
+          <div class="gl-game-maintenance-ribbon-text"
+            ng-class="{'gl-game-maintenance-ribbon-text--small': game.maintenance.message.length > 10}">
           {{game.maintenance.message}}
           </div>
       </div>
