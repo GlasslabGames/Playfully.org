@@ -58,19 +58,20 @@
 
 .gl-course-games {
   border-left: 2px solid white;
-  padding: 20px;
+  // padding: 20px;
+  padding-top: 20px;
 }
 
 .gl-course-game {
   display: inline-block;
   vertical-align: top;
   width: 150px;
-  margin-left: 24px;
+  margin: 0px 8px 20px;
 }
 
-.gl-course-game:first-child {
-  margin-left: 0;
-}
+// .gl-course-game:first-child {
+//   margin-left: 0;
+// }
 
 .gl-course-game-thumb {
   position: relative;
@@ -154,11 +155,11 @@
 }
 
 .gl-students-data-odd {
-  background-color: @grassGreenLightest;
+  background-color: @alternatingRowsOdd;
 }
 
 .gl-students-data-even {
-  background-color: @aquaBlueLightest;
+  background-color: @alternatingRowsEven;
 }
 
 .gl-students-username {
@@ -267,8 +268,8 @@ input[type=checkbox]:checked + .gl-courses-grade-option {
   position: relative;
   vertical-align: top;
   width: 32%;
-  margin-left: 2%;
   text-align: center;
+  margin-bottom: 8px;
 }
 
 .gl-course-game-option > label {
@@ -293,10 +294,6 @@ input[type=checkbox]:checked + .gl-courses-grade-option {
 }
 
 
-.gl-course-game-option:first-child {
-  margin-left: 0;
-}
-
 .gl-course-game-thumbnail {
   width: 140px;
   height: 105px;
@@ -309,6 +306,7 @@ input[type=checkbox]:checked + .gl-courses-grade-option {
   border: 3px solid white;
   .border-radius(2px);
   position: relative;
+  background-color: @grey7;
 }
 
 input[type=checkbox]:checked + label > .gl-course-game-thumbnail {

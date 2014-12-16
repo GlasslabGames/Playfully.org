@@ -8,6 +8,9 @@ angular.module('reports.const', [])
   'Problem Solving': 'gl-reports-achievement-red-square',
   'Citizenship': 'gl-reports-achievement-yellow-square',
   'CCSS.ELA-Literacy.RI.6-8': 'gl-reports-achievement-light-blue-square',
+  'CCSS Math 6.NS.6b': 'gl-reports-achievement-light-blue-square',
+  'CCSS Math 6.NS.6c': 'gl-reports-achievement-green-square',
+  'CCSS Math 6.NS.8': 'gl-reports-achievement-yellow-square',
   // Competency
   "mastered": {class:'gl-reports-competency-circle-green',text: 'Mastered'},
   "not-mastered": {class:'gl-reports-competency-circle-red',text: 'Not Mastered'},

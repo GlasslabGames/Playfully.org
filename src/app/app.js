@@ -15,10 +15,13 @@ angular.module( 'playfully', [
   'auth',
   'user',
   'games',
+  'dash',
   'reports',
   'checkSpec',
   'research',
   'gl-enter',
+  'playfully.admin',
+  'playfully.research',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -230,7 +233,7 @@ angular.module( 'playfully', [
               $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
 
               if ($rootScope.toState) {
-                if ($rootScope.toState.name == 'root.home' && user && user.role) {
+                if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
                       user.role == 'manager' ||
                       user.role == 'developer'
@@ -293,7 +296,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, $previousState) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -303,6 +306,7 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
+    $rootScope.features = FEATURES;
 
 
     if (!$rootScope.allGames) {
@@ -336,10 +340,14 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
-      /*if ($rootScope.modalInstance) {
-        $rootScope.modalInstance.close();
-      }*/
-      $state.go('root.home');
+      
+      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+
+      /** Student login/register always redirects back to dashboard **/
+      if (user.role==='student') {
+        $previousState.forget('modalInvoker');
+      }
+      $state.go('root.home.default');
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
@@ -349,16 +357,16 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
       return $timeout(function () {
-        $location.path('root.home');
+        $location.path('root.home.default');
       }, 100);
     });
 
     $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-      $state.go('root.home');
+      $state.go('root.home.default');
     });
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-      $state.go('root.home');
+      $state.go('root.home.default');
     });
 
     $scope.truncateUsername = function (username) {

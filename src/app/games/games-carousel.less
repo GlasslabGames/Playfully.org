@@ -21,6 +21,9 @@
 // ui-bootstrap's own rules.
 
 .gl-games-carousel {
+  width: 640px;
+  height: 360px;
+  background-color: @grey8;
 
   .glyphicon {
     font-family: FontAwesome;
@@ -32,8 +35,10 @@
     content: "\f060";
   }
   .carousel img {
-    width: auto; 
-    max-width: 80%;
+    width: auto;
+    height: 360px;
+    // width: auto; 
+    // max-width: 80%;
   }
 
 
@@ -59,8 +64,21 @@
    * to manually move to the next slide in the progression.
    **/
   .carousel-control {
-    width: 10%;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
     background: @grey6;
+    margin-top: auto;
+    margin-bottom: auto;
+    opacity: 0.85;
+
+    &.left {
+      margin-left: 10px;
+    }
+
+    &.right {
+      margin-right: 10px;
+    }
 
     .glyphicon {
       position: absolute;
@@ -76,8 +94,11 @@
 
   .carousel-control:hover {
     cursor: pointer;
+    opacity: 1.0;
   }
-
-
 }
 
+.gl-games-carousel--full {
+    width: 940px; 
+    height: auto;
+}

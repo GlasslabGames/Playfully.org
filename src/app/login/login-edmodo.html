@@ -29,7 +29,7 @@
               <img id="edmodo-logo" src="/assets/icon-edmodo.png" width="22" height="25">
             </div>
             <div class="media-bd">
-              Log in with <stronge>Edmodo</strong>
+              Log in with <strong>Edmodo</strong>
             </div>
           </div>
         </button>
@@ -38,7 +38,7 @@
 
     <div ng-if="user && user.role == 'student'">
       <p>
-        Hi there! Please enter your class code to complete registration.
+        Hi there! Please enter your Class Code to complete registration.
       </p>
 
       <alert ng-repeat="error in verification.errors" ng-show="verification.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
@@ -48,7 +48,7 @@
 
         <div class="form-group" ng-class="{'has-error': verifyForm.code.$dirty && verifyForm.code.$invalid}">
           <input type="text" name="code" class="form-control"
-            placeholder="Classcode"
+            placeholder="Class Code"
             required
             autocomplete="off"
             autosuggest="off"
@@ -57,10 +57,10 @@
             ng-minlength="5">
             &nbsp;<span class="fa fa-question-circle"
               popover-placement="top"
-              popover="If you don't have a classcode, ask your teacher for one"></span>
+              popover="If you don't have a Class Code, ask your teacher for one"></span>
             <div class="form-errors">
               <div class="form-error" ng-show="verifyForm.code.$dirty && verifyForm.code.$invalid">
-                Classcode must be at least 5 characters
+                Class Code must be at least 5 characters
               </div>
             </div>
         </div>
