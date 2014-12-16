@@ -123,6 +123,15 @@ angular.module('games', [
           return response;
         });
     },
+    /** Returns list of students and their total time played **/
+    getTotalTimePlayed: function (gameId, studentIds) {
+      /* expects array of studentIds */
+      return $http({
+        url: '/api/v2/dash/reports/totalTimePlayed',
+        method: "GET",
+        params: {gameId: gameId, userIds: studentIds}
+      });
+    },
 
     addAchievement: function (gameId) {
       return $http

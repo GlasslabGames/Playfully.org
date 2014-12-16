@@ -96,20 +96,21 @@ angular.module( 'instructor.dashboard', [
 
 
 
-.controller('InstructorDashboardCtrl', function($scope, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $window, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = {};
   $scope.myGames = myGames;
   $scope.shoutOuts = [];
   $scope.watchOuts = [];
-  $scope.averageMissionProgress = null;
 
   $scope.status = {
     selectedGameId: defaultGameId,
     selectedGame: null,
     nextGameId: null,
-    prevGameId: null
+    prevGameId: null,
+    averageMissionProgress: null,
+    avgTotalTimePlayed: null
   };
 
   // Courses - Setup course options and select course ///////////
@@ -126,12 +127,12 @@ angular.module( 'instructor.dashboard', [
   // Mission Progress directive
 
   $scope.progressArc = {
-    size: 100,
-    progress: $scope.status.averageMissionProgress,
+    size: 120,
+    progress: 0,
     strokeWidth: 20,
     stroke: 'darkcyan',
     counterClockwise: '',
-    background: 'whitesmoke'
+    background: '#cccccc'
   };
 
   var _setSelectedGameById = function(gameId) {
@@ -202,6 +203,8 @@ angular.module( 'instructor.dashboard', [
     _populateStudentsListFromCourses(activeCourses);
     // set current game
     _setSelectedGameById($stateParams.gameId);
+    _calculateTotalTimePlayed($scope.courses.selectedCourseId,$scope.status.selectedGameId, $scope.students);
+
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
@@ -226,19 +229,44 @@ angular.module( 'instructor.dashboard', [
   var _calculateMissionProgress = function(students) {
     var numOfStudents = students.length;
     var totalAverage = 0;
-    _.each(students,function(student) {
-      var totalCompleted = 0;
-      _.each(student.missions, function(mission) {
-        if (mission.completed) {
-          totalCompleted++;
-        }
+    if (students.length) {
+      _.each(students, function (student) {
+        var totalCompleted = 0;
+        _.each(student.missions, function (mission) {
+          if (mission.completed) {
+            totalCompleted++;
+          }
+        });
+        var average = totalCompleted / student.missions.length;
+        totalAverage += average;
       });
-      var average = totalCompleted/student.missions.length;
-      totalAverage += average;
-    });
-    $scope.status.averageMissionProgress = totalAverage / numOfStudents;
+      var avgMissionProgress = (totalAverage / numOfStudents) || 0;
+      $scope.status.averageMissionProgress = Math.ceil(avgMissionProgress*100);
+      $scope.progressArc.progress = avgMissionProgress;
+    }
   };
-
+  var _calculateTotalTimePlayed = function(courseId, gameId) {
+    // find students in this course that played this game
+    var students = $scope.courses.options[courseId].users;
+    var sum = 0;
+    var numOfStudents = 0;
+    var studentIds = [];
+    _.each(students, function(student) {
+      studentIds.push(student.id);
+    });
+    GamesService.getTotalTimePlayed(gameId,studentIds).then(function(students) {
+      var studentsList = students.data;
+      numOfStudents = Object.keys(studentsList).length;
+      for (var studentId in studentsList) {
+        sum += studentsList[studentId];
+      }
+      if (!!numOfStudents) {
+        $scope.status.avgTotalTimePlayed = sum / numOfStudents;
+      } else {
+        return 0;
+      }
+    });
+  };
   var _populateSOWO = function(data) {
     var watchOuts = [];
     var shoutOuts = [];
@@ -275,8 +303,19 @@ angular.module( 'instructor.dashboard', [
     return student;
   };
 
-  _initDashboard();
+  $scope.goToLink = function (path) {
+      $window.open(path, '_blank');
+  };
 
-      console.log('$scope.status.averageMissionProgress',$scope.status.averageMissionProgress);
-    });
+  $scope.goToPlayGame = function (gameId,type) {
+    if (type === 'missions') {
+      $state.go('modal-lg.missions', {gameId: gameId});
+    } else {
+      $window.location = "/games/" + gameId + "/play-" + type;
+    }
+  };
+
+  _initDashboard();
+  console.log('$scope.status.averageMissionProgress)',$scope.status);
+});
 

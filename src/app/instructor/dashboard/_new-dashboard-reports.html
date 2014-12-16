@@ -47,16 +47,30 @@
                 </a>
             </div>
         </div>
-            <div class="col-md-4 gl-dashboard-data-col">
-                <h4>Average Mission Progress:</h4>
-                <progress-arc
-                        size="{{progressArc.size}}"
-                        stroke="{{progressArc.stroke}}"
-                        stroke-width="{{progressArc.strokeWidth}}"
-                        background="{{progressArc.background}}"
-                        complete="progressArc.progress">
-                        <div ng-bind="status.averageMissionProgress" class="averageMissionProgressText"></div>
-                </progress-arc>
+            <div class="col-md-4 gl-dashboard-data-col-game-stats text-center">
+                <div class="gl-watchouts-heading text-center">
+                    <span class="headline-4">Key Game Stats</span>
+                </div>
+                <h4>Avg Total Time Played:</h4>
+
+                <div class="clearfix">
+                    <div class="counter-wrapper">
+                        <ul class="flip-counter default" id="myCounter"></ul>
+                    </div>
+                </div>
+                {{status.avgTotalTimePlayed}}
+                <h4>Avg Game Progress:</h4>
+                <div ng-if="status.averageMissionProgress" class="gl-dashboard-progress-arc">
+                    <span class="averageMissionProgressText">{{45}}<span>%</span></span>
+                    <progress-arc
+                            size="{{progressArc.size}}"
+                            stroke="{{progressArc.stroke}}"
+                            stroke-width="{{progressArc.strokeWidth}}"
+                            background="{{progressArc.background}}"
+                            complete="progressArc.progress">
+                    </progress-arc>
+                </div>
+
 
             </div>
             <div class="col-md-4 gl-dashboard-data-col">
@@ -96,48 +110,40 @@
 
                 </div>
             </div>
+    </div>
+</div>
+<div class="row gl-margin--T30">
+    <div class="col-md-12 gl-course-progress-container gl-pad--Bxxl gl-pad-Hm">
+        <div class="col-md-6">
+            <div class="gl-watchouts-heading text-center">
+                <span class="headline-4">Message Center</span>
+            </div>
 
+        </div>
+        <div class="col-md-6 gl-dashboard-data-col-games">
+            <div class="gl-watchouts-heading text-center">
+                <span class="headline-4">Assigned Games</span>
+            </div>
 
-
-            <div class="row gl-pad-Vl gl-margin--Ts">
-                <div class="gl-progress-legend col-md-12">
-                    <span class="gl-icon-watchout-landing"></span>
-              <span> Get more information about students with Watch Outs! and see next
-              steps from instruction.</span>
-                    <br/>
-                    <span class="gl-icon-shoutout-landing"></span>
-              <span>
-              Celebrate your students&rsquo; successes.
-              You can find information about students who are excelling in the
-              game by viewing the Shout Outs!
-              </span>
+            <div ng-repeat="game in myGames">
+                <div class="gl-dashboard-game-box">
+                    <img ng-src="/{{game.card.small}}" class="gl-dashboard-game-card">
+                    <div class="gl-dashboard-game-box-info">
+                        <span class="gl-dashboard-game-box-info-title">
+                            {{game.shortName}}
+                            <span class="gl-text-end-fade"></span>
+                        </span>
+                        <ul class="">
+                            <li>Developed by {{game.developer.name}}
+                            </li>
+                            <li ng-switch="game.play.type">
+                                <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-default ng-click="goToPlayGame(game.gameId,game.play.type)">Play Game</button>
+                                <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-when="download" ng-click="goToLink(game.play.link)">Download</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="row gl-pad-Vl text-center">
-                <button class="btn gl-btn--blue"
-                        ui-sref="root.reports.details.sowo({gameId:status.selectedGameId, courseId:status.selectedCourseId})">
-                    Go to <strong>Shout Out! Watch Out! Report</strong>
-                </button>
-            </div>
-        </div>
-</div>
-
-<div class="row">
-    <div>
-        <h1>Assigned Games</h1>
-        <div ng-repeat="game in myGames">
-            <div class="gl-game-catalog-game-box-info">
-                <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
-                            <span class="gl-game-catalog-game-title">
-                                {{game.shortName}}
-                                <span class="gl-text-end-fade"></span>
-                            </span>
-                <ul>
-                    <li>Developed by {{game.developer.name}}
-                    </li>
-                </ul>
-            </div>
-
         </div>
     </div>
 </div>
