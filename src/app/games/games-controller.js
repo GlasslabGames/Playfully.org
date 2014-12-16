@@ -210,11 +210,6 @@ angular.module( 'playfully.games', [
         $scope.comingSoonGames
       ];
 
-      for (var i = 0; i < allGamesInfo.length; i++) {
-        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(angular.copy(allGamesInfo[i]));}
-        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(angular.copy(allGamesInfo[i]));}
-        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(angular.copy(allGamesInfo[i]));}
-      }
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});

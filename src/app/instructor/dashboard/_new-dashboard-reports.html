@@ -118,7 +118,14 @@
             <div class="gl-watchouts-heading text-center">
                 <span class="headline-4">Message Center</span>
             </div>
-
+            <div ng-repeat="message in messages">
+                <div class="gl-dashboard-message-box">
+                    {{message.subject}}
+                    {{message.message}}
+                    {{message.timestamp}}
+                    {{message.icon}}
+                </div>
+            </div>
         </div>
         <div class="col-md-6 gl-dashboard-data-col-games">
             <div class="gl-watchouts-heading text-center">

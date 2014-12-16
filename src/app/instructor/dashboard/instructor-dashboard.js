@@ -96,13 +96,14 @@ angular.module( 'instructor.dashboard', [
 
 
 
-.controller('InstructorDashboardCtrl', function($scope, $window, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService) {
+.controller('InstructorDashboardCtrl', function($scope, $window, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService, DashService) {
 
   $scope.students = {};
   $scope.courses = {};
   $scope.myGames = myGames;
   $scope.shoutOuts = [];
   $scope.watchOuts = [];
+  $scope.messages = [];
 
   $scope.status = {
     selectedGameId: defaultGameId,
@@ -204,6 +205,7 @@ angular.module( 'instructor.dashboard', [
     // set current game
     _setSelectedGameById($stateParams.gameId);
     _calculateTotalTimePlayed($scope.courses.selectedCourseId,$scope.status.selectedGameId, $scope.students);
+    _retrieveMessages();
 
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
@@ -275,13 +277,13 @@ angular.module( 'instructor.dashboard', [
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
         wo.user = studentObj;
-        wo.timestamp = moment(new Date(1415838021807)).fromNow();
+        wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
         watchOuts.push(angular.copy(wo));
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
-        so.timestamp = moment(new Date(1415838021807)).fromNow();
+        so.timestamp = moment(new Date(wo.timestamp)).fromNow();
         shoutOuts.push(so);
         shoutOuts.push(angular.copy(so));
       });
@@ -291,6 +293,20 @@ angular.module( 'instructor.dashboard', [
     $scope.shoutOuts = shoutOuts;
   };
 
+  var _retrieveMessages = function () {
+    var messageList = [];
+    DashService.getMessages('message', 10, 'asc').then(function(messages) {
+      for (var key in messages) {
+        var message = messages[key].value;
+        if (message &&
+            message.timestamp) {
+          message.timestamp = moment(new Date(message.timestamp)).fromNow();
+        }
+        messageList.push(message);
+      }
+      $scope.messages = messageList;
+    });
+  };
 
   var _compileNameOfStudent = function(student) {
     if (!student) { return ''; }
