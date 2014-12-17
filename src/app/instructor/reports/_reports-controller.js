@@ -91,7 +91,7 @@ angular.module( 'instructor.reports', [
   })
 
     .state('root.reports.details.sowo', {
-        url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
+        url: '/sowo/game/:gameId/course/:courseId?groupId&stdntIds',
         templateUrl: 'instructor/reports/sowo/sowo.html',
         controller: 'SowoCtrl',
         parameters: ['gameId','courseId'],
