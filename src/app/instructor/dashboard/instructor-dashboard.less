@@ -9,65 +9,11 @@
   padding-bottom: 60px;
 }
 
-.gl-instructor-lower-panel {
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
-.gl-navbar-alert {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: -5px;
-}
-
-.gl-navbar-alert-inner {
-  display: inline-block;
-  padding: 15px 30px;
-  border-radius: 8px;
-  background-color: @yellow;
-}
-
-
-.gl-course-list-item {
-  padding: 10px;
-  display: block;
-  font-size: 18px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-overflow: ellipsis;
-  text-overflow: "…";
-}
-
-.gl-course-list-item:link,
-.gl-course-list-item:visited {
-  color: @grey1;
-}
-
-
-
-
-
 .gl-progress-legend {
   span {
     text-align: left;
     margin-bottom: 5px;
   }
-}
-
-.gl-dashboard-skinny-banner {
-  width: 620px;
-  height: 73px;
-  border-radius: 6px;
-}
-
-.gl-course-list-item--selected {
-  border-right: none;
-  .border-radiuses(0, 0, 5px, 5px);
-  margin-right: -16px;
-  position: relative;
-  z-index: 40;
 }
 
 .icon-shoutout--large,
@@ -139,7 +85,6 @@
   .image-2x('icon-shoutout-landing-big.png', 55px, 55px);
 }
 
-
 .gl-dashboard-banner {
   margin: 0px;
   position: relative;
@@ -174,29 +119,6 @@
 
 }
 
-.gl-dashboard-container {
-  background: white;
-  border: 1px solid @grey6;
-  width: 940px;
-  padding: 0px;
-  position: relative;
-  z-index: 1;
-}
-
-.gl-dashboard-container-top {
-  .gl-dashboard-container;
-  .gl-dashboard-container-footer {
-    width: 100%;
-  }
-}
-
-.gl-dashboard-container-bottom {
-  .gl-dashboard-container;
-  height: 590px;
-  position: relative;
-  left: 6px;
-}
-
 .gl-dashboard-game-selector {
   display: flex;
   flex-direction: row;
@@ -225,6 +147,44 @@
     color: white;
     cursor: default;
   }
+}
+
+.gl-dashboard-container {
+  background: white;
+  border: 1px solid @grey6;
+  width: 940px;
+  padding: 0px;
+  position: relative;
+  z-index: 1;
+}
+
+.gl-dashboard-container-top {
+  .gl-dashboard-container;
+  .gl-dashboard-container-footer {
+    width: 100%;
+  }
+}
+
+.gl-dashboard-container-bottom {
+  .gl-dashboard-container;
+  height: 590px;
+  position: relative;
+  left: 6px;
+}
+
+.gl-dashboard-container-bottom-header-section {
+  height: 68px;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-container-bottom-data-section {
+  height: 515px;
+  overflow: scroll;
+}
+
+
+.gl-dashboard-title-inactive {
+  color: #cccccc;
 }
 
 .gl-dashboard-col-header {
@@ -359,20 +319,6 @@
       }
     }
   }
-}
-
-.gl-dashboard-container-bottom-header-section {
-  height: 68px;
-  border-bottom: 1px solid @grey7;
-}
-
-.gl-dashboard-container-bottom-data-section {
-  height: 515px;
-  overflow: scroll;
-}
-
-.gl-dashboard-title-inactive {
-  color: #cccccc;
 }
 
 .gl-dashboard-col-messages {
