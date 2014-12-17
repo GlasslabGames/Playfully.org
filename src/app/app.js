@@ -296,7 +296,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, $previousState) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -336,6 +336,27 @@ angular.module( 'playfully', [
           angular.isDefined(toState.data.hideWrapper)) {
           $scope.hideWrapper = toState.data.hideWrapper;
         }
+    });
+
+    $scope.$on(CHECKLIST.visitGameCatalog, function () {
+      console.log($scope.currentUser);
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor') {
+        console.log(CHECKLIST.visitGameCatalog);
+      }
+    });
+
+    $scope.$on(CHECKLIST.createCourse, function () {
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor') {
+        console.log(CHECKLIST.createCourse);
+      }
+    });
+    $scope.$on(CHECKLIST.inviteStudents, function () {
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor') {
+        console.log(CHECKLIST.inviteStudents);
+      }
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {

@@ -1,7 +1,11 @@
 <div class="col-md-8">
     <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
 </div>
-<div class="col-md-4">
+
+<div ng-if="!status.hasStudents">
+
+</div>
+<div class="col-md-4" ng-if="status.hasStudents">
     <div class="btn-group" dropdown is-open="courses.isOpen">
         <button type="button" class="btn btn-default gl-reports-dropdown"
                 ng-click="toggleDropdown($event, 'reports')"
@@ -20,7 +24,8 @@
         </ul>
     </div>
 </div>
-<div class="row">
+
+<div class="row" ng-if="status.hasStudents">
     <div class="col-md-12 gl-pad-Hl">
         <div class="gl-dashboard-container-top">
             <div class="gl-dashboard-game-selector">
@@ -76,6 +81,9 @@
                     <div class="gl-watchouts-heading text-center">
                         <span class="headline-4">Watch Out!</span>
                     </div>
+                    <div class="text-center" ng-if="watchOuts.length===0">
+                        There is no data available yet
+                    </div>
                     <div class="gl-watchouts-box" ng-repeat="wo in watchOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
                             <span class="gl-icon-watchout-landing-big"></span>
@@ -97,7 +105,9 @@
                     <div class="gl-watchouts-heading text-center">
                         <span class="headline-4">Shout Out!</span>
                     </div>
-
+                    <div class="text-center" ng-if="shoutOuts.length===0">
+                        There is no data available yet
+                    </div>
                     <div class="gl-watchouts-box" ng-repeat="so in shoutOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
                             <span class="gl-icon-shoutout-landing-big"></span>
@@ -128,7 +138,7 @@
                 <div class="gl-watchouts-heading text-center">
                     <span class="headline-4">Message Center</span>
                 </div>
-                <div ng-repeat="message in messages">
+                <div ng-if="messages.length" ng-repeat="message in messages">
                     <div class="gl-dashboard-message-box">
                         <div class="gl-dashboard-message-icon-box">
                             <img ng-src="/assets/{{message.icon}}" class="gl-dashboard-message-icon">

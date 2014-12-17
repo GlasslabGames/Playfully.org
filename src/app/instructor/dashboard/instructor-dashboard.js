@@ -200,11 +200,11 @@ angular.module( 'instructor.dashboard', [
   };
 
   var _initDashboard = function() {
+
     // populates student list
     _populateStudentsListFromCourses(activeCourses);
     // set current game
     _setSelectedGameById($stateParams.gameId);
-    _calculateTotalTimePlayed($scope.courses.selectedCourseId,$scope.status.selectedGameId, $scope.students);
     _retrieveMessages();
 
 
@@ -224,8 +224,10 @@ angular.module( 'instructor.dashboard', [
           });
         }
       });
-    // retrieve all reports for game
-    _getReports();
+    if ($scope.status.hasStudents) {
+      _calculateTotalTimePlayed($scope.courses.selectedCourseId, $scope.status.selectedGameId, $scope.students);
+      _getReports();
+    }
   };
 
   var _calculateMissionProgress = function(students) {
@@ -334,6 +336,12 @@ angular.module( 'instructor.dashboard', [
     });
   };
 
+  var _checkStudentCount = function(coursesInfo) {
+    return _.some(coursesInfo, function(course) {
+      return course.studentCount > 0;
+    });
+  };
+
   var _compileNameOfStudent = function(student) {
     if (!student) { return ''; }
     var name = student.firstName;
@@ -357,7 +365,10 @@ angular.module( 'instructor.dashboard', [
     }
   };
 
+  $scope.status.hasStudents = _checkStudentCount(coursesInfo);
+
   _initDashboard();
+
   console.log('$scope.status.averageMissionProgress)',$scope.status);
 });
 
