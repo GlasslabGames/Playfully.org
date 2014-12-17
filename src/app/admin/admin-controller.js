@@ -10,7 +10,7 @@ angular.module('playfully.admin', ['dash'])
             }
         },
         data: {
-            authorizedRoles: ['instructor']
+            authorizedRoles: ['admin']
         }
     });
 })

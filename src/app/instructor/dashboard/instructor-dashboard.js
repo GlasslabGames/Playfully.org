@@ -283,6 +283,7 @@ angular.module( 'instructor.dashboard', [
       }
     });
   };
+
   var _populateSOWO = function(data) {
     var watchOuts = [];
     var shoutOuts = [];
@@ -293,22 +294,24 @@ angular.module( 'instructor.dashboard', [
         wo.user = studentObj;
         wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
-        var diff = angular.copy(wo);
-        diff.timestamp = moment().endOf('day').fromNow();
-        diff.description = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah";
-        watchOuts.push(angular.copy(diff));
-        watchOuts.push(angular.copy(wo));
-        watchOuts.push(angular.copy(wo));
-        watchOuts.push(angular.copy(wo));
-        watchOuts.push(angular.copy(wo));
+        // Dummy Data
+        //var diff = angular.copy(wo);
+        //diff.timestamp = moment().endOf('day').fromNow();
+        //diff.description = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah";
+       //watchOuts.push(angular.copy(diff));
+        //watchOuts.push(angular.copy(wo));
+        //watchOuts.push(angular.copy(wo));
+        //watchOuts.push(angular.copy(wo));
+        //watchOuts.push(angular.copy(wo));
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
         so.timestamp = moment(new Date(so.timestamp)).fromNow();
         shoutOuts.push(so);
-        shoutOuts.push(angular.copy(so));
-        shoutOuts.push(angular.copy(so));
-        shoutOuts.push(angular.copy(so));
+        // Dummy Data
+        // shoutOuts.push(angular.copy(so));
+        // shoutOuts.push(angular.copy(so));
+        // shoutOuts.push(angular.copy(so));
       });
     });
 
