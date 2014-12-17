@@ -111,7 +111,10 @@ angular.module( 'instructor.dashboard', [
     nextGameId: null,
     prevGameId: null,
     averageMissionProgress: null,
-    avgTotalTimePlayed: null
+    avgTotalTimePlayed: null,
+    showMessages: true,
+    showTweets: false,
+    hasStudents: true
   };
 
   // Courses - Setup course options and select course ///////////
@@ -125,7 +128,7 @@ angular.module( 'instructor.dashboard', [
 
   $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-  // Mission Progress directive
+  // Controls for Average Mission Progress
 
   $scope.progressArc = {
     size: 120,
@@ -161,7 +164,6 @@ angular.module( 'instructor.dashboard', [
     return nextIndex;
   };
 
-
   /* Create an object whose keys are student.id and value is student */
   // All students from all courses
   var _populateStudentsListFromCourses = function(courseList) {
@@ -174,39 +176,12 @@ angular.module( 'instructor.dashboard', [
     });
   };
 
-  var _getReports = function() {
-    GamesService.getAllReports($stateParams.gameId).then(function(data) {
-      if (data.list && data.list.length) {
-        var hasSOWO = _.some(data.list, {'id': 'sowo'});
-        var hasMissionProgress = _.some(data.list, {'id': 'mission-progress'});
-
-        if (hasSOWO) {
-          ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
-            .then(function(data) {
-                _populateSOWO(data); },
-              function(data) { $log.error(data); });
-        }
-        if (hasMissionProgress) {
-          ReportsService.get('mission-progress',$stateParams.gameId, $stateParams.courseId)
-              .then(function (data) {
-                _calculateMissionProgress(data);
-              },
-              function (data) {
-                $log.error(data);
-              });
-        }
-      }
-    });
-  };
-
   var _initDashboard = function() {
-
     // populates student list
     _populateStudentsListFromCourses(activeCourses);
     // set current game
     _setSelectedGameById($stateParams.gameId);
     _retrieveMessages();
-
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
@@ -228,6 +203,34 @@ angular.module( 'instructor.dashboard', [
       _calculateTotalTimePlayed($scope.courses.selectedCourseId, $scope.status.selectedGameId, $scope.students);
       _getReports();
     }
+  };
+
+  var _getReports = function () {
+    GamesService.getAllReports($stateParams.gameId).then(function (data) {
+      if (data.list && data.list.length) {
+        var hasSOWO = _.some(data.list, {'id': 'sowo'});
+        var hasMissionProgress = _.some(data.list, {'id': 'mission-progress'});
+
+        if (hasSOWO) {
+          ReportsService.get('sowo', $stateParams.gameId, $stateParams.courseId)
+              .then(function (data) {
+                _populateSOWO(data);
+              },
+              function (data) {
+                $log.error(data);
+              });
+        }
+        if (hasMissionProgress) {
+          ReportsService.get('mission-progress', $stateParams.gameId, $stateParams.courseId)
+              .then(function (data) {
+                _calculateMissionProgress(data);
+              },
+              function (data) {
+                $log.error(data);
+              });
+        }
+      }
+    });
   };
 
   var _calculateMissionProgress = function(students) {
@@ -296,24 +299,11 @@ angular.module( 'instructor.dashboard', [
         wo.user = studentObj;
         wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
-        // Dummy Data
-        //var diff = angular.copy(wo);
-        //diff.timestamp = moment().endOf('day').fromNow();
-        //diff.description = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah";
-       //watchOuts.push(angular.copy(diff));
-        //watchOuts.push(angular.copy(wo));
-        //watchOuts.push(angular.copy(wo));
-        //watchOuts.push(angular.copy(wo));
-        //watchOuts.push(angular.copy(wo));
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
         so.timestamp = moment(new Date(so.timestamp)).fromNow();
         shoutOuts.push(so);
-        // Dummy Data
-        // shoutOuts.push(angular.copy(so));
-        // shoutOuts.push(angular.copy(so));
-        // shoutOuts.push(angular.copy(so));
       });
     });
 
@@ -365,10 +355,6 @@ angular.module( 'instructor.dashboard', [
     }
   };
 
-  $scope.status.hasStudents = _checkStudentCount(coursesInfo);
-
   _initDashboard();
-
-  console.log('$scope.status.averageMissionProgress)',$scope.status);
 });
 
