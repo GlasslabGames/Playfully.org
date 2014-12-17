@@ -45,17 +45,9 @@
   color: @grey1;
 }
 
-.gl-course-list-item--selected,
-.gl-course-progress-container {
-  background: white;
-  border: 1px solid @grey6;
-}
 
-.gl-course-progress-container {
-  position: relative;
-  z-index: 1;
-  .border-radius(6px);
-}
+
+
 
 .gl-progress-legend {
   span {
@@ -137,65 +129,6 @@
   background: @yellow;
 }
 
-.gl-dashboard-skinny-banner {
-  height: 70px;
-  border-radius: 6px;
-}
-
-.gl-dashboard-sidebar {
-  border-color: #e5e5e5 !important;
-}
-
-.gl-dashboard-student-name {
-  .text-overflow;
-  display: inline-block;
-  vertical-align: middle;
-  min-width: 100px;
-  width: 33%;
-  margin-right: 3%;
-}
-
-.gl-dashboard-student-heading {
-  background: @grey7;
-  .border-radiuses(10px, 0, 0, 10px);
-  padding: 8px 10px 6px;
-}
-
-.gl-dashboard-student-footer {
-  background: @grey7;
-  .border-radiuses(0, 10px, 10px, 0);
-  height: 10px;
-}
-
-.gl-dashboard-student-divider {
-  height: 4px;
-  background: @aquaBlue;
-  margin-top: 4px;
-  margin-bottom: 4px;
-}
-
-.gl-dashboard-student .popover-content {
-  font-size: 14px;
-}
-
-
-.gl-dashboard-student {
-  padding-left:    20px;
-  padding-top:    8px;
-  padding-bottom: 8px;
-  margin-bottom:   6px;
-  font-size: 18px;
-  color: @grey3;
-  height: 48px;
-}
-
-.gl-dashboard-student--even {
-  background: @grassGreenLightest;
-}
-
-.gl-dashboard-student--odd {
-  background: @aquaBlueLightest;
-}
 
 .gl-dashboard-sowo-footer {
   display: inline-block;
@@ -229,36 +162,305 @@
 
 .gl-icon-watchout-landing-big {
   display: inline-block;
-  width: 66px;
-  height: 66px;
-  .image-2x('icon-watchout-landing-big.png', 66px, 66px);
+  width: 55px;
+  height: 55px;
+  .image-2x('icon-watchout-landing-big.png', 55px, 55px);
+}
+
+.gl-icon-shoutout-landing-big {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  .image-2x('icon-shoutout-landing-big.png', 55px, 55px);
 }
 
 .gl-watchouts-heading {
-  font: bold 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 30px;
+  span {
+    vertical-align: middle;
+    line-height: 50px;
+  }
 }
 
-.gl-watchouts-subheading {
-  font: bold 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-top: 8px;
-  margin-bottom: 8px;
+
+.gl-dashboard-banner {
+  margin: 0px;
+  position: relative;
+  @height: 279px;
+  .gl-dashboard-banner-left {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    left: 0px;
+    top: @height/2.5;
+    padding: 15px;
+    i {
+      color: white;
+    }
+  }
+  .gl-dashboard-banner-right {
+    position: absolute;
+    background-color: rgba(255,255,255,0.5);
+    right: 0px;
+    top: @height/2.5;
+    padding: 15px;
+    i {
+      color: white;
+    }
+  }
+  img {
+    width: 100%;
+    height: @height;
+  }
+
 }
 
-.gl-row-border--top {
-  border-top: 1px solid @grey7;
+.gl-dashboard-container {
+  background: white;
+  border: 1px solid @grey6;
+  width: 940px;
+  padding: 0px;
+  position: relative;
+  z-index: 1;
 }
 
-.gl-row-border--bottom {
+.gl-dashboard-container-top {
+  .gl-dashboard-container;
+  min-height: 900px;
+  .gl-dashboard-container-footer {
+    position: absolute;
+    bottom: 0px;
+    height: 79px;
+    width: 100%;
+  }
+}
+
+.gl-dashboard-container-bottom {
+  .gl-dashboard-container;
+  height: 590px;
+}
+
+.gl-dashboard-game-selector {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15px;
+//  border: 1px solid red;
+  .gl-dashboard-game {
+    color: @grey4;
+    font-weight: 500;
+    background-color: @grey7;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 25px;
+  }
+  .gl-dashboard-game:hover {
+    background-color: steelblue;
+    color: white;
+    cursor: pointer;
+  }
+  .gl-dashboard-game-active {
+    background-color: steelblue;
+    color: white;
+    cursor: default;
+  }
+}
+
+.gl-dashboard-data-col-sowo.wo {
+  border-right: 1px solid @grey7;
   border-bottom: 1px solid @grey7;
 }
 
-.gl-fa-3 {
-  font-size: 3em;
-  display: inline-block;
-  vertical-align: middle;
-  color: @grey5;
+.gl-dashboard-data-col-sowo.so {
+  border-bottom: 1px solid @grey7;
+}
 
-  &:hover {
-    color: @aquaBlue;
+.gl-dashboard-data-col-sowo {
+  min-height: 467px;
+  width: 100%;
+  margin: 0px;
+  padding: 10px;
+  .gl-icon-watchout-landing-big,
+  .gl-icon-shoutout-landing-big {
+    float: left;
+  }
+
+  .gl-watchouts-box {
+    min-height: 77px;
+    margin-bottom: 20px;
+    padding: 0px;
+  }
+
+  .gl-dashboard-watchout-info {
+    width: 220px;
+    margin-left: 13px;
+    float: left;
+    hr {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      color: @grey6;
+    }
+    .gl-watchouts-username {
+      font-weight: 500;
+      font-size: 16px;
+      vertical-align: bottom;
+    }
+    .timestamp  {
+      font-size: 12px;
+      color: @grey4;
+      float: right;
+    }
+    .gl-watchouts-title {
+      font-size:13px;
+      margin-bottom: 3px;
+    }
+    p {
+      word-wrap: break-word;
+      font-size:12px;
+      color: @grey4;
+    }
   }
 }
+
+.gl-dashboard-data-col-game-stats {
+  min-height: 467px;
+  .gl-dashboard-subheading {
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  margin: 0px;
+  width: 100%;
+  height: 420px;
+  border: 1px solid @grey7;
+  padding: 10px;
+  .gl-dashboard-progress-arc {
+    margin: auto;
+    position: relative;
+    display: inline-block;
+    .averageMissionProgressText {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: 120px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 800;
+      span {
+        font-size: 15px;
+        font-weight: 800;
+      }
+    }
+  }
+  .gl-dashboard-time-counter {
+    div {
+      display: inline-block;
+      margin: 1px;
+      .numbers {
+        margin-bottom: 10px;
+        width: 100px;
+        height: 50px;
+        font-size: 36px;
+        font-family: 'Bitter';
+        font-weight: 800;
+        background-color: #002f35;
+        color: white;
+      }
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+.gl-dashboard-col-messages {
+  padding: 0px;
+  height: 590px;
+  overflow: scroll;
+  .gl-dashboard-message-box {
+    padding:20px;
+    border-bottom: 1px solid @grey7;
+    .gl-dashboard-message-icon-box {
+      display: inline-block;
+      width: 58px;
+      height: 58px;
+      margin-right: 20px;
+      vertical-align: top;
+    }
+    .gl-dashboard-message-icon {
+    }
+    .gl-dashboard-message-box-info {
+      display: inline-block;
+      width: 325px;
+      .gl-dashboard-message-subject {
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .timestamp {
+        font-size: 12px;
+        color: @grey4;
+        float: right;
+      }
+      p {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.gl-dashboard-data-col-games {
+  border: 1px solid @grey7;
+  overflow: scroll;
+  width: 100%;
+  height: 590px;
+  padding: 0px;
+  .gl-dashboard-game-box {
+    width: 100%;
+    height: 152px;
+    border-bottom: 1px solid @grey6;
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left:20px;
+  }
+  .gl-dashboard-game-box-info {
+    display: inline-block;
+    width: 230px;
+    height: 122px;
+    ul {
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 12px;
+      list-style-type: none;
+      padding: 0px;
+      margin: 0px;
+    }
+    .text-end-fade {
+      height: 87px;
+      width: 10px;
+      top: 3px;
+      right: 0;
+    }
+  }
+  .gl-dashboard-game-box-info-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .gl-dashboard-game-card {
+    display: inline-block;
+    width: 152px;
+    height: 122px;
+    margin-right: 20px;
+  }
+}
+
