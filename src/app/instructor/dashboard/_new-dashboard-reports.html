@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 gl-pad-Hm">
+    <div class="col-md-12 gl-pad-Hl">
         <div class="gl-dashboard-container-top">
             <div class="gl-dashboard-game-selector">
                 <div class="gl-dashboard-game"
@@ -48,77 +48,76 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4 gl-dashboard-data-col-game-stats text-center">
-                <div class="gl-watchouts-heading text-center">
-                    <span class="headline-4">Key Game Stats</span>
-                </div>
-                <h4>Avg Total Time Played:</h4>
-
-                <div class="clearfix">
-                    <div class="counter-wrapper">
-                        <ul class="flip-counter default" id="myCounter"></ul>
+                <div class="col-md-4 gl-dashboard-data-col-game-stats text-center">
+                    <div class="gl-watchouts-heading text-center">
+                        <span class="headline-4">Key Game Stats</span>
                     </div>
-                </div>
-                {{status.avgTotalTimePlayed}}
-                <h4>Avg Game Progress:</h4>
-                <div ng-if="status.averageMissionProgress" class="gl-dashboard-progress-arc">
-                    <span class="averageMissionProgressText">{{status.averageMissionProgress}}<span>%</span></span>
-                    <progress-arc
-                            size="{{progressArc.size}}"
-                            stroke="{{progressArc.stroke}}"
-                            stroke-width="{{progressArc.strokeWidth}}"
-                            background="{{progressArc.background}}"
-                            complete="progressArc.progress">
-                    </progress-arc>
-                </div>
-
-
-            </div>
-            <div class="col-md-4 gl-dashboard-data-col">
-                <div class="gl-watchouts-heading text-center">
-                    <span class="headline-4">Watch Out!</span>
-                </div>
-                <div class="gl-watchouts-box" ng-repeat="wo in watchOuts">
-                    <div>
-                        <span class="gl-icon-watchout-landing-big"></span>
-                        <div class="gl-dashboard-watchout-info">
-                            <span class="gl-watchouts-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
-                                <span class="timestamp">{{wo.timestamp}}</span>
-                            <hr>
-                            <div class="gl-watchouts-title" ng-bind="wo.name"></div>
-                            <p ng-bind="wo.description"></p>
+                    <span class="gl-dashboard-subheading">Avg Total Time Played:</span>
+                    <div class="gl-dashboard-time-counter gl-margin--B40">
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours}}</span> <span>HRS</span></div>
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes}}</span> <span>MINS</span></div>
+                    </div>
+                    <div ng-if="status.averageMissionProgress">
+                        <span class="gl-dashboard-subheading">Avg Game Progress:</span>
+                        <div class="gl-dashboard-progress-arc">
+                            <span class="averageMissionProgressText">{{status.averageMissionProgress}}<span>%</span></span>
+                            <progress-arc
+                                    size="{{progressArc.size}}"
+                                    stroke="{{progressArc.stroke}}"
+                                    stroke-width="{{progressArc.strokeWidth}}"
+                                    background="{{progressArc.background}}"
+                                    complete="progressArc.progress">
+                            </progress-arc>
                         </div>
                     </div>
 
                 </div>
-                <div ng-if="watchOuts.length > 3"><a
-                        ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'wo'})">Show
-                    More Watch Outs ({{watchOuts.length-3}})</a></div>
-            </div>
-            <div class="col-md-4 gl-dashboard-data-col">
-                <div class="gl-watchouts-heading text-center">
-                    <span class="headline-4">Shout Out!</span>
-                </div>
+                <div class="col-md-4 gl-dashboard-data-col-sowo wo">
+                    <div class="gl-watchouts-heading text-center">
+                        <span class="headline-4">Watch Out!</span>
+                    </div>
+                    <div class="gl-watchouts-box" ng-repeat="wo in watchOuts | orderBy : 'timestamp' : true | limitTo : 3">
+                        <div>
+                            <span class="gl-icon-watchout-landing-big"></span>
+                            <div class="gl-dashboard-watchout-info">
+                                <span class="gl-watchouts-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
+                                    <span class="timestamp">{{wo.timestamp}}</span>
+                                <hr>
+                                <div class="gl-watchouts-title" ng-bind="wo.name"></div>
+                                <p ng-bind="wo.description"></p>
+                            </div>
+                        </div>
 
-                <div class="gl-watchouts-box" ng-repeat="so in shoutOuts">
-                    <div>
-                        <span class="gl-icon-shoutout-landing-big"></span>
-                        <div class="gl-dashboard-watchout-info">
-                            <span class="gl-watchouts-username">{{so.user.firstName+''+so.user.lastName}}</span>
-                            <span class="timestamp">{{so.timestamp}}</span>
-                            <hr>
-                            <div class="gl-watchouts-title" ng-bind="so.name"></div>
-                            <p ng-bind="so.description"></p>
+                    </div>
+                    <div class="text-center" ng-if="watchOuts.length > 3"><a
+                            ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'wo'})">Show
+                        All Watch Outs ({{watchOuts.length}})</a></div>
+                </div>
+                <div class="col-md-4 gl-dashboard-data-col-sowo so">
+                    <div class="gl-watchouts-heading text-center">
+                        <span class="headline-4">Shout Out!</span>
+                    </div>
+
+                    <div class="gl-watchouts-box" ng-repeat="so in shoutOuts | orderBy : 'timestamp' : true | limitTo : 3">
+                        <div>
+                            <span class="gl-icon-shoutout-landing-big"></span>
+                            <div class="gl-dashboard-watchout-info">
+                                <span class="gl-watchouts-username">{{so.user.firstName+''+so.user.lastName}}</span>
+                                <span class="timestamp">{{so.timestamp}}</span>
+                                <hr>
+                                <div class="gl-watchouts-title" ng-bind="so.name"></div>
+                                <p ng-bind="so.description"></p>
+                            </div>
                         </div>
                     </div>
+                    <div class="text-center" ng-if="shoutOuts.length > 3"><a
+                            ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'so'})">Show
+                        All Shout Outs ({{shoutOuts.length}})</a>
+                    </div>
                 </div>
-                <div ng-if="shoutOuts.length > 3"><a
-                        ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'so'})">Show
-                    More Shout Outs ({{shoutOuts.length-3}})</a>
-                </div>
+            <div class="gl-dashboard-container-footer text-center"><button type="button" class="btn gl-btn--blue gl-margin-Vl"
+                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">Show All Reports</button>
             </div>
-            <div><button type="button" class="btn gl-btn--blue"
-                         ui-sref="root.reports.details({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">Show All Reports</button></div>
         </div>
     </div>
 </div>

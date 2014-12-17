@@ -247,6 +247,20 @@ angular.module( 'instructor.dashboard', [
       $scope.progressArc.progress = avgMissionProgress;
     }
   };
+
+  String.prototype.toHHMMSS = function () {
+    var sec_num = parseInt(this, 10); // don't forget the second param
+    var hours = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours < 10) {hours = "0" + hours;}
+    if (minutes < 10) {minutes = "0" + minutes;}
+    if (seconds < 10) {seconds = "0" + seconds;}
+    var time = {'hours':hours,'minutes':minutes,'seconds':seconds};
+    return time;
+  };
+
   var _calculateTotalTimePlayed = function(courseId, gameId) {
     // find students in this course that played this game
     var students = $scope.courses.options[courseId].users;
@@ -263,7 +277,7 @@ angular.module( 'instructor.dashboard', [
         sum += studentsList[studentId];
       }
       if (!!numOfStudents) {
-        $scope.status.avgTotalTimePlayed = sum / numOfStudents;
+        $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
       } else {
         return 0;
       }
@@ -279,7 +293,10 @@ angular.module( 'instructor.dashboard', [
         wo.user = studentObj;
         wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
-        watchOuts.push(angular.copy(wo));
+        var diff = angular.copy(wo);
+        diff.timestamp = moment().endOf('day').fromNow();
+        diff.description = "blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah";
+        watchOuts.push(angular.copy(diff));
         watchOuts.push(angular.copy(wo));
         watchOuts.push(angular.copy(wo));
         watchOuts.push(angular.copy(wo));
