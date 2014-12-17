@@ -69,10 +69,6 @@
   margin: 0px 8px 20px;
 }
 
-// .gl-course-game:first-child {
-//   margin-left: 0;
-// }
-
 .gl-course-game-thumb {
   position: relative;
   width: 150px;
@@ -80,6 +76,7 @@
   background-size: 100%;
   background-repeat: none;
   margin-bottom: 8px;
+  background-color: @grey6;
 }
 
 .gl-thumb-game-add {
@@ -373,6 +370,10 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
   background-image: url(/assets/thumb-game-AW-1.jpg);
 }
 
+.gl-thumb-GOG {
+  background-image: url(/assets/thumb-game-GOG.jpg);
+}
+
 .gl-course-create-confirm {
   width: 67%;
   margin-left: auto;
@@ -402,6 +403,7 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
 
 .gl-game-maintenance-ribbon-text {
   color: white;
+  font-size: 14px;
   font-weight: bold;
   .rotate(-45deg);
   position: relative;
@@ -410,6 +412,10 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
   text-align: center;
   width: 110px;
   text-transform: uppercase;
+}
+
+.gl-game-maintenance-ribbon-text--small {
+  font-size: 12px;
 }
 
 .gl-course-game-maintenance > label:hover {
