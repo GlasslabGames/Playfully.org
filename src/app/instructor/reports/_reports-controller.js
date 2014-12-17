@@ -19,8 +19,14 @@ angular.module( 'instructor.reports', [
       }
     },
     resolve: {
-      activeCourses: function(CoursesService) {
-        return CoursesService.getActiveEnrollmentsWithStudents();
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollmentsWithStudents();
+      },
+      activeCourses: function (courses, $q, $filter) {
+        var deferred = $q.defer();
+        var active = $filter('filter')(courses, {archived: false});
+        deferred.resolve(active);
+        return deferred.promise;
       },
       coursesInfo: function(activeCourses, ReportsService) {
         return ReportsService.getCourseInfo(activeCourses);

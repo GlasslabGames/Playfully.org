@@ -19,6 +19,15 @@ angular.module( 'playfully.home', ['ui.router'])
     resolve: {
       allGamesInfo: function (GamesService) {
         return GamesService.all();
+      },
+      freeGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, {'price': 'Free'});
+      },
+      premiumGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, {'price': 'Premium Subscription'});
+      },
+      comingSoonGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, {'price': 'Coming Soon'});
       }
     },
     views: {
