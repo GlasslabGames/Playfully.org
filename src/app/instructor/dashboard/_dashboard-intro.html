@@ -8,8 +8,75 @@
     &nbsp;
     <div>
       <button class="btn gl-btn--blue"
-        ui-sref="instructorTour">Take a Tour</button>
+        ui-sref="modal-lg.instructorTour">Take a Tour</button>
     </div>
   </div>
   <div class="col-md-2"></div>
+</div>
+<div class="row gl-margin--T50">
+    <div class="col-md-12 gl-pad--Bxxl gl-pad-Hm">
+        <div class="gl-dashboard-container-bottom gl-dashboard">
+            <div class="col-md-6 gl-dashboard-col-messages noscroll">
+                <div class="gl-dashboard-container-bottom-header-section">
+                    <div class="gl-dashboard-col-header gl-margin--Lxl">
+                        <span ng-class="{'gl-dashboard-title-inactive': !status.showMessages}"
+                              ng-click="status.showMessages=!status.showMessages">
+                            Message Center
+                        </span>
+                        <span ng-class="{'gl-dashboard-title-inactive': status.showMessages}"
+                              ng-click="status.showMessages=!status.showMessages"
+                              class='gl-dashboard-tweets-header'>
+                            Tweets
+                        </span>
+                    </div>
+                </div>
+                <div class="gl-dashboard-container-bottom-data-section" ng-class="{'noscroll' : !status.showMessages}">
+                    <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
+                        <div class="gl-dashboard-message-box">
+                            <div class="gl-dashboard-message-icon-box">
+                                <img ng-src="/assets/{{message.icon}}" class="gl-dashboard-message-icon">
+                            </div>
+
+                            <div class="gl-dashboard-message-box-info">
+                                <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
+                                <span class="gl-dashboard-message-timestamp">{{message.timestamp}}</span>
+
+                                <p> {{message.message}} </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gl-dashboard-twitter-timeline" ng-show="!status.showMessages">
+                        <a class="twitter-timeline" href="https://twitter.com/GlassLabGames"
+                           data-widget-id="501579486790303744">Tweets by @GlassLabGames</a>
+                        <script>
+                            !function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = p + "://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 gl-dashboard-col-games">
+                <div class="gl-dashboard-container-bottom-header-section">
+                    <div class="gl-dashboard-col-header gl-margin--Lxl"><span>Assigned Games</span></div>
+                </div>
+                <div class="gl-dashboard-container-bottom-data-section">
+
+                    <div class="gl-dashboard-container-footer text-center gl-margin--T50">
+                        You have not assigned any games to your classes yet.
+                        <button type="button" class="btn gl-btn--blue gl-margin-Vl"
+                                ui-sref="root.games.catalog">
+                            Browse Game Catalog
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
