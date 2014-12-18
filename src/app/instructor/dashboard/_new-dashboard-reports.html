@@ -49,8 +49,8 @@
                     <div class="gl-dashboard-col-header ">Key Game Stats</div>
                     <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
                     <div class="gl-dashboard-time-counter gl-margin--B40">
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours}}</span> <span>HRS</span></div>
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes}}</span> <span>MINS</span></div>
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
                     </div>
                     <div ng-if="status.selectedGameId==='SC'">
                         <span class="gl-dashboard-subheader">Avg Game Progress:</span>
