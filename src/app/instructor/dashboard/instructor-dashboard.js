@@ -138,6 +138,14 @@ angular.module( 'instructor.dashboard', [
     background: '#cccccc'
   };
 
+
+  // Trigger to open dropdown from main body, not just arrow
+  $scope.toggleDropdown = function ($event, collection) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope[collection].isOpen = !$scope[collection].isOpen;
+  };
+
   var _setSelectedGameById = function(gameId) {
     var selectedIndex = _.findIndex($scope.myGames, {'gameId': gameId});
     $scope.status.selectedGame = $scope.myGames[selectedIndex];
