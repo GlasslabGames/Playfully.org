@@ -161,15 +161,13 @@ angular.module( 'student.dashboard', [
       $scope.enrollment = null;
       $scope.verification.errors = [];
       var userNotEnrolledInCourse = true;
-      var enrolledCourse = null;
       // Check whether the user is already enrolled
       if (courses.length) {
-        angular.forEach(courses, function(course) {
-          if (verification.code === course.code) {
-            userNotEnrolledInCourse = false;
-            enrolledCourse = course;
-          }
-        });
+        var matchingCourses = _.first(courses, {'code': verification.code});
+        if (matchingCourses.length) { 
+          $scope.verification.errors.push("You have already enrolled in this course: " + matchingCourses[0].title);
+          userNotEnrolledInCourse = false;
+        }
       }
       // Only verify the code if the user isn't already in the course
       if (userNotEnrolledInCourse) {
@@ -183,9 +181,6 @@ angular.module( 'student.dashboard', [
               $scope.verification.errors.push(result.data.error);
             }
           });
-      } else {
-        var msg = "You have already enrolled in this course: " + enrolledCourse.title;
-        $scope.verification.errors.push(msg);
       }
     };
 
@@ -200,6 +195,7 @@ angular.module( 'student.dashboard', [
         })
         .error(function(data, status, config) {
           $log.error(data);
+          $scope.enrollment.errors.push(data.error);
         });
     };
 

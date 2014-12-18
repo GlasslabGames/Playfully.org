@@ -22,6 +22,12 @@
   .image-2x('game-banner-AW-1.jpg', 1024px, 300px);
 }
 
+.gl-game-banner-GOG {
+  height: 300px;
+  background-position: center;
+  .image-2x('game-banner-GOG.png', 940px, 300px);
+}
+
 
 .gl-game-title {
   margin-top: 2px;
@@ -375,9 +381,42 @@
   cursor: pointer;
 }
 
-.gl-game-light-bulb-blinky {
+.gl-game-blinky-aww-snap {
   margin: auto;
   width: 116px;
   height: 116px;
-  background-image: url("../assets/light-bulb-blinky.png");
+  background-image: url("../assets/blinky-aww-snap.png");
 }
+
+.gl-developer-link {
+  font-style: italic;
+  text-decoration: underline;
+  color: @grey1;
+  &:hover {
+    color: @grey4;
+    cursor: pointer;
+  }
+}
+
+.gl-developer-logo {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+}
+
+.gl-developer--glasslab-logo {
+  .image-2x('glasslab-logo.png', 60px, 60px);
+}
+
+.gl-developer--dev-logo-icivics {
+  .image-2x('dev-logo-icivics.png', 60px, 60px);
+}
+
+.gl-developer--dev-logo-mathsnacks {
+  .image-2x('dev-logo-mathsnacks.png', 60px, 60px);
+}
+
+.gl-developer--dev-logo-brainquake {
+  .image-2x('dev-logo-brainquake.jpg', 60px, 60px);
+}
+

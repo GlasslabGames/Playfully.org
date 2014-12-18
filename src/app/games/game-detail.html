@@ -6,7 +6,9 @@
     </div>
     <div class="media-bd">
       <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
-      <div>Developed by {{ gameDetails.developer.name }}</div>
+      <div>Developed by 
+        <a ng-click="showDeveloperModal(gameId)" class="gl-developer-link" ng-bind="gameDetails.developer.name"></a>
+      </div>
       <div class="gl-pad--Txs">
         <a ng-repeat="(name, url) in gameDetails.social"
           target="_blank" href="{{ url }}"
@@ -35,7 +37,7 @@
 
       <div ng-hide="isAuthenticated()"
            class="gl-learn-more">
-        <div class="gl-game-light-bulb-blinky"></div>
+        <div class="gl-game-blinky-aww-snap"></div>
         <h3 class="headline-4">Want to learn more?</h3>
         <p>
           Create a free GlassLab Games account to:<br/>
