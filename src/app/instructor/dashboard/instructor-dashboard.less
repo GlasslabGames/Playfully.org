@@ -1,7 +1,5 @@
 .gl-bg-dashboard {
-  .image-2x('bg-instructor-dashboard.png', 623px, 538px);
-  background-color: @grey7;
-  background-repeat: repeat;
+  background-color: #fafafa;
 }
 
 .gl-instructor-home-intro {
@@ -9,65 +7,11 @@
   padding-bottom: 60px;
 }
 
-.gl-instructor-lower-panel {
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-
-.gl-navbar-alert {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: -5px;
-}
-
-.gl-navbar-alert-inner {
-  display: inline-block;
-  padding: 15px 30px;
-  border-radius: 8px;
-  background-color: @yellow;
-}
-
-
-.gl-course-list-item {
-  padding: 10px;
-  display: block;
-  font-size: 18px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-overflow: ellipsis;
-  text-overflow: "…";
-}
-
-.gl-course-list-item:link,
-.gl-course-list-item:visited {
-  color: @grey1;
-}
-
-
-
-
-
 .gl-progress-legend {
   span {
     text-align: left;
     margin-bottom: 5px;
   }
-}
-
-.gl-dashboard-skinny-banner {
-  width: 620px;
-  height: 73px;
-  border-radius: 6px;
-}
-
-.gl-course-list-item--selected {
-  border-right: none;
-  .border-radiuses(0, 0, 5px, 5px);
-  margin-right: -16px;
-  position: relative;
-  z-index: 40;
 }
 
 .icon-shoutout--large,
@@ -108,41 +52,6 @@
   .image-2x('icon-watchout-small-yellow.png', 32px, 32px);
 }
 
-.icon-sowo--extra {
-  display: inline-block;
-  vertical-align: middle;
-  width: 30px;
-  height: 30px;
-  color: white;
-  .border-radius(30px);
-  font-size: 10px;
-  padding-top: 5px;
-  line-height: 1.0;
-  text-align: center;
-}
-
-.icon-shoutout--extra {
-  background: @grassGreen;
-}
-
-.icon-watchout--extra {
-  background: @yellow;
-}
-
-
-.gl-dashboard-sowo-footer {
-  display: inline-block;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-}
-
-.gl-dashboard-sowo-footer > button {
-  display: block;
-  margin:0 auto;
-}
 
 .gl-icon-shoutout-landing,
 .gl-icon-watchout-landing {
@@ -174,46 +83,71 @@
   .image-2x('icon-shoutout-landing-big.png', 55px, 55px);
 }
 
-.gl-watchouts-heading {
-  width: 100%;
-  height: 50px;
-  margin-bottom: 30px;
-  span {
-    vertical-align: middle;
-    line-height: 50px;
-  }
+.gl-dashboard-course-selector {
+  float:right;
 }
-
 
 .gl-dashboard-banner {
   margin: 0px;
   position: relative;
   @height: 279px;
-  .gl-dashboard-banner-left {
+  .gl-dashboard-banner-selector {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.5);
-    left: 0px;
-    top: @height/2.5;
     padding: 15px;
+    top: @height/2.5;
+    &:hover {
+      cursor: pointer;
+      i {
+        color: mediumturquoise;
+      }
+    }
     i {
       color: white;
     }
   }
+  .gl-dashboard-banner-left {
+    .gl-dashboard-banner-selector;
+    left: 0px;
+  }
   .gl-dashboard-banner-right {
-    position: absolute;
-    background-color: rgba(255,255,255,0.5);
+    .gl-dashboard-banner-selector;
     right: 0px;
-    top: @height/2.5;
-    padding: 15px;
-    i {
-      color: white;
-    }
   }
   img {
     width: 100%;
     height: @height;
   }
 
+}
+
+.gl-dashboard-game-selector {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-right: 15px;
+  padding-left: 15px;
+  .gl-dashboard-game {
+    color: @grey4;
+    font-weight: 500;
+    background-color: @grey7;
+    margin: 20px 10px 20px 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 25px;
+    &:hover {
+      background-color: steelblue;
+      color: white;
+      cursor: pointer;
+    }
+  }
+  .gl-dashboard-game-active {
+    background-color: steelblue;
+    color: white;
+    cursor: default;
+  }
 }
 
 .gl-dashboard-container {
@@ -227,11 +161,7 @@
 
 .gl-dashboard-container-top {
   .gl-dashboard-container;
-  min-height: 900px;
   .gl-dashboard-container-footer {
-    position: absolute;
-    bottom: 0px;
-    height: 79px;
     width: 100%;
   }
 }
@@ -239,65 +169,72 @@
 .gl-dashboard-container-bottom {
   .gl-dashboard-container;
   height: 590px;
+  position: relative;
+  left: 6px;
 }
 
-.gl-dashboard-game-selector {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-top: 15px;
-//  border: 1px solid red;
-  .gl-dashboard-game {
-    color: @grey4;
-    font-weight: 500;
-    background-color: @grey7;
-    margin: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 25px;
-    padding-right: 25px;
-    border-radius: 25px;
-  }
-  .gl-dashboard-game:hover {
-    background-color: steelblue;
-    color: white;
-    cursor: pointer;
-  }
-  .gl-dashboard-game-active {
-    background-color: steelblue;
-    color: white;
-    cursor: default;
-  }
-}
-
-.gl-dashboard-data-col-sowo.wo {
-  border-right: 1px solid @grey7;
+.gl-dashboard-container-bottom-header-section {
+  height: 68px;
   border-bottom: 1px solid @grey7;
 }
 
-.gl-dashboard-data-col-sowo.so {
-  border-bottom: 1px solid @grey7;
+.gl-dashboard-container-bottom-data-section {
+  height: 515px;
+  overflow: scroll;
 }
 
-.gl-dashboard-data-col-sowo {
-  min-height: 467px;
+
+.gl-dashboard-title-inactive {
+  color: #cccccc;
+}
+
+.gl-dashboard-col-header {
   width: 100%;
+  height: 50px;
+  font-family: 'Bitter', serif;
+  font-weight: bold;
+  color: #555555;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  span {
+    vertical-align: middle;
+    line-height: 50px;
+  }
+}
+
+.gl-dashboard-subheader {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.gl-dashboard-data-columns {
+  display: table;
+  width: 940px;
+}
+
+.gl-dashboard-col-sowo {
+  position: relative;
+  display: table-cell;
   margin: 0px;
-  padding: 10px;
+  width:33.33%;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 40px;
   .gl-icon-watchout-landing-big,
   .gl-icon-shoutout-landing-big {
     float: left;
   }
-
-  .gl-watchouts-box {
+  .gl-dashboard-sowo-box {
     min-height: 77px;
     margin-bottom: 20px;
     padding: 0px;
   }
 
-  .gl-dashboard-watchout-info {
+  .gl-dashboard-sowo-info {
     width: 220px;
     margin-left: 13px;
     float: left;
@@ -306,17 +243,17 @@
       margin-bottom: 2px;
       color: @grey6;
     }
-    .gl-watchouts-username {
+    .gl-dashboard-sowo-username {
       font-weight: 500;
       font-size: 16px;
       vertical-align: bottom;
     }
-    .timestamp  {
+    .gl-dashboard-sowo-timestamp  {
       font-size: 12px;
       color: @grey4;
       float: right;
     }
-    .gl-watchouts-title {
+    .gl-dashboard-sowo-title {
       font-size:13px;
       margin-bottom: 3px;
     }
@@ -326,19 +263,28 @@
       color: @grey4;
     }
   }
+  .gl-dashboard-col-sowo-show-all {
+    position: absolute;
+    right: 80px;
+    bottom: 10px;
+  }
 }
 
-.gl-dashboard-data-col-game-stats {
-  min-height: 467px;
-  .gl-dashboard-subheading {
-    display: block;
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
+.gl-dashboard-col-wo {
+  .gl-dashboard-col-sowo;
+  border-right: 1px solid @grey7;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-col-so {
+  .gl-dashboard-col-sowo;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-col-game-stats {
+  width: 33.33%;
+  display: table-cell;
   margin: 0px;
-  width: 100%;
-  height: 420px;
   border: 1px solid @grey7;
   padding: 10px;
   .gl-dashboard-progress-arc {
@@ -382,8 +328,18 @@
 
 .gl-dashboard-col-messages {
   padding: 0px;
-  height: 590px;
-  overflow: scroll;
+  height: 600px;
+  .gl-dashboard-col-header {
+    margin-top: 20px;
+    vertical-align: middle;
+    span:hover {
+      cursor: pointer;
+    }
+  }
+  .gl-dashboard-tweets-header {
+    position: relative;
+    left: 50px;
+  }
   .gl-dashboard-message-box {
     padding:20px;
     border-bottom: 1px solid @grey7;
@@ -403,7 +359,7 @@
         font-weight: 800;
         font-size: 16px;
       }
-      .timestamp {
+      .gl-dashboard-message-timestamp {
         font-size: 12px;
         color: @grey4;
         float: right;
@@ -416,12 +372,17 @@
   }
 }
 
-.gl-dashboard-data-col-games {
+.gl-dashboard-container-bottom-data-section.noscroll {
+  overflow: hidden;
+}
+
+.gl-dashboard-col-games {
   border: 1px solid @grey7;
-  overflow: scroll;
-  width: 100%;
-  height: 590px;
+  height: 600px;
   padding: 0px;
+  .gl-dashboard-col-header {
+    margin-top: 20px;
+  }
   .gl-dashboard-game-box {
     width: 100%;
     height: 152px;
@@ -463,4 +424,3 @@
     margin-right: 20px;
   }
 }
-
