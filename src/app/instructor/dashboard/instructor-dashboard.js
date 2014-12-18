@@ -315,7 +315,7 @@ angular.module( 'instructor.dashboard', [
 
   var _retrieveMessages = function () {
     var messageList = [];
-    DashService.getMessages('message', 10, 'asc').then(function(messages) {
+    DashService.getMessages('message', 10, false).then(function(messages) {
       for (var key in messages) {
         var message = messages[key].value;
         if (message &&
