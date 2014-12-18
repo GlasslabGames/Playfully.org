@@ -2,10 +2,7 @@
     <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
 </div>
 
-<div ng-if="!status.hasStudents">
-
-</div>
-<div ng-if="status.hasStudents">
+<div>
     <div class="btn-group gl-dashboard-course-selector" dropdown is-open="courses.isOpen">
         <button type="button" class="btn btn-default gl-reports-dropdown"
                 ng-click="toggleDropdown($event, 'reports')"
@@ -25,7 +22,7 @@
     </div>
 </div>
 
-<div class="row" ng-if="status.hasStudents">
+<div class="row">
     <div class="col-md-12 gl-pad-Hl">
         <div class="gl-dashboard-container-top">
             <div class="gl-dashboard-game-selector">
@@ -43,7 +40,7 @@
                         <i class="fa fa-chevron-left gl-fa-3"></i>
                 </div>
                 <img src="/{{ status.selectedGame.banners.product }}">
-                <div class="gl-dashboard-banner-right" ng-click="status.selectedGameId=status.prevGameId">
+                <div class="gl-dashboard-banner-right" ng-click="status.selectedGameId=status.nextGameId">
                         <i class="fa fa-chevron-right gl-fa-3"></i>
                 </div>
             </div>

@@ -283,8 +283,10 @@ angular.module( 'instructor.dashboard', [
       if (!!numOfStudents) {
         $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
       } else {
-        return 0;
+        $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
       }
+    }, function() {
+      console.error('could not retrieve total time played:');
     });
   };
 
