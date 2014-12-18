@@ -13,7 +13,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
             <li ng-repeat="course in courses.options"
-                ui-sref-active="gl-reports-dropdown--selected">
+              ng-class="{'gl-reports-dropdown--selected': courses.selectedCourseId == course.id}">
                 <a href="#"
                    ng-click="courses.selectedCourseId=course.id"
                    ng-bind="course.title"></a>
