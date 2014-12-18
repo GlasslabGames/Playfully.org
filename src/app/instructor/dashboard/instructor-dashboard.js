@@ -113,7 +113,6 @@ angular.module( 'instructor.dashboard', [
     averageMissionProgress: null,
     avgTotalTimePlayed: null,
     showMessages: true,
-    showTweets: false,
     hasStudents: true
   };
 

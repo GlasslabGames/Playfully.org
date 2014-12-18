@@ -5,8 +5,8 @@
 <div ng-if="!status.hasStudents">
 
 </div>
-<div class="col-md-4" ng-if="status.hasStudents">
-    <div class="btn-group" dropdown is-open="courses.isOpen">
+<div ng-if="status.hasStudents">
+    <div class="btn-group gl-dashboard-course-selector" dropdown is-open="courses.isOpen">
         <button type="button" class="btn btn-default gl-reports-dropdown"
                 ng-click="toggleDropdown($event, 'reports')"
                 ng-bind="courses.selected.title"></button>
@@ -49,7 +49,7 @@
             </div>
             <div class="gl-dashboard-data-columns">
                 <div class=" gl-dashboard-col-game-stats text-center">
-                    <div class="gl-dashboard-col-header headline-4 ">Key Game Stats</div>
+                    <div class="gl-dashboard-col-header ">Key Game Stats</div>
                     <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
                     <div class="gl-dashboard-time-counter gl-margin--B40">
                         <div><span class="numbers">{{status.avgTotalTimePlayed.hours}}</span> <span>HRS</span></div>
@@ -70,10 +70,12 @@
                     </div>
                 </div>
                 <div class=" gl-dashboard-col-wo">
-                    <div class="gl-dashboard-col-header headline-4 text-center">Watch Out!</div>
+                    <div class="gl-dashboard-col-header text-center">Watch Out!</div>
 
                     <div class="text-center" ng-if="watchOuts.length===0">
-                        There is no data available yet
+                        <h5>There is no data available yet</h5>
+                        </br>
+                        <img src="/assets/blinky-empty.png">
                     </div>
                     <div class="gl-dashboard-sowo-box" ng-repeat="wo in watchOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
@@ -93,9 +95,11 @@
                     </div>
                 </div>
                 <div class="gl-dashboard-col-so">
-                    <div class="gl-dashboard-col-header headline-4 text-center">Shout Out!</div>
+                    <div class="gl-dashboard-col-header text-center">Shout Out!</div>
                     <div class="text-center" ng-if="shoutOuts.length===0">
-                        There is no data available yet
+                        <h5>There is no data available yet</h5>
+                        </br>
+                        <img src="/assets/blinky-empty.png">
                     </div>
                     <div class="gl-dashboard-sowo-box" ng-repeat="so in shoutOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
@@ -116,7 +120,7 @@
                 </div>
             </div>
             <div class="gl-dashboard-container-footer text-center"><button type="button" class="btn gl-btn--blue gl-margin-Vl"
-                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">Show All Reports</button>
+                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">View Additional Reports</button>
             </div>
         </div>
     </div>
@@ -126,7 +130,7 @@
         <div class="gl-dashboard-container-bottom">
             <div class="col-md-6 gl-dashboard-col-messages noscroll">
                 <div class="gl-dashboard-container-bottom-header-section">
-                    <div class="headline-4 gl-dashboard-col-header gl-margin--Lxl">
+                    <div class="gl-dashboard-col-header gl-margin--Lxl">
                         <span ng-class="{'gl-dashboard-title-inactive': !status.showMessages}"
                               ng-click="status.showMessages=!status.showMessages">
                             Message Center
@@ -155,21 +159,23 @@
                     <div class="gl-dashboard-twitter-timeline" ng-show="!status.showMessages">
                         <a class="twitter-timeline" href="https://twitter.com/GlassLabGames"
                            data-widget-id="501579486790303744">Tweets by @GlassLabGames</a>
-                        <script>!function (d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                            if (!d.getElementById(id)) {
-                                js = d.createElement(s);
-                                js.id = id;
-                                js.src = p + "://platform.twitter.com/widgets.js";
-                                fjs.parentNode.insertBefore(js, fjs);
-                            }
-                        }(document, "script", "twitter-wjs");</script>
+                        <script>
+                            !function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = p + "://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");
+                        </script>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 gl-dashboard-col-games">
                 <div class="gl-dashboard-container-bottom-header-section">
-                    <div class="headline-4 gl-dashboard-col-header gl-margin--Lxl"><span>Assigned Games</span></div>
+                    <div class="gl-dashboard-col-header gl-margin--Lxl"><span>Assigned Games</span></div>
                 </div>
                 <div class="gl-dashboard-container-bottom-data-section">
                     <div ng-repeat="game in myGames">
