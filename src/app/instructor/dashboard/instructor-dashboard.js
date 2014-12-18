@@ -133,7 +133,7 @@ angular.module( 'instructor.dashboard', [
     size: 120,
     progress: 0,
     strokeWidth: 20,
-    stroke: 'darkcyan',
+    stroke: '#00a79d',
     counterClockwise: '',
     background: '#cccccc'
   };
