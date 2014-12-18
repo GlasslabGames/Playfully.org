@@ -1,8 +1,12 @@
 <div class="col-md-8">
     <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
 </div>
-<div class="col-md-4">
-    <div class="btn-group" dropdown is-open="courses.isOpen">
+
+<div ng-if="!status.hasStudents">
+
+</div>
+<div ng-if="status.hasStudents">
+    <div class="btn-group gl-dashboard-course-selector" dropdown is-open="courses.isOpen">
         <button type="button" class="btn btn-default gl-reports-dropdown"
                 ng-click="toggleDropdown($event, 'reports')"
                 ng-bind="courses.selected.title"></button>
@@ -20,7 +24,8 @@
         </ul>
     </div>
 </div>
-<div class="row">
+
+<div class="row" ng-if="status.hasStudents">
     <div class="col-md-12 gl-pad-Hl">
         <div class="gl-dashboard-container-top">
             <div class="gl-dashboard-game-selector">
@@ -34,31 +39,24 @@
                 </div>
             </div>
             <div class="gl-dashboard-banner">
-                <div class="gl-dashboard-banner-left">
-                    <a href="#"
-                       ng-click="status.selectedGameId=status.prevGameId">
+                <div class="gl-dashboard-banner-left" ng-click="status.selectedGameId=status.prevGameId">
                         <i class="fa fa-chevron-left gl-fa-3"></i>
-                    </a>
                 </div>
                 <img src="/{{ status.selectedGame.banners.product }}">
-                <div class="gl-dashboard-banner-right">
-                    <a href="#"
-                       ng-click="status.selectedGameId=status.nextGameId">
+                <div class="gl-dashboard-banner-right" ng-click="status.selectedGameId=status.prevGameId">
                         <i class="fa fa-chevron-right gl-fa-3"></i>
-                    </a>
                 </div>
             </div>
-                <div class="col-md-4 gl-dashboard-data-col-game-stats text-center">
-                    <div class="gl-watchouts-heading text-center">
-                        <span class="headline-4">Key Game Stats</span>
-                    </div>
-                    <span class="gl-dashboard-subheading">Avg Total Time Played:</span>
+            <div class="gl-dashboard-data-columns">
+                <div class=" gl-dashboard-col-game-stats text-center">
+                    <div class="gl-dashboard-col-header ">Key Game Stats</div>
+                    <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
                     <div class="gl-dashboard-time-counter gl-margin--B40">
                         <div><span class="numbers">{{status.avgTotalTimePlayed.hours}}</span> <span>HRS</span></div>
                         <div><span class="numbers">{{status.avgTotalTimePlayed.minutes}}</span> <span>MINS</span></div>
                     </div>
-                    <div ng-if="status.averageMissionProgress">
-                        <span class="gl-dashboard-subheading">Avg Game Progress:</span>
+                    <div ng-if="status.selectedGameId==='SC'">
+                        <span class="gl-dashboard-subheader">Avg Game Progress:</span>
                         <div class="gl-dashboard-progress-arc">
                             <span class="averageMissionProgressText">{{status.averageMissionProgress}}<span>%</span></span>
                             <progress-arc
@@ -70,53 +68,59 @@
                             </progress-arc>
                         </div>
                     </div>
-
                 </div>
-                <div class="col-md-4 gl-dashboard-data-col-sowo wo">
-                    <div class="gl-watchouts-heading text-center">
-                        <span class="headline-4">Watch Out!</span>
+                <div class=" gl-dashboard-col-wo">
+                    <div class="gl-dashboard-col-header text-center">Watch Out!</div>
+
+                    <div class="text-center" ng-if="watchOuts.length===0">
+                        <h5>There is no data available yet</h5>
+                        </br>
+                        <img src="/assets/blinky-empty.png">
                     </div>
-                    <div class="gl-watchouts-box" ng-repeat="wo in watchOuts | orderBy : 'timestamp' : true | limitTo : 3">
+                    <div class="gl-dashboard-sowo-box" ng-repeat="wo in watchOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
                             <span class="gl-icon-watchout-landing-big"></span>
-                            <div class="gl-dashboard-watchout-info">
-                                <span class="gl-watchouts-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
-                                    <span class="timestamp">{{wo.timestamp}}</span>
+                            <div class="gl-dashboard-sowo-info">
+                                <span class="gl-dashboard-sowo-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
+                                    <span class="gl-dashboard-sowo-timestamp">{{wo.timestamp}}</span>
                                 <hr>
-                                <div class="gl-watchouts-title" ng-bind="wo.name"></div>
+                                <div class="gl-dashboard-sowo-title" ng-bind="wo.name"></div>
                                 <p ng-bind="wo.description"></p>
                             </div>
                         </div>
-
                     </div>
-                    <div class="text-center" ng-if="watchOuts.length > 3"><a
+                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="watchOuts.length > 3"><a
                             ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'wo'})">Show
-                        All Watch Outs ({{watchOuts.length}})</a></div>
-                </div>
-                <div class="col-md-4 gl-dashboard-data-col-sowo so">
-                    <div class="gl-watchouts-heading text-center">
-                        <span class="headline-4">Shout Out!</span>
+                        All Watch Outs ({{watchOuts.length}})</a>
                     </div>
-
-                    <div class="gl-watchouts-box" ng-repeat="so in shoutOuts | orderBy : 'timestamp' : true | limitTo : 3">
+                </div>
+                <div class="gl-dashboard-col-so">
+                    <div class="gl-dashboard-col-header text-center">Shout Out!</div>
+                    <div class="text-center" ng-if="shoutOuts.length===0">
+                        <h5>There is no data available yet</h5>
+                        </br>
+                        <img src="/assets/blinky-empty.png">
+                    </div>
+                    <div class="gl-dashboard-sowo-box" ng-repeat="so in shoutOuts | orderBy : 'timestamp' : true | limitTo : 3">
                         <div>
                             <span class="gl-icon-shoutout-landing-big"></span>
-                            <div class="gl-dashboard-watchout-info">
-                                <span class="gl-watchouts-username">{{so.user.firstName+''+so.user.lastName}}</span>
-                                <span class="timestamp">{{so.timestamp}}</span>
+                            <div class="gl-dashboard-sowo-info">
+                                <span class="gl-dashboard-sowo-username">{{so.user.firstName+''+so.user.lastName}}</span>
+                                <span class="gl-dashboard-sowo-timestamp">{{so.timestamp}}</span>
                                 <hr>
-                                <div class="gl-watchouts-title" ng-bind="so.name"></div>
+                                <div class="gl-dashboard-sowo-title" ng-bind="so.name"></div>
                                 <p ng-bind="so.description"></p>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center" ng-if="shoutOuts.length > 3"><a
+                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="shoutOuts.length > 3"><a
                             ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'so'})">Show
                         All Shout Outs ({{shoutOuts.length}})</a>
                     </div>
                 </div>
+            </div>
             <div class="gl-dashboard-container-footer text-center"><button type="button" class="btn gl-btn--blue gl-margin-Vl"
-                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">Show All Reports</button>
+                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">View Additional Reports</button>
             </div>
         </div>
     </div>
@@ -124,45 +128,73 @@
 <div class="row gl-margin--T30">
     <div class="col-md-12 gl-pad--Bxxl gl-pad-Hm">
         <div class="gl-dashboard-container-bottom">
-            <div class="col-md-6 gl-dashboard-col-messages">
-                <div class="gl-watchouts-heading text-center">
-                    <span class="headline-4">Message Center</span>
+            <div class="col-md-6 gl-dashboard-col-messages noscroll">
+                <div class="gl-dashboard-container-bottom-header-section">
+                    <div class="gl-dashboard-col-header gl-margin--Lxl">
+                        <span ng-class="{'gl-dashboard-title-inactive': !status.showMessages}"
+                              ng-click="status.showMessages=!status.showMessages">
+                            Message Center
+                        </span>
+                        <span ng-class="{'gl-dashboard-title-inactive': status.showMessages}"
+                              ng-click="status.showMessages=!status.showMessages"
+                              class='gl-dashboard-tweets-header'>
+                            Tweets
+                        </span>
+                    </div>
                 </div>
-                <div ng-repeat="message in messages">
-                    <div class="gl-dashboard-message-box">
-                        <div class="gl-dashboard-message-icon-box">
-                            <img ng-src="/assets/{{message.icon}}" class="gl-dashboard-message-icon">
-                        </div>
+                <div class="gl-dashboard-container-bottom-data-section" ng-class="{'noscroll' : !status.showMessages}">
+                    <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
+                        <div class="gl-dashboard-message-box">
+                            <div class="gl-dashboard-message-icon-box">
+                                <img ng-src="/assets/{{message.icon}}" class="gl-dashboard-message-icon">
+                            </div>
 
-                        <div class="gl-dashboard-message-box-info">
-                        <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
-                        <span class="timestamp">{{message.timestamp}}</span>
-                            <p> {{message.message}} </p>
+                            <div class="gl-dashboard-message-box-info">
+                            <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
+                            <span class="gl-dashboard-message-timestamp">{{message.timestamp}}</span>
+                                <p> {{message.message}} </p>
+                            </div>
                         </div>
+                    </div>
+                    <div class="gl-dashboard-twitter-timeline" ng-show="!status.showMessages">
+                        <a class="twitter-timeline" href="https://twitter.com/GlassLabGames"
+                           data-widget-id="501579486790303744">Tweets by @GlassLabGames</a>
+                        <script>
+                            !function (d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                                if (!d.getElementById(id)) {
+                                    js = d.createElement(s);
+                                    js.id = id;
+                                    js.src = p + "://platform.twitter.com/widgets.js";
+                                    fjs.parentNode.insertBefore(js, fjs);
+                                }
+                            }(document, "script", "twitter-wjs");
+                        </script>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 gl-dashboard-data-col-games">
-                <div class="gl-watchouts-heading text-center">
-                    <span class="headline-4">Assigned Games</span>
+            <div class="col-md-6 gl-dashboard-col-games">
+                <div class="gl-dashboard-container-bottom-header-section">
+                    <div class="gl-dashboard-col-header gl-margin--Lxl"><span>Assigned Games</span></div>
                 </div>
-
-                <div ng-repeat="game in myGames">
-                    <div class="gl-dashboard-game-box">
-                        <img ng-src="/{{game.card.small}}" class="gl-dashboard-game-card">
-                        <div class="gl-dashboard-game-box-info">
-                            <span class="gl-dashboard-game-box-info-title">
-                                {{game.shortName}}
-                                <span class="gl-text-end-fade"></span>
-                            </span>
-                            <ul class="">
-                                <li>Developed by {{game.developer.name}}
-                                </li>
-                                <li ng-switch="game.play.type">
-                                    <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-default ng-click="goToPlayGame(game.gameId,game.play.type)">Play Game</button>
-                                    <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-when="download" ng-click="goToLink(game.play.link)">Download</button>
-                                </li>
-                            </ul>
+                <div class="gl-dashboard-container-bottom-data-section">
+                    <div ng-repeat="game in myGames">
+                        <div class="gl-dashboard-game-box">
+                            <img ng-src="/{{game.card.small}}" class="gl-dashboard-game-card">
+                            <div class="gl-dashboard-game-box-info">
+                                <span class="gl-dashboard-game-box-info-title">
+                                    {{game.shortName}}
+                                    <span class="gl-text-end-fade"></span>
+                                </span>
+                                <ul class="">
+                                    <li>Developed by {{game.developer.name}}
+                                    </li>
+                                    <li ng-switch="game.play.type">
+                                        <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-default ng-click="goToPlayGame(game.gameId,game.play.type)">Play Game</button>
+                                        <button type="button" class="btn gl-btn--blue gl-margin--Tl" ng-switch-when="download" ng-click="goToLink(game.play.link)">Download</button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

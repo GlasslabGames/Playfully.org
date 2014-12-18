@@ -95,8 +95,8 @@ angular.module( 'instructor.reports')
       });
 
       // Get currently selectedGroupId
-      if ($stateParams.groupId && $stateParams.groupId !== 'false') {
-        $scope.reportInfo.selectedGroupId = $stateParams.groupId;
+      if ($stateParams.skillsId && $stateParams.skillsId !== 'false') {
+        $scope.reportInfo.selectedGroupId = $stateParams.skillsId;
       } else {
         if ($scope.reportInfo.groups && $scope.reportInfo.groups.length) {
           $scope.reportInfo.selectedGroupId = $scope.reportInfo.groups[1].id;

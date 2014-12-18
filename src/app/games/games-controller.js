@@ -32,6 +32,9 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.catalog', {
     url: '/catalog',
+    onEnter: function($rootScope, CHECKLIST) {
+        $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+    },
     views: {
       'main@': {
         templateUrl: 'games/game-catalog.html',
@@ -232,6 +235,7 @@ angular.module( 'playfully.games', [
 })
 .controller('GameCatalogCtrl',
     function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
+
       $scope.allGamesInfo = allGamesInfo;
 
       $scope.freeGames = {name:'Free Games', games: freeGames};
