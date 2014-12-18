@@ -55,7 +55,7 @@
                     <div ng-if="status.selectedGameId==='SC'">
                         <span class="gl-dashboard-subheader">Avg Game Progress:</span>
                         <div class="gl-dashboard-progress-arc">
-                            <span class="averageMissionProgressText">{{status.averageMissionProgress}}<span>%</span></span>
+                            <span class="averageMissionProgressText">{{status.averageMissionProgress || 0}}<span>%</span></span>
                             <progress-arc
                                     size="{{progressArc.size}}"
                                     stroke="{{progressArc.stroke}}"
