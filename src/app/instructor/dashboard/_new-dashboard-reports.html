@@ -49,13 +49,13 @@
                     <div class="gl-dashboard-col-header ">Key Game Stats</div>
                     <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
                     <div class="gl-dashboard-time-counter gl-margin--B40">
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours}}</span> <span>HRS</span></div>
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes}}</span> <span>MINS</span></div>
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
+                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
                     </div>
                     <div ng-if="status.selectedGameId==='SC'">
                         <span class="gl-dashboard-subheader">Avg Game Progress:</span>
                         <div class="gl-dashboard-progress-arc">
-                            <span class="averageMissionProgressText">{{status.averageMissionProgress}}<span>%</span></span>
+                            <span class="averageMissionProgressText">{{status.averageMissionProgress || 0}}<span>%</span></span>
                             <progress-arc
                                     size="{{progressArc.size}}"
                                     stroke="{{progressArc.stroke}}"
@@ -143,7 +143,7 @@
                     <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
                         <div class="gl-dashboard-message-box">
                             <div class="gl-dashboard-message-icon-box">
-                                <img ng-src="/assets/{{message.icon}}" class="gl-dashboard-message-icon">
+                                <img ng-src="/assets/{{message.icon}}" err-src="/assets/blinky-mail-box.png" class="gl-dashboard-message-icon">
                             </div>
 
                             <div class="gl-dashboard-message-box-info">
