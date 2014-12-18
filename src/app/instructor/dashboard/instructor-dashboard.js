@@ -1,5 +1,6 @@
 angular.module( 'instructor.dashboard', [
-  'ui.router'
+  'ui.router',
+  'gl-err-src'
 ])
 
 .config(function config( $stateProvider ) {
