@@ -102,23 +102,7 @@ angular.module( 'playfully.games', [
       'modal@': {
         templateUrl: 'games/developer.html',
         controller: function($scope, $log, gameDetails) { 
-          /**
-           * In order to display Retina @2x images for the logo,
-           * we can't just inline an image. We need to set a
-           * class and choose between normal or @2x. Here we're
-           * extracting the filename from the API info. (Non-optimal).
-           **/
-          var _getLogoClass = function(logoStr) {
-            var result = logoStr.match(/\/([A-Za-z\-\_]*)/);
-            if (result.length) {
-              return result[1];
-            }
-            return '';
-          };
-
           $scope.developer = gameDetails.developer;
-          $scope.developer.logoClass = _getLogoClass($scope.developer.logo.small);
-
         }
       }
     }
