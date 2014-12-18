@@ -32,6 +32,9 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.catalog', {
     url: '/catalog',
+    onEnter: function($rootScope, CHECKLIST) {
+        $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+    },
     views: {
       'main@': {
         templateUrl: 'games/game-catalog.html',
@@ -84,7 +87,41 @@ angular.module( 'playfully.games', [
     data: {
       pageTitle: 'Game Detail'
     }
+  })
+  .state('modal-lg.developer', {
+    url: '/games/:gameId/developer',
+    data: {
+      pageTitle: 'Developer Info',
+    },
+    resolve: {
+      gameDetails: function($stateParams, GamesService) {
+        return GamesService.getDetail($stateParams.gameId);
+      },
+    },
+    views: {
+      'modal@': {
+        templateUrl: 'games/developer.html',
+        controller: function($scope, $log, gameDetails) { 
+          /**
+           * In order to display Retina @2x images for the logo,
+           * we can't just inline an image. We need to set a
+           * class and choose between normal or @2x. Here we're
+           * extracting the filename from the API info. (Non-optimal).
+           **/
+          var _getLogoClass = function(logoStr) {
+            var result = logoStr.match(/\/([A-Za-z\-\_]*)/);
+            if (result.length) {
+              return result[1];
+            }
+            return '';
+          };
 
+          $scope.developer = gameDetails.developer;
+          $scope.developer.logoClass = _getLogoClass($scope.developer.logo.small);
+
+        }
+      }
+    }
   })
   .state('root.games.detail.product', {
     url: '',
@@ -198,6 +235,7 @@ angular.module( 'playfully.games', [
 })
 .controller('GameCatalogCtrl',
     function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
+
       $scope.allGamesInfo = allGamesInfo;
 
       $scope.freeGames = {name:'Free Games', games: freeGames};
@@ -323,6 +361,16 @@ angular.module( 'playfully.games', [
       $event.preventDefault();
       $event.stopPropagation();
       btn.isOpen = !btn.isOpen;
+    };
+
+    $scope.showDeveloperModal = function (gameId) {
+      /**
+       * We're using a dedicated method instead of ui-sref in the view
+       * in order to not count the modal view in the browser history
+       * (location: false) below, so the Back button doesn't re-summon
+       * the modal after you close it.
+       **/
+      $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
     };
 })
 .controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {

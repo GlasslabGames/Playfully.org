@@ -1,4 +1,6 @@
 angular.module( 'playfully', [
+  'ngRetina',
+  'angular-progress-arc',
   'ngOrderObjectBy',
   'ngSanitize',
   'ipCookie',
@@ -295,7 +297,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, $previousState) {
+    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -337,6 +339,23 @@ angular.module( 'playfully', [
         }
     });
 
+    //$scope.$on(CHECKLIST.visitGameCatalog, function () {
+    //  if ($scope.currentUser &&
+    //      $scope.currentUser.role === 'instructor') {
+    //  }
+    //});
+    //
+    //$scope.$on(CHECKLIST.createCourse, function () {
+    //  if ($scope.currentUser &&
+    //      $scope.currentUser.role === 'instructor') {
+    //  }
+    //});
+    //$scope.$on(CHECKLIST.inviteStudents, function () {
+    //  if ($scope.currentUser &&
+    //      $scope.currentUser.role === 'instructor') {
+    //  }
+    //});
+
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
       
@@ -356,7 +375,7 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
       $scope.currentUser = null;
       return $timeout(function () {
-        $location.path('root.home.default');
+        $state.go('root.home.default');
       }, 100);
     });
 

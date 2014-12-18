@@ -25,6 +25,12 @@ angular.module('playfully.config', [])
   'canRemoveWO': false
 })
 
+.constant('CHECKLIST', {
+  'visitGameCatalog': 'check-list:visit-game-catalog',
+  'createCourse': 'check-list:create-class',
+  'inviteStudents': 'check-list:invite-students'
+})
+
 .constant('THIRD_PARTY_AUTH', {
   edmodo: true,
   icivics: true

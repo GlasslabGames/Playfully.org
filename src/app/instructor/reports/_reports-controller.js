@@ -19,8 +19,14 @@ angular.module( 'instructor.reports', [
       }
     },
     resolve: {
-      activeCourses: function(CoursesService) {
-        return CoursesService.getActiveEnrollmentsWithStudents();
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollmentsWithStudents();
+      },
+      activeCourses: function (courses, $q, $filter) {
+        var deferred = $q.defer();
+        var active = $filter('filter')(courses, {archived: false});
+        deferred.resolve(active);
+        return deferred.promise;
       },
       coursesInfo: function(activeCourses, ReportsService) {
         return ReportsService.getCourseInfo(activeCourses);
@@ -85,7 +91,7 @@ angular.module( 'instructor.reports', [
   })
 
     .state('root.reports.details.sowo', {
-        url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
+        url: '/sowo/game/:gameId/course/:courseId?groupId&stdntIds',
         templateUrl: 'instructor/reports/sowo/sowo.html',
         controller: 'SowoCtrl',
         parameters: ['gameId','courseId'],
