@@ -1,5 +1,6 @@
 angular.module( 'instructor.dashboard', [
-  'ui.router'
+  'ui.router',
+  'gl-err-src'
 ])
 
 .config(function config( $stateProvider ) {
@@ -136,6 +137,14 @@ angular.module( 'instructor.dashboard', [
     stroke: '#00a79d',
     counterClockwise: '',
     background: '#cccccc'
+  };
+
+
+  // Trigger to open dropdown from main body, not just arrow
+  $scope.toggleDropdown = function ($event, collection) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope[collection].isOpen = !$scope[collection].isOpen;
   };
 
   var _setSelectedGameById = function(gameId) {
