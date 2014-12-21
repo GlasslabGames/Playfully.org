@@ -250,32 +250,17 @@ angular.module( 'playfully.games', [
 )
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
-    // angular.forEach(games, function(game) {
-    //   if (game.gameId == $stateParams.gameId) {
-    //     $scope.game = game;
-    //   }
-    // });
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
 
-    // $scope.$on('$stateChangeSuccess',
-    //   function(event, toState, toParams, fromState, fromParams) {
-        // $log.info(toState);
-        // var toPageId = toState.name.split('.')[1] || 'product';
-        // angular.forEach($scope.navItems, function(navItem) {
-        //   if (navItem.id == toPageId) {
-        //     navItem.isActive = true;
-        //     $scope.currentPage = navItem;
-        //     $state.current.data.pageTitle = navItem.title;
-        //   } else {
-        //     navItem.isActive = false;
-        //   }
-    //     });
-    // });
+    if (_.has(gameDetails, 'error')) {
+      $scope.error = true;
+    }
 
+    
     $scope.isAuthorized = function() {
       return AuthService.isAuthenticatedButNot('student');
     };

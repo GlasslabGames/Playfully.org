@@ -1,5 +1,11 @@
-<div class="container">
+<div class="container text-center gl-margin--Txxl" ng-if="error">
+  <h1 class="headline-2">Error</h1>
+  <p>
+  No game found. Please return to the <a ui-sref="root.games.catalog">Game Catalog</a>.
+  </p>
+</div>
 
+<div class="container" ng-if="!error">
   <div class="media gl-game-header">
     <div class="gl-game-developer-logo media-img">
       <img ng-src="/{{ gameDetails.developer.logo.small }}" width="60" height="60">
@@ -18,7 +24,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="jumbotron gl-game-banner-{{ gameId }}">
   </div>
