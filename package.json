@@ -1,7 +1,7 @@
 {
   "name": "playfully",
   "description": "An Angular JS app",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "private": true,
   "repository": {
     "type": "git",
