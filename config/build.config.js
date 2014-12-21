@@ -80,8 +80,7 @@ module.exports = {
       'vendor/sticky-ng/js/jquery.stickytableheaders.js',
       'vendor/lodash/dist/lodash.min.js',
       'vendor/angular-local-storage/dist/angular-local-storage.min.js',
-      'vendor/angular-progress-arc/angular-progress-arc.min.js',
-      'vendor/angular-retina/dist/angular-retina.min.js'
+      'vendor/angular-progress-arc/angular-progress-arc.min.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',
