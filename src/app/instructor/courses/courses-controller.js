@@ -374,7 +374,7 @@ angular.module( 'instructor.courses', [
   function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
 
     $scope.courses = courses;
-    $scope.MAX_GAMES_COUNT = 4;
+    $scope.MAX_GAMES_COUNT = games.length;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
@@ -416,7 +416,7 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'NewCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService) {
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService, CHECKLIST) {
   $scope.games = games;
   $scope.course = null;
   $scope.createdCourse = null;
@@ -454,6 +454,7 @@ angular.module( 'instructor.courses', [
         $scope.createdCourse = data;
         $scope.formProgress.errors = [];
         $scope.formProgress.goToNextStep();
+        $rootScope.$broadcast(CHECKLIST.createCourse);
       })
       .error(function(data, status, headers, config) {
         $log.error(data);

@@ -19,8 +19,14 @@ angular.module( 'instructor.reports', [
       }
     },
     resolve: {
-      activeCourses: function(CoursesService) {
-        return CoursesService.getActiveEnrollmentsWithStudents();
+      courses: function (CoursesService) {
+        return CoursesService.getEnrollmentsWithStudents();
+      },
+      activeCourses: function (courses, $q, $filter) {
+        var deferred = $q.defer();
+        var active = $filter('filter')(courses, {archived: false});
+        deferred.resolve(active);
+        return deferred.promise;
       },
       coursesInfo: function(activeCourses, ReportsService) {
         return ReportsService.getCourseInfo(activeCourses);
@@ -286,10 +292,12 @@ angular.module( 'instructor.reports', [
       });
 
       /* Allow individual students to be toggled on or off. */
-      $scope.toggleStudent = function ($event, student, course) {
+      $scope.toggleStudent = function ($event, student, course, reportId) {
         $event.preventDefault();
         $event.stopPropagation();
-        student.isSelected = !student.isSelected;
+        if (reportId !== 'sowo') {
+          student.isSelected = !student.isSelected;
+        }
       };
 
 

@@ -7,8 +7,12 @@
         <!-- Add new message to message center -->
         <form ng-submit="submit()">
 	        <p>Add a Message to the Message Center:</p>
-		    <p>Subject: <input type="text" id="mcSubject" size="50sd" ng-model="mcSubject"/></p>
-		    <p>Message:</p>
+		    <p>Subject: <input type="text" id="mcSubject" size="50sd" ng-model="mcSubject" maxlength="32"/>
+				<small style="color: #808080">Character Limit
+					<span ng-class="{'alert alert-danger':mcSubject.length===32}"> {{mcSubject.length}}/32</span>
+				</small>
+			</p>
+			<p>Message:</p>
 		    <textarea id="mcMessage" rows="4" cols="50" ng-model="mcMessage"></textarea>
 		    <p>Icon: <input type="text" id="mcIcon" size="30" ng-model="mcIcon"/></p>
 		    <br />
@@ -19,6 +23,6 @@
 		</form>
 
     </div>
-
-    <div ui-view></div>
+	<img src="../assets/no-emoticon.png" ng-show="mcSubject.length===32" style="position:absolute;top:10px;left:50px;">
+	<div ui-view></div>
 </div>

@@ -61,14 +61,20 @@
   </tr>
   </thead>
 
-  </thead>
     <tbody ng-show="courses.options[courses.selectedCourseId].users">
     <tr class="gl-reports-table-row"
-        ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-        <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+        ng-repeat="student in courses.options[courses.selectedCourseId].users | hasSOWO: reportInfo.selectedGroupId | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+        <td class="gl-nobr">
+          {{ student.firstName }} {{ student.lastName }}.</td>
         <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
-            <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
-               ng-show="hasSOWO(sowo.id, student)"></div>
+          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+            ng-if="features.canRemoveWO"
+            ng-click="removeWO(sowo.id, student)"
+            ng-attr-title="{{(reportInfo.selectedGroupId == 'wo') ? 'Remove Watch Out' : ''}}"
+              ng-show="hasSOWO(sowo.id, student)"></div>
+          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+            ng-if="!features.canRemoveWO"
+            ng-show="hasSOWO(sowo.id, student)"></div>
         </td>
     </tr>
     </tbody>

@@ -1,12 +1,20 @@
-<div class="container">
+<div class="container text-center gl-margin--Txxl" ng-if="error">
+  <h1 class="headline-2">Error</h1>
+  <p>
+  No game found. Please return to the <a ui-sref="root.games.catalog">Game Catalog</a>.
+  </p>
+</div>
 
+<div class="container" ng-if="!error">
   <div class="media gl-game-header">
     <div class="gl-game-developer-logo media-img">
-      <img src="/{{ gameDetails.developer.logo.small }}">
+      <img ng-src="/{{ gameDetails.developer.logo.small }}" width="60" height="60">
     </div>
     <div class="media-bd">
       <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
-      <div>Developed by {{ gameDetails.developer.name }}</div>
+      <div>Developed by 
+        <a ng-click="showDeveloperModal(gameId)" class="gl-developer-link" ng-bind="gameDetails.developer.name"></a>
+      </div>
       <div class="gl-pad--Txs">
         <a ng-repeat="(name, url) in gameDetails.social"
           target="_blank" href="{{ url }}"
@@ -16,7 +24,6 @@
       </div>
     </div>
   </div>
-
 
   <div class="jumbotron gl-game-banner-{{ gameId }}">
   </div>
@@ -35,7 +42,9 @@
 
       <div ng-hide="isAuthenticated()"
            class="gl-learn-more">
-        <div class="gl-game-light-bulb-blinky"></div>
+        <div class="text-center">
+           <img ng-src="/assets/blinky-aww-snap.png" width="116" height="116">
+         </div>
         <h3 class="headline-4">Want to learn more?</h3>
         <p>
           Create a free GlassLab Games account to:<br/>
@@ -52,12 +61,7 @@
       </div>
     </div>
     <div class="col-md-9">
-      <!--<h2 class="headline-2" ng-bind="currentPage.title"></h2>-->
-      <!--<p ng-show="currentPage.id == 'product'"-->
-        <!--ng-bind="gameDetails.pages.product.header"></p>-->
       <div>
-
-
           <div class="container-fluid gl-game-details gl-margin--Bl">
             <div class="gl-game-details-top">
               <div class="row gl-margin--Bm">

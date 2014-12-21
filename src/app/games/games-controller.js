@@ -32,6 +32,9 @@ angular.module( 'playfully.games', [
   })
   .state('root.games.catalog', {
     url: '/catalog',
+    onEnter: function($rootScope, CHECKLIST) {
+        $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+    },
     views: {
       'main@': {
         templateUrl: 'games/game-catalog.html',
@@ -41,6 +44,15 @@ angular.module( 'playfully.games', [
     resolve: {
       allGamesInfo: function(GamesService) {
         return GamesService.all();
+      },
+      freeGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Free' });
+      },
+      premiumGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Premium Subscription' });
+      },
+      comingSoonGames: function (allGamesInfo) {
+        return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
       }
     },
     data: {
@@ -75,7 +87,25 @@ angular.module( 'playfully.games', [
     data: {
       pageTitle: 'Game Detail'
     }
-
+  })
+  .state('modal-lg.developer', {
+    url: '/games/:gameId/developer',
+    data: {
+      pageTitle: 'Developer Info',
+    },
+    resolve: {
+      gameDetails: function($stateParams, GamesService) {
+        return GamesService.getDetail($stateParams.gameId);
+      },
+    },
+    views: {
+      'modal@': {
+        templateUrl: 'games/developer.html',
+        controller: function($scope, $log, gameDetails) { 
+          $scope.developer = gameDetails.developer;
+        }
+      }
+    }
   })
   .state('root.games.detail.product', {
     url: '',
@@ -188,24 +218,19 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope,$stateParams,allGamesInfo, $state) {
+    function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
+
       $scope.allGamesInfo = allGamesInfo;
 
-      $scope.freeGames = {name:'Free Games', games: []};
-      $scope.premiumGames = {name: 'Premium Games', games: []};
-      $scope.comingSoonGames = {name: 'Coming Soon', games: []};
+      $scope.freeGames = {name:'Free Games', games: freeGames};
+      $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
+      $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
 
       $scope.sections = [
         $scope.premiumGames,
         $scope.freeGames,
         $scope.comingSoonGames
       ];
-
-      for (var i = 0; i < allGamesInfo.length; i++) {
-        if (allGamesInfo[i].price === 'Free') { $scope.freeGames.games.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Premium Subscription') { $scope.premiumGames.games.push(allGamesInfo[i]);}
-        if (allGamesInfo[i].price === 'Coming Soon') { $scope.comingSoonGames.games.push(allGamesInfo[i]);}
-      }
 
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
@@ -225,32 +250,17 @@ angular.module( 'playfully.games', [
 )
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
-    // angular.forEach(games, function(game) {
-    //   if (game.gameId == $stateParams.gameId) {
-    //     $scope.game = game;
-    //   }
-    // });
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
 
-    // $scope.$on('$stateChangeSuccess',
-    //   function(event, toState, toParams, fromState, fromParams) {
-        // $log.info(toState);
-        // var toPageId = toState.name.split('.')[1] || 'product';
-        // angular.forEach($scope.navItems, function(navItem) {
-        //   if (navItem.id == toPageId) {
-        //     navItem.isActive = true;
-        //     $scope.currentPage = navItem;
-        //     $state.current.data.pageTitle = navItem.title;
-        //   } else {
-        //     navItem.isActive = false;
-        //   }
-    //     });
-    // });
+    if (_.has(gameDetails, 'error')) {
+      $scope.error = true;
+    }
 
+    
     $scope.isAuthorized = function() {
       return AuthService.isAuthenticatedButNot('student');
     };
@@ -320,6 +330,16 @@ angular.module( 'playfully.games', [
       $event.preventDefault();
       $event.stopPropagation();
       btn.isOpen = !btn.isOpen;
+    };
+
+    $scope.showDeveloperModal = function (gameId) {
+      /**
+       * We're using a dedicated method instead of ui-sref in the view
+       * in order to not count the modal view in the browser history
+       * (location: false) below, so the Back button doesn't re-summon
+       * the modal after you close it.
+       **/
+      $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
     };
 })
 .controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {

@@ -26,7 +26,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, course) in courses.options"
-                ui-sref-active="gl-reports-dropdown--selected">
+              ng-class="{'gl-reports-dropdown--selected': courses.selectedCourseId == course.id }">
               <a href="#"
                  ng-click="selectCourse($event,key)"
                  ng-bind="course.title">
@@ -46,7 +46,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
-              ui-sref-active="gl-reports-dropdown--selected">
+            ng-class="{'gl-reports-dropdown--selected': games.selectedGameId == game.gameId }">
               <a href="#"
                 ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
                 ng-bind="game.shortName"
@@ -66,7 +66,7 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="report in reports.options"
-              ui-sref-active="gl-reports-dropdown--selected">
+            ng-class="{'gl-reports-dropdown--selected': reports.selected.id == report.id }">
               <a href="#"
                 ng-click="goToSelected(report.id, {gameId:games.selectedGameId,courseId:courses.selectedCourseId}); selectReport($event, report)"
                 ng-bind="report.name"></a>
@@ -101,13 +101,16 @@
           <div>
               <div class="gl-reports-nav-students"
                 ng-class="{
-                  'gl-reports-nav-students--empty': !courses.selected.users.length}">
+                  'gl-reports-nav-students--empty': !courses.selected.users.length,
+                  'gl-reports-nav-students--disabled': reports.selected.id == 'sowo'}">
                 <div ng-if="!courses.selected.users.length" class="text-grey5">
                   No students in class
                 </div>
                 <div ng-if="courses.selected.users.length"
                   ng-repeat="student in courses.selected.users | orderBy:'firstName'">
-                  <label class="gl-reports-nav-student" ng-click="toggleStudent($event, student, courses.selected)">
+                  <label class="gl-reports-nav-student"
+                    ng-class="{'gl-reports-nav-student--disabled': false}"
+                    ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
                     <div class="gl-reports-nav-selector"
                       ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
                       <i class="fa fa-check"></i>
