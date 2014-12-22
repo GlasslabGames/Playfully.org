@@ -27,11 +27,10 @@
         <div class="gl-dashboard-container-top">
             <div class="gl-dashboard-game-selector">
                 <div class="gl-dashboard-game"
+                     ng-click="status.selectedGameId=game.gameId"
                      ng-class="{'gl-dashboard-game-active':status.selectedGameId===game.gameId}"
                      ng-repeat="game in myGames">
-                    <span
-                       ng-click="status.selectedGameId=game.gameId"
-                       ng-bind="game.shortName">
+                    <span ng-bind="game.shortName">
                     </span>
                 </div>
             </div>
