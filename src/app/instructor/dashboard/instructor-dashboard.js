@@ -29,6 +29,20 @@ angular.module( 'instructor.dashboard', [
           return coursesInfo[activeCourses[0].id].games;
         }
         return {};
+      },
+      messages: function (DashService) {
+        return DashService.getMessages('message', 10, false).then(function (messages) {
+          var modifiedMessages = [];
+          for (var key in messages) {
+            var message = messages[key].value;
+            if (message &&
+                message.timestamp) {
+              message.timestamp = moment(new Date(message.timestamp)).fromNow();
+            }
+            modifiedMessages.push(message);
+          }
+          return modifiedMessages;
+        });
       }
     },
     views: {
@@ -69,7 +83,13 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.intro', {
     url: '/intro',
-    templateUrl: 'instructor/dashboard/_dashboard-intro.html'
+    templateUrl: 'instructor/dashboard/_dashboard-intro.html',
+    controller: function($scope,messages) {
+      $scope.messages = messages;
+      $scope.status = {
+        showMessages: true
+      };
+    }
   })
 
   .state('root.instructorDashboard.gameplay', {
@@ -97,14 +117,14 @@ angular.module( 'instructor.dashboard', [
 
 
 
-.controller('InstructorDashboardCtrl', function($scope, $window, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, GamesService, ReportsService, DashService) {
+.controller('InstructorDashboardCtrl', function($scope, $window, $rootScope, $state, $stateParams, $log, $timeout, activeCourses, coursesInfo, myGames, defaultGameId, messages, GamesService, ReportsService) {
 
   $scope.students = {};
   $scope.courses = {};
   $scope.myGames = myGames;
   $scope.shoutOuts = [];
   $scope.watchOuts = [];
-  $scope.messages = [];
+  $scope.messages = messages;
 
   $scope.status = {
     selectedGameId: defaultGameId,
@@ -189,7 +209,6 @@ angular.module( 'instructor.dashboard', [
     _populateStudentsListFromCourses(activeCourses);
     // set current game
     _setSelectedGameById($stateParams.gameId);
-    _retrieveMessages();
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
@@ -319,21 +338,6 @@ angular.module( 'instructor.dashboard', [
 
     $scope.watchOuts = watchOuts;
     $scope.shoutOuts = shoutOuts;
-  };
-
-  var _retrieveMessages = function () {
-    var messageList = [];
-    DashService.getMessages('message', 10, false).then(function(messages) {
-      for (var key in messages) {
-        var message = messages[key].value;
-        if (message &&
-            message.timestamp) {
-          message.timestamp = moment(new Date(message.timestamp)).fromNow();
-        }
-        messageList.push(message);
-      }
-      $scope.messages = messageList;
-    });
   };
 
   var _checkStudentCount = function(coursesInfo) {
