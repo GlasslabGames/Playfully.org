@@ -220,8 +220,7 @@ angular.module( 'playfully.games', [
 .controller('GameCatalogCtrl',
     function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
 
-      $scope.allGamesInfo = allGamesInfo;
-
+      $scope.allGamesInfo = _.reject(allGamesInfo, {'price': 'TBD'});
       $scope.freeGames = {name:'Free Games', games: freeGames};
       $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
       $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
