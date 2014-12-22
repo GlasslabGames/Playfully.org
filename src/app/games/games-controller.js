@@ -91,12 +91,12 @@ angular.module( 'playfully.games', [
   .state('modal-lg.developer', {
     url: '/games/:gameId/developer',
     data: {
-      pageTitle: 'Developer Info',
+      pageTitle: 'Developer Info'
     },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
-      },
+      }
     },
     views: {
       'modal@': {
@@ -220,7 +220,15 @@ angular.module( 'playfully.games', [
 .controller('GameCatalogCtrl',
     function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
 
-      $scope.allGamesInfo = _.reject(allGamesInfo, {'price': 'TBD'});
+      $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
+        return game.price === 'TBD' || game.gameId === 'TEST';
+      });
+
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'developer') {
+          $scope.allGamesInfo = allGamesInfo;
+      }
+
       $scope.freeGames = {name:'Free Games', games: freeGames};
       $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
       $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
