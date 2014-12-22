@@ -8,16 +8,18 @@ angular.module('gl-unique-in-group', [])
 
         //For DOM -> model validation
         ngModel.$parsers.unshift(function(value) {
-            var valid = lowercaseGroup.indexOf(value.toLowerCase()) === -1;
-            ngModel.$setValidity('isUniqueInGroup', valid);
-            return valid ? value : undefined;
+          var valid = lowercaseGroup.indexOf(value.toLowerCase()) === -1;
+          ngModel.$setValidity('isUniqueInGroup', valid);
+          return valid ? value : undefined;
         });
 
         //For model -> DOM validation
         ngModel.$formatters.unshift(function(value) {
+          if (value) {
             ngModel.$setValidity('isUniqueInGroup',
-                                 lowercaseGroup.indexOf(value.toLowerCase()) === -1);
+              lowercaseGroup.indexOf(value.toLowerCase()) === -1);
             return value;
+          }
         });
 
       }

@@ -102,23 +102,7 @@ angular.module( 'playfully.games', [
       'modal@': {
         templateUrl: 'games/developer.html',
         controller: function($scope, $log, gameDetails) { 
-          /**
-           * In order to display Retina @2x images for the logo,
-           * we can't just inline an image. We need to set a
-           * class and choose between normal or @2x. Here we're
-           * extracting the filename from the API info. (Non-optimal).
-           **/
-          var _getLogoClass = function(logoStr) {
-            var result = logoStr.match(/\/([A-Za-z\-\_]*)/);
-            if (result.length) {
-              return result[1];
-            }
-            return '';
-          };
-
           $scope.developer = gameDetails.developer;
-          $scope.developer.logoClass = _getLogoClass($scope.developer.logo.small);
-
         }
       }
     }
@@ -266,32 +250,17 @@ angular.module( 'playfully.games', [
 )
 .controller( 'GameDetailCtrl',
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
-    // angular.forEach(games, function(game) {
-    //   if (game.gameId == $stateParams.gameId) {
-    //     $scope.game = game;
-    //   }
-    // });
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId;
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
 
-    // $scope.$on('$stateChangeSuccess',
-    //   function(event, toState, toParams, fromState, fromParams) {
-        // $log.info(toState);
-        // var toPageId = toState.name.split('.')[1] || 'product';
-        // angular.forEach($scope.navItems, function(navItem) {
-        //   if (navItem.id == toPageId) {
-        //     navItem.isActive = true;
-        //     $scope.currentPage = navItem;
-        //     $state.current.data.pageTitle = navItem.title;
-        //   } else {
-        //     navItem.isActive = false;
-        //   }
-    //     });
-    // });
+    if (_.has(gameDetails, 'error')) {
+      $scope.error = true;
+    }
 
+    
     $scope.isAuthorized = function() {
       return AuthService.isAuthenticatedButNot('student');
     };
