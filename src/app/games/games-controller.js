@@ -185,27 +185,6 @@ angular.module( 'playfully.games', [
         controller: 'GameMissionsModalCtrl'
       }
     }
-    //onEnter: function($stateParams, $state, $modal) {
-    //  var gameId = $stateParams.gameId;
-    //  var modalInstance = $modal.open({
-    //    size: 'lg',
-    //    keyboard: false,
-    //    resolve: {
-    //      gameMissions: function(GamesService) {
-    //        return GamesService.getGameMissions(gameId);
-    //      },
-    //      gameId: function(){
-    //        return gameId;
-    //      }
-    //    },
-    //    templateUrl: 'games/game-play-missions.html',
-    //    controller: 'GameMissionsModalCtrl'
-    //  });
-    //
-    //  modalInstance.result.finally(function(result) {
-    //    return $state.transitionTo('games.detail.product', { gameId: gameId });
-    //  });
-    //}
   });
 })
 
