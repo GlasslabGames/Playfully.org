@@ -256,14 +256,7 @@ angular.module( 'playfully.games', [
     };
 
     $scope.hasPermsToPlayGame = function() {
-      // find game in mygames
-      for(var i = 0; i < myGames.length; i++){
-        if(myGames[i].gameId === $scope.gameId) {
-          return true;
-        }
-      }
-      // default
-      return false;
+      return _.any(myGames, { 'gameId': $scope.gameId });
     };
 
     $scope.goToGameSubpage = function(dest) {

@@ -192,14 +192,13 @@ describe('GameDetailCtrl', function() {
   describe('User without permissions', function() {
 
     beforeEach(inject(function($controller) {
-      var gameDetails = {"buttons":[{"name":"Getting Started Guide","authRequired":false,"type":"link","links":[{"target":"_blank","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/guides/SCE+quick+start+guide.pdf"}]},{"name":"Download","type":"download","authRequired":true,"links":[{"name":"PC (1.0GB)","OS":"Windows","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.msi","target":"_blank"},{"name":"Mac (1.0GB)","OS":"Mac","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.dmg","target":"_blank"}]},{"name":"Play Game","type":"play","authRequired":true,"links":[{"name":"Play Game","type":"play"}]}],"release":"live","price":"Free","releaseDate":"Nov 2, 2013","type":"Client Download","platform":{"type":"PC & Mac","icon":{"small":"assets/platform-client.png","large":"assets/platform-client@2x.png"}},"subject":"21st Century Skills, Science, ELA","grades":"6 - 8","play":{"type":"missions"}};
-
+      var gameDetails = {};
 
       ctrl = $controller('GameDetailCtrl', {
         $scope: scope,
         $stateParams: { gameId: 'SC' },
         gameDetails: gameDetails,
-        myGames: [{"gameId":"AW-1","enabled":true,"visible":true,"maintenance":null,"shortName":"Argument Wars","longName":"Argument Wars","price":"Free","releaseDate":"Aug 1, 2010","type":"Browser","platform":{"type":"Flash/Browser"}}]
+        myGames: [{"gameId":"AW-1"}]
       });
     }));
 
