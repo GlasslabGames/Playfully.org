@@ -1,12 +1,11 @@
 describe('HomeCtrl', function() {
-  var scope, ctrl, ipCookie;
+  var scope, ctrl;
 
   beforeEach(module('playfully'));
 
-  beforeEach(inject(function($rootScope, $controller, $injector, ipCookie) {
+  beforeEach(inject(function($rootScope, $controller, $injector) {
     $httpBackend = $injector.get('$httpBackend');
     scope = $rootScope.$new();
-    cookie = $injector.get('ipCookie');
     $httpBackend.whenGET('/assets/i18n/locale-english.json').respond({ });
     $httpBackend.expectGET('/assets/i18n/locale-english.json');
 
@@ -23,7 +22,7 @@ describe('HomeCtrl', function() {
     $httpBackend.whenGET('/api/v2/dash/games').respond({ });
     $httpBackend.expectGET('/api/v2/dash/games');
 
-    ctrl = $controller('HomeCtrl', { $scope: scope, ipCookie: cookie });
+    ctrl = $controller('HomeCtrl', { $scope: scope });
   }));
 
   afterEach(function() {

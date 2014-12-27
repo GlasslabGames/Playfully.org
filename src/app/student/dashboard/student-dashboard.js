@@ -1,4 +1,5 @@
 angular.module( 'student.dashboard', [
+  'courses',
   'ui.router'
 ])
 
