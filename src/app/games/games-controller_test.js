@@ -1,7 +1,9 @@
-var allGamesInfoData = [{ gameId: 'TEST'}, { price: 'TBD' },
-        { gameId: 'SC', price: 'Free' }, { gameId: 'AW-1', price: 'Free' }];
-var freeGamesData = [{ gameId: 'SC', price: 'Free' },
-                  { gameId: 'AW-1', price: 'Free' }];
+var allGamesInfoData = [
+  { gameId: 'TEST'}, { price: 'TBD' },
+  { gameId: 'SC', price: 'Free' }, { gameId: 'AW-1', price: 'Free' }];
+var freeGamesData = [
+  { gameId: 'SC', price: 'Free' },
+  { gameId: 'AW-1', price: 'Free' }];
 var premiumGamesData = [{ gameId: 'TEST' }];
 var comingSoonGamesData = [{ price: 'TBD' }];
 
@@ -128,4 +130,85 @@ describe('GameCatalogCtrl as a developer', function() {
     $httpBackend.flush();
   });
 
+});
+
+
+
+
+describe('GameDetailCtrl', function() {
+  var scope, ctrl;
+
+  beforeEach(module('playfully'));
+
+  beforeEach(inject(function($rootScope, $state, $injector) {
+    $httpBackend = $injector.get('$httpBackend');
+    scope = $rootScope.$new();
+    spyOn($state, 'go');
+
+    $httpBackend.whenGET('/assets/i18n/locale-english.json').respond({ });
+    $httpBackend.expectGET('/assets/i18n/locale-english.json');
+
+    // Simulate login status call and return user not logged in
+    var timestamp = 1234;
+    spyOn(Date.prototype, 'getTime').and.returnValue(timestamp);
+    $httpBackend.expectGET('/api/v2/auth/login/status?ts='+timestamp).respond(
+      {"status":"error","error":{"key":"user.login.notLoggedIn"},"statusCode":200}
+    );
+
+    $httpBackend.whenGET('/api/v2/dash/games').respond({ });
+    $httpBackend.expectGET('/api/v2/dash/games');
+  }));
+
+
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
+
+  describe('User with permissions', function() {
+
+    beforeEach(inject(function($controller) {
+      var gameDetails = {"buttons":[{"name":"Getting Started Guide","authRequired":false,"type":"link","links":[{"target":"_blank","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/guides/SCE+quick+start+guide.pdf"}]},{"name":"Download","type":"download","authRequired":true,"links":[{"name":"PC (1.0GB)","OS":"Windows","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.msi","target":"_blank"},{"name":"Mac (1.0GB)","OS":"Mac","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.dmg","target":"_blank"}]},{"name":"Play Game","type":"play","authRequired":true,"links":[{"name":"Play Game","type":"play"}]}],"release":"live","price":"Free","releaseDate":"Nov 2, 2013","type":"Client Download","platform":{"type":"PC & Mac","icon":{"small":"assets/platform-client.png","large":"assets/platform-client@2x.png"}},"subject":"21st Century Skills, Science, ELA","grades":"6 - 8","play":{"type":"missions"}};
+
+
+      ctrl = $controller('GameDetailCtrl', {
+        $scope: scope,
+        $stateParams: { gameId: 'SC' },
+        gameDetails: gameDetails,
+        myGames: [{"gameId":"AW-1","enabled":true,"visible":true,"maintenance":null,"shortName":"Argument Wars","longName":"Argument Wars","price":"Free","releaseDate":"Aug 1, 2010","type":"Browser","platform":{"type":"Flash/Browser"}},{"gameId":"SC","enabled":true,"visible":true,"maintenance":null,"shortName":"SimCityEDU","longName":"SimCityEDU: Pollution Challenge!","price":"Free","releaseDate":"Nov 2, 2013","type":"Client Download"}]
+      });
+    }));
+
+    describe('$scope.hasPermsToPlayGame', function() {
+      it('should do something', function() {
+        expect(scope.hasPermsToPlayGame()).toBe(true);
+        $httpBackend.flush();
+      });
+    });
+
+
+  });
+
+  describe('User without permissions', function() {
+
+    beforeEach(inject(function($controller) {
+      var gameDetails = {"buttons":[{"name":"Getting Started Guide","authRequired":false,"type":"link","links":[{"target":"_blank","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/guides/SCE+quick+start+guide.pdf"}]},{"name":"Download","type":"download","authRequired":true,"links":[{"name":"PC (1.0GB)","OS":"Windows","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.msi","target":"_blank"},{"name":"Mac (1.0GB)","OS":"Mac","link":"https://s3-us-west-1.amazonaws.com/playfully-games/SC/downloads/2.1.1128/SimCityEDU_setup.dmg","target":"_blank"}]},{"name":"Play Game","type":"play","authRequired":true,"links":[{"name":"Play Game","type":"play"}]}],"release":"live","price":"Free","releaseDate":"Nov 2, 2013","type":"Client Download","platform":{"type":"PC & Mac","icon":{"small":"assets/platform-client.png","large":"assets/platform-client@2x.png"}},"subject":"21st Century Skills, Science, ELA","grades":"6 - 8","play":{"type":"missions"}};
+
+
+      ctrl = $controller('GameDetailCtrl', {
+        $scope: scope,
+        $stateParams: { gameId: 'SC' },
+        gameDetails: gameDetails,
+        myGames: [{"gameId":"AW-1","enabled":true,"visible":true,"maintenance":null,"shortName":"Argument Wars","longName":"Argument Wars","price":"Free","releaseDate":"Aug 1, 2010","type":"Browser","platform":{"type":"Flash/Browser"}}]
+      });
+    }));
+
+    describe('$scope.hasPermsToPlayGame', function() {
+      it('should do something', function() {
+        expect(scope.hasPermsToPlayGame()).toBe(false);
+        $httpBackend.flush();
+      });
+    });
+
+  });
 });
