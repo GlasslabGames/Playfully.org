@@ -40,10 +40,11 @@ describe('InstructorDashboardCtrl', function() {
           firstName:"Studenty", role:"student"}],
         games: [{id:"AA-1"}, {id:"SC"}, {id:"AW-1"}, {id:"GOG"}]}],
       coursesInfo: [],
-      myGames: [{gameId:"AW-1", shortName:"Argument Wars", price:"Free"},
+      myGames: [{gameId: 'AA-1', shortName: 'Argubot Academy', price: 'Free' },
+                {gameId:"AW-1", shortName:"Argument Wars", price:"Free"},
                 {gameId:"SC", shortName:"SimCityEDU", price:"Free"}],
       defaultGameId: 'AA-1',
-      messages: [],
+      messages: ['A sample message'],
       $stateParams: { courseId: 101, gameId: 'AA-1' }
     });
   }));
@@ -52,11 +53,37 @@ describe('InstructorDashboardCtrl', function() {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
-  
-  it('should do something', function() {
-    $httpBackend.flush();
-  });
 
+  describe('Initialization', function() {
+  
+    it('should set initial values based on retrieved data', function() {
+      expect(_.keys(scope.students).length).toEqual(1);
+      expect(_.keys(scope.courses).length).toEqual(4);
+      expect(scope.myGames.length).toEqual(3);
+      expect(scope.messages.length).toEqual(1);
+      $httpBackend.flush();
+    });
+
+    it('should set up scope.status during init', function() {
+      expect(scope.status.selectedGameId).toEqual('AA-1');
+      expect(scope.status.selectedGame).not.toBe(null);
+      expect(scope.status.selectedGame.shortName).toEqual('Argubot Academy');
+      $httpBackend.flush();
+    });
+    
+    it('should set up prev & next game IDs based on available games', function() {
+      expect(scope.status.prevGameId).toEqual('SC');
+      expect(scope.status.nextGameId).toEqual('AW-1');
+      $httpBackend.flush();
+    });
+
+    it('should set attributes on $scope.courses object', function() {
+      expect(scope.courses.isOpen).toBe(false);
+      expect(scope.courses.selectedCourseId).toEqual(101);
+      expect(_.keys(scope.courses.options).length).toEqual(1);
+      $httpBackend.flush();
+    });
+  });
 
 
 });
