@@ -81,9 +81,8 @@ angular.module('playfully.login', [])
       }
     }
   })
-  .state('authEdmodo', {
+  .state('modal.authEdmodo', {
     url: '/auth/edmodo/finish',
-    parent: 'modal',
     data: { authorizedRoles: ['student','instructor','developer','admin'] },
     views: { 'modal@': authEdmodoConfig },
     resolve: {

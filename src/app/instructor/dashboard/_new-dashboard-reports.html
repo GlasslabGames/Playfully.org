@@ -78,7 +78,7 @@
                             <span class="gl-icon-watchout-landing-big"></span>
                             <div class="gl-dashboard-sowo-info">
                                 <span class="gl-dashboard-sowo-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
-                                    <span class="gl-dashboard-sowo-timestamp">{{wo.timestamp}}</span>
+                                    <span class="gl-dashboard-sowo-timestamp">{{wo.timeAgo}}</span>
                                 <hr>
                                 <div class="gl-dashboard-sowo-title" ng-bind="wo.name"></div>
                                 <p ng-bind="wo.description"></p>
@@ -102,7 +102,7 @@
                             <span class="gl-icon-shoutout-landing-big"></span>
                             <div class="gl-dashboard-sowo-info">
                                 <span class="gl-dashboard-sowo-username">{{so.user.firstName+''+so.user.lastName}}</span>
-                                <span class="gl-dashboard-sowo-timestamp">{{so.timestamp}}</span>
+                                <span class="gl-dashboard-sowo-timestamp">{{so.timeAgo}}</span>
                                 <hr>
                                 <div class="gl-dashboard-sowo-title" ng-bind="so.name"></div>
                                 <p ng-bind="so.description"></p>
@@ -139,7 +139,7 @@
                     </div>
                 </div>
                 <div class="gl-dashboard-container-bottom-data-section" ng-class="{'noscroll' : !status.showMessages}">
-                    <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
+                    <div ng-if="messages.length" ng-repeat="message in messages | orderBy : 'timestamp' : true" ng-show="status.showMessages">
                         <div class="gl-dashboard-message-box">
                             <div class="gl-dashboard-message-icon-box">
                                 <img ng-src="/assets/{{message.icon}}" err-src="/assets/blinky-mail-box.png" class="gl-dashboard-message-icon">
@@ -147,7 +147,7 @@
 
                             <div class="gl-dashboard-message-box-info">
                             <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
-                            <span class="gl-dashboard-message-timestamp">{{message.timestamp}}</span>
+                            <span class="gl-dashboard-message-timestamp">{{message.timeAgo}}</span>
                                 <p> {{message.message}} </p>
                             </div>
                         </div>

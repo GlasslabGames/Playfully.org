@@ -122,8 +122,11 @@
 }
 
 .gl-dashboard-game-selector {
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: row;
   flex-direction: row;
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   padding-right: 15px;
   padding-left: 15px;
@@ -391,6 +394,7 @@
     border-bottom: 1px solid @grey6;
     display: flex;
     justify-content: flex-start;
+    -webkit-justify-content: flex-start;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 20px;
