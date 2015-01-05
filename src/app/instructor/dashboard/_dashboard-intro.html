@@ -1,17 +1,36 @@
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8 text-center">
-    <h2>Welcome, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h2>
-    <p>
-      Ready to set up classes? Want to know what reports we have? Take a tour of GlassLab Games!
-    </p>
-    &nbsp;
-    <div>
-      <button class="btn gl-btn--blue"
-        ui-sref="modal-lg.instructorTour">Take a Tour</button>
-    </div>
+  <div class="col-md-12">
+      <div class="col-md-12 text-center">
+        <h2 class="headline-2 gl-margin--B40">Welcome to GlassLab Games! Let's Get Started</h2>
+      </div>
+      <div class="col-md-3" style="border: 1px red solid; height: 500px">
+
+      </div>
+      <div class="col-md-4" style="border: 1px red solid; height: 500px">
+          <div class="gl-dashboard-intro-instructions">
+            <h4>Hooray Shout Out to you!</h4>
+            So stuff and take a tour!
+          </div>
+
+      </div>
+      <div class="col-md-5" style="border: 1px red solid; height: 500px">
+          <div class="gl-dashboard-intro-checklist">
+              <div class="gl-dashboard-intro-checklist-header text-center">
+                  Check List
+              </div>
+                      <div class="gl-dashboard-checklist-item">
+                          <div class="l-profile-image">
+                            <div class="gl-dashboard-checklist-incomplete"></div>
+                          </div>
+                          <div class="l-profile-info l-profile-info-dashboard-checklist">
+                              <span class="headline-4--serif gl-margin--B40">  Discover and Play Games </span>
+                              <p>Discover highly effective, fun and engaging games tied to essential learning standards.</p>
+                          </div>
+                      </div>
+          </div>
+      </div>
+
   </div>
-  <div class="col-md-2"></div>
 </div>
 <div class="row gl-margin--T50">
     <div class="col-md-12 gl-pad--Bxxl gl-pad-Hm">
