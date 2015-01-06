@@ -443,8 +443,9 @@
 }
 
 .gl-dashboard-intro-instructions {
+  width: 260px;
   border: 2px solid @grey6;
-  padding: 5px;
+  padding: 20px;
   ul {
     padding: 0px;
     margin: 0px;
@@ -453,28 +454,56 @@
 }
 
 .gl-dashboard-checklist-item {
-  margin: 10px;
+  margin: 20px;
 }
 
 .gl-dashboard-checklist-incomplete {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   display: inline-block;
-  .image-2x('circle-empty.png', 45px, 45px);
+  .image-2x('circle-empty.png', 50px, 50px);
 }
 
 
-.l-profile-image-dashboard-checklist-complete {
+.gl-dashboard-checklist-complete {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
   .image-2x('circle-checked.png', 50px, 50px);
 }
 
 .l-profile-info-dashboard-checklist {
   width: 260px;
   display: inline-block;
-  border: 1px solid red;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 .gl-dashboard-intro-col {
   padding: 0px;
+  height: 500px;
+}
+
+.gl-dashboard-intro-blinky-teacher {
+  z-index: 1;
+  position: absolute;
+  bottom: 70px;
+  left: -40px;
+  width: 310px;
+  height: 360px;
+  .image-2x('blinky-teacher.png', 310px, 360px);
+}
+
+.gl-dashboard-intro-blinky-so {
+  z-index: 1;
+  position: absolute;
+  bottom: 110px;
+  left: -50px;
+  width: 260px;
+  height: 380px;
+  .image-2x('blinky-so.png', 260px, 380px);
+}
+
+.gl-dashboard-intro-container {
+  width: 100%;
+  border-bottom: 5px dashed @grey6;
 }

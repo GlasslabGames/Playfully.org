@@ -338,22 +338,30 @@ angular.module( 'playfully', [
         }
     });
 
-    //$scope.$on(CHECKLIST.visitGameCatalog, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //
-    //$scope.$on(CHECKLIST.createCourse, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //$scope.$on(CHECKLIST.inviteStudents, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
+    $scope.$on(CHECKLIST.visitGameCatalog, function () {
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor' &&
+          $scope.currentUser.ftue < 1) {
+        $scope.currentUser.ftue = 1;
+        UserService.update($scope.currentUser);
+      }
+    });
+    $scope.$on(CHECKLIST.createCourse, function () {
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor' &&
+          $scope.currentUser.ftue < 2) {
+        $scope.currentUser.ftue = 2;
+        UserService.update($scope.currentUser);
+      }
+    });
+    $scope.$on(CHECKLIST.inviteStudents, function () {
+      if ($scope.currentUser &&
+          $scope.currentUser.role === 'instructor' &&
+          $scope.currentUser.ftue < 3) {
+        $scope.currentUser.ftue = 3;
+        UserService.update($scope.currentUser);
+      }
+    });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
