@@ -6,14 +6,14 @@
     <div ng-hide="loading">
         <form ng-submit="submit()" name="parseData" class="parseData">
             Game ID: <select name="gameId" ng-model="gameId">
-            <option value="SC">SimCityEDU</option>
-            <option selected value="AA-1">Arugbot Academy</option>
-            <option value="AW-1">Argument Wars</option>
-            <option value="PVZ">Plants vs. Zombies EDU</option>
-            <option value="GOG">Game Over Gopher</option>
-            <option value="WT">Wuzzit Trouble</option>
-            <option value="SLFR">Slice Fractions</option>
-            <option value="WPLUS">Water Bear</option>
+            <option ng-if="gameId=='SC'" value="SC">SimCityEDU</option>
+            <option ng-if="gameId=='AA-1'" value="AA-1">Arugbot Academy</option>
+            <option ng-if="gameId=='AW-1'" value="AW-1">Argument Wars</option>
+            <option ng-if="gameId=='PVZ'" value="PVZ">Plants vs. Zombies EDU</option>
+            <option ng-if="gameId=='GOG'" value="GOG">Game Over Gopher</option>
+            <option ng-if="gameId=='WT'" value="WT">Wuzzit Trouble</option>
+            <option ng-if="gameId=='SLFR'" value="SLFR">Slice Fractions</option>
+            <option ng-if="gameId=='WPLUS'" value="WPLUS">Water Bear</option>
         </select><br>
             <br>
             Start Date:
