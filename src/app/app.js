@@ -22,6 +22,7 @@ angular.module( 'playfully', [
   'gl-enter',
   'playfully.admin',
   'playfully.research',
+  'playfully.developer-tools',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
