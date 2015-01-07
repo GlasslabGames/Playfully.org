@@ -51,7 +51,7 @@ angular.module( 'instructor.dashboard', [
     views: {
       'main@': {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, $log, myGames,currentUser) {
+        controller: function ($scope, $rootScope, $timeout, $log, myGames,currentUser, CHECKLIST) {
           var ftue = parseInt(currentUser.data.ftue);
           $scope.ftue = ftue;
           $scope.checkList = function (order) {
@@ -63,7 +63,16 @@ angular.module( 'instructor.dashboard', [
             }
             return false;
           };
+          $scope.completeFTUE = function() {
+            $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $rootScope.$broadcast(CHECKLIST.completeFTUE);
+          };
+          $scope.introContainer = {
+            isCollapsed: false
+          };
         }
+
       }
     }
   })

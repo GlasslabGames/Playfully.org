@@ -1,10 +1,10 @@
 <div class="gl-bg-dashboard">
-  <div class="gl-dashboard-intro-container">
+  <div class="gl-dashboard-intro-container" ng-if="ftue != 4" collapse="introContainer.isCollapsed">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="col-md-12 text-center">
-            <h2 class="headline-1 gl-margin--B50">Welcome to GlassLab Games!</h2>
+            <h2 class="headline-1 gl-margin--V50">Welcome to GlassLab Games!</h2>
           </div>
           <div class="col-md-3 gl-dashboard-intro-col">
             <div ng-class="ftue >= 3 ? 'gl-dashboard-intro-blinky-so' : 'gl-dashboard-intro-blinky-teacher'"></div>
@@ -64,6 +64,7 @@
         </div>
       </div>
     </div>
+    <div class="text-center gl-margin-Vxl" ng-click="completeFTUE()"><button class="gl-btn-close">X</button></div>
   </div>
   <div class="container gl-instructor-home-intro">
     <div ui-view></div>

@@ -507,3 +507,47 @@
   width: 100%;
   border-bottom: 5px dashed @grey6;
 }
+
+
+.gl-dashboard-intro-examples-container {
+  height: 256px;
+  border: 1px solid @grey6;
+  padding: 15px;
+  > div {
+    margin-top: 30px;
+    height: 164px;
+    padding-top: 30px;
+  }
+  > div:nth-child(-n+3) {
+    border-right: 1px solid @grey6;
+  }
+
+}
+
+.gl-dashboard-example-icon {
+  margin: auto;
+  margin-bottom: 15px;
+  width: 80px;
+  height: 80px;
+  padding: 0px;
+}
+
+.gl-dashboard-intro-wo {
+  .gl-dashboard-example-icon;
+  .image-2x('FTUE-WOicon.png', 80px, 80px);
+}
+
+.gl-dashboard-intro-so {
+  .gl-dashboard-example-icon;
+  .image-2x('FTUE-SOicon.png', 80px, 80px);
+}
+
+.gl-dashboard-intro-progress {
+  .gl-dashboard-example-icon;
+    .image-2x('FTUE-progress.png', 80px, 80px);
+}
+
+.gl-dashboard-intro-timeplayed {
+  .gl-dashboard-example-icon;
+  .image-2x('FTUE-clockicon.png', 80px, 80px);
+}
