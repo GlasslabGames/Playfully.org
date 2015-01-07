@@ -12,7 +12,7 @@ angular.module('reports.const', [])
   'CCSS Math 6.NS.6c': 'gl-reports-achievement-green-square',
   'CCSS Math 6.NS.8': 'gl-reports-achievement-yellow-square',
   'CCSS Math 2.G.A.3': 'gl-reports-achievement-light-blue-square',
-  'INSERT TITLE HERE': 'gl-reports-achievement-magenta-square',
+  'Symbolic notation': 'gl-reports-achievement-magenta-square',
   'CCSS Math 3.NF.A.1': 'gl-reports-achievement-green-square',
   'CCSS Math 3.NF.A.3': 'gl-reports-achievement-yellow-square',
   'CCSS Math 3.NF.B.3': 'gl-reports-achievement-red-square',
