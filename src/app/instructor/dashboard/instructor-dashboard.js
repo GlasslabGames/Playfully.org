@@ -50,7 +50,7 @@ angular.module( 'instructor.dashboard', [
     },
     views: {
       'main@': {
-        templateUrl: 'instructor/dashboard/instructor-dashboard.html',
+        templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
         controller: function ($scope, $rootScope, $timeout, $log, myGames,currentUser, CHECKLIST) {
           var ftue = parseInt(currentUser.data.ftue);
           $scope.ftue = ftue;
@@ -84,6 +84,7 @@ angular.module( 'instructor.dashboard', [
       // they have courses set up.
       var ftue = parseInt(currentUser.data.ftue);
       $scope.ftue = ftue;
+      $scope.checkListComplete = ftue >= 3 ? true : false;
       if (ftue < 3) {
         if (ftue == 2) {
           var hasStudents = _.any(activeCourses, function (course) {
@@ -107,7 +108,7 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.intro', {
     url: '/intro',
-    templateUrl: 'instructor/dashboard/_dashboard-intro.html',
+    templateUrl: 'instructor/dashboard/_dashboard-example.html',
     controller: function($scope,currentUser,messages) {
       $scope.messages = messages;
       $scope.status = {
@@ -134,7 +135,7 @@ angular.module( 'instructor.dashboard', [
         return defaultGameId;
       }
     },
-    templateUrl: 'instructor/dashboard/_new-dashboard-reports.html',
+    templateUrl: 'instructor/dashboard/_dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
   });
 })
