@@ -37,43 +37,67 @@ angular.module( 'instructor.dashboard', [
             var message = messages[key].value;
             if (message &&
                 message.timestamp) {
-              message.timestamp = moment(new Date(message.timestamp)).fromNow();
+              message.timeAgo = moment(new Date(message.timestamp)).fromNow();
             }
             modifiedMessages.push(message);
           }
           return modifiedMessages;
         });
+      },
+      currentUser: function (UserService) {
+        return UserService.retrieveCurrentUser();
       }
     },
     views: {
       'main@': {
         templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, $log, myGames) {
-          //$scope.myGames = myGames;
-          //$scope.showNotification = false;
-          //
-          //$scope.alert = {
-          //  type: 'gl-notify',
-          //  msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
-          //};
-          //
-          //$timeout(function() { $scope.showNotification = true; }, 1000);
-          //
-          //$scope.hideNotification = function() {
-          //  $scope.showNotification = false;
-          //};
+        controller: function ($scope, $rootScope, $timeout, $log, myGames,currentUser, CHECKLIST) {
+          var ftue = parseInt(currentUser.data.ftue);
+          $scope.ftue = ftue;
+          $scope.checkList = function (order) {
+            var ftue = parseInt(currentUser.data.ftue);
+            if (ftue == order ||
+                ftue > 0 &&
+                order < ftue) {
+              return true;
+            }
+            return false;
+          };
+          $scope.completeFTUE = function() {
+            $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $rootScope.$broadcast(CHECKLIST.completeFTUE);
+          };
+          $scope.introContainer = {
+            isCollapsed: false
+          };
         }
+
       }
     }
   })
 
   .state('root.instructorDashboard.default', {
     url: '',
-    controller: function($scope, $state, $log, myGames, activeCourses) {
+    controller: function($scope, $rootScope, $state, $log, myGames, activeCourses, currentUser, CHECKLIST) {
       // Decide which state to send the instructor to, based on whether
       // they have courses set up.
-      if (!myGames.length) {
-        $state.go('root.instructorDashboard.intro');
+      var ftue = parseInt(currentUser.data.ftue);
+      $scope.ftue = ftue;
+      if (ftue < 3) {
+        if (ftue == 2) {
+          var hasStudents = _.any(activeCourses, function (course) {
+            return course.studentCount > 0;
+          });
+          if (hasStudents) {
+            $rootScope.$broadcast(CHECKLIST.inviteStudents);
+            $state.go('root.instructorDashboard.gameplay',
+                {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+            return;
+          }
+        } else {
+          $state.go('root.instructorDashboard.intro');
+        }
       } else {
         $state.go('root.instructorDashboard.gameplay',
           { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
@@ -84,7 +108,7 @@ angular.module( 'instructor.dashboard', [
   .state('root.instructorDashboard.intro', {
     url: '/intro',
     templateUrl: 'instructor/dashboard/_dashboard-intro.html',
-    controller: function($scope,messages) {
+    controller: function($scope,currentUser,messages) {
       $scope.messages = messages;
       $scope.status = {
         showMessages: true
@@ -314,7 +338,7 @@ angular.module( 'instructor.dashboard', [
         $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
       }
     }, function() {
-      console.error('could not retrieve total time played:');
+      console.error('could not retrieve total time played');
     });
   };
 
@@ -326,7 +350,7 @@ angular.module( 'instructor.dashboard', [
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
         wo.user = studentObj;
-        wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
+        wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
       });
       _.each(obj.results.shoutout, function (so) {
@@ -368,6 +392,7 @@ angular.module( 'instructor.dashboard', [
       $window.location = "/games/" + gameId + "/play-" + type;
     }
   };
+
 
   _initDashboard();
 });

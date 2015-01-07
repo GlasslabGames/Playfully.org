@@ -1,4 +1,5 @@
 angular.module( 'student.dashboard', [
+  'courses',
   'ui.router'
 ])
 
@@ -95,9 +96,9 @@ angular.module( 'student.dashboard', [
         result = _.any(game.buttons, function(button) {
           return $scope.isValidLinkType(button);
         });
-        $scope.gamesInfo[gameId].hasLinks = result;
-        return result;
       }
+      $scope.gamesInfo[gameId].hasLinks = result;
+      return result;
     }
   };
 
@@ -107,11 +108,11 @@ angular.module( 'student.dashboard', [
   };
 
   $scope.isSingleLinkType = function(button) {
-    return (button.links && button.links.length == 1);
+    return (_.has(button, 'links') && button.links.length == 1);
   };
 
   $scope.isMultiLinkType = function(button) {
-    return (button.links && button.links.length > 1);
+    return (_.has(button, 'links') && button.links.length > 1);
   };
 
   $scope.goToPlayGame = function(gameId) {
