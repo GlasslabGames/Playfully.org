@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="gl-dashboard-container-bottom-data-section" ng-class="{'noscroll' : !status.showMessages}">
-                    <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
+                    <div ng-if="messages.length" ng-repeat="message in messages | orderBy : 'timestamp' : true" ng-show="status.showMessages">
                         <div class="gl-dashboard-message-box">
                             <div class="gl-dashboard-message-icon-box">
                                 <img ng-src="/assets/{{message.icon}}" err-src="/assets/blinky-mail-box.png" class="gl-dashboard-message-icon">
@@ -51,7 +51,7 @@
 
                             <div class="gl-dashboard-message-box-info">
                                 <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
-                                <span class="gl-dashboard-message-timestamp">{{message.timestamp}}</span>
+                                <span class="gl-dashboard-message-timestamp">{{message.timeAgo}}</span>
 
                                 <p> {{message.message}} </p>
                             </div>

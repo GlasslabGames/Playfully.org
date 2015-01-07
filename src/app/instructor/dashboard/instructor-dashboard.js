@@ -37,7 +37,7 @@ angular.module( 'instructor.dashboard', [
             var message = messages[key].value;
             if (message &&
                 message.timestamp) {
-              message.timestamp = moment(new Date(message.timestamp)).fromNow();
+              message.timeAgo = moment(new Date(message.timestamp)).fromNow();
             }
             modifiedMessages.push(message);
           }
@@ -338,7 +338,7 @@ angular.module( 'instructor.dashboard', [
         $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
       }
     }, function() {
-      console.error('could not retrieve total time played:');
+      console.error('could not retrieve total time played');
     });
   };
 
@@ -350,7 +350,7 @@ angular.module( 'instructor.dashboard', [
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
         wo.user = studentObj;
-        wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
+        wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
       });
       _.each(obj.results.shoutout, function (so) {
