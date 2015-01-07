@@ -151,3 +151,92 @@
   margin-right: auto;
   width: 25px;
 }
+
+
+
+
+
+.competency-key {
+  border-top: 1px solid #cccbcb;
+  border-bottom: 1px solid #cccbcb;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.competency-key-inner {
+  position: relative;
+  top: -10px;
+  text-align: center;
+}
+
+.competency-key-title {
+  background: @grey8;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+.competency {
+  display: inline-block;
+  .border-radius(100px);
+  border: 5px solid white;
+  .box-shadow(0px 0px 3px 0px rgba(0, 0, 0, .25));
+}
+
+.competency--small {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  vertical-align: middle;
+}
+
+.competency-1 {
+  background: @competency1;
+}
+
+.competency-2 {
+  background: @competency2;
+}
+
+.competency-3 {
+  background: @competency3;
+}
+
+.competency-0 {
+  background: @competency0;
+}
+
+.report-container--wide {
+  position: relative;
+}
+
+.report-body--wide {
+  position: relative;
+  z-index: 20;
+  background: white;
+  border: 1px solid @grey5;
+  .border-radius(6px);
+  margin-left: 40px;
+}
+
+.report-student-list {
+  .border-radius(6px);
+  width: 80px;
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  z-index: 10;
+  background: @grey7;
+  border: 1px solid @grey5;
+}
+
+.report-student-list-margin {
+  width: 40px;
+  text-align: center;
+}
+
+.gl-icon-reports-student {
+  display: inline-block;
+  width: 21px;
+  height: 27px;
+  .image-2x('icon-reports-student.png', 21px, 27px);
+}
