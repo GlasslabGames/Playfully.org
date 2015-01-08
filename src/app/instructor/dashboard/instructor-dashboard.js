@@ -54,6 +54,7 @@ angular.module( 'instructor.dashboard', [
         controller: function ($scope, $rootScope, $timeout, $log, myGames,currentUser, CHECKLIST) {
           var ftue = parseInt(currentUser.data.ftue);
           $scope.ftue = ftue;
+          $scope.isCheckListComplete = ftue >= 3;
           $scope.checkList = function (order) {
             var ftue = parseInt(currentUser.data.ftue);
             if (ftue == order ||
@@ -63,16 +64,15 @@ angular.module( 'instructor.dashboard', [
             }
             return false;
           };
-          $scope.completeFTUE = function() {
+          $scope.closeFTUE = function() {
             $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
-            $rootScope.$broadcast(CHECKLIST.completeFTUE);
+            $rootScope.$broadcast(CHECKLIST.closeFTUE);
           };
           $scope.introContainer = {
             isCollapsed: false
           };
         }
-
       }
     }
   })
@@ -80,19 +80,20 @@ angular.module( 'instructor.dashboard', [
   .state('root.instructorDashboard.default', {
     url: '',
     controller: function($scope, $rootScope, $state, $log, myGames, activeCourses, currentUser, CHECKLIST) {
-      // Decide which state to send the instructor to, based on whether
-      // they have courses set up.
+
       var ftue = parseInt(currentUser.data.ftue);
       $scope.ftue = ftue;
-      $scope.checkListComplete = ftue >= 3 ? true : false;
-      if (ftue < 3) {
+      var isCheckListComplete = ftue >= 3;
+
+      // Decide which state to send the instructor to, based on whether they've completed the checklist.
+      if (!isCheckListComplete) {
         if (ftue == 2) {
           var hasStudents = _.any(activeCourses, function (course) {
             return course.studentCount > 0;
           });
           if (hasStudents) {
             $rootScope.$broadcast(CHECKLIST.inviteStudents);
-            $state.go('root.instructorDashboard.gameplay',
+            $state.go('root.instructorDashboard.reports',
                 {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
             return;
           }
@@ -100,7 +101,7 @@ angular.module( 'instructor.dashboard', [
           $state.go('root.instructorDashboard.intro');
         }
       } else {
-        $state.go('root.instructorDashboard.gameplay',
+        $state.go('root.instructorDashboard.reports',
           { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
       }
     }
@@ -117,7 +118,7 @@ angular.module( 'instructor.dashboard', [
     }
   })
 
-  .state('root.instructorDashboard.gameplay', {
+  .state('root.instructorDashboard.reports', {
     url: '/game/:gameId/course/:courseId',
     resolve: {
       myGames: function ($stateParams, coursesInfo) {
@@ -237,7 +238,7 @@ angular.module( 'instructor.dashboard', [
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
-        $state.go('root.instructorDashboard.gameplay', {
+        $state.go('root.instructorDashboard.reports', {
           gameId: $scope.status.selectedGameId,
           courseId: newValue
         });
@@ -245,7 +246,7 @@ angular.module( 'instructor.dashboard', [
       });
       $scope.$watch('status.selectedGameId', function (newValue, oldValue) {
         if (newValue) {
-          $state.go('root.instructorDashboard.gameplay', {
+          $state.go('root.instructorDashboard.reports', {
             gameId: newValue,
             courseId: $scope.courses.selectedCourseId
           });
@@ -365,12 +366,6 @@ angular.module( 'instructor.dashboard', [
     $scope.shoutOuts = shoutOuts;
   };
 
-  var _checkStudentCount = function(coursesInfo) {
-    return _.some(coursesInfo, function(course) {
-      return course.studentCount > 0;
-    });
-  };
-
   var _compileNameOfStudent = function(student) {
     if (!student) { return ''; }
     var name = student.firstName;
@@ -393,7 +388,6 @@ angular.module( 'instructor.dashboard', [
       $window.location = "/games/" + gameId + "/play-" + type;
     }
   };
-
 
   _initDashboard();
 });

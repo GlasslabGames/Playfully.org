@@ -348,7 +348,7 @@ angular.module( 'playfully', [
     $scope.$on(CHECKLIST.inviteStudents, function () {
       _updateUserFTUE(3);
     });
-    $scope.$on(CHECKLIST.completeFTUE, function () {
+    $scope.$on(CHECKLIST.closeFTUE, function () {
       _updateUserFTUE(4);
     });
 
