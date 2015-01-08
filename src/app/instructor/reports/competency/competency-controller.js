@@ -28,6 +28,8 @@ angular.module( 'instructor.reports')
       $rootScope.reportDisplayType = null;
     });
 
+    $rootScope.isStudentListVisible = false;
+
     var reportId = 'competency';
 
     if(!$scope.reportInfo) {

@@ -215,23 +215,47 @@
   background: white;
   border: 1px solid @grey5;
   .border-radius(6px);
+  .box-shadow(0px 0px 2px 0px rgba(0, 0, 0, .25));
   margin-left: 40px;
 }
 
 .report-student-list {
   .border-radius(6px);
-  width: 80px;
+  width: 200px;
   position: absolute;
   top: 20px;
   left: 0px;
   z-index: 10;
   background: @grey7;
   border: 1px solid @grey5;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.report-student-list--visible {
+  z-index: 30;
+  .box-shadow(0px 0px 2px 0px rgba(0, 0, 0, .25));
+  &:hover {
+    cursor: default;
+  }
 }
 
 .report-student-list-margin {
+  float: left;
   width: 40px;
   text-align: center;
+  height: 100%;
+}
+
+.report-student-list-body {
+  margin-top: 24px;
+  margin-left: 40px;
+  .gl-reports-nav-students {
+    padding-left: 0;
+    padding-top: 0;
+    border-top: none;
+  }
 }
 
 .gl-icon-reports-student {
