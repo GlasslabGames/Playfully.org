@@ -28,7 +28,8 @@ angular.module('playfully.config', [])
 .constant('CHECKLIST', {
   'visitGameCatalog': 'check-list:visit-game-catalog',
   'createCourse': 'check-list:create-class',
-  'inviteStudents': 'check-list:invite-students'
+  'inviteStudents': 'check-list:invite-students',
+  'closeFTUE': 'check-list:close-ftue'
 })
 
 .constant('THIRD_PARTY_AUTH', {
