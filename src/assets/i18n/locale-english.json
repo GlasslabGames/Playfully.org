@@ -12,6 +12,7 @@
     "navbar.link.about": "About",
     "navbar.link.redeem": "Redeem",
     "navbar.link.research": "Research",
+    "navbar.link.developer-tools": "Tools",
     "navbar.button.signin": "Sign In",
     "navbar.button.register": "Create an Account",
     "navbar.button.logout": "Log Out",

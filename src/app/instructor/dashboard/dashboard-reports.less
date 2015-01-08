@@ -1,0 +1,371 @@
+.gl-bg-dashboard {
+  background-color: #fafafa;
+}
+
+.gl-dashboard-home {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.gl-icon-watchout-landing-big {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  .image-2x('icon-watchout-landing-big.png', 55px, 55px);
+}
+
+.gl-icon-shoutout-landing-big {
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  .image-2x('icon-shoutout-landing-big.png', 55px, 55px);
+}
+
+.gl-dashboard-course-selector {
+  float:right;
+}
+
+.gl-dashboard-banner {
+  margin: 0px;
+  position: relative;
+  @height: 279px;
+  .gl-dashboard-banner-selector {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 15px;
+    top: @height/2.5;
+    &:hover {
+      cursor: pointer;
+      i {
+        color: mediumturquoise;
+      }
+    }
+    i {
+      color: white;
+    }
+  }
+  .gl-dashboard-banner-left {
+    .gl-dashboard-banner-selector;
+    left: 0px;
+  }
+  .gl-dashboard-banner-right {
+    .gl-dashboard-banner-selector;
+    right: 0px;
+  }
+  img {
+    width: 100%;
+    height: @height;
+  }
+
+}
+
+.gl-dashboard-game-selector {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding-right: 15px;
+  padding-left: 15px;
+  .gl-dashboard-game {
+    color: @grey4;
+    font-weight: 500;
+    background-color: @grey7;
+    margin: 20px 10px 20px 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 25px;
+    &:hover {
+      background-color: steelblue;
+      color: white;
+      cursor: pointer;
+    }
+  }
+  .gl-dashboard-game-active {
+    background-color: steelblue;
+    color: white;
+    cursor: default;
+  }
+}
+
+.gl-dashboard-container {
+  background: white;
+  border: 1px solid @grey6;
+  width: 940px;
+  padding: 0px;
+  position: relative;
+  z-index: 1;
+}
+
+.gl-dashboard-container-top {
+  .gl-dashboard-container;
+  .gl-dashboard-container-footer {
+    width: 100%;
+  }
+}
+
+.gl-dashboard-container-bottom {
+  .gl-dashboard-container;
+  height: 600px;
+  position: relative;
+  left: 6px;
+}
+
+.gl-dashboard-container-bottom-header-section {
+  height: 68px;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-container-bottom-data-section {
+  height: 450px;
+  overflow: scroll;
+}
+
+
+.gl-dashboard-title-inactive {
+  color: #cccccc;
+}
+
+.gl-dashboard-col-header {
+  width: 100%;
+  height: 50px;
+  font-family: 'Bitter', serif;
+  font-weight: bold;
+  color: #555555;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  span {
+    vertical-align: middle;
+    line-height: 50px;
+  }
+}
+
+.gl-dashboard-subheader {
+  display: block;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.gl-dashboard-data-columns {
+  display: table;
+  width: 940px;
+}
+
+.gl-dashboard-col-sowo {
+  position: relative;
+  display: table-cell;
+  margin: 0px;
+  width:33.33%;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 40px;
+  .gl-icon-watchout-landing-big,
+  .gl-icon-shoutout-landing-big {
+    float: left;
+  }
+  .gl-dashboard-sowo-box {
+    min-height: 77px;
+    margin-bottom: 20px;
+    padding: 0px;
+  }
+
+  .gl-dashboard-sowo-info {
+    width: 220px;
+    margin-left: 13px;
+    float: left;
+    hr {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      color: @grey6;
+    }
+    .gl-dashboard-sowo-username {
+      font-weight: 500;
+      font-size: 16px;
+      vertical-align: bottom;
+    }
+    .gl-dashboard-sowo-timestamp  {
+      font-size: 12px;
+      color: @grey4;
+      float: right;
+    }
+    .gl-dashboard-sowo-title {
+      font-size:13px;
+      margin-bottom: 3px;
+    }
+    p {
+      word-wrap: break-word;
+      font-size:12px;
+      color: @grey4;
+    }
+  }
+  .gl-dashboard-col-sowo-show-all {
+    position: absolute;
+    right: 80px;
+    bottom: 10px;
+  }
+}
+
+.gl-dashboard-col-wo {
+  .gl-dashboard-col-sowo;
+  border-right: 1px solid @grey7;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-col-so {
+  .gl-dashboard-col-sowo;
+  border-bottom: 1px solid @grey7;
+}
+
+.gl-dashboard-col-game-stats {
+  width: 33.33%;
+  display: table-cell;
+  margin: 0px;
+  border: 1px solid @grey7;
+  padding: 10px;
+  .gl-dashboard-progress-arc {
+    margin: auto;
+    position: relative;
+    display: inline-block;
+    .averageMissionProgressText {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      line-height: 120px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: 800;
+      span {
+        font-size: 15px;
+        font-weight: 800;
+      }
+    }
+  }
+  .gl-dashboard-time-counter {
+    div {
+      display: inline-block;
+      margin: 1px;
+      .numbers {
+        margin-bottom: 10px;
+        width: 100px;
+        height: 50px;
+        font-size: 36px;
+        font-family: 'Bitter';
+        font-weight: 800;
+        background-color: #002f35;
+        color: white;
+      }
+      span {
+        display: block;
+      }
+    }
+  }
+}
+
+.gl-dashboard-col-messages {
+  padding: 0px;
+  height: 600px;
+  .gl-dashboard-col-header {
+    margin-top: 20px;
+    vertical-align: middle;
+    span:hover {
+      cursor: pointer;
+    }
+  }
+  .gl-dashboard-tweets-header {
+    position: relative;
+    left: 50px;
+  }
+  .gl-dashboard-message-box {
+    padding:20px;
+    border-bottom: 1px solid @grey7;
+    .gl-dashboard-message-icon-box {
+      display: inline-block;
+      width: 58px;
+      height: 58px;
+      margin-right: 20px;
+      vertical-align: top;
+    }
+    .gl-dashboard-message-icon {
+    }
+    .gl-dashboard-message-box-info {
+      display: inline-block;
+      width: 325px;
+      .gl-dashboard-message-subject {
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .gl-dashboard-message-timestamp {
+        font-size: 12px;
+        color: @grey4;
+        float: right;
+      }
+      p {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.gl-dashboard-container-bottom-data-section.noscroll {
+  overflow: hidden;
+}
+
+.gl-dashboard-col-games {
+  border-top: 1px solid @grey7;
+  border-right: 1px solid @grey7;
+  border-left: 1px solid @grey7;
+  height: 600px;
+  padding: 0px;
+  .gl-dashboard-col-header {
+    margin-top: 20px;
+  }
+  .gl-dashboard-game-box {
+    width: 100%;
+    height: 152px;
+    border-bottom: 1px solid @grey6;
+    display: flex;
+    justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    padding-left:20px;
+  }
+  .gl-dashboard-game-box-info {
+    display: inline-block;
+    width: 230px;
+    height: 122px;
+    ul {
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 12px;
+      list-style-type: none;
+      padding: 0px;
+      margin: 0px;
+    }
+    .text-end-fade {
+      height: 87px;
+      width: 10px;
+      top: 3px;
+      right: 0;
+    }
+  }
+  .gl-dashboard-game-box-info-title {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .gl-dashboard-game-card {
+    display: inline-block;
+    width: 152px;
+    height: 122px;
+    margin-right: 20px;
+  }
+}
+

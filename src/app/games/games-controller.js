@@ -33,7 +33,7 @@ angular.module( 'playfully.games', [
   .state('root.games.catalog', {
     url: '/catalog',
     onEnter: function($rootScope, CHECKLIST) {
-        $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+
     },
     views: {
       'main@': {
@@ -185,27 +185,6 @@ angular.module( 'playfully.games', [
         controller: 'GameMissionsModalCtrl'
       }
     }
-    //onEnter: function($stateParams, $state, $modal) {
-    //  var gameId = $stateParams.gameId;
-    //  var modalInstance = $modal.open({
-    //    size: 'lg',
-    //    keyboard: false,
-    //    resolve: {
-    //      gameMissions: function(GamesService) {
-    //        return GamesService.getGameMissions(gameId);
-    //      },
-    //      gameId: function(){
-    //        return gameId;
-    //      }
-    //    },
-    //    templateUrl: 'games/game-play-missions.html',
-    //    controller: 'GameMissionsModalCtrl'
-    //  });
-    //
-    //  modalInstance.result.finally(function(result) {
-    //    return $state.transitionTo('games.detail.product', { gameId: gameId });
-    //  });
-    //}
   });
 })
 
@@ -218,15 +197,19 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
+    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST) {
 
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST';
       });
 
-      if ($scope.currentUser &&
-          $scope.currentUser.role === 'developer') {
-          $scope.allGamesInfo = allGamesInfo;
+      if ($scope.currentUser) {
+          if ($scope.currentUser.ftue < 3) {
+            $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+          }
+          if ($scope.currentUser.role === 'developer') {
+            $scope.allGamesInfo = allGamesInfo;
+          }
       }
 
       $scope.freeGames = {name:'Free Games', games: freeGames};
@@ -277,14 +260,7 @@ angular.module( 'playfully.games', [
     };
 
     $scope.hasPermsToPlayGame = function() {
-      // find game in mygames
-      for(var i = 0; i < myGames.length; i++){
-        if(myGames[i].gameId === $scope.gameId) {
-          return true;
-        }
-      }
-      // default
-      return false;
+      return _.any(myGames, { 'gameId': $scope.gameId });
     };
 
     $scope.goToGameSubpage = function(dest) {
