@@ -1,24 +1,39 @@
-<h3 class="headline-5 gl-margin--Tn">Students</h3>
-<div>
-    <div class="gl-reports-nav-students"
-      ng-class="{
-        'gl-reports-nav-students--empty': !courses.selected.users.length,
-        'gl-reports-nav-students--disabled': reports.selected.id == 'sowo'}">
-      <div ng-if="!courses.selected.users.length" class="text-grey5">
-        No students in class
-      </div>
-      <div ng-if="courses.selected.users.length"
-        ng-repeat="student in courses.selected.users | orderBy:'firstName'">
-        <label class="gl-reports-nav-student"
-          ng-class="{'gl-reports-nav-student--disabled': false}"
-          ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
-          <div class="gl-reports-nav-selector"
-            ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
-            <i class="fa fa-check"></i>
-          </div>
-          {{ student.firstName }}
-          {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
-        </label>
+<div class="report-student-list"
+  ng-click="isStudentListVisible=true"
+  ng-class="{'report-student-list--visible': isStudentListVisible}">
+  <button type="button" class="close gl-margin--Txs gl-margin--Rs"
+    ng-click="isStudentListVisible=false; $event.stopPropagation()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+  <div class="report-student-list-margin gl-margin-Vm">
+    <span class="gl-icon-reports-student"></span>
+  </div>
+  <div class="report-student-list-body">
+    <h3 class="headline-5 gl-margin--Tn">Students</h3>
+    <div>
+      <div class="gl-reports-nav-students"
+        ng-class="{
+          'gl-reports-nav-students--empty': !courses.selected.users.length,
+          'gl-reports-nav-students--disabled': reports.selected.id == 'sowo'}">
+        <div ng-if="!courses.selected.users.length" class="text-grey5">
+          No students in class
+        </div>
+        <div ng-if="courses.selected.users.length"
+          ng-repeat="student in courses.selected.users | orderBy:'firstName'">
+          <label class="gl-reports-nav-student"
+            ng-class="{'gl-reports-nav-student--disabled': false}"
+            ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
+            <div class="gl-reports-nav-selector"
+              ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
+              <i class="fa fa-check"></i>
+            </div>
+            {{ student.firstName }}
+            {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
+          </label>
+        </div>
       </div>
     </div>
+  </div>
 </div>
+
+
+
+

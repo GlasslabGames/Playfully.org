@@ -1,0 +1,174 @@
+<table class="table gl-reports-table gl-reports-table--eql-mrgn"
+       ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-sowo-header-info">
+  <thead>
+  <tr>
+    <th style="min-width:6em;">
+      Name
+      <i class="col-sort" ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+         ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
+    </th>
+
+    <th>
+      Game Progress
+      <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+         ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
+    </th>
+
+    <th class="text-center">
+      <div class="container-fluid">
+        <div class="row gl-margin--Bm">
+          <div class="col-md-12 text-center">
+            Competency Facets
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 gl-reports-colhead">
+            Analyze givens/<wbr>constraints
+            <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+              ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
+          </div>
+          <div class="col-md-3 gl-reports-colhead">
+            Plan a solution pathway 
+            <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+              ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
+          </div>
+          <div class="col-md-3 gl-reports-colhead">
+            Effective/<wbr>efficient tools/<wbr>resources use
+            <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+              ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
+          </div>
+          <div class="col-md-3 gl-reports-colhead">
+            Monitor/<wbr>evaluate progress
+            <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+              ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
+          </div>
+        </div>
+      </div>
+    </th>
+
+    <th>
+      Problem<br>Solving<br>Ability<br>Overall
+    </th>
+  </tr>
+  <tr>
+    <th colspan="5" class="gl-reports-divider--blue"></th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr class="gl-reports-table-row">
+      <td class="gl-nobr">
+        Alex B.
+      </td>
+      <td>
+        <div class="gl-progress-levels gl-nobr">40 / 40 Levels</div>
+        <div class="gl-progress-meter-outer gl-margin--Txs">
+          <div class="gl-progress-meter-inner">
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <span class="competency competency-3"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-2"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-1"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-1"></span>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <span class="competency competency-2"></span>
+      </td>
+    </tr>
+
+
+    <tr class="gl-reports-table-row">
+      <td class="gl-nobr">
+        Brad P.
+      </td>
+      <td>
+        <div class="gl-progress-levels gl-nobr">24 / 40 Levels</div>
+        <div class="gl-progress-meter-outer gl-margin--Txs">
+          <div class="gl-progress-meter-inner"
+            ng-style="{ 'width': getProgressPercentage(24,40) }">
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <span class="competency competency-3"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-2"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-1"></span>
+            </div>
+            <div class="col-md-3 text-center">
+              <span class="competency competency-1"></span>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <span class="competency competency-2"></span>
+      </td>
+    </tr>
+  </tbody>
+
+    <!--tbody ng-show="courses.options[courses.selectedCourseId].users">
+    <tr class="gl-reports-table-row"
+        ng-repeat="student in courses.options[courses.selectedCourseId].users | hasSOWO: reportInfo.selectedGroupId | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+        <td class="gl-nobr">
+          {{ student.firstName }} {{ student.lastName }}.</td>
+        <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
+          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+            ng-if="features.canRemoveWO"
+            ng-click="removeWO(sowo.id, student)"
+            ng-attr-title="{{(reportInfo.selectedGroupId == 'wo') ? 'Remove Watch Out' : ''}}"
+              ng-show="hasSOWO(sowo.id, student)"></div>
+          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+            ng-if="!features.canRemoveWO"
+            ng-show="hasSOWO(sowo.id, student)"></div>
+        </td>
+    </tr>
+    </tbody>
+  <tr ng-hide="courses.options[courses.selectedCourseId].users">
+    <td colspan="5" >
+      <div class="text-center gl-pad-Vxxl">
+        No students are currently enrolled in this class. As students begin to play the game and earn comps, you
+        will see them here.
+      </div>
+    </td>
+  </tr>
+    <tr style="height:100px" ng-show="reportInfo.selectedGroupId==='wo'">
+        <div class="gl-reports-what-now-container">
+            <td colspan="5" class="gl-reports-what-now-header text-center">
+            <h5 class="gl-reports-what-now-text">What Now ?</h5>
+            <p>Here are some actions your students can take:</p>
+            <i ng-class="whatNow.isCollapsed ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up'"
+                ng-click="whatNow.isCollapsed  = !whatNow.isCollapsed"></i>
+                <div class="gl-reports-what-now-body text-center" collapse="whatNow.isCollapsed">
+                    </br>
+                    </br>
+                    Coming Soon!
+                    </br>
+                    </br>
+                    </br>
+                </div>
+            </td>
+
+        </div>
+    </tr>
+  </tbody-->
+</table>

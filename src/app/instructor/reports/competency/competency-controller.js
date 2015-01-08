@@ -22,13 +22,6 @@ angular.module( 'instructor.reports')
 .controller( 'CompetencyCtrl',
   function($scope, $rootScope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
 
-    // Hack for now
-    $rootScope.reportDisplayType = 'wide';
-    $rootScope.$on('$stateChangeStart', function(event, next) {
-      $rootScope.reportDisplayType = null;
-    });
-
-    $rootScope.isStudentListVisible = false;
 
     var reportId = 'competency';
 
@@ -303,10 +296,9 @@ angular.module( 'instructor.reports')
     $scope.colName = { value: 'firstName' };
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
 
-})
-.controller( 'NewCompetencyCtrl', function($scope) {
+    $scope.getProgressPercentage = function (achieved, total) {
+      percentage = achieved / parseFloat(total);
+      return (percentage * 100) + '%';
+    };
 
 });
-
-
-
