@@ -76,7 +76,7 @@ angular.module( 'instructor.dashboard', [
               return course.studentCount > 0;
             });
             if (hasStudents) {
-              $rootScope.$broadcast(CHECKLIST.inviteStudents);
+              UserService.updateUserFTUE(CHECKLIST.inviteStudents);
               $scope.ftue = 3;
               $scope.isCheckListComplete = true;
               $state.go('root.instructorDashboard.reports',
