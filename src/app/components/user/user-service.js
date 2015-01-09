@@ -1,5 +1,5 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, $rootScope, CHECKLIST) {
 
   var _currentUser;
 
@@ -81,6 +81,33 @@ angular.module('user', [])
         data: regInfo,
         params: {cb: new Date().getTime()}
       });
+    },
+
+    updateUserFTUE: function(checkListEvent) {
+      var _updateUserFTUE = function (order) {
+        if ($rootScope.currentUser.ftue < order) {
+          $rootScope.currentUser.ftue = order;
+          api.update($rootScope.currentUser);
+        }
+      };
+
+      if ($rootScope.currentUser &&
+          $rootScope.currentUser.role === 'instructor' &&
+          (!$rootScope.currentUser.ftue || $rootScope.currentUser.ftue < 4)) {
+            if (CHECKLIST.visitGameCatalog === checkListEvent) {
+              _updateUserFTUE(1);
+            }
+            if (CHECKLIST.createCourse === checkListEvent) {
+              _updateUserFTUE(2);
+            }
+            if (CHECKLIST.inviteStudents === checkListEvent) {
+              _updateUserFTUE(3);
+            }
+            if (CHECKLIST.closeFTUE === checkListEvent) {
+              _updateUserFTUE(4);
+            }
+      }
+
     }
   };
 

@@ -197,15 +197,15 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST) {
-
+    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST, UserService) {
+      console.log('$scope.currentUser', $scope.currentUser);
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST';
       });
 
       if ($scope.currentUser) {
           if ($scope.currentUser.ftue < 3) {
-            $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+            UserService.updateUserFTUE(CHECKLIST.visitGameCatalog);
           }
           if ($scope.currentUser.role === 'developer') {
             $scope.allGamesInfo = allGamesInfo;
