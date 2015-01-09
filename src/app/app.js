@@ -339,23 +339,25 @@ angular.module( 'playfully', [
         }
     });
 
-    $scope.$on(CHECKLIST.visitGameCatalog, function () {
-      _updateUserFTUE(1);
-    });
-    $scope.$on(CHECKLIST.createCourse, function () {
-      _updateUserFTUE(2);
-    });
-    $scope.$on(CHECKLIST.inviteStudents, function () {
-      _updateUserFTUE(3);
-    });
-    $scope.$on(CHECKLIST.closeFTUE, function () {
-      _updateUserFTUE(4);
-    });
+    if ($scope.currentUser &&
+        $scope.currentUser.role === 'instructor' &&
+        $scope.currentUser.ftue < 4) {
+          $scope.$on(CHECKLIST.visitGameCatalog, function () {
+            _updateUserFTUE(1);
+          });
+          $scope.$on(CHECKLIST.createCourse, function () {
+            _updateUserFTUE(2);
+          });
+          $scope.$on(CHECKLIST.inviteStudents, function () {
+            _updateUserFTUE(3);
+          });
+          $scope.$on(CHECKLIST.closeFTUE, function () {
+            _updateUserFTUE(4);
+          });
+    }
 
     var _updateUserFTUE = function(order) {
-      if ($scope.currentUser &&
-          $scope.currentUser.role === 'instructor' &&
-          $scope.currentUser.ftue < order) {
+      if ($scope.currentUser.ftue < order) {
         $scope.currentUser.ftue = order;
         UserService.update($scope.currentUser);
       }

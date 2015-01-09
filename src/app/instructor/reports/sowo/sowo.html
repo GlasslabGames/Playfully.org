@@ -86,17 +86,19 @@
       </div>
     </td>
   </tr>
-    <!--<tr ng-hide="courses.options[courses.selectedCourseId].users">-->
-        <!--<td colspan="5">-->
-            <!--<div class="text-center gl-pad-Vxxl">-->
-                <!--Currently, no students in your class has any watchouts.-->
-            <!--</div>-->
-        <!--</td>-->
-    <!--</tr>-->
+    <tr ng-hide="reportInfo.foundSowo">
+        <td colspan="5">
+            <div class="text-center gl-pad-Vxxl">
+                <img src="/assets/blinky-empty.png">
+                <h5>No {{reportInfo.selectedGroupId === 'wo' ? 'Watch Outs' : 'Shout Outs'}} Yet. Keep Playing!</h5>
+            </div>
+        </td>
+    </tr>
   </tbody>
 </table>
 
-<div class="gl-reports-what-now-container">
+<div class="gl-reports-what-now-container" ng-if="reportInfo.selectedGroupId === 'wo' &&
+     (games.selectedGameId=== 'AA-1' || games.selectedGameId === 'SC')">
     <div class="gl-reports-what-now-header text-center">
         <b>What Now?</b>
         <p>Here are some actions your students can take:</p>
@@ -106,23 +108,23 @@
     <div class="gl-reports-what-now-body" ng-hide="whatNow.isCollapsed">
         <div class="gl-reports-what-now-wo-col">
             <ul ng-repeat="wo in reportInfo.activeHeaders">
-                <li ng-class="wo.title === whatNow.selected.title ? 'gl-reports-what-now-wo-selected': 'gl-reports-what-now-wo' " ng-click="selectWhatNow(wo)">
+                <li ng-class="wo.title === whatNow.selected.title ? 'gl-reports-what-now-wo-selected' : 'gl-reports-what-now-wo'" ng-click="selectWhatNow(wo)">
                     <div class="l-profile-image l-profile-image-gl-reports-wo-icon">
                         <div class="gl-reports-wo-icon"></div>
                     </div>
                     <div class="l-profile-info gl-reports-what-now-wo-header">
-                        {{wo.title}}
-                        <p>
+                        <span class="gl-reports-what-now-wo-header-title">{{wo.title}}</span>
+                        <span class="gl-reports-what-now-wo-header-description">
                             {{wo.description}}
-                        </p>
+                        </span>
                     </div>
                 </li>
             </ul>
         </div>
         <div class="gl-reports-what-now-wo-info-col">
             <div class="gl-reports-what-now-wo-info">
-                <span>{{whatNow.selected.title + ': ' }}</span>
-                <p class="gl-reports-what-now-wo-description">{{whatNow.selected.description}}</p>
+                <span class="gl-reports-what-now-wo-info-title">{{whatNow.selected.title + ': ' }}</span>
+                <span class="gl-reports-what-now-wo-description">{{whatNow.selected.description}}</span>
                 <p class="gl-margin--Tl">&nbsp&nbsp&nbsp&nbsp{{whatNow.selected.whatNow.intro}}</p>
                 <ul ng-repeat="actionPoint in whatNow.selected.whatNow.actionPoints">
                     <li><p>{{actionPoint}}</p></li>
