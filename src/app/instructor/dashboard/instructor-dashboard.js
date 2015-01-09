@@ -51,20 +51,18 @@ angular.module( 'instructor.dashboard', [
     views: {
       'main@': {
         templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
-        controller: function ($scope, $rootScope, $timeout, $log, myGames,currentUser, CHECKLIST) {
-          var ftue = parseInt(currentUser.data.ftue);
-          $scope.ftue = ftue;
-          $scope.isCheckListComplete = ftue >= 3;
+        controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, CHECKLIST,activeCourses) {
+          $scope.ftue = parseInt(currentUser.data.ftue);
+          $scope.isCheckListComplete = $scope.ftue >= 3;
           $scope.checkList = function (order) {
-            var ftue = parseInt(currentUser.data.ftue);
-            if (ftue == order ||
-                ftue > 0 &&
-                order < ftue) {
+            if ($scope.ftue == order ||
+                $scope.ftue > 0 &&
+                order <= $scope.ftue) {
               return true;
             }
             return false;
           };
-          $scope.closeFTUE = function() {
+          $scope.closeFTUE = function () {
             $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
             $rootScope.$broadcast(CHECKLIST.closeFTUE);
@@ -72,6 +70,24 @@ angular.module( 'instructor.dashboard', [
           $scope.introContainer = {
             isCollapsed: false
           };
+          // Decide which state to send the instructor to, based on whether they've completed the checklist.
+          if (!$scope.isCheckListComplete) {
+            var hasStudents = _.any(activeCourses, function (course) {
+              return course.studentCount > 0;
+            });
+            if (hasStudents) {
+              $rootScope.$broadcast(CHECKLIST.inviteStudents);
+              $scope.ftue = 3;
+              $scope.isCheckListComplete = true;
+              $state.go('root.instructorDashboard.reports',
+                  {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+              return;
+            }
+            $state.go('root.instructorDashboard.intro');
+          } else {
+            $state.go('root.instructorDashboard.reports',
+                {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+          }
         }
       }
     }
@@ -85,25 +101,7 @@ angular.module( 'instructor.dashboard', [
       $scope.ftue = ftue;
       var isCheckListComplete = ftue >= 3;
 
-      // Decide which state to send the instructor to, based on whether they've completed the checklist.
-      if (!isCheckListComplete) {
-        if (ftue == 2) {
-          var hasStudents = _.any(activeCourses, function (course) {
-            return course.studentCount > 0;
-          });
-          if (hasStudents) {
-            $rootScope.$broadcast(CHECKLIST.inviteStudents);
-            $state.go('root.instructorDashboard.reports',
-                {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
-            return;
-          }
-        } else {
-          $state.go('root.instructorDashboard.intro');
-        }
-      } else {
-        $state.go('root.instructorDashboard.reports',
-          { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
-      }
+
     }
   })
 
