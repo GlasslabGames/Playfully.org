@@ -133,15 +133,11 @@
   border-bottom: 1px solid @grey7;
   background-color: white;
   padding-top: 15px;
-  span {
-    font-family: "Helvetica";
-    font-weight: bold;
-    font-size: 14px;
-    color: #555555;
-  }
+
   p {
     font-size: 14px;
-    font-family: "Helvetica Neue Light";
+    font-family: "Helvetica";
+    font-weight: lighter;
     color: #555555;
   }
 }
@@ -153,7 +149,7 @@
   ul {
     list-style-type: none;
     padding: 0px;
-    margin: 0px;
+    margin: 0px 0px 10px 0px;
   }
 }
 
@@ -163,14 +159,16 @@
 }
 
 .gl-reports-what-now-wo-selected {
-  opacity: 1;
+  opacity: 0.4;
+  margin-bottom: 10px;
 }
 
 .gl-reports-what-now-wo {
-  opacity: 0.4;
+  display: block;
+  opacity: 1;
+  margin-bottom: 10px;
   &:hover {
     cursor: pointer;
-    opacity: 0.6;
   }
 }
 
@@ -191,4 +189,34 @@
 
 .l-profile-image-gl-reports-wo-icon {
   margin: 10px;
+}
+
+.gl-reports-what-now-wo-info-title {
+  font-family: "Helvetica";
+  font-weight: bold;
+  font-size: 16px;
+  color: #555555;
+}
+
+.gl-reports-what-now-wo-header-title {
+  font-family: "Helvetica";
+  font-weight: normal;
+  font-size: 14px;
+  color: #555555;
+}
+
+.gl-reports-what-now-wo-header-description {
+  font-size: 14px;
+  font-family: "Helvetica";
+  font-weight: lighter;
+  color: #767676;
+  display: block;
+}
+
+.gl-reports-what-now-wo-description {
+  font-size: 14px;
+  font-family: "Helvetica";
+  font-weight: lighter;
+  color: #767676;
+  display: block;
 }
