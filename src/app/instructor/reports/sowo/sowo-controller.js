@@ -124,7 +124,6 @@ angular.module( 'instructor.reports')
 
       // Select default whatNow
       $scope.selectWhatNow($scope.reportInfo.activeHeaders[0]);
-        console.log('wahtNow', $scope.whatNow.selected);
     };
 
     /* for each user augment reportInfo with results from API */
