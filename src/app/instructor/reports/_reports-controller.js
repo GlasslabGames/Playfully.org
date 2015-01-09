@@ -14,8 +14,8 @@ angular.module( 'instructor.reports', [
     url: 'reports',
     views: {
       'main@': {
-        templateUrl: 'instructor/reports/new-reports.html',
-        controller: 'newReportsCtrl'
+        templateUrl: 'instructor/reports/reports.html',
+        controller: 'ReportsCtrl'
       }
     },
     resolve: {
@@ -220,7 +220,7 @@ angular.module( 'instructor.reports', [
 
 })
 
-    .controller('newReportsCtrl',
+    .controller('ReportsCtrl',
     function ($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports, ReportsService) {
 
       $scope.reportDisplayType = 'wide';
@@ -360,169 +360,6 @@ angular.module( 'instructor.reports', [
         return $window.navigator.userAgent.test(/trident/i);
       };
     })
-
-
-    .controller( 'ReportsCtrl',
-  function($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports,ReportsService) {
-
-    $scope.games = {};
-    $scope.developer = {};
-    $scope.courses = {};
-    $scope.activeCourses = activeCourses;
-    $scope.reports = {};
-    $scope.students = {};
-
-    // Games - Setup game options and selected game //////////////
-
-    $scope.games.isOpen = false;
-    $scope.games.selectedGameId = null;
-    $scope.games.options = {};
-    // Utility function for template
-    $scope.games.hasGames = function() {
-      return !_.isEmpty($scope.games.options);
-    };
-
-    angular.forEach(myGames, function(game) {
-      if (game.enabled) {
-        $scope.games.options[''+game.gameId] = game;
-        if (game.gameId == $stateParams.gameId) {
-          $scope.games.selectedGameId = game.gameId;
-        }
-      }
-    });
-
-    // Courses - Setup course options and select course ///////////
-
-    $scope.courses.selectedCourseId = null;
-    $scope.courses.options = {};
-
-    if (activeCourses.length) {
-      $scope.courses.selectedCourseId = activeCourses[0].id;
-    }
-
-    angular.forEach(activeCourses, function(course) {
-      course.isExpanded = false;
-      course.isPartiallySelected = false;
-      $scope.courses.options[course.id] = course;
-    });
-
-    // Reports  - Setup report options based on selected game /////////
-
-    $scope.reports.isOpen = false;
-    $scope.reports.selected = null;
-    $scope.reports.options = [];
-
-    angular.forEach(gameReports.list, function(report) {
-      // only add enabled reports
-      if(report.enabled) {
-        $scope.reports.options.push( angular.copy(report) );
-      }
-    });
-
-    // select first if on exists
-    if($scope.reports.options.length) {
-      $scope.reports.selected = $scope.reports.options[0];
-    }
-
-    /* Students */
-
-    // Adds students from activeCourses to student object
-
-    angular.forEach(activeCourses, function(course) {
-      angular.forEach(course.users, function(student) {
-        if (!$scope.students.hasOwnProperty(student.id)) {
-          $scope.students[student.id] = student;
-        }
-      });
-    });
-
-    /* Allow individual students to be toggled on or off. */
-    $scope.toggleStudent = function($event, student, course) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      // Students are not selectable for Shout Out / Watch Out
-      if ($scope.reports.selected) {
-        return false;
-      }
-      // For now, don't allow students in unselected courses to be selected
-      // TODO: Maybe figure out a way to update course and select student via
-      // the URL?
-      if (course.id != $scope.courses.selectedCourseId) {
-        return false;
-      }
-
-      student.isSelected = !student.isSelected;
-      course.isPartiallySelected = false;
-
-      /* If any students are not selected, set isPartiallySelected to true */
-      angular.forEach(course.users, function(student) {
-        if (!student.isSelected) {
-          course.isPartiallySelected = true;
-        }
-      });
-    };
-
-
-    $scope.selectCourse = function($event, courseId) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      var gameId;
-      var newState = {
-        gameId: gameId,
-        courseId: courseId
-      };
-
-      // check if selected game is available for selected course
-      ReportsService.getCourseGames(courseId).then(function(games) {
-        angular.forEach(games, function(game) {
-          if (game.gameId === $scope.games.selectedGameId) {
-            gameId = $scope.games.selectedGameId;
-          }
-        });
-
-        newState.gameId = gameId || games[0].gameId;
-
-        _clearOtherCourses(courseId);
-
-        if ($scope.reports.selected) {
-          $state.go('root.reports.details.' + $scope.reports.selected.id, newState);
-        } else {
-          $state.go('root.reports.details.achievements', newState);
-        }
-      });
-    };
-    // Reset all classes and their students except for the id passed in
-    // (which should be the newly-selected course.
-    var _clearOtherCourses = function(exceptedCourseId) {
-      angular.forEach($scope.courses.options, function(course) {
-        if (course.id != exceptedCourseId) {
-          angular.forEach(course.users, function(student) {
-            student.isSelected = false;
-          });
-          course.isPartiallySelected = false;
-        }
-      });
-    };
-
-    $scope.goToSelected = function(reportId, parameters) {
-        $state.go('root.reports.details' + '.' + reportId, parameters);
-    };
-
-    $scope.toggleDropdown = function($event, collection) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope[collection].isOpen = !$scope[collection].isOpen;
-    };
-
-    // GH: Needed to fix PLAY-393, where IE requires the border-collapse property
-    // of the reports table to be 'separate' instead of 'collapse'. Tried to
-    // use conditional IE comments in index.html, but it doesn't work with
-    // IE 10 and higher.
-    $scope.isIE = function() {
-      return $window.navigator.userAgent.test(/trident/i);
-    };
-})
 
 .controller('ReportsDetailCtrl', function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
 

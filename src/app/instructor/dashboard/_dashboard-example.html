@@ -1,18 +1,30 @@
 <div class="row">
-  <div class="col-md-2"></div>
-  <div class="col-md-8 text-center">
-    <h2>Welcome, {{ currentUser.firstName }}{{ currentUser.lastName ? ' ' + currentUser.lastName : '' }}!</h2>
-    <p>
-      Ready to set up classes? Want to know what reports we have? Take a tour of GlassLab Games!
-    </p>
-    &nbsp;
-    <div>
-      <button class="btn gl-btn--blue"
-        ui-sref="modal-lg.instructorTour">Take a Tour</button>
+    <div class="col-md-8">
+        <h2 class="headline-2 gl-margin--V40">Student Gameplay at a Glance</h2>
     </div>
-  </div>
-  <div class="col-md-2"></div>
+    <div class="col-md-12">
+        <div class="gl-dashboard-examples-container gl-pad--Bxxl gl-pad-Hm text-center">
+            To get started, simply create a class. It's fast and easy. You will be on your way to viewing your student's gameplay results soon!
+            <div class="col-md-3 text-center">
+                <div class="gl-dashboard-examples-wo"></div>
+                Students in Need of Intervention
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="gl-dashboard-examples-so"></div>
+                Students Have Done Great
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="gl-dashboard-examples-progress"></div>
+                Average Progress
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="gl-dashboard-examples-timeplayed"></div>
+                Average Time Played
+            </div>
+        </div>
+    </div>
 </div>
+
 <div class="row gl-margin--T50">
     <div class="col-md-12 gl-pad--Bxxl gl-pad-Hm">
         <div class="gl-dashboard-container-bottom gl-dashboard">
@@ -54,7 +66,7 @@
                                 if (!d.getElementById(id)) {
                                     js = d.createElement(s);
                                     js.id = id;
-                                    js.src = p + "://platform.twitter.com/widgets.js";
+                                    js.src = p + "http://platform.twitter.com/widgets.js";
                                     fjs.parentNode.insertBefore(js, fjs);
                                 }
                             }(document, "script", "twitter-wjs");

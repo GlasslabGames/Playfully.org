@@ -43,12 +43,51 @@ angular.module( 'instructor.dashboard', [
           }
           return modifiedMessages;
         });
+      },
+      currentUser: function (UserService) {
+        return UserService.retrieveCurrentUser();
       }
     },
     views: {
       'main@': {
-        templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, $log, myGames) {
+        templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
+        controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, CHECKLIST,activeCourses) {
+          $scope.ftue = parseInt(currentUser.data.ftue);
+          $scope.isCheckListComplete = $scope.ftue >= 3;
+          $scope.checkList = function (order) {
+            if ($scope.ftue == order ||
+                $scope.ftue > 0 &&
+                order <= $scope.ftue) {
+              return true;
+            }
+            return false;
+          };
+          $scope.closeFTUE = function () {
+            $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $rootScope.$broadcast(CHECKLIST.closeFTUE);
+          };
+          $scope.introContainer = {
+            isCollapsed: false
+          };
+          // Decide which state to send the instructor to, based on whether they've completed the checklist.
+          if (!$scope.isCheckListComplete) {
+            var hasStudents = _.any(activeCourses, function (course) {
+              return course.studentCount > 0;
+            });
+            if (hasStudents) {
+              $rootScope.$broadcast(CHECKLIST.inviteStudents);
+              $scope.ftue = 3;
+              $scope.isCheckListComplete = true;
+              $state.go('root.instructorDashboard.reports',
+                  {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+              return;
+            }
+            $state.go('root.instructorDashboard.intro');
+          } else {
+            $state.go('root.instructorDashboard.reports',
+                {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+          }
         }
       }
     }
@@ -56,22 +95,20 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.default', {
     url: '',
-    controller: function($scope, $state, $log, myGames, activeCourses) {
-      // Decide which state to send the instructor to, based on whether
-      // they have courses set up.
-      if (!myGames.length) {
-        $state.go('root.instructorDashboard.intro');
-      } else {
-        $state.go('root.instructorDashboard.gameplay',
-          { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
-      }
+    controller: function($scope, $rootScope, $state, $log, myGames, activeCourses, currentUser, CHECKLIST) {
+
+      var ftue = parseInt(currentUser.data.ftue);
+      $scope.ftue = ftue;
+      var isCheckListComplete = ftue >= 3;
+
+
     }
   })
 
   .state('root.instructorDashboard.intro', {
     url: '/intro',
-    templateUrl: 'instructor/dashboard/_dashboard-intro.html',
-    controller: function($scope,messages) {
+    templateUrl: 'instructor/dashboard/_dashboard-example.html',
+    controller: function($scope,currentUser,messages) {
       $scope.messages = messages;
       $scope.status = {
         showMessages: true
@@ -79,7 +116,7 @@ angular.module( 'instructor.dashboard', [
     }
   })
 
-  .state('root.instructorDashboard.gameplay', {
+  .state('root.instructorDashboard.reports', {
     url: '/game/:gameId/course/:courseId',
     resolve: {
       myGames: function ($stateParams, coursesInfo) {
@@ -97,7 +134,7 @@ angular.module( 'instructor.dashboard', [
         return defaultGameId;
       }
     },
-    templateUrl: 'instructor/dashboard/_new-dashboard-reports.html',
+    templateUrl: 'instructor/dashboard/_dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
   });
 })
@@ -199,7 +236,7 @@ angular.module( 'instructor.dashboard', [
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
-        $state.go('root.instructorDashboard.gameplay', {
+        $state.go('root.instructorDashboard.reports', {
           gameId: $scope.status.selectedGameId,
           courseId: newValue
         });
@@ -207,7 +244,7 @@ angular.module( 'instructor.dashboard', [
       });
       $scope.$watch('status.selectedGameId', function (newValue, oldValue) {
         if (newValue) {
-          $state.go('root.instructorDashboard.gameplay', {
+          $state.go('root.instructorDashboard.reports', {
             gameId: newValue,
             courseId: $scope.courses.selectedCourseId
           });
@@ -325,12 +362,6 @@ angular.module( 'instructor.dashboard', [
 
     $scope.watchOuts = watchOuts;
     $scope.shoutOuts = shoutOuts;
-  };
-
-  var _checkStudentCount = function(coursesInfo) {
-    return _.some(coursesInfo, function(course) {
-      return course.studentCount > 0;
-    });
   };
 
   var _compileNameOfStudent = function(student) {
