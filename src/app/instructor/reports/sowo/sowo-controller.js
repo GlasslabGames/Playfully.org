@@ -25,11 +25,13 @@ angular.module( 'instructor.reports')
     $scope.reportInfo.selectedGroupId = null;
     $scope.reportInfo.headers = [];
     $scope.reportInfo.activeHeaders = [];
+    $scope.reportInfo.foundSowo = false;
       // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
     $scope.games.selectedGameId = defaultGameId;
+
     $scope.whatNow = {};
     $scope.whatNow.isCollapsed = false;
 
@@ -124,7 +126,6 @@ angular.module( 'instructor.reports')
 
       // Select default whatNow
       $scope.selectWhatNow($scope.reportInfo.activeHeaders[0]);
-        console.log('wahtNow', $scope.whatNow.selected);
     };
 
     /* for each user augment reportInfo with results from API */
@@ -164,10 +165,14 @@ angular.module( 'instructor.reports')
          if (student &&
              student[reportId]&&
              sowo) {
-             return _.any(student[reportId],
+             var found = _.any(student[reportId],
                  function(studentSOWO) {
                     return studentSOWO.id === sowo;
                  });
+             if (found) {
+                 $scope.reportInfo.foundSowo = true;
+                 return found;
+             }
          }
          return false;
       };
