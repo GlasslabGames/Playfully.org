@@ -340,7 +340,7 @@ angular.module( 'playfully', [
         }
     });
 
-    var _listenToCheckListOnce = true;
+    var _createListenersOnce = true;
 
     var _updateUserFTUE = function (order) {
       if ($scope.currentUser.ftue < order) {
@@ -352,7 +352,7 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $scope.currentUser = user;
 
-      if (_listenToCheckListOnce &&
+      if (_createListenersOnce &&
           $scope.currentUser &&
           $scope.currentUser.role === 'instructor' &&
           (!$scope.currentUser.ftue || $scope.currentUser.ftue < 4)) {
@@ -368,7 +368,7 @@ angular.module( 'playfully', [
             $scope.$on(CHECKLIST.closeFTUE, function () {
               _updateUserFTUE(4);
             });
-          _listenToCheckListOnce = false;
+          _createListenersOnce = false;
       }
 
       // Google Analytics
