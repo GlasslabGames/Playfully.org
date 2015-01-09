@@ -1,5 +1,5 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, CHECKLIST) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE) {
 
   var _currentUser;
 
