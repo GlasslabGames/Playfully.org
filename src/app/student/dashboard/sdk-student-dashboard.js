@@ -64,7 +64,7 @@ angular.module('student.dashboard-sdk', [
                             .then(function (courseInfo) {
                                 CoursesService.enroll(verification.code)
                                     .then(function () {
-                                        $state.go('sdkv2LoginStudentSuccess', {gameId: $scope.gameId});
+                                        $state.go('sdk.sdkv2LoginStudentSuccess', {gameId: $scope.gameId});
                                     });
                             },
                             function (result) {
