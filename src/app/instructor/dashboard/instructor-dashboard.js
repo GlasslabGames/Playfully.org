@@ -51,7 +51,7 @@ angular.module( 'instructor.dashboard', [
     views: {
       'main@': {
         templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
-        controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, CHECKLIST,activeCourses) {
+        controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, UserService, CHECKLIST,activeCourses) {
           $scope.ftue = parseInt(currentUser.data.ftue);
           $scope.isCheckListComplete = $scope.ftue >= 3;
           $scope.checkList = function (order) {
@@ -65,7 +65,7 @@ angular.module( 'instructor.dashboard', [
           $scope.closeFTUE = function () {
             $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
-            $rootScope.$broadcast(CHECKLIST.closeFTUE);
+            UserService.updateUserFTUE(CHECKLIST.closeFTUE);
           };
           $scope.introContainer = {
             isCollapsed: false
@@ -76,7 +76,7 @@ angular.module( 'instructor.dashboard', [
               return course.studentCount > 0;
             });
             if (hasStudents) {
-              $rootScope.$broadcast(CHECKLIST.inviteStudents);
+              UserService.updateUserFTUE(CHECKLIST.inviteStudents);
               $scope.ftue = 3;
               $scope.isCheckListComplete = true;
               $state.go('root.instructorDashboard.reports',

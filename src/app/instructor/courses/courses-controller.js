@@ -416,7 +416,7 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'NewCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService, CHECKLIST) {
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService, UserService, CHECKLIST) {
   $scope.games = games;
   $scope.course = null;
   $scope.createdCourse = null;
@@ -454,7 +454,9 @@ angular.module( 'instructor.courses', [
         $scope.createdCourse = data;
         $scope.formProgress.errors = [];
         $scope.formProgress.goToNextStep();
-        $rootScope.$broadcast(CHECKLIST.createCourse);
+        if ($rootScope.currentUser.ftue < 4) {
+          UserService.updateUserFTUE(CHECKLIST.createCourse);
+        }
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
