@@ -86,6 +86,14 @@
       </div>
     </td>
   </tr>
+    <tr ng-hide="foundSowo">
+        <td colspan="5">
+            <div class="text-center gl-pad-Vxxl">
+                <img src="/assets/blinky-empty.png">
+                <h5>No {{reportInfo.selectedGroupId === 'wo' ? 'Watch Outs' : 'Shout Outs'}} Yet. Keep Playing!</h5>
+            </div>
+        </td>
+    </tr>
   </tbody>
 </table>
 
