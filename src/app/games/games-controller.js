@@ -203,7 +203,7 @@ angular.module( 'playfully.games', [
       });
 
       if ($scope.currentUser) {
-          if ($scope.currentUser.ftue < 3) {
+          if (!$scope.currentUser.ftue || $scope.currentUser.ftue < 3) {
             UserService.updateUserFTUE(CHECKLIST.visitGameCatalog);
           }
           if ($scope.currentUser.role === 'developer') {
