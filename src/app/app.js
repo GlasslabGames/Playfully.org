@@ -22,6 +22,7 @@ angular.module( 'playfully', [
   'gl-enter',
   'playfully.admin',
   'playfully.research',
+  'playfully.developer-tools',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
@@ -300,13 +301,14 @@ angular.module( 'playfully', [
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
-    $scope.currentUser = null;
+    $rootScope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;
+
 
 
     if (!$rootScope.allGames) {
@@ -338,25 +340,10 @@ angular.module( 'playfully', [
         }
     });
 
-    //$scope.$on(CHECKLIST.visitGameCatalog, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //
-    //$scope.$on(CHECKLIST.createCourse, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //$scope.$on(CHECKLIST.inviteStudents, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
+
+      // Google Analytics
       
       ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
 
@@ -368,11 +355,11 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
-      $scope.currentUser = null;
+      $rootScope.currentUser = null;
       return $timeout(function () {
         $state.go('root.home.default');
       }, 100);

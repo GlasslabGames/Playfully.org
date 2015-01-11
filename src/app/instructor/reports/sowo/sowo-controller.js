@@ -25,11 +25,18 @@ angular.module( 'instructor.reports')
     $scope.reportInfo.selectedGroupId = null;
     $scope.reportInfo.headers = [];
     $scope.reportInfo.activeHeaders = [];
+    $scope.reportInfo.foundSowo = false;
       // Courses
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
     $scope.games.selectedGameId = defaultGameId;
+
+    $scope.whatNow = {};
+    $scope.whatNow.isCollapsed = false;
+
+
+
 
     ///// Setup options /////
 
@@ -116,6 +123,9 @@ angular.module( 'instructor.reports')
       $scope.reportInfo.activeHeaders = $scope.reportInfo.headers.slice(0, 3);
       $scope.reportInfo.startIndex = 0;
       $scope.reportInfo.totalCount = $scope.reportInfo.headers.length;
+
+      // Select default whatNow
+      $scope.selectWhatNow($scope.reportInfo.activeHeaders[0]);
     };
 
     /* for each user augment reportInfo with results from API */
@@ -145,14 +155,24 @@ angular.module( 'instructor.reports')
         return found || null;
     };
 
+      //var _findStudentsWithSOWO = function() {
+      //    var students = $scope.courses.options[courses.selectedCourseId].users
+      //    _.filter(students, {'age': 36})
+      //
+      //};
+
       $scope.hasSOWO = function (sowo, student) {
          if (student &&
              student[reportId]&&
              sowo) {
-             return _.any(student[reportId],
+             var found = _.any(student[reportId],
                  function(studentSOWO) {
                     return studentSOWO.id === sowo;
                  });
+             if (found) {
+                 $scope.reportInfo.foundSowo = true;
+                 return found;
+             }
          }
          return false;
       };
@@ -254,12 +274,17 @@ angular.module( 'instructor.reports')
         }
       }
     };
+
+    $scope.selectWhatNow = function (wo) {
+      var targetWo = _.find($scope.reportInfo.headers, {'title': wo.title});
+      $scope.whatNow.selected = targetWo;
+    };
+
     $scope.col = {firstName: {reverse: false}, totalTimePlayed: {}, current: 'firstName'};
     $scope.colName = {value: 'firstName'};
     $scope.isCollapsed = {value: localStorageService.get(JSON.stringify($stateParams))};
-    $scope.whatNow = {
-      isCollapsed: false
-    };
+
+
 
 });
 

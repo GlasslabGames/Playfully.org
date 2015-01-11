@@ -10,7 +10,7 @@ angular.module('playfully.research', ['research'])
             }
         },
         data: {
-            authorizedRoles: ['admin','developer']
+            authorizedRoles: ['admin']
         }
     })
     .state('research.parser', {
@@ -18,7 +18,7 @@ angular.module('playfully.research', ['research'])
         templateUrl: 'research/research-parser.html',
         controller: 'ResearchParserCtrl',
         data: {
-          authorizedRoles: ['admin','developer']
+          authorizedRoles: ['admin']
         }
     })
     .state('research.download', {
@@ -26,7 +26,7 @@ angular.module('playfully.research', ['research'])
         templateUrl: 'research/research-download.html',
         controller: 'ResearchDownloadCtrl',
         data: {
-            authorizedRoles: ['admin', 'developer']
+            authorizedRoles: ['admin']
         }
     })
     .state('research.editCsv', {
@@ -34,7 +34,7 @@ angular.module('playfully.research', ['research'])
         templateUrl: 'research/research-edit-csv.html',
         controller: 'ResearchEditCsvCtrl',
         data: {
-            authorizedRoles: ['admin','developer']
+            authorizedRoles: ['admin']
         }
     });
 })
