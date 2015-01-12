@@ -211,18 +211,55 @@
   background-color: @alternatingRowsEven;
 }
 
+/*
 .gl-reports-table-row > td:first-child,
 .gl-reports-table th:first-child,
 .gl-reports-table tfoot td:first-child {
-  padding-left: 15px;
-  border-right: 5px solid white;
+   padding-left: 15px;
+   border-right: 5px solid white;
 }
 
 .gl-reports-table-row > td:last-child,
 .gl-reports-table th:last-child,
 .gl-reports-table tfoot td:last-child {
-  border-left: 5px solid white;
+   border-left: 5px solid white;
 }
+*/
+.gl-reports-table-row > td,
+.gl-reports-table th,
+.gl-reports-table tfoot td {
+  position: relative;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  &:first-child {
+    border-left: 0;
+    border-right: 4px solid white;
+  }
+  &:last-child {
+    border-left: 4px solid white;
+    border-right: 0;
+  }
+}
+
+.gl-reports-table--eql-mrgn th {
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+  &:first-child {
+    border-right: 2px solid white !important;
+    border-left: 0;
+  }
+  &:last-child {
+    border-left: 2px solid white !important;
+    border-right: 0;
+  }
+}
+
+.col-sort {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 
 .gl-reports-table.table > thead > tr > th,
 .gl-reports-table.table > tbody > tr > td,
@@ -332,4 +369,9 @@ p.legend-header span:after {
 
 .fa-caret-square-o-up:hover {
   opacity: 0.5;
+}
+
+.gl-reports-colhead {
+  color: @grey2;
+  font-size: 12px;
 }
