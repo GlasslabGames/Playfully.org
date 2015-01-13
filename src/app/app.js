@@ -312,7 +312,7 @@ angular.module( 'playfully', [
 
 
     if (!$rootScope.allGames) {
-      GamesService.active('minimal').then(function(data) {
+      GamesService.all().then(function(data) {
         $rootScope.allGames = data;
       });
     }
