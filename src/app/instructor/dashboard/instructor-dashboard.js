@@ -189,6 +189,18 @@ angular.module( 'instructor.dashboard', [
     $scope[collection].isOpen = !$scope[collection].isOpen;
   };
 
+  $scope.goToReport = function (reportId, courseId, gameId, groupId) {
+    if (reportId === 'achievements' && gameId === 'SC') {
+      $state.go('root.reports.details.' + 'mission-progress', {
+        courseId: courseId,
+        gameId: gameId,
+        groupId: groupId
+      });
+    } else {
+      $state.go('root.reports.details.' + reportId, {courseId: courseId, gameId: gameId, groupId: groupId});
+    }
+  };
+
   var _setSelectedGameById = function(gameId) {
     var selectedIndex = _.findIndex($scope.myGames, {'gameId': gameId});
     $scope.status.selectedGame = $scope.myGames[selectedIndex];
