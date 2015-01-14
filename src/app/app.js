@@ -27,6 +27,7 @@ angular.module( 'playfully', [
   'playfully.home',
   'playfully.games',
   'playfully.instructor',
+  'playfully.developer',
   'playfully.student',
   'playfully.register',
   'playfully.redeem',

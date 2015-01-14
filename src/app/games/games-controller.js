@@ -133,7 +133,6 @@ angular.module( 'playfully.games', [
     data: { authorizedRoles: ['instructor','manager','developer','admin'] }
   })
 
-
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
     data: { hideWrapper: true },

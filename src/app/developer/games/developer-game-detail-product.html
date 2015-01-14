@@ -1,0 +1,39 @@
+<h3 class="headline-4">About the Game</h3>
+<p ng-bind-html="gameDetails.pages.product.about"></p>
+
+<p>
+  <a ng-href="{{gameDetails.pages.product.video}}" target="_blank">
+    <button class="btn gl-btn--blue gl-btn--outlined">
+      <i class="fa fa-video-camera"></i>&nbsp;
+      See the game in action
+    </button>
+  </a>
+
+
+<h3 class="headline-4">How It Fits the Curriculum</h3>
+<ul>
+  <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
+    ng-bind="curriculumItem"></li>
+</ul>
+
+<p class="ng-scope">
+    <a ng-href="{{gameDetails.pages.product.brochure}}"
+       ng-if="gameDetails.pages.product.brochure"
+       target="_blank">
+        <button class="btn gl-btn--blue gl-btn--outlined">
+            Download brochure
+        </button>
+    </a>
+</p>
+        
+&nbsp;
+
+<div class="gl-games-carousel">
+  <carousel interval="myInterval">
+    <slide ng-repeat="slide in gameDetails.pages.product.slideshow" active="slide.active">
+      <img ng-src="{{normalizeImgUrl(slide.url)}}" style="margin:auto;">
+    </slide>
+  </carousel>
+</div>
+
+
