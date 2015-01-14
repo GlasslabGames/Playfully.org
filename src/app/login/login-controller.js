@@ -58,9 +58,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-developer.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginDeveloper', {
-    url: 'login/developer',
-    parent: 'modal',
+  $stateProvider.state('modal.login.developer', {
+    url: '/developer',
     views: { 'modal@': loginDeveloperConfig },
     data:{ pageTitle: 'Developer Sign In'}
   });
