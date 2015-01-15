@@ -377,6 +377,7 @@ angular.module( 'playfully.games', [
           '<param name=\"devicefont\" value=\"false\" />' +
           '<param name=\"salign\" value=\"\" />' +
           '<param name=\"allowScriptAccess\" value=\"always\" />' +
+          '<param name=\"wmode\" value=\"direct\" />' +
           '<a href=\"http://www.adobe.com/go/getflash\">' +
             '<img src=\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
           '</a>' +
