@@ -2,7 +2,6 @@
   <h3 class="headline-4" ng-bind="section.category"></h3>
   <p ng-repeat="listItem in section.list">
     <a href="{{ listItem.link }}" 
-      ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
       ng-bind="listItem.name"></a><br>
     <span ng-bind="listItem.description"></span>
   </p>

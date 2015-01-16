@@ -20,6 +20,7 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
+  'gl-editable-text',
   'xeditable',
   'playfully.admin',
   'playfully.research',

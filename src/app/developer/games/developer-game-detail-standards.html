@@ -5,7 +5,6 @@
           <h5 ng-if="groupItem.name" class="headline-5 gl-standards-category" ng-bind="groupItem.name"></h5>
           <p ng-repeat="listItem in groupItem.list track by $index">
               <a ng-if="listItem.link" href="{{ listItem.link }}"
-                  ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
                   ng-bind="listItem.name"></a>
               <span ng-if="!listItem.link && listItem.name" ng-bind="listItem.name"></span>
               <br ng-if="listItem.name" />
