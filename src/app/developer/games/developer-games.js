@@ -17,7 +17,10 @@ angular.module('developer.games', [])
                 myGames: function (GamesService) {
                     return GamesService.getMyDeveloperGames();
                 }
-            }
+            },
+                data: {
+                    authorizedRoles: ['developer']
+                }
         })
         .state('root.developerGames.detail', {
             abstract: true,
@@ -45,6 +48,7 @@ angular.module('developer.games', [])
                 }
             },
             data: {
+                authorizedRoles: ['developer'],
                 pageTitle: 'Game Detail'
             }
         })
