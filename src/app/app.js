@@ -288,6 +288,8 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
+  
+  // Google Analytics - Track current page w/i SPA
   $rootScope.$on('$stateChangeSuccess', function(event){
     if (!$window.ga) { return; }
     $window.ga('send', 'pageview', { page: $location.path() });
@@ -345,7 +347,8 @@ angular.module( 'playfully', [
 
       // Google Analytics
       
-      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+      // Google Analytics - User ID tracking
+      if ($window.ga) { $window.ga("set", "dimension1", user.id); }
 
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {
