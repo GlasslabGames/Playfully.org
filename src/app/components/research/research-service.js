@@ -1,5 +1,5 @@
 angular.module('research', [])
-.factory('ResearchService', function($timeout){
+.factory('ResearchService', function($timeout, $http, API_BASE){
     // this refers to the $scope of the controller, which is set via bind
     var research = {};
     research.updateMinMaxDate = function(){
@@ -38,6 +38,18 @@ angular.module('research', [])
         } else{
             $scope.loading = false;
         }
+    };
+
+    research.checkForGameAccess = function($scope){
+        var url = API_BASE + "/dash/developer/profile";
+        return $http.get(url)
+            .then(function(results){
+                var availableGames = results.data;
+                return availableGames;
+        }, function(err){
+            console.error("check game access:", err);
+            return 'err';
+        });
     };
 
     return research;

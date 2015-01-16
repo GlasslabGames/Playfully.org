@@ -15,6 +15,11 @@ angular.module('playfully.developer-tools', [])
     })
     .state('developer-tools.parser', {
         url: '/parser/:gameId',
+        resolve : {
+            availableGames: function(ResearchService){
+                return ResearchService.checkForGameAccess();
+            }
+        },
         templateUrl: 'developer-tools/developer-tools-parser.html',
         controller: 'DeveloperToolsParserCtrl',
         data: {
@@ -23,7 +28,10 @@ angular.module('playfully.developer-tools', [])
     });
 })
 
-.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, ResearchService) {
+.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, ResearchService, availableGames) {
+    if(!availableGames[$stateParams.gameId]){
+        $state.go('developer-tools');
+    }
     $scope.gameId = $stateParams.gameId;
     $scope.userIds = "";
     $scope.startDate = "";
@@ -38,7 +46,6 @@ angular.module('playfully.developer-tools', [])
     $scope.startDateOpened = false;
     $scope.endDateOpened = false;
     var signedUrls = [];
-
     $scope.submit = function() {
         if ($scope.gameId) {
             var sd = "";
