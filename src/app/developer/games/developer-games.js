@@ -15,7 +15,7 @@ angular.module('developer.games', [])
             },
             resolve: {
                 myGames: function (GamesService) {
-                    return GamesService.getMyDeveloperGames(495);
+                    return GamesService.getMyDeveloperGames();
                 }
             }
         })
@@ -73,14 +73,14 @@ angular.module('developer.games', [])
             templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
             data: {authorizedRoles: ['instructor', 'manager', 'developer', 'admin']}
         })
-        .state('modal-lg.devRegisterGame', {
-            url: '/developer/register-game',
+        .state('modal-lg.developerRequestGame', {
+            url: '/developer/request-game',
             data: {
                 authorizedRoles: ['developer']
             },
             views: {
                 'modal@': {
-                    templateUrl: 'developer/games/developer-register-game.html'
+                    templateUrl: 'developer/games/developer-request-game.html'
                 }
             },
             controller: function($scope) {

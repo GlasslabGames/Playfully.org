@@ -1,3 +1,4 @@
 angular.module('playfully.developer', [
-    'developer.games'
+    'developer.games',
+    'developer.tools'
 ]);

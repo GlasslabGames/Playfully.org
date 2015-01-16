@@ -1,6 +1,6 @@
 <div class="gl-dev-catalog-top-bar">
 <div class="container gl-container">
-    <button class="btn btn-primary" ui-sref="modal-lg.devRegisterGame">Register New Game</button>
+    <button class="btn btn-primary" ui-sref="modal-lg.developerRequestGame">Request New Game</button>
 </div>
 </div>
 <div class="container gl-container gl-margin--B40">
@@ -49,7 +49,9 @@
                 </div>
             </div>
             <div ng-if="!section.games.length">
-                <div class="col-md-4" style="color: lightgrey"> No Games</div>
+                <div class="col-md-4" style="color: lightgrey">
+                    <div class="gl-margin--B40">No Games</div>
+                </div>
             </div>
             <hr class="gl-game-report-divider" ng-hide="section.release === 'incomplete'">
         </div>

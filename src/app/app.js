@@ -23,7 +23,6 @@ angular.module( 'playfully', [
   'xeditable',
   'playfully.admin',
   'playfully.research',
-  'playfully.developer-tools',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',

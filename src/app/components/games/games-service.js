@@ -178,8 +178,8 @@ angular.module('games', [
         return response;
       });
     },
-    getMyDeveloperGames: function (userId) {
-      return $http.get(API_BASE + '/dash/developer/' + userId + '/info')
+    getMyDeveloperGames: function () {
+      return $http.get(API_BASE + '/dash/developer/info')
           .then(function(response) {
             $log.debug(response);
             console.log('response',response);
