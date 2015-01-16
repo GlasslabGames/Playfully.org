@@ -140,7 +140,14 @@ angular.module('developer.games', [])
                 $state.go('root.developerGames.detail.product', {gameId: gameId});
             }
         };
-        console.log('myGames', myGames);
+        $scope.truncateText = function (text, limit) {
+            if (text.length > limit) {
+                var truncated = text.substring(0, limit);
+                return truncated + '…';
+            } else {
+                return text;
+            }
+        };
     })
     .controller('DevGameDetailCtrl',
     function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
