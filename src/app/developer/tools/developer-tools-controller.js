@@ -15,6 +15,11 @@ angular.module('developer.tools', [])
     .state('root.developerTools.parser', {
         url: '/parser/:gameId',
         templateUrl: 'developer/tools/developer-tools-parser.html',
+        resolve : {
+            availableGames: function(ResearchService){
+                return ResearchService.checkForGameAccess();
+            }
+        },
         controller: 'DeveloperToolsParserCtrl',
         data: {
           authorizedRoles: ['developer']
@@ -22,7 +27,10 @@ angular.module('developer.tools', [])
     });
 })
 
-.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, ResearchService) {
+.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, ResearchService, availableGames) {
+    if(!availableGames[$stateParams.gameId]){
+        $state.go('root.developerTools');
+    }
     $scope.gameId = $stateParams.gameId;
     $scope.userIds = "";
     $scope.startDate = "";
@@ -37,7 +45,6 @@ angular.module('developer.tools', [])
     $scope.startDateOpened = false;
     $scope.endDateOpened = false;
     var signedUrls = [];
-
     $scope.submit = function() {
         if ($scope.gameId) {
             var sd = "";
