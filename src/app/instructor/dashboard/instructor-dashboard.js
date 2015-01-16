@@ -167,7 +167,6 @@ angular.module( 'instructor.dashboard', [
   angular.forEach(activeCourses, function (course) {
     $scope.courses.options[course.id] = course;
   });
-
   $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
   // Controls for Average Mission Progress

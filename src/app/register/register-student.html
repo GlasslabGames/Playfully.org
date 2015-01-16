@@ -28,6 +28,7 @@
           autocorrect="off">
           &nbsp;<span class="fa fa-question-circle"
             popover-placement="top"
+            popover-trigger="mouseenter"
             popover="If you don't have a Class Code, ask your teacher for one"></span>
           <div class="form-errors">
             <div class="form-error" ng-show="regInit.code.$dirty && regInit.code.$invalid">
@@ -74,6 +75,7 @@
               autocorrect="off">
               &nbsp;<span class="fa fa-question-circle"
                 popover-placement="bottom"
+                popover-trigger="mouseenter"
                 popover="How would you like your name to be displayed?"></span>
               <div class="form-errors">
                 <div class="form-error" ng-show="regForm.username.$dirty && regForm.username.$invalid && regForm.username.$error.minlength">
@@ -111,6 +113,7 @@
               ng-maxlength="1">
               &nbsp;<span class="fa fa-question-circle"
                 popover-placement="bottom"
+                popover-trigger="mouseenter"
                 popover="First letter of your last name"></span>
               <div class="form-errors">
                 <div class="form-error" ng-show="regForm.lastName.$dirty && regForm.lastName.$invalid">
@@ -133,6 +136,7 @@
             pw-confirm="account.confirm">
               &nbsp;<span class="fa fa-question-circle"
                 popover-placement="top"
+                popover-trigger="mouseenter"
                 popover="At least 6 characters"></span>
             <div class="form-errors">
               <div class="form-error" ng-show="regForm.password.$dirty && regForm.password.$error.minlength">

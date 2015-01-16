@@ -1,5 +1,5 @@
-<h3 class="headline-4">About the Game</h3>
-<p ng-bind-html="gameDetails.pages.product.about"></p>
+<h3 class="headline-4">About the Game</h3> <button ng-click="editAbout.$show()" ng-hide="editAbout.$visible"></button>
+<p e-class="gl-large-input" ng-bind-html="gameDetails.pages.product.about" editable-text="gameDetails.pages.product.about" e-form="editAbout"></p>
 
 <p>
   <a ng-href="{{gameDetails.pages.product.video}}" target="_blank">

@@ -3,10 +3,19 @@ angular.module('developer.games', [])
 .config(function ($stateProvider) {
         $stateProvider.state('root.developerGames', {
             abstract: true,
-            url: 'developer/games',
+            url: 'developer/games'
+        })
+        .state('root.developerGames.default', {
+            url: '',
             views: {
-                'main@root': {
-                    template: '<div ui-view></div>'
+                'main@': {
+                    templateUrl: 'developer/games/developer-games.html',
+                    controller: 'DevGamesCtrl'
+                }
+            },
+            resolve: {
+                myGames: function (GamesService) {
+                    return GamesService.getMyDeveloperGames(495);
                 }
             }
         })
@@ -16,7 +25,7 @@ angular.module('developer.games', [])
             views: {
                 'main@': {
                     templateUrl: 'developer/games/developer-game-detail.html',
-                    controller: 'GameDetailCtrl'
+                    controller: 'DevGameDetailCtrl'
                 }
             },
             resolve: {
@@ -63,9 +72,73 @@ angular.module('developer.games', [])
             url: '/lesson-plans',
             templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
             data: {authorizedRoles: ['instructor', 'manager', 'developer', 'admin']}
+        })
+        .state('modal-lg.devRegisterGame', {
+            url: '/developer/register-game',
+            data: {
+                authorizedRoles: ['developer']
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'developer/games/developer-register-game.html'
+                }
+            },
+            controller: function($scope) {
+                $scope.account = {
+                    isRegCompleted: false,
+                    gameId: null,
+                    errors: []
+                };
+                //$scope.register = function (account) {
+                //    $scope.regForm.isSubmitting = true;
+                //    UserService.register(account)
+                //        .success(function (data, status, headers, config) {
+                //            user = data;
+                //            Session.create(user.id, user.role, data.loginType);
+                //            $scope.regForm.isSubmitting = false;
+                //            $scope.account.isRegCompleted = true;
+                //        })
+                //        .error(function (data, status, headers, config) {
+                //            $log.error(data);
+                //            $scope.regForm.isSubmitting = false;
+                //            $scope.account.isRegCompleted = false;
+                //            if (data.error) {
+                //                $scope.account.errors.push(data.error);
+                //            } else {
+                //                $scope.account.errors.push(ERRORS['general']);
+                //            }
+                //        });
+                //}
+            }
         });
     })
-    .controller('GameDetailCtrl',
+    .controller('DevGamesCtrl', function ($scope, $state, myGames) {
+        $scope.sections = [
+            {name:'Live', release: 'live'},
+            {name:'In development', release: 'dev'},
+            {name:'Pending', release: 'pending'},
+            {name:'Incomplete', release: 'incomplete'}
+        ];
+        var sectionsDict = {
+            'live': [],
+            'dev': [],
+            'pending': [],
+            'incomplete': []
+        };
+        _.each(myGames, function(gameBasicInfo) {
+            sectionsDict[gameBasicInfo.release].push(gameBasicInfo);
+        });
+        _.each($scope.sections, function(section) {
+           section.games = sectionsDict[section.release];
+        });
+        $scope.goToGameDetail = function(gameId, release) {
+            if (release === 'live') {
+                $state.go('root.developerGames.detail.product', {gameId: gameId});
+            }
+        };
+        console.log('myGames', myGames);
+    })
+    .controller('DevGameDetailCtrl',
     function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
         document.body.scrollTop = 0;
         $scope.currentPage = null;

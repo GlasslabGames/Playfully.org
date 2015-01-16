@@ -177,6 +177,17 @@ angular.module('games', [
         $log.error(response);
         return response;
       });
+    },
+    getMyDeveloperGames: function (userId) {
+      return $http.get(API_BASE + '/dash/developer/' + userId + '/info')
+          .then(function(response) {
+            $log.debug(response);
+            console.log('response',response);
+            return response.data;
+          }, function (response) {
+            $log.error(response);
+            return response;
+          });
     }
   };
 
