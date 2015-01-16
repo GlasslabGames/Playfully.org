@@ -10,12 +10,7 @@ angular.module( 'playfully.games', [
 .config(function ( $stateProvider) {
   $stateProvider.state( 'root.games', {
     abstract: true,
-    url: 'games',
-    views: {
-      'main@root': {
-        template: '<div ui-view></div>'
-      }
-    }
+    url: 'games'
   })
   .state('root.games.default', {
     url: '',
@@ -132,7 +127,6 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor','manager','developer','admin'] }
   })
-
 
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
