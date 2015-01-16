@@ -58,9 +58,8 @@ angular.module('playfully.login', [])
     templateUrl: 'login/login-developer.html',
     controller: 'LoginCtrl'
   };
-  $stateProvider.state('loginDeveloper', {
-    url: 'login/developer',
-    parent: 'modal',
+  $stateProvider.state('modal.login.developer', {
+    url: '/developer',
     views: { 'modal@': loginDeveloperConfig },
     data:{ pageTitle: 'Developer Sign In'}
   });
@@ -75,7 +74,7 @@ angular.module('playfully.login', [])
     url: '/auth/edmodo',
     onEnter: function($state, $log, ipCookie) {
       if (ipCookie('inSDK')) {
-        $state.go('sdkAuthEdmodo');
+        $state.go('sdk.sdkAuthEdmodo');
       } else {
         $state.go('authEdmodo');
       }
@@ -281,6 +280,14 @@ angular.module('playfully.login', [])
 
     $scope.user = currentUser;
 
+    $scope.finishLogin = function() {
+      if ($state.current.data.hideWrapper) {
+        $window.location.search = 'action=SUCCESS';
+      } else {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
+      }
+    };
+
     // If the student is already enrolled, just finish the login
     // process. (Otherwise we will ask for a Class Code.)
     if (currentUser.role == 'student' && enrollments.length > 0) {
@@ -310,14 +317,6 @@ angular.module('playfully.login', [])
         .error(function(data, status, headers, config) {
           $scope.verification.errors.push(data.error);
         });
-    };
-
-    $scope.finishLogin = function() {
-      if ($state.current.data.hideWrapper) {
-        $window.location.search = 'action=SUCCESS';
-      } else {
-        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, $scope.user);
-      }
     };
 
 });

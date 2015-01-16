@@ -33,7 +33,7 @@ angular.module( 'playfully.games', [
   .state('root.games.catalog', {
     url: '/catalog',
     onEnter: function($rootScope, CHECKLIST) {
-        $rootScope.$broadcast(CHECKLIST.visitGameCatalog);
+
     },
     views: {
       'main@': {
@@ -197,15 +197,18 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state) {
-
+    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST, UserService) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST';
       });
 
-      if ($scope.currentUser &&
-          $scope.currentUser.role === 'developer') {
-          $scope.allGamesInfo = allGamesInfo;
+      if ($scope.currentUser) {
+          if (!$scope.currentUser.ftue || $scope.currentUser.ftue < 3) {
+            UserService.updateUserFTUE(CHECKLIST.visitGameCatalog);
+          }
+          if ($scope.currentUser.role === 'developer') {
+            $scope.allGamesInfo = allGamesInfo;
+          }
       }
 
       $scope.freeGames = {name:'Free Games', games: freeGames};
@@ -375,6 +378,7 @@ angular.module( 'playfully.games', [
           '<param name=\"devicefont\" value=\"false\" />' +
           '<param name=\"salign\" value=\"\" />' +
           '<param name=\"allowScriptAccess\" value=\"always\" />' +
+          '<param name=\"wmode\" value=\"direct\" />' +
           '<a href=\"http://www.adobe.com/go/getflash\">' +
             '<img src=\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
           '</a>' +

@@ -303,7 +303,7 @@ angular.module( 'playfully', [
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
-    $scope.currentUser = null;
+    $rootScope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
@@ -312,8 +312,9 @@ angular.module( 'playfully', [
     $rootScope.features = FEATURES;
 
 
+
     if (!$rootScope.allGames) {
-      GamesService.active('minimal').then(function(data) {
+      GamesService.all().then(function(data) {
         $rootScope.allGames = data;
       });
     }
@@ -341,30 +342,10 @@ angular.module( 'playfully', [
         }
     });
 
-    $scope.$on(CHECKLIST.visitGameCatalog, function () {
-      _updateUserFTUE(1);
-    });
-    $scope.$on(CHECKLIST.createCourse, function () {
-      _updateUserFTUE(2);
-    });
-    $scope.$on(CHECKLIST.inviteStudents, function () {
-      _updateUserFTUE(3);
-    });
-    $scope.$on(CHECKLIST.closeFTUE, function () {
-      _updateUserFTUE(4);
-    });
-
-    var _updateUserFTUE = function(order) {
-      if ($scope.currentUser &&
-          $scope.currentUser.role === 'instructor' &&
-          $scope.currentUser.ftue < order) {
-        $scope.currentUser.ftue = order;
-        UserService.update($scope.currentUser);
-      }
-    };
-
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
+
+      // Google Analytics
       
       // Google Analytics - User ID tracking
       if ($window.ga) { $window.ga("set", "dimension1", user.id); }
@@ -377,11 +358,11 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
-      $scope.currentUser = null;
+      $rootScope.currentUser = null;
       return $timeout(function () {
         $state.go('root.home.default');
       }, 100);

@@ -17,17 +17,18 @@ angular.module('games', [
         });
     },
 
-    getInfo: function (gameId) {
-      return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/info')
-        .then(function (response) {
-          $log.debug(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
-    },
+    /** Not being used? **/
+    //getInfo: function (gameId) {
+    //  return $http
+    //    .get(API_BASE + '/dash/game/' + gameId + '/info')
+    //    .then(function (response) {
+    //      $log.debug(response);
+    //      return response.data;
+    //    }, function (response) {
+    //      $log.error(response);
+    //      return response;
+    //    });
+    //},
 
     getDetail: function (gameId) {
       return $http.get(API_BASE + '/dash/game/' + gameId)

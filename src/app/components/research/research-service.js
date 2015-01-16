@@ -10,10 +10,13 @@ angular.module('research', [])
         }
         if(this.minDate){
             var afterDate = new Date(this.minDate);
-            afterDate.setMonth(afterDate.getMonth()+1);
-            afterDate.setDate(0);
+            afterDate.setDate(afterDate.getDate()+6);
             if(afterDate < this.maxDate || this.maxDate < this.minDate){
                 this.maxDate = afterDate;
+            }
+            var today = new Date();
+            if(this.maxDate > today){
+                this.maxDate = today;
             }
             this.endDate = this.endDate || new Date(this.maxDate);
             if(this.maxDate < this.endDate || this.endDate < this.startDate){
