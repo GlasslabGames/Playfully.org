@@ -17,17 +17,18 @@ angular.module('games', [
         });
     },
 
-    getInfo: function (gameId) {
-      return $http
-        .get(API_BASE + '/dash/game/' + gameId + '/info')
-        .then(function (response) {
-          $log.debug(response);
-          return response.data;
-        }, function (response) {
-          $log.error(response);
-          return response;
-        });
-    },
+    /** Not being used? **/
+    //getInfo: function (gameId) {
+    //  return $http
+    //    .get(API_BASE + '/dash/game/' + gameId + '/info')
+    //    .then(function (response) {
+    //      $log.debug(response);
+    //      return response.data;
+    //    }, function (response) {
+    //      $log.error(response);
+    //      return response;
+    //    });
+    //},
 
     getDetail: function (gameId) {
       return $http.get(API_BASE + '/dash/game/' + gameId)
@@ -176,6 +177,17 @@ angular.module('games', [
         $log.error(response);
         return response;
       });
+    },
+    getMyDeveloperGames: function () {
+      return $http.get(API_BASE + '/dash/developer/info')
+          .then(function(response) {
+            $log.debug(response);
+            console.log('response',response);
+            return response.data;
+          }, function (response) {
+            $log.error(response);
+            return response;
+          });
     }
   };
 

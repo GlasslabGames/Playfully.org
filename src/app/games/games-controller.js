@@ -10,12 +10,7 @@ angular.module( 'playfully.games', [
 .config(function ( $stateProvider) {
   $stateProvider.state( 'root.games', {
     abstract: true,
-    url: 'games',
-    views: {
-      'main@root': {
-        template: '<div ui-view></div>'
-      }
-    }
+    url: 'games'
   })
   .state('root.games.default', {
     url: '',
@@ -132,7 +127,6 @@ angular.module( 'playfully.games', [
     templateUrl: 'games/game-detail-lesson-plans.html',
     data: { authorizedRoles: ['instructor','manager','developer','admin'] }
   })
-
 
   .state('sdkGameAppLink', {
     url: '/sdk/game/:gameId/applink',
@@ -378,6 +372,7 @@ angular.module( 'playfully.games', [
           '<param name=\"devicefont\" value=\"false\" />' +
           '<param name=\"salign\" value=\"\" />' +
           '<param name=\"allowScriptAccess\" value=\"always\" />' +
+          '<param name=\"wmode\" value=\"direct\" />' +
           '<a href=\"http://www.adobe.com/go/getflash\">' +
             '<img src=\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
           '</a>' +

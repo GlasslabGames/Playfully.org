@@ -1,21 +1,20 @@
-angular.module('playfully.developer-tools', [])
+angular.module('developer.tools', [])
 
 .config(function($stateProvider) {
-    $stateProvider.state('developer-tools', {
-        url: '/developer-tools',
-        abstract: false,
+    $stateProvider.state('root.developerTools', {
+        url: 'developer/tools',
         views: {
             'main@': {
-                templateUrl: 'developer-tools/developer-tools.html'
+                templateUrl: 'developer/tools/developer-tools.html'
             }
         },
         data: {
             authorizedRoles: ['developer']
         }
     })
-    .state('developer-tools.parser', {
+    .state('root.developerTools.parser', {
         url: '/parser/:gameId',
-        templateUrl: 'developer-tools/developer-tools-parser.html',
+        templateUrl: 'developer/tools/developer-tools-parser.html',
         controller: 'DeveloperToolsParserCtrl',
         data: {
           authorizedRoles: ['developer']

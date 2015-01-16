@@ -1,3 +1,13 @@
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
+  <div ng-include src="'instructor/reports/_students.html'"></div>
+
+  <div class="report-body--wide gl-pad-Al">
+
+    <h1 class="headline-2 text-center gl-margin--Tl"
+      ng-bind="reports.selected.header.text"></h1>
+
+    <p class="text-center" ng-bind="reports.selected.description">
+    </p>
 
 
 <table class="table gl-reports-table" 
@@ -63,3 +73,8 @@
     </tr>
   </tbody>
 </table>
+
+
+
+</div>
+</div>
