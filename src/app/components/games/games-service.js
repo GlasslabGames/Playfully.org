@@ -167,6 +167,7 @@ angular.module('games', [
           return response;
         });
     },
+
     // Returns basic info for all games current user has in all his classes
     getMyGames: function () {
       return $http.get(API_BASE + '/dash/myGames')
@@ -178,6 +179,7 @@ angular.module('games', [
         return response;
       });
     },
+
     getMyDeveloperGames: function () {
       return $http.get(API_BASE + '/dash/developer/info')
           .then(function(response) {
@@ -187,6 +189,16 @@ angular.module('games', [
           }, function (response) {
             $log.error(response);
             return response;
+          });
+    },
+
+    checkForGameAccess: function(){
+      return $http.get(API_BASE + '/dash/developer/profile')
+          .then(function(response) {
+            return response.data;
+          }, function(err){
+            $log.error("check game access:", err);
+            return err;
           });
     }
   };
