@@ -1,0 +1,73 @@
+<div class="gl-bg-dashboard">
+  <div class="gl-dashboard-intro-container" ng-if="ftue != 4" collapse="introContainer.isCollapsed">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-12 text-center">
+            <h2 class="headline-1 gl-margin--V50" ng-if="!isCheckListComplete">Welcome to GlassLab Games!</h2>
+            <h2 class="headline-1 gl-margin--V50" ng-if="isCheckListComplete">You're Ready to Go!</h2>
+          </div>
+          <div class="col-md-3 gl-dashboard-intro-col">
+            <div ng-class="isCheckListComplete ? 'gl-dashboard-intro-blinky-so' : 'gl-dashboard-intro-blinky-teacher'"></div>
+          </div>
+          <div class="col-md-4 gl-dashboard-intro-col">
+            <div class="gl-dashboard-intro-instructions" ng-if="isCheckListComplete">
+              <div class="headline-5--serif gl-margin--Bm"> Hooray! Shout Out to you!</div>
+              <p>You’ve completed the tour of GlassLab Games and are ready to go. Keep an eye on your Message
+                Center for new updates. If you have any questions, feel free to check out Support!</p>
+            </div>
+            <div class="gl-dashboard-intro-instructions" ng-if="!isCheckListComplete">
+                <div class="headline-5--serif gl-margin--Bm"> Let’s get started.</div>
+                <p> Excited to set up your classes? Ready to take a look at your instructional
+                  resources? Want tips on how to use your reporting tools to view your students’ learning results?</p>
+                <div>
+                  <div class="text-center">
+                  <button class="btn gl-btn--blue gl-margin-Vs text-center"
+                          ui-sref="modal-lg.instructorTour">Take a Tour
+                  </button>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 gl-dashboard-intro-col">
+            <div class="gl-dashboard-intro-checklist">
+              <div class="gl-dashboard-intro-checklist-header headline-3--serif text-center">
+                Check List
+              </div>
+              <div class="gl-dashboard-intro-checklist-item">
+                <div class="l-profile-image">
+                  <div ng-class="checkList(1) ? 'gl-dashboard-intro-checklist-complete' : 'gl-dashboard-intro-checklist-incomplete'"></div>
+                </div>
+                <div class="l-profile-info l-profile-info-dashboard-intro-checklist" ui-sref="root.games.catalog()">
+                  <div class="headline-4--serif gl-margin--Bm"> Discover and Play Games</div>
+                  <p>Discover highly effective, fun and engaging games tied to essential learning standards.</p>
+                </div>
+              </div>
+              <div class="gl-dashboard-intro-checklist-item">
+                <div class="l-profile-image">
+                  <div ng-class="checkList(2) ? 'gl-dashboard-intro-checklist-complete' : 'gl-dashboard-intro-checklist-incomplete'"></div>
+                </div>
+                <div class="l-profile-info l-profile-info-dashboard-intro-checklist" ui-sref="root.courses()">
+                  <div class="headline-4--serif gl-margin--Bm"> Create a Class</div>
+                  <p>Create a class and assign games to it.</p>
+                </div>
+              </div>
+              <div class="gl-dashboard-intro-checklist-item">
+                <div class="l-profile-image">
+                  <div ng-class="checkList(3) ? 'gl-dashboard-intro-checklist-complete' : 'gl-dashboard-intro-checklist-incomplete'"></div>
+                </div>
+                <div class="l-profile-info l-profile-info-dashboard-intro-checklist" ui-sref="root.courses()">
+                  <div class="headline-4--serif gl-margin--Bm"> Invite Your Students</div>
+                  <p>Give your Class Code to your students. When they register their accounts, they will be
+                    enrolled automatically in the correct class.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="text-center gl-margin-Vs" ng-click="closeFTUE()" ng-if="isCheckListComplete"><button class="gl-btn-close">X</button></div>
+  </div>
+  <div class="container gl-dashboard-home">
+    <div ui-view></div>
+  </div>
+</div>

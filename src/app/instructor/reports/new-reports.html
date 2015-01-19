@@ -94,33 +94,10 @@
       </div>
     </div>
 
-    <div class="row">
+    <!--div class="row" ng-if="!reportDisplayType">
       <div class="col-md-3">
         <div class="gl-reports-container gl-margin--Bxl">
-          <h3 class="headline-5 gl-margin--Tn">Students</h3>
-          <div>
-              <div class="gl-reports-nav-students"
-                ng-class="{
-                  'gl-reports-nav-students--empty': !courses.selected.users.length,
-                  'gl-reports-nav-students--disabled': reports.selected.id == 'sowo'}">
-                <div ng-if="!courses.selected.users.length" class="text-grey5">
-                  No students in class
-                </div>
-                <div ng-if="courses.selected.users.length"
-                  ng-repeat="student in courses.selected.users | orderBy:'firstName'">
-                  <label class="gl-reports-nav-student"
-                    ng-class="{'gl-reports-nav-student--disabled': false}"
-                    ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
-                    <div class="gl-reports-nav-selector"
-                      ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
-                      <i class="fa fa-check"></i>
-                    </div>
-                    {{ student.firstName }}
-                    {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
-                  </label>
-                </div>
-              </div>
-          </div>
+          <div ng-include src="'instructor/reports/_students.html'"></div>
         </div>
       </div>
 
@@ -137,7 +114,9 @@
 
         </div>
       </div>
+    </div-->
 
-    </div>
+    <div ui-view></div>
+
   </div>
 </div>

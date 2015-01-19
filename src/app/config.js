@@ -28,7 +28,8 @@ angular.module('playfully.config', [])
 .constant('CHECKLIST', {
   'visitGameCatalog': 'check-list:visit-game-catalog',
   'createCourse': 'check-list:create-class',
-  'inviteStudents': 'check-list:invite-students'
+  'inviteStudents': 'check-list:invite-students',
+  'closeFTUE': 'check-list:close-ftue'
 })
 
 .constant('THIRD_PARTY_AUTH', {
@@ -46,7 +47,7 @@ angular.module('playfully.config', [])
 })
 
 .constant('EMAIL_VALIDATION_PATTERN',
-  /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/)
+  /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i)
 
 .config(function($logProvider){
   // $logProvider.debugEnabled(false);

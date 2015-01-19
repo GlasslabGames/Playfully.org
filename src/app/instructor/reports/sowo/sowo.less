@@ -112,10 +112,10 @@
 }
 
 .gl-reports-what-now-header {
-  padding: 0px !important;
-  height: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 85px;
   width: 100%;
-  vertical-align: middle !important;
   background-color: @grey7;
   font-size: 15px;
 }
@@ -127,8 +127,96 @@
 }
 
 .gl-reports-what-now-body {
+  display: table;
   border-right: 1px solid @grey7;
   border-left: 1px solid @grey7;
   border-bottom: 1px solid @grey7;
   background-color: white;
+  padding-top: 15px;
+
+  p {
+    font-size: 14px;
+    font-family: "Helvetica";
+    font-weight: lighter;
+    color: #555555;
+  }
+}
+
+.gl-reports-what-now-wo-col {
+  display: table-cell;
+  width: 300px;
+  border-right: 1px solid @grey6;
+  ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+  }
+}
+
+.gl-reports-what-now-wo-header {
+  width: 230px;
+
+}
+
+.gl-reports-what-now-wo-selected {
+  opacity: 0.4;
+  margin-bottom: 10px;
+}
+
+.gl-reports-what-now-wo {
+  display: block;
+  opacity: 1;
+  margin-bottom: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.gl-reports-what-now-wo-info-col {
+  display: table-cell;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 400px;
+}
+
+.gl-reports-what-now-wo-info {
+  position: relative;
+  padding-top: 10px;
+  top: -38px;
+}
+
+
+.l-profile-image-gl-reports-wo-icon {
+  margin: 10px;
+}
+
+.gl-reports-what-now-wo-info-title {
+  font-family: "Helvetica";
+  font-weight: bold;
+  font-size: 16px;
+  color: #555555;
+}
+
+.gl-reports-what-now-wo-header-title {
+  font-family: "Helvetica";
+  font-weight: normal;
+  font-size: 14px;
+  color: #555555;
+}
+
+.gl-reports-what-now-wo-header-description {
+  font-size: 14px;
+  font-family: "Helvetica";
+  font-weight: lighter;
+  color: #767676;
+  display: block;
+}
+
+.gl-reports-what-now-wo-description {
+  font-size: 14px;
+  font-family: "Helvetica";
+  font-weight: lighter;
+  color: #767676;
+  display: block;
 }

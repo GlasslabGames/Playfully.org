@@ -1,7 +1,7 @@
+
 <div class="col-md-8">
     <h2 class="headline-2 gl-margin--Tn">Student Gameplay at a Glance</h2>
 </div>
-
 <div>
     <div class="btn-group gl-dashboard-course-selector" dropdown is-open="courses.isOpen">
         <button type="button" class="btn btn-default gl-reports-dropdown"
@@ -46,22 +46,28 @@
             <div class="gl-dashboard-data-columns">
                 <div class=" gl-dashboard-col-game-stats text-center">
                     <div class="gl-dashboard-col-header ">Key Game Stats</div>
-                    <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
-                    <div class="gl-dashboard-time-counter gl-margin--B40">
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
-                        <div><span class="numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
+                    <div class="gl-dashboard-widget-average-total-timed-played"
+                         ng-click="goToReport('achievements',courses.selectedCourseId,status.selectedGameId)">
+                        <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
+                        <div class="gl-dashboard-time-counter gl-margin--B40">
+                            <div><span class="numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
+                            <div><span class="numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
+                        </div>
                     </div>
                     <div ng-if="status.selectedGameId==='SC'">
-                        <span class="gl-dashboard-subheader">Avg Game Progress:</span>
-                        <div class="gl-dashboard-progress-arc">
-                            <span class="averageMissionProgressText">{{status.averageMissionProgress || 0}}<span>%</span></span>
-                            <progress-arc
-                                    size="{{progressArc.size}}"
-                                    stroke="{{progressArc.stroke}}"
-                                    stroke-width="{{progressArc.strokeWidth}}"
-                                    background="{{progressArc.background}}"
-                                    complete="progressArc.progress">
-                            </progress-arc>
+                        <div class="gl-dashboard-widget-mission-progress"
+                             ng-click="goToReport('mission-progress',courses.selectedCourseId,status.selectedGameId)">
+                            <span class="gl-dashboard-subheader">Avg Game Progress:</span>
+                            <div class="gl-dashboard-progress-arc">
+                                <span class="averageMissionProgressText">{{status.averageMissionProgress || 0}}<span>%</span></span>
+                                <progress-arc
+                                        size="{{progressArc.size}}"
+                                        stroke="{{progressArc.stroke}}"
+                                        stroke-width="{{progressArc.strokeWidth}}"
+                                        background="{{progressArc.background}}"
+                                        complete="progressArc.progress">
+                                </progress-arc>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +84,7 @@
                             <span class="gl-icon-watchout-landing-big"></span>
                             <div class="gl-dashboard-sowo-info">
                                 <span class="gl-dashboard-sowo-username">{{wo.user.firstName+''+wo.user.lastName}}</span>
-                                    <span class="gl-dashboard-sowo-timestamp">{{wo.timestamp}}</span>
+                                    <span class="gl-dashboard-sowo-timestamp">{{wo.timeAgo}}</span>
                                 <hr>
                                 <div class="gl-dashboard-sowo-title" ng-bind="wo.name"></div>
                                 <p ng-bind="wo.description"></p>
@@ -102,7 +108,7 @@
                             <span class="gl-icon-shoutout-landing-big"></span>
                             <div class="gl-dashboard-sowo-info">
                                 <span class="gl-dashboard-sowo-username">{{so.user.firstName+''+so.user.lastName}}</span>
-                                <span class="gl-dashboard-sowo-timestamp">{{so.timestamp}}</span>
+                                <span class="gl-dashboard-sowo-timestamp">{{so.timeAgo}}</span>
                                 <hr>
                                 <div class="gl-dashboard-sowo-title" ng-bind="so.name"></div>
                                 <p ng-bind="so.description"></p>
@@ -116,7 +122,7 @@
                 </div>
             </div>
             <div class="gl-dashboard-container-footer text-center"><button type="button" class="btn gl-btn--blue gl-margin-Vl"
-                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">View Additional Reports</button>
+                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">View All Reports</button>
             </div>
         </div>
     </div>
@@ -139,7 +145,7 @@
                     </div>
                 </div>
                 <div class="gl-dashboard-container-bottom-data-section" ng-class="{'noscroll' : !status.showMessages}">
-                    <div ng-if="messages.length" ng-repeat="message in messages" ng-show="status.showMessages">
+                    <div ng-if="messages.length" ng-repeat="message in messages | orderBy : 'timestamp' : true" ng-show="status.showMessages">
                         <div class="gl-dashboard-message-box">
                             <div class="gl-dashboard-message-icon-box">
                                 <img ng-src="/assets/{{message.icon}}" err-src="/assets/blinky-mail-box.png" class="gl-dashboard-message-icon">
@@ -147,7 +153,7 @@
 
                             <div class="gl-dashboard-message-box-info">
                             <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
-                            <span class="gl-dashboard-message-timestamp">{{message.timestamp}}</span>
+                            <span class="gl-dashboard-message-timestamp">{{message.timeAgo}}</span>
                                 <p> {{message.message}} </p>
                             </div>
                         </div>

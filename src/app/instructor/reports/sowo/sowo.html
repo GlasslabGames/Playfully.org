@@ -1,3 +1,14 @@
+
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
+  <div ng-include src="'instructor/reports/_students.html'"></div>
+
+  <div class="report-body--wide gl-pad-Al">
+    <h1 class="headline-2 text-center gl-margin--Tl"
+      ng-bind="reports.selected.header.text"></h1>
+
+    <p class="text-center" ng-bind="reports.selected.description">
+    </p>
+
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
   <div class="btn-group btn-group-justified">
     <label class="btn"
@@ -86,24 +97,51 @@
       </div>
     </td>
   </tr>
-    <tr style="height:100px" ng-show="reportInfo.selectedGroupId==='wo'">
-        <div class="gl-reports-what-now-container">
-            <td colspan="5" class="gl-reports-what-now-header text-center">
-            <h5 class="gl-reports-what-now-text">What Now ?</h5>
-            <p>Here are some actions your students can take:</p>
-            <i ng-class="whatNow.isCollapsed ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up'"
-                ng-click="whatNow.isCollapsed  = !whatNow.isCollapsed"></i>
-                <div class="gl-reports-what-now-body text-center" collapse="whatNow.isCollapsed">
-                    </br>
-                    </br>
-                    Coming Soon!
-                    </br>
-                    </br>
-                    </br>
-                </div>
-            </td>
-
-        </div>
+    <tr ng-hide="reportInfo.foundSowo">
+        <td colspan="5">
+            <div class="text-center gl-pad-Vxxl">
+                <img src="/assets/blinky-empty.png">
+                <h5>No {{reportInfo.selectedGroupId === 'wo' ? 'Watch Outs' : 'Shout Outs'}} Yet. Keep Playing!</h5>
+            </div>
+        </td>
     </tr>
   </tbody>
 </table>
+
+<div class="gl-reports-what-now-container" ng-if="reportInfo.selectedGroupId === 'wo' &&
+     (games.selectedGameId=== 'AA-1' || games.selectedGameId === 'SC')">
+    <div class="gl-reports-what-now-header text-center">
+        <b>What Now?</b>
+        <p>Here are some actions your students can take:</p>
+        <i ng-class="whatNow.isCollapsed ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up' "
+           ng-click="whatNow.isCollapsed = !whatNow.isCollapsed"></i>
+    </div>
+    <div class="gl-reports-what-now-body" ng-hide="whatNow.isCollapsed">
+        <div class="gl-reports-what-now-wo-col">
+            <ul ng-repeat="wo in reportInfo.activeHeaders">
+                <li ng-class="wo.title === whatNow.selected.title ? 'gl-reports-what-now-wo-selected' : 'gl-reports-what-now-wo'" ng-click="selectWhatNow(wo)">
+                    <div class="l-profile-image l-profile-image-gl-reports-wo-icon">
+                        <div class="gl-reports-wo-icon"></div>
+                    </div>
+                    <div class="l-profile-info gl-reports-what-now-wo-header">
+                        <span class="gl-reports-what-now-wo-header-title">{{wo.title}}</span>
+                        <span class="gl-reports-what-now-wo-header-description">
+                            {{wo.description}}
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="gl-reports-what-now-wo-info-col">
+            <div class="gl-reports-what-now-wo-info">
+                <span class="gl-reports-what-now-wo-info-title">{{whatNow.selected.title + ': ' }}</span>
+                <span class="gl-reports-what-now-wo-description">{{whatNow.selected.description}}</span>
+                <p class="gl-margin--Tl">&nbsp&nbsp&nbsp&nbsp{{whatNow.selected.whatNow.intro}}</p>
+                <ul ng-repeat="actionPoint in whatNow.selected.whatNow.actionPoints">
+                    <li><p>{{actionPoint}}</p></li>
+                </ul>
+                <p>&nbsp&nbsp&nbsp&nbsp{{whatNow.selected.whatNow.summary}}</p>
+            </div>
+        </div>
+    </div>
+</div>

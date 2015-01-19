@@ -18,7 +18,7 @@ angular.module('reports', [])
       return CoursesService.get(courseId).then(function(courseInfo) {
          var courses = [];
           // get an array of game information
-          return GamesService.active().then(function(games) {
+          return GamesService.active('basic').then(function(games) {
               angular.forEach(courseInfo.games,function(game) {
                   angular.forEach(games, function(gameInfo) {
                       if (game.id === gameInfo.gameId) {

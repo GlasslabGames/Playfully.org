@@ -20,13 +20,14 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
+  'xeditable',
   'playfully.admin',
   'playfully.research',
-  'playfully.developer-tools',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
   'playfully.instructor',
+  'playfully.developer',
   'playfully.student',
   'playfully.register',
   'playfully.redeem',
@@ -288,6 +289,8 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
+  
+  // Google Analytics - Track current page w/i SPA
   $rootScope.$on('$stateChangeSuccess', function(event){
     if (!$window.ga) { return; }
     $window.ga('send', 'pageview', { page: $location.path() });
@@ -301,7 +304,7 @@ angular.module( 'playfully', [
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
-    $scope.currentUser = null;
+    $rootScope.currentUser = null;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
@@ -310,8 +313,9 @@ angular.module( 'playfully', [
     $rootScope.features = FEATURES;
 
 
+
     if (!$rootScope.allGames) {
-      GamesService.active('minimal').then(function(data) {
+      GamesService.all().then(function(data) {
         $rootScope.allGames = data;
       });
     }
@@ -339,27 +343,13 @@ angular.module( 'playfully', [
         }
     });
 
-    //$scope.$on(CHECKLIST.visitGameCatalog, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //
-    //$scope.$on(CHECKLIST.createCourse, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-    //$scope.$on(CHECKLIST.inviteStudents, function () {
-    //  if ($scope.currentUser &&
-    //      $scope.currentUser.role === 'instructor') {
-    //  }
-    //});
-
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
+
+      // Google Analytics
       
-      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+      // Google Analytics - User ID tracking
+      if ($window.ga) { $window.ga("set", "dimension1", user.id); }
 
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {
@@ -369,11 +359,11 @@ angular.module( 'playfully', [
     });
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
-      $scope.currentUser = user;
+      $rootScope.currentUser = user;
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
-      $scope.currentUser = null;
+      $rootScope.currentUser = null;
       return $timeout(function () {
         $state.go('root.home.default');
       }, 100);

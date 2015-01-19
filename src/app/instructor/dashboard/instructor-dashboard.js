@@ -37,31 +37,40 @@ angular.module( 'instructor.dashboard', [
             var message = messages[key].value;
             if (message &&
                 message.timestamp) {
-              message.timestamp = moment(new Date(message.timestamp)).fromNow();
+              message.timeAgo = moment(new Date(message.timestamp)).fromNow();
             }
             modifiedMessages.push(message);
           }
           return modifiedMessages;
         });
+      },
+      currentUser: function (UserService) {
+        return UserService.retrieveCurrentUser();
       }
     },
     views: {
       'main@': {
-        templateUrl: 'instructor/dashboard/instructor-dashboard.html',
-        controller: function ($scope, $timeout, $log, myGames) {
-          //$scope.myGames = myGames;
-          //$scope.showNotification = false;
-          //
-          //$scope.alert = {
-          //  type: 'gl-notify',
-          //  msg: "<strong>SimCityEDU Game Update:</strong> Be sure your students update to the latest version of the game! <a href=\"/games/SC?scrollTo=content\">Download here</a>"
-          //};
-          //
-          //$timeout(function() { $scope.showNotification = true; }, 1000);
-          //
-          //$scope.hideNotification = function() {
-          //  $scope.showNotification = false;
-          //};
+        templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
+        controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, UserService, CHECKLIST) {
+          $scope.ftue = parseInt(currentUser.data.ftue);
+          $scope.isCheckListComplete = $scope.ftue >= 3;
+          $scope.checkList = function (order) {
+            if ($scope.ftue == order ||
+                $scope.ftue > 0 &&
+                order <= $scope.ftue) {
+              return true;
+            }
+            return false;
+          };
+          $scope.closeFTUE = function () {
+            $scope.introContainer.isCollapsed = !$scope.introContainer.isCollapsed;
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            UserService.updateUserFTUE(CHECKLIST.closeFTUE);
+          };
+          $scope.introContainer = {
+            isCollapsed: false
+          };
+
         }
       }
     }
@@ -69,22 +78,35 @@ angular.module( 'instructor.dashboard', [
 
   .state('root.instructorDashboard.default', {
     url: '',
-    controller: function($scope, $state, $log, myGames, activeCourses) {
-      // Decide which state to send the instructor to, based on whether
-      // they have courses set up.
-      if (!myGames.length) {
+    controller: function($scope, $rootScope, $state, $log, myGames, activeCourses, currentUser, CHECKLIST, UserService) {
+
+      // Decide which state to send the instructor to, based on whether they've completed the checklist.
+      if (!$scope.$parent.isCheckListComplete) {
+        var hasStudents = _.any(activeCourses, function (course) {
+          return course.studentCount > 0;
+        });
+        if (hasStudents) {
+          UserService.updateUserFTUE(CHECKLIST.inviteStudents);
+          $scope.$parent.ftue = 3;
+          $scope.$parent.isCheckListComplete = true;
+          $state.go('root.instructorDashboard.reports',
+              {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
+          return;
+        }
         $state.go('root.instructorDashboard.intro');
       } else {
-        $state.go('root.instructorDashboard.gameplay',
-          { gameId: myGames[0].gameId, courseId: activeCourses[0].id });
+        $state.go('root.instructorDashboard.reports',
+            {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
       }
+
+
     }
   })
 
   .state('root.instructorDashboard.intro', {
     url: '/intro',
-    templateUrl: 'instructor/dashboard/_dashboard-intro.html',
-    controller: function($scope,messages) {
+    templateUrl: 'instructor/dashboard/_dashboard-example.html',
+    controller: function($scope,currentUser,messages) {
       $scope.messages = messages;
       $scope.status = {
         showMessages: true
@@ -92,7 +114,7 @@ angular.module( 'instructor.dashboard', [
     }
   })
 
-  .state('root.instructorDashboard.gameplay', {
+  .state('root.instructorDashboard.reports', {
     url: '/game/:gameId/course/:courseId',
     resolve: {
       myGames: function ($stateParams, coursesInfo) {
@@ -110,7 +132,7 @@ angular.module( 'instructor.dashboard', [
         return defaultGameId;
       }
     },
-    templateUrl: 'instructor/dashboard/_new-dashboard-reports.html',
+    templateUrl: 'instructor/dashboard/_dashboard-reports.html',
     controller: 'InstructorDashboardCtrl'
   });
 })
@@ -145,7 +167,6 @@ angular.module( 'instructor.dashboard', [
   angular.forEach(activeCourses, function (course) {
     $scope.courses.options[course.id] = course;
   });
-
   $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
   // Controls for Average Mission Progress
@@ -165,6 +186,18 @@ angular.module( 'instructor.dashboard', [
     $event.preventDefault();
     $event.stopPropagation();
     $scope[collection].isOpen = !$scope[collection].isOpen;
+  };
+
+  $scope.goToReport = function (reportId, courseId, gameId, groupId) {
+    if (reportId === 'achievements' && gameId === 'SC') {
+      $state.go('root.reports.details.' + 'mission-progress', {
+        courseId: courseId,
+        gameId: gameId,
+        groupId: groupId
+      });
+    } else {
+      $state.go('root.reports.details.' + reportId, {courseId: courseId, gameId: gameId, groupId: groupId});
+    }
   };
 
   var _setSelectedGameById = function(gameId) {
@@ -212,7 +245,7 @@ angular.module( 'instructor.dashboard', [
 
     $scope.$watch('courses.selectedCourseId', function(newValue, oldValue) {
       if (newValue) {
-        $state.go('root.instructorDashboard.gameplay', {
+        $state.go('root.instructorDashboard.reports', {
           gameId: $scope.status.selectedGameId,
           courseId: newValue
         });
@@ -220,7 +253,7 @@ angular.module( 'instructor.dashboard', [
       });
       $scope.$watch('status.selectedGameId', function (newValue, oldValue) {
         if (newValue) {
-          $state.go('root.instructorDashboard.gameplay', {
+          $state.go('root.instructorDashboard.reports', {
             gameId: newValue,
             courseId: $scope.courses.selectedCourseId
           });
@@ -314,7 +347,7 @@ angular.module( 'instructor.dashboard', [
         $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
       }
     }, function() {
-      console.error('could not retrieve total time played:');
+      console.error('could not retrieve total time played');
     });
   };
 
@@ -326,7 +359,7 @@ angular.module( 'instructor.dashboard', [
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
         wo.user = studentObj;
-        wo.timestamp = moment(new Date(wo.timestamp)).fromNow();
+        wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
         watchOuts.push(wo);
       });
       _.each(obj.results.shoutout, function (so) {
@@ -338,12 +371,6 @@ angular.module( 'instructor.dashboard', [
 
     $scope.watchOuts = watchOuts;
     $scope.shoutOuts = shoutOuts;
-  };
-
-  var _checkStudentCount = function(coursesInfo) {
-    return _.some(coursesInfo, function(course) {
-      return course.studentCount > 0;
-    });
   };
 
   var _compileNameOfStudent = function(student) {
