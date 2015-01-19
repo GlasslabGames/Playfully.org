@@ -192,7 +192,7 @@ angular.module('games', [
           });
     },
 
-    checkForGameAccess: function(){
+    checkForGameAccess: function() {
       return $http.get(API_BASE + '/dash/developer/profile')
           .then(function(response) {
             return response.data;
@@ -200,6 +200,16 @@ angular.module('games', [
             $log.error("check game access:", err);
             return err;
           });
+    },
+
+    requestGameAccess: function(gameId) {
+      return $http.get(API_BASE + '/auth/developer/' + gameId + '/request');
+          /*.then(function(response) {
+            return response.data;
+          }, function(err){
+            $log.error("request game access:", err);
+            return err;
+          });*/
     }
   };
 

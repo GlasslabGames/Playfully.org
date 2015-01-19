@@ -3,6 +3,7 @@ angular.module('developer.tools', [])
 .config(function($stateProvider) {
     $stateProvider.state('root.developerTools', {
         url: 'developer/tools',
+        abstract:true,
         views: {
             'main@': {
                 templateUrl: 'developer/tools/developer-tools.html'
@@ -13,7 +14,7 @@ angular.module('developer.tools', [])
         }
     })
     .state('root.developerTools.parser', {
-        url: '/parser',
+        url: '',
         templateUrl: 'developer/tools/developer-tools-parser.html',
         resolve : {
             availableGames: function(GamesService){

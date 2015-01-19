@@ -84,50 +84,48 @@ angular.module('developer.games', [])
             },
             views: {
                 'modal@': {
-                    templateUrl: 'developer/games/developer-request-game.html'
+                    templateUrl: 'developer/games/developer-request-game.html',
+                    controller: function($scope, $log, GamesService) {
+                        $scope.request = {
+                            isRegCompleted: false,
+                            gameId: null,
+                            errors: []
+                        };
+                        $scope.requestAccess = function (request) {
+                            request.isSubmitting = true;
+                            GamesService.requestGameAccess(request.gameId)
+                                .then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.isRegCompleted = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push( response.data.error );
+                                });
+                        };
+                        $scope.finish = function() {
+
+                        };
+                    }
                 }
             },
-            controller: function($scope) {
-                $scope.account = {
-                    isRegCompleted: false,
-                    gameId: null,
-                    errors: []
-                };
-                //$scope.register = function (account) {
-                //    $scope.regForm.isSubmitting = true;
-                //    UserService.register(account)
-                //        .success(function (data, status, headers, config) {
-                //            user = data;
-                //            Session.create(user.id, user.role, data.loginType);
-                //            $scope.regForm.isSubmitting = false;
-                //            $scope.account.isRegCompleted = true;
-                //        })
-                //        .error(function (data, status, headers, config) {
-                //            $log.error(data);
-                //            $scope.regForm.isSubmitting = false;
-                //            $scope.account.isRegCompleted = false;
-                //            if (data.error) {
-                //                $scope.account.errors.push(data.error);
-                //            } else {
-                //                $scope.account.errors.push(ERRORS['general']);
-                //            }
-                //        });
-                //}
-            }
         });
     })
     .controller('DevGamesCtrl', function ($scope, $state, myGames) {
         $scope.sections = [
             {name:'Live', release: 'live'},
-            {name:'In development', release: 'dev'},
+            {name:'In development', release: 'dev'}/*,
             {name:'Pending', release: 'pending'},
-            {name:'Incomplete', release: 'incomplete'}
+            {name:'Incomplete', release: 'incomplete'}*/
         ];
         var sectionsDict = {
             'live': [],
-            'dev': [],
+            'dev': []/*,
             'pending': [],
-            'incomplete': []
+            'incomplete': []*/
         };
         _.each(myGames, function(gameBasicInfo) {
             sectionsDict[gameBasicInfo.release].push(gameBasicInfo);
