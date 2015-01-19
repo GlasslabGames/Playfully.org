@@ -1,21 +1,26 @@
-angular.module('playfully.developer-tools', [])
+angular.module('developer.tools', [])
 
 .config(function($stateProvider) {
-    $stateProvider.state('developer-tools', {
-        url: '/developer-tools',
-        abstract: false,
+    $stateProvider.state('root.developerTools', {
+        url: 'developer/tools',
+        abstract:true,
         views: {
             'main@': {
-                templateUrl: 'developer-tools/developer-tools.html'
+                templateUrl: 'developer/tools/developer-tools.html'
             }
         },
         data: {
             authorizedRoles: ['developer']
         }
     })
-    .state('developer-tools.parser', {
-        url: '/parser/:gameId',
-        templateUrl: 'developer-tools/developer-tools-parser.html',
+    .state('root.developerTools.parser', {
+        url: '',
+        templateUrl: 'developer/tools/developer-tools-parser.html',
+        resolve : {
+            availableGames: function(GamesService){
+                return GamesService.checkForGameAccess();
+            }
+        },
         controller: 'DeveloperToolsParserCtrl',
         data: {
           authorizedRoles: ['developer']
@@ -23,8 +28,18 @@ angular.module('playfully.developer-tools', [])
     });
 })
 
-.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, ResearchService) {
-    $scope.gameId = $stateParams.gameId;
+.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, ResearchService, availableGames) {
+    $scope.gameIds = [];
+    for( var game in availableGames ) {
+        $scope.gameIds.push( game );
+    }
+
+    //if(!availableGames[$stateParams.gameId]){
+    if( $scope.gameIds.length === 0 ) {
+        $state.go('root.developerTools');
+    }
+
+    $scope.gameId = $scope.gameIds[0];
     $scope.userIds = "";
     $scope.startDate = "";
     $scope.startHour = 0;
@@ -38,7 +53,6 @@ angular.module('playfully.developer-tools', [])
     $scope.startDateOpened = false;
     $scope.endDateOpened = false;
     var signedUrls = [];
-
     $scope.submit = function() {
         if ($scope.gameId) {
             var sd = "";

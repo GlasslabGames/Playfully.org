@@ -1,0 +1,21 @@
+<div ng-repeat="section in gameDetails.pages.standards.list track by $index">
+  <h5 class="headline-5 gl-standards-category" ng-bind="section.category"></h5>
+  <ul class="list-unstyled gl-indent">
+      <li ng-repeat="groupItem in section.groups track by $index">
+          <h5 ng-if="groupItem.name" class="headline-5 gl-standards-category" ng-bind="groupItem.name"></h5>
+          <p ng-repeat="listItem in groupItem.list track by $index">
+              <a ng-if="listItem.link" href="{{ listItem.link }}"
+                  ga="'send', 'pageview', {title: listItem.name, location: listItem.link}"
+                  ng-bind="listItem.name"></a>
+              <span ng-if="!listItem.link && listItem.name" ng-bind="listItem.name"></span>
+              <br ng-if="listItem.name" />
+              <span ng-bind="listItem.description"></span>
+
+              <!-- could not use ul,li for some reason, had to use span -->
+              <span ng-repeat="t in listItem.sublist track by $index" class="gl-standards-category-item">
+                <i class="gl-standards-category-circle"></i>{{t}}
+              </span>
+          </p>
+      </li>
+  </ul>
+</div>

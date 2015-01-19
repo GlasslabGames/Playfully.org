@@ -1,0 +1,86 @@
+<div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
+  <div class="btn-group btn-group-justified">
+    <label class="btn"
+      ng-if="reportInfo.groups.length > 1"
+      ng-repeat="group in reportInfo.groups"
+      ng-model="reportInfo.selected"
+      ng-class="{'gl-btn--ltgrey gl-reports-competency-group-selector': reportInfo.selectedGroupId != group.id,
+        'gl-btn--blue': reportInfo.selectedGroupId == group.id}"
+      ui-sref="root.reports.details.competency({compTitle: group.title, reportId:reports.selected.id, gameId:games.selectedGameId, courseId:courses.selectedCourseId, skillsId:group.id, stdntIds: getSelectedStudents(activeCourse)})"
+      ng-bind="group.title | translate"></label>
+  </div>
+</div>
+<article class="legend-header">
+    <p class="legend-header"><span>Competency Levels</span></p>
+</article>
+
+<div class="gl-reports-competency-labels">
+  <table>
+    <tr>
+      <td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
+            </div>
+          </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<hr/>
+
+<table class="table gl-reports-table" 
+  ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-competency-header-info">
+  <thead>
+    <tr>
+      <th class="gl-reports-competency-header-name" >Name
+        <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+           ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
+      </th>
+      <th class="gl-reports-competency-header-competency" ng-repeat="header in reportInfo.headers">
+        <div class="gl-reports-competency-header text-center">
+          <div><span ng-bind="header.title"> </span>
+            <i ng-class="col.current===header.title ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+               ng-click="colName.value = header.title; sortSelected(header.title)"></i>
+          </div>
+          <div collapse="isCollapsed.value" class="gl-reports-competency-header-info" ng-bind="header.description"></div>
+        </div>
+        <div class="gl-reports-achievement-collapse">
+               <i ng-class="$index === 0 ? (isCollapsed.value ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up') : ''" ng-click="isCollapsed.value = !isCollapsed.value; saveState(!isCollapsed.value)"></i>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gl-reports-divider--blue"></th>
+    </tr>
+  </thead>
+
+  </thead>
+  <tbody ng-show="courses.options[courses.selectedCourseId].users">
+  <tr class="gl-reports-table-row"
+      ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td ng-repeat="comp in student.competency">
+        <div class="gl-reports-competency-table-cell">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle-large"
+                 ng-class="getCompetencyLabelInfo(comp,'class',reportInfo.selectedGroupId)"
+                 popover="{{getCompetencyLabelInfo(comp,'text',reportInfo.selectedGroupId)}}"
+                 popover-trigger="mouseenter"
+                 popover-placement="bottom"></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-hide="courses.options[courses.selectedCourseId].users">
+    <tr>
+      <td colspan="5">
+        <div class="text-center gl-pad-Vxxl">
+            No students are currently enrolled in this class. As students begin to play the game and earn comps, you will see them here.
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -34,10 +34,9 @@
 
     <div
       class="gl-courses--blank text-center"
-      ng-show="state.includes('courses.archived') && archivedCourses.length == 0">
+      ng-show="state.includes('root.courses.archived') && courses.length == 0">
         None of your classes have been archived
     </div>
-
 
     <div ng-show="courses.length">
       <div class="gl-course container-fluid"
