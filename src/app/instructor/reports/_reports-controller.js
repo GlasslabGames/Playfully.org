@@ -223,6 +223,10 @@ angular.module( 'instructor.reports', [
     .controller('ReportsCtrl',
     function ($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports, ReportsService) {
 
+      $scope.reportDisplayType = 'wide';
+      $scope.isStudentListVisible = false;
+
+
       $scope.games = {};
       $scope.developer = {};
       $scope.courses = {};
@@ -358,6 +362,7 @@ angular.module( 'instructor.reports', [
     })
 
 .controller('ReportsDetailCtrl', function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
+
 });
 
 

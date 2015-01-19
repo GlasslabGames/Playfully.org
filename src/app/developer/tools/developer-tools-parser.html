@@ -5,15 +5,7 @@
 
     <div ng-hide="loading">
         <form ng-submit="submit()" name="parseData" class="parseData">
-            Game ID: <select name="gameId" ng-model="gameId">
-            <option ng-if="gameId=='SC'" value="SC">SimCityEDU</option>
-            <option ng-if="gameId=='AA-1'" value="AA-1">Arugbot Academy</option>
-            <option ng-if="gameId=='AW-1'" value="AW-1">Argument Wars</option>
-            <option ng-if="gameId=='PVZ'" value="PVZ">Plants vs. Zombies EDU</option>
-            <option ng-if="gameId=='GOG'" value="GOG">Game Over Gopher</option>
-            <option ng-if="gameId=='WT'" value="WT">Wuzzit Trouble</option>
-            <option ng-if="gameId=='SLFR'" value="SLFR">Slice Fractions</option>
-            <option ng-if="gameId=='WPLUS'" value="WPLUS">Water Bear</option>
+            Game ID: <select name="gameId" ng-model="gameId" ng-options="game for game in gameIds">
         </select><br>
             <br>
             Start Date:

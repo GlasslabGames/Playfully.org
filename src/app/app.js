@@ -20,13 +20,14 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
+  'xeditable',
   'playfully.admin',
   'playfully.research',
-  'playfully.developer-tools',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
   'playfully.instructor',
+  'playfully.developer',
   'playfully.student',
   'playfully.register',
   'playfully.redeem',
@@ -288,6 +289,8 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
+  
+  // Google Analytics - Track current page w/i SPA
   $rootScope.$on('$stateChangeSuccess', function(event){
     if (!$window.ga) { return; }
     $window.ga('send', 'pageview', { page: $location.path() });
@@ -312,7 +315,7 @@ angular.module( 'playfully', [
 
 
     if (!$rootScope.allGames) {
-      GamesService.active('minimal').then(function(data) {
+      GamesService.all().then(function(data) {
         $rootScope.allGames = data;
       });
     }
@@ -345,7 +348,8 @@ angular.module( 'playfully', [
 
       // Google Analytics
       
-      ga("set", "dimension1", user.id); // Send uid to GA for improved analytics
+      // Google Analytics - User ID tracking
+      if ($window.ga) { $window.ga("set", "dimension1", user.id); }
 
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {

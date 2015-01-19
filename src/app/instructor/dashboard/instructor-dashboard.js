@@ -167,7 +167,6 @@ angular.module( 'instructor.dashboard', [
   angular.forEach(activeCourses, function (course) {
     $scope.courses.options[course.id] = course;
   });
-
   $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
   // Controls for Average Mission Progress
@@ -187,6 +186,18 @@ angular.module( 'instructor.dashboard', [
     $event.preventDefault();
     $event.stopPropagation();
     $scope[collection].isOpen = !$scope[collection].isOpen;
+  };
+
+  $scope.goToReport = function (reportId, courseId, gameId, groupId) {
+    if (reportId === 'achievements' && gameId === 'SC') {
+      $state.go('root.reports.details.' + 'mission-progress', {
+        courseId: courseId,
+        gameId: gameId,
+        groupId: groupId
+      });
+    } else {
+      $state.go('root.reports.details.' + reportId, {courseId: courseId, gameId: gameId, groupId: groupId});
+    }
   };
 
   var _setSelectedGameById = function(gameId) {

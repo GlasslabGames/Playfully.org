@@ -22,7 +22,7 @@ angular.module( 'instructor.courses', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.active();
+        return GamesService.active('basic');
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
@@ -46,7 +46,7 @@ angular.module( 'instructor.courses', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.active();
+        return GamesService.active('basic');
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
@@ -66,7 +66,7 @@ angular.module( 'instructor.courses', [
     },
     resolve: {
       games: function(GamesService) {
-        return GamesService.active();
+        return GamesService.active('basic');
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -190,7 +190,7 @@ angular.module( 'instructor.courses', [
         return CoursesService.get($stateParams.id);
       },
       games: function(GamesService) {
-        return GamesService.active();
+        return GamesService.active('basic');
       }
     },
     views: {
