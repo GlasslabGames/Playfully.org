@@ -156,6 +156,9 @@ angular.module('developer.games', [])
         $scope.gameId = $stateParams.gameId;
         $scope.gameDetails = gameDetails;
         $scope.navItems = gameDetails.pages;
+        $scope.saveForm = function() {
+            console.log('hello babies');
+        };
 
         if (_.has(gameDetails, 'error')) {
             $scope.error = true;
