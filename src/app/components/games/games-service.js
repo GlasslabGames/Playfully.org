@@ -203,7 +203,7 @@ angular.module('games', [
     },
 
     requestGameAccess: function(gameId) {
-      return $http.get(API_BASE + '/auth/developer/' + gameId + '/request');
+      return $http.get(API_BASE + '/auth/developer/game/' + gameId + '/request');
           /*.then(function(response) {
             return response.data;
           }, function(err){
