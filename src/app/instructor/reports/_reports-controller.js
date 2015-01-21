@@ -185,7 +185,7 @@ angular.module( 'instructor.reports', [
         }
       }
     })
-    .state('modal-lg.competencyInfo', {
+    .state('modal-xlg.competencyInfo', {
       url: '/reports/details/competency/game/:gameId/info',
       data:{
         pageTitle: 'Competency Report Info',
