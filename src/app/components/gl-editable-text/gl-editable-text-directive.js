@@ -1,27 +1,49 @@
 angular.module('gl-editable-text', [])
-.directive('glEditableText', function($compile) {
+.directive('glEditableText', function($compile,$q) {
   return {
     restrict: 'A',
+    transclude: true,
     scope: {
       glEditableText:'=',
       glOnBeforeSave:'='
     },
-    template: 'WHAT',
+    template: "<div><div ng-click='editContent()' ng-show='hideMe' ng-transclude></div></div>"+"<div ng-hide='hideMe'><textarea cols='85'rows='10'> {{editableText}} </textarea>" + "<button ng-click='saveContent()'>save</button><button ng-click='goBackContent()'>cancel</button></div>",
     link: function(scope, element, attr) {
-      var form = "<textarea cols='85'rows='10'>" + scope.glEditableText + "</textarea>";
-      var originalContent = '';
-      scope.goBackContent = function ($event) {
+      // sets text area content
+      scope.editableText = scope.glEditableText;
+      scope.hideMe = true;
+      scope.editContent = function () {
+        scope.hideMe = false;
       };
-      element.on("click", function() {
-        scope.$apply(function() {
-          var buttons = "<button ng-click='glOnBeforeSave'>save</button><button ng-click='goBackContent($event)'>cancel</button>";
-          var textArea = "<div ng-hi">"+ form + buttons + "</div>"
-          var linkFn = $compile(form + buttons)(scope);
-          originalContent = element.replaceWith(linkFn);
+      scope.goBackContent = function () {
+        scope.hideMe = !scope.hideMe;
+      };
+      scope.saveContent = function() {
+        var defer = $q.defer();
+        // saves original text in case save fails
+        var originalText = scope.glEditableText;
+        // change content to text within text field
+        scope.glEditableText = scope.editableText;
+        // request to save to database
+        scope.glOnBeforeSave().then(function(result) {
+          scope.hideMe = !scope.hideMe;
+          defer.resolve(result);
+        }).then(null, function() {
+          scope.glEditableText = originalText;
+          defer.reject();
         });
-      });
+        // pending
+        // success
+        // fail
+        return defer.promise;
+      };
 
-
+      //element.on("click", function() {
+      //  scope.hideMe = false;
+      //});
+      //var buttons = "<button ng-click='glOnBeforeSave'>save</button><button ng-click='goBackContent($event)'>cancel</button>";
+      //var textArea = element.html() + "<div ng-hide='hideMe'>" + form + buttons + "</div>";
+      //var linkFn = $compile(textArea)(scope);
     }
   };
 });

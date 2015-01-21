@@ -1,4 +1,6 @@
-angular.module('developer.games', [])
+angular.module('developer.games', [
+    'gl-editable-text'
+])
 
 .config(function ($stateProvider) {
         $stateProvider.state('root.developerGames', {
@@ -150,14 +152,22 @@ angular.module('developer.games', [])
         };
     })
     .controller('DevGameDetailCtrl',
-    function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
+    function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, GamesService) {
+        console.log('gameDetails',gameDetails);
         document.body.scrollTop = 0;
         $scope.currentPage = null;
         $scope.gameId = $stateParams.gameId;
         $scope.gameDetails = gameDetails;
         $scope.navItems = gameDetails.pages;
+        $scope.changeIt = function() {
+            console.log('hello');
+            var changedDetails = angular.copy($scope.gameDetails);
+            changedDetails.pages.product.about = 'hello';
+            GamesService.updateDeveloperGameInfo('AA-1', changedDetails);
+        };
         $scope.saveForm = function() {
-            console.log('hello babies');
+            console.log($scope.gameDetails.pages.product.about);
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.gameDetails);
         };
 
         if (_.has(gameDetails, 'error')) {
