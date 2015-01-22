@@ -189,7 +189,7 @@ angular.module('games', [
           });
     },
     updateDeveloperGameInfo: function(gameId,data) {
-      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {basic: data})
+      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {data: data})
           .then(function(response) {
             $log.debug(response);
             return response.data;

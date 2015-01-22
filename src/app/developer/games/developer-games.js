@@ -159,14 +159,8 @@ angular.module('developer.games', [
         $scope.gameId = $stateParams.gameId;
         $scope.gameDetails = gameDetails;
         $scope.navItems = gameDetails.pages;
-        $scope.changeIt = function() {
-            console.log('hello');
-            var changedDetails = angular.copy($scope.gameDetails);
-            changedDetails.pages.product.about = 'hello';
-            GamesService.updateDeveloperGameInfo('AA-1', changedDetails);
-        };
         $scope.saveForm = function() {
-            console.log($scope.gameDetails.pages.product.about);
+            console.log('scope.gameDetails', $scope.gameDetails);
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.gameDetails);
         };
 

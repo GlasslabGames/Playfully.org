@@ -7,7 +7,7 @@ angular.module('gl-editable-text', [])
       glEditableText:'=',
       glOnBeforeSave:'='
     },
-    template: "<div><div ng-click='editContent()' ng-show='hideMe' ng-transclude></div></div>"+"<div ng-hide='hideMe'><textarea cols='85'rows='10'> {{editableText}} </textarea>" + "<button ng-click='saveContent()'>save</button><button ng-click='goBackContent()'>cancel</button></div>",
+    template: "<div><div ng-click='editContent()' ng-show='hideMe' ng-transclude></div></div>"+"<div ng-hide='hideMe'><textarea ng-model='editableText' cols='85'rows='10'> </textarea>" + "<button ng-click='saveContent()'>save</button><button ng-click='goBackContent()'>cancel</button></div>",
     link: function(scope, element, attr) {
       // sets text area content
       scope.editableText = scope.glEditableText;
@@ -16,6 +16,7 @@ angular.module('gl-editable-text', [])
         scope.hideMe = false;
       };
       scope.goBackContent = function () {
+        scope.editableText = scope.glEditableText;
         scope.hideMe = !scope.hideMe;
       };
       scope.saveContent = function() {
@@ -24,11 +25,14 @@ angular.module('gl-editable-text', [])
         var originalText = scope.glEditableText;
         // change content to text within text field
         scope.glEditableText = scope.editableText;
+        scope.$apply();
         // request to save to database
         scope.glOnBeforeSave().then(function(result) {
           scope.hideMe = !scope.hideMe;
           defer.resolve(result);
-        }).then(null, function() {
+        }, function() {
+          $window.alert('Failed to save');
+          console.log('failed to save');
           scope.glEditableText = originalText;
           defer.reject();
         });
