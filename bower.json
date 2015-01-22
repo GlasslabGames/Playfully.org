@@ -32,7 +32,7 @@
     "angular-ga": "~0.1.3",
     "moment": "~2.7.0",
     "angular-moment": "~0.8.0",
-    "glasslab-sdk-as3": "~1.2.2",
+    "glasslab-sdk-js": "~0.3.0",
     "angular-order-object-by": "~1.0.0",
     "jquery": "~2.1.1",
     "sticky-ng": "~1.4.4",

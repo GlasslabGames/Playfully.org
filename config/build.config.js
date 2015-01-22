@@ -74,7 +74,7 @@ module.exports = {
       'vendor/angular-translate/angular-translate.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
       'vendor/checklist-model/checklist-model.js',
-      'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js',
+      'vendor/glasslab-sdk-js/lib/glasslab-sdk.js',
       'vendor/angular-order-object-by/src/ng-order-object-by.js',
       'vendor/sticky-ng/js/stickyNg.js',
       'vendor/sticky-ng/js/jquery.stickytableheaders.js',
