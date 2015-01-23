@@ -80,6 +80,31 @@ angular.module('developer.games', [
             templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
             data: {authorizedRoles: ['instructor', 'manager', 'developer', 'admin']}
         })
+        .state('modal-lg.developer-edit', {
+            url: '/games/:gameId/developer',
+            data: {
+                pageTitle: 'Developer Info'
+            },
+            resolve: {
+                gameDetails: function ($stateParams, GamesService) {
+                    return GamesService.getDetail($stateParams.gameId);
+                }
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'developer/games/developer-game-detail-company.html',
+                    controller: function ($scope, $log, gameDetails, $stateParams, GamesService) {
+                        $scope.gameDetails = gameDetails;
+                        $scope.editCompany = function () {
+                        };
+                        $scope.saveForm = function () {
+                            return GamesService.updateDeveloperGameInfo($stateParams.gameId, $scope.gameDetails);
+                        };
+
+                    }
+                }
+            }
+        })
         .state('modal-lg.developerRequestGame', {
             url: '/developer/request-game',
             data: {
@@ -96,26 +121,6 @@ angular.module('developer.games', [
                     gameId: null,
                     errors: []
                 };
-                //$scope.register = function (account) {
-                //    $scope.regForm.isSubmitting = true;
-                //    UserService.register(account)
-                //        .success(function (data, status, headers, config) {
-                //            user = data;
-                //            Session.create(user.id, user.role, data.loginType);
-                //            $scope.regForm.isSubmitting = false;
-                //            $scope.account.isRegCompleted = true;
-                //        })
-                //        .error(function (data, status, headers, config) {
-                //            $log.error(data);
-                //            $scope.regForm.isSubmitting = false;
-                //            $scope.account.isRegCompleted = false;
-                //            if (data.error) {
-                //                $scope.account.errors.push(data.error);
-                //            } else {
-                //                $scope.account.errors.push(ERRORS['general']);
-                //            }
-                //        });
-                //}
             }
         });
     })
@@ -156,17 +161,20 @@ angular.module('developer.games', [
     function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, GamesService) {
         document.body.scrollTop = 0;
         $scope.currentPage = null;
+        $scope.game = {hover: false};
         $scope.gameId = $stateParams.gameId;
         $scope.gameDetails = gameDetails;
         $scope.navItems = gameDetails.pages;
 
         $scope.typeOptions = ['Browser', 'App', 'Client Download'];
-        $scope.platformOptions = ['iPad', 'PC/Mac'];
+        $scope.platformOptions = ['iPad', 'PC & Mac', 'Flash/Browser'];
 
         $scope.editAbout = function() {};
+        $scope.editDescription = function() {};
         $scope.editPrice = function() {};
         $scope.editType = function() {};
         $scope.editGrades = function() {};
+        $scope.editPlatform = function() {};
 
         $scope.saveForm = function() {
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.gameDetails);
@@ -248,7 +256,7 @@ angular.module('developer.games', [
              * (location: false) below, so the Back button doesn't re-summon
              * the modal after you close it.
              **/
-            $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
+            $state.go('modal-lg.developer-edit', {'gameId': gameId}, {location: false});
         };
     });
 

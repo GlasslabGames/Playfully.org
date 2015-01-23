@@ -13,42 +13,45 @@ angular.module('gl-editable-text-popover', [])
             templateUrl: "components/gl-editable-text/gl-editable-text-popover-template.html",
             link: function (scope, element, attr) {
                 scope.edit = {};
-                // sets default option as inputted option in array
                 if (scope.glEditableType ==='dropdown') {
+                    // sets default option as inputted option in array
                     var index = scope.glEditableOptions.indexOf(scope.glEditableTextPopover);
                     scope.edit.content = scope.glEditableOptions[index];
                 } else {
+                    // sets textarea content as current text
                     scope.edit.content = scope.glEditableTextPopover;
                 }
-                scope.hideMe = true;
+                scope.hideEdit = true;
                 scope.editContent = function () {
-                    scope.hideMe = false;
+                    scope.hideEdit = false;
                 };
                 scope.glEditTrigger = function () {
-                    scope.hideMe = false;
+                    scope.hideEdit = !scope.hideEdit;
                 };
                 scope.goBackContent = function () {
                     scope.edit.content = scope.glEditableTextPopover;
-                    scope.hideMe = !scope.hideMe;
+                    scope.hideEdit = !scope.hideEdit;
                 };
                 scope.saveContent = function () {
                     var defer = $q.defer();
                     // saves original text in case save fails
                     var originalText = scope.glEditableTextPopover;
                     // change content to text within text field
-                    if (originalText !== scope.edit.content) {
-                        scope.glEditableTextPopover = scope.edit.content;
-                        $timeout(function () {
-                            // complete task if request fulfilled. timeout gives time to digest new value
-                            scope.glOnBeforeSave().then(function (result) {
-                                scope.hideMe = !scope.hideMe;
-                                defer.resolve(result);
-                            }, function () {
-                                scope.glEditableText = originalText;
-                                defer.reject();
-                            });
-                        }, 10);
+                    scope.glEditableTextPopover = scope.edit.content;
+                    if (scope.glEditableTextPopover === scope.edit.content) {
+                        scope.hideEdit = !scope.hideEdit;
+                        return;
                     }
+                    $timeout(function () {
+                        // complete task if request fulfilled. timeout gives parent scope time to digest new glEditableTextPopover value
+                        scope.glOnBeforeSave().then(function (result) {
+                            scope.hideEdit = !scope.hideEdit;
+                            defer.resolve(result);
+                        }, function () {
+                            scope.glEditableText = originalText;
+                            defer.reject();
+                        });
+                    }, 10);
                     return defer.promise;
                 };
             }
