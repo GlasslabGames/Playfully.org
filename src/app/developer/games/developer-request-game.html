@@ -3,23 +3,23 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" ng-click="$close()"
                 ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h3 class="modal-title">Request New Game</h3>
+        <h3 class="modal-title">Request Access to Game</h3>
     </div>
 
     <div class="modal-body">
-        <alert ng-repeat="error in account.errors" ng-show="account.errors.length" type="danger">{{ error }}</alert>
+        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}</alert>
 
-        <form name="regForm" novalidate class="reg-form"
-              ng-submit="register(account)">
+        <form name="request" novalidate class="reg-form"
+              ng-submit="requestAccess(request)">
 
             <div class="gl-input-group">
                 <div class="form-group"
-                     ng-class="{'has-error': regForm.gameId.$dirty && regForm.gameId.$invalid}">
+                     ng-class="{'has-error': request.gameId.$dirty && request.gameId.$invalid}">
                     <input type="text" name="gameId" class="form-control"
                            placeholder="Game ID"
                            required
                            autofocus="autofocus"
-                           ng-model="account.gameId"
+                           ng-model="request.gameId"
                            ng-minlength="2">
                     &nbsp;<span class="fa fa-question-circle"
                                 popover-placement="bottom"
@@ -27,7 +27,7 @@
                                 popover="Request this from a GlassLab Admin"></span>
 
                     <div class="form-errors">
-                        <div class="form-error" ng-show="regForm.gameId.$dirty && regForm.gameId.$invalid">
+                        <div class="form-error" ng-show="request.gameId.$dirty && request.gameId.$invalid">
                             Name must be at least 2 characters
                         </div>
                     </div>
@@ -35,21 +35,21 @@
             </div>
             <div class="text-center reg-submit">
                 <input type="submit" class="btn gl-btn--blue"
-                       value="{{ regForm.isSubmitting ? 'Registering...' : 'Register'}}"
-                       ng-disabled="regForm.$invalid || regForm.isSubmitting">
+                       value="{{ request.isSubmitting ? 'Registering...' : 'Register'}}"
+                       ng-disabled="request.$invalid || request.isSubmitting">
             </div>
         </form>
     </div>
 
 
-    <div class="modal-body" ng-show="account.isRegCompleted">
+    <div class="modal-body" ng-show="request.isRegCompleted">
         <p class="text-center">
-            Thanks for requesting a new game! We need to approve your new game.
+            Thanks for requesting access to this game! We need to approve this request first.
             A response will be sent to your email.
         </p>
         <div class="text-center reg-submit">
             <button class="btn gl-btn--blue"
-                    ng-click="finish()"
+                    ng-click="$dismiss()"
                     ng-hide="hideWrapper">Okay
             </button>
 

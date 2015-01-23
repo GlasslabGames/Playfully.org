@@ -112,9 +112,35 @@ angular.module('developer.games', [
             },
             views: {
                 'modal@': {
-                    templateUrl: 'developer/games/developer-request-game.html'
+                    templateUrl: 'developer/games/developer-request-game.html',
+                    controller: function($scope, $log, GamesService) {
+                        $scope.request = {
+                            isRegCompleted: false,
+                            gameId: null,
+                            errors: []
+                        };
+                        $scope.requestAccess = function (request) {
+                            request.isSubmitting = true;
+                            GamesService.requestGameAccess(request.gameId)
+                                .then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.isRegCompleted = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push( response.data.error );
+                                });
+                        };
+                        $scope.finish = function() {
+
+                        };
+                    }
                 }
             },
+<<<<<<< HEAD
             controller: function($scope) {
                 $scope.account = {
                     isRegCompleted: false,
@@ -122,20 +148,22 @@ angular.module('developer.games', [
                     errors: []
                 };
             }
+=======
+>>>>>>> 7ff5a7c7afb89262f0cd18dfc1e3d492180c8b93
         });
     })
     .controller('DevGamesCtrl', function ($scope, $state, myGames) {
         $scope.sections = [
             {name:'Live', release: 'live'},
-            {name:'In development', release: 'dev'},
+            {name:'In development', release: 'dev'}/*,
             {name:'Pending', release: 'pending'},
-            {name:'Incomplete', release: 'incomplete'}
+            {name:'Incomplete', release: 'incomplete'}*/
         ];
         var sectionsDict = {
             'live': [],
-            'dev': [],
+            'dev': []/*,
             'pending': [],
-            'incomplete': []
+            'incomplete': []*/
         };
         _.each(myGames, function(gameBasicInfo) {
             sectionsDict[gameBasicInfo.release].push(gameBasicInfo);

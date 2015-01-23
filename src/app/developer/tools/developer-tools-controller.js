@@ -3,6 +3,7 @@ angular.module('developer.tools', [])
 .config(function($stateProvider) {
     $stateProvider.state('root.developerTools', {
         url: 'developer/tools',
+        abstract:true,
         views: {
             'main@': {
                 templateUrl: 'developer/tools/developer-tools.html'
@@ -13,11 +14,11 @@ angular.module('developer.tools', [])
         }
     })
     .state('root.developerTools.parser', {
-        url: '/parser/:gameId',
+        url: '',
         templateUrl: 'developer/tools/developer-tools-parser.html',
         resolve : {
-            availableGames: function(ResearchService){
-                return ResearchService.checkForGameAccess();
+            availableGames: function(GamesService){
+                return GamesService.checkForGameAccess();
             }
         },
         controller: 'DeveloperToolsParserCtrl',
@@ -28,10 +29,17 @@ angular.module('developer.tools', [])
 })
 
 .controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, ResearchService, availableGames) {
-    if(!availableGames[$stateParams.gameId]){
+    $scope.gameIds = [];
+    for( var game in availableGames ) {
+        $scope.gameIds.push( game );
+    }
+
+    //if(!availableGames[$stateParams.gameId]){
+    if( $scope.gameIds.length === 0 ) {
         $state.go('root.developerTools');
     }
-    $scope.gameId = $stateParams.gameId;
+
+    $scope.gameId = $scope.gameIds[0];
     $scope.userIds = "";
     $scope.startDate = "";
     $scope.startHour = 0;

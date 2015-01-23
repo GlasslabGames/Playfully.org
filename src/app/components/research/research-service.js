@@ -40,17 +40,5 @@ angular.module('research', [])
         }
     };
 
-    research.checkForGameAccess = function($scope){
-        var url = API_BASE + "/dash/developer/profile";
-        return $http.get(url)
-            .then(function(results){
-                var availableGames = results.data;
-                return availableGames;
-        }, function(err){
-            console.error("check game access:", err);
-            return 'err';
-        });
-    };
-
     return research;
 });
