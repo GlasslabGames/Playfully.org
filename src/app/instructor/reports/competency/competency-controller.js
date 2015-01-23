@@ -300,5 +300,9 @@ angular.module( 'instructor.reports')
       percentage = achieved / parseFloat(total);
       return (percentage * 100) + '%';
     };
+})
+.controller( 'CompetencyInfoModalCtrl',
+  function($scope, $rootScope, $log, $state, $stateParams) {
 
 });
+
