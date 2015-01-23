@@ -1,0 +1,8 @@
+<span ng-click='editContent()' ng-show='hideMe' ng-transclude></span>
+
+<div ng-hide='hideMe'>
+    <textarea class='gl-editable-textarea' ng-model='edit.content' cols='85' rows='10'> </textarea>
+    <button class="btn gl-btn--blue" ng-click='saveContent()'>save</button>
+    <button class="btn gl-btn--grey" ng-click='goBackContent()'>cancel</button>
+</div>
+

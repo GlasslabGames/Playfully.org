@@ -20,15 +20,14 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
+  'gl-editable-text-popover',
   'gl-editable-text',
-  'xeditable',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
   'playfully.instructor',
-  'playfully.developer',
   'playfully.student',
   'playfully.register',
   'playfully.redeem',
@@ -40,7 +39,8 @@ angular.module( 'playfully', [
   'playfully.verify-email',
   'playfully.login-sdk',
   'playfully.register-sdk',
-  'student.dashboard-sdk'
+  'student.dashboard-sdk',
+  'playfully.developer'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {

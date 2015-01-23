@@ -1,0 +1,87 @@
+.gl-editable-popover {
+  z-index: 100;
+  position: absolute;
+  padding: 12px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: white;
+  -webkit-box-shadow: 0px 2px 13px 1px rgba(84, 84, 84, 1);
+  -moz-box-shadow: 0px 2px 13px 1px rgba(84, 84, 84, 1);
+  box-shadow: 0px 2px 13px 1px rgba(84, 84, 84, 1);
+}
+
+.gl-editable-popover-text {
+  .gl-editable-popover;
+  height: 100px;
+  width: 170px;
+
+}
+
+.gl-editable-popover-drop {
+  .gl-editable-popover;
+  height: 100px;
+  width: 170px;
+}
+
+
+.gl-editable-dropdown {
+  font-size: 15px;
+  display: block;
+}
+
+.gl-editable-textarea {
+}
+
+.select-wrapper {
+  display: inline-block;
+  border: 1px solid #bbbbbb;
+  position: relative;
+  width: 120px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.select-wrapper:before {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: 8px;
+  border-width: 5px 5px 5px 5px;
+  border-style: solid;
+  border-color: #666666 transparent transparent transparent;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.select-wrapper:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 20px;
+  right: 0px;
+  border-left: 1px solid #bababa;
+  background-color: #ededed;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  pointer-events: none;
+}
+
+select {
+  width: 100%;
+  background-color: #ededed;
+  border: none;
+  outline: none;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+}

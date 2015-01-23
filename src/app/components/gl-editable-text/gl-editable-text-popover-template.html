@@ -1,0 +1,18 @@
+<span ng-click='editContent()' ng-show='hideMe' ng-transclude></span>
+
+<span ng-class="glEditableType==='dropdown' ?'gl-editable-popover-drop':'gl-editable-popover-text'"
+      ng-hide='hideMe'>
+    <select ng-if="glEditableType==='dropdown'" class='gl-editable-dropdown'
+            ng-model='edit.content'
+            ng-options='option for option in glEditableOptions'></select>
+    <textarea ng-if="glEditableType==='textarea'"
+              class='gl-editable-textarea'
+              ng-model='edit.content'
+              cols='14' rows='1'></textarea>
+    <div ng-class="glEditableType==='dropdown' ? 'gl-margin--Tl' : 'gl-margin--Ts'">
+        <button class="btn gl-btn--blue" ng-click='saveContent()'>save</button>
+        <button class="btn gl-btn--grey" ng-click='goBackContent()'>cancel</button>
+    </div>
+</span>
+
+

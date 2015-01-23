@@ -1,5 +1,6 @@
 angular.module('developer.games', [
-    'gl-editable-text'
+    'gl-editable-text',
+    'gl-editable-text-popover'
 ])
 
 .config(function ($stateProvider) {
@@ -153,14 +154,21 @@ angular.module('developer.games', [
     })
     .controller('DevGameDetailCtrl',
     function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, GamesService) {
-        console.log('gameDetails',gameDetails);
         document.body.scrollTop = 0;
         $scope.currentPage = null;
         $scope.gameId = $stateParams.gameId;
         $scope.gameDetails = gameDetails;
         $scope.navItems = gameDetails.pages;
+
+        $scope.typeOptions = ['Browser', 'App', 'Client Download'];
+        $scope.platformOptions = ['iPad', 'PC/Mac'];
+
+        $scope.editAbout = function() {};
+        $scope.editPrice = function() {};
+        $scope.editType = function() {};
+        $scope.editGrades = function() {};
+
         $scope.saveForm = function() {
-            console.log('scope.gameDetails', $scope.gameDetails);
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.gameDetails);
         };
 
