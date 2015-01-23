@@ -8,7 +8,8 @@ angular.module('gl-editable-text', [])
       glOnBeforeSave:'=',
       glEditTrigger:'=',
       glEditTextAreaSize:'=',
-      glShowEdit: '='
+      glShowEdit: '=',
+      glEditLimit: '='
     },
     templateUrl: "components/gl-editable-text/gl-editable-text-template.html",
     link: function(scope, element, attr) {
