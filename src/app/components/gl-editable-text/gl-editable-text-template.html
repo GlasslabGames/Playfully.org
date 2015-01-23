@@ -1,0 +1,24 @@
+<span ng-click='editContent()' ng-show='hideEdit' ng-transclude></span>
+
+<div ng-if="glEditTextAreaSize==='large'" ng-hide='hideEdit'>
+    <textarea class='gl-editable-textarea' ng-model='edit.content' cols="90" rows="8"> </textarea>
+    <button class="btn gl-btn--blue" ng-click='saveContent()'>save</button>
+    <button class="btn gl-btn--grey" ng-click='goBackContent()'>cancel</button>
+    <span class="gl-edit-limit-text" ng-if="glEditLimit">{{edit.content.length}}/{{glEditLimit}}</span>
+</div>
+
+
+<div ng-if="glEditTextAreaSize==='medium'" ng-hide='hideEdit'>
+    <textarea class='gl-editable-textarea'  ng-model='edit.content' cols="40" rows="15"> </textarea>
+    <button class="btn gl-btn--blue" ng-click='saveContent()'>save</button>
+    <button class="btn gl-btn--grey" ng-click='goBackContent()'>cancel</button>
+    <span class="gl-edit-limit-text" ng-if="glEditLimit">{{edit.content.length}}/{{glEditLimit}}</span>
+</div>
+
+
+<div ng-if="glEditTextAreaSize==='small'" ng-hide='hideEdit'>
+    <textarea class='gl-editable-textarea' maxlength="250" ng-model='edit.content' cols="35" rows="10"> </textarea>
+    <button class="btn gl-btn--blue" ng-click='saveContent()'>save</button>
+    <button class="btn gl-btn--grey" ng-click='goBackContent()'>cancel</button>
+    <span ng-class="edit.content.length === 250 ? 'gl-edit-limit-max' : ''"class="gl-edit-limit-text" ng-if="glEditLimit">{{edit.content.length}}/250</span>
+</div>
