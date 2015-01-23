@@ -36,19 +36,20 @@ angular.module('gl-editable-text-popover', [])
                     var defer = $q.defer();
                     // saves original text in case save fails
                     var originalText = scope.glEditableTextPopover;
-                    // change content to text within text field
                     scope.glEditableTextPopover = scope.edit.content;
-                    if (scope.glEditableTextPopover === scope.edit.content) {
+
+                    if (scope.glEditableTextPopover === originalText) {
                         scope.hideEdit = !scope.hideEdit;
                         return;
                     }
+                    // change content to text within text field
                     $timeout(function () {
                         // complete task if request fulfilled. timeout gives parent scope time to digest new glEditableTextPopover value
                         scope.glOnBeforeSave().then(function (result) {
                             scope.hideEdit = !scope.hideEdit;
                             defer.resolve(result);
                         }, function () {
-                            scope.glEditableText = originalText;
+                            scope.glEditableTextPopover = originalText;
                             defer.reject();
                         });
                     }, 10);

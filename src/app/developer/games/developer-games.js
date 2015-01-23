@@ -139,17 +139,7 @@ angular.module('developer.games', [
                         };
                     }
                 }
-            },
-<<<<<<< HEAD
-            controller: function($scope) {
-                $scope.account = {
-                    isRegCompleted: false,
-                    gameId: null,
-                    errors: []
-                };
             }
-=======
->>>>>>> 7ff5a7c7afb89262f0cd18dfc1e3d492180c8b93
         });
     })
     .controller('DevGamesCtrl', function ($scope, $state, myGames) {
