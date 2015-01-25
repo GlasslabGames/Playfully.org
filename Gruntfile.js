@@ -143,8 +143,8 @@ module.exports = function ( grunt ) {
       compile_glasslabsdk: {
         files: [
           {
-            src: [ 'vendor/glasslab-sdk-as3/lib/glasslab-sdk.js' ],
-            dest: '<%= compile_dir %>/vendor/glasslab-sdk-as3/lib/glasslab-sdk.js'
+            src: [ 'vendor/glasslab-sdk-js/lib/glasslab-sdk.js' ],
+            dest: '<%= compile_dir %>/vendor/glasslab-sdk-js/lib/glasslab-sdk.js'
           }
         ]
       },
