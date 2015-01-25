@@ -141,7 +141,11 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-3 text-center">
-              <span class="competency competency-5"></span>
+              <span class="competency competency-{{ competencies.green.color }}"
+                ng-class="{'competency--active': competencies.green.isActive }"
+                ng-click="activateCompetency(competencies.green)"
+                popover="{{ competencies.green.text }}"
+                popover-placement="bottom"></span>
             </div>
             <div class="col-md-3 text-center">
               <span class="competency competency-5"></span>
