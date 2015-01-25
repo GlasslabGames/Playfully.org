@@ -185,6 +185,21 @@ angular.module( 'instructor.reports', [
         }
       }
     })
+    .state('modal-xlg.competencyInfo', {
+      url: '/reports/details/competency/game/:gameId/info',
+      data:{
+        pageTitle: 'Competency Report Info',
+        authorizedRoles: ['instructor','manager','admin']
+      },
+      resolve: {
+      },
+      views: {
+        'modal@': {
+          templateUrl: 'instructor/reports/competency/info.html',
+          controller: 'CompetencyInfoModalCtrl'
+        }
+      }
+    })
     .state('root.reports.details.mission-progress', {
         url: '/mission-progress/game/:gameId/course/:courseId?skillsId&stdntIds',
         templateUrl: 'instructor/reports/mission-progress/mission-progress.html',
