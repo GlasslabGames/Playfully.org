@@ -175,6 +175,10 @@
   padding: 0 15px;
 }
 
+.competency-cell {
+  min-width: 8em;
+}
+
 .competency {
   display: inline-block;
   .border-radius(100px);
@@ -288,6 +292,7 @@
 .gl-progress-levels {
   font-size: 12px;
   color: @grey2;
+  text-align: center;
 }
 
 .gl-progress-meter-outer {
@@ -302,4 +307,22 @@
   background: @progressMeter;
   height: 9px;
   .border-radius(10px);
+}
+
+.gl-progress-tab {
+  background: @grey4;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+  .border-radius(4px 4px 0 0);
+  padding: 3px;
+  position: relative;
+  top: 12px;
+  > .fa-sort-down {
+    float: none;
+    display: inline-block;
+    color: white;
+    position: relative;
+    top: -3px;
+  }
 }

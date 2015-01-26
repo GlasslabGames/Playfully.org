@@ -2,19 +2,19 @@
        ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-sowo-header-info">
   <thead>
   <tr>
-    <th style="min-width:6em;">
+    <th class="competency-cell">
       Name
       <i class="col-sort" ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
          ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
     </th>
 
-    <th>
+    <th class="competency-cell">
       Game Progress
       <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
          ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
     </th>
 
-    <th class="text-center">
+    <th class="text-center competency-cell">
       <div class="container-fluid">
         <div class="row gl-margin--Bm">
           <div class="col-md-12 text-center">
@@ -22,31 +22,31 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3 gl-reports-colhead">
+          <div class="col-md-4 gl-reports-colhead">
             Analyze givens/<wbr>constraints
             <i class="col-sort" ng-class="col.current==='constraints' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
               ng-click="colName.value = 'constraints'; sortSelected('constraints')"></i>
           </div>
-          <div class="col-md-3 gl-reports-colhead">
+          <div class="col-md-4 gl-reports-colhead">
             Plan a solution pathway 
             <i class="col-sort" ng-class="col.current==='pathway' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
               ng-click="colName.value = 'pathway'; sortSelected('pathway')"></i>
           </div>
-          <div class="col-md-3 gl-reports-colhead">
+          <div class="col-md-4 gl-reports-colhead">
             Effective/<wbr>efficient tools/<wbr>resources use
             <i class="col-sort" ng-class="col.current==='resources' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
               ng-click="colName.value = 'resources'; sortSelected('resources')"></i>
           </div>
-          <div class="col-md-3 gl-reports-colhead">
+          <!--div class="col-md-3 gl-reports-colhead">
             Monitor/<wbr>evaluate progress
             <i class="col-sort" ng-class="col.current==='eval-progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
               ng-click="colName.value = 'eval-progress'; sortSelected('eval-progress')"></i>
-          </div>
+          </div-->
         </div>
       </div>
     </th>
 
-    <th>
+    <th class="competency-cell">
       Problem<br>Solving<br>Ability<br>Overall
     </th>
   </tr>
@@ -56,45 +56,51 @@
   </thead>
   <tbody>
     <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
+      <td class="gl-nobr competency-cell">
         Alex B.
+        <div class="gl-progress-tab">
+          Progress Over Time&nbsp;<i class="fa fa-sort-down"></i>
+        </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="gl-progress-levels gl-nobr">40 / 40 Levels</div>
         <div class="gl-progress-meter-outer gl-margin--Txs">
           <div class="gl-progress-meter-inner">
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-5"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-3"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-1"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <!--div class="col-md-3 text-center">
               <span class="competency competency-1"></span>
-            </div>
+            </div-->
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell text-center">
         <span class="competency competency-3"></span>
       </td>
     </tr>
 
 
     <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
+      <td class="gl-nobr competency-cell">
         Brad P.
+        <div class="gl-progress-tab">
+          Progress Over Time&nbsp;<i class="fa fa-sort-down"></i>
+        </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="gl-progress-levels gl-nobr">24 / 40 Levels</div>
         <div class="gl-progress-meter-outer gl-margin--Txs">
           <div class="gl-progress-meter-inner"
@@ -102,34 +108,37 @@
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-5"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-3"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-0"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <!--div class="col-md-3 text-center">
               <span class="competency competency-0"></span>
-            </div>
+            </div-->
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell text-center">
         <span class="competency competency-0"></span>
       </td>
     </tr>
 
     <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
+      <td class="gl-nobr competency-cell">
         Charlie T.
+        <div class="gl-progress-tab">
+          Progress Over Time&nbsp;<i class="fa fa-sort-down"></i>
+        </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="gl-progress-levels gl-nobr">16 / 40 Levels</div>
         <div class="gl-progress-meter-outer gl-margin--Txs">
           <div class="gl-progress-meter-inner"
@@ -137,29 +146,29 @@
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-{{ competencies.green.color }}"
                 ng-class="{'competency--active': competencies.green.isActive }"
                 ng-click="activateCompetency(competencies.green)"
                 popover="{{ competencies.green.text }}"
                 popover-placement="bottom"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-5"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-4 text-center">
               <span class="competency competency-0"></span>
             </div>
-            <div class="col-md-3 text-center">
+            <!--div class="col-md-3 text-center">
               <span class="competency competency-0"></span>
-            </div>
+            </div-->
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell text-center">
         <span class="competency competency-5"></span>
       </td>
     </tr>
