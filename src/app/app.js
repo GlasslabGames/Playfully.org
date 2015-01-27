@@ -40,7 +40,8 @@ angular.module( 'playfully', [
   'playfully.login-sdk',
   'playfully.register-sdk',
   'student.dashboard-sdk',
-  'playfully.developer'
+  'playfully.developer',
+  'playfully.subscribe'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
