@@ -124,6 +124,7 @@ body {
 
 .gl-home-about {
   border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
   padding-top: 40px;
   padding-bottom: 90px;
 }
@@ -288,3 +289,111 @@ hr.gl-home-student {
   padding-bottom: 60px;
 }
 
+.gl-home-plan-info {
+  position: absolute;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-top: 20px;
+  color: white;
+  width: 100%;
+  height: 58%;
+  bottom: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  li {
+    .fa-check {
+      margin-right: 10px;
+    }
+    margin: 0px 0px 10px 0px;
+    list-style-type: none;
+  }
+  button {
+    border: 0px;
+    background-color: white;
+    border-radius: 30px;
+    width: 120px;
+    height: 30px;
+    position: absolute;
+    right: 36%;
+  }
+}
+
+.gl-home-basic-plan {
+  position: relative;
+  padding-top: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 0px #d6d6d8;
+  border: 1px solid #d6d6d8;
+  height: 550px;
+  width: 450px;
+  .gl-home-plan-info {
+    background-color: #45BCC7;
+    button {
+      color: #45BCC7;
+    }
+  }
+}
+
+.gl-home-premium-plan {
+  float: right;
+  position: relative;
+  padding-top: 30px;
+  height: 550px;
+  width: 450px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 0px #d6d6d8;
+  border: 1px solid #d6d6d8;
+
+  .gl-home-plan-info {
+    background-color: #04b678;
+    button {
+      color: #04b678;
+    }
+  }
+}
+
+.gl-home-try-premium-plan {
+  height: 250px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-top: 10px solid #dcdcdc;
+  border-bottom: 10px solid #dcdcdc;
+  li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px 20px 0px 0px;
+    .fa-check {
+      color: #5dbae9;
+      margin-right: 8px;
+    }
+  }
+  button {
+    width: 120px;
+    height: 30px;
+    margin: auto;
+    border: 0px;
+    color: white;
+    background-color: #36a9f1;
+    border-radius: 30px;
+
+  }
+}
+
+.gl-logo-basic-icon {
+  width: 110px;
+  height: 110px;
+  margin: auto;
+  .image-2x('gl-logo-basic-icon.png',110px,110px);
+}
+
+.gl-logo-premium-icon {
+  width: 110px;
+  height: 110px;
+  margin: auto;
+  .image-2x('gl-logo-premium-icon.png', 110px, 110px);
+}
+
+.gl-home-subscribe-price{
+ color: #bababa;
+}

@@ -6,6 +6,15 @@
   width: 550px;
 }
 
+.modal-xlg {
+  width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  > .modal-lg {
+    width: 640px;
+  }
+}
+
 .modal-sm > .modal-content,
 .modal-lg > .modal-content {
   padding-left: 24px;
@@ -21,4 +30,15 @@
   text-align: center;
   font-family: @serifHeadlineFontFamily;
   font-size: 20px;
+}
+
+.modal-body--wide {
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.modal-body--scrollable {
+  max-height: 500px;
+  overflow-y: auto;
 }
