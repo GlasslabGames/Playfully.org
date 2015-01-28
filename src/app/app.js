@@ -12,7 +12,6 @@ angular.module( 'playfully', [
   'ct.ui.router.extras',
   'ui.bootstrap',
   'playfully.config',
-  'ui.router.history',
   'auth',
   'user',
   'games',
