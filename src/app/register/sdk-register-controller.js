@@ -58,14 +58,16 @@ angular.module('playfully.register-sdk', ['register.const'])
             }
         });
 })
-.controller('sdkv2RegisterOptionsModalCtrl', function ($scope, $stateParams, THIRD_PARTY_AUTH) {
+.controller('sdkv2RegisterOptionsModalCtrl', function ($scope, $stateParams, THIRD_PARTY_AUTH, $history, $state) {
     $scope.gameId = $stateParams.gameId;
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
 
+    $scope.goBackState = function () {
+        $state.go('sdk.sdkv2LoginOptions');    };
 })
 .controller('sdkv2RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, $history) {
         var user = null;
 
         $scope.account = {
@@ -81,6 +83,10 @@ angular.module('playfully.register-sdk', ['register.const'])
             newsletter: true,
             errors: [],
             isRegCompleted: false
+        };
+
+        $scope.goBackState = function () {
+            $history.back('sdk.sdkv2LoginOptions');
         };
 
         $scope.states = REGISTER_CONSTANTS.states;
@@ -126,7 +132,7 @@ angular.module('playfully.register-sdk', ['register.const'])
 
 })
 .controller('sdkv2RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS, $history) {
         var user = null;
 
         $scope.confirmation = {
@@ -150,6 +156,10 @@ angular.module('playfully.register-sdk', ['register.const'])
             regCode: null,
             errors: [],
             isRegCompleted: false
+        };
+
+        $scope.goBackState = function () {
+            $history.back();
         };
 
         $scope.closeWindow = function () {

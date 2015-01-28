@@ -27,11 +27,14 @@ angular.module('student.dashboard-sdk', [
     });
 })
 .controller('sdkv2EnrollInCourseModalCtrl',
-    function ($scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService) {
+    function ($scope, $rootScope, $state, $stateParams, $log, $timeout, courses, CoursesService, $history) {
         $scope.gameId = $stateParams.gameId.toUpperCase();
         $scope.verification = {
             code: null,
             errors: []
+        };
+        $scope.goBackState = function () {
+            $history.back();
         };
         $scope.enroll = function (verification) {
             $scope.enrollment = null;

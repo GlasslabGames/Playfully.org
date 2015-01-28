@@ -88,12 +88,16 @@ angular.module('playfully.login-sdk', [])
 })
 
 .controller('sdkv2LoginCtrl',
-    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
+    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH, $history) {
         $scope.gameId = $stateParams.gameId;
         $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
         $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
         $scope.credentials = {username: '', password: ''};
         $scope.authError = null;
+
+        $scope.goBackState = function () {
+            $history.back();
+        };
 
         $scope.login = function (credentials) {
             $scope.authError = null;
