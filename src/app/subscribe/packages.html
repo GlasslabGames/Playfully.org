@@ -72,7 +72,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="gl-home-try-premium-plan gl-margin--V40 text-center">
+            <div class="gl-package-try-premium-plan gl-margin--T40 text-center">
                 <h4 class="headline-4--serif gl-margin--Bxxl">Try Our Premium Plan for Free</h4>
                 <ul class="gl-margin--Bxxl">
                     <li><i class="fa fa-check"></i>60 days Trial</li>
@@ -82,5 +82,110 @@
                 </ul>
                 <button>Try it Out!</button>
             </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                 <h4 class="headline-3--serif gl-margin--V50">Pricing</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center gl-packages-price-table">
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-x"><h4 class="gl-headline-3--serif gl-package-title">Packages</h4></div>
+                    <div class="gl-packages-price-table-x" ng-repeat="package in packageChoices">
+                        <h4 class="gl-headline-3--serif gl-package-title">{{package.title}}</h4>
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Group Size</h4>
+                        10 seats + 1 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*10}}</span> yearly
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Class Size</h4>
+                        30 seats + 1 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*30}}</span> yearly
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Multi-Class Size</h4>
+                        120 seats + 4 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*120}}</span> yearly
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">School Size</h4>
+                        500 seats + 15 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*499}}</span> yearly
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="container gl-packages-faq-container">
+        <div class="gl-packages-faq-container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h4 class="headline-3--serif gl-margin--V50">FAQ</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">How 60-day free trial works</h4>
+                <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                    won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                    service through the month you cancel.</p>
+            </div>
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">What is the return policy?</h4>
+                <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                    months.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">How 60-day free trial works</h4>
+                <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                    won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                    service through the month you cancel.</p>
+            </div>
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">What is the return policy?</h4>
+                <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                    months.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">How 60-day free trial works</h4>
+
+                <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                    won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                    service through the month you cancel.</p>
+            </div>
+            <div class="gl-packages-faq gl-margin--B40">
+                <h4 class="headline-5--serif gl-package-title">What is the return policy?</h4>
+
+                <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                    months.</p>
+            </div>
+        </div>
         </div>
     </div>

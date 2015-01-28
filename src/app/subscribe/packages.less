@@ -1,11 +1,12 @@
 .gl-package-bg {
   position:absolute;
+  background-color: white;
   width: 100%;
   height: 100%;
 }
 .gl-package-bg-top {
   position: absolute;
-  height: 40%;
+  height: 23%;
   width: 100%;
   background-color: #1b3438;
 }
@@ -64,6 +65,7 @@
       font-size: 20px;
     }
     .gl-package-back-button {
+      margin-right: 10px;
       width: 50px;
       height: 50px;
       font-size: 40px;
@@ -85,30 +87,30 @@
       font-size: 20px;
     };
   }
-  .gl-package-box-price-number {
-    font-size: 35px;
-    font-family: 'Bitter', bold;
-    .gl-package-transition;
+}
 
-  }
-  .gl-package-box-price-dollar {
-    font-size: 20px;
-    .gl-package-transition;
+.gl-package-box-price {
+  padding: 10px;
+  width: 100%;
+  background-color: #8bc656;
+  font-family: 'Bitter';
+  color: white;
+  font-size: 15px;
+  -webkit-transition: background-color, font, 1s ease-in-out;
+  -moz-transition: background-color, font, 1s ease-in-out;
+  -o-transition: background-color, font, 1s ease-in-out;
+  -ms-transition: background-color, font, 1s ease-in-out;
+}
 
-  }
-  .gl-package-box-price {
-    padding: 10px;
-    width: 100%;
-    background-color: #8bc656;
-    font-family: 'Bitter';
-    font-weight: lighter;
-    color: white;
-    font-size: 15px;
-    -webkit-transition: background-color, font, 1s ease-in-out;
-    -moz-transition: background-color, font, 1s ease-in-out;
-    -o-transition: background-color, font, 1s ease-in-out;
-    -ms-transition: background-color, font, 1s ease-in-out;
-  }
+.gl-package-box-price-number {
+  font-size: 35px;
+  font-family: 'Bitter', bold;
+  .gl-package-transition;
+}
+
+.gl-package-box-price-dollar {
+  font-size: 20px;
+  .gl-package-transition;
 }
 
 .gl-package-title {
@@ -150,6 +152,7 @@
 }
 
 .gl-package-back-button {
+  margin-right: 10px;
   border-radius: 50px;
   border:0px;
   width: 40px;
@@ -168,4 +171,105 @@
   padding-right: 25px;
   padding-left: 25px;
   color: white;
+}
+
+.gl-package-try-premium-plan {
+  height: 250px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-top: 1px solid #dcdcdc;
+  border-bottom: 1px solid #dcdcdc;
+  background-color: #fafafa;
+}
+
+.gl-package-try-premium-plan li {
+  display: inline;
+  list-style-type: none;
+  margin: 0px 20px 0px 0px;
+}
+
+.gl-package-try-premium-plan li .fa-check {
+  color: #5dbae9;
+  margin-right: 8px;
+}
+
+.gl-package-try-premium-plan button {
+  width: 120px;
+  height: 30px;
+  margin: auto;
+  border: 0px;
+  color: white;
+  background-color: #36a9f1;
+  border-radius: 30px;
+}
+
+.gl-packages-price-table {
+  th {
+    background-color: #1eb57b;
+    border: 0px;
+  }
+  .gl-packages-price-table-y-axis {
+    background-color: #1eb57b;
+  }
+}
+
+.gl-packages-price-table-x {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  width: 200px;
+  height: 150px;
+  padding: 10px;
+  background-color: #1eb57b;
+}
+
+.gl-packages-price-table-y {
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+  width: 200px;
+  height: 150px;
+  padding: 10px;
+  background-color: #3c5257;
+}
+
+
+
+.gl-packages-price-table-row {
+  display: table-row;
+}
+
+.gl-packages-price-table-cell {
+  display: table-cell;
+  vertical-align: middle;
+  color: #a8a8a8;
+  width: 200px;
+  height: 150px;
+  padding: 10px;
+  font-family: 'Bitter';
+  border-right: 1px solid #e9e9e9;
+  border-bottom: 1px solid #e9e9e9;
+  background-color: white;
+  .gl-package-box-price-number {
+    font-size: 25px;
+    color: #898989;
+  }
+
+  .gl-package-box-price-dollar {
+    font-size: 15px;
+    color: #898989;
+  }
+}
+
+.gl-packages-price-table-row {
+  .gl-packages-price-table-x:first-child {
+    background-color: #15a772;
+  }
+}
+
+.container .gl-packages-faq-container {
+    border: 1px solid red;
+    width: 100%;
+    height: 100%;
+    background-color: #fafafa;
 }
