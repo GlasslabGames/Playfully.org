@@ -17,12 +17,14 @@
   }
 }
 .container {
-  border: 1px solid #ff0082;
 }
 .col-md-12 .gl-package-choices {
   display: flex;
   flex-direction: row;
-  border: 1px solid red;
+  -webkit-flex-direction: row;
+  justify-content: center;
+  -webkit-justify-content: center;
+  align-items: center;
   height: 500px;
   width: 1200px;
   margin-right: -100px;
@@ -33,17 +35,84 @@
   }
 }
 
+.gl-package-transition {
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  -ms-transition: all 1s ease-in-out;
+}
+
 .gl-package-box {
-  height: 381px;
+  height: 420px;
   border: 1px solid #d6d6d8;
-  width: 250px;
-  float: left;
+  width: 270px;
   background-color: white;
+  .gl-package-transition;
+  &:hover {
+    height: 450px;
+    width: 290px;
+    font-size: 17px;
+    .gl-package-subscribe-button {
+      background-color: #1eb57b;
+      height: 50px;
+      width: 150px;
+      font-size: 20px;
+    }
+    .gl-package-continue-button {
+      height: 50px;
+      width: 150px;
+      font-size: 20px;
+    }
+    .gl-package-back-button {
+      width: 50px;
+      height: 50px;
+      font-size: 40px;
+    }
+    .gl-package-box-price {
+      background-color: #1eb57b;
+    }
+    .gl-package-box-price-number {
+      font-size: 40px;
+      font-family: 'Bitter', bold;
+    }
+    .gl-package-title {
+      font-size: 35px;
+    }
+    .gl-package-box-price-dollar {
+      font-size: 22px;
+    }
+    .gl-package-box-price {
+      font-size: 20px;
+    };
+  }
+  .gl-package-box-price-number {
+    font-size: 35px;
+    font-family: 'Bitter', bold;
+    .gl-package-transition;
+
+  }
+  .gl-package-box-price-dollar {
+    font-size: 20px;
+    .gl-package-transition;
+
+  }
   .gl-package-box-price {
     padding: 10px;
     width: 100%;
     background-color: #8bc656;
+    font-family: 'Bitter';
+    font-weight: lighter;
+    color: white;
+    font-size: 15px;
+    -webkit-transition: background-color, font, 1s ease-in-out;
+    -moz-transition: background-color, font, 1s ease-in-out;
+    -o-transition: background-color, font, 1s ease-in-out;
+    -ms-transition: background-color, font, 1s ease-in-out;
   }
+}
+
+.gl-package-title {
+  .gl-package-transition;
 }
 
 .gl-package-subscribe-button {
@@ -53,12 +122,50 @@
   background-color: #8bc656;
   height: 40px;
   width: 120px;
-  margin: auto;
+  .gl-package-transition;
 }
 
 .gl-package-description {
   padding: 10px;
-  height: 230px;
+  height: 210px;
 }
 
+.gl-package-box-back {
+  width: 100%;
+  height: 82%;
+  background-color: #1eb57b;
+  input[type="checkbox"] {
+    padding: 0px;
+  }
+}
 
+.gl-package-continue-button {
+  border-radius: 30px;
+  border: 0px;
+  color: #1eb57b;
+  background-color: white;
+  height: 40px;
+  width: 120px;
+  .gl-package-transition;
+}
+
+.gl-package-back-button {
+  border-radius: 50px;
+  border:0px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  color: #1eb57b;
+  font-size: 30px;
+  vertical-align: bottom;
+  .gl-package-transition;
+}
+
+.gl-package-form {
+  width: 100%;
+  height: 50%;
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-left: 25px;
+  color: white;
+}

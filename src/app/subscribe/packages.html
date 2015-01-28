@@ -14,44 +14,56 @@
         <div class="row text-center">
             <div class="col-md-12">
                 <div class="gl-package-choices">
-                    <div>
-                        <div class="gl-package-box gl-package-box-chromebook">
-                            <h5 class="headline-4--serif gl-package-title">Chromebook</h5>
-                            <div class="gl-package-box-price">$2 per student</div>
-                        <div class="gl-package-description">
-                            <p class="gl-margin--V40">All games in this package are optimized to work on Chromebooks.</p>
-                        </div>
-                            <button class="gl-package-subscribe-button"> Subscribe</button>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="gl-package-box gl-package-box-pcmac">
-                            <h5 class="headline-4--serif gl-package-title">PC/Mac</h5>
-                            <div class="gl-package-box-price ">$2 per student</div>
-                        <div class="gl-package-description">
-                            <p class="gl-margin--V40"> Games in this package run on PC or Mac computers</p>
-                        </div>
-                            <button class="gl-package-subscribe-button"> Subscribe</button>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="gl-package-box gl-package-box-ipad">
-                            <h5 class="headline-4--serif gl-package-title">iPad</h5>
-                            <div class="gl-package-box-price ">$2 per student</div>
-                        <div class="gl-package-description">
-                            <p class="gl-margin--V40"> All games in this package are optimized to work on iPads</p>
-                        </div>
-                            <button class="gl-package-subscribe-button"> Subscribe</button>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="gl-package-box gl-package-box-allgames">
-                            <h5 class="headline-4--serif gl-package-title">All Games</h5>
-                            <div class="gl-package-box-price ">$2 per student</div>
-                            <div class="gl-package-description">
-                                <p class="gl-margin--V40"> This package includes all gamesavailable on this site</p>
+                        <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
+                            <h5 class="headline-3--serif gl-package-title gl-margin-Vxl">{{package.title}}</h5>
+                            <div ng-hide="packageFlip">
+                                <div class="gl-package-box-price">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{package.price}}</span> per student
+                                </div>
+                                <div class="gl-package-box-front">
+                                    <div class="gl-package-description">
+                                        <p class="gl-margin-Vxl"> {{package.description}}</p>
+                                    </div>
+                                    <button class="gl-package-subscribe-button" ng-click="packageFlip=!packageFlip"> Subscribe</button>
+                                </div>
                             </div>
-                            <button class="gl-package-subscribe-button"> Subscribe</button>
+                            <div class="gl-package-box-back" ng-show="packageFlip">
+                                <form class="gl-package-form">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true">
+                                            10 students + 1 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" >
+                                            30 students + 1 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
+                                            120 students + 4 educators
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
+                                            499 students + 15 educators
+                                        </label>
+                                    </div>
+                                </form>
+                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{package.price*package.seatsSelected}}</span> per month
+                                </div>
+                                <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <button class="gl-package-continue-button"> Continue</button>
+                            </div>
                         </div>
                     </div>
                 </div>

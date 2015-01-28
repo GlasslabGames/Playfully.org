@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+  'ngAnimate',
   'angular-progress-arc',
   'ngOrderObjectBy',
   'ngSanitize',
