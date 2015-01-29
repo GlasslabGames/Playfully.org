@@ -1,5 +1,4 @@
 angular.module( 'playfully', [
-  'ngAnimate',
   'angular-progress-arc',
   'ngOrderObjectBy',
   'ngSanitize',
@@ -42,7 +41,8 @@ angular.module( 'playfully', [
   'playfully.register-sdk',
   'student.dashboard-sdk',
   'playfully.developer',
-  'playfully.subscribe'
+  'playfully.subscribe',
+  'playfully.manager'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
