@@ -41,5 +41,5 @@ angular.module('playfully.subscribe', ['subscribe.const'])
             description: SUBSCRIBE_CONSTANTS['iPadGames'].description,
             title: SUBSCRIBE_CONSTANTS['iPadGames'].title
         };
-        $scope.packageChoices = [$scope.chromeBookGames, $scope.PCMacGames, $scope.iPadGames, $scope.allGames];
+        $scope.packageChoices = [$scope.chromeBookGames,  $scope.iPadGames, $scope.PCMacGames, $scope.allGames];
     });
