@@ -1,0 +1,199 @@
+<div class="gl-package-bg">
+    <div class="gl-package-bg-top"></div>
+</div>
+    <div class="container">
+        <div class="row text-center gl-margin--B40">
+            <div class="col-md-12 gl-package-top gl-margin--T30">
+                <div class="gl-logo-premium-icon"></div>
+                <h4 class="headline-3--serif gl-package-title">Premium Subscription</h4>
+                <p>Choose the subscription that best fits your technology environment</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <div class="gl-package-choices">
+                        <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
+                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.title}}</h5>
+                            <div ng-hide="packageFlip">
+                                <div class="gl-package-box-price">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{package.price}}</span> per student
+                                </div>
+                                <div class="gl-package-box-front">
+                                    <div class="gl-package-description">
+                                        <p class="gl-margin-Vxl"> {{package.description}}</p>
+                                    </div>
+                                    <button class="gl-package-subscribe-button" ng-click="packageFlip=!packageFlip"> Subscribe</button>
+                                </div>
+                            </div>
+                            <div class="gl-package-box-back" ng-show="packageFlip">
+                                <form class="gl-package-form">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true">
+                                            10 students + 1 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" >
+                                            30 students + 1 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
+                                            120 students + 4 educators
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
+                                            499 students + 15 educators
+                                        </label>
+                                    </div>
+                                </form>
+                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{package.price*package.seatsSelected}}</span> per month
+                                </div>
+                                <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <button class="gl-package-continue-button"> Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="gl-package-try-premium-plan gl-margin--T40 text-center">
+                <h4 class="headline-4--serif gl-margin--Bxxl">Try Our Premium Plan for Free</h4>
+                <ul class="gl-margin--Bxxl">
+                    <li><i class="fa fa-check"></i>60 days Trial</li>
+                    <li><i class="fa fa-check"></i>Up to 30 students</li>
+                    <li><i class="fa fa-check"></i>No credit card required</li>
+                    <li><i class="fa fa-check"></i>Instant access</li>
+                </ul>
+                <button>Try it Out!</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                 <h4 class="headline-3--serif gl-margin--V50">Pricing</h4>
+            </div>
+        </div>
+        <div class="row gl-margin--B50">
+            <div class="col-md-12 text-center gl-packages-price-table">
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-x"><h4 class="gl-headline-3--serif gl-package-title">Packages</h4></div>
+                    <div class="gl-packages-price-table-x" ng-repeat="package in packageChoices">
+                        <h4 class="gl-headline-3--serif gl-package-title">{{package.title}}</h4>
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Group Size</h4>
+                        10 seats + 1 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*10}}</span> yearly
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Class Size</h4>
+                        30 seats + 1 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*30}}</span> yearly
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Multi-Class Size</h4>
+                        120 seats + 4 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*120}}</span> yearly
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">School Size</h4>
+                        500 seats + 15 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{package.price*499}}</span> yearly
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+
+        <div class="col-md-12 gl-packages-faq-container">
+            <div class="col-md-12 text-center">
+                <h4 class="headline-3--serif gl-margin--V50">FAQ</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="gl-packages-questions">
+                  <h4 class="headline-5--serif">Questions before signing up?</h4>
+                  <p> We're happy to answer any questions you have. Just drop us a note and we'll get right back to you. We're around Monday through Friday between 9am -5pm PST (minus the occasional national holiday).</p>
+                  <p>Shoot an email over to matt@glasslabgames.org. Also, freel free to shout out on Twitter to @glasslabgames</p>
+                </div>
+            </div>
+
+        </div>
+</div>
