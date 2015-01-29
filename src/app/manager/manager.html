@@ -1,0 +1,24 @@
+<div class="gl-manager-bg">
+    <div class="container gl-manager-container">
+        <h3 class="gl-manager-title gl-margin--V50">Subscription Manager</h3>
+        <div class="gl-tabs">
+            <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
+                <li class="gl-tab"
+                    ng-class="{'active': currentTab === 'Current Plan'}">
+                    <a href ui-sref="root.courses({courseStatus:''})">Current Plan </a>
+                </li>
+                <li class="gl-tab"
+                    ng-class="{'active': currentTab === 'Student List'}">
+                    <a href ui-sref="root.courses.archived">Student List</a>
+                </li>
+                <li class="gl-tab"
+                    ng-class="{'active': currentTab === 'Billing Info'}">
+                    <a href ui-sref="root.courses.archived">Billing Info</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="gl-manager-content">
+        <div ui-view></div>
+    </div>
+</div>

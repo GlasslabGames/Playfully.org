@@ -2,10 +2,12 @@
   position: relative;
   top: 10px;
   padding-left: 0;
+  li {
+    white-space: nowrap;
+  }
 }
 
 .gl-tabs {
-  margin-top: 30px;
   padding-left: 0;
 }
 
@@ -30,9 +32,19 @@
   }
 }
 
-.gl-tab:first-child {
-  left: 20px;
+.gl-tab:nth-child(2) {
+  right: 20px;
 }
+
+.gl-tab:nth-child(3) {
+  right: 40px;
+}
+
+//.gl-tab:nth-child(2) {
+//  left: 20px;
+//}
+
+
 
 .gl-tab.active {
   z-index: 50;

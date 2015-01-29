@@ -17,29 +17,30 @@ angular.module('playfully.subscribe', ['subscribe.const'])
     })
     .controller('SubscribeCtrl', function ($scope, SUBSCRIBE_CONSTANTS) {
         $scope.seatChoices = [10, 30, 120, 499];
-        $scope.allGames = {
+        var subscribe = SUBSCRIBE_CONSTANTS;
+        var allGames = {
           price: 5,
           seatsSelected: $scope.seatChoices[0],
-          description: SUBSCRIBE_CONSTANTS['allGames'].description,
-          title: SUBSCRIBE_CONSTANTS['allGames'].title
+          description: subscribe['allGames'].description,
+          title: subscribe['allGames'].title
         };
-        $scope.chromeBookGames = {
+        var chromeBookGames = {
             price: 2,
             seatsSelected: $scope.seatChoices[0],
-            description: SUBSCRIBE_CONSTANTS['chromeBookGames'].description,
-            title: SUBSCRIBE_CONSTANTS['chromeBookGames'].title
+            description: subscribe['chromeBookGames'].description,
+            title: subscribe['chromeBookGames'].title
         };
-        $scope.PCMacGames = {
+        var PCMacGames = {
             price: 2,
             seatsSelected: $scope.seatChoices[0],
-            description: SUBSCRIBE_CONSTANTS['PCMacGames'].description,
-            title: SUBSCRIBE_CONSTANTS['PCMacGames'].title
+            description: subscribe['PCMacGames'].description,
+            title: subscribe['PCMacGames'].title
         };
-        $scope.iPadGames = {
+        var iPadGames = {
             price: 3,
             seatsSelected: $scope.seatChoices[0],
-            description: SUBSCRIBE_CONSTANTS['iPadGames'].description,
-            title: SUBSCRIBE_CONSTANTS['iPadGames'].title
+            description: subscribe['iPadGames'].description,
+            title: subscribe['iPadGames'].title
         };
-        $scope.packageChoices = [$scope.chromeBookGames,  $scope.iPadGames, $scope.PCMacGames, $scope.allGames];
+        $scope.packageChoices = [chromeBookGames, iPadGames, PCMacGames, allGames];
     });
