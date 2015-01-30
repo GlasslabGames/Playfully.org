@@ -286,35 +286,34 @@
 }
 
 article.legend-header {
-  margin: 0px 0px 10px 0px;
+  margin: 0px 0px 0px 0px;
   overflow: hidden;
   padding: 2px;
 }
 
 p.legend-header {
-  line-height: 0.7;
+  position: relative;
   text-align: center;
 }
 p.legend-header span {
   display: inline-block;
   position: relative;
+  padding: 0 10px;
 }
 p.legend-header span:before,
 p.legend-header span:after {
   content: "";
   position: absolute;
-  height: 5px;
+  height: 1px;
   border-top: 1px solid #eeeeee;
-  top: 0;
+  top: 40%;
   width: 300px;
 }
 p.legend-header span:before {
   right: 100%;
-  margin-right: 15px;
 }
 p.legend-header span:after {
   left: 100%;
-  margin-left: 15px;
 }
 
 .fa-sort-down {
@@ -394,3 +393,4 @@ p.legend-header span:after {
     background: @dkyellow;
   }
 }
+

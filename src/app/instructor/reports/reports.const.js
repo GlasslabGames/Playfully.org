@@ -21,6 +21,13 @@ angular.module('reports.const', [])
   'CCSS Math 5.OA.B.3': 'gl-reports-achievement-green-square',
   'CCSS Math 6.NS.C.5': 'gl-reports-achievement-yellow-square',
   'CCSS Math 6.NS.C.6': 'gl-reports-achievement-red-square',
+  'CCSS Math 2.NBT.A.2': 'gl-reports-achievement-brown-square',
+  'CCSS Math 2.OA.A.2': 'gl-reports-achievement-blue-square',
+  'CCSS Math 2.OA.B.2': 'gl-reports-achievement-light-magenta-square',
+  'CCSS Math 3.OA.A.1': 'gl-reports-achievement-light-green-square',
+  'CCSS Math 3.OA.A.4': 'gl-reports-achievement-light-yellow-square',
+  'CCSS Math 3.OA.D.9': 'gl-reports-achievement-light-red-square',
+  'CCSS Math 3.NBT.A.2': 'gl-reports-achievement-light-brown-square',
   // Competency
   "mastered": {class:'gl-reports-competency-circle-green',text: 'Mastered'},
   "not-mastered": {class:'gl-reports-competency-circle-red',text: 'Not Mastered'},
