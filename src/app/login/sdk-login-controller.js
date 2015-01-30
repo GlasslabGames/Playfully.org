@@ -79,9 +79,9 @@ angular.module('playfully.login-sdk', [])
         })
         .state('sdk.sdkv2Logout', {
             url: '/v2/logout',
-            onEnter: function ($state, AuthService) {
+            onEnter: function ($state, $window, AuthService) {
                 AuthService.logout().then(function () {
-                    $state.transitionTo('sdk.sdkv2LoginOptions');
+                    $window.location.search = 'action=LOGGEDOUT';
                 });
             }
         });
