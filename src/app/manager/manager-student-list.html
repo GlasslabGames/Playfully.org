@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="gl-manager-student-list-bg">
+                <h4 class="headline-3--serif gl-margin--B40">Your Students</h4>
+                <table class="table gl-manager-student-list-table gl-margin--B50">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>First Name</td>
+                            <td>Last Initial</td>
+                            <td>Screen Name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in studentList">
+                            <td>{{$index+1}}</td>
+                            <td>{{student.firstName}}</td>
+                            <td>{{student.lastInitial}}</td>
+                            <td>{{student.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
