@@ -28,17 +28,17 @@
 <article class="legend-header">
     <p class="legend-header"><span>{{achievements.selectedOption.description +" in this Game" }}</span></p>
 </article>
-       <table >
-            <tr>
-                <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
-                  <div ng-class="getLabelClass(standard.title)"
-                   popover="{{ standard.description }}"
-                   popover-trigger="mouseenter"
-                   popover-placement="bottom">
-                  </div><span ng-bind="standard.title"></span>
-                </td>
-            </tr>
-        </table>
+   <div class="l-collection gl-reports-achievements-legend-container">
+       <div class="l-collection-item gl-reports-achievement-header-achievement"
+            ng-repeat="standard in achievements.selectedOption.subGroups">
+           <div ng-class="getLabelClass(standard.title)"
+                popover="{{ standard.description }}"
+                popover-trigger="mouseenter"
+                popover-placement="bottom">
+           </div>
+           <span ng-bind="standard.title"></span>
+       </div>
+   </div>
     <hr>
 
 
