@@ -29,14 +29,44 @@
                     </div>
                     <div class="gl-manager-side-panel-section">
                         Need more seats?
-                        <button type="button" class="btn gl-manager-upgrade-btn gl-margin--Tl">Upgrade Package</button>
+                        <button type="button" class="btn gl-btn--black gl-margin--Tl">Upgrade Package</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="gl-manager-share-subscription">
                     <div class="gl-manager-share-subscription-label">Share Subscription</div>
+                    <h5 class="headline-5">Educators in your subscription</h5>
+                    <table class="table gl-manager-educator-list-table gl-margin--B50">
+                        <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>Educator Name</td>
+                            <td>Email</td>
+                            <td>  </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="educator in plan.educatorList">
+                                <td>{{$index+1}}</td>
+                                <td>{{educator.firstName}} {{educator.lastName}}</td>
+                                <td>{{educator.email}}</td>
+                                <td><i ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    <h5 class="headline-5">Invite Other Educators by Email</h5>
+                    <textarea cols="70" rows="5"
+                              placeholder="Separate addresses by comma: charles@glasslabgames.org, tina@glasslabgames.org" ng-model="invitedEducators"></textarea>
+                    <button ng-click="inviteEducators(invitedEducators)" class="btn gl-btn--black">Send</button>
+
                     <p>You are not able to invite any educators to your subscription plan.</p>
+                    <div ng-show="invalid">
+                        The following email addresses you entered are invalid. Please fix them and then submit again:
+                        <ul>
+                            <li ng-repeat="email in invalid">{{email}}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

@@ -76,7 +76,7 @@
 
 .gl-manager-share-subscription {
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   padding: 60px 20px 0px 20px;
   border: 2px solid @whiteSmoke;
   background-color: @grey8;
@@ -115,6 +115,34 @@
         border-left: 4px solid white;
       }
     }
-
   }
+}
+
+.gl-manager-educator-list-table {
+  thead {
+    tr {
+      td {
+        background-color: whitesmoke;
+        font-weight: bold;
+        padding: 20px 10px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border-top: 0px;
+        padding: 20px 10px;
+      }
+    }
+    tr:nth-child(even) {
+      td {
+        background-color: whitesmoke;
+      }
+    }
+  }
+}
+
+.gl-manager-trash-educator:hover {
+  cursor: pointer;
 }
