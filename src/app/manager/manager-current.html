@@ -13,7 +13,7 @@
                         <h4 class="headline-4">Package Size</h4>
 
                         <p>{{package.size}} Size:</p>
-                        <p>{{package.studentSeats}} students + {{package.educatorSeats}} educator</p>
+                        <p>{{package.studentSeats}} students + {{package.educatorSeats}} educators</p>
                     </div>
                     <div class="gl-manager-side-panel-section ">
                         <h4 class="headline-4">Remaining Seats</h4>
@@ -24,7 +24,7 @@
                     <div class="gl-manager-side-panel-section">
                         <h4 class="headline-4">Expiration Date</h4>
                         <p>{{plan.expirationDate}}</p>
-                        <button type="button" class="btn gl-manager-renew-btn gl-margin--Tl">Renew
+                        <button type="button" class="btn gl-btn--silver gl-margin--Tl">Renew
                         </button>
                     </div>
                     <div class="gl-manager-side-panel-section">
@@ -36,7 +36,8 @@
             <div class="col-md-8">
                 <div class="gl-manager-share-subscription">
                     <div class="gl-manager-share-subscription-label">Share Subscription</div>
-                    <h5 class="headline-5">Educators in your subscription</h5>
+                    <p ng-if="plan.educatorList.length === 0">You may share your subscription with {{package.educatorSeats}} other educators.</p>
+                    <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5> <span class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} seats remaining</span>
                     <table class="table gl-manager-educator-list-table gl-margin--B50">
                         <thead>
                         <tr>
@@ -47,7 +48,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="educator in plan.educatorList">
+                            <tr ng-repeat="educator in plan.educatorList track by $index">
                                 <td>{{$index+1}}</td>
                                 <td>{{educator.firstName}} {{educator.lastName}}</td>
                                 <td>{{educator.email}}</td>
@@ -55,10 +56,35 @@
                             </tr>
                         </tbody>
                         </table>
-                    <h5 class="headline-5">Invite Other Educators by Email</h5>
-                    <textarea cols="70" rows="5"
-                              placeholder="Separate addresses by comma: charles@glasslabgames.org, tina@glasslabgames.org" ng-model="invitedEducators"></textarea>
-                    <button ng-click="inviteEducators(invitedEducators)" class="btn gl-btn--black">Send</button>
+                    <h5 class="headline-5">Invite Educators by Email</h5>
+
+                    <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
+                    </alert>
+
+                    <form name="request" novalidate class="reg-form"
+                          ng-submit="inviteEducators(invitedEducators)">
+
+                        <div class="gl-input-group">
+                            <div class="form-group"
+                                 ng-class="{'has-error': request.invitedEducators.$dirty && request.invitedEducators.$invalid}">
+                                <textarea cols="70" rows="5"
+                                          class="form-control"
+                                          placeholder="Separate addresses using a comma: charles@glasslabgames.org, tina@glasslabgames.org, ben@glasslabgames.org"
+                                          ng-minlength="6"
+                                          ng-model="invitedEducators"></textarea>
+                                <div class="form-errors">
+                                    <div class="form-error" ng-show="request.invitedEducators.$dirty && (request.invitedEducators.$invalid || request.errors.length > 0)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reg-submit">
+                            <input type="submit" class="btn gl-btn--black"
+                                   value="{{ request.isSubmitting ? 'Sending...' : 'Send'}}"
+                                   ng-disabled="request.$pristine || request.$invalid || request.isSubmitting">
+                        </div>
+                    </form>
+
 
                     <p>You are not able to invite any educators to your subscription plan.</p>
                     <div ng-show="invalid">

@@ -110,13 +110,13 @@ angular.module('playfully.manager', [])
 
         var dummyData = {
           studentSeatsRemaining: 20,
-          educatorSeatsRemaining: 1,
+          educatorSeatsRemaining: 5,
           packageDetails: {
             name: "iPad",
             description: "Access to all iPad games on GlassLab Games",
             size: "Class",
             studentSeats: 30,
-            educatorSeats: 1
+            educatorSeats: 20
           },
           expirationDate: new Date(),
           educatorList: [
@@ -135,38 +135,67 @@ angular.module('playfully.manager', [])
 
         $scope.plan = dummyData;
         $scope.plan.expirationDate = moment(dummyData.expirationDate).format("MMM Do YYYY");
-
         $scope.package = dummyData.packageDetails;
-        $scope.invitedEducators = null;
-        $scope.invalid = null;
+
+        $scope.request = {
+            isRegCompleted: false,
+            invitedEducators: null,
+            errors: []
+        };
+        var _requestInvite = function (request) {
+            request.isSubmitting = true;
+            GamesService.requestGameAccess(request.gameId)
+                .then(function (response) {
+                    $scope.request.errors = [];
+                    $scope.request.isSubmitting = false;
+                    $scope.request.isRegCompleted = true;
+                },
+                function (response) {
+                    $log.error(response.data);
+                    $scope.request.isSubmitting = false;
+                    $scope.request.errors = [];
+                    $scope.request.errors.push(response.data.error);
+                });
+        };
+        $scope.finish = function () {
+
+        };
+        var _validateEmail = function (email) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        };
 
         $scope.inviteEducators = function(string) {
-            // remove white space
+
             var str = string.replace(/\s+/g, '');
             var educators = str.split(',');
-            console.log(educators);
-            //remove whitespace
-            //check for @ sign, check
             var valid = [];
             var invalid = [];
 
-            var validateEmail = function (email) {
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            };
+            if (educators.length > $scope.plan.educatorSeatsRemaining) {
+                invalid.push("You tried inviting " + educators.length + " educators. But you only have " +
+                $scope.plan.educatorSeatsRemaining  + " educator seats remaining in your subscription.");
+            }
 
-            for (var i = 0; i < educators.length; i++) {
-                if (validateEmail(educators[i])) {
-                    valid.push(educators[i]);
-                } else {
-                    invalid.push(educators[i]);
+            if (educators.length) {
+                for (var i = 0; i < educators.length; i++) {
+
+                    if (_.some($scope.plan.educatorList, {email:educators[i]})) {
+                        invalid.push(educators[i] + ' is already sharing your subscription.');
+                    }
+                    if (_validateEmail(educators[i])) {
+                        valid.push(educators[i]);
+                    } else {
+                        invalid.push('Invalid Email: ' + educators[i]);
+                    }
                 }
             }
-            if (valid.length===educators.length) {
-                // send api
-            } else {
-                $scope.invalid = invalid;
+
+            if (invalid.length < 1) {
+                _requestInvite(valid);
             }
+
+            $scope.request.errors = invalid;
         };
     });
 
