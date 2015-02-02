@@ -79,21 +79,25 @@ angular.module('playfully.login-sdk', [])
         })
         .state('sdk.sdkv2Logout', {
             url: '/v2/logout',
-            onEnter: function ($state, AuthService) {
+            onEnter: function ($state, $window, AuthService) {
                 AuthService.logout().then(function () {
-                    $state.transitionTo('sdk.sdkv2LoginOptions');
+                    $window.location.search = 'action=LOGGEDOUT';
                 });
             }
         });
 })
 
 .controller('sdkv2LoginCtrl',
-    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH) {
+    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH, $previousState) {
         $scope.gameId = $stateParams.gameId;
         $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
         $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
         $scope.credentials = {username: '', password: ''};
         $scope.authError = null;
+
+        $scope.goBackState = function () {
+            $previousState.go();
+        };
 
         $scope.login = function (credentials) {
             $scope.authError = null;

@@ -20,14 +20,14 @@ angular.module( 'playfully', [
   'checkSpec',
   'research',
   'gl-enter',
-  'xeditable',
+  'gl-editable-text-popover',
+  'gl-editable-text',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',
   'playfully.home',
   'playfully.games',
   'playfully.instructor',
-  'playfully.developer',
   'playfully.student',
   'playfully.register',
   'playfully.redeem',
@@ -39,7 +39,8 @@ angular.module( 'playfully', [
   'playfully.verify-email',
   'playfully.login-sdk',
   'playfully.register-sdk',
-  'student.dashboard-sdk'
+  'student.dashboard-sdk',
+  'playfully.developer'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
@@ -118,6 +119,36 @@ angular.module( 'playfully', [
           };
           $scope.$on("$stateChangeStart", function(evt, toState) {
             if (!toState.$$state().includes['modal-lg']) {
+              $modalInstance.dismiss('close');
+            }
+          });
+        }
+      });
+    }
+  });
+
+  $stateProvider.state('modal-xlg', {
+    abstract: true,
+    onEnter: function ($modal, $previousState, $log) {
+      // remember the previous state with memoName "modalInvoker"
+      $previousState.memo("modalInvoker");
+      $modal.open({
+        template: '<div ui-view="modal"></div>',
+        backdrop: 'static',
+        windowClass: 'modal-xlg',
+        size: 'lg',
+        controller: function($modalInstance, $scope) {
+          var isopen = true;
+          $modalInstance.result.finally(function() {
+            isopen = false;
+            $previousState.go("modalInvoker"); // return to previous state
+          });
+          $scope.close = function () {
+            $modalInstance.dismiss('close');
+            $previousState.go("modalInvoker"); // return to previous state
+          };
+          $scope.$on("$stateChangeStart", function(evt, toState) {
+            if (!toState.$$state().includes['modal-xlg']) {
               $modalInstance.dismiss('close');
             }
           });

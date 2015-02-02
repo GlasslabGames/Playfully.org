@@ -1,8 +1,55 @@
-<div class="container text-center gl-margin--Txxl" ng-if="error">
-  <h1 class="headline-2">Error</h1>
-  <p>
-  No game found. Please return to the <a ui-sref="root.games.catalog">Game Catalog</a>.
-  </p>
+<div class="container gl-margin--Txxl">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="headline-2">Game Card</h1>
+            *displayed in the Game Catalog
+        </div>
+        <div class="col-md-4">
+            <div class="gl-game-catalog-game-box gl-dev-catalog-game-box">
+                <div class="gl-game-catalog-game-card-wrapper">
+                    <div class="gl-game-catalog-developer-logo">
+                        <img ng-src="/{{gameDetails.developer.logo.small}}" width="60" height="60">
+                    </div>
+                    <img ng-src="/{{gameDetails.card.small}}" class="gl-game-catalog-game-card">
+
+                    <div class="gl-dev-catalog-game-description">
+                        <p>
+                            {{gameDetails.description}}
+                        </p>
+                    </div>
+                </div>
+                <div class="gl-game-catalog-game-box-info">
+                    <span class="gl-game-catalog-game-title">
+                        {{gameDetails.shortName}}
+                        <span class="gl-text-end-fade"></span>
+                    </span>
+                    <ul>
+                        <li>Subject: {{gameDetails.subject}}</li>
+                        <li>Grade: {{gameDetails.grades}}</li>
+                        <li>Developed by {{gameDetails.developer.name}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="gl-game-catalog-platform-triangle">
+                    <img ng-src="/{{gameDetails.platform.icon.small}}"
+                         class="gl-game-catalog-platform-icon">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <span class="gl-dev-edit-add-button" ng-click="editDescription()">Edit Game's Short Description</span>
+            <br></br>
+            <div class="gl-edit-short-description-box">
+                <p gl-editable-text="gameDetails.description"
+                   gl-edit-text-area-size="'small'"
+                   gl-on-before-save="saveForm"
+                   gl-edit-limit="true"
+                   gl-edit-trigger="editDescription">
+                    {{gameDetails.description}}
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container" ng-if="!error">
@@ -14,11 +61,11 @@
       <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
       <div>Developed by 
         <a ng-click="showDeveloperModal(gameId)" class="gl-developer-link" ng-bind="gameDetails.developer.name"></a>
+        <span class="gl-dev-edit-add-button" ng-click="showDeveloperModal(gameId)"> Edit Company Description </span>
       </div>
       <div class="gl-pad--Txs">
         <a ng-repeat="(name, url) in gameDetails.social"
           target="_blank" href="{{ url }}"
-          ga="'send', 'pageview', {title: name, location: url}"
           class="gl-icon-social gl-icon-social--{{ name }}">
         </a>
       </div>
@@ -67,17 +114,27 @@
               <div class="row gl-margin--Bm">
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--price"></span>
-                  Price: <span ng-bind="gameDetails.price"></span>
+                  Price: <span>{{gameDetails.price}}</span>
                 </div>
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--type"></span>
-                  Type: <span ng-bind="gameDetails.type"></span>
+                  Type: <span gl-editable-text-popover="gameDetails.type"
+                              gl-editable-type="'dropdown'"
+                              gl-editable-options="typeOptions"
+                              gl-on-before-save="saveForm"
+                              gl-edit-trigger="editType">{{gameDetails.type}}</span>
+                         <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editType()"></i>
+
                 </div>
               </div>
               <div class="row gl-margin--Bm">
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--subject"></span>
-                  Subject: <span ng-bind="gameDetails.subject"></span>
+                  Subject: <span gl-editable-text-popover="gameDetails.subject"
+                                 gl-editable-type="'textarea'"
+                                 gl-on-before-save="saveForm"
+                                 gl-edit-trigger="editSubject">{{gameDetails.subject}}</span>
+                    <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editSubject()"></i>
                 </div>
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--releaseDate"></span>
@@ -87,11 +144,20 @@
               <div class="row">
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--platform"></span>
-                  Platform: <span ng-bind="gameDetails.platform.type"></span>
+                  Platform: <span gl-editable-text-popover="gameDetails.platform.type"
+                                  gl-editable-type="'dropdown'"
+                                  gl-editable-options="platformOptions"
+                                  gl-on-before-save="saveForm"
+                                  gl-edit-trigger="editPlatform">{{gameDetails.platform.type}}</span>
+                    <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editPlatform()"></i>
                 </div>
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--grades"></span>
-                  Grade: <span ng-bind="gameDetails.grades"></span>
+                  Grade: <span gl-editable-text-popover="gameDetails.grades"
+                               gl-editable-type="'textarea'"
+                               gl-on-before-save="saveForm"
+                               gl-edit-trigger="editGrades">{{gameDetails.grades}}</span>
+                    <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editGrades()"></i>
                 </div>
               </div>
             </div>
