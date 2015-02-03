@@ -109,6 +109,10 @@ angular.module('playfully.manager', [])
         $scope.$parent.currentTab = $state.current.url;
 
         var dummyData = {
+          planOwner: {
+              firstName: "Charles",
+              lastName: "Tai"
+          },
           studentSeatsRemaining: 20,
           educatorSeatsRemaining: 5,
           packageDetails: {
@@ -123,12 +127,14 @@ angular.module('playfully.manager', [])
             {
               firstName: "Charles",
               lastName: "Tai",
-              email: "cwtai86@gmail.com"
+              email: "cwtai86@gmail.com",
+              status: "Admin"
             },
             {
               firstName: "Buzzy",
               lastName: "Fart",
-              email: "buzzy@gmail.com"
+              email: "buzzy@gmail.com",
+              status: "Active"
             }
           ]
         };
@@ -194,6 +200,10 @@ angular.module('playfully.manager', [])
             if (invalid.length < 1) {
                 _requestInvite(valid);
             }
+
+            $scope.isAdmin = function() {
+               return false;
+            };
 
             $scope.request.errors = invalid;
         };
