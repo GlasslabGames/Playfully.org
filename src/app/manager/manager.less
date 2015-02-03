@@ -3,9 +3,6 @@
   width: 100%;
   background-color: @darkSlateGray;
 }
-.gl-manager-container {
-
-}
 
 .gl-manager-title {
   font-family: @serifHeadlineFontFamily;
@@ -17,12 +14,138 @@
   background-color: white;
   padding-top: 70px;
   width: 100%;
-  height: 100%;
+  min-height: 500px;
 }
 
-.gl-manager-current-side-panel {
-  height: 700px;
+.gl-manager-side-panel {
+  height: 100%;
   width: 300px;
-  border: 1px solid @whiteSmoke;
-  background-color: #fafafa;
+  padding: 50px 20px 20px 20px;
+  border: 2px solid @whiteSmoke;
+  background-color: @grey8;
+}
+
+.gl-manager-side-panel-label {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  width: 150px;
+  height: 40px;
+  padding: 10px 0px 10px 25px;
+  color: white;
+  text-align: left;
+  background-color: @darkCyan;
+
+}
+.gl-manager-side-panel-section {
+  padding: 10px 0px 20px 0px;
+  border-bottom: 2px solid @whiteSmoke;
+  &:last-child {
+    border-bottom: 0px;
+  }
+}
+
+.gl-manager-remaining-seats {
+  display: inline-block;
+  span {
+    display: table-cell;
+    width: 100px;
+    height: 80px;
+    color: white;
+    vertical-align: middle;
+    background-color: @darkCyan;
+    font-family: @serifHeadlineFontFamily;
+    font-size: 55px;
+  }
+}
+
+.gl-manager-share-subscription {
+  width: 100%;
+  min-height: 200px;
+  padding: 60px 20px 0px 20px;
+  border: 2px solid @whiteSmoke;
+  background-color: @grey8;
+}
+
+.gl-manager-share-subscription-label {
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  width: 180px;
+  height: 40px;
+  padding: 10px 0px 10px 25px;
+  text-align: left;
+  color: white;
+  background-color: @lightSeaGreen;
+}
+
+.gl-manager-student-list-table {
+  thead {
+    td {
+      border-left: 4px solid white;
+      background-color: whitesmoke;
+      font-weight: bold;
+    }
+    padding-bottom: 13px;
+  }
+  tbody {
+    tr {
+      td {
+        border-top: 0px;
+      }
+    }
+    tr:nth-child(even) {
+      td {
+        background-color: whitesmoke;
+        border-left: 4px solid white;
+      }
+    }
+  }
+}
+
+.gl-manager-educator-list-table {
+  thead {
+    tr {
+      td {
+        background-color: whitesmoke;
+        font-weight: bold;
+        padding: 20px 10px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border-top: 0px;
+        padding: 20px 10px;
+      }
+    }
+    tr:nth-child(even) {
+      td {
+        background-color: whitesmoke;
+      }
+    }
+  }
+}
+
+.gl-manager-trash-educator:hover {
+  cursor: pointer;
+}
+
+.gl-manager-educators-remaining {
+  position: absolute;
+  right: 40px;
+  color: @grey4;
+}
+
+.gl-manager-educators-share-header {
+  display: inline-block;
+}
+
+.gl-manager-remove-teacher-blinky {
+  margin: auto;
+}
+
+.gl-manager-leave-button {
+  display: block;
 }

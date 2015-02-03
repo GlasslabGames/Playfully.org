@@ -4,8 +4,8 @@
       <button type="button" class="btn default dropdown-toggle navbar-btn gl-bu-user">
       </button>
       <ul class="dropdown-menu" role="menu">
-        <!--<li><a ng-hide="isSSOLogin()"-->
-               <!--ui-sref="modal.profile">Subscription</a></li>-->
+        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')"
+               ui-sref="root.subscribe.packages">Subscription</a></li>
         <li><a ng-hide="isSSOLogin()"
                 ui-sref="modal.profile">Edit My Profile</a></li>
         <li><a ng-show="isAuthenticatedButNot('student')"

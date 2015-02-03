@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="gl-manager-student-list-bg">
+                <h4 class="headline-3--serif gl-margin--B40">Your Students</h4>
+                <table class="table gl-manager-student-list-table gl-margin--B50">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>First Name
+                                <i ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'" ng-click="colName.value = 'firstName'; sortSelected('firstName')">
+                                </i></td>
+                            <td>Last Initial<i ng-class="col.current==='lastInitial' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                    ng-click="colName.value = 'lastInitial'; sortSelected('lastInitial')"></i></td>
+                            <td>Screen Name <i
+                                    ng-class="col.current==='screenName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                    ng-click="colName.value = 'screenName'; sortSelected('screenName')"></i></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in studentList | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+                            <td>{{$index+1}}</td>
+                            <td>{{student.firstName}}</td>
+                            <td>{{student.lastInitial}}</td>
+                            <td>{{student.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

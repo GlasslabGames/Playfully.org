@@ -1,13 +1,103 @@
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <div class="gl-manager-side-panel gl-margin--B50">
+                    <div class="gl-manager-side-panel-label text-center">
+                        Current Plan
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-3--serif">{{package.name}} Package</h4>
+                        <p>{{package.description}}</p>
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-4">Package Size</h4>
 
-                <div class="gl-manager-current-side-panel">
-
+                        <p>{{package.size}} Size:</p>
+                        <p>{{package.studentSeats}} students + {{package.educatorSeats}} educators</p>
+                    </div>
+                    <div class="gl-manager-side-panel-section ">
+                        <h4 class="headline-4">Remaining Seats</h4>
+                        <div class="gl-manager-remaining-seats text-center">
+                            <span>{{plan.studentSeatsRemaining}}</span>
+                        </div>
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-4">Expiration Date</h4>
+                        <p>{{plan.expirationDate}}</p>
+                        <button type="button" class="btn gl-btn--silver gl-margin--Tl">Renew
+                        </button>
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        Need more seats?
+                        <button type="button" class="btn gl-btn--black gl-margin--Tl">Upgrade Package</button>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
+                <div class="gl-manager-share-subscription">
+                    <div class="gl-manager-share-subscription-label">Share Subscription</div>
 
+                    <div ng-if="!isOwner()">
+                        <h5 class="headline-5--serif gl-margin--Bm">You are currently in {{plan.planOwner.firstName}} {{plan.planOwner.lastName}}'s premium plan</h5>
+                        <button type="button" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
+                        <h5 class="headline-5 gl-manager-educators-share-header gl-margin--Tl">Other Educators sharing this subscription:</h5>
+                    </div>
+
+                    <div ng-if="isOwner()">
+                        <h5 class="headline-5--serif gl-margin--B40">You may share your subscription with {{package.educatorSeats}} other educators.</h5>
+                        <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5>
+                        <span class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} seats remaining</span>
+                    </div>
+
+                    <table class="table gl-manager-educator-list-table gl-margin--B50">
+                        <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>Educator Name</td>
+                            <td>Email</td>
+                            <td ng-if="isOwner()">Status</td>
+                            <td ng-if="isOwner()">  </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="educator in plan.educatorList track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{educator.firstName}} {{educator.lastName}}</td>
+                                <td>{{educator.email}}</td>
+                                <td ng-if="isOwner()">{{educator.status}}</td>
+                                <td ng-if="isOwner()"><i ng-if="educator.status!=='Admin'" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                            <h5 ng-if="isOwner()" class="headline-5">Invite Educators by Email</h5>
+
+                            <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
+                            </alert>
+
+                            <form ng-if="isOwner()" name="request" novalidate class="reg-form"
+                                  ng-submit="inviteEducators(invitedEducators)">
+
+                                <div class="gl-input-group">
+                                    <div class="form-group"
+                                         ng-class="{'has-error': request.invitedEducators.$dirty && request.invitedEducators.$invalid}">
+                                        <textarea cols="70" rows="5"
+                                                  class="form-control"
+                                                  placeholder="Separate emails using a comma: charles@glasslabgames.org, tina@glasslabgames.org, ben@glasslabgames.org"
+                                                  ng-minlength="6"
+                                                  ng-model="invitedEducators"></textarea>
+                                        <div class="form-errors">
+                                            <div class="form-error" ng-show="request.invitedEducators.$dirty && (request.invitedEducators.$invalid || request.errors.length > 0)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="reg-submit">
+                                    <input type="submit" class="btn gl-btn--black"
+                                           value="{{ request.isSubmitting ? 'Sending...' : 'Send'}}"
+                                           ng-disabled="request.$pristine || request.$invalid || request.isSubmitting">
+                                </div>
+                            </form>
+                </div>
             </div>
         </div>
     </div>

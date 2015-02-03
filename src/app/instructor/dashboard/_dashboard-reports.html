@@ -25,8 +25,8 @@
 <div class="row">
     <div class="col-md-12 gl-pad-Hl">
         <div class="gl-dashboard-container-top">
-            <div class="gl-dashboard-game-selector">
-                <div class="gl-dashboard-game"
+            <div class="l-collection gl-dashboard-game-selector">
+                <div class="l-collection-item gl-dashboard-game"
                      ng-click="status.selectedGameId=game.gameId"
                      ng-class="{'gl-dashboard-game-active':status.selectedGameId===game.gameId}"
                      ng-repeat="game in myGames">
@@ -50,8 +50,8 @@
                          ng-click="goToReport('achievements',courses.selectedCourseId,status.selectedGameId)">
                         <span class="gl-dashboard-subheader">Avg Total Time Played:</span>
                         <div class="gl-dashboard-time-counter gl-margin--B40">
-                            <div><span class="numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
-                            <div><span class="numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
+                            <div><span class="time-counter-numbers">{{status.avgTotalTimePlayed.hours || 0}}</span> <span>HRS</span></div>
+                            <div><span class="time-counter-numbers">{{status.avgTotalTimePlayed.minutes || 0}}</span> <span>MINS</span></div>
                         </div>
                     </div>
                     <div ng-if="status.selectedGameId==='SC'">
