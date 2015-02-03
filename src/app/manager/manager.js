@@ -24,7 +24,7 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/manager-remove-educator-modal.html',
                     controller: function ($scope, $log, $stateParams) {
-                        console.log($stateParams.email);
+                        $scope.email = $stateParams.email;
                         // if service succeeds, then success
                     }
                 }
@@ -129,12 +129,6 @@ angular.module('playfully.manager', [])
               lastName: "Tai",
               email: "cwtai86@gmail.com",
               status: "Admin"
-            },
-            {
-              firstName: "Buzzy",
-              lastName: "Fart",
-              email: "buzzy@gmail.com",
-              status: "Active"
             }
           ]
         };
@@ -148,6 +142,7 @@ angular.module('playfully.manager', [])
             invitedEducators: null,
             errors: []
         };
+
         var _requestInvite = function (request) {
             request.isSubmitting = true;
             GamesService.requestGameAccess(request.gameId)
@@ -201,11 +196,11 @@ angular.module('playfully.manager', [])
                 _requestInvite(valid);
             }
 
-            $scope.isAdmin = function() {
-               return false;
-            };
-
             $scope.request.errors = invalid;
+        };
+
+        $scope.isOwner = function () {
+            return true;
         };
     });
 
