@@ -18,8 +18,9 @@
                             <h5 class="headline-3--serif gl-margin-Vxl">{{package.title}}</h5>
                             <div ng-hide="packageFlip">
                                 <div class="gl-package-box-price">
+                                    Starting at
                                     <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{package.price}}</span> per student
+                                    <span class="gl-package-box-price-number">{{package.price}}</span> / year
                                 </div>
                                 <div class="gl-package-box-front">
                                     <div class="gl-package-description">
@@ -33,31 +34,31 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true">
-                                            10 students + 1 educator
+                                            {{seatChoices[0]}} students + 1 educator
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" >
-                                            30 students + 1 educator
+                                            {{seatChoices[1]}} students + 2 educator
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
-                                            120 students + 4 educators
+                                            {{seatChoices[2]}} + 8 educators
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
-                                            499 students + 15 educators
+                                            {{seatChoices[3]}} + 15 educators
                                         </label>
                                     </div>
                                 </form>
                                 <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
                                     <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{package.price*package.seatsSelected}}</span> per year
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.price,package.seatsSelected)}}</span> per year
                                 </div>
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>

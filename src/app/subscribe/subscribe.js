@@ -16,31 +16,48 @@ angular.module('playfully.subscribe', ['subscribe.const'])
             });
     })
     .controller('SubscribeCtrl', function ($scope, SUBSCRIBE_CONSTANTS) {
-        $scope.seatChoices = [10, 30, 120, 499];
+        $scope.seatChoices = [10, 30, 120, 500];
         var subscribe = SUBSCRIBE_CONSTANTS;
-        var allGames = {
-          price: 5,
-          seatsSelected: $scope.seatChoices[0],
-          description: subscribe['allGames'].description,
-          title: subscribe['allGames'].title
-        };
+
         var chromeBookGames = {
-            price: 2,
+            price: 25,
             seatsSelected: $scope.seatChoices[0],
             description: subscribe['chromeBookGames'].description,
             title: subscribe['chromeBookGames'].title
         };
-        var PCMacGames = {
-            price: 2,
-            seatsSelected: $scope.seatChoices[0],
-            description: subscribe['PCMacGames'].description,
-            title: subscribe['PCMacGames'].title
-        };
         var iPadGames = {
-            price: 3,
+            price: 30,
             seatsSelected: $scope.seatChoices[0],
             description: subscribe['iPadGames'].description,
             title: subscribe['iPadGames'].title
         };
+        var PCMacGames = {
+            price: 35,
+            seatsSelected: $scope.seatChoices[0],
+            description: subscribe['PCMacGames'].description,
+            title: subscribe['PCMacGames'].title
+        };
+        var allGames = {
+            price: 50,
+            seatsSelected: $scope.seatChoices[0],
+            description: subscribe['allGames'].description,
+            title: subscribe['allGames'].title
+        };
         $scope.packageChoices = [chromeBookGames, iPadGames, PCMacGames, allGames];
+        $scope.calculateTotal = function(price,seatChoice) {
+            var total = seatChoice * price * 0.10;
+
+            if (seatChoice===10) {
+                return seatChoice*price*0.10;
+            }
+            if (seatChoice === 30) {
+                return (total)-(total *0.20);
+            }
+            if (seatChoice === 120) {
+                return (total) - (total * 0.25);
+            }
+            if (seatChoice === 500) {
+                return (total) - (total *0.30);
+            }
+        };
     });
