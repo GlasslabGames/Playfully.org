@@ -21,6 +21,8 @@
           <div class="gl-input-group">
             <div class="form-group" ng-class="{'has-error': loginForm.username.$dirty && loginForm.username.$invalid}">
               <input type="text" name="username" class="form-control"
+                     autocapitalize="off"
+                     autocorrect="off"
                      placeholder="Screen name"
                      required autofocus ng-model="credentials.username"
                      ng-minlength="2">
@@ -34,7 +36,13 @@
 
           <div class="gl-input-group">
             <div class="form-group">
-              <input type="password" class="form-control" id="credentials-password" placeholder="Password" required ng-model="credentials.password">
+              <input type="password"
+                     class="form-control"
+                     id="credentials-password"
+                     placeholder="Password"
+                     autocapitalize="off"
+                     autocorrect="off"
+                     required ng-model="credentials.password">
               <span class="small help-block">
                 <a ui-sref="passwordReset({type: 'student'})"
                    class="link-forgot-password"
