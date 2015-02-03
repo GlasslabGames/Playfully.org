@@ -25,6 +25,11 @@
                                 <div class="gl-package-box-front">
                                     <div class="gl-package-description">
                                         <p class="gl-margin-Vxl"> {{package.description}}</p>
+                                        <ul class="list--nobullets">
+                                            <li ng-show="package.browserGames.length>0"><a>{{package.browserGames.length}} browser games available</a></li>
+                                            <li ng-show="package.ipadGames.length>0"><a>{{package.ipadGames.length}} iPad games available</a></li>
+                                            <li ng-show="package.downloadableGames.length>0"><a>{{package.downloadableGames.length}} downloadable games available</a></li>
+                                        </ul>
                                     </div>
                                     <button class="gl-package-subscribe-button" ng-click="packageFlip=!packageFlip"> Subscribe</button>
                                 </div>

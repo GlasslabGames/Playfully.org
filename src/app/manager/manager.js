@@ -15,6 +15,38 @@ angular.module('playfully.manager', [])
             templateUrl: 'manager/manager-student-list.html',
             controller: 'ManagerStudentListCtrl'
         })
+        .state('modal.notify-invited-subscription', {
+            url: '/notify-invited-subscription',
+            templateUrl: 'manager/notify-invited-subscription-modal.html',
+            controller: function($scope) {
+                var dummyData = {
+                    planOwner: {
+                        firstName: "Charles",
+                        lastName: "Tai"
+                    },
+                    studentSeatsRemaining: 20,
+                    educatorSeatsRemaining: 5,
+                    packageDetails: {
+                        name: "iPad",
+                        description: "Access to all iPad games on GlassLab Games",
+                        size: "Class",
+                        studentSeats: 30,
+                        educatorSeats: 20
+                    },
+                    expirationDate: new Date(),
+                    educatorList: [
+                        {
+                            firstName: "Charles",
+                            lastName: "Tai",
+                            email: "cwtai86@gmail.com",
+                            status: "Admin"
+                        }
+                    ]
+                };
+                $scope.plan = dummyData;
+                $scope.packageDetails = package;
+            }
+        })
         .state('modal.remove-educator', {
             url: '/manager/current/remove-educator?:email',
             data: {
@@ -200,7 +232,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.isOwner = function () {
-            return true;
+            return false;
         };
     });
 
