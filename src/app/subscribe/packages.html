@@ -18,9 +18,11 @@
                             <h5 class="headline-3--serif gl-margin-Vxl">{{package.title}}</h5>
                             <div ng-hide="packageFlip">
                                 <div class="gl-package-box-price">
-                                    Starting at
-                                    <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{package.price}}</span> / year
+                                    <div class="gl-package-box-price-info">
+                                        Starting at &nbsp&nbsp
+                                        <span class="gl-package-box-price-dollar">$</span>
+                                        <span class="gl-package-box-price-number">{{package.price}}</span> &nbsp&nbsp per year
+                                    </div>
                                 </div>
                                 <div class="gl-package-box-front">
                                     <div class="gl-package-description">

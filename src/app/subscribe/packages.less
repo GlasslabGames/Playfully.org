@@ -89,18 +89,26 @@
       font-size: 22px;
     }
     .gl-package-box-price {
-      font-size: 20px;
+      font-size: 14px;
     }
   }
 }
 
+
+.gl-package-box-price-info {
+  .l-collection;
+  justify-content: center;
+  -webkit-justify-content: center;
+  position: relative;
+  right: 12px;
+}
 .gl-package-box-price {
   padding: 10px;
   width: 100%;
   background-color: @yellowGreen;
   font-family: 'Bitter';
-  color: white;
-  font-size: 15px;
+  color: #e2eed1;
+  font-size: 12px;
   -webkit-transition: background-color, font, 0.3s linear;
   -moz-transition: background-color, font, 0.3s linear;
   -o-transition: background-color, font, 0.3s linear;
@@ -110,11 +118,15 @@
 .gl-package-box-price-number {
   font-size: 35px;
   font-family: 'Bitter', bold;
+  color: white;
   .gl-package-transition;
 }
 
 .gl-package-box-price-dollar {
   font-size: 20px;
+  color: white;
+  margin-right:5px;
+  margin-bottom: 7px;
   .gl-package-transition;
 }
 
@@ -245,6 +257,7 @@
 .gl-packages-price-table-row {
   display: table-row;
 }
+
 
 .gl-packages-price-table-cell {
   display: table-cell;
