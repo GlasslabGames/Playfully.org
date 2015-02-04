@@ -62,6 +62,22 @@ angular.module('playfully.manager', [])
                 }
             }
         })
+        .state('modal.start-trial-subscription', {
+            url: '/start-trial-subscription',
+            data: {
+                pageTitle: 'Remove educator'
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/start-trial-subscription-modal.html',
+                    controller: function ($scope, $log, $stateParams) {
+                        // makes API call to change to trial -
+                        // show success
+                        // show fail
+                    }
+                }
+            }
+        })
         .state('root.manager.current', {
             url: '/current',
             templateUrl: 'manager/manager-current.html',

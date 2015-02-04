@@ -47,6 +47,7 @@
             ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
           <div ng-cloak ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
             ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
+          <div class="gl-nav-subscription-badge"ng-if="isAuthenticated() && hasSubscription()"><img ng-src="/assets/{{hasSubscription()}}-badge.png"></div>
         </div>
       </div>
 

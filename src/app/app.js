@@ -338,6 +338,7 @@ angular.module( 'playfully', [
     $rootScope.state = $state;
     $rootScope.allGames = null;
     $rootScope.currentUser = null;
+    $scope.hasSubscription = AuthService.hasSubscription;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;

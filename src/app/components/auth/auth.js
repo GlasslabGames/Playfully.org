@@ -35,7 +35,9 @@ angular.module('auth', ['session', 'ipCookie'])
           });
           return deferred.promise;
       },
-
+    hasSubscription: function () {
+      return 'trial';
+    },
     isAuthenticated: function () {
       return !!Session.userId;
     },
