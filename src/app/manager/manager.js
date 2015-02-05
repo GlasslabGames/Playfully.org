@@ -44,7 +44,7 @@ angular.module('playfully.manager', [])
                     ]
                 };
                 $scope.plan = dummyData;
-                $scope.packageDetails = package;
+                $scope.packageDetails = $scope.plan.packageDetails;
             }
         })
         .state('modal.remove-educator', {
@@ -78,10 +78,10 @@ angular.module('playfully.manager', [])
                 }
             }
         })
-        .state('root.manager.current', {
-            url: '/current',
-            templateUrl: 'manager/manager-current.html',
-            controller: 'ManagerCurrentCtrl'
+        .state('root.manager.plan', {
+            url: '/plan',
+            templateUrl: 'manager/manager-plan.html',
+            controller: 'ManagerPlanCtrl'
         });
     })
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
@@ -153,7 +153,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerCurrentCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.$parent.currentTab = $state.current.url;
 
         var dummyData = {
@@ -161,16 +161,16 @@ angular.module('playfully.manager', [])
               firstName: "Charles",
               lastName: "Tai"
           },
-          studentSeatsRemaining: 20,
-          educatorSeatsRemaining: 5,
+          studentSeatsRemaining: 30,
+          educatorSeatsRemaining: 1,
           packageDetails: {
             name: "iPad",
             description: "Access to all iPad games on GlassLab Games",
             size: "Class",
             studentSeats: 30,
-            educatorSeats: 20
+            educatorSeats: 1
           },
-          expirationDate: new Date(),
+          expirationDate: moment(new Date()).format("MMM Do YYYY"),
           educatorList: [
             {
               firstName: "Charles",
@@ -182,7 +182,6 @@ angular.module('playfully.manager', [])
         };
 
         $scope.plan = dummyData;
-        $scope.plan.expirationDate = moment(dummyData.expirationDate).format("MMM Do YYYY");
         $scope.package = dummyData.packageDetails;
 
         $scope.request = {
@@ -209,6 +208,7 @@ angular.module('playfully.manager', [])
         $scope.finish = function () {
 
         };
+
         var _validateEmail = function (email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);

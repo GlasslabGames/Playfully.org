@@ -44,9 +44,9 @@
                     </div>
 
                     <div ng-if="isOwner()">
-                        <h5 class="headline-5--serif gl-margin--B40">You may share your subscription with {{package.educatorSeats}} other educators.</h5>
+                        <h5 class="headline-5--serif gl-margin--B40">You may share your subscription with {{package.educatorSeats}} other educator(s).</h5>
                         <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5>
-                        <span class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} seats remaining</span>
+                        <span class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} invitations remaining</span>
                     </div>
 
                     <table class="table gl-manager-educator-list-table gl-margin--B50">
@@ -69,7 +69,8 @@
                             </tr>
                         </tbody>
                     </table>
-                            <h5 ng-if="isOwner()" class="headline-5">Invite Educators by Email</h5>
+
+                    <h5 ng-if="isOwner()" class="headline-5">Invite Educators by Email</h5>
 
                             <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
                             </alert>
