@@ -100,7 +100,6 @@ angular.module('playfully.manager', [])
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
-        console.log(studentList);
         var dummyData = [
             {
                 firstName: "Charles",
@@ -165,7 +164,7 @@ angular.module('playfully.manager', [])
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, plan) {
         $scope.$parent.currentTab = $state.current.url;
-        console.log('plan', plan);
+
         var dummyData = {
           ownerName: {
               firstName: "Charles",
