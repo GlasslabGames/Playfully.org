@@ -188,9 +188,7 @@ angular.module('playfully.manager', [])
                     $scope.request.errors.push(response.data.error);
                 });
         };
-        $scope.finish = function () {
 
-        };
 
         var _validateEmail = function (email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
