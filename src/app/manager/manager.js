@@ -164,32 +164,6 @@ angular.module('playfully.manager', [])
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, plan) {
         $scope.$parent.currentTab = $state.current.url;
-
-        var dummyData = {
-          ownerName: {
-              firstName: "Charles",
-              lastName: "Tai"
-          },
-          studentSeatsRemaining: 30,
-          educatorSeatsRemaining: 1,
-          packageDetails: {
-            name: "iPad",
-            description: "Access to all iPad games on GlassLab Games",
-            size: "Class",
-            studentSeats: 30,
-            educatorSeats: 1
-          },
-          expirationDate: moment(new Date()).format("MMM Do YYYY"),
-          educatorList: [
-            {
-              firstName: "Charles",
-              lastName: "Tai",
-              email: "cwtai86@gmail.com",
-              status: "Admin"
-            }
-          ]
-        };
-
         $scope.plan = plan;
         $scope.package = plan.packageDetails;
 
