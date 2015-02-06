@@ -17,6 +17,7 @@ angular.module( 'playfully', [
   'games',
   'dash',
   'reports',
+  'license',
   'checkSpec',
   'research',
   'gl-enter',

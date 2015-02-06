@@ -12,6 +12,11 @@ angular.module('playfully.manager', [])
         })
         .state('root.manager.student-list', {
             url: '/student-list',
+            resolve: {
+                studentList: function (LicenseService) {
+                    return LicenseService.getStudentList();
+                }
+            },
             templateUrl: 'manager/manager-student-list.html',
             controller: 'ManagerStudentListCtrl'
         })
@@ -20,7 +25,7 @@ angular.module('playfully.manager', [])
             templateUrl: 'manager/notify-invited-subscription-modal.html',
             controller: function($scope) {
                 var dummyData = {
-                    planOwner: {
+                    ownerName: {
                         firstName: "Charles",
                         lastName: "Tai"
                     },
@@ -44,7 +49,7 @@ angular.module('playfully.manager', [])
                     ]
                 };
                 $scope.plan = dummyData;
-                $scope.packageDetails = package;
+                $scope.packageDetails = $scope.plan.packageDetails;
             }
         })
         .state('modal.remove-educator', {
@@ -78,19 +83,23 @@ angular.module('playfully.manager', [])
                 }
             }
         })
-        .state('root.manager.current', {
-            url: '/current',
-            templateUrl: 'manager/manager-current.html',
-            controller: 'ManagerCurrentCtrl'
+        .state('root.manager.plan', {
+            url: '/plan',
+            resolve: {
+                plan: function(LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                }
+            },
+            templateUrl: 'manager/manager-plan.html',
+            controller: 'ManagerPlanCtrl'
         });
     })
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
 
     })
-    .controller('ManagerStudentListCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
-
         var dummyData = [
             {
                 firstName: "Charles",
@@ -112,7 +121,7 @@ angular.module('playfully.manager', [])
                 educators: []
             }
         ];
-        $scope.studentList = dummyData;
+        $scope.studentList = studentList;
 
         $scope.userSortFunction = function (colName, callback) {
             return function (user) {
@@ -153,37 +162,10 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerCurrentCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, plan) {
         $scope.$parent.currentTab = $state.current.url;
-
-        var dummyData = {
-          planOwner: {
-              firstName: "Charles",
-              lastName: "Tai"
-          },
-          studentSeatsRemaining: 20,
-          educatorSeatsRemaining: 5,
-          packageDetails: {
-            name: "iPad",
-            description: "Access to all iPad games on GlassLab Games",
-            size: "Class",
-            studentSeats: 30,
-            educatorSeats: 20
-          },
-          expirationDate: new Date(),
-          educatorList: [
-            {
-              firstName: "Charles",
-              lastName: "Tai",
-              email: "cwtai86@gmail.com",
-              status: "Admin"
-            }
-          ]
-        };
-
-        $scope.plan = dummyData;
-        $scope.plan.expirationDate = moment(dummyData.expirationDate).format("MMM Do YYYY");
-        $scope.package = dummyData.packageDetails;
+        $scope.plan = plan;
+        $scope.package = plan.packageDetails;
 
         $scope.request = {
             isRegCompleted: false,
@@ -209,6 +191,7 @@ angular.module('playfully.manager', [])
         $scope.finish = function () {
 
         };
+
         var _validateEmail = function (email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
@@ -248,7 +231,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.isOwner = function () {
-            return false;
+            return true;
         };
     });
 

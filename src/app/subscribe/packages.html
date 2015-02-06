@@ -15,13 +15,13 @@
             <div class="col-md-12">
                 <div class="gl-package-choices">
                         <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
-                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.title}}</h5>
+                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.name}}</h5>
                             <div ng-hide="packageFlip">
                                 <div class="gl-package-box-price">
                                     <div class="gl-package-box-price-info">
                                         Starting at &nbsp&nbsp
                                         <span class="gl-package-box-price-dollar">$</span>
-                                        <span class="gl-package-box-price-number">{{package.price}}</span> &nbsp&nbsp per year
+                                        <span class="gl-package-box-price-number">{{package.pricePerSeat*10}}</span> &nbsp&nbsp per year
                                     </div>
                                 </div>
                                 <div class="gl-package-box-front">
@@ -29,7 +29,7 @@
                                         <p class="gl-margin-Vxl"> {{package.description}}</p>
                                         <ul class="list--nobullets">
                                             <li ng-show="package.browserGames.length>0"><a>{{package.browserGames.length}} browser games available</a></li>
-                                            <li ng-show="package.ipadGames.length>0"><a>{{package.ipadGames.length}} iPad games available</a></li>
+                                            <li ng-show="package.iPadGames.length>0"><a>{{package.iPadGames.length}} iPad games available</a></li>
                                             <li ng-show="package.downloadableGames.length>0"><a>{{package.downloadableGames.length}} downloadable games available</a></li>
                                         </ul>
                                     </div>
@@ -53,19 +53,19 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
-                                            {{seatChoices[2]}} + 8 educators
+                                            {{seatChoices[2]}} students + 8 educators
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
                                             <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
-                                            {{seatChoices[3]}} + 15 educators
+                                            {{seatChoices[3]}} students + 15 educators
                                         </label>
                                     </div>
                                 </form>
                                 <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
                                     <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{calculateTotal(package.price,package.seatsSelected)}}</span> per year
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span> per year
                                 </div>
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>
@@ -78,18 +78,19 @@
         </div>
     </div>
     </div>
-    <div class="row">
+    <div class="row" ng-if="isAuthenticatedButNot(['student','developer']) && !hasSubscription('trial')">
         <div class="col-md-12">
             <div class="gl-package-try-premium-plan gl-margin--T40 text-center">
                 <h4 class="headline-4--serif gl-margin--Bxxl">Try Our Premium Plan for Free</h4>
                 <ul class="gl-margin--Bxxl">
                     <li><i class="fa fa-check"></i>60 days Trial</li>
+                    <li><i class="fa fa-check"></i>Access to All Games</li>
                     <li><i class="fa fa-check"></i>Up to 30 students</li>
                     <li><i class="fa fa-check"></i>No credit card required</li>
                     <li><i class="fa fa-check"></i>Instant access</li>
                 </ul>
-                <button ng-if="isAuthenticatedButNot(['student','developer'])"ui-sref="modal.start-trial-subscription()">Try it Out!</button>
-                <button ui-sref="modal.register({upgrade:trial})">Try it Out!</button>
+                <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription()">Try it Out!</button>
+                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:trial})">Try it Out!</button>
             </div>
         </div>
     </div>
@@ -104,45 +105,45 @@
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-x"><h4 class="gl-headline-3--serif gl-package-title">Packages</h4></div>
                     <div class="gl-packages-price-table-x" ng-repeat="package in packageChoices">
-                        <h4 class="gl-headline-3--serif gl-package-title">{{package.title}}</h4>
+                        <h4 class="gl-headline-3--serif gl-package-title">{{package.name}}</h4>
                     </div>
                 </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
                         <h4 class="gl-headline-3--serif gl-package-title">Group Size</h4>
-                        10 seats + 1 educator
+                        10 students + 1 educator
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{package.price*10}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[0])}}</span> /year
                     </div>
                 </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
                         <h4 class="gl-headline-3--serif gl-package-title">Class Size</h4>
-                        30 seats + 1 educator
+                        30 students + 2 educators
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{package.price*30}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[1])}}</span> /year
                     </div>                </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
                         <h4 class="gl-headline-3--serif gl-package-title">Multi-Class Size</h4>
-                        120 seats + 4 educator
+                        120 students + 8 educators
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{package.price*120}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[2])}}</span> /year
                     </div>                </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
                         <h4 class="gl-headline-3--serif gl-package-title">School Size</h4>
-                        500 seats + 15 educator
+                        500 students + 15 educators
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{package.price*499}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[3])}}</span> /year
                     </div>
               </div>
             </div>
