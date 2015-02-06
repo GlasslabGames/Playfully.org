@@ -15,13 +15,13 @@
             <div class="col-md-12">
                 <div class="gl-package-choices">
                         <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
-                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.title}}</h5>
+                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.name}}</h5>
                             <div ng-hide="packageFlip">
                                 <div class="gl-package-box-price">
                                     <div class="gl-package-box-price-info">
                                         Starting at &nbsp&nbsp
                                         <span class="gl-package-box-price-dollar">$</span>
-                                        <span class="gl-package-box-price-number">{{package.price}}</span> &nbsp&nbsp per year
+                                        <span class="gl-package-box-price-number">{{package.pricePerSeat*10}}</span> &nbsp&nbsp per year
                                     </div>
                                 </div>
                                 <div class="gl-package-box-front">
@@ -29,7 +29,7 @@
                                         <p class="gl-margin-Vxl"> {{package.description}}</p>
                                         <ul class="list--nobullets">
                                             <li ng-show="package.browserGames.length>0"><a>{{package.browserGames.length}} browser games available</a></li>
-                                            <li ng-show="package.ipadGames.length>0"><a>{{package.ipadGames.length}} iPad games available</a></li>
+                                            <li ng-show="package.iPadGames.length>0"><a>{{package.iPadGames.length}} iPad games available</a></li>
                                             <li ng-show="package.downloadableGames.length>0"><a>{{package.downloadableGames.length}} downloadable games available</a></li>
                                         </ul>
                                     </div>
@@ -65,7 +65,7 @@
                                 </form>
                                 <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
                                     <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{calculateTotal(package.price,package.seatsSelected)}}</span> per year
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span> per year
                                 </div>
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>
@@ -105,7 +105,7 @@
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-x"><h4 class="gl-headline-3--serif gl-package-title">Packages</h4></div>
                     <div class="gl-packages-price-table-x" ng-repeat="package in packageChoices">
-                        <h4 class="gl-headline-3--serif gl-package-title">{{package.title}}</h4>
+                        <h4 class="gl-headline-3--serif gl-package-title">{{package.name}}</h4>
                     </div>
                 </div>
                 <div class="gl-packages-price-table-row">
@@ -115,7 +115,7 @@
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{calculateTotal(package.price,10)}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[0])}}</span> /year
                     </div>
                 </div>
                 <div class="gl-packages-price-table-row">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{calculateTotal(package.price,30)}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[1])}}</span> /year
                     </div>                </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
@@ -134,7 +134,7 @@
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{calculateTotal(package.price,120)}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[2])}}</span> /year
                     </div>                </div>
                 <div class="gl-packages-price-table-row">
                     <div class="gl-packages-price-table-y">
@@ -143,7 +143,7 @@
                     </div>
                     <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
                         <sup class="gl-package-box-price-dollar">$ </sup>
-                        <span class="gl-package-box-price-number">{{calculateTotal(package.price,500)}}</span> /year
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[3])}}</span> /year
                     </div>
               </div>
             </div>

@@ -12,6 +12,11 @@ angular.module('playfully.manager', [])
         })
         .state('root.manager.student-list', {
             url: '/student-list',
+            resolve: {
+                studentList: function (LicenseService) {
+                    return LicenseService.getStudentList();
+                }
+            },
             templateUrl: 'manager/manager-student-list.html',
             controller: 'ManagerStudentListCtrl'
         })
@@ -20,7 +25,7 @@ angular.module('playfully.manager', [])
             templateUrl: 'manager/notify-invited-subscription-modal.html',
             controller: function($scope) {
                 var dummyData = {
-                    planOwner: {
+                    ownerName: {
                         firstName: "Charles",
                         lastName: "Tai"
                     },
@@ -80,6 +85,11 @@ angular.module('playfully.manager', [])
         })
         .state('root.manager.plan', {
             url: '/plan',
+            resolve: {
+                plan: function(LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                }
+            },
             templateUrl: 'manager/manager-plan.html',
             controller: 'ManagerPlanCtrl'
         });
@@ -88,9 +98,9 @@ angular.module('playfully.manager', [])
         $scope.currentTab = $state.current.url;
 
     })
-    .controller('ManagerStudentListCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
-
+        console.log(studentList);
         var dummyData = [
             {
                 firstName: "Charles",
@@ -112,7 +122,7 @@ angular.module('playfully.manager', [])
                 educators: []
             }
         ];
-        $scope.studentList = dummyData;
+        $scope.studentList = studentList;
 
         $scope.userSortFunction = function (colName, callback) {
             return function (user) {
@@ -153,11 +163,11 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, plan) {
         $scope.$parent.currentTab = $state.current.url;
-
+        console.log('plan', plan);
         var dummyData = {
-          planOwner: {
+          ownerName: {
               firstName: "Charles",
               lastName: "Tai"
           },
@@ -181,8 +191,8 @@ angular.module('playfully.manager', [])
           ]
         };
 
-        $scope.plan = dummyData;
-        $scope.package = dummyData.packageDetails;
+        $scope.plan = plan;
+        $scope.package = plan.packageDetails;
 
         $scope.request = {
             isRegCompleted: false,
@@ -248,7 +258,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.isOwner = function () {
-            return false;
+            return true;
         };
     });
 

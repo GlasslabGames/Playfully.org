@@ -5,75 +5,55 @@ angular.module('playfully.subscribe', ['subscribe.const'])
             abstract: true,
             url: 'subscribe'
         })
+            .state('root.subscribe.upgrade', {
+                url: '/upgrade',
+                views: {
+                    'main@': {
+                        templateUrl: 'subscribe/subscribe-upgrade.html',
+                        controller: 'SubscribeUpgradeCtrl'
+                    }
+                }
+            })
             .state('root.subscribe.packages', {
                 url: '/packages',
+                resolve: {
+                    packages: function (LicenseService) {
+                        return LicenseService.getPackages();
+                    }
+                } ,
                 views: {
                     'main@': {
                         templateUrl: 'subscribe/packages.html',
-                        controller: 'SubscribeCtrl'
+                        controller: 'SubscribePackagesCtrl'
                     }
                 }
             });
     })
-    .controller('SubscribeCtrl', function ($scope, SUBSCRIBE_CONSTANTS) {
-        $scope.seatChoices = [10, 30, 120, 500];
+    .controller('SubscribeUpgradeCtrl', function ($scope, SUBSCRIBE_CONSTANTS) {
+
+    })
+    .controller('SubscribePackagesCtrl', function ($scope, packages, SUBSCRIBE_CONSTANTS) {
+        $scope.seatChoices = [];
+        angular.forEach(packages.seats, function (pack) {
+            $scope.seatChoices.push(pack.studentSeats);
+        });
         var subscribe = SUBSCRIBE_CONSTANTS;
+        $scope.packageChoices = packages.plans;
 
-        var chromeBookGames = {
-            price: 25,
-            seatsSelected: $scope.seatChoices[0],
-            description: subscribe['chromeBookGames'].description,
-            title: subscribe['chromeBookGames'].title,
-            browserGames: [1,2,3,4],
-            ipadGames: [],
-            downloadableGames: []
-        };
+        angular.forEach($scope.packageChoices, function(pack) {
+           pack.seatsSelected = $scope.seatChoices[0];
+        });
+        angular.forEach($scope.packageChoices, function (pack) {
+            pack.seatsSelected = $scope.seatChoices[0];
+        });
 
-        var iPadGames = {
-            price: 30,
-            seatsSelected: $scope.seatChoices[0],
-            description: subscribe['iPadGames'].description,
-            title: subscribe['iPadGames'].title,
-            browserGames: [],
-            ipadGames: [1,2,3,4,5],
-            downloadableGames: []
-        };
 
-        var PCMacGames = {
-            price: 35,
-            seatsSelected: $scope.seatChoices[0],
-            description: subscribe['PCMacGames'].description,
-            title: subscribe['PCMacGames'].title,
-            browserGames: [1,2,3,4],
-            ipadGames: [],
-            downloadableGames: [1,2]
-        };
-
-        var allGames = {
-            price: 50,
-            seatsSelected: $scope.seatChoices[0],
-            description: subscribe['allGames'].description,
-            title: subscribe['allGames'].title,
-            browserGames: [1,2,3,4],
-            ipadGames: [1,2,3,4,5],
-            downloadableGames: [1,2]
-        };
-
-        $scope.packageChoices = [chromeBookGames, iPadGames, PCMacGames, allGames];
         $scope.calculateTotal = function(price,seatChoice) {
-            var total = seatChoice * price * 0.10;
+            var targetPackage = _.find(packages.seats, {studentSeats: seatChoice});
 
-            if (seatChoice===10) {
-                return total;
-            }
-            if (seatChoice === 30) {
-                return (total)-(total *0.20);
-            }
-            if (seatChoice === 120) {
-                return (total) - (total * 0.25);
-            }
-            if (seatChoice === 500) {
-                return (total) - (total *0.30);
-            }
+            var total = seatChoice * price;
+
+            return total - (total* (targetPackage.discount/100));
+
         };
     });
