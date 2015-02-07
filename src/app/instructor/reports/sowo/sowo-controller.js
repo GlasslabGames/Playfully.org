@@ -91,6 +91,8 @@ angular.module( 'instructor.reports')
       .then(function(users) {
         _init();
         _populateStudentWithReportData(users,reportId);
+        // check if any students have any sowo from this game
+        _findAnySOWO();
     });
     var _init = function () {
 
@@ -155,11 +157,27 @@ angular.module( 'instructor.reports')
         return found || null;
     };
 
-      //var _findStudentsWithSOWO = function() {
-      //    var students = $scope.courses.options[courses.selectedCourseId].users
-      //    _.filter(students, {'age': 36})
-      //
-      //};
+      var _findAnySOWO = function () {
+          var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
+          var sowoList = $scope.reportInfo.headers;
+          var found = false;
+          _.each(sowoList, function (sowo) {
+              _.each(students, function (student) {
+                  if (student[reportId]) {
+                      found = _.any(student[reportId], function (studentSOWO) {
+                          return studentSOWO.id === sowo.id;
+                      });
+                      if (found) {
+                          $scope.reportInfo.foundSowo = true;
+                          return false;
+                      }
+                  }
+              });
+              if (found) {
+                  return false;
+              }
+          });
+      };
 
       $scope.hasSOWO = function (sowo, student) {
          if (student &&
@@ -170,7 +188,6 @@ angular.module( 'instructor.reports')
                     return studentSOWO.id === sowo;
                  });
              if (found) {
-                 $scope.reportInfo.foundSowo = true;
                  return found;
              }
          }
