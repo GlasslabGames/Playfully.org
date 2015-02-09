@@ -91,11 +91,7 @@ angular.module( 'instructor.reports')
       .then(function(users) {
         _init();
         _populateStudentWithReportData(users,reportId);
-<<<<<<< HEAD
         // Check if any students have SOWO for this class
-=======
-        // check if any students have any sowo from this game
->>>>>>> 6d539a2a0c9a3a0440f9c8ff92532308a1e1ba1e
         _findAnySOWO();
     });
     var _init = function () {
