@@ -30,6 +30,24 @@ angular.module('license', [])
                     }, function (response) {
                         return response;
                     });
+            },
+            subscribeToLicense: function (input) {
+                var apiUrl = API_BASE + '/license/subscribe';
+                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo })
+                    .then(function (response) {
+                        return response.data;
+                    }, function (response) {
+                        return response;
+                    });
+            },
+            inviteTeachers: function (emails) {
+                var apiUrl = API_BASE + '/license/invite';
+                return $http.post(apiUrl, {teacherEmails: emails})
+                    .then(function (response) {
+                        return response.data;
+                    }, function (response) {
+                        return response;
+                    });
             }
         };
         return api;
