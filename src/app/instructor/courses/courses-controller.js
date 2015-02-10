@@ -608,7 +608,7 @@ angular.module( 'instructor.courses', [
   function ($scope, $rootScope, $state, $stateParams, $timeout, $log, students, CoursesService) {
     $scope.students = students;
     var activeCourses = $scope.$parent.courses;
-
+    console.log('students', students);
     var hasOpenCourse = function(courses) {
       return _.any(courses, function(course) { return _.has(course, 'isOpen'); });
     };

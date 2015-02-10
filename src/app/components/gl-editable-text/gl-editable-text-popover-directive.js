@@ -43,15 +43,22 @@ angular.module('gl-editable-text-popover', [])
                         return;
                     }
                     // change content to text within text field
+
                     $timeout(function () {
-                        // complete task if request fulfilled. timeout gives parent scope time to digest new glEditableTextPopover value
-                        scope.glOnBeforeSave().then(function (result) {
+                        // timeout gives parent scope time to digest new glEditableTextPopover value
+                        if (!scope.glOnBeforeSave) {
                             scope.hideEdit = !scope.hideEdit;
-                            defer.resolve(result);
-                        }, function () {
-                            scope.glEditableTextPopover = originalText;
-                            defer.reject();
-                        });
+                            defer.resolve();
+                        } else {
+                            // completes task if request fulfilled.
+                            scope.glOnBeforeSave().then(function (result) {
+                                scope.hideEdit = !scope.hideEdit;
+                                defer.resolve(result);
+                            }, function () {
+                                scope.glEditableTextPopover = originalText;
+                                defer.reject();
+                            });
+                        }
                     }, 10);
                     return defer.promise;
                 };

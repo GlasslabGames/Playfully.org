@@ -7,7 +7,7 @@ angular.module('playfully.register', ['register.const'])
     controller: 'RegisterOptionsModalCtrl'
   };
   $stateProvider.state('modal.register', {
-    url: '/register',
+    url: '/register?upgrade',
     parent: 'modal',
     data: {
       modalSize: 'lg'

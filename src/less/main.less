@@ -30,6 +30,7 @@
 @import 'arrows.less';
 @import 'text.less';
 @import 'modal.less';
+@import 'images.less';
 @import '../app/check-spec/check-spec.less';
 @import '../app/navbar/navbar.less';
 @import '../app/login/login.less';
@@ -52,6 +53,10 @@
 @import '../app/research/research.less';
 @import '../app/developer/games/developer-games.less';
 @import '../app/components/gl-editable-text/gl-editable-directive.less';
+@import '../app/subscribe/packages.less';
+@import '../app/subscribe/subscribe-upgrade.less';
+@import '../app/manager/manager.less';
+
 
 .ng-cloak { display:none; }
 
@@ -486,6 +491,11 @@ h2 {
   border: none;
 }
 
+.gl-nav-subscription-badge {
+  position: absolute;
+  top: 0; right: 220px;
+}
+
 .gl-nav-username {
   position: absolute;
   top: 0;
@@ -518,8 +528,6 @@ h2 {
 .gl-link--dkgrey:visited {
   color: @grey2;
 }
-
-
 
 .gl-footer {
   background: #f2f2f2;
@@ -708,4 +716,12 @@ h2 {
      -moz-transform: translate(0, -5px);
       -ms-transform: translate(0, -5px);
           transform: translate(0, -5px);
+}
+
+.display-inline {
+  display: inline;
+}
+
+.display-block {
+  display: block;
 }

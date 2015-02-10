@@ -17,6 +17,7 @@ angular.module( 'playfully', [
   'games',
   'dash',
   'reports',
+  'license',
   'checkSpec',
   'research',
   'gl-enter',
@@ -40,7 +41,9 @@ angular.module( 'playfully', [
   'playfully.login-sdk',
   'playfully.register-sdk',
   'student.dashboard-sdk',
-  'playfully.developer'
+  'playfully.developer',
+  'playfully.subscribe',
+  'playfully.manager'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
@@ -336,6 +339,7 @@ angular.module( 'playfully', [
     $rootScope.state = $state;
     $rootScope.allGames = null;
     $rootScope.currentUser = null;
+    $scope.hasSubscription = AuthService.hasSubscription;
     $scope.isAuthenticated = UserService.isAuthenticated;
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
@@ -376,10 +380,9 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $rootScope.currentUser = user;
-
       // Google Analytics
-      
-      // Google Analytics - User ID tracking
+
+        // Google Analytics - User ID tracking
       if ($window.ga) { $window.ga("set", "dimension1", user.id); }
 
       /** Student login/register always redirects back to dashboard **/
