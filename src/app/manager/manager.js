@@ -100,27 +100,7 @@ angular.module('playfully.manager', [])
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
-        var dummyData = [
-            {
-                firstName: "Charles",
-                lastInitial: "T",
-                username: "Charosez",
-                educators: [
-                ]
-            },
-            {
-                firstName: "Luke",
-                lastInitial: "R",
-                username: "Lukey",
-                educators: []
-            },
-            {
-                firstName: "Ben",
-                lastInitial: "D",
-                username: "Barbarian",
-                educators: []
-            }
-        ];
+
         $scope.studentList = studentList;
 
         $scope.userSortFunction = function (colName, callback) {
@@ -162,7 +142,8 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, plan) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, plan, LicenseService) {
+
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
         $scope.package = plan.packageDetails;
@@ -173,9 +154,9 @@ angular.module('playfully.manager', [])
             errors: []
         };
 
-        var _requestInvite = function (request) {
+        var _requestInvite = function (invitedEducators) {
             request.isSubmitting = true;
-            GamesService.requestGameAccess(request.gameId)
+            LicenseService.inviteTeachers(invitedEducators)
                 .then(function (response) {
                     $scope.request.errors = [];
                     $scope.request.isSubmitting = false;
@@ -188,9 +169,7 @@ angular.module('playfully.manager', [])
                     $scope.request.errors.push(response.data.error);
                 });
         };
-        $scope.finish = function () {
 
-        };
 
         var _validateEmail = function (email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

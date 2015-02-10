@@ -36,7 +36,7 @@ angular.module('auth', ['session', 'ipCookie'])
           return deferred.promise;
       },
     hasSubscription: function () {
-      return 'trial';
+      return null;
     },
     isAuthenticated: function () {
       return !!Session.userId;
