@@ -45,11 +45,12 @@ angular.module('gl-editable-text-popover', [])
                     // change content to text within text field
 
                     $timeout(function () {
-                        // complete task if request fulfilled. timeout gives parent scope time to digest new glEditableTextPopover value
+                        // timeout gives parent scope time to digest new glEditableTextPopover value
                         if (!scope.glOnBeforeSave) {
                             scope.hideEdit = !scope.hideEdit;
                             defer.resolve();
                         } else {
+                            // completes task if request fulfilled.
                             scope.glOnBeforeSave().then(function (result) {
                                 scope.hideEdit = !scope.hideEdit;
                                 defer.resolve(result);
