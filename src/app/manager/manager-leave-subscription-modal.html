@@ -1,0 +1,23 @@
+<div class="modal-header" ng-if="!request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Are you sure?</h3>
+</div>
+
+<div class="modal-body text-center" ng-if="!request.success">
+    <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
+    <p>You are leaving {{email}}'s subscription plan</p>
+    <button ng-click="leaveSubscription()" class="btn btn-danger">Leave</button>
+</div>
+
+<div class="modal-header" ng-if="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()
+    "><span
+        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Success</h3>
+</div>
+
+<div class="modal-body text-center" ng-if="request.success">
+    <p>You have successfully left {{email}}'s subscription plan.</p>
+    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+</div>

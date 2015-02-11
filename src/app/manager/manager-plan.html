@@ -37,13 +37,13 @@
                 <div class="gl-manager-share-subscription">
                     <div class="gl-manager-share-subscription-label">Share Subscription</div>
 
-                    <div ng-if="!isOwner()">
+                    <div ng-if="!isLicenseOwner()">
                         <h5 class="headline-5--serif gl-margin--Bm">You are currently in {{plan.ownerName}}'s premium plan</h5>
-                        <button type="button" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
+                        <button type="button" ui-sref="modal.leave-subscription({email: plan.ownerName})" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
                         <h5 class="headline-5 gl-manager-educators-share-header gl-margin--Tl">Other Educators sharing this subscription:</h5>
                     </div>
 
-                    <div ng-if="isOwner()">
+                    <div ng-if="isLicenseOwner()">
                         <h5 class="headline-5--serif gl-margin--B40">You may share your subscription with {{package.educatorSeats}} other educator(s).</h5>
                         <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5>
                         <span class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} invitations remaining</span>
@@ -55,8 +55,8 @@
                             <td>#</td>
                             <td>Educator Name</td>
                             <td>Email</td>
-                            <td ng-if="isOwner()">Status</td>
-                            <td ng-if="isOwner()">  </td>
+                            <td ng-if="isLicenseOwner()">Status</td>
+                            <td ng-if="isLicenseOwner()">  </td>
                         </tr>
                         </thead>
                         <tbody>
@@ -64,20 +64,20 @@
                                 <td>{{$index+1}}</td>
                                 <td>{{educator.firstName}} {{educator.lastName}}</td>
                                 <td>{{educator.email}}</td>
-                                <td ng-if="isOwner()">{{educator.status}}</td>
-                                <td ng-if="isOwner()"><i ng-if="educator.status!=='Admin'" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
+                                <td ng-if="isLicenseOwner()">{{educator.status}}</td>
+                                <td ng-if="isLicenseOwner()"><i ng-hide="plan.ownerEmail===educator.email" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <h5 ng-if="isOwner()" class="headline-5">Invite Educators by Email</h5>
+                    <h5 ng-if="isLicenseOwner()" class="headline-5">Invite Educators by Email</h5>
 
                             <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
                             </alert>
 
-                            <form ng-if="isOwner()" name="request" novalidate class="reg-form"
+                            <form ng-if="isLicenseOwner()" name="request" novalidate class="reg-form"
                                   ng-submit="inviteEducators(invitedEducators)">
-
+                                <div ng-show="request.success" class="alert alert-success" role="alert">You successfully invited </div>
                                 <div class="gl-input-group">
                                     <div class="form-group"
                                          ng-class="{'has-error': request.invitedEducators.$dirty && request.invitedEducators.$invalid}">

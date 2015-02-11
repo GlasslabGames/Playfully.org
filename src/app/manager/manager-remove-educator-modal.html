@@ -1,11 +1,24 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" ng-click="$close()""><span
+<div class="modal-header" ng-hide="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
             aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
     <h3 class="modal-title">Are you sure?</h3>
 </div>
 
-<div class="modal-body text-center">
+<div class="modal-body text-center" ng-hide="request.success">
     <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
-    <p>Remove {{email}} from your subscription plan</p>
-    <button class="btn btn-danger">Remove</button>
+    <p>You are removing {{email}} from your subscription plan</p>
+    <input ng-click="removeEducator(email)"
+            ng-value="request.isSubmitting ? 'Removing...' : 'Remove'"
+            class="btn btn-danger">
+</div>
+
+<div class="modal-header" ng-show="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Success!</h3>
+</div>
+
+<div class="modal-body text-center" ng-show="request.success">
+    <p>You have successfully removed {{email}} from your subscription plan.</p>
+    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
 </div>

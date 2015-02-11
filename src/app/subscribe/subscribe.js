@@ -87,9 +87,9 @@ angular.module('playfully.subscribe', ['subscribe.const'])
 
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
 
-            var seats = _.find($scope.seats.choices, {studentSeats: studentSeats});
-
+            var seats = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
             LicenseService.subscribeToLicense({planInfo: {type: packageName, seats: seats.size}, stripeInfo: stripeInfo});
+
         };
 
         $scope.submitPayment = function (info,studentSeats,packageName) {
