@@ -128,11 +128,8 @@ angular.module( 'instructor.reports')
         var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
         angular.forEach(students, function(student) {
           var userReportData = _findUserByUserId(student.id, usersReportData) || {};
-          var columns = _processUsersReportData(userReportData.results || {});
-          student[reportId] = {};
-          student[reportId].gameProgress = columns.gameProgress;
-          student[reportId].facets = columns.facets;
-          student[reportId].competency = columns.competency;
+          var data = _processUsersReportData(userReportData.results || {}, $scope.games.selectedGameId);
+          student[reportId] = data;
         });
       }
     };
@@ -147,58 +144,112 @@ angular.module( 'instructor.reports')
       return null;
     };
 
-    var _processUsersReportData = function(usersReportData) {
+    var _processUsersReportData = function(usersReportData, gameId) {
+      // Data to return
       var data = {};
 
-      // Get the game progress data
-      data.gameProgress = 0;
-      if( usersReportData.cps && usersReportData.cps.level ) {
-        data.gameProgress = usersReportData.cps.level;
-      }
+      // If the game is SC, gather competency (univariate and multivariate) data
+      if( gameId === "SC" ) {
+        data = angular.copy($scope.reportInfo.headers);
 
-      // Get the facet data
-      data.facets = angular.copy($scope.reportInfo.headers.facets);
-      angular.forEach(data.facets, function(facet) {
-        facet.level = 'not-enough-data';
-        facet.iconClass = 'competency-0';
+        // for each column
+        angular.forEach(data, function(col) {
+          // add column meta info
+          /*
+            Dot for Univariate column:
+             IF score = 0, not-mastered
+             IF score = 1, mastered
+             IF score = 2, mastered
+             IF no score yet, not-enough-info
 
-        if(usersReportData.cps && usersReportData.cps.data) {
-          angular.forEach(usersReportData.cps.data, function(item, key) {
-            if(key == facet.id) {
-              if(item === 1) {
-                facet.level = 'not-mastered';
-                facet.iconClass = 'competency-1';
-              }
-              else if(item === 2) {
-                facet.value = 'approaching-mastery';
-                facet.iconClass = 'competency-3';
-              }
-              else if(item === 3) {
-                facet.value = 'mastered';
-                facet.iconClass = 'competency-5';
-              }
+            Dot for Multivariate column:
+             IF score = 0, not-mastered
+             IF score = 1, not-mastered
+             IF score = 2, mastered
+             IF no score yet, not-enough-info
+          */
+
+          col.groups = {};
+
+          // for each group in each column
+          angular.forEach($scope.reportInfo.groups, function(group) {
+            col.groups[group.id] = {};
+
+            // default not-enough-info (user might not have any report data)
+            col.groups[group.id].level = 'not-enough-data';
+            // default to not-covered if level does not cover current skill
+            if (!$scope.reportInfo.covered[group.id][col.id]) {
+              col.groups[group.id].level = 'not-covered';
             }
+            // for each user report data, determine what level
+            angular.forEach(usersReportData, function(item, key) {
+              if(key == group.id && col.groups[group.id].level !== 'not-covered' ) {
+                if(item.level === 1) {
+                  col.groups[group.id].level = 'not-mastered';
+                }
+                else if(item.level === 2) {
+                  col.groups[group.id].level = (col.id === 'uni') ? 'mastered' : 'not-mastered';
+                }
+                else if(item.level === 3) {
+                  col.groups[group.id].level = 'mastered';
+                }
+              }
+            });
           });
+        });
+      }
+      // If the game is PVZ, gather game progress, facet, and competency data
+      else if( gameId === "PVZ" ) {
+        // Get the game progress data
+        data.gameProgress = 0;
+        if( usersReportData.cps && usersReportData.cps.level ) {
+          data.gameProgress = usersReportData.cps.level;
         }
-      });
 
-      // Get the competency data
-      data.competency = {};
-      data.competency.level = 'not-enough-data';
-      data.competency.iconClass = 'competency-0';
-      if( usersReportData.cps && usersReportData.cps.data ) {
-        var level = usersReportData.cps.data[ $scope.reportInfo.headers.competency.id ];
-        if(level === 1) {
-          data.competency.level = 'not-mastered';
-          data.competency.iconClass = 'competency-1';
-        }
-        else if(level === 2) {
-          data.competency.value = 'approaching-mastery';
-          data.competency.iconClass = 'competency-3';
-        }
-        else if(level === 3) {
-          data.competency.value = 'mastered';
-          data.competency.iconClass = 'competency-5';
+        // Get the facet data
+        data.facets = angular.copy($scope.reportInfo.headers.facets);
+        angular.forEach(data.facets, function(facet) {
+          facet.level = 'not-enough-data';
+          facet.iconClass = 'competency-0';
+
+          if(usersReportData.cps && usersReportData.cps.data) {
+            angular.forEach(usersReportData.cps.data, function(item, key) {
+              if(key == facet.id) {
+                if(item === 1) {
+                  facet.level = 'not-mastered';
+                  facet.iconClass = 'competency-1';
+                }
+                else if(item === 2) {
+                  facet.value = 'approaching-mastery';
+                  facet.iconClass = 'competency-3';
+                }
+                else if(item === 3) {
+                  facet.value = 'mastered';
+                  facet.iconClass = 'competency-5';
+                }
+              }
+            });
+          }
+        });
+
+        // Get the competency data
+        data.competency = {};
+        data.competency.level = 'not-enough-data';
+        data.competency.iconClass = 'competency-0';
+        if( usersReportData.cps && usersReportData.cps.data ) {
+          var level = usersReportData.cps.data[ $scope.reportInfo.headers.competency.id ];
+          if(level === 1) {
+            data.competency.level = 'not-mastered';
+            data.competency.iconClass = 'competency-1';
+          }
+          else if(level === 2) {
+            data.competency.value = 'approaching-mastery';
+            data.competency.iconClass = 'competency-3';
+          }
+          else if(level === 3) {
+            data.competency.value = 'mastered';
+            data.competency.iconClass = 'competency-5';
+          }
         }
       }
 
