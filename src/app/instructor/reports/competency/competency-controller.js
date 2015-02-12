@@ -20,7 +20,7 @@ angular.module( 'instructor.reports')
 */
 
 .controller( 'CompetencyCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
+  function($scope, $rootScope, $log, $state, $stateParams, $timeout, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
 
 
     var reportId = 'competency';
@@ -28,6 +28,10 @@ angular.module( 'instructor.reports')
     if(!$scope.reportInfo) {
       $scope.reportInfo = {};
     }
+
+    $scope.competencies =  {
+      green: { text: "This is the text", color: 5, isActive: false }
+    };
 
     // reset to empty
     $scope.reportInfo.selectedGroupId = null;
@@ -361,6 +365,13 @@ angular.module( 'instructor.reports')
       percentage = achieved / parseFloat(total);
       return (percentage * 100) + '%';
     };
+
+    var cleanUpListener;
+
+    $scope.activateCompetency = function(competency) {
+      competency.isActive = !competency.isActive;
+    };
+
 })
 .controller( 'CompetencyInfoModalCtrl',
   function($scope, $rootScope, $log, $state, $stateParams) {

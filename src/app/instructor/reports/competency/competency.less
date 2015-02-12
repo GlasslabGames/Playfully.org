@@ -180,6 +180,10 @@
   padding: 0 15px;
 }
 
+.competency-cell {
+  min-width: 8em;
+}
+
 .competency {
   display: inline-block;
   .border-radius(100px);
@@ -187,6 +191,10 @@
   width: 45px;
   height: 45px;
   .box-shadow(0px 0px 3px 0px rgba(0, 0, 0, .25));
+}
+
+.competency--active {
+  opacity: 0.5;
 }
 
 .competency--med {
@@ -289,6 +297,7 @@
 .gl-progress-levels {
   font-size: 12px;
   color: @grey2;
+  text-align: center;
 }
 
 .gl-progress-meter-outer {
@@ -303,4 +312,66 @@
   background: @progressMeter;
   height: 9px;
   .border-radius(10px);
+}
+
+.gl-progress-tab {
+  background: @grey4;
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+  .border-radius(4px 4px 0 0);
+  padding: 3px;
+  position: relative;
+  top: 12px;
+  > .fa-sort-down {
+    float: none;
+    display: inline-block;
+    color: white;
+    position: relative;
+    top: -3px;
+  }
+}
+
+.gl-progress-tab--open {
+  background: white;
+  color: @grey4;
+  border: 1px solid @grey6;
+  border-bottom: none;
+  > .fa-sort-up {
+    margin-top: 5px;
+  }
+}
+
+
+.gl-progress-row > td {
+  padding: 0 !important;
+}
+
+.gl-progress-container {
+  margin: -2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid @grey6;
+  .border-radius(2px);
+}
+
+.gl-progress-facet {
+  text-align: right;
+  padding-right: 10px;
+  border-right: 1px solid @grey6;
+  min-height: 40px;
+}
+
+.gl-progress-key {
+  font-size: 12px;
+}
+
+.gl-progress-rule--bottom {
+  border-top: 1px solid @grey6;
+}
+
+.gl-progress-val {
+  min-height: 40px;
+  text-align: center;
+  background: url('/assets/bg-tile-competency-progress-rule.png') repeat-y top center;
 }
