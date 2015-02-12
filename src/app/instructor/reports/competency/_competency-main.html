@@ -66,7 +66,8 @@
       <td>
         <div class="gl-progress-levels gl-nobr">{{student.competency.gameProgress}} / 42 Levels</div>
         <div class="gl-progress-meter-outer gl-margin--Txs">
-          <div class="gl-progress-meter-inner">
+          <div class="gl-progress-meter-inner"
+            ng-style="{ 'width': getProgressPercentage(student.competency.gameProgress,42) }">
           </div>
         </div>
       </td>
