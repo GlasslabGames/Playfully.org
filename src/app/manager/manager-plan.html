@@ -74,10 +74,10 @@
 
                             <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
                             </alert>
+                            <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success">You successfully invited {{educator.email}}</alert>
 
-                            <form ng-if="isLicenseOwner()" name="request" novalidate class="reg-form"
-                                  ng-submit="inviteEducators(invitedEducators)">
-                                <div ng-show="request.success" class="alert alert-success" role="alert">You successfully invited </div>
+                    <form ng-if="isLicenseOwner()" name="request" novalidate class="reg-form"
+                                  ng-submit="inviteEducators(request.invitedEducators)">
                                 <div class="gl-input-group">
                                     <div class="form-group"
                                          ng-class="{'has-error': request.invitedEducators.$dirty && request.invitedEducators.$invalid}">
@@ -85,7 +85,7 @@
                                                   class="form-control"
                                                   placeholder="Separate emails using a comma: charles@glasslabgames.org, tina@glasslabgames.org, ben@glasslabgames.org"
                                                   ng-minlength="6"
-                                                  ng-model="invitedEducators"></textarea>
+                                                  ng-model="request.invitedEducators"></textarea>
                                         <div class="form-errors">
                                             <div class="form-error" ng-show="request.invitedEducators.$dirty && (request.invitedEducators.$invalid || request.errors.length > 0)">
                                             </div>

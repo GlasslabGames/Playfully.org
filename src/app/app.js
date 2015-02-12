@@ -382,7 +382,6 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $rootScope.currentUser = user;
       // Google Analytics
-
         // Google Analytics - User ID tracking
       if ($window.ga) { $window.ga("set", "dimension1", user.id); }
       /** Student login/register always redirects back to dashboard **/

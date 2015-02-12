@@ -18,7 +18,10 @@ angular.module('playfully.manager', [])
                 }
             },
             templateUrl: 'manager/manager-student-list.html',
-            controller: 'ManagerStudentListCtrl'
+            controller: 'ManagerStudentListCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
         })
         .state('modal.notify-invited-subscription', {
             url: '/notify-invited-subscription',
@@ -30,7 +33,8 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/notify-invited-subscription-modal.html',
-                    controller: function ($scope, plan) {
+                    controller: function ($scope, plan, $previousState) {
+                        $previousState.forget('modalInvoker');
                         $scope.plan = plan;
                         $scope.package = $scope.plan.packageDetails;
                     }
@@ -78,7 +82,8 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-leave-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService) {
+                    controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
+                        $previousState.forget('modalInvoker');
                         $scope.email = $stateParams.email;
                         $scope.request = {
                             success: false,
@@ -116,7 +121,7 @@ angular.module('playfully.manager', [])
                         };
                         $scope.startTrial = function () {
                           $scope.request.isSubmitting = true;
-                          LicenseService.startTrial().then(function (response) {
+                          LicenseService.startTrial().then(function () {
                                   $scope.request.errors = [];
                                   $scope.request.isSubmitting = false;
                                   $scope.request.success = true;
@@ -140,7 +145,10 @@ angular.module('playfully.manager', [])
                 }
             },
             templateUrl: 'manager/manager-plan.html',
-            controller: 'ManagerPlanCtrl'
+            controller: 'ManagerPlanCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
         });
     })
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
@@ -200,20 +208,32 @@ angular.module('playfully.manager', [])
 
         $scope.request = {
             success: false,
-            invitedEducators: null,
-            errors: []
+            invitedEducators: '',
+            errors: [],
+            successes: []
         };
-
         var _requestInvite = function (invitedEducators) {
+            $scope.request.errors = [];
+            $scope.request.successes = [];
             request.isSubmitting = true;
             LicenseService.inviteTeachers(invitedEducators)
                 .then(function (response) {
-                    console.log(response);
+                    $scope.request.successes = _.filter(response.educatorList, {status:'pending'});
+                    $scope.plan = response;
+                    $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
+                    $scope.package = response.packageDetails;
+
+                    if (response.teachersToReject > 0) {
+
+                    }
+
+                    $scope.request.invitedEducators = '';
                     $scope.request.errors = [];
                     $scope.request.isSubmitting = false;
                     $scope.request.success = true;
                 },
                 function (response) {
+                    console.log(response);
                     $log.error(response.data);
                     $scope.request.isSubmitting = false;
                     $scope.request.errors = [];

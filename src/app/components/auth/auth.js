@@ -54,6 +54,10 @@ angular.module('auth', ['session', 'ipCookie'])
       if (authorizedRoles.indexOf('guest') === 0) {
         return !this.isAuthenticated();
       }
+      if (authorizedRoles.indexOf('License') !== -1) {
+          return (this.isAuthenticated() &&
+              Session.licenseStatus === "active");
+      }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },

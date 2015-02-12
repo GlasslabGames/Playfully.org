@@ -10,6 +10,7 @@ angular.module('license', [])
                     .then(function (response) {
                         return response.data;
                     }, function (response) {
+                        console.log(response);
                         return response;
                     });
             };
@@ -19,6 +20,7 @@ angular.module('license', [])
                     .then(function (response) {
                         return response.data;
                     }, function (response) {
+                        console.log(response);
                         return response;
                     });
             };
@@ -28,6 +30,7 @@ angular.module('license', [])
                     .then(function (response) {
                         return response.data;
                     }, function (response) {
+                        console.log(response);
                         return response;
                     });
             };
@@ -45,8 +48,6 @@ angular.module('license', [])
                 return $http.post(apiUrl, {teacherEmails: emails})
                     .then(function (response) {
                         return response.data;
-                    }, function (response) {
-                        return response;
                     });
             };
             this.activateLicenseStatus = function () {
@@ -65,34 +66,21 @@ angular.module('license', [])
             };
             this.hasLicense = function () {
               if ($rootScope.currentUser) {
-                  return $rootScope.currentUser.licenseStatus ==="active";
+                  if ($rootScope.currentUser.isTrial) {
+                      return 'trial';
+                  }
+                  if ($rootScope.currentUser.licenseStatus==="active") {
+                      return 'premium';
+                  }
               }
             };
             this.leaveCurrentPlan = function () {
-                var apiUrl = API_BASE + '/license/leave';
-                return $http.post(apiUrl)
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
+                return $http.post(API_BASE + '/license/leave');
             };
             this.removeEducator = function (email) {
-                var apiUrl = API_BASE + '/license/remove';
-                return $http.post(apiUrl, {teacherEmail: email})
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
+                return $http.post(API_BASE + '/license/remove', {teacherEmail: email});
             };
             this.startTrial = function () {
-                var apiUrl = API_BASE + '/license/trial';
-                return $http.post(apiUrl)
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
+                return $http.post(API_BASE + '/license/trial');
             };
     });
