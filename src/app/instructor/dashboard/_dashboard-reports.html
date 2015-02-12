@@ -154,7 +154,7 @@
                             <div class="gl-dashboard-message-box-info">
                             <span class="gl-dashboard-message-subject gl-margin--Bl"> {{message.subject}} </span>
                             <span class="gl-dashboard-message-timestamp">{{message.timeAgo}}</span>
-                                <p> {{message.message}} </p>
+                                <p ng-bind-html="message.message"></p>
                             </div>
                         </div>
                     </div>
