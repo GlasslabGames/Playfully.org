@@ -18,51 +18,90 @@ angular.module('playfully.manager', [])
                 }
             },
             templateUrl: 'manager/manager-student-list.html',
-            controller: 'ManagerStudentListCtrl'
+            controller: 'ManagerStudentListCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
         })
         .state('modal.notify-invited-subscription', {
             url: '/notify-invited-subscription',
-            templateUrl: 'manager/notify-invited-subscription-modal.html',
-            controller: function($scope) {
-                var dummyData = {
-                    ownerName: {
-                        firstName: "Charles",
-                        lastName: "Tai"
-                    },
-                    studentSeatsRemaining: 20,
-                    educatorSeatsRemaining: 5,
-                    packageDetails: {
-                        name: "iPad",
-                        description: "Access to all iPad games on GlassLab Games",
-                        size: "Class",
-                        studentSeats: 30,
-                        educatorSeats: 20
-                    },
-                    expirationDate: new Date(),
-                    educatorList: [
-                        {
-                            firstName: "Charles",
-                            lastName: "Tai",
-                            email: "cwtai86@gmail.com",
-                            status: "Admin"
-                        }
-                    ]
-                };
-                $scope.plan = dummyData;
-                $scope.packageDetails = $scope.plan.packageDetails;
+            resolve: {
+                plan: function (LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                }
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/notify-invited-subscription-modal.html',
+                    controller: function ($scope, plan, $previousState) {
+                        $previousState.forget('modalInvoker');
+                        $scope.plan = plan;
+                        $scope.package = $scope.plan.packageDetails;
+                    }
+                }
             }
         })
         .state('modal.remove-educator', {
-            url: '/manager/current/remove-educator?:email',
+            url: '/manager/plan/remove-educator?:email',
             data: {
                 pageTitle: 'Remove educator'
             },
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-remove-educator-modal.html',
-                    controller: function ($scope, $log, $stateParams) {
+                    controller: function ($scope, $log, $stateParams, LicenseService) {
                         $scope.email = $stateParams.email;
-                        // if service succeeds, then success
+                        $scope.request = {
+                            success: false,
+                            invitedEducators: null,
+                            errors: []
+                        };
+                        $scope.removeEducator = function (email) {
+                            $scope.request.isSubmitting = true;
+                            LicenseService.removeEducator(email).then(function () {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.success = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push(response.data.error);
+                                });
+                        };
+                    }
+                }
+            }
+        })
+        .state('modal.leave-subscription', {
+            url: '/manager/current/leave-subscription?:email',
+            data: {
+                pageTitle: 'Leave subscription'
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/manager-leave-subscription-modal.html',
+                    controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
+                        $previousState.forget('modalInvoker');
+                        $scope.email = $stateParams.email;
+                        $scope.request = {
+                            success: false,
+                            errors: []
+                        };
+                        $scope.leaveSubscription = function () {
+                            LicenseService.leaveCurrentPlan().then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.success = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push(response.data.error);
+                                });
+                        };
                     }
                 }
             }
@@ -75,10 +114,25 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams) {
-                        // makes API call to change to trial -
-                        // show success
-                        // show fail
+                    controller: function ($scope, $log, $stateParams, LicenseService) {
+                        $scope.request = {
+                            success: false,
+                            errors: []
+                        };
+                        $scope.startTrial = function () {
+                          $scope.request.isSubmitting = true;
+                          LicenseService.startTrial().then(function () {
+                                  $scope.request.errors = [];
+                                  $scope.request.isSubmitting = false;
+                                  $scope.request.success = true;
+                              },
+                              function (response) {
+                                  $log.error(response.data);
+                                  $scope.request.isSubmitting = false;
+                                  $scope.request.errors = [];
+                                  $scope.request.errors.push(response.data.error);
+                              });
+                        };
                     }
                 }
             }
@@ -91,7 +145,10 @@ angular.module('playfully.manager', [])
                 }
             },
             templateUrl: 'manager/manager-plan.html',
-            controller: 'ManagerPlanCtrl'
+            controller: 'ManagerPlanCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
         });
     })
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
@@ -146,30 +203,43 @@ angular.module('playfully.manager', [])
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
+        $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
 
         $scope.request = {
-            isRegCompleted: false,
-            invitedEducators: null,
-            errors: []
+            success: false,
+            invitedEducators: '',
+            errors: [],
+            successes: []
         };
-
         var _requestInvite = function (invitedEducators) {
+            $scope.request.errors = [];
+            $scope.request.successes = [];
             request.isSubmitting = true;
             LicenseService.inviteTeachers(invitedEducators)
                 .then(function (response) {
+                    $scope.request.successes = _.filter(response.educatorList, {status:'pending'});
+                    $scope.plan = response;
+                    $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
+                    $scope.package = response.packageDetails;
+
+                    if (response.teachersToReject > 0) {
+
+                    }
+
+                    $scope.request.invitedEducators = '';
                     $scope.request.errors = [];
                     $scope.request.isSubmitting = false;
-                    $scope.request.isRegCompleted = true;
+                    $scope.request.success = true;
                 },
                 function (response) {
+                    console.log(response);
                     $log.error(response.data);
                     $scope.request.isSubmitting = false;
                     $scope.request.errors = [];
                     $scope.request.errors.push(response.data.error);
                 });
         };
-
 
         var _validateEmail = function (email) {
             var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -209,8 +279,5 @@ angular.module('playfully.manager', [])
             $scope.request.errors = invalid;
         };
 
-        $scope.isOwner = function () {
-            return true;
-        };
     });
 

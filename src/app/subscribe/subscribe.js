@@ -87,9 +87,11 @@ angular.module('playfully.subscribe', ['subscribe.const'])
 
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
 
-            var seats = _.find($scope.seats.choices, {studentSeats: studentSeats});
+            var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
+            var targetPlan = _.find(packages.plans, {name: packageName});
 
-            LicenseService.subscribeToLicense({planInfo: {type: packageName, seats: seats.size}, stripeInfo: stripeInfo});
+            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo});
+
         };
 
         $scope.submitPayment = function (info,studentSeats,packageName) {
@@ -122,6 +124,7 @@ angular.module('playfully.subscribe', ['subscribe.const'])
             }
         };
 
+
         $scope.calculateTotal = function (price, seatChoice) {
             var targetPackage = _.find($scope.seats.choices, {studentSeats: parseInt(seatChoice)});
             var total = seatChoice * price;
@@ -129,7 +132,7 @@ angular.module('playfully.subscribe', ['subscribe.const'])
         };
 
     })
-    .controller('SubscribePackagesCtrl', function ($scope, packages, SUBSCRIBE_CONSTANTS) {
+    .controller('SubscribePackagesCtrl', function ($scope, packages) {
         $scope.seatChoices = [];
         $scope.packageChoices = packages.plans;
 
