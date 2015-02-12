@@ -491,17 +491,10 @@ h2 {
   border: none;
 }
 
-.gl-nav-subscription-badge {
-  position: absolute;
-  top: 0; right: 220px;
-}
-
 .gl-nav-username {
-  position: absolute;
-  top: 0;
-  right: 11px;
   background: #67cada;
-  padding: 4px 16px;
+  padding: 10px 16px 5px 16px;
+  margin-left: 10px;
   color: white;
   .border-radiuses(0, 6px, 6px, 0);
 }
@@ -718,10 +711,20 @@ h2 {
           transform: translate(0, -5px);
 }
 
-.display-inline {
+.gl-navbar-status {
+  position: absolute;
+  top: -2px;
+  right: 11px;
+}
+
+.gl-inline {
   display: inline;
 }
 
-.display-block {
+.gl-block {
   display: block;
+}
+
+.gl-inline-block {
+  display: inline-block;
 }

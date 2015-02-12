@@ -213,12 +213,6 @@ angular.module('games', [
 
     requestGameAccess: function(gameId) {
       return $http.get(API_BASE + '/auth/developer/game/' + gameId + '/request');
-          /*.then(function(response) {
-            return response.data;
-          }, function(err){
-            $log.error("request game access:", err);
-            return err;
-          });*/
     }
   };
 
