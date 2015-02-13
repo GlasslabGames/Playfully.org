@@ -1,12 +1,12 @@
-angular.module('playfully.subscribe', ['subscribe.const'])
+angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
     .config(function ($stateProvider) {
         $stateProvider.state('root.subscribe', {
             abstract: true,
             url: 'subscribe'
         })
-            .state('root.subscribe.upgrade', {
-                url: '/upgrade?packageType?seatsSelected',
+            .state('root.subscribe.payment', {
+                url: '/payment?packageType?seatsSelected',
                 resolve: {
                     packages: function (LicenseService) {
                         return LicenseService.getPackages();
@@ -14,15 +14,30 @@ angular.module('playfully.subscribe', ['subscribe.const'])
                 },
                 views: {
                     'main@': {
-                        templateUrl: 'subscribe/subscribe-upgrade.html',
+                        templateUrl: 'subscribe/subscribe-payment.html',
                         controller: 'SubscribeUpgradeCtrl'
                     }
+                },
+                data: {
+                    authorizedRoles: [
+                        'instructor'
+                    ]
                 }
             })
-            .state('root.subscribe.upgrade.credit-card', {
-                url: '/credit-card',
-                templateUrl: 'subscribe/subscribe-upgrade-credit-card.html',
-                controller: 'SubscribeUpgradeCtrl'
+            .state('modal.subscribe-success-modal', {
+                url: '/subscribe/success',
+                data: {
+                    pageTitle: 'Subscribe Successful',
+                    reloadNextState: true
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/subscribe-success-modal.html',
+                        controller: function ($scope, $log, $stateParams, $previousState) {
+                            $previousState.forget('modalInvoker');
+                        }
+                    }
+                }
             })
             .state('root.subscribe.packages', {
                 url: '/packages',
@@ -39,7 +54,8 @@ angular.module('playfully.subscribe', ['subscribe.const'])
                 }
             });
     })
-    .controller('SubscribeUpgradeCtrl', function ($scope, $stateParams, packages, LicenseService) {
+    .controller('SubscribeUpgradeCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
+
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
 
@@ -56,11 +72,16 @@ angular.module('playfully.subscribe', ['subscribe.const'])
         };
 
         $scope.changePackage = function () {};
+        $scope.states = REGISTER_CONSTANTS.states;
 
         // Info to be submitted
         $scope.info = {
             school: {
-                name: null
+                name: null,
+                zipCode: null,
+                address: null,
+                state: "California",
+                city: null
             },
             subscription: {},
             payment: {
@@ -73,26 +94,42 @@ angular.module('playfully.subscribe', ['subscribe.const'])
             }
         };
 
-        // Request to be processed
-        $scope.request = {
-            isRegCompleted: false,
-            errors: []
-        };
-
         $scope.cardTypes = ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"];
 
         $scope.$watch('packages.selectedName', function (packageName) {
             $scope.packages.selected = _.find(packages.plans, {name: packageName});
         });
 
+        $scope.request = {
+            success: false,
+            errors: [],
+            isSubmitting: false
+        };
+
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
+
+            $scope.request.isSubmitting = true;
+            $scope.request.errors = [];
 
             var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
-            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo});
-
+            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo}).then(function() {
+                $scope.request.errors = [];
+                $scope.request.isSubmitting = false;
+                $scope.request.success = true;
+                UserService.updateUserSession(function() {
+                    $state.go('modal.subscribe-success-modal');
+                });
+            }, function (response) {
+                $scope.request.isSubmitting = false;
+                $scope.request.errors = [];
+                $scope.request.errors.push(response.data.error);
+            });
         };
+
+
+
 
         $scope.submitPayment = function (info,studentSeats,packageName) {
 
@@ -119,7 +156,7 @@ angular.module('playfully.subscribe', ['subscribe.const'])
                     exp_year: 2020,
                     cvc: 123
                 }, function (status, stripeToken) {
-                    _subscribeToLicense(studentSeats, packageName, stripeToken);
+                    _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
                 });
             }
         };
