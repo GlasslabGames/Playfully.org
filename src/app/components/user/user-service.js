@@ -1,13 +1,13 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, $rootScope, CHECKLIST) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, $rootScope, CHECKLIST, AUTH_EVENTS) {
 
   var _currentUser;
 
   var api = {
 
-    currentUser: function() {
+    currentUser: function(startNewSession) {
       var deferred = $q.defer();
-      if (angular.isDefined(_currentUser) && _currentUser !== null) {
+      if (angular.isDefined(_currentUser) && _currentUser !== null && !startNewSession) {
         deferred.resolve(_currentUser);
         return deferred.promise;
       }
@@ -25,7 +25,12 @@ angular.module('user', [])
         });
       return deferred.promise;
     },
-
+    updateUserSession: function(callback) {
+        api.currentUser('startNewSession').then(function (user) {
+            $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
+            callback();
+        });
+    },
     isAuthenticated: function() {
       return !!_currentUser;
     },

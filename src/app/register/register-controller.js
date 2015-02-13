@@ -319,7 +319,7 @@ angular.module('playfully.register', ['register.const'])
 
 
 .controller('RegisterDeveloperCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.account = {

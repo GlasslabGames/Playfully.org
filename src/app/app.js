@@ -373,10 +373,24 @@ angular.module( 'playfully', [
         if ( hasPageTitle ) {
           $scope.pageTitle = toState.data.pageTitle + ' | GlassLab Games' ;
         }
-        if (angular.isDefined(toState.data) &&
-          angular.isDefined(toState.data.hideWrapper)) {
-          $scope.hideWrapper = toState.data.hideWrapper;
+        if (angular.isDefined(toState.data)) {
+            if (angular.isDefined(toState.data.hideWrapper)) {
+                $scope.hideWrapper = toState.data.hideWrapper;
+            }
+            if (angular.isDefined(toState.data.reload) &&
+                toState.data.reload) {
+                $window.location.reload();
+            }
         }
+        if (angular.isDefined(fromState.data)) {
+             if (angular.isDefined(fromState.data.reloadNextState) &&
+                 fromState.data.reloadNextState) {
+                 $timeout(function() {
+                     $window.location.reload();
+                 },100);
+             }
+        }
+
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
@@ -397,10 +411,12 @@ angular.module( 'playfully', [
           user.licenseStatus &&
           user.licenseStatus === "pending") {
           user.licenseStatus = "active";
-          LicenseService.activateLicenseStatus();
-          $state.go('modal.notify-invited-subscription');
+          LicenseService.activateLicenseStatus().then(function() {
+              UserService.updateUserSession(function() {
+                  $state.go('modal.notify-invited-subscription');
+              });
+          });
       }
-
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

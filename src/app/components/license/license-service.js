@@ -36,12 +36,7 @@ angular.module('license', [])
             };
             this.subscribeToLicense = function (input) {
                 var apiUrl = API_BASE + '/license/subscribe';
-                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo })
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
+                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo });
             };
             this.inviteTeachers = function (emails) {
                 var apiUrl = API_BASE + '/license/invite';
@@ -52,12 +47,7 @@ angular.module('license', [])
             };
             this.activateLicenseStatus = function () {
                 var apiUrl = API_BASE + '/license/activate';
-                return $http.post(apiUrl)
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
+                return $http.post(apiUrl);
             };
             this.isOwner = function () {
                 if ($rootScope.currentUser) {
@@ -82,5 +72,8 @@ angular.module('license', [])
             };
             this.startTrial = function () {
                 return $http.post(API_BASE + '/license/trial');
+            };
+            this.cancelLicense = function() {
+                return $http.post(API_BASE + '/license/cancel');
             };
     });
