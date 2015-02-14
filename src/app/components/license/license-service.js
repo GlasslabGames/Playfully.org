@@ -73,7 +73,11 @@ angular.module('license', [])
             this.startTrial = function () {
                 return $http.post(API_BASE + '/license/trial');
             };
-            this.cancelLicense = function() {
+            this.cancelLicense = function () {
                 return $http.post(API_BASE + '/license/cancel');
+            };
+            this.upgradeLicense = function (input) {
+                var apiUrl = API_BASE + '/license/upgrade';
+                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo});
             };
     });

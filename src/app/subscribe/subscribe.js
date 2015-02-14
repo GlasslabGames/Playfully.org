@@ -56,6 +56,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
     })
     .controller('SubscribeUpgradeCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
 
+        // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
 
@@ -65,16 +66,19 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             selectedName: selectedPackage.name
         };
 
-        // Setup seat choices and selections
         $scope.seats = {
             choices: packages.seats,
             selectedNumber: $stateParams.seatsSelected || 10
         };
 
-        $scope.changePackage = function () {};
-        $scope.states = REGISTER_CONSTANTS.states;
+        $scope.$watch('packages.selectedName', function (packageName) {
+            $scope.packages.selected = _.find(packages.plans, {name: packageName});
+        });
 
-        // Info to be submitted
+        $scope.changePackage = function () {};
+
+
+        // School and Payment Info
         $scope.info = {
             school: {
                 name: null,
@@ -84,21 +88,26 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 city: null
             },
             subscription: {},
-            payment: {
+            CC: {
                 name: null,
                 cardType: "Visa",
                 number: null,
                 exp_month: null,
                 exp_year: null,
                 cvc: null
+            },
+            PO: {
+                name: null,
+                phone: null,
+                email: null,
+                number: null
             }
         };
 
+        $scope.states = REGISTER_CONSTANTS.states;
         $scope.cardTypes = ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"];
 
-        $scope.$watch('packages.selectedName', function (packageName) {
-            $scope.packages.selected = _.find(packages.plans, {name: packageName});
-        });
+        $scope.isPaymentCreditCard = true;
 
         $scope.request = {
             success: false,
@@ -106,44 +115,25 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             isSubmitting: false
         };
 
-        var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
-
-            $scope.request.isSubmitting = true;
-            $scope.request.errors = [];
-
-            var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
-            var targetPlan = _.find(packages.plans, {name: packageName});
-
-            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo}).then(function() {
-                $scope.request.errors = [];
-                $scope.request.isSubmitting = false;
-                $scope.request.success = true;
-                UserService.updateUserSession(function() {
-                    $state.go('modal.subscribe-success-modal');
-                });
-            }, function (response) {
-                $scope.request.isSubmitting = false;
-                $scope.request.errors = [];
-                $scope.request.errors.push(response.data.error);
-            });
+        $scope.calculateTotal = function (price, seatChoice) {
+            var targetPackage = _.find($scope.seats.choices, {studentSeats: parseInt(seatChoice)});
+            var total = seatChoice * price;
+            return total - (total * (targetPackage.discount / 100));
         };
 
-
-
-
-        $scope.submitPayment = function (info,studentSeats,packageName) {
+        $scope.submitPayment = function (studentSeats, packageName, info) {
 
             // stripe request
-            //if (!Stripe.card.validateCardNumber(info.payment.number)) {
+            //if (!Stripe.card.validateCardNumber(info.CC.number)) {
             //  $scope.request.errors.push("You entered an invalid Credit Card number");
             //}
-            //if (!Stripe.card.validateExpiry(info.payment.exp_month, info.payment.exp_year)) {
+            //if (!Stripe.card.validateExpiry(info.CC.exp_month, info.CC.exp_year)) {
             //    $scope.request.errors.push("You entered an invalid expiration date");
             //}
-            //if (!Stripe.card.validateCVC(info.payment.cvc)) {
+            //if (!Stripe.card.validateCVC(info.CC.cvc)) {
             //    $scope.request.errors.push("You entered an invalid CVC number");
             //}
-            //if (!Stripe.card.cardType(info.payment.cardType)) {
+            //if (!Stripe.card.cardType(info.CC.cardType)) {
             //    $scope.request.errors.push("You entered an invalid CVC number");
             //}
 
@@ -161,11 +151,26 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             }
         };
 
+        var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
 
-        $scope.calculateTotal = function (price, seatChoice) {
-            var targetPackage = _.find($scope.seats.choices, {studentSeats: parseInt(seatChoice)});
-            var total = seatChoice * price;
-            return total - (total * (targetPackage.discount / 100));
+            $scope.request.isSubmitting = true;
+            $scope.request.errors = [];
+
+            var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
+            var targetPlan = _.find(packages.plans, {name: packageName});
+
+            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo}).then(function(response) {
+                $scope.request.errors = [];
+                $scope.request.isSubmitting = false;
+                $scope.request.success = true;
+                UserService.updateUserSession(function() {
+                    $state.go('modal.subscribe-success-modal');
+                });
+            }, function (response) {
+                $scope.request.isSubmitting = false;
+                $scope.request.errors = [];
+                $scope.request.errors.push(response.data.error);
+            });
         };
 
     })

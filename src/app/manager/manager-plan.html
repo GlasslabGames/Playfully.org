@@ -24,12 +24,12 @@
                     <div class="gl-manager-side-panel-section">
                         <h4 class="headline-4">Expiration Date</h4>
                         <p>{{plan.expirationDate}}</p>
-                        <button type="button" ui-sref="modal.cancel-license" class="btn gl-btn--silver gl-margin--Tl">Cancel
+                        <button ng-if="isLicenseOwner()" type="button" ui-sref="modal.cancel-license" class="btn gl-btn--silver gl-margin--Tl">Cancel
                         </button>
                     </div>
                     <div class="gl-manager-side-panel-section">
-                        Need more seats?
-                        <button type="button" class="btn gl-btn--black gl-margin--Tl">Upgrade Package</button>
+                        Need more seats? Switch packages?
+                        <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">Upgrade Package</button>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <div class="gl-manager-share-subscription-label">Share Subscription</div>
 
                     <div ng-if="!isLicenseOwner()">
-                        <h5 class="headline-5--serif gl-margin--Bm">You are currently in {{plan.ownerName}}'s premium plan</h5>
+                        <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s premium plan</h5>
                         <button type="button" ui-sref="modal.leave-subscription({ownerName: plan.ownerName})" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
                         <h5 class="headline-5 gl-manager-educators-share-header gl-margin--Tl">Other Educators sharing this subscription:</h5>
                     </div>
