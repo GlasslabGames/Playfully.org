@@ -109,7 +109,7 @@
 </table>
 
 <div class="gl-reports-what-now-container" ng-if="reportInfo.selectedGroupId === 'wo' &&
-     (games.selectedGameId=== 'AA-1' || games.selectedGameId === 'SC')">
+     (games.selectedGameId=== 'AA-1' || games.selectedGameId === 'SC' || games.selectedGameId === 'SLFR')">
     <div class="gl-reports-what-now-header text-center">
         <b>What Now?</b>
         <p>Below you will find some instructional guidance to help students overcome specific Watch Outs!</p>
@@ -134,8 +134,8 @@
         </div>
         <div class="gl-reports-what-now-wo-info-col">
             <div class="gl-reports-what-now-wo-info">
-                <span class="gl-reports-what-now-wo-info-title">{{whatNow.selected.title + ': ' }}</span>
-                <span class="gl-reports-what-now-wo-description">{{whatNow.selected.description}}</span>
+                <!--<span class="gl-reports-what-now-wo-info-title">{{whatNow.selected.title + ': ' }}</span>
+                <span class="gl-reports-what-now-wo-description">{{whatNow.selected.description}}</span>-->
                 <p class="gl-margin--Tl">&nbsp&nbsp&nbsp&nbsp{{whatNow.selected.whatNow.intro}}</p>
                 <ul ng-repeat="actionPoint in whatNow.selected.whatNow.actionPoints">
                     <li><p>{{actionPoint}}</p></li>
