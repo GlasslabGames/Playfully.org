@@ -46,7 +46,14 @@ angular.module( 'playfully', [
   'playfully.manager'
 ])
 
-.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $provide) {
+
+  $provide.decorator('$uiViewScroll', function ($delegate) {
+     return function (uiViewElement) {
+         document.body.scrollTop = document.documentElement.scrollTop = 0;
+     };
+  });
+
   $stickyStateProvider.enableDebug(false);
 
   $locationProvider.html5Mode({
@@ -385,9 +392,7 @@ angular.module( 'playfully', [
         if (angular.isDefined(fromState.data)) {
              if (angular.isDefined(fromState.data.reloadNextState) &&
                  fromState.data.reloadNextState) {
-                 $timeout(function() {
-                     $window.location.reload();
-                 },100);
+                 $window.location.reload();
              }
         }
 
