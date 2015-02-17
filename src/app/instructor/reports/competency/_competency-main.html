@@ -1,20 +1,40 @@
+<article class="legend-header">
+    <p class="legend-header"><span>Competency Levels</span></p>
+</article>
+
+<div class="gl-reports-competency-labels">
+  <table>
+    <tr>
+      <td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
+            </div>
+          </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<hr/>
+
 <table class="table gl-reports-table gl-reports-table--eql-mrgn"
        ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-sowo-header-info">
   <thead>
   <tr>
-    <th style="min-width:6em;">
+    <th class="competency-cell">
       Name
       <i class="col-sort" ng-class="col.current==='firstName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
          ng-click="colName.value = 'firstName'; sortSelected('firstName')"></i>
     </th>
 
-    <th>
+    <th class="competency-cell">
       Game Progress
       <i class="col-sort" ng-class="col.current==='progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
          ng-click="colName.value = 'progress'; sortSelected('progress')"></i>
     </th>
 
-    <th class="text-center">
+    <th class="text-center competency-cell">
       <div class="container-fluid">
         <div class="row gl-margin--Bm">
           <div class="col-md-12 text-center">
@@ -22,32 +42,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3 gl-reports-colhead">
-            Analyze givens/<wbr>constraints
-            <i class="col-sort" ng-class="col.current==='constraints' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-              ng-click="colName.value = 'constraints'; sortSelected('constraints')"></i>
-          </div>
-          <div class="col-md-3 gl-reports-colhead">
-            Plan a solution pathway 
-            <i class="col-sort" ng-class="col.current==='pathway' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-              ng-click="colName.value = 'pathway'; sortSelected('pathway')"></i>
-          </div>
-          <div class="col-md-3 gl-reports-colhead">
-            Effective/<wbr>efficient tools/<wbr>resources use
-            <i class="col-sort" ng-class="col.current==='resources' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-              ng-click="colName.value = 'resources'; sortSelected('resources')"></i>
-          </div>
-          <div class="col-md-3 gl-reports-colhead">
-            Monitor/<wbr>evaluate progress
-            <i class="col-sort" ng-class="col.current==='eval-progress' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-              ng-click="colName.value = 'eval-progress'; sortSelected('eval-progress')"></i>
+          <div class="col-md-3 gl-reports-colhead" ng-repeat="facetHeader in reportInfo.headers.facets">
+            {{facetHeader.title}}
+            <i class="col-sort" ng-class="col.current==='{{facetHeader.id}}' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+              ng-click="colName.value = '{{facetHeader.id}}'; sortSelected('{{facetHeader.id}}')"></i>
           </div>
         </div>
       </div>
     </th>
 
-    <th>
-      Problem<br>Solving<br>Ability<br>Overall
+    <th class="competency-cell">
+      {{reportInfo.headers.competency.title}}
     </th>
   </tr>
   <tr>
@@ -55,111 +60,142 @@
   </tr>
   </thead>
   <tbody>
-    <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
-        Alex B.
+    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr competency-cell">{{ student.firstName }} {{ student.lastName }}.
+        <!--<div class="gl-progress-tab gl-progress-tab--open">
+          Close&nbsp;<i class="fa fa-sort-up"></i>
+        </div>-->
       </td>
-      <td>
-        <div class="gl-progress-levels gl-nobr">40 / 40 Levels</div>
-        <div class="gl-progress-meter-outer gl-margin--Txs">
-          <div class="gl-progress-meter-inner">
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-3 text-center">
-              <span class="competency competency-5"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-3"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-1"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-1"></span>
-            </div>
-          </div>
-        </div>
-      </td>
-      <td>
-        <span class="competency competency-3"></span>
-      </td>
-    </tr>
-
-
-    <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
-        Brad P.
-      </td>
-      <td>
-        <div class="gl-progress-levels gl-nobr">24 / 40 Levels</div>
+      <td class="competency-cell">
+        <div class="gl-progress-levels gl-nobr">{{student.competency.gameProgress}} / 42 Levels</div>
         <div class="gl-progress-meter-outer gl-margin--Txs">
           <div class="gl-progress-meter-inner"
-            ng-style="{ 'width': getProgressPercentage(24,40) }">
+            ng-style="{ 'width': getProgressPercentage(student.competency.gameProgress,42) }">
           </div>
         </div>
       </td>
-      <td>
+      <td class="competency-cell">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-3 text-center">
-              <span class="competency competency-5"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-3"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-0"></span>
-            </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-0"></span>
+            <div class="col-md-3 text-center" ng-repeat="facet in student.competency.facets">
+              <span class="competency {{facet.iconClass}}"></span>
             </div>
           </div>
         </div>
       </td>
       <td>
-        <span class="competency competency-0"></span>
+        <span class="competency {{student.competency.competency.iconClass}}"></span>
       </td>
     </tr>
-
-    <tr class="gl-reports-table-row">
-      <td class="gl-nobr">
-        Charlie T.
-      </td>
-      <td>
-        <div class="gl-progress-levels gl-nobr">16 / 40 Levels</div>
-        <div class="gl-progress-meter-outer gl-margin--Txs">
-          <div class="gl-progress-meter-inner"
-            ng-style="{ 'width': getProgressPercentage(16,40) }">
-          </div>
-        </div>
-      </td>
-      <td>
-        <div class="container-fluid">
+    <!--<tr class="gl-progress-row">
+      <td colspan="4">
+        <div class="container-fluid gl-progress-container">
           <div class="row">
-            <div class="col-md-3 text-center">
-              <span class="competency competency-5"></span>
+            <div class="col-md-1_5 gl-progress-facet gl-progress-key">Competency Facets</div>
+            <div class="col-md-1_5">&nbsp;</div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2">&nbsp;</div>
+              </div>
             </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-5"></span>
+          </div>
+          <div class="row">
+            <div class="col-md-1_5 gl-progress-facet">Evaluate</div>
+            <div class="col-md-1_5">&nbsp;</div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-3 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-4 competency--med"></span>
+                </div>
+                <div class="col-md-2">&nbsp;</div>
+              </div>
             </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-0"></span>
+          </div>
+          <div class="row">
+            <div class="col-md-1_5 gl-progress-facet">Organize</div>
+            <div class="col-md-1_5">&nbsp;</div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">&nbsp;</div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-3 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-4 competency--med"></span>
+                </div>
+                <div class="col-md-2">&nbsp;</div>
+              </div>
             </div>
-            <div class="col-md-3 text-center">
-              <span class="competency competency-0"></span>
+          </div>
+          <div class="row">
+            <div class="col-md-1_5 gl-progress-facet">Identify</div>
+            <div class="col-md-1_5">&nbsp;</div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-3 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-4 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-4 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-5 competency--med"></span>
+                </div>
+                <div class="col-md-2 gl-progress-val">
+                  <span class="competency competency-5 competency--med"></span>
+                </div>
+                <div class="col-md-2">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1_5">&nbsp;</div>
+            <div class="col-md-1_5 gl-progress-rule--bottom">&nbsp;</div>
+            <div class="col-md-9 gl-progress-rule--bottom">
+                <div class="row">
+                  <div class="col-md-2 text-center gl-progress-key">
+                    <strong>#1</strong><br>
+                    Jan 21 2015
+                  </div>
+                  <div class="col-md-2 text-center gl-progress-key">
+                    <strong>#2</strong><br>
+                    Jan 21 2015
+                  </div>
+                  <div class="col-md-2 text-center gl-progress-key">
+                    <strong>#3</strong><br>
+                    Jan 22 2015
+                  </div>
+                  <div class="col-md-2 text-center gl-progress-key">
+                    <strong>#4</strong><br>
+                    Jan 22 2015
+                  </div>
+                  <div class="col-md-2 text-center gl-progress-key">
+                    <strong>#5</strong><br>
+                    Jan 23 2015
+                  </div>
+                  <div class="col-md-2 text-center gl-progress-key">Check Points</div>
+                </div>
             </div>
           </div>
         </div>
       </td>
-      <td>
-        <span class="competency competency-5"></span>
-      </td>
-    </tr>
-
+    </tr>-->
   </tbody>
 
     <!--tbody ng-show="courses.options[courses.selectedCourseId].users">

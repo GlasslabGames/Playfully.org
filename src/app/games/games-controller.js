@@ -235,7 +235,7 @@ angular.module( 'playfully.games', [
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
-    $scope.gameId = $stateParams.gameId;
+    $scope.gameId = $stateParams.gameId.toUpperCase();
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
 
