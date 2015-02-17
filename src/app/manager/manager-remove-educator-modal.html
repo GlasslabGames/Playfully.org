@@ -19,6 +19,8 @@
 </div>
 
 <div class="modal-body text-center" ng-show="request.success">
-    <p>You have successfully removed {{email}} from your subscription plan.</p>
+    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> You removed
+        {{email}} from your subscription plan.
+    </alert>
     <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
 </div>

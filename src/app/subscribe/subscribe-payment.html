@@ -16,7 +16,7 @@
                                 gl-editable-type="'dropdown'",
                                 gl-editable-options="packages.choices"
                                 gl-edit-trigger="changePackage"
-                                    >{{packages.selectedName}} Package</h4> <span ng-click="changePackage()">Change</span>
+                                    >{{packages.selectedName}} Package</h4> <span class="gl-clickable" ng-click="changePackage()">Change</span>
 
                             <p class="gl-margin-Vl">{{packages.selected.description}}</p>
 
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-md-8 gl-margin--B50">
                   <form novalidate class="reg-form form-inline" ng-submit="submitPayment(seats.selectedNumber,packages.selectedName, info)">
-                    <div class="form-group" ng-class="{'has-error': info.$dirty && info.$invalid}">
+                    <div class="form-group">
                         <div class="gl-upgrade-school-info gl-margin--Bl">
 
                             <div class="gl-upgrade-label-school-info">School Info</div>
@@ -121,8 +121,7 @@
                                                  ng-show="info.$dirty && (info.$invalid || request.errors.length > 0)">
                                             </div>
                                          </div>
-                                        <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{
-                                            error }}
+                                        <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}
                                         </alert>
                                   </div>
                                  </div>

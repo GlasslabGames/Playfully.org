@@ -73,16 +73,17 @@
                     <h5 ng-if="isLicenseOwner()" class="headline-5">Invite Educators by Email</h5>
                             <alert ng-repeat="rejected in request.rejectedTeachers" ng-show="request.rejectedTeachers.length" type="danger">  Failed to invite: {{ rejected[0] }}  - {{ rejected[1] }} </b>
                                 </alert>
-                            <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
+                            <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}
                             </alert>
-                            <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success">You successfully invited {{educator}}</alert>
+                            <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success"><span class="fa fa-check-circle"></span>  You invited {{educator}}</alert>
 
                     <form ng-if="isLicenseOwner()" name="request" novalidate class="reg-form"
                                   ng-submit="inviteEducators(request.invitedEducators)">
                                 <div class="gl-input-group">
                                     <div class="form-group"
                                          ng-class="{'has-error': request.invitedEducators.$dirty && request.invitedEducators.$invalid}">
-                                        <textarea cols="70" rows="5"
+                                        <textarea name="invitedEducators"
+                                                  cols="70" rows="5"
                                                   class="form-control"
                                                   placeholder="Separate emails using a comma: charles@glasslabgames.org, tina@glasslabgames.org, ben@glasslabgames.org"
                                                   ng-minlength="6"

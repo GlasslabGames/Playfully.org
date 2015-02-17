@@ -19,7 +19,8 @@
 
 <div class="modal-body text-center" ng-show="request.success && !request.errors.length">
     <div class="gl-logo-premium-icon"></div>
-    <p class="gl-margin-Vl">You're premium trial starts now!</p>
+    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> You're premium trial starts now!
+    </alert>
     <button ui-sref="root.instructorDashboard.default" class="btn gl-btn--blue">Okay</button>
 </div>
 
@@ -31,7 +32,8 @@
 
 <div class="modal-body text-center" ng-show="request.errors.length">
     <p class="gl-margin-Vl">There was an error in processing your request:</p>
-    <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}
+    <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span
+            class="fa fa-times-circle"></span>  {{ error }}
     </alert>
     <p class="gl-margin-Vl">If you have any questions, please contact support@glasslabgames.org</p>
     <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
