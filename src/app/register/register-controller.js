@@ -102,10 +102,10 @@ angular.module('playfully.register', ['register.const'])
   };
 }])
 
-.controller('RegisterOptionsModalCtrl', function ($scope, THIRD_PARTY_AUTH) {
+.controller('RegisterOptionsModalCtrl', function ($scope, $stateParams, THIRD_PARTY_AUTH) {
   $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
   $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
-
+  $scope.upgrade = $stateParams.upgrade;
 })
 
 .controller('RegisterInstructorCtrl',
