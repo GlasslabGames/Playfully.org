@@ -25,11 +25,6 @@ angular.module('playfully.manager', [])
         })
         .state('root.manager.billing-info', {
             url: '/billing-info',
-            resolve: {
-                stripeCustomerId: function (LicenseService) {
-                    return LicenseService.getStripeCustomerId();
-                }
-            },
             templateUrl: 'manager/manager-billing-info.html',
             controller: 'ManagerBillingInfoCtrl',
             data: {
@@ -222,9 +217,6 @@ angular.module('playfully.manager', [])
                 },
                 packages: function (LicenseService) {
                     return LicenseService.getPackages();
-                },
-                stripeCustomerId: function (LicenseService) {
-                    return LicenseService.getStripeCustomerId();
                 }
             },
             templateUrl: 'manager/manager-upgrade.html',
@@ -250,7 +242,7 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, stripeCustomerId) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state) {
         $scope.$parent.currentTab = $state.current.url;
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
@@ -297,7 +289,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, plan, packages, LicenseService, UserService, REGISTER_CONSTANTS, stripeCustomerId) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, plan, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -328,10 +320,6 @@ angular.module('playfully.manager', [])
           isPaymentCreditCard: true,
           currentCard: 'current'
         };
-
-        LicenseService.retrieveCustomerInfo(stripeCustomerId.id).then(function(response) {
-           console.log(response);
-        });
 
 
         $scope.choices = {
@@ -422,7 +410,7 @@ angular.module('playfully.manager', [])
             $scope.request.isSubmitting = true;
             $scope.request.errors = [];
 
-            var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
+            var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
             LicenseService.upgradeLicense({
