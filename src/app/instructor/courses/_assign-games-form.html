@@ -21,6 +21,10 @@
           </div>
       </div>
       <div class="gl-course-game-thumbnail gl-thumb-{{ game.gameId }}">
+        <div ng-if="game.price == 'Premium'"
+          class="gl-game-premium-ribbon">
+          <div class="gl-game-premium-ribbon-text">Premium</div>
+        </div>
         <div class="gl-course-game-lock"
           ng-class="{'gl-course-game-unlocked': !game.settings.missionProgressLock}"
           ng-click="toggleGameLock($event, game)"
