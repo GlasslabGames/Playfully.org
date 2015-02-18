@@ -23,6 +23,19 @@ angular.module('playfully.manager', [])
                 authorizedRoles: ['License']
             }
         })
+        .state('root.manager.billing-info', {
+            url: '/billing-info',
+            resolve: {
+                stripeCustomerId: function (LicenseService) {
+                    return LicenseService.getStripeCustomerId();
+                }
+            },
+            templateUrl: 'manager/manager-billing-info.html',
+            controller: 'ManagerBillingInfoCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
+        })
         .state('modal.notify-invited-subscription', {
             url: '/notify-invited-subscription',
             resolve: {
@@ -209,6 +222,9 @@ angular.module('playfully.manager', [])
                 },
                 packages: function (LicenseService) {
                     return LicenseService.getPackages();
+                },
+                stripeCustomerId: function (LicenseService) {
+                    return LicenseService.getStripeCustomerId();
                 }
             },
             templateUrl: 'manager/manager-upgrade.html',
@@ -233,7 +249,9 @@ angular.module('playfully.manager', [])
     })
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
-
+    })
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, stripeCustomerId) {
+        $scope.$parent.currentTab = $state.current.url;
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
@@ -279,40 +297,56 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, plan, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, plan, packages, LicenseService, UserService, REGISTER_CONSTANTS, stripeCustomerId) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
 
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
-        $scope.currentPackage = plan.packageDetails;
+        $scope.originalPackage = plan.packageDetails;
 
+        if ($scope.originalPackage.name === 'Trial') {
+            $scope.isTrial = true;
+        }
+
+        if ($scope.isTrial) {
+            var allGames = _.find(packages.plans, {name: 'All Games'});
+            allGames.studentSeats = plan.packageDetails.studentSeats;
+            allGames.educatorSeats = plan.packageDetails.educatorSeats;
+            $scope.originalPackage = allGames;
+        }
 
         // Setup Seat and Package Choices
-        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
+        var selectedPackage = $scope.originalPackage;
         var packagesChoices = _.map(packages.plans, 'name');
 
-        $scope.packages = {
-            choices: packagesChoices,
-            selected: selectedPackage,
-            selectedName: selectedPackage.name
+        $scope.status = {
+          packageName: selectedPackage.name,
+          selectedPackage: selectedPackage,
+          studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
+          isPaymentCreditCard: true,
+          currentCard: 'current'
         };
 
-        $scope.seats = {
-            choices: packages.seats,
-            selectedNumber: $stateParams.seatsSelected || plan.packageDetails.studentSeats
+        LicenseService.retrieveCustomerInfo(stripeCustomerId.id).then(function(response) {
+           console.log(response);
+        });
+
+
+        $scope.choices = {
+            packages: packagesChoices,
+            seats: packages.seats,
+            states: REGISTER_CONSTANTS.states,
+            cardTypes: ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
         };
 
         $scope.$watch('packages.selectedName', function (packageName) {
-            $scope.packages.selected = _.find(packages.plans, {name: packageName});
+            $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
         });
 
         $scope.calculateTotal = function (packageName, seatChoice) {
-            if (packageName === 'Trial') {
-                return 0;
-            }
-            var targetSeatTier = _.find($scope.seats.choices, {studentSeats: parseInt(seatChoice)});
+            var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var targetPackage = _.find(packages.plans, {name: packageName});
             var total = seatChoice * (targetPackage.pricePerSeat || 0);
             return total - (total * (targetSeatTier.discount / 100));
@@ -320,17 +354,11 @@ angular.module('playfully.manager', [])
 
         // Request
 
-        $scope.isPaymentCreditCard = true;
-
         $scope.request = {
             success: false,
             invitedEducators: '',
             errors: [],
             successes: []
-        };
-
-        $scope.status = {
-            currentCard: 'current'
         };
 
         $scope.info = {
@@ -358,10 +386,7 @@ angular.module('playfully.manager', [])
             }
         };
 
-        $scope.states = REGISTER_CONSTANTS.states;
-        $scope.cardTypes = ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"];
 
-        $scope.isPaymentCreditCard = true;
 
         $scope.submitPayment = function (studentSeats, packageName,info) {
             // stripe request
@@ -433,22 +458,22 @@ angular.module('playfully.manager', [])
         };
         var _requestInvite = function (invitedEducators) {
             request.isSubmitting = true;
-            console.log($scope.request.errors);
             LicenseService.inviteTeachers(invitedEducators)
                 .then(function (response) {
+                    // Populate error and success alerts
                     $scope.request.successes = response.approvedTeachers;
+                    $scope.request.rejectedTeachers = response.rejectedTeachers;
+                    $scope.request.invitedEducators = '';
+                    // Set plan as returned response
                     $scope.plan = response;
                     $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
                     $scope.package = response.packageDetails;
-                    $scope.request.rejectedTeachers = response.rejectedTeachers;
-                    $scope.request.invitedEducators = '';
+
                     $scope.request.errors = [];
                     $scope.request.isSubmitting = false;
                     $scope.request.success = true;
                 },
                 function (response) {
-                    console.log(response);
-                    $log.error(response.data);
                     $scope.request.isSubmitting = false;
                     $scope.request.errors = [];
                     $scope.request.errors.push(response.data.error);
