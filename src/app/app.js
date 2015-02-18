@@ -429,7 +429,6 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
-        console.log('retrieval', user);
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

@@ -27,7 +27,7 @@
                         <button ng-if="isLicenseOwner()" type="button" ui-sref="modal.cancel-license" class="btn gl-btn--silver gl-margin--Tl">Cancel
                         </button>
                     </div>
-                    <div class="gl-manager-side-panel-section">
+                    <div ng-if="isLicenseOwner()" class="gl-manager-side-panel-section">
                         Need more seats? Switch packages?
                         <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">Upgrade Package</button>
                     </div>
