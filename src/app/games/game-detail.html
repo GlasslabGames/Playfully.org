@@ -94,7 +94,7 @@
                 </div>
               </div>
             </div>
-            <div class="gl-game-details-bottom text-center">
+            <div class="gl-game-details-bottom l-collection">
               <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
                 <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
                   <div ng-if="isMultiLinkType(button)">
@@ -132,6 +132,16 @@
                             ng-bind="button.name">Play</button>
                   </div>
                 </div>
+              </div>
+              <div>
+                <button ng-if="isAuthenticated() && !hasLicense()" type="button"
+                        ui-sref="root.subscribe.packages"
+                        class="btn gl-btn--cyangreen">Upgrade to Assign Game
+                </button>
+                <button ng-if="isAuthenticated() && hasLicense()" type="button"
+                        ui-sref="root.courses"
+                        class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
+                </button>
               </div>
               <div ng-hide="gameDetails.type==='App'||isAuthenticated()">
                 <button type="button"
