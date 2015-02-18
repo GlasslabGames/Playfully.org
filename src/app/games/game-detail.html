@@ -133,12 +133,12 @@
                   </div>
                 </div>
               </div>
-              <div>
-                <button ng-if="isAuthenticated() && !hasLicense()" type="button"
+              <div ng-if="isAuthenticated()">
+                <button ng-if="!hasLicense()" type="button"
                         ui-sref="root.subscribe.packages"
                         class="btn gl-btn--cyangreen">Upgrade to Assign Game
                 </button>
-                <button ng-if="isAuthenticated() && hasLicense()" type="button"
+                <button ng-if="hasLicense()" type="button"
                         ui-sref="root.courses"
                         class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
                 </button>
