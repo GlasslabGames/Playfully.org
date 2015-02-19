@@ -54,6 +54,11 @@ angular.module('license', [])
                     return $rootScope.currentUser.id === $rootScope.currentUser.licenseOwnerId;
                 }
             };
+            this.isTrial = function () {
+                if ($rootScope.currentUser) {
+                    return $rootScope.currentUser.isTrial;
+                }
+            };
             this.hasLicense = function () {
               if ($rootScope.currentUser) {
                   if ($rootScope.currentUser.isTrial) {

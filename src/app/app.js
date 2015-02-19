@@ -351,6 +351,7 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
     $scope.isLicenseOwner = LicenseService.isOwner;
+    $scope.isTrial = LicenseService.isTrial;
     $scope.hasLicense = LicenseService.hasLicense;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;

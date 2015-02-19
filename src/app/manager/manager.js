@@ -128,7 +128,7 @@ angular.module('playfully.manager', [])
             }
         })
         .state('modal.cancel-license', {
-            url: '/manager/current/cancel-license?expirationDate',
+            url: '/manager/current/cancel-license?expirationDate?autoRenew',
             data: {
                 pageTitle: 'Cancel License',
                 reloadNextState: true
@@ -139,6 +139,8 @@ angular.module('playfully.manager', [])
                     controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
                         $previousState.forget('modalInvoker');
                         $scope.expirationDate = $stateParams.expirationDate;
+                        $scope.autoRenew = $stateParams.autoRenew;
+                        console.log($scope.autoRenew);
                         $scope.request = {
                             success: false,
                             errors: []
@@ -299,11 +301,7 @@ angular.module('playfully.manager', [])
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.originalPackage = plan.packageDetails;
 
-        if ($scope.originalPackage.name === 'Trial') {
-            $scope.isTrial = true;
-        }
-
-        if ($scope.isTrial) {
+        if ($scope.isTrial()) {
             var allGames = _.find(packages.plans, {name: 'All Games'});
             allGames.studentSeats = plan.packageDetails.studentSeats;
             allGames.educatorSeats = plan.packageDetails.educatorSeats;
@@ -322,6 +320,9 @@ angular.module('playfully.manager', [])
           currentCard: 'current'
         };
 
+        if ($scope.isTrial()) {
+            $scope.status.currentCard = 'add';
+        }
 
         $scope.choices = {
             packages: packagesChoices,

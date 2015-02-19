@@ -11,7 +11,7 @@
                     ng-class="{'active': currentTab === '/student-list'}">
                     <a href ui-sref="root.manager.student-list">Student List</a>
                 </li>
-                <li class="gl-tab"
+                <li ng-if="!isTrial()" class="gl-tab"
                     ng-class="{'active': currentTab === '/billing-info'}">
                     <a href ui-sref="root.manager.billing-info">Billing Info</a>
                 </li>
