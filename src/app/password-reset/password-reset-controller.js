@@ -86,7 +86,8 @@ angular.module('playfully.password-reset', [])
     };
 
     $scope.closeWindow = function() {
-      if ($state.current.url.indexOf('sdk') > -1) {
+      var fullUrl = $state.href($state.current.name, $state.params, {absolute: true});
+      if (fullUrl.indexOf('sdk') > -1) {
         $window.location.search = 'action=CLOSE';
       } else {
         $rootScope.modalInstance.close();
