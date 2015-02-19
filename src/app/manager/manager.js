@@ -128,7 +128,7 @@ angular.module('playfully.manager', [])
             }
         })
         .state('modal.cancel-license', {
-            url: '/manager/current/cancel-license',
+            url: '/manager/current/cancel-license?expirationDate',
             data: {
                 pageTitle: 'Cancel License',
                 reloadNextState: true
@@ -138,6 +138,7 @@ angular.module('playfully.manager', [])
                     templateUrl: 'manager/manager-cancel-license-modal.html',
                     controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
                         $previousState.forget('modalInvoker');
+                        $scope.expirationDate = $stateParams.expirationDate;
                         $scope.request = {
                             success: false,
                             errors: []
@@ -416,7 +417,7 @@ angular.module('playfully.manager', [])
             LicenseService.upgradeLicense({
                 planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
                 stripeInfo: stripeInfo
-            }).then(function (response) {
+            }).then(function () {
                 $scope.request.errors = [];
                 $scope.request.isSubmitting = false;
                 $scope.request.success = true;
@@ -437,6 +438,7 @@ angular.module('playfully.manager', [])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
+
 
         $scope.request = {
             success: false,
