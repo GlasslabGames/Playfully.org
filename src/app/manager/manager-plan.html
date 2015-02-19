@@ -21,11 +21,17 @@
                             <span>{{plan.studentSeatsRemaining}}</span>
                         </div>
                     </div>
-                    <div class="gl-manager-side-panel-section">
-                        <h4 class="headline-4">Expiration Date</h4>
+                    <div class="gl-manager-side-panel-section" ng-if="isLicenseOwner()">
+                        <h4 class="headline-4">Auto-Renewal</h4>
+                        <div class="gl-switch gl-margin-Vl" ng-class="plan.autoRenew ? 'on' : 'off'"
+                             ng-click="state.go('modal.cancel-license',{expirationDate: plan.expirationDate})">
+                            <div class="toggle"></div>
+                            <span class="on">ON</span>
+                            <span class="off">OFF</span>
+                        </div>
+                        <p ng-show="plan.autoRenew">Your subscription will automatically renew on:</p>
+                        <p ng-show="!plan.autoRenew">Your subscription will cancel on:</p>
                         <p>{{plan.expirationDate}}</p>
-                        <button ng-if="isLicenseOwner()" type="button" ui-sref="modal.cancel-license" class="btn gl-btn--silver gl-margin--Tl">Cancel
-                        </button>
                     </div>
                     <div ng-if="isLicenseOwner()" class="gl-manager-side-panel-section">
                         Need more seats? Switch packages?
@@ -62,7 +68,8 @@
                         <tbody>
                             <tr ng-repeat="educator in plan.educatorList track by $index">
                                 <td>{{$index+1}}</td>
-                                <td>{{educator.firstName}} {{educator.lastName}}</td>
+                                <td>{{educator.firstName==='temp'?'': educator.firstName}}
+                                    {{educator.lastName==='temp'?'': educator.lastName}}</td>
                                 <td>{{educator.email}}</td>
                                 <td ng-if="isLicenseOwner()">{{educator.status}}</td>
                                 <td ng-if="isLicenseOwner()"><i ng-hide="plan.ownerEmail===educator.email" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
