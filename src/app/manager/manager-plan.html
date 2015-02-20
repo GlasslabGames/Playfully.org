@@ -29,7 +29,7 @@
                     <div class="gl-manager-side-panel-section" ng-if="isLicenseOwner() && !isTrial()">
                         <h4 class="headline-4">Auto-Renewal</h4>
                         <div class="gl-switch gl-margin-Vl" ng-class="plan.autoRenew ? 'on' : 'off'"
-                             ng-click="state.go('modal.cancel-license',{expirationDate: plan.expirationDate, autoRenew: plan.autoRenew})">
+                             ng-click="state.go('modal.auto-renew',{expirationDate: plan.expirationDate, autoRenew: plan.autoRenew})">
                             <div class="toggle"></div>
                             <span class="on">ON</span>
                             <span class="off">OFF</span>
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-8">
                 <div class="gl-manager-share-subscription gl-margin--B50">
-                    <div ng-if="!isTrial()" class="gl-manager-share-subscription-label">Share Subscription</div>
+                    <div ng-if="isLicenseOwner() && !isTrial()" class="gl-manager-share-subscription-label">Share Subscription</div>
 
                     <div ng-if="!isLicenseOwner()">
                         <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s premium plan</h5>
@@ -87,7 +87,7 @@
                     <div ng-if="!isTrial()">
                         <h5 ng-if="isLicenseOwner()" class="headline-5">Invite Educators by Email</h5>
                         <alert ng-repeat="rejected in request.rejectedTeachers" ng-show="request.rejectedTeachers.length" type="danger">  Failed to invite: {{ rejected[0] }}  - {{ rejected[1] }} </b> </alert>
-                        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>{{ error }}</alert>
+                        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}</alert>
                         <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success"><span class="fa fa-check-circle"></span>  You invited {{educator}}</alert>
                         <form ng-if="isLicenseOwner()"
                               name="request" novalidate class="reg-form"
