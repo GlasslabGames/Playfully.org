@@ -21,9 +21,10 @@
                             <span>{{plan.studentSeatsRemaining}}</span>
                         </div>
                     </div>
-                    <div class="gl-manager-side-panel-section" ng-if="isTrial()">
+                    <div class="gl-manager-side-panel-section" ng-if="!isLicenseOwner()">
                         <h4 class="headline-4">Expiration Date</h4>
-                        <p>Your trial will end on: {{plan.expirationDate}}</p>
+                        <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
+                        <p> {{plan.expirationDate}}</p>
                     </div>
                     <div class="gl-manager-side-panel-section" ng-if="isLicenseOwner() && !isTrial()">
                         <h4 class="headline-4">Auto-Renewal</h4>
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="gl-manager-share-subscription">
+                <div class="gl-manager-share-subscription gl-margin--B50">
                     <div ng-if="!isTrial()" class="gl-manager-share-subscription-label">Share Subscription</div>
 
                     <div ng-if="!isLicenseOwner()">

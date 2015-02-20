@@ -27,6 +27,11 @@ angular.module('playfully.manager', [])
             url: '/billing-info',
             templateUrl: 'manager/manager-billing-info.html',
             controller: 'ManagerBillingInfoCtrl',
+            resolve: {
+              billingInfo: function(LicenseService) {
+                  return LicenseService.getBillingInfo();
+              }
+            },
             data: {
                 authorizedRoles: ['License']
             }
@@ -101,7 +106,6 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/manager-leave-subscription-modal.html',
                     controller: function ($scope, $log, $stateParams, LicenseService, $previousState, UserService) {
-                        $previousState.forget('modalInvoker');
 
                         $scope.ownerName = $stateParams.ownerName;
 
@@ -137,7 +141,7 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/manager-cancel-license-modal.html',
                     controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
-                        $previousState.forget('modalInvoker');
+
                         $scope.expirationDate = $stateParams.expirationDate;
                         $scope.autoRenew = $stateParams.autoRenew;
                         console.log($scope.autoRenew);
@@ -220,6 +224,9 @@ angular.module('playfully.manager', [])
                 },
                 packages: function (LicenseService) {
                     return LicenseService.getPackages();
+                },
+                billingInfo: function (LicenseService) {
+                    return LicenseService.getBillingInfo();
                 }
             },
             templateUrl: 'manager/manager-upgrade.html',
@@ -245,8 +252,9 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo) {
         $scope.$parent.currentTab = $state.current.url;
+        console.log('billingInfo',billingInfo);
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
@@ -292,7 +300,11 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, plan, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
+    .controller('ManagerBillingInfo', function ($scope, billingInfo) {
+        $scope.billingInfo = billingInfo;
+        console.log($scope.billingInfo.brand);
+    })
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, plan, packages, billingInfo,  REGISTER_CONSTANTS) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -300,8 +312,9 @@ angular.module('playfully.manager', [])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.originalPackage = plan.packageDetails;
+        $scope.billingInfo = billingInfo;
 
-        if ($scope.isTrial()) {
+        if ($scope.originalPackage.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
             allGames.studentSeats = plan.packageDetails.studentSeats;
             allGames.educatorSeats = plan.packageDetails.educatorSeats;
@@ -320,7 +333,7 @@ angular.module('playfully.manager', [])
           currentCard: 'current'
         };
 
-        if ($scope.isTrial()) {
+        if ($scope.originalPackage.name === 'Trial') {
             $scope.status.currentCard = 'add';
         }
 

@@ -6,19 +6,19 @@
 
 <div class="modal-body text-center" ng-hide="request.success">
     <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
-    <div ng-show="autoRenew">
+    <div ng-hide="autoRenew">
         <p class="gl-margin-Vl">You are setting your subscription to cancel on:</p>
         <p>{{expirationDate}}</p>
         <input ng-click="cancelLicense()"
-               ng-value="request.isSubmitting ? 'Turning off auto-renew...' : 'Turn off auto-renew'"
+               ng-value="request.isSubmitting ? 'Turning off Auto-Renew...' : 'Turn off Auto-Renew'"
                class="btn btn-danger">
     </div>
-    <div ng-hide="autoRenew">
+    <div ng-show="autoRenew">
         <p class="gl-margin-Vl">You are setting your subscription to automatically renew on:</p>
         <p>{{expirationDate}}</p>
         <input ng-click="cancelLicense()"
-               ng-value="request.isSubmitting ? 'Turning on auto-renew...' : 'Turn on auto-renew'"
-               class="btn btn-danger">
+               ng-value="request.isSubmitting ? 'Turning on Auto-Renew...' : 'Turn on Auto-Renew'"
+               class="btn btn-success">
     </div>
 </div>
 

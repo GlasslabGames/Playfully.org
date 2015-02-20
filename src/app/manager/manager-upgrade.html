@@ -95,7 +95,7 @@
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
                                     <input type="radio" ng-model="status.currentCard" ng-value="'current'">
-                                    Use current card
+                                    Use current card ({{billingInfo.brand}} card ending in {{billingInfo.last4}})
                                 </label>
                             </div>
                             <div ng-if="!isTrial()" class="radio gl-block">
