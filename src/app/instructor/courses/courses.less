@@ -379,6 +379,10 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
   background-image: url(/assets/thumb-game-SLFR.png);
 }
 
+.gl-thumb-WT {
+  background-image: url(/assets/thumb-game-WT.png);
+}
+
 .gl-course-create-confirm {
   width: 67%;
   margin-left: auto;
@@ -425,4 +429,28 @@ input[type=checkbox]:checked + label .gl-course-game-indicator {
 
 .gl-course-game-maintenance > label:hover {
   cursor: default;
+}
+
+.gl-game-premium-ribbon {
+  position: absolute;
+  z-index: 10;
+  width: 72px;
+  height: 72px;
+  top: -5px;
+  left: -5px;
+  .image-2x('game-ribbon-dkgreen.png', 72px, 72px);
+}
+
+.gl-game-premium-ribbon-text {
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  .rotate(-45deg);
+  position: relative;
+  top: 21px;
+  left: -4px;
+  text-align: center;
+  width: 72px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }

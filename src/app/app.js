@@ -351,6 +351,7 @@ angular.module( 'playfully', [
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
     $scope.isLicenseOwner = LicenseService.isOwner;
+    $scope.isTrial = LicenseService.isTrial;
     $scope.hasLicense = LicenseService.hasLicense;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;
@@ -401,6 +402,23 @@ angular.module( 'playfully', [
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $rootScope.currentUser = user;
       // Google Analytics
+        if (user &&
+            user.role === 'instructor') {
+            if (user.licenseStatus &&
+                user.licenseStatus === "pending") {
+                user.licenseStatus = "active";
+                LicenseService.activateLicenseStatus().then(function () {
+                    UserService.updateUserSession(function () {
+                        $state.go('modal.notify-invited-subscription');
+                    });
+                });
+                return;
+            }
+            if (user.isUpgradeTrial) {
+                $state.go('modal.start-trial-subscription');
+                return;
+            }
+        }
         // Google Analytics - User ID tracking
       if ($window.ga) { $window.ga("set", "dimension1", user.id); }
       /** Student login/register always redirects back to dashboard **/
@@ -412,16 +430,6 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
-      if (user &&
-          user.licenseStatus &&
-          user.licenseStatus === "pending") {
-          user.licenseStatus = "active";
-          LicenseService.activateLicenseStatus().then(function() {
-              UserService.updateUserSession(function() {
-                  $state.go('modal.notify-invited-subscription');
-              });
-          });
-      }
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

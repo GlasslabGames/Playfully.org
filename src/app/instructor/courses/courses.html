@@ -82,6 +82,10 @@
                 ng-show="gamesInfo[game.id].enabled">
 
                 <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
+                  <div ng-if="gamesInfo[game.id].price == 'Premium'"
+                    class="gl-game-premium-ribbon">
+                    <div class="gl-game-premium-ribbon-text">Premium</div>
+                  </div>
                   <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
                     <div class="gl-course-game-lock"
                       ng-if="game.settings.missionProgressLock"

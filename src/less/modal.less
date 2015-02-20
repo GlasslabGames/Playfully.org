@@ -6,24 +6,32 @@
   width: 550px;
 }
 
-.modal-xlg {
-  width: 640px;
-  margin-left: auto;
-  margin-right: auto;
-  > .modal-lg {
-    width: 640px;
-  }
-}
-
 .modal-sm > .modal-content,
 .modal-lg > .modal-content {
   padding-left: 24px;
   padding-right: 24px;
 }
 
+.modal-xlg {
+  width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  > .modal-lg {
+    width: 640px;
+    > .modal-content {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+}
+
 .modal-sm > .modal-content .close,
 .modal-lg > .modal-content .close {
   margin-right: -24px;
+}
+
+.modal-xlg > .modal-lg > .modal-content .close {
+  margin-right: -16px;
 }
 
 .modal-title {

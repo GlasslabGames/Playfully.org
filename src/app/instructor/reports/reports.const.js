@@ -45,8 +45,9 @@ angular.module('reports.const', [])
   'Leverage Points': 'gl-reports-achievement-red-square',
   // Competency
   "mastered": {class:'gl-reports-competency-circle-green',text: 'Mastered'},
+  "approaching-mastery": {class:'gl-reports-competency-circle-yellow',text: 'Approaching Mastery'},
   "not-mastered": {class:'gl-reports-competency-circle-red',text: 'Not Mastered'},
-  "not-enough-info": {class:'gl-reports-competency-circle-gray',text: 'Not Enough Info'},
+  "not-enough-data": {class:'gl-reports-competency-circle-gray',text: 'Not Enough Data'},
   "not-covered": {class:'gl-reports-competency-circle-white',text: 'Not Covered'},
   // Shoutout Watchout
   'so':'gl-reports-so-icon',

@@ -1,6 +1,6 @@
     <div class="container">
         <div class="row">
-            <form novalidate class="reg-form">
+            <form novalidate name="upgradeForm" class="reg-form">
                 <div class="form-group" ng-class="{'has-error': info.$dirty && info.$invalid}">
                 <div class="col-md-4">
                     <div class="gl-manager-side-panel gl-margin--B50">
@@ -9,38 +9,41 @@
                         </div>
                         <div class="gl-manager-side-panel-section">
                             <h4 class="headline-4">Packages:</h4>
-                            <form class="gl-upgrade-form">
-                                <div class="radio" ng-repeat="package in packages.choices">
+                            <div class="gl-upgrade-form">
+                                <div class="radio" ng-repeat="package in choices.packages">
                                     <label>
-                                        <input type="radio" ng-model="packages.selectedName" ng-value="package">
+                                        <input type="radio" ng-model="status.packageName" ng-value="package">
                                         {{package}}
-                                            <span class="gl-manager-current-text" ng-if="package===currentPackage.name">(current)</span>
+                                            <span class="gl-manager-current-text" ng-if="package===originalPackage.name && !isTrial()">(current)</span>
                                     </label>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="gl-manager-side-panel-section gl-manager-side-panel-section-size">
                             <h4 class="headline-4">Package Sizes:</h4>
-                            <form class="gl-upgrade-form">
-                                <div class="radio" ng-repeat="seat in seats.choices">
-                                    <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < currentPackage.studentSeats} ">
-                                        <input type="radio" ng-model="seats.selectedNumber" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < currentPackage.studentSeats">
+                            <div class="gl-upgrade-form">
+                                <div class="radio" ng-repeat="seat in choices.seats">
+                                    <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < originalPackage.studentSeats && !isTrial()} ">
+                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()">
                                         {{seat.studentSeats}} students + {{seat.educatorSeats}} educators <span
-                                            class="gl-manager-current-text" ng-if="currentPackage.studentSeats===seat.studentSeats">(current)</span>
+                                            class="gl-manager-current-text" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
                                     </label>
                                 </div>
-                            </form>
+                            </div>
 
 
                         </div>
                         <div class="gl-manager-side-panel-section">
                                 <h4 class="gl-manager-current-text headline-5 gl-inline float--l">Current:</h4>
-                                <h4 class="gl-manager-current-text headline-5 gl-inline float--r">${{calculateTotal(currentPackage.name, currentPackage.studentSeats)}} / year</h4>
+                                <h4 class="gl-manager-current-text headline-5 gl-inline float--r" ng-if="!isTrial()">
+                                    ${{calculateTotal(originalPackage.name, originalPackage.studentSeats)}} / year
+                                </h4>
+                                <h4 class="gl-manager-current-text headline-5 gl-inline float--r" ng-if="isTrial()">Trial</h4>
                             <hr class="gl-manager-total-division">
-                            <h4 class="headline-4 gl-inline float--l">Total:</h4>  <h4
-                                class="headline-4 gl-inline float--r">
-                            *${{calculateTotal(packages.selectedName, seats.selectedNumber)}} / year</h4>
-                            <sub class="gl-manager-prorate-text"> *we prorate</sub>
+                            <h4 class="headline-4 gl-inline float--l">Total:</h4>
+                            <h4 class="headline-4 gl-inline float--r">
+                            <span ng-if="!isTrial()">*</span>${{calculateTotal(status.packageName, status.studentSeats)}} / year</h4>
+                            <sub class="gl-manager-prorate-text" ng-if="!isTrial()"> *we prorate</sub>
                         </div>
                     </div>
 
@@ -48,47 +51,54 @@
                 <div class="col-md-8">
                     <div class="gl-upgrade-payment  gl-margin--B50 form-inline">
                         <div class="gl-payment-selection l-collection gl-margin--Bl">
-                            <h5 ng-click="isPaymentCreditCard=false"
-                                ng-class="{'text-bold': !isPaymentCreditCard }"
+                            <h5 ng-click="status.isPaymentCreditCard=false"
+                                ng-class="{'text-bold': !status.isPaymentCreditCard }"
                                 class="headline-5 gl-inline-block gl-margin--R40 gl-clickable">Purchase Order</h5>
-                            <h5 ng-click="isPaymentCreditCard=true"
-                                ng-class="{'text-bold': isPaymentCreditCard}"
+                            <h5 ng-click="status.isPaymentCreditCard=true"
+                                ng-class="{'text-bold': status.isPaymentCreditCard}"
                                 class="headline-5 gl-inline-block gl-margin--Bl gl-clickable">Credit Card</h5>
                         </div>
                         <div class="gl-upgrade-label-payment">Payment</div>
-                        <div ng-show="!isPaymentCreditCard">
+                        <div ng-show="!status.isPaymentCreditCard">
                             <p>Please share with us the primary contact for this order. It may be different form the
                                 person placing this order. We need this information so we know who to contact regarding
                                 this order. </p>
 
                             <div class="form-group">
                                 <input size="30" class="form-control gl-margin-Vl" ng-model="info.PO.name"
+                                       required
                                        placeholder="Primary Contact Name">
                             </div>
                             <div class="form-group">
                                 <input size="30" class="form-control gl-margin-Vl" ng-model="info.PO.phone"
+                                       required
                                        placeholder="Phone Number">
                             </div>
-                            <div class="form-group">
-                                <input size="30" class="form-control gl-margin-Vl"
+                            <div class="form-group"
+                                 ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
+                                <input name="email"
+                                       ng-pattern="emailValidationPattern"
+                                       size="30" class="form-control gl-margin-Vl"
                                        ng-model="info.PO.email"
+                                       required
                                        placeholder="Email">
                             </div>
                             <div class="form-group">
                                 <input size="30" class="form-control gl-margin-Vl"
                                        ng-model="info.PO.number"
+                                       required
                                        placeholder="Purchase Order #">
                             </div>
 
                         </div>
-                        <div ng-show="isPaymentCreditCard">
-                            <div class="radio gl-block">
+                        <div ng-show="status.isPaymentCreditCard">
+                            <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
                                     <input type="radio" ng-model="status.currentCard" ng-value="'current'">
-                                    Use current card
+                                    Use current card ({{billingInfo.brand}} card ending in {{billingInfo.last4}})
                                 </label>
                             </div>
-                            <div class="radio gl-block">
+                            <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
                                     <input type="radio" ng-model="status.currentCard" ng-value="'add'">
                                     Add new card
@@ -96,36 +106,34 @@
                             </div>
                             <div ng-show="status.currentCard==='add'" class="gl-margin--T40">
                                 <div class="form-group">
-                                    <input class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
+                                    <input required class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control"
-                                            ng-options="type for type in cardTypes"
+                                            ng-options="type for type in choices.cardTypes"
                                             ng-model="info.CC.cardType">
                                     </select>
                                 </div>
-                                <input class="form-control gl-margin-Vl" ng-model="info.CC.number"
+                                <input required class="form-control gl-margin-Vl" ng-model="info.CC.number"
                                        placeholder="Credit Card Number">
                                 <label>Expiration Date: </label>
-
-                                <div class="form-group">
-                                    <input class="form-control" size="4" ng-model="info.CC.exp_month" placeholder="MM">
+                                <div class="form-group"
+                                     ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
+                                    <input name="expMonth" ng-minlength="4" class="form-control" size="4" ng-model="info.CC.exp_month" required placeholder="MM">
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" size="5" ng-model="info.CC.exp_year" placeholder="YYYY">
+                                <div class="form-group"
+                                     ng-class="{'has-error': upgradeForm.expYear.$dirty && upgradeForm.expYear.$invalid}">
+                                    <input ng-minlength="4" name="expYear" class="form-control" size="5" ng-model="info.CC.exp_year" required placeholder="YYYY">
                                 </div>
                                 <label>Security Code: </label>
 
-                                <div class="form-group">
-                                    <input class="form-control" size="5" ng-model="info.CC.cvc" placeholder="CVC">
-                                </div>
-                                <div class="form-errors">
-                                    <div class="form-error"
-                                         ng-show="info.$dirty && (info.$invalid || request.errors.length > 0)">
-                                    </div>
+                                <div class="form-group"
+                                     ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
+                                    <input name="cvc" ng-minlength="3" class="form-control" size="5" ng-model="info.CC.cvc" required placeholder="CVC">
                                 </div>
                                 <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
-                                       ng-show="request.errors.length" type="danger">{{
+                                       ng-show="request.errors.length" type="danger"><span
+                                        class="fa fa-times-circle"></span>  {{
                                     error }}
                                 </alert>
                             </div>
@@ -137,9 +145,10 @@
                                 <button type="button" ui-sref="root.manager.plan"
                                         class="btn gl-btn--grey gl-margin--Rl">Cancel
                                 </button>
-                                <input ng-click="submitPayment(seats.selectedNumber,packages.selectedName,info)" class="btn gl-btn--black"
+                                <input ng-click="submitPayment(status.studentSeats,status.packageName,info)" class="btn gl-btn--black"
                                        value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
-                                       ng-disabled="request.$pristine || request.$invalid || request.isSubmitting">
+                                       ng-disabled="!isTrial() && (upgradeForm.$pristine || request.$invalid || request.isSubmitting ||
+                                       (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
                             </div>
                 </div>
                 </div>

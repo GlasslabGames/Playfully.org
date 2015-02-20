@@ -44,7 +44,7 @@ angular.module( 'playfully.games', [
         return _.filter(allGamesInfo, { 'price': 'Free' });
       },
       premiumGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Premium Subscription' });
+        return _.filter(allGamesInfo, { 'price': 'Premium' });
       },
       comingSoonGames: function (allGamesInfo) {
         return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
@@ -235,7 +235,7 @@ angular.module( 'playfully.games', [
   function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
-    $scope.gameId = $stateParams.gameId;
+    $scope.gameId = $stateParams.gameId.toUpperCase();
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
 
