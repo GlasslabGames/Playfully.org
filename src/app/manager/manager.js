@@ -113,6 +113,7 @@ angular.module('playfully.manager', [])
                             success: false,
                             errors: []
                         };
+
                         $scope.leaveSubscription = function () {
                             LicenseService.leaveCurrentPlan().then(function (response) {
                                     $scope.request.errors = [];
@@ -131,28 +132,42 @@ angular.module('playfully.manager', [])
                 }
             }
         })
-        .state('modal.cancel-license', {
-            url: '/manager/current/cancel-license?expirationDate?autoRenew',
+        .state('modal.auto-renew', {
+            url: '/manager/current/auto-renew?expirationDate?autoRenew',
             data: {
-                pageTitle: 'Cancel License',
+                pageTitle: 'License Auto-Renew',
                 reloadNextState: true
             },
             views: {
                 'modal@': {
-                    templateUrl: 'manager/manager-cancel-license-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, $previousState) {
-
+                    templateUrl: 'manager/manager-auto-renew-modal.html',
+                    controller: function ($scope, $log, $stateParams, LicenseService) {
                         $scope.expirationDate = $stateParams.expirationDate;
-                        $scope.autoRenew = $stateParams.autoRenew;
-                        console.log($scope.autoRenew);
+                        $scope.autoRenew = $stateParams.autoRenew > 0;
+
                         $scope.request = {
                             success: false,
                             errors: []
                         };
-                        $scope.cancelLicense = function () {
+                        $scope.enableAutoRenew = function () {
                             $scope.request.isSubmitting = true;
                             $scope.request.errors = [];
-                            LicenseService.cancelLicense().then(function (response) {
+                            LicenseService.enableAutoRenew().then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.success = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push(response.data.error);
+                                });
+                        };
+                        $scope.disableAutoRenew = function () {
+                            $scope.request.isSubmitting = true;
+                            $scope.request.errors = [];
+                            LicenseService.disableAutoRenew().then(function (response) {
                                     $scope.request.errors = [];
                                     $scope.request.isSubmitting = false;
                                     $scope.request.success = true;
@@ -452,8 +467,7 @@ angular.module('playfully.manager', [])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
-
-
+        console.log(plan);
         $scope.request = {
             success: false,
             invitedEducators: '',

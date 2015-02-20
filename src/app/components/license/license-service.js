@@ -78,8 +78,11 @@ angular.module('license', [])
             this.startTrial = function () {
                 return $http.post(API_BASE + '/license/trial');
             };
-            this.cancelLicense = function () {
+            this.disableAutoRenew = function () {
                 return $http.post(API_BASE + '/license/cancel');
+            };
+            this.enableAutoRenew = function () {
+                return $http.post(API_BASE + '/license/renew');
             };
             this.upgradeLicense = function (input) {
                 var apiUrl = API_BASE + '/license/upgrade';
