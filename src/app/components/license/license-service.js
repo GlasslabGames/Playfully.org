@@ -54,6 +54,11 @@ angular.module('license', [])
                     return $rootScope.currentUser.id === $rootScope.currentUser.licenseOwnerId;
                 }
             };
+            this.isTrial = function () {
+                if ($rootScope.currentUser) {
+                    return $rootScope.currentUser.isTrial;
+                }
+            };
             this.hasLicense = function () {
               if ($rootScope.currentUser) {
                   if ($rootScope.currentUser.isTrial) {
@@ -80,8 +85,8 @@ angular.module('license', [])
                 var apiUrl = API_BASE + '/license/upgrade';
                 return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo});
             };
-            this.getStripeCustomerId = function () {
-                var apiUrl = API_BASE + '/license/customer';
+            this.getBillingInfo = function () {
+                var apiUrl = API_BASE + '/license/billing';
               return $http({method: 'GET', url: apiUrl})
                   .then(function (response) {
                       return response.data;
@@ -89,13 +94,5 @@ angular.module('license', [])
                       return response;
                   });
             };
-            this.retrieveCustomerInfo = function (customerId) {
-                var apiUrl = 'https://api.stripe.com/v1/customers/' + customerId;
-                return $http({method: 'GET', url: apiUrl, headers: {'Authorization': 'pk_test_0T7q98EI508iQGcjdv1DVODS'}})
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        return response;
-                    });
-            };
+
     });
