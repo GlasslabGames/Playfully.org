@@ -353,6 +353,7 @@ angular.module( 'playfully', [
     $scope.isLicenseOwner = LicenseService.isOwner;
     $scope.isTrial = LicenseService.isTrial;
     $scope.hasLicense = LicenseService.hasLicense;
+    $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;
 
