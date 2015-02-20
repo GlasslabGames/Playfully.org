@@ -44,7 +44,7 @@ angular.module( 'playfully.games', [
         return _.filter(allGamesInfo, { 'price': 'Free' });
       },
       premiumGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Premium Subscription' });
+        return _.filter(allGamesInfo, { 'price': 'Premium' });
       },
       comingSoonGames: function (allGamesInfo) {
         return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
