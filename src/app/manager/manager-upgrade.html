@@ -100,11 +100,11 @@
                             </div>
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'add'">
-                                    Add new card
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'">
+                                    Change default card
                                 </label>
                             </div>
-                            <div ng-show="status.currentCard==='add'" class="gl-margin--T40">
+                            <div ng-show="status.currentCard==='change'" class="gl-margin--T40">
                                 <div class="form-group">
                                     <input required class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
                                 </div>

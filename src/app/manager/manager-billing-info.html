@@ -5,7 +5,67 @@
                 <div class="gl-manager-side-panel-label text-center">
                     Credit & Debit Cards
                 </div>
-                {{billingInfo.brand}}
+                <div ng-show="!isChangeCard" class="gl-margin--L40 gl-margin--T40">
+                    <h5 class="headline-5">{{billingInfo.brand}} ending in {{billingInfo.last4}}</h5>
+                        <div class="gl-margin--L40">
+                            <ul class="list--nobullets gl-margin--L40 gl-margin--Tl">
+                                <li><h5 class="headline-5--bold">Expires</h5>
+                                    {{billingInfo.expMonth}} / {{billingInfo.expYear}}
+                                </li>
+                                <li><h5 class="headline-5--bold">Name on card</h5>
+                                    {{billingInfo.name}}
+                                </li>
+                                <li ng-if="billingInfo.addressLine1"><h5 class="headline-5--bold">Billing Address</h5>
+                                    {{billingInfo.addressLine1}}
+                                    {{billingInfo.addressCity}},{{billingInfo.addressState}},{{billingInfo.addressZip}}
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+                <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
+                    Change Default Card
+                </button>
+                <div ng-show="isChangeCard">
+                    <div class="gl-margin--T40">
+                        <form novalidate name="upgradeForm" class="form-inline reg-form">
+                            <div class="form-group">
+                                <input required class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control"
+                                        ng-options="type for type in choices.cardTypes"
+                                        ng-model="info.CC.cardType">
+                                </select>
+                            </div>
+                            <div class="form-group ">
+                                <input required class="form-control gl-margin-Vl" size="70" ng-model="info.CC.number"
+                                   placeholder="Credit Card Number">
+                            </div>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
+                                <input name="expMonth" ng-minlength="4" class="form-control" size="4"
+                                       ng-model="info.CC.exp_month" required placeholder="MM">
+                            </div>
+                            <div class="form-group"
+                                 ng-class="{'has-error': upgradeForm.expYear.$dirty && upgradeForm.expYear.$invalid}">
+                                <input ng-minlength="4" name="expYear" class="form-control" size="5"
+                                       ng-model="info.CC.exp_year" required placeholder="YYYY">
+                            </div>
+                            <label>Security Code: </label>
+
+                            <div class="form-group"
+                                 ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
+                                <input name="cvc" ng-minlength="3" class="form-control" size="5" ng-model="info.CC.cvc"
+                                       required placeholder="CVC">
+                            </div>
+                            <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
+                                   ng-show="request.errors.length" type="danger"><span
+                                    class="fa fa-times-circle"></span> {{
+                                error }}
+                            </alert>
+                      </form>
+                </div>
             </div>
         </div>
     </div>

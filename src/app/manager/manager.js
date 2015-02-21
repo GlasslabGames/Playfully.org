@@ -143,7 +143,12 @@ angular.module('playfully.manager', [])
                     templateUrl: 'manager/manager-auto-renew-modal.html',
                     controller: function ($scope, $log, $stateParams, LicenseService) {
                         $scope.expirationDate = $stateParams.expirationDate;
-                        $scope.autoRenew = $stateParams.autoRenew > 0;
+
+                        if ($stateParams.autoRenew === "true") {
+                            $scope.autoRenew = true;
+                        } else {
+                            $scope.autoRenew = false;
+                        }
 
                         $scope.request = {
                             success: false,
@@ -267,9 +272,15 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS) {
         $scope.$parent.currentTab = $state.current.url;
-        console.log('billingInfo',billingInfo);
+        $scope.billingInfo = billingInfo;
+        $scope.isChangeCard = true;
+
+        $scope.choices = {
+            states: REGISTER_CONSTANTS.states,
+            cardTypes: ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
+        };
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
         $scope.$parent.currentTab = $state.current.url;
@@ -315,10 +326,6 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerBillingInfo', function ($scope, billingInfo) {
-        $scope.billingInfo = billingInfo;
-        console.log($scope.billingInfo.brand);
-    })
     .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, plan, packages, billingInfo,  REGISTER_CONSTANTS) {
 
         // Current Plan Info
@@ -329,7 +336,7 @@ angular.module('playfully.manager', [])
         $scope.originalPackage = plan.packageDetails;
         $scope.billingInfo = billingInfo;
 
-        if ($scope.originalPackage.name === 'Trial') {
+        if (plan.packageDetails.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
             allGames.studentSeats = plan.packageDetails.studentSeats;
             allGames.educatorSeats = plan.packageDetails.educatorSeats;
@@ -348,8 +355,8 @@ angular.module('playfully.manager', [])
           currentCard: 'current'
         };
 
-        if ($scope.originalPackage.name === 'Trial') {
-            $scope.status.currentCard = 'add';
+        if (plan.packageDetails.name === 'Trial') {
+            $scope.status.currentCard = 'change';
         }
 
         $scope.choices = {
