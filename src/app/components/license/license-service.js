@@ -69,6 +69,12 @@ angular.module('license', [])
                   }
               }
             };
+            this.licenseExpirationDate = function() {
+                if( $rootScope.currentUser &&
+                    this.hasLicense() ) {
+                    return $rootScope.currentUser.expirationDate;
+                }
+            };
             this.leaveCurrentPlan = function () {
                 return $http.post(API_BASE + '/license/leave');
             };

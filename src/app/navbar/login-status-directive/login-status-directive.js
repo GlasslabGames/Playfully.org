@@ -13,13 +13,19 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
  * @example <login-navbar></login-navbar>
  **/
 
-.directive('loginStatus', function( $state, AuthService, Session, $modal ) {
+.directive('loginStatus', function( $state, AuthService, LicenseService, Session, $modal ) {
   var directive = {
     templateUrl: 'navbar/login-status-directive/login-status-directive.html',
     restrict: 'E',
     replace: true,
-    controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS, LicenseService) {
-
+    controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS) {
+      var expirationDate = LicenseService.licenseExpirationDate();
+      if( expirationDate ) {
+        $scope.daysRemaining = moment( expirationDate ).diff( moment(), 'days' );
+      }
+      else {
+        $scope.daysRemaining = 0;
+      }
     },
     link: function($scope, $element, $attrs, $controller) {
 
