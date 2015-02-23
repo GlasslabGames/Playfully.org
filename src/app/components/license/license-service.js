@@ -103,5 +103,8 @@ angular.module('license', [])
                       return response;
                   });
             };
-
+            this.updateBillingInfo = function (stripeInfo) {
+                var apiUrl = API_BASE + '/license/billing';
+                return $http.post( apiUrl, {card: stripeInfo});
+            };
     });
