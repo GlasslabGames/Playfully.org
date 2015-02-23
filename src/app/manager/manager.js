@@ -272,14 +272,86 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UserService) {
         $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = billingInfo;
-        $scope.isChangeCard = true;
-
+        $scope.isChangingCard = false;
         $scope.choices = {
             states: REGISTER_CONSTANTS.states,
             cardTypes: ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
+        };
+
+        $scope.request = {
+            success: false,
+            invitedEducators: '',
+            errors: [],
+            successes: []
+        };
+
+        $scope.info = {
+            CC: {
+                name: null,
+                cardType: "Visa",
+                number: null,
+                exp_month: null,
+                exp_year: null,
+                cvc: null,
+                address_line1: null,
+                address_line2: null,
+                address_city: null,
+                address_state: null,
+                address_zip: null,
+                address_country: null
+            }
+        };
+        $scope.changeCard = function(info) {
+            // stripe request
+            //if (!Stripe.card.validateCardNumber(info.payment.number)) {
+            //  $scope.request.errors.push("You entered an invalid Credit Card number");
+            //}
+            //if (!Stripe.card.validateExpiry(info.payment.exp_month, info.payment.exp_year)) {
+            //    $scope.request.errors.push("You entered an invalid expiration date");
+            //}
+            //if (!Stripe.card.validateCVC(info.payment.cvc)) {
+            //    $scope.request.errors.push("You entered an invalid CVC number");
+            //}
+            //if (!Stripe.card.cardType(info.payment.cardType)) {
+            //    $scope.request.errors.push("You entered an invalid CVC number");
+            //}
+            $scope.request.isSubmitting = true;
+            if ($scope.request.errors < 1) {
+                Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                Stripe.card.createToken({
+                    name: 'charles',
+                    number: 4242424242424242,
+                    exp_month: 1,
+                    exp_year: 2020,
+                    cvc: 123,
+                    address_line1: '1945 GlassLab Dr.',
+                    address_city: 'Transparent City',
+                    address_zip: 95014,
+                    address_state: 'CA',
+                    address_country: 'USA'
+                }, function (status, stripeToken) {
+                    _updateBillingInfo(stripeToken.id);
+                });
+            }
+        };
+        var _updateBillingInfo = function (stripeTokenId) {
+            $scope.request.isSubmitting = true;
+            $scope.request.errors = [];
+            LicenseService.updateBillingInfo(stripeTokenId).then(function () {
+                $scope.request.errors = [];
+                $scope.request.isSubmitting = false;
+                $scope.request.success = true;
+                UserService.updateUserSession(function () {
+                    $scope.isChangingCard = false;
+                });
+            }, function (response) {
+                $scope.request.isSubmitting = false;
+                $scope.request.errors = [];
+                $scope.request.errors.push(response.data.error);
+            });
         };
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {

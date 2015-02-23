@@ -18,7 +18,7 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
     templateUrl: 'navbar/login-status-directive/login-status-directive.html',
     restrict: 'E',
     replace: true,
-    controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS) {
+    controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS, LicenseService) {
 
     },
     link: function($scope, $element, $attrs, $controller) {

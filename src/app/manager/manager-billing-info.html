@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <div class="gl-manager-billing-panel gl-margin--B50">
                 <div class="gl-manager-side-panel-label text-center">
-                    Credit & Debit Cards
+                    Credit / Debit Card
                 </div>
-                <div ng-show="!isChangeCard" class="gl-margin--L40 gl-margin--T40">
+                <div ng-show="!isChangingCard" class="gl-margin--L40 gl-margin--T40">
                     <h5 class="headline-5">{{billingInfo.brand}} ending in {{billingInfo.last4}}</h5>
                         <div class="gl-margin--L40">
                             <ul class="list--nobullets gl-margin--L40 gl-margin--Tl">
@@ -16,54 +16,126 @@
                                     {{billingInfo.name}}
                                 </li>
                                 <li ng-if="billingInfo.addressLine1"><h5 class="headline-5--bold">Billing Address</h5>
-                                    {{billingInfo.addressLine1}}
-                                    {{billingInfo.addressCity}},{{billingInfo.addressState}},{{billingInfo.addressZip}}
+                                    <ul class="list--nobullets">
+                                        <li>{{billingInfo.addressLine1}}</li>
+                                        <li>{{billingInfo.addressLine2}}</li>
+                                        <li>{{billingInfo.addressCity}}, {{billingInfo.addressState}},
+                                            {{billingInfo.addressZip}}</li>
+                                        <li>{{billingInfo.addressCountry}}</li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
                 </div>
-                <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
-                    Change Default Card
+                <button ng-show="!isChangingCard" type="button" ng-click="isChangingCard=true" class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
+                    Change Card
                 </button>
-                <div ng-show="isChangeCard">
+                <button ng-show="isChangingCard" type="button" ng-click="isChangingCard=false"
+                        class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
+                    View Billing Info
+                </button>
+                <div ng-show="isChangingCard">
                     <div class="gl-margin--T40">
-                        <form novalidate name="upgradeForm" class="form-inline reg-form">
-                            <div class="form-group">
-                                <input required class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control"
-                                        ng-options="type for type in choices.cardTypes"
-                                        ng-model="info.CC.cardType">
-                                </select>
-                            </div>
-                            <div class="form-group ">
-                                <input required class="form-control gl-margin-Vl" size="70" ng-model="info.CC.number"
-                                   placeholder="Credit Card Number">
-                            </div>
+                        <h4 class="headline-4 gl-margin-Vl">Enter your credit card: </h4>
+                        <form novalidate name="changeCardForm" class="form-inline reg-form">
+                            <ul class="list--nobullets">
+                                <li>
+                                    <div class="form-group">
+                                        <input required class="form-control" size="60" ng-model="info.CC.name"
+                                               placeholder="Name on Card">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group gl-margin--Tl">
+                                        <select class="form-control"
+                                                ng-options="type for type in choices.cardTypes"
+                                                ng-model="info.CC.cardType">
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-group">
+                                        <input required class="form-control gl-margin-Vl" size="60"
+                                               ng-model="info.CC.number"
+                                               placeholder="Credit Card Number">
+                                    </div>
+                                </li>
+                                <li>
+                                    Expiration Date:
+                                    <div class="form-group"
+                                         ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
+                                        <input name="expMonth" ng-minlength="4" class="form-control" size="4"
+                                               ng-model="info.CC.exp_month" required placeholder="MM">
+                                    </div>
+                                    <div class="form-group"
+                                         ng-class="{'has-error': upgradeForm.expYear.$dirty && upgradeForm.expYear.$invalid}">
+                                        <input ng-minlength="4" name="expYear" class="form-control" size="5"
+                                               ng-model="info.CC.exp_year" required placeholder="YYYY">
+                                    </div>
+                                    Security Code:
 
-                            <div class="form-group"
-                                 ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
-                                <input name="expMonth" ng-minlength="4" class="form-control" size="4"
-                                       ng-model="info.CC.exp_month" required placeholder="MM">
-                            </div>
-                            <div class="form-group"
-                                 ng-class="{'has-error': upgradeForm.expYear.$dirty && upgradeForm.expYear.$invalid}">
-                                <input ng-minlength="4" name="expYear" class="form-control" size="5"
-                                       ng-model="info.CC.exp_year" required placeholder="YYYY">
-                            </div>
-                            <label>Security Code: </label>
-
-                            <div class="form-group"
-                                 ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
-                                <input name="cvc" ng-minlength="3" class="form-control" size="5" ng-model="info.CC.cvc"
-                                       required placeholder="CVC">
-                            </div>
+                                    <div class="form-group"
+                                         ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
+                                        <input name="cvc" ng-minlength="3" class="form-control" size="5"
+                                               ng-model="info.CC.cvc"
+                                               required placeholder="CVC">
+                                    </div>
+                                </li>
+                                </ul>
+                                <ul class="list--nobullets gl-margin--T40">
+                                    <li>
+                                        <h4 class="headline-4 gl-margin-Vl">Enter your billing address: </h4>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_line1"
+                                                   placeholder="Address Line 1">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_line2"
+                                                   placeholder="Address Line 2">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_city"
+                                                   placeholder="City">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_state"
+                                                   placeholder="State">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_zip"
+                                                   placeholder="Zip">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60" ng-model="info.CC.address_country"
+                                                   placeholder="Country">
+                                        </div>
+                                    </li>
+                                </ul>
                             <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
                                    ng-show="request.errors.length" type="danger"><span
                                     class="fa fa-times-circle"></span> {{
                                 error }}
                             </alert>
+                            <div class="reg-submit gl-margin--T40">
+                                <button type="button" ng-click="isChangingCard=!isChangingCard"
+                                        class="btn gl-btn--grey gl-margin--Rl">Cancel
+                                </button>
+                                <input ng-click="changeCard(info)"
+                                       class="btn gl-btn--black"
+                                       value="{{ request.isSubmitting ? 'Requesting Change...' : 'Submit New Card'}}">
+                            </div>
                       </form>
                 </div>
             </div>
