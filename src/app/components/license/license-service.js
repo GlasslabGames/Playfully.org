@@ -69,6 +69,12 @@ angular.module('license', [])
                   }
               }
             };
+            this.licenseExpirationDate = function() {
+                if( $rootScope.currentUser &&
+                    this.hasLicense() ) {
+                    return $rootScope.currentUser.expirationDate;
+                }
+            };
             this.leaveCurrentPlan = function () {
                 return $http.post(API_BASE + '/license/leave');
             };
@@ -78,8 +84,11 @@ angular.module('license', [])
             this.startTrial = function () {
                 return $http.post(API_BASE + '/license/trial');
             };
-            this.cancelLicense = function () {
+            this.disableAutoRenew = function () {
                 return $http.post(API_BASE + '/license/cancel');
+            };
+            this.enableAutoRenew = function () {
+                return $http.post(API_BASE + '/license/renew');
             };
             this.upgradeLicense = function (input) {
                 var apiUrl = API_BASE + '/license/upgrade';
@@ -94,5 +103,8 @@ angular.module('license', [])
                       return response;
                   });
             };
-
+            this.updateBillingInfo = function (stripeInfo) {
+                var apiUrl = API_BASE + '/license/billing';
+                return $http.post( apiUrl, {card: stripeInfo});
+            };
     });
