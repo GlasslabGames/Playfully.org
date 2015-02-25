@@ -116,6 +116,50 @@
                                         <div class="form-group">
                                             <input class="form-control" size="5" ng-model="info.CC.cvc" placeholder="CVC">
                                         </div>
+                                        <ul class="list--nobullets gl-margin--T40">
+                                            <label>Billing Address: </label>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input required class="form-control" size="60"
+                                                           ng-model="info.CC.address_line1"
+                                                           placeholder="Address Line 1">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input class="form-control" size="60" ng-model="info.CC.address_line2"
+                                                           placeholder="Address Line 2">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input required class="form-control" size="60"
+                                                           ng-model="info.CC.address_city"
+                                                           placeholder="City">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input required class="form-control" size="60"
+                                                           ng-model="info.CC.address_state"
+                                                           placeholder="State">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input required class="form-control" size="60"
+                                                           ng-model="info.CC.address_zip"
+                                                           placeholder="Zip">
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="form-group gl-margin--Tl">
+                                                    <input required class="form-control" size="60"
+                                                           ng-model="info.CC.address_country"
+                                                           placeholder="Country">
+                                                </div>
+                                            </li>
+                                        </ul>
                                         <div class="form-errors">
                                             <div class="form-error"
                                                  ng-show="info.$dirty && (info.$invalid || request.errors.length > 0)">

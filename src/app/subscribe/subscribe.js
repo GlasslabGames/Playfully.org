@@ -54,7 +54,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 }
             });
     })
-    .controller('SubscribeUpgradeCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UserService, REGISTER_CONSTANTS) {
+    .controller('SubscribeUpgradeCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
 
         // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
@@ -88,24 +88,12 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 city: null
             },
             subscription: {},
-            CC: {
-                name: null,
-                cardType: "Visa",
-                number: null,
-                exp_month: null,
-                exp_year: null,
-                cvc: null
-            },
-            PO: {
-                name: null,
-                phone: null,
-                email: null,
-                number: null
-            }
+            CC: REGISTER_CONSTANTS.ccInfo,
+            PO: REGISTER_CONSTANTS.poInfo
         };
 
         $scope.states = REGISTER_CONSTANTS.states;
-        $scope.cardTypes = ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"];
+        $scope.cardTypes = REGISTER_CONSTANTS.cardTypes;
 
         $scope.isPaymentCreditCard = true;
 
@@ -123,19 +111,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         $scope.submitPayment = function (studentSeats, packageName, info) {
 
-            // stripe request
-            //if (!Stripe.card.validateCardNumber(info.CC.number)) {
-            //  $scope.request.errors.push("You entered an invalid Credit Card number");
-            //}
-            //if (!Stripe.card.validateExpiry(info.CC.exp_month, info.CC.exp_year)) {
-            //    $scope.request.errors.push("You entered an invalid expiration date");
-            //}
-            //if (!Stripe.card.validateCVC(info.CC.cvc)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
-            //if (!Stripe.card.cardType(info.CC.cardType)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
+            //LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
@@ -153,23 +129,15 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
 
-            $scope.request.isSubmitting = true;
-            $scope.request.errors = [];
-
             var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
-            LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo}).then(function(response) {
-                $scope.request.errors = [];
-                $scope.request.isSubmitting = false;
-                $scope.request.success = true;
-                UserService.updateUserSession(function() {
+            UtilService.submitFormRequest($scope.request, function() {
+                return LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo});
+            }, function() {
+                return UserService.updateUserSession(function () {
                     $state.go('modal.subscribe-success-modal');
                 });
-            }, function (response) {
-                $scope.request.isSubmitting = false;
-                $scope.request.errors = [];
-                $scope.request.errors.push(response.data.error);
             });
         };
 

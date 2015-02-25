@@ -100,7 +100,7 @@
                             </div>
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'add'">
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'">
                                     Change card (existing card will be removed)
                                 </label>
                             </div>
@@ -131,6 +131,52 @@
                                      ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
                                     <input name="cvc" ng-minlength="3" class="form-control" size="5" ng-model="info.CC.cvc" required placeholder="CVC">
                                 </div>
+                                <ul class="list--nobullets">
+                                    <li>
+                                        <label class="gl-block gl-margin--Tl">Billing Address:</label>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60"
+                                                   ng-model="info.CC.address_line1"
+                                                   placeholder="Address Line 1">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input class="form-control" size="60" ng-model="info.CC.address_line2"
+                                                   placeholder="Address Line 2">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60"
+                                                   ng-model="info.CC.address_city"
+                                                   placeholder="City">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60"
+                                                   ng-model="info.CC.address_state"
+                                                   placeholder="State">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60"
+                                                   ng-model="info.CC.address_zip"
+                                                   placeholder="Zip">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-group gl-margin--Tl">
+                                            <input required class="form-control" size="60"
+                                                   ng-model="info.CC.address_country"
+                                                   placeholder="Country">
+                                        </div>
+                                    </li>
+                                </ul>
                                 <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
                                        ng-show="request.errors.length" type="danger"><span
                                         class="fa fa-times-circle"></span>  {{
@@ -147,7 +193,7 @@
                                 </button>
                                 <input ng-click="submitPayment(status.studentSeats,status.packageName,info)" class="btn gl-btn--black"
                                        value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
-                                       ng-disabled="!isTrial() && (upgradeForm.$pristine || request.$invalid || request.isSubmitting ||
+                                       ng-disabled="!isTrial() && status.currentCard !== 'current' && (upgradeForm.$pristine || request.$invalid || request.isSubmitting ||
                                        (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
                             </div>
                 </div>
