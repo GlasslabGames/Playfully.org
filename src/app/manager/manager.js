@@ -153,7 +153,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtliService) {
+                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService) {
                         $scope.request = {
                             success: false,
                             errors: []
@@ -390,11 +390,11 @@ angular.module('playfully.manager', [])
 
         $scope.submitPayment = function (studentSeats, packageName, info) {
             // stripe request
-            if (status.currentCard !== 'current') {
+            if (status.currentCard === 'current') {
                 return _upgradeLicense(studentSeats, packageName, {});
             }
 
-            LicenseService.stripeValidation(info.CC, $scope.request.errors);
+            //LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
@@ -416,6 +416,12 @@ angular.module('playfully.manager', [])
             var targetPlan = _.find(packages.plans, {name: packageName});
 
             UtilService.submitFormRequest($scope.request, function() {
+                if (plan.packageDetails.name === 'Trial') {
+                    return LicenseService.upgradeFromTrial({
+                        planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
+                        stripeInfo: stripeInfo
+                    });
+                }
                 return LicenseService.upgradeLicense({
                     planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
                     stripeInfo: stripeInfo

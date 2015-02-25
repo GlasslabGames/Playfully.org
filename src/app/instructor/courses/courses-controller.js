@@ -22,7 +22,7 @@ angular.module( 'instructor.courses', [
     },
     resolve: {
       games: function (GamesService) {
-            return GamesService.getGamesForPlan();
+            return GamesService.active('basic');
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()

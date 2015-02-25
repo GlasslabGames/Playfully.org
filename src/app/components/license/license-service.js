@@ -84,6 +84,12 @@ angular.module('license', [])
             this.startTrial = function () {
                 return $http.post(API_BASE + '/license/trial');
             };
+            this.upgradeFromTrial = function (input) {
+                return $http.post(API_BASE + '/license/trial/upgrade', {
+                    planInfo: input.planInfo,
+                    stripeInfo: input.stripeInfo
+                });
+            };
             this.disableAutoRenew = function () {
                 return $http.post(API_BASE + '/license/cancel');
             };
