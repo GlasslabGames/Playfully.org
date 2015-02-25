@@ -192,9 +192,9 @@ angular.module( 'instructor.reports')
 
       // Make sure we're accessing standards that exist for this game
       if( $scope.currentUser &&
-          $scope.currentUser.defaultStandards &&
-          $scope.achievements.options.groups[ $scope.currentUser.defaultStandards ] ) {
-        $scope.defaultStandards = $scope.currentUser.defaultStandards;
+          $scope.currentUser.standards &&
+          $scope.achievements.options.groups[ $scope.currentUser.standards ] ) {
+        $scope.defaultStandards = $scope.currentUser.standards;
       }
 
       /* Select one of the skill types (or default to the first) */

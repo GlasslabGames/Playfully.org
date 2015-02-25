@@ -242,12 +242,12 @@ angular.module( 'playfully.games', [
     // Get the default standard from the user
     $scope.defaultStandards = "CCSS";
     if( $scope.currentUser &&
-        $scope.currentUser.defaultStandards &&
+        $scope.currentUser.standards &&
         $scope.gameDetails &&
         $scope.gameDetails.pages &&
         $scope.gameDetails.pages.standards &&
-        $scope.gameDetails.pages.standards[$scope.currentUser.defaultStandards] ) {
-      $scope.defaultStandards = $scope.currentUser.defaultStandards;
+        $scope.gameDetails.pages.standards[$scope.currentUser.standards] ) {
+      $scope.defaultStandards = $scope.currentUser.standards;
     }
 
     if (_.has(gameDetails, 'error')) {

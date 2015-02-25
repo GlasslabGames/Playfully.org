@@ -52,6 +52,10 @@ angular.module( 'playfully.profile', [])
   $scope.user.password = '';
   $scope.user.confirm = '';
 
+  // Default standards
+  $scope.user.standards = user.standards;
+  $scope.defaultStandards = [ "CCSS", "TEKS" ];
+
   $scope.updateProfile = function(user) {
     if (user.name) {
       // name has space
