@@ -1,6 +1,6 @@
     <div class="container">
         <div class="row">
-            <form novalidate name="upgradeForm" class="reg-form">
+            <form novalidate name="paymentForm" class="reg-form">
                 <div class="form-group" ng-class="{'has-error': info.$dirty && info.$invalid}">
                 <div class="col-md-4">
                     <div class="gl-manager-side-panel gl-margin--B50">
@@ -48,7 +48,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8  gl-margin--B50">
                     <div class="gl-upgrade-payment  gl-margin--B50 form-inline">
                         <div class="gl-payment-selection l-collection gl-margin--Bl">
                             <h5 ng-click="status.isPaymentCreditCard=false"
@@ -60,35 +60,8 @@
                         </div>
                         <div class="gl-upgrade-label-payment">Payment</div>
                         <div ng-show="!status.isPaymentCreditCard">
-                            <p>Please share with us the primary contact for this order. It may be different form the
-                                person placing this order. We need this information so we know who to contact regarding
-                                this order. </p>
 
-                            <div class="form-group">
-                                <input size="30" class="form-control gl-margin-Vl" ng-model="info.PO.name"
-                                       required
-                                       placeholder="Primary Contact Name">
-                            </div>
-                            <div class="form-group">
-                                <input size="30" class="form-control gl-margin-Vl" ng-model="info.PO.phone"
-                                       required
-                                       placeholder="Phone Number">
-                            </div>
-                            <div class="form-group"
-                                 ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
-                                <input name="email"
-                                       ng-pattern="emailValidationPattern"
-                                       size="30" class="form-control gl-margin-Vl"
-                                       ng-model="info.PO.email"
-                                       required
-                                       placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input size="30" class="form-control gl-margin-Vl"
-                                       ng-model="info.PO.number"
-                                       required
-                                       placeholder="Purchase Order #">
-                            </div>
+                            <div ng-include src="'subscribe/_payment-order-form.html'"></div>
 
                         </div>
                         <div ng-show="status.isPaymentCreditCard">
@@ -105,78 +78,11 @@
                                 </label>
                             </div>
                             <div ng-show="status.currentCard==='change'" class="gl-margin--T40">
-                                <div class="form-group">
-                                    <input required class="form-control" size="45" ng-model="info.CC.name" placeholder="Name">
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control"
-                                            ng-options="type for type in choices.cardTypes"
-                                            ng-model="info.CC.cardType">
-                                    </select>
-                                </div>
-                                <input required class="form-control gl-margin-Vl" ng-model="info.CC.number"
-                                       placeholder="Credit Card Number">
-                                <label>Expiration Date: </label>
-                                <div class="form-group"
-                                     ng-class="{'has-error': upgradeForm.expMonth.$dirty && upgradeForm.expMonth.$invalid}">
-                                    <input name="expMonth" ng-minlength="4" class="form-control" size="4" ng-model="info.CC.exp_month" required placeholder="MM">
-                                </div>
-                                <div class="form-group"
-                                     ng-class="{'has-error': upgradeForm.expYear.$dirty && upgradeForm.expYear.$invalid}">
-                                    <input ng-minlength="4" name="expYear" class="form-control" size="5" ng-model="info.CC.exp_year" required placeholder="YYYY">
-                                </div>
-                                <label>Security Code: </label>
 
-                                <div class="form-group"
-                                     ng-class="{'has-error': upgradeForm.cvc.$dirty && upgradeForm.cvc.$invalid}">
-                                    <input name="cvc" ng-minlength="3" class="form-control" size="5" ng-model="info.CC.cvc" required placeholder="CVC">
-                                </div>
-                                <ul class="list--nobullets">
-                                    <li>
-                                        <label class="gl-block gl-margin--Tl">Billing Address:</label>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60"
-                                                   ng-model="info.CC.address_line1"
-                                                   placeholder="Address Line 1">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input class="form-control" size="60" ng-model="info.CC.address_line2"
-                                                   placeholder="Address Line 2">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60"
-                                                   ng-model="info.CC.address_city"
-                                                   placeholder="City">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60"
-                                                   ng-model="info.CC.address_state"
-                                                   placeholder="State">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60"
-                                                   ng-model="info.CC.address_zip"
-                                                   placeholder="Zip">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60"
-                                                   ng-model="info.CC.address_country"
-                                                   placeholder="Country">
-                                        </div>
-                                    </li>
-                                </ul>
+                                <div ng-include src="'subscribe/_credit-card-form.html'"></div>
+                                <div class="gl-margin--Tl">Billing Address:</div>
+                                <div ng-include src="'subscribe/_billing-address-form.html'"></div>
+
                                 <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
                                        ng-show="request.errors.length" type="danger"><span
                                         class="fa fa-times-circle"></span>  {{
@@ -191,10 +97,19 @@
                                 <button type="button" ui-sref="root.manager.plan"
                                         class="btn gl-btn--grey gl-margin--Rl">Cancel
                                 </button>
-                                <input ng-click="submitPayment(status.studentSeats,status.packageName,info)" class="btn gl-btn--black"
-                                       value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
-                                       ng-disabled="!isTrial() && status.currentCard !== 'current' && (upgradeForm.$pristine || request.$invalid || request.isSubmitting ||
+                                <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                                        class="btn gl-btn--black"
+                                        value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}">
+                                <input ng-hide="status.currentCard === 'current'"
+                                    ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                                    class="btn gl-btn--black"
+                                    value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
+                                    ng-disabled="!isTrial() && (paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
                                        (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
+                                <input ng-hide="status.currentCard === 'current'"
+                                       ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
+                                       class="btn gl-btn--black"
+                                       value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Test Submit'}}">
                             </div>
                 </div>
                 </div>

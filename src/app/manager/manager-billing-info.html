@@ -36,105 +36,32 @@
                 </button>
                 <div ng-show="isChangingCard">
                     <div class="gl-margin--T40">
-                        <h4 class="headline-4 gl-margin-Vl">Enter your new card: </h4>
-                        <form novalidate name="changeCardForm" class="form-inline reg-form">
-                            <ul class="list--nobullets">
-                                <li>
-                                    <div class="form-group">
-                                        <input required class="form-control" size="60" ng-model="info.CC.name"
-                                               placeholder="Name on Card">
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-group gl-margin--Tl">
-                                        <select class="form-control"
-                                                ng-options="type for type in choices.cardTypes"
-                                                ng-model="info.CC.cardType">
-                                        </select>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="form-group">
-                                        <input required class="form-control gl-margin-Vl" size="60"
-                                               ng-model="info.CC.number"
-                                               placeholder="Credit Card Number">
-                                    </div>
-                                </li>
-                                <li>
-                                    Expiration Date:
-                                    <div class="form-group"
-                                         ng-class="{'has-error': changeCardForm.expMonth.$dirty && changeCardForm.expMonth.$invalid}">
-                                        <input name="expMonth" ng-minlength="1" class="form-control" size="4"
-                                               ng-model="info.CC.exp_month" maxlength="2" required placeholder="MM">
-                                    </div>
-                                    <div class="form-group"
-                                         ng-class="{'has-error': changeCardForm.expYear.$dirty && changeCardForm.expYear.$invalid}">
-                                        <input ng-minlength="2" name="expYear" class="form-control" size="5"
-                                               ng-model="info.CC.exp_year" maxlength="4" required placeholder="YYYY">
-                                    </div>
-                                    Security Code:
 
-                                    <div class="form-group"
-                                         ng-class="{'has-error': changeCardForm.cvc.$dirty && changeCardForm.cvc.$invalid}">
-                                        <input name="cvc" ng-minlength="3" maxlength="3" class="form-control" size="5"
-                                               ng-model="info.CC.cvc"
-                                               required placeholder="CVC">
-                                    </div>
-                                </li>
-                                </ul>
-                                <ul class="list--nobullets gl-margin--T40">
-                                    <li>
-                                        <h4 class="headline-4 gl-margin-Vl">Enter your billing address: </h4>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60" ng-model="info.CC.address_line1"
-                                                   placeholder="Address Line 1">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input class="form-control" size="60" ng-model="info.CC.address_line2"
-                                                   placeholder="Address Line 2">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60" ng-model="info.CC.address_city"
-                                                   placeholder="City">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60" ng-model="info.CC.address_state"
-                                                   placeholder="State">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60" ng-model="info.CC.address_zip"
-                                                   placeholder="Zip">
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-group gl-margin--Tl">
-                                            <input required class="form-control" size="60" ng-model="info.CC.address_country"
-                                                   placeholder="Country">
-                                        </div>
-                                    </li>
-                                </ul>
+                        <form novalidate name="paymentForm" class="form-inline reg-form">
+
+                            <h4 class="headline-4 gl-margin-Vl">Enter your new card: </h4>
+                            <div ng-include src="'subscribe/_credit-card-form.html'"></div>
+
+                            <h4 class="headline-4 gl-margin-Vl">Enter your billing address: </h4>
+                            <div ng-include src="'subscribe/_billing-address-form.html'"></div>
+
                             <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
                                    ng-show="request.errors.length" type="danger"><span
                                     class="fa fa-times-circle"></span> {{
                                 error }}
                             </alert>
+
                             <div class="reg-submit gl-margin--T40">
                                 <button type="button" ng-click="isChangingCard=!isChangingCard"
-                                        class="btn gl-btn--grey gl-margin--Rl">Cancel
-                                </button>
+                                        class="btn gl-btn--grey gl-margin--Rl">Cancel</button>
+
                                 <input ng-click="changeCard(info)"
                                        class="btn gl-btn--black"
+                                       ng-disabled="paymentForm.$invalid"
                                        value="{{ request.isSubmitting ? 'Requesting Change...' : 'Submit New Card'}}">
+                                <input ng-click="changeCard(info,'test')"
+                                       class="btn gl-btn--black"
+                                       value="{{ request.isSubmitting ? 'Requesting Change...' : 'Test Submit'}}">
                             </div>
                           </form>
                        </div>

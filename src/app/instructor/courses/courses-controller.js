@@ -607,9 +607,9 @@ angular.module( 'instructor.courses', [
     _tempGames = angular.copy(course.games);
     course.games = [];
     angular.forEach(_tempGames, function(game) {
-
-      gameToAdd = _gamesById[game.id];
+      var gameToAdd = _gamesById[game.id];
       gameToAdd.settings = angular.copy(game.settings);
+      gameToAdd.assigned = angular.copy(game.assigned);
       course.games.push(gameToAdd);
     });
     $scope.course = course;
