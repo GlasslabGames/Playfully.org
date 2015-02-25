@@ -232,12 +232,23 @@ angular.module( 'playfully.games', [
     }
 )
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, UserService) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId.toUpperCase();
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
+
+    // Get the default standard from the user
+    $scope.defaultStandards = "CCSS";
+    if( $scope.currentUser &&
+        $scope.currentUser.defaultStandards &&
+        $scope.gameDetails &&
+        $scope.gameDetails.pages &&
+        $scope.gameDetails.pages.standards &&
+        $scope.gameDetails.pages.standards[$scope.currentUser.defaultStandards] ) {
+      $scope.defaultStandards = $scope.currentUser.defaultStandards;
+    }
 
     if (_.has(gameDetails, 'error')) {
       $scope.error = true;
