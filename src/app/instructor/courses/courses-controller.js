@@ -21,8 +21,8 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      games: function (GamesService) {
+            return GamesService.getGamesForPlan();
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
@@ -45,8 +45,8 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      games: function (GamesService) {
+          return GamesService.getGamesForPlan();
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
@@ -65,8 +65,8 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor','manager','admin']
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      games: function (GamesService) {
+          return GamesService.getGamesForPlan();
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -190,7 +190,7 @@ angular.module( 'instructor.courses', [
         return CoursesService.get($stateParams.id);
       },
       games: function(GamesService) {
-        return GamesService.active('basic');
+        return GamesService.getGamesForPlan();
       }
     },
     views: {
@@ -199,6 +199,39 @@ angular.module( 'instructor.courses', [
         controller: 'AssignGamesModalCtrl'
       }
     }
+  })
+  .state('modal-lg.enableAllPremiumGamesToCourse', {
+      url: '/classes/:id/assigned/:premiumGamesAssigned',
+      data: {
+          pageTitle: 'Enable/Disable Premium Games',
+          authorizedRoles: ['instructor', 'manager', 'admin'],
+          reloadNextState: true
+      },
+      resolve: {
+          course: function ($stateParams, CoursesService) {
+              return CoursesService.get($stateParams.id);
+          }
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/enable-all-premium-games-modal.html',
+              controller: function($scope, course, $stateParams,CoursesService, UtilService) {
+                $scope.premiumGamesAssigned = $stateParams.premiumGamesAssigned === 'true';
+                $scope.course = course;
+                $scope.request = {success: false};
+                $scope.unassignAllPremiumGames = function(course) {
+                    UtilService.submitFormRequest($scope.request, function() {
+                        return CoursesService.unassignAllPremiumGamesFromCourse(course);
+                    });
+                };
+                $scope.assignAllPremiumGames = function(course) {
+                    UtilService.submitFormRequest($scope.request, function () {
+                        return CoursesService.assignAllPremiumGamesFromCourse(course);
+                    });
+                };
+              }
+          }
+      }
   })
 
   .state( 'root.courses.showStudentList', {
@@ -365,10 +398,6 @@ angular.module( 'instructor.courses', [
     }
   });
 })
-
-
-
-
 
 .controller( 'CoursesCtrl',
   function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
@@ -578,6 +607,7 @@ angular.module( 'instructor.courses', [
     _tempGames = angular.copy(course.games);
     course.games = [];
     angular.forEach(_tempGames, function(game) {
+
       gameToAdd = _gamesById[game.id];
       gameToAdd.settings = angular.copy(game.settings);
       course.games.push(gameToAdd);

@@ -17,19 +17,6 @@ angular.module('games', [
         });
     },
 
-    /** Not being used? **/
-    //getInfo: function (gameId) {
-    //  return $http
-    //    .get(API_BASE + '/dash/game/' + gameId + '/info')
-    //    .then(function (response) {
-    //      $log.debug(response);
-    //      return response.data;
-    //    }, function (response) {
-    //      $log.error(response);
-    //      return response;
-    //    });
-    //},
-
     getDetail: function (gameId) {
       return $http.get(API_BASE + '/dash/game/' + gameId)
         .then(function (response) {
@@ -74,6 +61,18 @@ angular.module('games', [
             $log.error(response);
             return response;
           });
+    },
+
+    getGamesForPlan: function () {
+        var url = '/dash/games/plan/basic';
+        return $http
+            .get(API_BASE + url)
+            .then(function (response) {
+                return response.data;
+            }, function (response) {
+                $log.error(response);
+                return response;
+            });
     },
 
     save: function (gameId) {

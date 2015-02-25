@@ -20,6 +20,7 @@ angular.module( 'playfully', [
   'license',
   'checkSpec',
   'research',
+  'util',
   'gl-enter',
   'gl-editable-text-popover',
   'gl-editable-text',

@@ -105,6 +105,21 @@ angular.module('license', [])
             };
             this.updateBillingInfo = function (stripeInfo) {
                 var apiUrl = API_BASE + '/license/billing';
-                return $http.post( apiUrl, {card: stripeInfo});
+                return $http.post( apiUrl, {stripeInfo: stripeInfo});
+            };
+            this.stripeValidation = function (payment, errors) {
+                //stripe request
+                if (!Stripe.card.validateCardNumber(payment.number)) {
+                    errors.push("You entered an invalid Credit Card number");
+                }
+                if (!Stripe.card.validateExpiry(payment.exp_month, payment.exp_year)) {
+                    errors.push("You entered an invalid expiration date");
+                }
+                if (!Stripe.card.validateCVC(payment.cvc)) {
+                    errors.push("You entered an invalid CVC number");
+                }
+                if (!Stripe.card.cardType(payment.cardType)) {
+                    errors.push("You entered an invalid card type");
+                }
             };
     });

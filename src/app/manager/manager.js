@@ -66,7 +66,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-remove-educator-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService) {
+                    controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
                         $scope.email = $stateParams.email;
                         $scope.request = {
                             success: false,
@@ -74,18 +74,9 @@ angular.module('playfully.manager', [])
                             errors: []
                         };
                         $scope.removeEducator = function (email) {
-                            $scope.request.isSubmitting = true;
-                            LicenseService.removeEducator(email).then(function () {
-                                    $scope.request.errors = [];
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.success = true;
-                                },
-                                function (response) {
-                                    $log.error(response.data);
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.errors = [];
-                                    $scope.request.errors.push(response.data.error);
-                                });
+                            UtilService.submitFormRequest($scope.request, function () {
+                                return LicenseService.removeEducator(email);
+                            });
                         };
                     }
                 }
@@ -105,28 +96,18 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-leave-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, $previousState, UserService) {
-
+                    controller: function ($scope, $log, $stateParams, LicenseService, UserService, UtilService) {
                         $scope.ownerName = $stateParams.ownerName;
-
                         $scope.request = {
                             success: false,
                             errors: []
                         };
-
                         $scope.leaveSubscription = function () {
-                            LicenseService.leaveCurrentPlan().then(function (response) {
-                                    $scope.request.errors = [];
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.success = true;
-                                    UserService.updateUserSession();
-                                },
-                                function (response) {
-                                    $log.error(response.data);
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.errors = [];
-                                    $scope.request.errors.push(response.data.error);
-                                });
+                            UtilService.submitFormRequest($scope.request, function() {
+                                return LicenseService.leaveCurrentPlan();
+                            }, function() {
+                                UserService.updateUserSession();
+                            });
                         };
                     }
                 }
@@ -141,48 +122,23 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-auto-renew-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService) {
+                    controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
                         $scope.expirationDate = $stateParams.expirationDate;
-
-                        if ($stateParams.autoRenew === "true") {
-                            $scope.autoRenew = true;
-                        } else {
-                            $scope.autoRenew = false;
-                        }
+                        $scope.autoRenew = $stateParams.autoRenew === "true";
 
                         $scope.request = {
                             success: false,
                             errors: []
                         };
                         $scope.enableAutoRenew = function () {
-                            $scope.request.isSubmitting = true;
-                            $scope.request.errors = [];
-                            LicenseService.enableAutoRenew().then(function (response) {
-                                    $scope.request.errors = [];
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.success = true;
-                                },
-                                function (response) {
-                                    $log.error(response.data);
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.errors = [];
-                                    $scope.request.errors.push(response.data.error);
-                                });
+                            UtilService.submitFormRequest($scope.request, function() {
+                                return LicenseService.enableAutoRenew();
+                            });
                         };
                         $scope.disableAutoRenew = function () {
-                            $scope.request.isSubmitting = true;
-                            $scope.request.errors = [];
-                            LicenseService.disableAutoRenew().then(function (response) {
-                                    $scope.request.errors = [];
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.success = true;
-                                },
-                                function (response) {
-                                    $log.error(response.data);
-                                    $scope.request.isSubmitting = false;
-                                    $scope.request.errors = [];
-                                    $scope.request.errors.push(response.data.error);
-                                });
+                            UtilService.submitFormRequest($scope.request, function () {
+                                return LicenseService.disableAutoRenew();
+                            });
                         };
                     }
                 }
@@ -197,25 +153,17 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService) {
+                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtliService) {
                         $scope.request = {
                             success: false,
                             errors: []
                         };
                         $scope.startTrial = function () {
-                          $scope.request.isSubmitting = true;
-                          LicenseService.startTrial().then(function () {
-                                  $scope.request.errors = [];
-                                  $scope.request.isSubmitting = false;
-                                  $scope.request.success = true;
-                                  UserService.updateUserSession();
-                              },
-                              function (response) {
-                                  $log.error(response.data);
-                                  $scope.request.isSubmitting = false;
-                                  $scope.request.errors = [];
-                                  $scope.request.errors.push(response.data.error);
-                              });
+                            UtilService.submitFormRequest($scope.request, function() {
+                                return LicenseService.startTrial();
+                            }, function() {
+                                UserService.updateUserSession();
+                            });
                         };
                     }
                 }
@@ -272,13 +220,14 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UserService) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService) {
         $scope.$parent.currentTab = $state.current.url;
+        $scope.billingInfo = {};
         $scope.billingInfo = billingInfo;
         $scope.isChangingCard = false;
         $scope.choices = {
             states: REGISTER_CONSTANTS.states,
-            cardTypes: ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
+            cardTypes: REGISTER_CONSTANTS.cardTypes
         };
 
         $scope.request = {
@@ -289,35 +238,11 @@ angular.module('playfully.manager', [])
         };
 
         $scope.info = {
-            CC: {
-                name: null,
-                cardType: "Visa",
-                number: null,
-                exp_month: null,
-                exp_year: null,
-                cvc: null,
-                address_line1: null,
-                address_line2: null,
-                address_city: null,
-                address_state: null,
-                address_zip: null,
-                address_country: null
-            }
+            CC: REGISTER_CONSTANTS.ccInfo
         };
         $scope.changeCard = function(info) {
             // stripe request
-            //if (!Stripe.card.validateCardNumber(info.payment.number)) {
-            //  $scope.request.errors.push("You entered an invalid Credit Card number");
-            //}
-            //if (!Stripe.card.validateExpiry(info.payment.exp_month, info.payment.exp_year)) {
-            //    $scope.request.errors.push("You entered an invalid expiration date");
-            //}
-            //if (!Stripe.card.validateCVC(info.payment.cvc)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
-            //if (!Stripe.card.cardType(info.payment.cardType)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
+            //LicenseService.stripeValidation($scope.info.cc);
             $scope.request.isSubmitting = true;
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
@@ -327,30 +252,22 @@ angular.module('playfully.manager', [])
                     exp_month: 1,
                     exp_year: 2020,
                     cvc: 123,
-                    address_line1: '1945 GlassLab Dr.',
-                    address_city: 'Transparent City',
+                    address_line1: 'Kaka.',
+                    address_city: 'why',
                     address_zip: 95014,
                     address_state: 'CA',
                     address_country: 'USA'
                 }, function (status, stripeToken) {
-                    _updateBillingInfo(stripeToken.id);
+                    _updateBillingInfo(stripeToken);
                 });
             }
         };
-        var _updateBillingInfo = function (stripeTokenId) {
-            $scope.request.isSubmitting = true;
-            $scope.request.errors = [];
-            LicenseService.updateBillingInfo(stripeTokenId).then(function () {
-                $scope.request.errors = [];
-                $scope.request.isSubmitting = false;
-                $scope.request.success = true;
-                UserService.updateUserSession(function () {
-                    $scope.isChangingCard = false;
-                });
-            }, function (response) {
-                $scope.request.isSubmitting = false;
-                $scope.request.errors = [];
-                $scope.request.errors.push(response.data.error);
+        var _updateBillingInfo = function (stripeToken) {
+            UtilService.submitFormRequest($scope.request,function() {
+                return LicenseService.updateBillingInfo(stripeToken);
+            } ,function(response) {
+                $scope.billingInfo = response.data;
+                $scope.isChangingCard = false;
             });
         };
     })
@@ -398,7 +315,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, plan, packages, billingInfo,  REGISTER_CONSTANTS) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, UtilService, plan, packages, billingInfo,  REGISTER_CONSTANTS) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -435,7 +352,7 @@ angular.module('playfully.manager', [])
             packages: packagesChoices,
             seats: packages.seats,
             states: REGISTER_CONSTANTS.states,
-            cardTypes: ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
+            cardTypes: REGISTER_CONSTANTS.cardTypes
         };
 
         $scope.$watch('packages.selectedName', function (packageName) {
@@ -467,38 +384,17 @@ angular.module('playfully.manager', [])
                 city: null
             },
             subscription: {},
-            CC: {
-                name: null,
-                cardType: "Visa",
-                number: null,
-                exp_month: null,
-                exp_year: null,
-                cvc: null
-            },
-            PO: {
-                name: null,
-                phone: null,
-                email: null,
-                number: null
-            }
+            CC: REGISTER_CONSTANTS.ccInfo,
+            PO: REGISTER_CONSTANTS.poInfo
         };
 
-
-
-        $scope.submitPayment = function (studentSeats, packageName,info) {
+        $scope.submitPayment = function (studentSeats, packageName, info) {
             // stripe request
-            //if (!Stripe.card.validateCardNumber(info.payment.number)) {
-            //  $scope.request.errors.push("You entered an invalid Credit Card number");
-            //}
-            //if (!Stripe.card.validateExpiry(info.payment.exp_month, info.payment.exp_year)) {
-            //    $scope.request.errors.push("You entered an invalid expiration date");
-            //}
-            //if (!Stripe.card.validateCVC(info.payment.cvc)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
-            //if (!Stripe.card.cardType(info.payment.cardType)) {
-            //    $scope.request.errors.push("You entered an invalid CVC number");
-            //}
+            if (status.currentCard !== 'current') {
+                return _upgradeLicense(studentSeats, packageName, {});
+            }
+
+            LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
@@ -516,65 +412,48 @@ angular.module('playfully.manager', [])
 
         var _upgradeLicense = function (studentSeats, packageName, stripeInfo) {
 
-            $scope.request.isSubmitting = true;
-            $scope.request.errors = [];
-
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
-            LicenseService.upgradeLicense({
-                planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
-                stripeInfo: stripeInfo
-            }).then(function () {
-                $scope.request.errors = [];
-                $scope.request.isSubmitting = false;
-                $scope.request.success = true;
+            UtilService.submitFormRequest($scope.request, function() {
+                return LicenseService.upgradeLicense({
+                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
+                    stripeInfo: stripeInfo
+                });
+            }, function() {
                 UserService.updateUserSession(function () {
                     $state.go('modal.manager-upgrade-success-modal');
                 });
-            }, function (response) {
-                $scope.request.isSubmitting = false;
-                $scope.request.errors = [];
-                $scope.request.errors.push(response.data.error);
             });
         };
 
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, plan, LicenseService, EMAIL_VALIDATION_PATTERN) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
-        console.log(plan);
+
         $scope.request = {
             success: false,
             invitedEducators: '',
             errors: [],
             successes: []
         };
-        var _requestInvite = function (invitedEducators) {
-            request.isSubmitting = true;
-            LicenseService.inviteTeachers(invitedEducators)
-                .then(function (response) {
-                    // Populate error and success alerts
-                    $scope.request.successes = response.approvedTeachers;
-                    $scope.request.rejectedTeachers = response.rejectedTeachers;
-                    $scope.request.invitedEducators = '';
-                    // Set plan as returned response
-                    $scope.plan = response;
-                    $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
-                    $scope.package = response.packageDetails;
 
-                    $scope.request.errors = [];
-                    $scope.request.isSubmitting = false;
-                    $scope.request.success = true;
-                },
-                function (response) {
-                    $scope.request.isSubmitting = false;
-                    $scope.request.errors = [];
-                    $scope.request.errors.push(response.data.error);
-                });
+        var _requestInvite = function (invitedEducators) {
+            UtilService.submitFormRequest($scope.request, function () {
+                return LicenseService.inviteTeachers(invitedEducators);
+            },function(response) {
+                // Populate error and success alerts
+                $scope.request.successes = response.approvedTeachers;
+                $scope.request.rejectedTeachers = response.rejectedTeachers;
+                // Set plan as returned response
+                $scope.plan = response;
+                $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
+                $scope.package = response.packageDetails;
+            });
         };
 
         var _validateEmail = function (email) {
