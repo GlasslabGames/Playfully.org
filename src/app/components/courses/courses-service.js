@@ -201,6 +201,15 @@ angular.module('courses', [])
 
     verifyGameInCourse: function(courseId, gameId) {
       return $http.get(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/verify-course');
+    },
+
+    unassignAllPremiumGamesFromCourse: function(course) {
+        course.premiumGamesAssigned = false;
+        return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+    assignAllPremiumGamesFromCourse: function (course) {
+      course.premiumGamesAssigned = true;
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     }
   };
 
