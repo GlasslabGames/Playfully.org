@@ -416,7 +416,7 @@ angular.module('playfully.manager', [])
                 }
             }
 
-            //LicenseService.stripeValidation(info.CC, $scope.request.errors);
+            LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
