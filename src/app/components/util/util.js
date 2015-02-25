@@ -8,20 +8,18 @@ angular.module('util', ['session', 'ipCookie'])
                     successes: [],
                     isSubmitting: false
                 };
-                request.isSubmitting = true;
+                requestObj.isSubmitting = true;
                 return requestFunc().then(function (response) {
-                    request.errors = [];
-                    request.isSubmitting = false;
-                    request.success = true;
-                    requestObj = _.merge(requestObj, request);
+                    requestObj.errors = [];
+                    requestObj.isSubmitting = false;
+                    requestObj.success = true;
                     if (successFunc) {
                         successFunc(response);
                     }
                 }, function(response) {
-                    request.isSubmitting = false;
-                    request.errors = [];
-                    request.errors.push(response.data.error);
-                    requestObj = _.merge(requestObj, request);
+                    requestObj.isSubmitting = false;
+                    requestObj.errors = [];
+                    requestObj.errors.push(response.data.error);
                     if (errorFunc) {
                         errorFunc(response);
                     }

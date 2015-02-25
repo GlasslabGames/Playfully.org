@@ -240,24 +240,31 @@ angular.module('playfully.manager', [])
         $scope.info = {
             CC: REGISTER_CONSTANTS.ccInfo
         };
-        $scope.changeCard = function(info) {
-            // stripe request
-            //LicenseService.stripeValidation($scope.info.cc);
-            $scope.request.isSubmitting = true;
+        $scope.changeCard = function(info,test) {
+            if (test) {
+                if ($scope.request.errors < 1) {
+                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.card.createToken({
+                        name: 'charles',
+                        number: 4242424242424242,
+                        exp_month: 1,
+                        exp_year: 2020,
+                        cvc: 123,
+                        address_line1: 'Kaka.',
+                        address_city: 'whybutts',
+                        address_zip: 95014,
+                        address_state: 'CA',
+                        address_country: 'USA'
+                    }, function (status, stripeToken) {
+                        _updateBillingInfo(stripeToken);
+                    });
+                }
+                return;
+            }
+            LicenseService.stripeValidation($scope.info.CC);
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
-                Stripe.card.createToken({
-                    name: 'charles',
-                    number: 4242424242424242,
-                    exp_month: 1,
-                    exp_year: 2020,
-                    cvc: 123,
-                    address_line1: 'Kaka.',
-                    address_city: 'why',
-                    address_zip: 95014,
-                    address_state: 'CA',
-                    address_country: 'USA'
-                }, function (status, stripeToken) {
+                Stripe.card.createToken($scope.info.CC, function (status, stripeToken) {
                     _updateBillingInfo(stripeToken);
                 });
             }
@@ -388,23 +395,32 @@ angular.module('playfully.manager', [])
             PO: REGISTER_CONSTANTS.poInfo
         };
 
-        $scope.submitPayment = function (studentSeats, packageName, info) {
+        $scope.submitPayment = function (studentSeats, packageName, info, test) {
             // stripe request
             if (status.currentCard === 'current') {
                 return _upgradeLicense(studentSeats, packageName, {});
             }
 
-            //LicenseService.stripeValidation(info.CC, $scope.request.errors);
+            if (test) {
+                if ($scope.request.errors < 1) {
+                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.card.createToken({
+                        name: 'charles',
+                        number: 4242424242424242,
+                        exp_month: 1,
+                        exp_year: 2020,
+                        cvc: 123
+                    }, function (status, stripeToken) {
+                        _upgradeLicense(studentSeats, packageName, stripeToken);
+                    });
+                }
+            }
+
+            LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
-                Stripe.card.createToken({
-                    name: 'charles',
-                    number: 4242424242424242,
-                    exp_month: 1,
-                    exp_year: 2020,
-                    cvc: 123
-                }, function (status, stripeToken) {
+                Stripe.card.createToken(info.CC, function (status, stripeToken) {
                     _upgradeLicense(studentSeats, packageName, stripeToken);
                 });
             }
