@@ -1,5 +1,5 @@
 angular.module('util', ['session', 'ipCookie'])
-    .factory('UtilService', function () {
+    .factory('UtilService', function ($q) {
         return {
             submitFormRequest: function (requestObj, requestFunc, successFunc, errorFunc) {
                 var request = {
