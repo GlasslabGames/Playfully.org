@@ -31,7 +31,7 @@
    <div class="l-collection gl-reports-achievements-legend-container">
        <div class="l-collection-item gl-reports-achievement-header-achievement"
             ng-repeat="standard in achievements.selectedOption.subGroups">
-           <div ng-class="getLabelClass(standard.title)"
+           <div ng-class="getLabelClass(standard.icon)"
                 popover="{{ standard.description }}"
                 popover-trigger="mouseenter"
                 popover-placement="bottom">
@@ -86,7 +86,7 @@
         <th class="gl-reports-achievement-header-name" >Standards</th>
         <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
           <div ng-repeat="standard in achv.standards"
-               ng-class="getLabelClass(standard.title)"
+               ng-class="getLabelClass(standard.icon)"
                popover="{{ standard.description }}"
                popover-trigger="mouseenter"
                popover-placement="bottom">
