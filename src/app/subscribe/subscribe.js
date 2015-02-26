@@ -64,8 +64,14 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             isPaymentCreditCard: true,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
-            studentSeats: $stateParams.seatsSelected || 10,
-            promoCode: null
+            studentSeats: $stateParams.seatsSelected || 10
+        };
+
+        $scope.promoCode = {
+            code: null,
+            valid: false,
+            amount_off: 0,
+            percent_off: 0
         };
 
         $scope.choices = {
@@ -109,16 +115,39 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {
-                return LicenseService.stripeRequestPromo($scope.status.promoCode);
+                return LicenseService.stripeRequestPromo($scope.promoCode.code);
             }, function (response) {
                 console.log('applied:', response);
+
+                // Set default discounts to 0, since we can simply apply both
+                $scope.promoCode.amount_off = 0;
+                $scope.promoCode.percent_off = 0;
+
+                // Check for the actual amount and percentage off
+                if( response.data.amount_off ) {
+                    $scope.promoCode.valid = true;
+                    $scope.promoCode.amount_off = response.data.amount_off;
+                }
+                else if( response.data.percent_off ) {
+                    $scope.promoCode.valid = true;
+                    $scope.promoCode.percent_off = response.data.percent_off;
+                }
             });
         };
 
         $scope.calculateTotal = function (price, seatChoice) {
             var targetPackage = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var total = seatChoice * price;
-            return total - (total * (targetPackage.discount / 100));
+            total = total - (total * (targetPackage.discount / 100));
+
+            // apply a promo code if it's valid
+            if( $scope.promoCode.valid ) {
+                total = total - ($scope.promoCode.amount_off / 100);
+                total = total - (total * ($scope.promoCode.percent_off / 100));
+            }
+
+            // Return the final total
+            return total;
         };
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
@@ -152,6 +181,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
+
+            // Attach the promo code as a "coupon" to stripeInfo if it is valid
+            if( $scope.promoCode.valid ) {
+                stripeInfo.coupon = $scope.promoCode.code;
+            }
 
             UtilService.submitFormRequest($scope.request, function() {
                 return LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo});

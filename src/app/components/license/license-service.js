@@ -129,13 +129,6 @@ angular.module('license', [])
                 }
             };
             this.stripeRequestPromo = function (promoCode) {
-                var apiUrl = API_BASE + '/license/promo-code/' + promoCode;
-                return $http({method: 'GET', url: apiUrl})
-                    .then(function (response) {
-                        return response.data;
-                    }, function (response) {
-                        console.log(response);
-                        return response;
-                    });
+                return $http.get( API_BASE + '/license/promo-code/' + promoCode );
             };
     });
