@@ -60,23 +60,25 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
 
-        $scope.packages = {
-            choices: packagesChoices,
-            selected: selectedPackage,
-            selectedName: selectedPackage.name
+        $scope.status = {
+            isPaymentCreditCard: true,
+            packageName: selectedPackage.name,
+            selectedPackage: selectedPackage,
+            studentSeats: $stateParams.seatsSelected || 10
         };
 
-        $scope.seats = {
-            choices: packages.seats,
-            selectedNumber: $stateParams.seatsSelected || 10
+        $scope.choices = {
+            packages: packagesChoices,
+            seats: packages.seats,
+            states:REGISTER_CONSTANTS.states,
+            cardTypes:REGISTER_CONSTANTS.cardTypes
         };
 
-        $scope.$watch('packages.selectedName', function (packageName) {
-            $scope.packages.selected = _.find(packages.plans, {name: packageName});
+        $scope.$watch('status.packageName', function (packageName) {
+            $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
         });
 
         $scope.changePackage = function () {};
-
 
         // School and Payment Info
         $scope.info = {
@@ -92,11 +94,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             PO: REGISTER_CONSTANTS.poInfo
         };
 
-        $scope.states = REGISTER_CONSTANTS.states;
-        $scope.cardTypes = REGISTER_CONSTANTS.cardTypes;
-
-        $scope.isPaymentCreditCard = true;
-
         $scope.request = {
             success: false,
             errors: [],
@@ -104,24 +101,33 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         };
 
         $scope.calculateTotal = function (price, seatChoice) {
-            var targetPackage = _.find($scope.seats.choices, {studentSeats: parseInt(seatChoice)});
+            var targetPackage = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var total = seatChoice * price;
             return total - (total * (targetPackage.discount / 100));
         };
 
-        $scope.submitPayment = function (studentSeats, packageName, info) {
+        $scope.submitPayment = function (studentSeats, packageName, info, test) {
+            if (test) {
+                if ($scope.request.errors < 1) {
+                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.card.createToken({
+                        name: 'charles',
+                        number: 4242424242424242,
+                        exp_month: 1,
+                        exp_year: 2020,
+                        cvc: 123
+                    }, function (status, stripeToken) {
+                        _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
+                    });
+                }
+                return;
+            }
 
-            //LicenseService.stripeValidation(info.CC, $scope.request.errors);
+            LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
-                Stripe.card.createToken({
-                    name: 'charles',
-                    number: 4242424242424242,
-                    exp_month: 1,
-                    exp_year: 2020,
-                    cvc: 123
-                }, function (status, stripeToken) {
+                Stripe.card.createToken(info.CC, function (status, stripeToken) {
                     _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
                 });
             }
@@ -129,7 +135,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
 
-            var targetSeat = _.find($scope.seats.choices, {studentSeats: parseInt(studentSeats)});
+            var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
             UtilService.submitFormRequest($scope.request, function() {
