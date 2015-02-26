@@ -64,7 +64,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             isPaymentCreditCard: true,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
-            studentSeats: $stateParams.seatsSelected || 10
+            studentSeats: $stateParams.seatsSelected || 10,
+            promoCode: null
         };
 
         $scope.choices = {
@@ -108,7 +109,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {
-                    return LicenseService.stripeRequestPromo();
+                return LicenseService.stripeRequestPromo($scope.status.promoCode);
             }, function (response) {
                 console.log('applied:', response);
             });
