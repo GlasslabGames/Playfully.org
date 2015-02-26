@@ -2,7 +2,7 @@
  * Created by charles on 2/5/15.
  */
 angular.module('license', [])
-    .service('LicenseService', function ($http, $log, $rootScope, API_BASE) {
+    .service('LicenseService', function ($http, $log, $q, $rootScope, API_BASE) {
 
             this.getCurrentPlan = function () {
                 var apiUrl = API_BASE + '/license/plan';
@@ -127,5 +127,10 @@ angular.module('license', [])
                 if (!Stripe.card.cardType(payment.cardType)) {
                     errors.push("You entered an invalid card type");
                 }
+            };
+            this.stripeRequestPromo = function (promoCode) {
+                //var deferred = $q.defer();
+                //deferred.reject({data:{error:'Wrong Code'}});
+                //return deferred.promise;
             };
     });
