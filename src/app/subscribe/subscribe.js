@@ -15,7 +15,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 views: {
                     'main@': {
                         templateUrl: 'subscribe/subscribe-payment.html',
-                        controller: 'SubscribeUpgradeCtrl'
+                        controller: 'SubscribePaymentCtrl'
                     }
                 },
                 data: {
@@ -54,7 +54,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 }
             });
     })
-    .controller('SubscribeUpgradeCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
+    .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
 
         // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
@@ -98,6 +98,20 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             success: false,
             errors: [],
             isSubmitting: false
+        };
+
+        $scope.requestPromo = {
+            success: false,
+            errors: [],
+            isSubmitting: false
+        };
+
+        $scope.applyPromoCode = function () {
+            UtilService.submitFormRequest($scope.requestPromo, function () {
+                    return LicenseService.stripeRequestPromo();
+            }, function (response) {
+                console.log('applied:', response);
+            });
         };
 
         $scope.calculateTotal = function (price, seatChoice) {

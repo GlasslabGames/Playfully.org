@@ -262,6 +262,9 @@ angular.module('playfully.manager', [])
                 return;
             }
             LicenseService.stripeValidation($scope.info.CC);
+            if ($scope.isChangingCard) {
+
+            }
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
                 Stripe.card.createToken($scope.info.CC, function (status, stripeToken) {
@@ -397,7 +400,7 @@ angular.module('playfully.manager', [])
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             // stripe request
-            if (status.currentCard === 'current') {
+            if ($scope.status.currentCard === 'current') {
                 return _upgradeLicense(studentSeats, packageName, {});
             }
 
@@ -414,6 +417,7 @@ angular.module('playfully.manager', [])
                         _upgradeLicense(studentSeats, packageName, stripeToken);
                     });
                 }
+                return;
             }
 
             LicenseService.stripeValidation(info.CC, $scope.request.errors);

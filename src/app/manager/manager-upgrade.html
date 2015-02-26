@@ -85,32 +85,31 @@
 
                                 <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
                                        ng-show="request.errors.length" type="danger"><span
-                                        class="fa fa-times-circle"></span>  {{
-                                    error }}
+                                        class="fa fa-times-circle"></span>  {{ error }}
                                 </alert>
                             </div>
                         </div>
                     </div>
 
-
-                            <div class="reg-submit text-center gl-margin--Tl">
-                                <button type="button" ui-sref="root.manager.plan"
-                                        class="btn gl-btn--grey gl-margin--Rl">Cancel
-                                </button>
-                                <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
-                                        class="btn gl-btn--black"
-                                        value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}">
-                                <input ng-hide="status.currentCard === 'current'"
-                                    ng-click="submitPayment(status.studentSeats,status.packageName,info)"
-                                    class="btn gl-btn--black"
-                                    value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
-                                    ng-disabled="!isTrial() && (paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
-                                       (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
-                                <input ng-hide="status.currentCard === 'current'"
-                                       ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
-                                       class="btn gl-btn--black"
-                                       value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Test Submit'}}">
-                            </div>
+                    <div class="reg-submit text-center gl-margin--Tl">
+                        <button type="button" ui-sref="root.manager.plan"
+                                class="btn gl-btn--grey gl-margin--Rl">Cancel
+                        </button>
+                        <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                                class="btn gl-btn--black"
+                                ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)"
+                                value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}">
+                        <input ng-hide="status.currentCard === 'current'"
+                            ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                            class="btn gl-btn--black"
+                            value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
+                            ng-disabled="!isTrial() && (paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
+                               (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
+                        <input ng-hide="status.currentCard === 'current'"
+                               ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
+                               class="btn gl-btn--black"
+                               value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Test Submit'}}">
+                    </div>
                 </div>
                 </div>
             </form>
