@@ -34,22 +34,24 @@
 
                         </div>
                         <div class="gl-manager-side-panel-section">
-                            <form class="reg-form form-inline">
-                                    <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
-                                           placeholder="Promo Code" ng-disabled="requestPromo.success">
-                                <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
-                                       ng-click="applyPromoCode()"
-                                       value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
-                                </input>
-                                <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
-                                       ng-show="requestPromo.successes.length" type="success"><span
-                                        class="fa fa-check-circle"></span> {{ success }}
-                                </alert>
-                                <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
-                                       ng-show="requestPromo.errors.length" type="danger"><span
-                                        class="fa fa-times-circle"></span> {{ error }}
-                                </alert>
-                            </form>
+                            <div class="gl-manager-promo-code-box">
+                                <form class="reg-form form-inline">
+                                        <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
+                                               placeholder="Promo Code" ng-disabled="requestPromo.success">
+                                    <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                                           ng-click="applyPromoCode()"
+                                           value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
+                                    </input>
+                                    <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
+                                           ng-show="requestPromo.successes.length" type="success"><span
+                                            class="fa fa-check-circle"></span> {{ success }}
+                                    </alert>
+                                    <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
+                                           ng-show="requestPromo.errors.length" type="danger"><span
+                                            class="fa fa-times-circle"></span> {{ error }}
+                                    </alert>
+                                </form>
+                            </div>
                         </div>
                         <div class="gl-manager-side-panel-section">
 
