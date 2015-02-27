@@ -1,0 +1,29 @@
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/vendor/glasslab-sdk-js/lib/glasslab-sdk.js"></script>
+
+<script>
+    function loadHTMLSample() {
+
+        var htmlSampleURL = $( "#htmlSampleURL" ).val();
+        var htmlSampleWidth = $( "#htmlSampleWidth" ).val();
+        var htmlSampleHeight = $( "#htmlSampleHeight" ).val();
+
+        var htmlSampleOutput = '' +
+            '<object name=\"htmlObj\" data=\"' + htmlSampleURL + '\" width=\"' + htmlSampleWidth + '\" height=\"' + htmlSampleHeight + '\" id=\"Sample\" style=\"float: none; vertical-align:middle\">' +
+          '</object>';
+
+        $( "#htmlSampleDiv" ).html( htmlSampleOutput );
+    }
+</script>
+
+<form id="html-sample-id" onload="isUserAuthenticated();">
+    <h1>Simple HTML Sandbox</h1>
+    <p>Use the fields below to load your .html into the GlassLab Games sandbox.</p>
+    <p>URL: <input type="text" id="htmlSampleURL" size="80" value=""/></p>
+    <p>Width: <input type="text" id="htmlSampleWidth" maxlength="4" size="6" value="550"/></p>
+    <p>Height: <input type="text" id="htmlSampleHeight" maxlength="4" size="6" value="400"/></p>
+    <br />
+    <button onclick="loadHTMLSample(); return false;" style="height:30px; width:100px">Load</button>
+</form>
+
+<div id="htmlSampleDiv" style="border:1px solid black"></div>

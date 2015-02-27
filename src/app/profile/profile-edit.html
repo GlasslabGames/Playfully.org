@@ -97,10 +97,10 @@
       </div>
     </div>
 
+
     <div class="gl-form-subhead">
       <span>Change Password</span>
     </div>
-
 
     <div class="form-group form-group--labeled" ng-class="{'has-error': editProfileForm.password.$dirty && editProfileForm.password.$error.minlength}">
       <label for="user-password">Password</label>
@@ -128,6 +128,21 @@
         </div>
       </div>
     </div>
+
+
+    <div class="gl-form-subhead" ng-if="user.role !== 'student'">
+      <span>Change Standards View</span>
+    </div>
+
+    <div class="form-group form-group--labeled" ng-if="user.role !== 'student'">
+      <label for="user-standards">Standards View</label>
+      <select name="standards" class="form-control" id="user-standards"
+              placeholder="user.standards" ng-model="user.standards"
+              ng-options="standard for standard in defaultStandards">
+        <option value='' disabled="disabled" selected="selected" class="gl-select-disabled-option">Standards</option>
+      </select>
+    </div>
+
 
     <div class="text-center reg-submit">
       <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Close</button>
