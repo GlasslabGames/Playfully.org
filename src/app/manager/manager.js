@@ -343,7 +343,7 @@ angular.module('playfully.manager', [])
         }
 
         // Setup Seat and Package Choices
-        var selectedPackage = $scope.originalPackage;
+        var selectedPackage = plan.packageDetails;
         var packagesChoices = _.map(packages.plans, 'name');
 
         $scope.status = {
@@ -365,19 +365,25 @@ angular.module('playfully.manager', [])
             cardTypes: REGISTER_CONSTANTS.cardTypes
         };
 
-        $scope.$watch('packages.selectedName', function (packageName) {
+        $scope.$watch('status.packageName', function (packageName) {
             $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
         });
 
-        $scope.calculateTotal = function (packageName, seatChoice) {
-            var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
-            var targetPackage = _.find(packages.plans, {name: packageName});
-            var total = seatChoice * (targetPackage.pricePerSeat || 0);
-            return total - (total * (targetSeatTier.discount / 100));
-        };
-
         // Request
 
+        $scope.promoCode = {
+            code: null,
+            valid: false,
+            amount_off: 0,
+            percent_off: 0
+        };
+
+        $scope.requestPromo = {
+            success: false,
+            errors: [],
+            successes: [],
+            isSubmitting: false
+        };
         $scope.request = {
             success: false,
             invitedEducators: '',
@@ -450,6 +456,52 @@ angular.module('playfully.manager', [])
                 UserService.updateUserSession(function () {
                     $state.go('modal.manager-upgrade-success-modal');
                 });
+            });
+        };
+
+
+        $scope.calculateTotal = function (packageName, seatChoice) {
+            var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
+            var targetPackage = _.find(packages.plans, {name: packageName});
+            var total = seatChoice * (targetPackage.pricePerSeat || 0);
+            var result = {total: total};
+
+            result.total = result.total - (result.total * (targetSeatTier.discount / 100));
+
+            // apply a promo code if it's valid
+            if ($scope.promoCode.valid) {
+                var discountedTotal = result.total - ($scope.promoCode.amount_off);
+                discountedTotal = discountedTotal - (discountedTotal * ($scope.promoCode.percent_off / 100));
+                result.discountedTotal = discountedTotal.toFixed(2);
+            }
+            result.total = result.total.toFixed(2);
+
+            // Return the final and discounted total
+            return result;
+        };
+
+
+        $scope.applyPromoCode = function () {
+            UtilService.submitFormRequest($scope.requestPromo, function () {
+                return LicenseService.stripeRequestPromo($scope.promoCode.code);
+            }, function (response) {
+                console.log('applied:', response);
+
+                // Set default discounts to 0, since we can simply apply both
+                $scope.promoCode.amount_off = 0;
+                $scope.promoCode.percent_off = 0;
+
+                // Check for the actual amount and percentage off
+                if (response.data.amount_off) {
+                    $scope.promoCode.valid = true;
+                    $scope.promoCode.amount_off = (response.data.amount_off / 100).toFixed(2);
+                    $scope.requestPromo.successes.push('$' + $scope.promoCode.amount_off + ' discount applied');
+                }
+                else if (response.data.percent_off) {
+                    $scope.promoCode.valid = true;
+                    $scope.promoCode.percent_off = response.data.percent_off;
+                    $scope.requestPromo.successes.push(response.data.percent_off + '% discount applied');
+                }
             });
         };
 

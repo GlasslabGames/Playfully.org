@@ -2,12 +2,6 @@ angular.module('util', ['session', 'ipCookie'])
     .factory('UtilService', function ($q) {
         return {
             submitFormRequest: function (requestObj, requestFunc, successFunc, errorFunc) {
-                var request = {
-                    success: false,
-                    errors: [],
-                    successes: [],
-                    isSubmitting: false
-                };
                 requestObj.isSubmitting = true;
                 return requestFunc().then(function (response) {
                     requestObj.errors = [];
