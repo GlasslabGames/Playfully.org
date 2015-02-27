@@ -14,19 +14,19 @@
                                     <label>
                                         <input type="radio" ng-model="status.packageName" ng-value="package">
                                         {{package}}
-                                            <span class="gl-manager-current-text" ng-if="package===originalPackage.name && !isTrial()">(current)</span>
+                                            <span class="gl-text-sea-green" ng-if="package===originalPackage.name && !isTrial()">(current)</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="gl-manager-side-panel-section gl-manager-side-panel-section-size">
+                        <div class="gl-manager-side-panel-section  gl-margin--Bm">
                             <h4 class="headline-4">Package Sizes:</h4>
                             <div class="gl-upgrade-form">
                                 <div class="radio" ng-repeat="seat in choices.seats">
                                     <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < originalPackage.studentSeats && !isTrial()} ">
                                         <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()">
                                         {{seat.studentSeats}} students + {{seat.educatorSeats}} educators <span
-                                            class="gl-manager-current-text" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
+                                            class="gl-text-sea-green" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
                                     </label>
                                 </div>
                             </div>
@@ -34,17 +34,44 @@
 
                         </div>
                         <div class="gl-manager-side-panel-section">
-                                <h4 class="gl-manager-current-text headline-5 gl-inline float--l">Current:</h4>
-                                <h4 class="gl-manager-current-text headline-5 gl-inline float--r" ng-if="!isTrial()">
-                                    ${{calculateTotal(originalPackage.name, originalPackage.studentSeats)}} / year
-                                </h4>
-                                <h4 class="gl-manager-current-text headline-5 gl-inline float--r" ng-if="isTrial()">Trial</h4>
-                            <hr class="gl-manager-total-division">
-                            <h4 class="headline-4 gl-inline float--l">Total:</h4>
-                            <h4 class="headline-4 gl-inline float--r">
-                            <span ng-if="!isTrial()">*</span>${{calculateTotal(status.packageName, status.studentSeats)}} / year</h4>
-                            <sub class="gl-manager-prorate-text" ng-if="!isTrial()"> *we prorate</sub>
+                            <form class="reg-form form-inline">
+                                    <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
+                                           placeholder="Promo Code" ng-disabled="requestPromo.success">
+                                <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                                       ng-click="applyPromoCode()"
+                                       value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
+                                </input>
+                                <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
+                                       ng-show="requestPromo.successes.length" type="success"><span
+                                        class="fa fa-check-circle"></span> {{ success }}
+                                </alert>
+                                <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
+                                       ng-show="requestPromo.errors.length" type="danger"><span
+                                        class="fa fa-times-circle"></span> {{ error }}
+                                </alert>
+                            </form>
                         </div>
+                        <div class="gl-manager-side-panel-section">
+
+                            <div class="gl-upgrade-total-box">
+                                <h4 class="headline-5 gl-inline gl-manager-current">Current:</h4>
+                                <h4 class="headline-5 gl-inline gl-manager-current-total " ng-if="!isTrial()">
+                                    ${{(calculateTotal(originalPackage.name,originalPackage.studentSeats)).total}} / year</span>
+                                </h4>
+                                <h4 class="headline-5 gl-inline gl-manager-current-total " ng-if="isTrial()">
+                                    Trial</h4>
+                                <h4 class="headline-4 gl-text-red gl-payment-total-discounted"
+                                    ng-show="promoCode.valid">
+                                    <span ng-if="!isTrial()">*</span>${{(calculateTotal(status.selectedPackage.name,status.studentSeats)).discountedTotal}}
+                                </h4>
+                                <h4 class="headline-4 gl-payment-total">Total:</h4>
+                                <h4 class="headline-4 gl-payment-total-original">
+                                    <span ng-class="{'gl-strike-through':promoCode.valid}"><span ng-if="!isTrial()">*</span>${{(calculateTotal(status.selectedPackage.name,
+                                    status.studentSeats)).total}}</span>
+                                    / year</h4>
+                            </div>
+                        </div>
+                        <sub class="gl-manager-prorate-text" ng-if="!isTrial()"> *we prorate</sub>
                     </div>
 
                 </div>
