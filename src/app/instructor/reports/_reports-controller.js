@@ -100,15 +100,15 @@ angular.module( 'instructor.reports', [
             // all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
-          defaultGameId: function($stateParams, myGames) {
-            // set default game
-            var defaultGameId = myGames[0].gameId;
-            angular.forEach(myGames, function(game) {
-              if (game.gameId === $stateParams.gameId) {
-                defaultGameId = game.gameId;
-              }
-            });
-            return defaultGameId;
+          defaultGame: function($stateParams, myGames) {
+              // set default game
+              var defaultGame = myGames[0];
+              angular.forEach(myGames, function (game) {
+                  if (game.gameId === $stateParams.gameId) {
+                      defaultGame = game;
+                  }
+              });
+              return defaultGame;
           },
           gameReports: function(myGames, defaultGameId) {
             // set game report for default game
@@ -331,18 +331,17 @@ angular.module( 'instructor.reports', [
         };
 
         // check if selected game is available for selected course
-        ReportsService.getCourseGames(courseId).then(function (games) {
-          angular.forEach(games, function (game) {
-            if (game.gameId === $scope.games.selectedGameId) {
-              gameId = $scope.games.selectedGameId;
-            }
+          var targetCourse = _.find($scope.courses.options, {id: parseInt(courseId)});
+          angular.forEach(targetCourse.games, function (game) {
+              if (game.gameId === $scope.games.selectedGameId) {
+                gameId = $scope.games.selectedGameId;
+               }
           });
 
-          newState.gameId = gameId || games[0].gameId;
+          newState.gameId = gameId || targetCourse.games[0].gameId;
 
           _clearOtherCourses(courseId);
           $state.go('root.reports.details.' + $scope.reports.selected.id, newState);
-        });
       };
       // Reset all classes and their students except for the id passed in
       // (which should be the newly-selected course.
