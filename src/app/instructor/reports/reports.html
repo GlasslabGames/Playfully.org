@@ -35,7 +35,7 @@
           </ul>
         </div>
         Game:
-        <div class="btn-group" dropdown is-open="games.isOpen">
+        <div class="btn-group gl-reports-game-selector" dropdown is-open="games.isOpen">
           <button type="button"
             class="btn btn-default gl-reports-dropdown--game"
             ng-click="toggleDropdown($event, 'games')"
@@ -46,8 +46,8 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
-            ng-class="{'gl-reports-dropdown--selected': games.selectedGameId == game.gameId, 'disabled' : game.assigned===false }">
-              <a href="#"
+            ng-class="{'gl-reports-dropdown--selected': games.selectedGameId == game.gameId}">
+              <a href="#" ng-class="{'gl-reports-disabled-premium-text' : game.assigned===false}"
                 ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>

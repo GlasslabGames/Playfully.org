@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
 
 
 .controller( 'MissionProgressCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGame, ReportsService, REPORT_CONSTANTS,localStorageService) {
 
     ///// Setup selections /////
 
@@ -12,7 +12,8 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
       // Games
-    $scope.games.selectedGameId = defaultGameId;
+    $scope.games.selectedGameId = defaultGame.gameId;
+    $scope.games.selectedGame = defaultGame;
 
     ///// Setup options /////
 
@@ -36,6 +37,10 @@ angular.module( 'instructor.reports')
     });
 
     // Check if selected game has selected report
+    // Check if game is premium and disabled
+    if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
+        $scope.isGameDisabled = true;
+    }
 
     if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
       $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {

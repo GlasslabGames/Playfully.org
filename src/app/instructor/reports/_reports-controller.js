@@ -110,14 +110,12 @@ angular.module( 'instructor.reports', [
               });
               return defaultGame;
           },
-          gameReports: function(myGames, defaultGameId) {
+          gameReports: function(myGames, defaultGame) {
             // set game report for default game
             var reports = {};
-            angular.forEach(myGames,function(game) {
-              if (game.gameId === defaultGameId) {
-                reports = game.reports;
-              }
-            });
+            if (defaultGame) {
+                return defaultGame.reports;
+            }
             return reports;
           }
         }
@@ -210,24 +208,21 @@ angular.module( 'instructor.reports', [
             // set all available games for this course
             return coursesInfo[$stateParams.courseId].games;
           },
-          defaultGameId: function($stateParams, myGames) {
-            var defaultGameId = myGames[0].gameId;
+          defaultGame: function($stateParams, myGames) {
+            var defaultGame = myGames[0];
             angular.forEach(myGames, function(game) {
               if (game.gameId === $stateParams.gameId) {
-                defaultGameId = game.gameId;
+                defaultGame = game;
               }
             });
-            $stateParams = defaultGameId;
-            return defaultGameId;
+            return defaultGame;
           },
-          gameReports: function(myGames, defaultGameId) {
+          gameReports: function(myGames, defaultGame) {
             // set game report for default game
             var reports = {};
-            angular.forEach(myGames,function(game) {
-              if (game.gameId === defaultGameId) {
-                reports = game.reports;
-              }
-            });
+            if (defaultGame) {
+                return defaultGame.reports;
+            }
             return reports;
           }
         }
@@ -236,7 +231,7 @@ angular.module( 'instructor.reports', [
 })
 
     .controller('ReportsCtrl',
-    function ($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports, ReportsService) {
+    function ($scope, $log, $state, $stateParams, myGames, activeCourses, defaultGameId, gameReports) {
 
       $scope.reportDisplayType = 'wide';
       $scope.isStudentListVisible = false;
