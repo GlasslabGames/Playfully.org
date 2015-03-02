@@ -97,7 +97,7 @@ angular.module('user', [])
       };
 
       if ($rootScope.currentUser &&
-          $rootScope.currentUser.role === 'instructor' &&
+          ($rootScope.currentUser.role === 'instructor' || $rootScope.currentUser.role === "manager") &&
           (!$rootScope.currentUser.ftue || $rootScope.currentUser.ftue < 4)) {
             if (CHECKLIST.visitGameCatalog === checkListEvent) {
               _updateUserFTUE(1);
