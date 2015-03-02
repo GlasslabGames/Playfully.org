@@ -110,6 +110,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         $scope.requestPromo = {
             success: false,
             errors: [],
+            successes: [],
             isSubmitting: false
         };
 
@@ -126,28 +127,33 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 // Check for the actual amount and percentage off
                 if( response.data.amount_off ) {
                     $scope.promoCode.valid = true;
-                    $scope.promoCode.amount_off = response.data.amount_off;
+                    $scope.promoCode.amount_off = (response.data.amount_off/100).toFixed(2);
+                    $scope.requestPromo.successes.push('$' + $scope.promoCode.amount_off + ' discount applied');
                 }
                 else if( response.data.percent_off ) {
                     $scope.promoCode.valid = true;
                     $scope.promoCode.percent_off = response.data.percent_off;
+                    $scope.requestPromo.successes.push(response.data.percent_off + '% discount applied');
                 }
             });
         };
 
         $scope.calculateTotal = function (price, seatChoice) {
-            var targetPackage = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
-            var total = seatChoice * price;
-            total = total - (total * (targetPackage.discount / 100));
+            var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
+            var result = {total: seatChoice * price};
+
+            result.total = result.total - (result.total * (targetSeatTier.discount / 100));
 
             // apply a promo code if it's valid
             if( $scope.promoCode.valid ) {
-                total = total - ($scope.promoCode.amount_off / 100);
-                total = total - (total * ($scope.promoCode.percent_off / 100));
+                var discountedTotal = result.total - ($scope.promoCode.amount_off);
+                discountedTotal = discountedTotal - (discountedTotal * ($scope.promoCode.percent_off / 100));
+                result.discountedTotal = discountedTotal.toFixed(2);
             }
+            result.total = result.total.toFixed(2);
 
-            // Return the final total
-            return total;
+            // Return the final and discounted total
+            return result;
         };
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {

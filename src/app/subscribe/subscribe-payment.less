@@ -50,8 +50,34 @@
   min-height: 400px;
 }
 
+.gl-manager-side-panel-section--payment {
+  border-bottom: 0px solid #808080;
+}
+
 .gl-payment-selection {
   width: 100%;
   justify-content: center;
   align-items: baseline;
 }
+
+.gl-payment-total-box {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  .gl-payment-total {
+    position: absolute;
+    bottom: -20px;
+    left: 0px;
+  }
+  .gl-payment-total-original {
+    position: absolute;
+    bottom: -20px;
+    right: 0px;
+  }
+  .gl-payment-total-discounted {
+    position: absolute;
+    bottom: 12%;
+    right: 55px;
+  }
+}
+
