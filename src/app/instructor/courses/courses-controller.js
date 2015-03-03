@@ -21,7 +21,7 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function (GamesService) {
+      allGames: function (GamesService) {
             return GamesService.active('basic');
       },
       courses: function(CoursesService, $filter) {
@@ -45,9 +45,6 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function (GamesService) {
-          return GamesService.getGamesForPlan();
-      },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
           .then(function(response) {
@@ -65,7 +62,7 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor','manager','admin']
     },
     resolve: {
-      games: function (GamesService) {
+      gamesInPlan: function (GamesService) {
           return GamesService.getGamesForPlan();
       },
       courses: function(CoursesService) {
@@ -190,10 +187,9 @@ angular.module( 'instructor.courses', [
         return CoursesService.get($stateParams.id);
       },
       gamesInPlan: function(GamesService) {
-          console.log('gamesInPlan');
         return GamesService.getGamesForPlan();
       },
-      games: function(GamesService) {
+      allGames: function(GamesService) {
           return GamesService.active('basic');
       }
     },
@@ -404,16 +400,16 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService) {
 
     $scope.courses = courses;
-    $scope.MAX_GAMES_COUNT = games.length;
+    $scope.MAX_GAMES_COUNT = allGames.length;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
     $scope.courseKey = -1;
     $scope.gamesInfo = {};
-    angular.forEach(games, function(game) {
+    angular.forEach(allGames, function(game) {
       $scope.gamesInfo[game.gameId] = game;
     });
 
@@ -449,8 +445,8 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'NewCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService, UserService, CHECKLIST) {
-  $scope.games = games;
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, courses, CoursesService, UserService, CHECKLIST, gamesInPlan) {
+  $scope.gamesInPlan = gamesInPlan;
   $scope.course = null;
   $scope.createdCourse = null;
   $scope.formProgress = {
@@ -596,17 +592,19 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'AssignGamesModalCtrl',
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, gamesInPlan, CoursesService) {
-  /* TODO: Clean this up. */
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, allGames, gamesInPlan, CoursesService) {
 
+  /* TODO: Clean this up. */
   var _gamesById = {};
-  angular.forEach(games, function(game) {
+  $scope.gamesInPlan = [];
+  angular.forEach(allGames, function(game) {
     _gamesById[game.gameId] = game;
   });
-  // All active games (basic info)
-  $scope.allGames = games;
-  // Available games for this plan
-  $scope.gamesInPlan = gamesInPlan;
+  /*  Done so that check-list model array maps to the same value as check-list value */
+  angular.forEach(gamesInPlan, function(game) {
+      var gameToAdd = _gamesById[game.gameId];
+      $scope.gamesInPlan.push(gameToAdd);
+  });
 
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
@@ -649,7 +647,6 @@ angular.module( 'instructor.courses', [
   function ($scope, $rootScope, $state, $stateParams, $timeout, $log, students, CoursesService) {
     $scope.students = students;
     var activeCourses = $scope.$parent.courses;
-    console.log('students', students);
     var hasOpenCourse = function(courses) {
       return _.any(courses, function(course) { return _.has(course, 'isOpen'); });
     };

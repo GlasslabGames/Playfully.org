@@ -135,6 +135,7 @@ angular.module( 'instructor.reports', [
         parameters: ['gameId','courseId'],
         resolve: {
           defaultCourse: function ($stateParams, coursesInfo) {
+              console.log('coursesInfo', coursesInfo);
               return coursesInfo[$stateParams.courseId];
           },
           myGames: function (defaultCourse) {
@@ -344,25 +345,20 @@ angular.module( 'instructor.reports', [
               // find out if selected game is available for selected course
               if (game.gameId === $scope.games.selectedGameId) {
                 foundGame = game;
-                if (game.price === 'Premium' && !game.assigned) {
+                if (game.price === 'Premium' && !game.assigned && freeGame) {
                     // use free game instead if premium game is unassigned
-                    if (freeGame) {
-                        newState.gameId = freeGame.id;
-                    }
+                    newState.gameId = freeGame.id;
                 } else {
                     newState.gameId = $scope.games.selectedGameId;
                 }
                }
           });
-
-          if (!newState.gameId) {
-              if (foundGame) {
-                  if (freeGame) {
-                      newState.gameId = freeGame.gameId;
-                  } else {
-                      // if no free game, use premium unassigned game anyways
-                      newState.gameId = foundGame;
-                  }
+          if (!newState.gameId && foundGame) {
+              if (freeGame) {
+                  newState.gameId = freeGame.gameId;
+              } else {
+                  // if no free game, use premium unassigned game anyways
+                  newState.gameId = foundGame;
               }
           } else {
               // if game is not available, use first available game for this course

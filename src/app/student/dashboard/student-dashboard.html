@@ -39,7 +39,7 @@
               <div ng-if="!game.assigned"
                    class="gl-course-disabled-premium-game">
               </div>
-            <div ng-if="game.assigned || gamesInfo[game.id].price!=='Premium'" class="gl-student-dash-btn-wrapper"
+            <div ng-if="game.assigned" class="gl-student-dash-btn-wrapper"
                  ng-class="{'gl-student-dash-game-thumb-lighter': hasLinks(game.id)}">
                 <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
                   <div ng-if="isMultiLinkType(button)"

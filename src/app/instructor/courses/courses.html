@@ -71,8 +71,8 @@
                   <li ng-if="course.lockedRegistration"><a ui-sref="modal-lg.unlockCourse({id:course.id})">Unlock Registration</a></li>
                   <li><a ui-sref="modal-lg.archiveCourse({id:course.id})">Archive Class</a></li>
                   <li><a ui-sref="modal-lg.assignGamesToCourse({id:course.id})">Assign More Games</a></li>
-                  <li ng-if="course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: true})">Disable Premium Games</a></li>
-                  <li ng-if="!course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})">Enable Premium Games</a></li>
+                  <li ng-if="hasLicense() && course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: true})">Disable Premium Games</a></li>
+                  <li ng-if="hasLicense() && !course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})">Enable Premium Games</a></li>
                 </ul>
               </div>
             </div>
