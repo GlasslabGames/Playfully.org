@@ -189,8 +189,12 @@ angular.module( 'instructor.courses', [
       course: function($stateParams, CoursesService) {
         return CoursesService.get($stateParams.id);
       },
-      games: function(GamesService) {
+      gamesInPlan: function(GamesService) {
+          console.log('gamesInPlan');
         return GamesService.getGamesForPlan();
+      },
+      games: function(GamesService) {
+          return GamesService.active('basic');
       }
     },
     views: {
@@ -592,26 +596,33 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'AssignGamesModalCtrl',
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, gamesInPlan, CoursesService) {
   /* TODO: Clean this up. */
 
-  _gamesById = {};
+  var _gamesById = {};
   angular.forEach(games, function(game) {
     _gamesById[game.gameId] = game;
   });
-  $scope.games = games;
+  // All active games (basic info)
+  $scope.allGames = games;
+  // Available games for this plan
+  $scope.gamesInPlan = gamesInPlan;
 
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
-    _tempGames = angular.copy(course.games);
-    course.games = [];
-    angular.forEach(_tempGames, function(game) {
+
+    /* Augments course games (course specific info) with basic info  */
+    var gamesToAdd = [];
+    angular.forEach(course.games, function(game) {
       var gameToAdd = _gamesById[game.id];
-      gameToAdd.settings = angular.copy(game.settings);
-      gameToAdd.assigned = angular.copy(game.assigned);
-      course.games.push(gameToAdd);
+      if (gameToAdd) {
+          gameToAdd.settings = angular.copy(game.settings);
+          gameToAdd.assigned = angular.copy(game.assigned);
+      }
+        gamesToAdd.push(gameToAdd);
     });
+    course.games = gamesToAdd;
     $scope.course = course;
   }
 

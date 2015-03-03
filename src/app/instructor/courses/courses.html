@@ -84,10 +84,10 @@
                 ng-show="gamesInfo[game.id].enabled">
 
                 <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
-                        <div ng-if=" gamesInfo[game.id].price==='Premium' && !game.assigned"
+                        <div ng-if="!game.assigned"
                              class="gl-course-disabled-premium-game-overlay">
                         </div>
-                        <div ng-if=" gamesInfo[game.id].price==='Premium' && !game.assigned"
+                        <div ng-if="!game.assigned"
                              class="gl-course-disabled-premium-game">
                         </div>
                       <div ng-if="gamesInfo[game.id].price == 'Premium'"
