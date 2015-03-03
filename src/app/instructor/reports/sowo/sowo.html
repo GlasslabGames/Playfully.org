@@ -71,41 +71,50 @@
     <th colspan="5" class="gl-reports-divider--blue"></th>
   </tr>
   </thead>
+        <tbody ng-show="!isGameDisabled && courses.options[courses.selectedCourseId].users">
+            <tr class="gl-reports-table-row"
+                ng-repeat="student in courses.options[courses.selectedCourseId].users | hasSOWO: reportInfo.selectedGroupId | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+                <td class="gl-nobr">
+                  {{ student.firstName }} {{ student.lastName }}.</td>
+                <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
+                  <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+                    ng-if="features.canRemoveWO"
+                    ng-click="removeWO(sowo.id, student)"
+                    ng-attr-title="{{(reportInfo.selectedGroupId == 'wo') ? 'Remove Watch Out' : ''}}"
+                      ng-show="hasSOWO(sowo.id, student)"></div>
+                  <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
+                    ng-if="!features.canRemoveWO"
+                    ng-show="hasSOWO(sowo.id, student)"></div>
+                </td>
+            </tr>
+        </tbody>
 
-    <tbody ng-show="courses.options[courses.selectedCourseId].users">
-    <tr class="gl-reports-table-row"
-        ng-repeat="student in courses.options[courses.selectedCourseId].users | hasSOWO: reportInfo.selectedGroupId | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-        <td class="gl-nobr">
-          {{ student.firstName }} {{ student.lastName }}.</td>
-        <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
-          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
-            ng-if="features.canRemoveWO"
-            ng-click="removeWO(sowo.id, student)"
-            ng-attr-title="{{(reportInfo.selectedGroupId == 'wo') ? 'Remove Watch Out' : ''}}"
-              ng-show="hasSOWO(sowo.id, student)"></div>
-          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
-            ng-if="!features.canRemoveWO"
-            ng-show="hasSOWO(sowo.id, student)"></div>
-        </td>
-    </tr>
-    </tbody>
-  <tr ng-hide="courses.options[courses.selectedCourseId].users">
-    <td colspan="5" >
-      <div class="text-center gl-pad-Vxxl">
-        No students are currently enrolled in this class. As students begin to play the game and earn comps, you
-        will see them here.
-      </div>
-    </td>
-  </tr>
-    <tr ng-hide="reportInfo.foundSowo">
-        <td colspan="5">
-            <div class="text-center gl-pad-Vxxl">
-                <img src="/assets/blinky-empty.png">
-                <h5>No {{reportInfo.selectedGroupId === 'wo' ? 'Watch Outs' : 'Shout Outs'}} Yet. Keep Playing!</h5>
+        <tr ng-hide="isGameDisabled || courses.options[courses.selectedCourseId].users">
+          <td colspan="5" >
+             <div class="text-center gl-pad-Vxxl">
+              No students are currently enrolled in this class. As students begin to play the game and earn comps, you
+            will see them here.
             </div>
-        </td>
-    </tr>
-  </tbody>
+          </td>
+        </tr>
+
+        <tr ng-hide="isGameDisabled || reportInfo.foundSowo">
+            <td colspan="5">
+                <div class="text-center gl-pad-Vxxl">
+                    <img src="/assets/blinky-empty.png">
+                    <h5>No {{reportInfo.selectedGroupId === 'wo' ? 'Watch Outs' : 'Shout Outs'}} Yet. Keep Playing!</h5>
+                </div>
+            </td>
+        </tr>
+        <tr ng-if="isGameDisabled">
+            <td colspan="5">
+                <div class="text-center gl-pad-Vxxl">
+                    <img src="/assets/disabled-premium-game.png">
+                    <h5>This Premium Game is disabled.</h5>
+                    <h5>To view student data, please visit the Class Manager to enable Premium Games</h5>
+                </div>
+            </td>
+        </tr>
 </table>
 
 <div class="gl-reports-what-now-container" ng-if="reportInfo.selectedGroupId === 'wo' &&

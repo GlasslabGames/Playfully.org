@@ -23,15 +23,14 @@ angular.module('playfully.verify-email', [])
 })
 
 .controller('verifyModalCtrl',
-  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService) {
+  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService, AUTH_EVENTS) {
     $scope.errorMessage = "";
-
     $scope.verifyEmailCode = function () {
       return AuthService.verifyEmailCode($stateParams.hashCode)
         .then(function (response) {
           var userData = response.data;
           $scope.isVerified = (response.status < 400) ? true : false;
-          //console.log($scope.isVerified);
+          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, userData);
           return userData;
         })
         .then(null, function (err) {

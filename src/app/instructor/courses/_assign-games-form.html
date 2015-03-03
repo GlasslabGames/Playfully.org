@@ -4,7 +4,7 @@
 <div class="gl-course-game-options">
   <div class="gl-course-game-option"
         ng-class="{'gl-course-game-maintenance': game.maintenance}"
-        ng-repeat="game in games | filter:{enabled: true}">
+        ng-repeat="game in gamesInPlan | filter:{enabled: true}">
     <input type="checkbox"
       class="gl-courses-game-checkbox"
       id="game-{{ game.gameId }}"
