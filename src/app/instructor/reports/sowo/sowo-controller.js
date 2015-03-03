@@ -10,7 +10,7 @@ angular.module( 'instructor.reports')
 })
 
 .controller( 'SowoCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
+  function($scope, $rootScope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService, defaultGame) {
 
     ///// Setup selections /////
 
@@ -30,7 +30,8 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
-    $scope.games.selectedGameId = defaultGameId;
+    $scope.games.selectedGameId = defaultGame.id;
+    $scope.games.selectedGame = defaultGame;
 
     $scope.whatNow = {};
     $scope.whatNow.isCollapsed = false;
@@ -59,6 +60,11 @@ angular.module( 'instructor.reports')
         }
       }
     });
+
+    // Check if game is premium and disabled
+    if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
+        $scope.isGameDisabled = true;
+    }
 
     // Check if game has selected report
       if (!ReportsService.isValidReport(reportId, $scope.reports.options)) {

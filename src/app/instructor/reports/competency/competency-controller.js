@@ -20,7 +20,7 @@ angular.module( 'instructor.reports')
 */
 
 .controller( 'CompetencyCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, $timeout, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS, localStorageService) {
+  function($scope, $rootScope, $log, $state, $stateParams, $timeout, gameReports, myGames, defaultGame, ReportsService, REPORT_CONSTANTS, localStorageService) {
 
 
     var reportId = 'competency';
@@ -45,7 +45,7 @@ angular.module( 'instructor.reports')
     $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
       // Select game
-    $scope.games.selectedGameId = defaultGameId;
+    $scope.games.selectedGameId = defaultGame.gameId;
     // Set current Report
 
     // Games - Setup games options
@@ -65,6 +65,11 @@ angular.module( 'instructor.reports')
         }
       }
     });
+
+    // Check if game is premium and disabled
+    if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
+        $scope.isGameDisabled = true;
+    }
 
     // Check if game has selected report
 
