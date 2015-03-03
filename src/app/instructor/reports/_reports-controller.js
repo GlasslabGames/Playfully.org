@@ -363,7 +363,7 @@ angular.module( 'instructor.reports', [
                       // if no free game, use premium unassigned game anyways
                       newState.gameId = foundGame;
                   }
-              } 
+              }
           } else {
               // if game is not available, use first available game for this course
               newState.gameId = targetCourse.games[0].gameId;

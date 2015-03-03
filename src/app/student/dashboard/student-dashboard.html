@@ -33,10 +33,10 @@
           ng-repeat="game in course.games"
           ng-show="gamesInfo[game.id].enabled">
           <div class="gl-course-game-thumb gl-thumb-{{ game.id }} gl-student-dash-btn-parent">
-              <div ng-if="gamesInfo[game.id].price==='Premium' && !game.assigned"
+              <div ng-if="!game.assigned"
                    class="gl-course-disabled-premium-game-overlay">
               </div>
-              <div ng-if="gamesInfo[game.id].price==='Premium' && !game.assigned"
+              <div ng-if="!game.assigned"
                    class="gl-course-disabled-premium-game">
               </div>
             <div ng-if="game.assigned || gamesInfo[game.id].price!=='Premium'" class="gl-student-dash-btn-wrapper"
