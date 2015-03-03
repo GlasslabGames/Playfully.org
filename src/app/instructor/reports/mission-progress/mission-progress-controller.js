@@ -13,7 +13,6 @@ angular.module( 'instructor.reports')
     $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
       // Games
     $scope.games.selectedGameId = defaultGame.gameId;
-    $scope.games.selectedGame = defaultGame;
 
     ///// Setup options /////
 
@@ -36,11 +35,12 @@ angular.module( 'instructor.reports')
       }
     });
 
-    // Check if selected game has selected report
     // Check if game is premium and disabled
     if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
         $scope.isGameDisabled = true;
     }
+
+    // Check if selected game has selected report
 
     if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
       $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {

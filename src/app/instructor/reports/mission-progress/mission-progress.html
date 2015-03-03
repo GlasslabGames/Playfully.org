@@ -50,33 +50,31 @@
     </tr>
   </thead>
 
-  </thead>
   <tbody ng-show="!isGameDisabled && courses.options[courses.selectedCourseId].users">
-
-  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
-      <td class="gl-reports-mission-progress" ng-repeat="mission in missions.active">
-        <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(mission, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(mission, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(mission, student.id) === 1}">{{mission.data.score.stars}}</div>
-      </td>
-      <td class="gl-nobr">
-        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
-      </td>
-    </tr>
+      <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+          <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+          <td class="gl-reports-mission-progress" ng-repeat="mission in missions.active">
+            <div ng-class="{'gl-reports-mission-progress-gold': isAwardedAchievement(mission, student.id) === 3, 'gl-reports-mission-progress-silver': isAwardedAchievement(mission, student.id) === 2, 'gl-reports-mission-progress-bronze': isAwardedAchievement(mission, student.id) === 1}">{{mission.data.score.stars}}</div>
+          </td>
+          <td class="gl-nobr">
+            <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
+          </td>
+      </tr>
   </tbody>
-  <tbody ng-hide="isGameDisabled && courses.options[courses.selectedCourseId].users">
-    <tr>
-      <td colspan="5">
-        <div class="text-center gl-pad-Vxxl">
-            No students are currently enrolled in this class. As students begin to play the game and earn missions, you will see them here.
-        </div>
-      </td>
-    </tr>
-  </tbody>
+    <tbody ng-hide="isGameDisabled || courses.options[courses.selectedCourseId].users">
+        <tr>
+          <td colspan="5">
+            <div class="text-center gl-pad-Vxxl">
+                No students are currently enrolled in this class. As students begin to play the game and earn missions, you will see them here.
+            </div>
+          </td>
+        </tr>
+    </tbody>
     <tr ng-if="isGameDisabled">
         <td colspan="5">
             <div class="text-center gl-pad-Vxxl">
                 <img src="/assets/disabled-premium-game.png">
-                <h5>This Premium Game is Disabled.</h5>
+                <h5>This Premium Game is disabled.</h5>
                 <h5>To view student data, please visit the Class Manager to enable Premium Games</h5>
             </div>
         </td>

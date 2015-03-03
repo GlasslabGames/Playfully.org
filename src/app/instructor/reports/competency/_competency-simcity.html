@@ -57,7 +57,7 @@
   </thead>
 
   </thead>
-  <tbody ng-show="courses.options[courses.selectedCourseId].users">
+  <tbody ng-show="!isGameDisabled && courses.options[courses.selectedCourseId].users">
   <tr class="gl-reports-table-row"
       ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
       <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
@@ -74,7 +74,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody ng-hide="courses.options[courses.selectedCourseId].users">
+  <tbody ng-hide="isGameDisabled || courses.options[courses.selectedCourseId].users">
     <tr>
       <td colspan="5">
         <div class="text-center gl-pad-Vxxl">
@@ -83,4 +83,13 @@
       </td>
     </tr>
   </tbody>
+  <tr ng-if="isGameDisabled">
+       <td colspan="5">
+          <div class="text-center gl-pad-Vxxl">
+              <img src="/assets/disabled-premium-game.png">
+              <h5>This Premium Game is disabled.</h5>
+              <h5>To view student data, please visit the Class Manager to enable Premium Games</h5>
+           </div>
+      </td>
+  </tr>
 </table>
