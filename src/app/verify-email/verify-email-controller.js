@@ -30,7 +30,9 @@ angular.module('playfully.verify-email', [])
         .then(function (response) {
           var userData = response.data;
           $scope.isVerified = (response.status < 400) ? true : false;
-          $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, userData);
+          if (userData.licenseStatus === "pending") {
+              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, userData);
+          }
           return userData;
         })
         .then(null, function (err) {
