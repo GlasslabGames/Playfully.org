@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
 
 
 .controller( 'AchievementsCtrl',
-  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, REPORT_CONSTANTS,localStorageService) {
+  function($scope, $log, $state, $stateParams, gameReports, myGames, defaultGameId, ReportsService, UserService, REPORT_CONSTANTS,localStorageService) {
 
 
     ///// Setup selections /////
@@ -15,6 +15,9 @@ angular.module( 'instructor.reports')
 
       // Games
     $scope.games.selectedGameId = defaultGameId;
+
+    // Get the default standard from the user
+    $scope.defaultStandards = "CCSS";
 
     ///// Setup options /////
 
@@ -127,20 +130,34 @@ angular.module( 'instructor.reports')
       }*/
 
       if( reports ) {
-        if( reports.groups && reports.groups.length ) {
+        // Verify if this report has the standards we're looking for, otherwise default to CCSS
+        if( !reports.groups[ $scope.defaultStandards ] ) {
+          $scope.defaultStandards = "CCSS";
+        }
+        if( reports.groups[ $scope.defaultStandards ] && reports.groups[ $scope.defaultStandards ].length ) {
           reports.mappings = {};
-          for( var i = 0; i < reports.groups.length; i++ ) {
-            reports.mappings[ reports.groups[i].id ] = {};
-            for( var j = 0; j < reports.groups[i].subGroups.length; j++ ) {
-              reports.mappings[ reports.groups[i].id ][ reports.groups[i].subGroups[j].id ] = reports.groups[i].subGroups[j];
+          for( var i = 0; i < reports.groups[ $scope.defaultStandards ].length; i++ ) {
+            reports.mappings[ reports.groups[ $scope.defaultStandards ][i].id ] = {};
+            for( var j = 0; j < reports.groups[ $scope.defaultStandards ][i].subGroups.length; j++ ) {
+              reports.mappings[ reports.groups[ $scope.defaultStandards ][i].id ][ reports.groups[ $scope.defaultStandards ][i].subGroups[j].id ] = reports.groups[ $scope.defaultStandards ][i].subGroups[j];
             }
           }
         }
         if( reports.achievements && reports.achievements.length ) {
           for ( var k = 0; k < reports.achievements.length; k++ ) {
             for( var l = 0; l < reports.achievements[k].standards.length; l++ ) {
-              reports.achievements[k].standards[l].title = reports.mappings[ reports.achievements[k].standards[l].group ][ reports.achievements[k].standards[l].subGroup ].title;
-              reports.achievements[k].standards[l].description = reports.mappings[ reports.achievements[k].standards[l].group ][ reports.achievements[k].standards[l].subGroup ].description;
+              // Only allow standards of the default Id to be added to the mapping
+              var standardId = reports.achievements[k].standards[l].id;
+              if( standardId !== $scope.defaultStandards ) {
+                continue;
+              }
+
+              var group = reports.achievements[k].standards[l].group;
+              var subGroup = reports.achievements[k].standards[l].subGroup;
+
+              reports.achievements[k].standards[l].title = reports.mappings[ group ][ subGroup ].title;
+              reports.achievements[k].standards[l].description = reports.mappings[ group ][ subGroup ].description;
+              reports.achievements[k].standards[l].icon = reports.mappings[ group ][ subGroup ].icon;
             }
           }
         }
@@ -172,21 +189,29 @@ angular.module( 'instructor.reports')
           $scope.achievements.options = report.achievements;
         }
       });
+
+      // Make sure we're accessing standards that exist for this game
+      if( $scope.currentUser &&
+          $scope.currentUser.standards &&
+          $scope.achievements.options.groups[ $scope.currentUser.standards ] ) {
+        $scope.defaultStandards = $scope.currentUser.standards;
+      }
+
       /* Select one of the skill types (or default to the first) */
-      var achvExists = _.some($scope.achievements.options.groups, function(achievement) {
+      var achvExists = _.some($scope.achievements.options.groups[ $scope.defaultStandards ], function(achievement) {
             return achievement.id === $stateParams.skillsId;
       });
       if ($stateParams.skillsId && achvExists) {
         $scope.achievements.selected = $stateParams.skillsId;
       } else {
-        if ($scope.achievements.options && $scope.achievements.options.groups.length) {
-          $scope.achievements.selected = $scope.achievements.options.groups[0].id;
+        if ($scope.achievements.options && $scope.achievements.options.groups[ $scope.defaultStandards ].length) {
+          $scope.achievements.selected = $scope.achievements.options.groups[ $scope.defaultStandards ][0].id;
         }
       }
 
       $scope.achievements.options = _populateAchievements($scope.achievements.options);
       $scope.selectActiveAchievements($scope.achievements.selected, 0);
-      $scope.achievements.selectedOption = _.find($scope.achievements.options.groups,
+      $scope.achievements.selectedOption = _.find($scope.achievements.options.groups[ $scope.defaultStandards ],
           function(option) {
             return option.id === $scope.achievements.selected;
           });
@@ -242,8 +267,8 @@ angular.module( 'instructor.reports')
       return false;
     };
 
-    $scope.getLabelClass = function(standard) {
-       return REPORT_CONSTANTS.legend[standard];
+    $scope.getLabelClass = function(icon) {
+       return REPORT_CONSTANTS.legend[icon];
     };
 
     $scope.userSortFunction = function(colName) {
