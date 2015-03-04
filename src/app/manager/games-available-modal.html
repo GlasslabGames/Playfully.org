@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$dismiss()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">{{packageName}} Package</h3>
+</div>
+
+<div class="modal-body modal-body-games-available">
+    <div class="l-collection l-collection-games-available">
+         <div ng-repeat="game in gamesAvailable">
+             <div class="gl-games-available-box">
+                 <div class="gl-course-game-thumb gl-thumb-{{ game.gameId }}"></div>
+                    <span ng-bind="game.longName"></span>
+             </div>
+        </div>
+    </div>
+    <div class="text-center gl-margin--T30">
+        <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+    </div>
+</div>

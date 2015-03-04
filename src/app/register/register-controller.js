@@ -7,7 +7,7 @@ angular.module('playfully.register', ['register.const'])
     controller: 'RegisterOptionsModalCtrl'
   };
   $stateProvider.state('modal.register', {
-    url: '/register?upgrade',
+    url: '/register?:upgrade?packageType?seatsSelected',
     parent: 'modal',
     data: {
       modalSize: 'lg'
@@ -109,9 +109,13 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
       var user = null;
-
+      var upgrade = null || $stateParams.upgrade;
+      var packageInfo = {
+          packageType: null || $stateParams.packageType,
+          seatsSelected: null || $stateParams.seatsSelected
+      };
       $scope.account = {
         firstName: '',
         lastName: '',
@@ -143,7 +147,7 @@ angular.module('playfully.register', ['register.const'])
         else {
           account.standards = "CCSS";
         }
-        UserService.register(account)
+        UserService.register(account, upgrade, packageInfo)
           .success(function(data, status, headers, config) {
             user = data;
             Session.create(user.id, user.role, data.loginType);

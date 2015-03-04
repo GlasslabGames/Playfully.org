@@ -71,7 +71,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/new-course.html',
+        templateUrl: 'instructor/courses/new-course-modal.html',
         controller: 'NewCourseModalCtrl'
       }
     }
@@ -89,7 +89,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/archive-course.html',
+        templateUrl: 'instructor/courses/archive-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -108,7 +108,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/archive-course.html',
+        templateUrl: 'instructor/courses/archive-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -128,7 +128,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/lock-course.html',
+        templateUrl: 'instructor/courses/lock-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -148,7 +148,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/lock-course.html',
+        templateUrl: 'instructor/courses/lock-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -170,7 +170,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/edit-course.html',
+        templateUrl: 'instructor/courses/edit-course-modal.html',
         controller: 'EditCourseModalCtrl'
       }
     }
@@ -195,7 +195,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/assign-games.html',
+        templateUrl: 'instructor/courses/assign-games-modal.html',
         controller: 'AssignGamesModalCtrl'
       }
     }
@@ -283,7 +283,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/student-unenroll.html',
+        templateUrl: 'instructor/courses/student-unenroll-modal.html',
         controller: 'UnenrollStudentModalCtrl'
       }
     },
@@ -312,7 +312,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/student-edit.html',
+        templateUrl: 'instructor/courses/student-edit-modal.html',
         controller: 'EditStudentModalCtrl'
       }
     },
@@ -359,7 +359,7 @@ angular.module( 'instructor.courses', [
             return CoursesService.get(courseId);
           }
         },
-        templateUrl: 'instructor/courses/lock-missions.html',
+        templateUrl: 'instructor/courses/lock-missions-modal.html',
         controller: 'LockMissionsModalCtrl'
       });
 
@@ -388,7 +388,7 @@ angular.module( 'instructor.courses', [
             return CoursesService.get(courseId);
           }
         },
-        templateUrl: 'instructor/courses/lock-missions.html',
+        templateUrl: 'instructor/courses/lock-missions-modal.html',
         controller: 'LockMissionsModalCtrl'
       });
 

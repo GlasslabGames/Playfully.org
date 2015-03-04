@@ -57,6 +57,26 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
+        .state('modal-lg.games-available', {
+            url: '/games-available?:planId?:packageName',
+            data: {
+                pageTitle: 'Games Available'
+            },
+            resolve: {
+                gamesAvailable: function ($stateParams, LicenseService) {
+                   return LicenseService.getGamesByPlanType($stateParams.planId);
+                }
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/games-available-modal.html',
+                    controller: function ($scope, $log, $stateParams, gamesAvailable) {
+                        $scope.gamesAvailable = gamesAvailable;
+                        $scope.packageName = $stateParams.packageName;
+                    }
+                }
+            }
+        })
         .state('modal.remove-educator', {
             url: '/manager/plan/remove-educator?:email',
             data: {

@@ -28,9 +28,7 @@
                                     <div class="gl-package-description">
                                         <p class="gl-margin-Vxl"> {{package.description}}</p>
                                         <ul class="list--nobullets">
-                                            <li ng-show="package.browserGames.length>0"><a>{{package.browserGames.length}} browser games available</a></li>
-                                            <li ng-show="package.iPadGames.length>0"><a>{{package.iPadGames.length}} iPad games available</a></li>
-                                            <li ng-show="package.downloadableGames.length>0"><a>{{package.downloadableGames.length}} downloadable games available</a></li>
+                                            <a ui-sref="modal-lg.games-available({planId:package.planId, packageName: package.name})">View games included</a>
                                         </ul>
                                     </div>
                                     <button class="gl-package-subscribe-button" ng-click="packageFlip=!packageFlip"> Subscribe</button>
@@ -70,7 +68,7 @@
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>
                                 </button>
-                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected})"
+                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe'})"
                                         class="gl-package-continue-button"> Continue
                                 </button>
                                 <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
