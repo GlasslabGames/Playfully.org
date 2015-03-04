@@ -1,7 +1,9 @@
 <div ng-class="{'sdk-container': hideWrapper}">
     <div class="modal-header" ng-init="verifyEmailCode()">
         <button type="button" class="close" data-dismiss="modal" ng-click="close()"
-        ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        ng-hide="hideWrapper || subscribe"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal" ng-click="state.go('root.subscribe.payment',{seatsSelected: seatsSelected, packageType: packageType})"
+                ng-hide="!subscribe || hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h3 class="modal-title" ng-show="isVerified">Your Account is Activated</h3>
         <h3 class="modal-title" ng-show="!isVerified">Uh oh!</h3>
     </div>
@@ -23,9 +25,15 @@
             Thank you and have fun in GlassLab Games!
         </p>
         &nbsp;
-        <div class="text-center">
+        <div class="text-center" ng-hide="subscribe">
             <button class="btn gl-btn--blue"
-            ng-click="state.go('root.home.default')">Okay</button>
+                    ng-click="state.go('root.home.default')">Okay
+            </button>
+        </div>
+        <div class="text-center" ng-show="subscribe">
+            <button class="btn gl-btn--blue"
+                    ng-click="state.go('root.subscribe.payment',{seatsSelected: seatsSelected, packageType: packageType})">Okay
+            </button>
         </div>
         &nbsp;
 

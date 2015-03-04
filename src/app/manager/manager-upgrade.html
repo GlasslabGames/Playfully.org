@@ -10,11 +10,12 @@
                         <div class="gl-manager-side-panel-section">
                             <h4 class="headline-4">Packages:</h4>
                             <div class="gl-upgrade-form">
-                                <div class="radio" ng-repeat="package in choices.packages">
+                                <div class="radio" ng-repeat="packageName in choices.packages">
                                     <label>
-                                        <input type="radio" ng-model="status.packageName" ng-value="package">
-                                        {{package}}
-                                            <span class="gl-text-sea-green" ng-if="package===originalPackage.name && !isTrial()">(current)</span>
+                                        <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                        {{packageName}}
+                                            <span class="gl-text-sea-green" ng-if="packageName===originalPackage.name && !isTrial()">(current)</span>
+                                            <a ng-show="status.packageName===packageName" ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view games</a>
                                     </label>
                                 </div>
                             </div>

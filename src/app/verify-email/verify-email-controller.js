@@ -4,7 +4,7 @@ angular.module('playfully.verify-email', [])
   $stateProvider
 
     .state('modal.verifyEmail', {
-      url: '/verify-email/:hashCode',
+      url: '/verify-email/:hashCode?:subscribe?:seatsSelected?:packageType',
       views: {
         'modal@': {
           templateUrl: 'verify-email/verify-email.html',
@@ -25,7 +25,11 @@ angular.module('playfully.verify-email', [])
 .controller('verifyModalCtrl',
   function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService, AUTH_EVENTS) {
     $scope.errorMessage = "";
-    $scope.verifyEmailCode = function () {
+    $scope.subscribe = $stateParams.subscribe;
+    $scope.seatsSelected = $stateParams.seatsSelected;
+    $scope.packageType = $stateParams.packageType;
+
+      $scope.verifyEmailCode = function () {
       return AuthService.verifyEmailCode($stateParams.hashCode)
         .then(function (response) {
           var userData = response.data;

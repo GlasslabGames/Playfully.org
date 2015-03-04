@@ -79,12 +79,19 @@ angular.module('user', [])
       return result;
     },
 
-    register: function(regInfo) {
+    register: function(regInfo, upgrade, packageInfo) {
+      var params = { cb: new Date().getTime() };
+      if( upgrade && packageInfo ) {
+        params.upgrade = upgrade;
+        params.seatsSelected = packageInfo.seatsSelected;
+        params.packageType = packageInfo.packageType;
+      }
+
       return $http({
         method: 'POST',
         url: API_BASE + '/auth/user/register',
         data: regInfo,
-        params: {cb: new Date().getTime()}
+        params: params
       });
     },
 
