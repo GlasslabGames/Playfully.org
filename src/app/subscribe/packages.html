@@ -68,7 +68,7 @@
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>
                                 </button>
-                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected})"
+                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe'})"
                                         class="gl-package-continue-button"> Continue
                                 </button>
                                 <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
