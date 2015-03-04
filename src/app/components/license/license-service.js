@@ -131,4 +131,12 @@ angular.module('license', [])
             this.stripeRequestPromo = function (promoCode) {
                 return $http.get( API_BASE + '/license/promo-code/' + promoCode );
             };
+            this.getGamesByPlanType = function (planId) {
+                return $http.get( API_BASE + '/dash/games/plan/' + planId + '/basic').then(function(response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
     });
