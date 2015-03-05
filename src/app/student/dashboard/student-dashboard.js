@@ -78,6 +78,12 @@ angular.module( 'student.dashboard', [
   $scope.courses = courses;
   $scope.gamesInfo = {};
 
+  angular.forEach(courses, function(course) {
+      course.hasEnabledGames = _.some(course.games, function(game) {
+          return game.assigned;
+      });
+  });
+
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });

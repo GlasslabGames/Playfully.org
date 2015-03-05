@@ -21,7 +21,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 data: {
                     authorizedRoles: [
                         'instructor'
-                    ]
+                    ],
+                    ssl: true
                 }
             })
             .state('modal.subscribe-success-modal', {

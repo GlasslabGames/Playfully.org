@@ -372,6 +372,19 @@ angular.module( 'playfully', [
       $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     };
+    $scope.$on('$stateChangeStart',
+      function (event, toState) {
+        //if (angular.isDefined(toState.data)) {
+        //  if (angular.isDefined(toState.data.ssl)) {
+        //      if (toState.data.ssl) {
+        //          if ($location.protocol() != 'https') {
+        //              event.preventDefault();
+        //              $window.location.href = $location.absUrl().replace('http', 'https');
+        //          }
+        //      }
+        //  }
+        //}
+    });
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
         if (!$scope.howItWorksPanel.isCollapsed) {
