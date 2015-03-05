@@ -3,6 +3,9 @@ angular.module('playfully.manager', [])
         $stateProvider.state('root.manager', {
             abstract: true,
             url: 'manager',
+            data: {
+              ssl: true
+            },
             views: {
                 'main@': {
                     templateUrl: 'manager/manager.html',
@@ -32,6 +35,38 @@ angular.module('playfully.manager', [])
                   return LicenseService.getBillingInfo();
               }
             },
+            data: {
+                authorizedRoles: ['License']
+            }
+        })
+        .state('root.manager.upgrade', {
+            url: '/upgrade',
+            resolve: {
+                plan: function (LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                },
+                packages: function (LicenseService) {
+                    return LicenseService.getPackages();
+                },
+                billingInfo: function (LicenseService) {
+                    return LicenseService.getBillingInfo();
+                }
+            },
+            templateUrl: 'manager/manager-upgrade.html',
+            controller: 'ManagerUpgradeCtrl',
+            data: {
+                authorizedRoles: ['License']
+            }
+        })
+        .state('root.manager.plan', {
+            url: '/plan',
+            resolve: {
+                plan: function (LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                }
+            },
+            templateUrl: 'manager/manager-plan.html',
+            controller: 'ManagerPlanCtrl',
             data: {
                 authorizedRoles: ['License']
             }
@@ -81,7 +116,8 @@ angular.module('playfully.manager', [])
             url: '/manager/plan/remove-educator?:email',
             data: {
                 pageTitle: 'Remove educator',
-                reloadNextState: true
+                reloadNextState: true,
+                ssl: true
             },
             views: {
                 'modal@': {
@@ -106,7 +142,8 @@ angular.module('playfully.manager', [])
             url: '/manager/current/leave-subscription?:ownerName',
             data: {
                 pageTitle: 'Leave subscription',
-                reloadNextState: true
+                reloadNextState: true,
+                ssl: true
             },
             resolve: {
                 plan: function (LicenseService) {
@@ -137,7 +174,8 @@ angular.module('playfully.manager', [])
             url: '/manager/current/auto-renew?expirationDate?autoRenew',
             data: {
                 pageTitle: 'License Auto-Renew',
-                reloadNextState: true
+                reloadNextState: true,
+                ssl: true
             },
             views: {
                 'modal@': {
@@ -168,7 +206,8 @@ angular.module('playfully.manager', [])
             url: '/start-trial-subscription',
             data: {
                 pageTitle: 'Start Trial',
-                reloadNextState: true
+                reloadNextState: true,
+                ssl: true
             },
             views: {
                 'modal@': {
@@ -202,38 +241,6 @@ angular.module('playfully.manager', [])
                         $previousState.forget('modalInvoker');
                     }
                 }
-            }
-        })
-        .state('root.manager.upgrade', {
-            url: '/upgrade',
-            resolve: {
-                plan: function (LicenseService) {
-                    return LicenseService.getCurrentPlan();
-                },
-                packages: function (LicenseService) {
-                    return LicenseService.getPackages();
-                },
-                billingInfo: function (LicenseService) {
-                    return LicenseService.getBillingInfo();
-                }
-            },
-            templateUrl: 'manager/manager-upgrade.html',
-            controller: 'ManagerUpgradeCtrl',
-            data: {
-                authorizedRoles: ['License']
-            }
-        })
-        .state('root.manager.plan', {
-            url: '/plan',
-            resolve: {
-                plan: function(LicenseService) {
-                    return LicenseService.getCurrentPlan();
-                }
-            },
-            templateUrl: 'manager/manager-plan.html',
-            controller: 'ManagerPlanCtrl',
-            data: {
-                authorizedRoles: ['License']
             }
         });
     })
