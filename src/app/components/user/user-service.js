@@ -84,7 +84,7 @@ angular.module('user', [])
       if( upgrade ) {
         params.upgrade = upgrade;
       }
-      if( packageInfo ) {}
+      if( packageInfo ) {
         params.seatsSelected = packageInfo.seatsSelected;
         params.packageType = packageInfo.packageType;
       }
