@@ -81,8 +81,10 @@ angular.module('user', [])
 
     register: function(regInfo, upgrade, packageInfo) {
       var params = { cb: new Date().getTime() };
-      if( upgrade && packageInfo ) {
+      if( upgrade ) {
         params.upgrade = upgrade;
+      }
+      if( packageInfo ) {
         params.seatsSelected = packageInfo.seatsSelected;
         params.packageType = packageInfo.packageType;
       }
