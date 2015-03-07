@@ -546,6 +546,7 @@ angular.module( 'instructor.courses', [
   }
 
   $scope.archiveCourse = function (courseData) {
+    courseData.premiumGamesAssigned = false;
     CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
         $rootScope.$broadcast('courses:updated');
