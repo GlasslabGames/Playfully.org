@@ -139,4 +139,17 @@ angular.module('license', [])
                     return response;
                 });
             };
+            this.subscribeWithPurchaseOrder = function (purchaseOrder, planInfo) {
+                var apiUrl = API_BASE + '/license/subscribe/po';
+                return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
+            };
+            this.getPurchaseOrderInfo = function (planId) {
+                return $http.get(API_BASE + '/license/po').then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
+
     });

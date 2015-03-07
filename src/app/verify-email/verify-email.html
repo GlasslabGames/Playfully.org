@@ -11,7 +11,7 @@
         <button type="button" class="close" data-dismiss="modal"
                 ng-switch-when="subscribe"
                 ng-hide="hideWrapper"
-                ng-click="state.go('root.subscribe.payment',{seatsSelected: seatsSelected, packageType: packageType})">
+                ng-click="state.go('root.subscribe.payment.default',{seatsSelected: seatsSelected, packageType: packageType})">
                 <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
         </button>
 
@@ -49,7 +49,7 @@
                 Okay
             </button>
             <button class="btn gl-btn--blue" ng-switch-when="subscribe"
-                    ng-click="state.go('root.subscribe.payment',{seatsSelected: seatsSelected, packageType: packageType})">Okay
+                    ng-click="state.go('root.subscribe.payment.default',{seatsSelected: seatsSelected, packageType: packageType})">Okay
             </button>
             <button class="btn gl-btn--blue" ng-switch-default
                     ng-click="state.go('root.home.default')">Okay

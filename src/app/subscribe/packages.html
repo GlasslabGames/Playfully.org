@@ -71,7 +71,7 @@
                                 <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe'})"
                                         class="gl-package-continue-button"> Continue
                                 </button>
-                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
+                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
                             </div>
                         </div>
                     </div>
