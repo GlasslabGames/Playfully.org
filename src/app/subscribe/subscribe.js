@@ -6,18 +6,40 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             url: 'subscribe'
         })
             .state('root.subscribe.payment', {
-                url: '/payment?packageType?seatsSelected',
+                url: '/payment',
+                views: {
+                    'main@': {
+                        templateUrl: 'subscribe/subscribe.html',
+                    }
+                },
+                templateUrl: 'subscribe/subscribe.html',
+                abstract: true
+            })
+            .state('root.subscribe.payment.default', {
+                url: '?packageType?seatsSelected',
+                templateUrl: 'subscribe/subscribe-payment.html',
                 resolve: {
                     packages: function (LicenseService) {
                         return LicenseService.getPackages();
                     }
                 },
-                views: {
-                    'main@': {
-                        templateUrl: 'subscribe/subscribe-payment.html',
-                        controller: 'SubscribePaymentCtrl'
+                controller: 'SubscribePaymentCtrl',
+                data: {
+                    authorizedRoles: [
+                        'instructor'
+                    ],
+                    ssl: true
+                }
+            })
+            .state('root.subscribe.payment.purchase-order-status', {
+                url: '/purchase-order-status',
+                templateUrl: 'subscribe/subscribe-purchase-order.html',
+                resolve: {
+                    packages: function (LicenseService) {
+                        return LicenseService.getPackages();
                     }
                 },
+                controller: 'SubscribePurchaseOrderCtrl',
                 data: {
                     authorizedRoles: [
                         'instructor'
@@ -55,6 +77,17 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 }
             });
     })
+    .controller('SubscribePurchaseOrderCtrl', function ($scope, LicenseService, UtilService) {
+        $scope.info = {
+            name: 'Charles',
+            phone: '408-334-3050',
+            email: 'charles@glasslabgames.org'
+        };
+        LicenseService.getPurchaseOrderInfo().then(function(purchaseOrderInfo) {
+            $scope.info = purchaseOrderInfo;
+        });
+
+    })
     .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
 
         // Setup Seats and Package choices
@@ -65,7 +98,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             isPaymentCreditCard: true,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
-            studentSeats: $stateParams.seatsSelected || 10
+            studentSeats: $stateParams.seatsSelected || 10,
+            totalPrice: null
         };
 
         $scope.promoCode = {
@@ -115,6 +149,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             isSubmitting: false
         };
 
+
+
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {
                 return LicenseService.stripeRequestPromo($scope.promoCode.code);
@@ -152,11 +188,24 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 result.discountedTotal = discountedTotal.toFixed(2);
             }
             result.total = result.total.toFixed(2);
-
+            $scope.info.PO.payment = result.discountedTotal || result.total;
+            $scope.info.PO.payment = parseInt($scope.info.PO.payment);
             // Return the final and discounted total
             return result;
         };
-
+        $scope.requestPurchaseOrder = function (purchaseOrder,studentSeats,packageName) {
+            var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
+            var targetPlan = _.find(packages.plans, {name: packageName});
+            var planInfo = {seats: targetSeat.seatId, type: targetPlan.planId};
+            /* Convert to database expected values */
+            purchaseOrder.payment = parseInt(purchaseOrder.payment);
+            purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
+            UtilService.submitFormRequest($scope.request, function() {
+              return LicenseService.subscribeWithPurchaseOrder(purchaseOrder, planInfo);
+            }, function() {
+               $state.go('root.subscribe.payment.purchase-order-status');
+            });
+        };
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             if (test) {
                 if ($scope.request.errors < 1) {
