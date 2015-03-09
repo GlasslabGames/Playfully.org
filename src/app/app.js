@@ -402,13 +402,13 @@ angular.module( 'playfully', [
             }
             if (angular.isDefined(toState.data.reload) &&
                 toState.data.reload) {
-                $window.location.reload();
+                $state.reload();
             }
         }
         if (angular.isDefined(fromState.data)) {
              if (angular.isDefined(fromState.data.reloadNextState) &&
                  fromState.data.reloadNextState) {
-                 $window.location.reload();
+                 $state.reload();
              }
         }
 

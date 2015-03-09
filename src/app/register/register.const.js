@@ -17,10 +17,11 @@ angular.module('register.const', [])
         address_country: null
     },
     "poInfo": {
-        name: null,
+        firstName: null,
         phone: null,
         email: null,
-        number: null
+        lastName: null,
+        payment: null
     },
     "cardTypes": ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
 });

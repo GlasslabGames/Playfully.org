@@ -370,7 +370,7 @@ angular.module('playfully.manager', [])
         }
 
         // Setup Seat and Package Choices
-        var selectedPackage = plan.packageDetails;
+        var selectedPackage = $scope.originalPackage;
         var packagesChoices = _.map(packages.plans, 'name');
 
         $scope.status = {

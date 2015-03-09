@@ -308,17 +308,13 @@ hr.gl-home-student {
     list-style-type: none;
   }
   button {
-    border: 0px;
-    background-color: white;
-    border-radius: 30px;
-    width: 120px;
-    height: 30px;
     position: absolute;
-    right: 36%;
+    right: 30%;
+    bottom: 5%;
   }
 }
 
-.gl-home-basic-plan {
+.gl-home-plan {
   position: relative;
   padding-top: 10px;
   border-radius: 10px;
@@ -326,6 +322,10 @@ hr.gl-home-student {
   border: 1px solid #d6d6d8;
   height: 470px;
   width: 300px;
+}
+
+.gl-home-plan-basic {
+  .gl-home-plan;
   .gl-home-plan-info {
     background-color: #45BCC7;
     button {
@@ -335,23 +335,24 @@ hr.gl-home-student {
 
 }
 
-.gl-home-premium-plan {
-  position: relative;
-  padding-top: 10px;
-  height: 470px;
-  width: 300px;
-  border-radius: 10px;
-  box-shadow: 0px 10px 0px #d6d6d8;
-  border: 1px solid #d6d6d8;
-
+.gl-home-plan-premium {
+  .gl-home-plan;
   .gl-home-plan-info {
     background-color: #04b678;
     button {
-      margin: auto;
       color: #04b678;
     }
   }
+}
 
+.gl-home-plan-trial {
+  .gl-home-plan;
+  .gl-home-plan-info {
+    background-color: #0d7ebc;
+    button {
+      color: #0d7ebc;
+    }
+  }
 }
 
 .gl-home-try-premium-plan {
@@ -370,13 +371,8 @@ hr.gl-home-student {
     }
   }
   button {
-    width: 120px;
-    height: 30px;
-    margin: auto;
-    border: 0px;
     color: white;
     background-color: #36a9f1;
-    border-radius: 30px;
   }
 }
 
