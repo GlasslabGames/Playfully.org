@@ -438,7 +438,7 @@ angular.module( 'instructor.courses', [
     $rootScope.$on('courses:updated', function(event, data) {
       CoursesService.getEnrollments()
         .then(function(response) {
-          $state.go($state.current, {}, {reload: true});
+            $state.reload();
         });
     });
 
