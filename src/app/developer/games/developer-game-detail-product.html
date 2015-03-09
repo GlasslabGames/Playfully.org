@@ -1,5 +1,10 @@
-<h3 class="headline-4">About the Game</h3> <button ng-click="editAbout.$show()" ng-hide="editAbout.$visible"></button>
-<p e-class="gl-large-input" ng-bind-html="gameDetails.pages.product.about" editable-text="gameDetails.pages.product.about" e-form="editAbout"></p>
+<h3 class="headline-4">About the Game  <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editAbout()"></i></h3>
+<p gl-editable-text="gameDetails.pages.product.about"
+   gl-on-before-save="saveForm"
+   gl-edit-trigger="editAbout"
+   gl-edit-text-area-size="'large'"
+   gl-edit-text-col="'95'"
+   gl-edit-text-row="'10'">{{gameDetails.pages.product.about}}</p>
 
 <p>
   <a ng-href="{{gameDetails.pages.product.video}}" target="_blank">
@@ -10,7 +15,7 @@
   </a>
 
 
-<h3 class="headline-4">How It Fits the Curriculum</h3>
+<h3 class="headline-4" >How It Fits the Curriculum</h3>
 <ul>
   <li ng-repeat="curriculumItem in gameDetails.pages.product.curriculum"
     ng-bind="curriculumItem"></li>

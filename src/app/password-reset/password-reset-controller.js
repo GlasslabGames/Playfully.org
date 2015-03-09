@@ -56,13 +56,17 @@ angular.module('playfully.password-reset', [])
 })
 
 .controller('PasswordResetModalCtrl',
-  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService) {
+  function ($scope, $log, $rootScope, $state, $stateParams, $window, AuthService, $previousState) {
     $scope.userType = $stateParams.type;
 
     $scope.formInfo = {
       isSubmitting: false,
       isResetEmailSent: false,
       errors: []
+    };
+
+    $scope.goBackState = function () {
+        $previousState.go();
     };
 
     $scope.resetPassword = function ( formInfo ) {
@@ -82,7 +86,8 @@ angular.module('playfully.password-reset', [])
     };
 
     $scope.closeWindow = function() {
-      if ($state.current.url.indexOf('sdk') > -1) {
+      var fullUrl = $state.href($state.current.name, $state.params, {absolute: true});
+      if (fullUrl.indexOf('sdk') > -1) {
         $window.location.search = 'action=CLOSE';
       } else {
         $rootScope.modalInstance.close();

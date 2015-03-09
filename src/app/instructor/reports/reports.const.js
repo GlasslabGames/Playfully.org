@@ -3,23 +3,23 @@ angular.module('reports.const', [])
 .constant('REPORT_CONSTANTS', {
  legend: {
   // Achievements
-  'CCSS.ELA-Literacy.WHST.6-8.1a': 'gl-reports-achievement-blue-square',
-  'CCSS.ELA-Literacy.WHST.6-8.1b': 'gl-reports-achievement-green-square',
-  'Problem Solving': 'gl-reports-achievement-red-square',
-  'Citizenship': 'gl-reports-achievement-yellow-square',
-  'CCSS.ELA-Literacy.RI.6-8': 'gl-reports-achievement-light-blue-square',
-  'CCSS Math 6.NS.6b': 'gl-reports-achievement-light-blue-square',
-  'CCSS Math 6.NS.6c': 'gl-reports-achievement-green-square',
-  'CCSS Math 6.NS.8': 'gl-reports-achievement-yellow-square',
-  'CCSS Math 2.G.A.3': 'gl-reports-achievement-light-blue-square',
-  'Symbolic notation': 'gl-reports-achievement-magenta-square',
-  'CCSS Math 3.NF.A.1': 'gl-reports-achievement-green-square',
-  'CCSS Math 3.NF.A.3': 'gl-reports-achievement-yellow-square',
-  'CCSS Math 3.NF.B.3': 'gl-reports-achievement-red-square',
+  'achievement-blue': 'gl-reports-achievement-blue-square',
+  'achievement-light-blue': 'gl-reports-achievement-light-blue-square',
+  'achievement-green': 'gl-reports-achievement-green-square',
+  'achievement-light-green': 'gl-reports-achievement-light-green-square',
+  'achievement-red': 'gl-reports-achievement-red-square',
+  'achievement-light-red': 'gl-reports-achievement-light-red-square',
+  'achievement-yellow': 'gl-reports-achievement-yellow-square',
+  'achievement-light-yellow': 'gl-reports-achievement-light-yellow-square',
+  'achievement-magenta': 'gl-reports-achievement-magenta-square',
+  'achievement-light-magenta': 'gl-reports-achievement-light-magenta-square',
+  'achievement-brown': 'gl-reports-achievement-brown-square',
+  'achievement-light-brown': 'gl-reports-achievement-light-brown-square',
   // Competency
   "mastered": {class:'gl-reports-competency-circle-green',text: 'Mastered'},
+  "approaching-mastery": {class:'gl-reports-competency-circle-yellow',text: 'Approaching Mastery'},
   "not-mastered": {class:'gl-reports-competency-circle-red',text: 'Not Mastered'},
-  "not-enough-info": {class:'gl-reports-competency-circle-gray',text: 'Not Enough Info'},
+  "not-enough-data": {class:'gl-reports-competency-circle-gray',text: 'Not Enough Data'},
   "not-covered": {class:'gl-reports-competency-circle-white',text: 'Not Covered'},
   // Shoutout Watchout
   'so':'gl-reports-so-icon',
@@ -32,6 +32,4 @@ angular.module('reports.const', [])
   'achievements': 3,
   'competency': 4
  }
-
-
 });

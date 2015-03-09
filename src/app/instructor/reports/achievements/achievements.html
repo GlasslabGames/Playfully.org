@@ -16,8 +16,8 @@
 <div class="gl-reports-btn-group-container gl-margin--Txl gl-margin--Bxl">
   <div class="btn-group btn-group-justified">
     <label class="btn"
-      ng-if="achievements.options.length > 1"
-      ng-repeat="achv in achievements.options"
+      ng-if="achievements.options.groups.length > 1"
+      ng-repeat="achv in achievements.options.groups"
       ng-model="achievements.selected"
       ng-class="{'gl-btn--ltgrey': achievements.selected != achv.id,
         'gl-btn--blue': achievements.selected == achv.id}"
@@ -28,17 +28,17 @@
 <article class="legend-header">
     <p class="legend-header"><span>{{achievements.selectedOption.description +" in this Game" }}</span></p>
 </article>
-       <table >
-            <tr>
-                <td class="gl-reports-achievement-header-achievement" ng-repeat="standard in achievements.selectedOption.subGroups">
-                  <div ng-class="getLabelClass(standard.title)"
-                   popover="{{ standard.description }}"
-                   popover-trigger="mouseenter"
-                   popover-placement="bottom">
-                  </div><span ng-bind="standard.title"></span>
-                </td>
-            </tr>
-        </table>
+   <div class="l-collection gl-reports-achievements-legend-container">
+       <div class="l-collection-item gl-reports-achievement-header-achievement"
+            ng-repeat="standard in achievements.selectedOption.subGroups">
+           <div ng-class="getLabelClass(standard.icon)"
+                popover="{{ standard.description }}"
+                popover-trigger="mouseenter"
+                popover-placement="bottom">
+           </div>
+           <span ng-bind="standard.title"></span>
+       </div>
+   </div>
     <hr>
 
 
@@ -85,8 +85,9 @@
     <tr>
         <th class="gl-reports-achievement-header-name" >Standards</th>
         <th class="gl-reports-achievement-header-standards-footer" ng-repeat="achv in achievements.active">
-          <div ng-class="getLabelClass(achv.standard.title)"
-               popover="{{ achv.standard.description }}"
+          <div ng-repeat="standard in achv.standards"
+               ng-class="getLabelClass(standard.icon)"
+               popover="{{ standard.description }}"
                popover-trigger="mouseenter"
                popover-placement="bottom">
           </div>

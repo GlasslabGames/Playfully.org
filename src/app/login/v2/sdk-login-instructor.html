@@ -2,6 +2,9 @@
   <h3 class="modal-title">
     <i class="gl-sdk-header-logo gl-sdk-glasslabgames-logo"></i>
   </h3>
+  <button ng-click="state.go('sdk.sdkv2LoginOptions')" class="gl-btn-circle gl-sdk-back-btn">
+    <i class="fa fa-chevron-left"></i>
+  </button>
 </div>
 
 <div class="modal-body">
@@ -24,6 +27,8 @@
                      class="form-control"
                      placeholder="Email"
                      required autofocus
+                     autocapitalize="off"
+                     autocorrect="off"
                      ng-model="credentials.username">
                 <div class="form-errors">
                   <div class="form-error"
@@ -36,15 +41,13 @@
                 <a ui-sref="passwordReset({type: 'instructor'})"
                    class="link-forgot-password"
                    ng-if="!hideWrapper">Forgot your password?</a>
-                <a ui-sref="sdk.
-                sdkv2PasswordReset({type: 'instructor'})"
-                   class="text-left"
+                <a ui-sref="sdk.sdkv2PasswordReset({type: 'instructor'})"
+                   class="text-left link-forgot-password"
                    ng-if="hideWrapper">
                   Forgot your password?</a>
               </span>
             </div>
           </div>
-
         </div>
       </div>
       <div class="col-md-6">
@@ -55,6 +58,8 @@
               <input type="password"
                      class="form-control"
                      id="credentials-password"
+                     autocapitalize="off"
+                     autocorrect="off"
                      placeholder="Password"
                      required ng-model="credentials.password">
             </div>

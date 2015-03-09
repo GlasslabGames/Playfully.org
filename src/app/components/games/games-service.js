@@ -184,7 +184,16 @@ angular.module('games', [
       return $http.get(API_BASE + '/dash/developer/info')
           .then(function(response) {
             $log.debug(response);
-            console.log('response',response);
+            return response.data;
+          }, function (response) {
+            $log.error(response);
+            return response;
+          });
+    },
+    updateDeveloperGameInfo: function(gameId,data) {
+      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {data: data})
+          .then(function(response) {
+            $log.debug(response);
             return response.data;
           }, function (response) {
             $log.error(response);

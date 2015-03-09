@@ -112,7 +112,7 @@ angular.module('playfully.register', ['register.const'])
     function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
       var user = null;
 
-        $scope.account = {
+      $scope.account = {
         firstName: '',
         lastName: '',
         email: '',
@@ -135,6 +135,13 @@ angular.module('playfully.register', ['register.const'])
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
           $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
           $scope.account.firstName = firstName;
+        }
+        // Get the standard based on state
+        if( account.state === "Texas" ) {
+          account.standards = "TEKS";
+        }
+        else {
+          account.standards = "CCSS";
         }
         UserService.register(account)
           .success(function(data, status, headers, config) {
