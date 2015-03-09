@@ -99,14 +99,13 @@
 
                     </div>
                     <div ng-if="status.isPaymentCreditCard">
-
                         <div ng-include src="'subscribe/_credit-card-form.html'"></div>
                         <div class="gl-margin--Tl">Billing Address:</div>
                         <div ng-include src="'subscribe/_billing-address-form.html'"></div>
-                        <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
-                               type="danger"><span class="fa fa-times-circle"></span> {{ error }}
-                        </alert>
                     </div>
+                    <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
+                           type="danger"><span class="fa fa-times-circle"></span> {{ error }}
+                    </alert>
                 </div>
 
                 <div class="reg-submit text-center">
