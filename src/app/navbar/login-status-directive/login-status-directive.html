@@ -8,9 +8,8 @@
             <div>Trial</div>
             <h4 class="headline-3--serif gl-inline">{{daysRemaining}}</h4><span> days left</span>
         </li>
-        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer') && !hasLicense()"
+        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')"
                ui-sref="root.subscribe.packages">Subscription</a></li>
-        <li><a ng-show="hasLicense()" ui-sref="root.manager.plan">Subscription</a></li>
         <li><a ng-hide="isSSOLogin()"
                 ui-sref="modal.profile">Edit My Profile</a></li>
         <li><a ng-show="isAuthenticatedButNot('student')"

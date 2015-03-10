@@ -59,13 +59,30 @@ angular.module('license', [])
                     return $rootScope.currentUser.isTrial;
                 }
             };
-            this.hasLicense = function () {
+            this.hasLicense = function (show) {
+              var license = null;
+              var _conditional = function() {
+                  if (show) {
+                      return license[show];
+                  }
+                  return license.lic;
+              };
               if ($rootScope.currentUser) {
                   if ($rootScope.currentUser.isTrial) {
-                      return 'trial';
+                      license = {lic:'trial', badge:'trial', active: true};
+                      return _conditional();
                   }
                   if ($rootScope.currentUser.licenseStatus==="active") {
-                      return 'premium';
+                      license = {lic: 'premium', badge: 'premium', active: true};
+                      return _conditional();
+                  }
+                  if ($rootScope.currentUser.licenseStatus === "po-received") {
+                      license = {lic: 'po-received', badge: 'premium', active: true};
+                      return _conditional();
+                  }
+                  if ($rootScope.currentUser.licenseStatus==='po-pending') {
+                      license = {lic: 'po-pending', badge: null, active: false};
+                      return _conditional();
                   }
               }
             };

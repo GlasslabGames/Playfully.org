@@ -1,6 +1,7 @@
 angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
     .config(function ($stateProvider) {
+
         $stateProvider.state('root.subscribe', {
             abstract: true,
             url: 'subscribe'
@@ -9,7 +10,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 url: '/payment',
                 views: {
                     'main@': {
-                        templateUrl: 'subscribe/subscribe.html',
+                        templateUrl: 'subscribe/subscribe.html'
                     }
                 },
                 templateUrl: 'subscribe/subscribe.html',
@@ -27,6 +28,18 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 data: {
                     authorizedRoles: [
                         'instructor'
+                    ],
+                    redirects: [
+                        {
+                            state: 'root.subscribe.payment.purchase-order-status',
+                            licenses: ['po-pending'],
+                            roles: ['instructor']
+                        },
+                        {
+                            state: 'root.manager.plan',
+                            licenses: ['premium', 'po-received', 'trial'],
+                            roles: ['instructor']
+                        }
                     ],
                     ssl: true
                 }
@@ -74,6 +87,20 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         templateUrl: 'subscribe/packages.html',
                         controller: 'SubscribePackagesCtrl'
                     }
+                },
+                data: {
+                    redirects: [
+                        {
+                            state: 'root.subscribe.payment.purchase-order-status',
+                            licenses: ['po-pending'],
+                            roles: ['instructor']
+                        },
+                        {
+                            state: 'root.manager.plan',
+                            licenses: ['premium', 'po-received', 'trial'],
+                            roles: ['instructor']
+                        }
+                    ]
                 }
             });
     })
@@ -89,7 +116,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
     })
     .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
-
         // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
