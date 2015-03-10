@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
+                <div class="gl-manager-side-panel-label text-center">
+                    Purchase Order
+                </div>
+                <div class="gl-manager-side-panel-section gl-manager-side-panel-section--payment gl-margin--Bm">
+                    <h5>Name</h5>
+                    <span>{{info.name}}</span>
+                    <h5>Phone Number</h5>
+                    <span>{{info.phone}}</span>
+                    <h5>Email</h5>
+                    <span>{{info.email}}</span>
+                    <button class="btn gl-btn--grey gl-margin--T40">Cancel Purchase Order</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 gl-margin--B50">
+            <div class="gl-upgrade-school-info gl-margin--B40">
+                <div class="gl-upgrade-label-school-info">Purchase Order Status</div>
+                <div class="text-center  gl-margin--B40">
+                    <hr>
+                    <div class="gl-purchase-order-step-box step-box-left text-center">
+                        <i ng-class="{'fa-circle' : info.status >= 1 }" class="fa fa-circle-o gl-purchase-order-step-circle"></i>
+                            <h5>STEP 1</h5>
+                            Submit purchase order
+                        <div class="gl-purchase-order-step-bar"></div>
+                    </div>
+                    <div class="gl-purchase-order-step-box step-box-middle text-center">
+                        <i ng-class="{'fa-circle' : info.status >= 2 }" class="fa fa-circle-o gl-purchase-order-step-circle"></i>
+                        <h5>STEP 2</h5>
+                        Purchase order received
+                        <div class="gl-purchase-order-step-bar-right"></div>
+                    </div>
+                    <div class="gl-purchase-order-step-box step-box-right text-center">
+                        <i ng-class="{'fa-circle' : info.status >= 3 }" class="fa fa-circle-o gl-purchase-order-step-circle"></i>
+                        <h5>STEP 3</h5>
+                        Purchase order approved
+                    </div>
+                    <hr>
+                </div>
+                <div ng-if="info.status === 1">
+                    <p> Thank you for subscribing to GlassLab Games!
+                        Your order form was emailed to you and you may also download it here.</p>
+                    <p><b>Please email or fax the completed form with your purchase order to:</b></p>
+                    <p>email: mat@glasslabgames.org</p>
+                    <p>fax: 425-000-0000</p>
+                </div>
+                <div ng-if="info.status === 2">
+                    We have received your purchase order! You have full access to the benefits of your plan while we process your purchase order.
+                </div>
+                <div ng-if="info.status === 3">
+                    Your purchase order has been approved!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

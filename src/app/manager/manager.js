@@ -26,6 +26,22 @@ angular.module('playfully.manager', [])
                 authorizedRoles: ['License']
             }
         })
+        .state('root.manager.purchase-order-status', {
+            url: '/purchase-order-status',
+            templateUrl: 'subscribe/purchase-order-status.html',
+            resolve: {
+              purchaseOrderInfo: function(LicenseService) {
+                  return LicenseService.getPurchaseOrderInfo();
+              }
+            },
+            controller: function($scope, $state, purchaseOrderInfo) {
+                $scope.$parent.currentTab = $state.current.url;
+                $scope.info = purchaseOrderInfo;
+            },
+            data: {
+                authorizedRoles: ['License']
+            }
+        })
         .state('root.manager.billing-info', {
             url: '/billing-info',
             templateUrl: 'manager/manager-billing-info.html',
@@ -248,7 +264,6 @@ angular.module('playfully.manager', [])
         $scope.currentTab = $state.current.url;
     })
     .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService) {
-        $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = billingInfo;
         $scope.isChangingCard = false;

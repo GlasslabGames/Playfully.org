@@ -353,6 +353,7 @@ angular.module( 'playfully', [
     $scope.isSSOLogin = UserService.isSSOLogin;
     $scope.isLicenseOwner = LicenseService.isOwner;
     $scope.isTrial = LicenseService.isTrial;
+    $scope.isPurchaseOrder = LicenseService.isPurchaseOrder;
     $scope.hasLicense = LicenseService.hasLicense;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
@@ -440,15 +441,20 @@ angular.module( 'playfully', [
       // Google Analytics
         if (user &&
             user.role === 'instructor') {
-            if (user.licenseStatus &&
-                user.licenseStatus === "pending") {
-                user.licenseStatus = "active";
-                LicenseService.activateLicenseStatus().then(function () {
-                    UserService.updateUserSession(function () {
-                        $state.go('modal.notify-invited-subscription');
+            if (user.licenseStatus) {
+                if (user.licenseStatus === "pending" ||
+                    user.licenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.licenseStatus === "pending") {
+                                $state.go('modal.notify-invited-subscription');
+                            } else if (user.licenseStatus === "po-received") {
+                                $state.go('modal.notify-po-received');
+                            }
+                        });
                     });
-                });
-                return;
+                    return;
+                }
             }
             if (user.isUpgradeTrial) {
                 $state.go('modal.start-trial-subscription');
@@ -466,6 +472,7 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
+
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

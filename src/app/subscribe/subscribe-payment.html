@@ -1,134 +1,136 @@
-<div class="row">
-    <div class="col-md-4">
-        <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
-            <div class="gl-manager-side-panel-label text-center">
-                Premium Plan
-            </div>
-            <div class="gl-manager-side-panel-section gl-manager-side-panel-section--payment gl-margin--Bm">
-                <h4 class="headline-3--serif gl-inline"
-                    gl-editable-text-popover="status.packageName"
-                    gl-editable-type="'dropdown'"
-                    gl-editable-options="choices.packages"
-                    gl-edit-trigger="changePackage"
-                        >{{status.packageName}} Package</h4> <span class="gl-clickable" ng-click="changePackage()">Change</span>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
+                <div class="gl-manager-side-panel-label text-center">
+                    Premium Plan
+                </div>
+                <div class="gl-manager-side-panel-section gl-manager-side-panel-section--payment gl-margin--Bm">
+                    <h4 class="headline-3--serif gl-inline"
+                        gl-editable-text-popover="status.packageName"
+                        gl-editable-type="'dropdown'"
+                        gl-editable-options="choices.packages"
+                        gl-edit-trigger="changePackage"
+                            >{{status.packageName}} Package</h4> <span class="gl-clickable" ng-click="changePackage()">Change</span>
 
-                <p class="gl-margin-Vl">{{packages.selected.description}}</p>
+                    <p class="gl-margin-Vl">{{packages.selected.description}}</p>
 
-                <h4 class="headline-4">Package Size:</h4>
+                    <h4 class="headline-4">Package Size:</h4>
 
-                <form class="gl-upgrade-form">
-                    <div class="radio" ng-repeat="seat in choices.seats">
-                        <label>
-                            <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats">
-                            {{seat.studentSeats}} students + {{seat.educatorSeats}} educators
-                        </label>
+                    <form class="gl-upgrade-form">
+                        <div class="radio" ng-repeat="seat in choices.seats">
+                            <label>
+                                <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats">
+                                {{seat.studentSeats}} students + {{seat.educatorSeats}} educators
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="gl-manager-side-panel-section">
+                    <form class="reg-form form-inline">
+                        <div class="form-group">
+                            <input class="form-control gl-inline" size="13" ng-model="promoCode.code"
+                                   placeholder="Promo Code" ng-disabled="requestPromo.success">
+                        </div>
+                        <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                               ng-click="applyPromoCode()"
+                               value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
+                        </input>
+                        <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
+                               ng-show="requestPromo.successes.length" type="success"><span
+                                class="fa fa-check-circle"></span> {{ success }}
+                        </alert>
+                        <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
+                               ng-show="requestPromo.errors.length" type="danger"><span
+                                class="fa fa-times-circle"></span> {{ error }}
+                        </alert>
+                    </form>
+                    <hr>
+                    <div class="gl-payment-total-box">
+                        <h4 class="headline-4 gl-payment-total">Total:</h4>
+                        <h4 class="headline-4 gl-payment-total-original"><span
+                                ng-class="{'gl-strike-through':promoCode.valid}">${{(calculateTotal(status.selectedPackage.pricePerSeat,status.studentSeats)).total}}</span>
+                            / year</h4>
+                        <h4 class="headline-4 gl-text-red gl-payment-total-discounted" ng-show="promoCode.valid">
+                            ${{(calculateTotal(status.selectedPackage.pricePerSeat,status.studentSeats)).discountedTotal}}</h4>
                     </div>
-                </form>
-            </div>
-
-            <div class="gl-manager-side-panel-section">
-                <form class="reg-form form-inline">
-                    <div class="form-group">
-                        <input class="form-control gl-inline" size="13" ng-model="promoCode.code"
-                               placeholder="Promo Code" ng-disabled="requestPromo.success">
-                    </div>
-                    <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
-                           ng-click="applyPromoCode()"
-                           value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
-                    </input>
-                    <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
-                           ng-show="requestPromo.successes.length" type="success"><span
-                            class="fa fa-check-circle"></span> {{ success }}
-                    </alert>
-                    <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
-                           ng-show="requestPromo.errors.length" type="danger"><span
-                            class="fa fa-times-circle"></span> {{ error }}
-                    </alert>
-                </form>
-                <hr>
-                <div class="gl-payment-total-box">
-                    <h4 class="headline-4 gl-payment-total">Total:</h4>
-                    <h4 class="headline-4 gl-payment-total-original"><span
-                            ng-class="{'gl-strike-through':promoCode.valid}">${{(calculateTotal(status.selectedPackage.pricePerSeat,status.studentSeats)).total}}</span>
-                        / year</h4>
-                    <h4 class="headline-4 gl-text-red gl-payment-total-discounted" ng-show="promoCode.valid">
-                        ${{(calculateTotal(status.selectedPackage.pricePerSeat,status.studentSeats)).discountedTotal}}</h4>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-8 gl-margin--B50">
-        <form name="paymentForm" novalidate class="reg-form form-inline">
-            <div class="form-group">
-                <div class="gl-upgrade-school-info gl-margin--Bl">
+        <div class="col-md-8 gl-margin--B50">
+            <form name="paymentForm" novalidate class="reg-form form-inline">
+                <div class="form-group">
+                    <div class="gl-upgrade-school-info gl-margin--Bl">
 
-                    <div class="gl-upgrade-label-school-info">School Info</div>
+                        <div class="gl-upgrade-label-school-info">School Info</div>
 
-                    <div class="form-group">
-                        <input class="form-control" size="43" ng-model="info.school.zipCode" placeholder="Zip Code">
-                    </div>
-                    <div class="form-group">
-                        <select name="state"
-                                class="form-control"
-                                ng-options="state for state in choices.states"
-                                ng-model="info.school.state" required>
-                        </select>
-                    </div>
-                    <input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address">
+                        <div class="form-group">
+                            <input class="form-control" size="43" ng-model="info.school.zipCode" placeholder="Zip Code">
+                        </div>
+                        <div class="form-group">
+                            <select name="state"
+                                    class="form-control"
+                                    ng-options="state for state in choices.states"
+                                    ng-model="info.school.state" required>
+                            </select>
+                        </div>
+                        <input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address">
 
-                    <div class="form-group">
-                        <input class="form-control" ng-model="info.school.city" placeholder="City">
+                        <div class="form-group">
+                            <input class="form-control" ng-model="info.school.city" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" ng-model="info.school.name" placeholder="School Name">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control" ng-model="info.school.name" placeholder="School Name">
+                    <div class="gl-upgrade-payment  gl-margin--B50">
+                        <div class="gl-payment-selection l-collection gl-margin--Bl">
+                            <h5 ng-click="status.isPaymentCreditCard=false"
+                                ng-class="{'text-bold': !status.isPaymentCreditCard }"
+                                class="headline-5 gl-inline-block gl-margin--R40 gl-clickable">Purchase Order</h5>
+                            <h5 ng-click="status.isPaymentCreditCard=true"
+                                ng-class="{'text-bold': status.isPaymentCreditCard}"
+                                class="headline-5 gl-inline-block gl-margin--Bl gl-clickable">Credit Card</h5>
+                        </div>
+                        <div class="gl-upgrade-label-payment">Payment</div>
+                        <div ng-if="!status.isPaymentCreditCard">
+
+                            <div ng-include src="'subscribe/_payment-order-form.html'"></div>
+
+                        </div>
+                        <div ng-if="status.isPaymentCreditCard">
+                            <div ng-include src="'subscribe/_credit-card-form.html'"></div>
+                            <div class="gl-margin--Tl">Billing Address:</div>
+                            <div ng-include src="'subscribe/_billing-address-form.html'"></div>
+                        </div>
+                        <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
+                               type="danger"><span class="fa fa-times-circle"></span> {{ error }}
+                        </alert>
+                    </div>
+
+                    <div class="reg-submit text-center">
+                        <input ng-show="status.isPaymentCreditCard"
+                               ng-click="submitPayment(status.studentSeats,status.packageName, info)"
+                               class="btn gl-payment-submit gl-btn--black"
+                               value="{{ request.isSubmitting ? 'Requesting Subscription...' : 'Submit'}}"
+                               ng-disabled="request.isSubmitting || paymentForm.$invalid">
+                        <input ng-hide="status.isPaymentCreditCard"
+                               ng-click="requestPurchaseOrder(info.PO, status.studentSeats, status.packageName)"
+                               class="btn gl-payment-submit gl-btn--black"
+                               value="{{ request.isSubmitting ? 'Submitting...' : 'Submit'}}"
+                               ng-disabled="request.isSubmitting || paymentForm.$invalid">
+                    </div>
+                    <div class="reg-submit text-center">
+                        <input ng-click="submitPayment(status.studentSeats,status.packageName, info,'test')"
+                               class="btn gl-payment-submit gl-btn--black"
+                               value="{{ request.isSubmitting ? 'Requesting Subscription...' : 'Test'}}"
+
+                               ng-disabled="request.isSubmitting">
                     </div>
                 </div>
-                <div class="gl-upgrade-payment  gl-margin--B50">
-                    <div class="gl-payment-selection l-collection gl-margin--Bl">
-                        <h5 ng-click="status.isPaymentCreditCard=false"
-                            ng-class="{'text-bold': !status.isPaymentCreditCard }"
-                            class="headline-5 gl-inline-block gl-margin--R40 gl-clickable">Purchase Order</h5>
-                        <h5 ng-click="status.isPaymentCreditCard=true"
-                            ng-class="{'text-bold': status.isPaymentCreditCard}"
-                            class="headline-5 gl-inline-block gl-margin--Bl gl-clickable">Credit Card</h5>
-                    </div>
-                    <div class="gl-upgrade-label-payment">Payment</div>
-                    <div ng-if="!status.isPaymentCreditCard">
 
-                        <div ng-include src="'subscribe/_payment-order-form.html'"></div>
-
-                    </div>
-                    <div ng-if="status.isPaymentCreditCard">
-                        <div ng-include src="'subscribe/_credit-card-form.html'"></div>
-                        <div class="gl-margin--Tl">Billing Address:</div>
-                        <div ng-include src="'subscribe/_billing-address-form.html'"></div>
-                    </div>
-                    <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
-                           type="danger"><span class="fa fa-times-circle"></span> {{ error }}
-                    </alert>
-                </div>
-
-                <div class="reg-submit text-center">
-                    <input ng-show="status.isPaymentCreditCard"
-                           ng-click="submitPayment(status.studentSeats,status.packageName, info)"
-                           class="btn gl-payment-submit gl-btn--black"
-                           value="{{ request.isSubmitting ? 'Requesting Subscription...' : 'Submit'}}"
-                           ng-disabled="request.isSubmitting || paymentForm.$invalid">
-                    <input ng-hide="status.isPaymentCreditCard"
-                           ng-click="requestPurchaseOrder(info.PO, status.studentSeats, status.packageName)"
-                           class="btn gl-payment-submit gl-btn--black"
-                           value="{{ request.isSubmitting ? 'Submitting...' : 'Submit'}}"
-                           ng-disabled="request.isSubmitting || paymentForm.$invalid">
-                </div>
-                <div class="reg-submit text-center">
-                    <input ng-click="submitPayment(status.studentSeats,status.packageName, info,'test')"
-                           class="btn gl-payment-submit gl-btn--black"
-                           value="{{ request.isSubmitting ? 'Requesting Subscription...' : 'Test'}}"
-
-                           ng-disabled="request.isSubmitting">
-                </div>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>

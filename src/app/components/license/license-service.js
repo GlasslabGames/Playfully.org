@@ -59,6 +59,11 @@ angular.module('license', [])
                     return $rootScope.currentUser.isTrial;
                 }
             };
+            this.isPurchaseOrder = function () {
+                if ($rootScope.currentUser) {
+                    return false;
+                }
+            };
             this.hasLicense = function (show) {
               var license = null;
               var _conditional = function() {
