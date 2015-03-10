@@ -186,7 +186,7 @@ angular.module('playfully.manager', [])
                 }
             }
         })
-        .state('modal.auto-renew', {
+        /*.state('modal.auto-renew', {
             url: '/manager/current/auto-renew?expirationDate?autoRenew',
             data: {
                 pageTitle: 'License Auto-Renew',
@@ -217,7 +217,7 @@ angular.module('playfully.manager', [])
                     }
                 }
             }
-        })
+        })*/
         .state('modal.start-trial-subscription', {
             url: '/start-trial-subscription',
             data: {
