@@ -384,6 +384,28 @@ angular.module( 'playfully', [
         //      }
         //  }
         //}
+        if (angular.isDefined(toState.data)) {
+              if (angular.isDefined(toState.data.redirects)) {
+                  if ($rootScope.currentUser &&
+                      $rootScope.currentUser.licenseStatus) {
+                      var licenseStatus = LicenseService.hasLicense();
+                      angular.forEach(toState.data.redirects, function (redirect) {
+                          if (redirect.licenses &&
+                              redirect.licenses.indexOf(licenseStatus) >= 0) {
+                              // if role defined then follow rule, else just redirect
+                              if (angular.isArray(redirect.roles &&
+                                  redirect.roles.indexOf($rootScope.currentUser.roles) >= 0)) {
+                                  event.preventDefault();
+                                  $state.go(redirect.state);
+                              } else {
+                                  event.preventDefault();
+                                  $state.go(redirect.state);
+                              }
+                          }
+                      });
+                  }
+              }
+          }
     });
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
@@ -411,7 +433,6 @@ angular.module( 'playfully', [
                  $state.reload();
              }
         }
-
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {

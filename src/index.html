@@ -44,8 +44,8 @@
         <div class="container gl-container">
           <div data-ng-include="'navbar/navbar.html'"></div>
           <div class="gl-navbar-status">
-              <div ng-cloak ui-sref="root.manager.plan" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense()">
-                  <img ng-src="/assets/{{hasLicense()}}-badge.png">
+              <div ng-cloak ui-sref="root.manager.plan" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense('active')">
+                  <img ng-src="/assets/{{hasLicense('badge')}}-badge.png">
               </div>
               <div ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username gl-inline-block" ng-class="{'gl-nav-student': isAuthorized('student')}"
                 ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
