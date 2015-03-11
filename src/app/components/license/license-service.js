@@ -168,5 +168,12 @@ angular.module('license', [])
                     return response;
                 });
             };
-
+            this.updatePurchaseOrder = function (action) {
+                return $http.get(API_BASE + '/license/po/' + aciton).then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
     });
