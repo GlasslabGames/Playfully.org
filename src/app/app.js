@@ -431,7 +431,11 @@ angular.module( 'playfully', [
         if (angular.isDefined(fromState.data)) {
              if (angular.isDefined(fromState.data.reloadNextState) &&
                  fromState.data.reloadNextState) {
-                 $state.reload();
+                     if (fromState.data.reloadNextState==='reload app') {
+                     $window.location.reload();
+                 } else {
+                     $state.reload();
+                 }
              }
         }
     });

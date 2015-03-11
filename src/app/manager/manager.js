@@ -222,7 +222,7 @@ angular.module('playfully.manager', [])
             url: '/start-trial-subscription',
             data: {
                 pageTitle: 'Start Trial',
-                reloadNextState: true,
+                reloadNextState: 'reload app',
                 ssl: true
             },
             views: {
