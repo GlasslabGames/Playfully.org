@@ -52,8 +52,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                       return LicenseService.getPurchaseOrderInfo();
                   }
                 },
-                controller: function($scope, purchaseOrderInfo) {
+                controller: function($scope, purchaseOrderInfo, LicenseService) {
                     $scope.info = purchaseOrderInfo;
+                    $scope.cancelPurchaseOrder = function() {
+                        LicenseService.cancelPurchaseOrder();
+                    };
                 },
                 data: {
                     authorizedRoles: [

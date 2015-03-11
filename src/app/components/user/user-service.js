@@ -28,7 +28,9 @@ angular.module('user', [])
     updateUserSession: function(callback) {
         api.currentUser('startNewSession').then(function (user) {
             $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
-            callback();
+            if (callback) {
+                callback();
+            }
         });
     },
     isAuthenticated: function() {

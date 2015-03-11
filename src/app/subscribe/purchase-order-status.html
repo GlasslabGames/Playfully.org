@@ -12,7 +12,7 @@
                     <span>{{info.phone}}</span>
                     <h5>Email</h5>
                     <span>{{info.email}}</span>
-                    <button class="btn gl-btn--grey gl-margin--T40">Cancel Purchase Order</button>
+                    <button ng-if="info.status === 2" ng-click="cancelPurchaseOrder()" class="btn gl-btn--grey gl-margin--T40">Cancel Purchase Order</button>
                 </div>
             </div>
         </div>
