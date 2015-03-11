@@ -27,7 +27,8 @@ angular.module( 'instructor.courses', [
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
           .then(function(response) {
-            return $filter('filter')(response, { archived: false });
+            var filtered = $filter('filter')(response, {archived: false});
+            return filtered;
           });
       }
     }
@@ -438,7 +439,9 @@ angular.module( 'instructor.courses', [
     $rootScope.$on('courses:updated', function(event, data) {
       CoursesService.getEnrollments()
         .then(function(response) {
-              $state.reload();
+              $timeout(function() {
+                  $state.go($state.current, {}, {reload: true});
+              }, 100);
         });
     });
 

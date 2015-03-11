@@ -7,7 +7,7 @@ angular.module('playfully.register', ['register.const'])
     controller: 'RegisterOptionsModalCtrl'
   };
   $stateProvider.state('modal.register', {
-    url: '/register?:upgrade?packageType?seatsSelected',
+    url: '/register?:upgrade?:packageType?:seatsSelected?:role',
     parent: 'modal',
     data: {
       modalSize: 'lg'
@@ -106,6 +106,7 @@ angular.module('playfully.register', ['register.const'])
   $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
   $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
   $scope.upgrade = $stateParams.upgrade;
+  $scope.role = $stateParams.role;
 })
 
 .controller('RegisterInstructorCtrl',

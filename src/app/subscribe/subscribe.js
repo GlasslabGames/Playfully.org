@@ -46,18 +46,38 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             })
             .state('root.subscribe.payment.purchase-order-status', {
                 url: '/purchase-order-status',
-                templateUrl: 'subscribe/subscribe-purchase-order.html',
+                templateUrl: 'subscribe/purchase-order-status.html',
                 resolve: {
-                    packages: function (LicenseService) {
-                        return LicenseService.getPackages();
-                    }
+                  purchaseOrderInfo: function(LicenseService) {
+                      return LicenseService.getPurchaseOrderInfo();
+                  }
                 },
-                controller: 'SubscribePurchaseOrderCtrl',
+                controller: function($scope, purchaseOrderInfo, LicenseService) {
+                    $scope.info = purchaseOrderInfo;
+                    $scope.cancelPurchaseOrder = function() {
+                        LicenseService.cancelPurchaseOrder();
+                    };
+                },
                 data: {
                     authorizedRoles: [
                         'instructor'
                     ],
                     ssl: true
+                }
+            })
+            .state('modal.notify-po-received', {
+                url: '/subscribe/success',
+                data: {
+                    pageTitle: 'Purchase Order Received',
+                    reloadNextState: true
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/notify-po-received-modal.html',
+                        controller: function ($scope, $log, $stateParams, $previousState) {
+                            $previousState.forget('modalInvoker');
+                        }
+                    }
                 }
             })
             .state('modal.subscribe-success-modal', {
@@ -103,17 +123,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     ]
                 }
             });
-    })
-    .controller('SubscribePurchaseOrderCtrl', function ($scope, LicenseService, UtilService) {
-        $scope.info = {
-            name: 'Charles',
-            phone: '408-334-3050',
-            email: 'charles@glasslabgames.org'
-        };
-        LicenseService.getPurchaseOrderInfo().then(function(purchaseOrderInfo) {
-            $scope.info = purchaseOrderInfo;
-        });
-
     })
     .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
         // Setup Seats and Package choices

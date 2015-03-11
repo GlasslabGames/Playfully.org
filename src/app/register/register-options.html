@@ -6,7 +6,7 @@
 <div class="modal-body">
 
     <div class="text-center clearfix gl-register-options">
-      <div class="gl-register-options-wrapper">
+      <div class="gl-register-options-wrapper" ng-class="{'gl-register-option-center': role==='instructor'}">
 
         <div class="gl-register-option">
           <div class="gl-register-option-wrapper">
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <div class="gl-register-option">
+        <div class="gl-register-option" ng-if="role!=='instructor'">
           <div class="gl-register-option-wrapper">
             <div class="gl-game-card gl-game-card--linked" ng-click="state.go('modal.register.student')">
               <div class="gl-register-card-image gl-register-card-student">
