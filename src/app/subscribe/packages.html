@@ -68,7 +68,7 @@
                                 <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
                                     <i class="fa fa-chevron-left"></i>
                                 </button>
-                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe'})"
+                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe',role:'instructor'})"
                                         class="gl-package-continue-button"> Continue
                                 </button>
                                 <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
@@ -91,7 +91,7 @@
                     <li><i class="fa fa-check"></i>Instant access</li>
                 </ul>
                 <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription">Try it Out!</button>
-                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial'})">Try it Out!</button>
+                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})">Try it Out!</button>
             </div>
         </div>
     </div>

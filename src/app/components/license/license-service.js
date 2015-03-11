@@ -59,6 +59,11 @@ angular.module('license', [])
                     return $rootScope.currentUser.isTrial;
                 }
             };
+            this.isPurchaseOrder = function () {
+                if ($rootScope.currentUser) {
+                    return false;
+                }
+            };
             this.hasLicense = function (show) {
               var license = null;
               var _conditional = function() {
@@ -169,11 +174,20 @@ angular.module('license', [])
                 });
             };
             this.updatePurchaseOrder = function (action) {
-                return $http.get(API_BASE + '/license/po/' + aciton).then(function (response) {
+                return $http.get(API_BASE + '/license/po/' + action).then(function (response) {
                     return response.data;
                 }, function (response) {
                     console.log('error - ', response);
                     return response;
                 });
             };
+            this.cancelActivePurchaseOrder = function (action) {
+                return $http.get(API_BASE + 'license/po/cancel').then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
+
     });

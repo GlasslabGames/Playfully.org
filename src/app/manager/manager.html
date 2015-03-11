@@ -12,9 +12,11 @@
                     <a href ui-sref="root.manager.student-list">Student List</a>
                 </li>
                 <li ng-if="isLicenseOwner() && !isTrial()" class="gl-tab"
-                    ng-class="{'active': currentTab === '/billing-info'}">
-                    <a href ui-sref="root.manager.billing-info">Billing Info</a>
+                    ng-class="{'active': currentTab === '/billing-info' || currentTab === '/purchase-order-status'}">
+                    <a ng-show="!isPurchaseOrder()" href ui-sref="root.manager.billing-info">Billing Info</a>
+                    <a ng-show="isPurchaseOrder()" href ui-sref="root.manager.purchase-order-status">Billing Info</a>
                 </li>
+
             </ul>
         </div>
     </div>
