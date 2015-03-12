@@ -44,19 +44,25 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     ssl: true
                 }
             })
-            .state('root.subscribe.payment.purchase-order-status', {
-                url: '/purchase-order-status',
-                templateUrl: 'subscribe/purchase-order-status.html',
-                resolve: {
-                  purchaseOrderInfo: function(LicenseService) {
-                      return LicenseService.getPurchaseOrderInfo();
-                  }
-                },
-                controller: function($scope, purchaseOrderInfo, LicenseService) {
-                    $scope.info = purchaseOrderInfo;
-                    $scope.cancelPurchaseOrder = function() {
-                        LicenseService.cancelPurchaseOrder();
-                    };
+            .state('modal.cancel-purchase-order', {
+                url: 'subscribe/payment/cancel-purchase-order',
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/cancel-purchase-order-modal.html',
+                        controller: function ($scope, LicenseService, UtilService, $previousState) {
+                            $previousState.forget('modalInvoker');
+                            $scope.request = {
+                                successes: [],
+                                errors: [],
+                                submitting: false
+                            };
+                            $scope.cancelPurchaseOrder = function () {
+                                UtilService.submitFormRequest($scope.request, function () {
+                                    return LicenseService.cancelActivePurchaseOrder();
+                                });
+                            };
+                        }
+                    }
                 },
                 data: {
                     authorizedRoles: [
@@ -65,17 +71,36 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     ssl: true
                 }
             })
-            .state('modal.notify-po-received', {
-                url: '/subscribe/success',
+            .state('root.subscribe.payment.purchase-order-status', {
+                url: '/purchase-order-status',
+                templateUrl: 'subscribe/purchase-order-status.html',
+                resolve: {
+                  purchaseOrderInfo: function(LicenseService) {
+                      return LicenseService.getPurchaseOrderInfo();
+                  }
+                },
+                controller: function($scope, purchaseOrderInfo) {
+                    $scope.info = purchaseOrderInfo;
+                },
                 data: {
-                    pageTitle: 'Purchase Order Received',
+                    authorizedRoles: [
+                        'instructor'
+                    ],
+                    ssl: true
+                }
+            })
+            .state('modal.notify-po-status', {
+                url: '/purchase-order-notify-status?:purchaseOrderStatus',
+                data: {
+                    pageTitle: 'Purchase Order Status',
                     reloadNextState: true
                 },
                 views: {
                     'modal@': {
-                        templateUrl: 'subscribe/notify-po-received-modal.html',
+                        templateUrl: 'subscribe/notify-po-status-modal.html',
                         controller: function ($scope, $log, $stateParams, $previousState) {
                             $previousState.forget('modalInvoker');
+                            $scope.purchaseOrderStatus = $stateParams.purchaseOrderStatus;
                         }
                     }
                 }

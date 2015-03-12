@@ -264,6 +264,7 @@ angular.module('playfully.manager', [])
         $scope.currentTab = $state.current.url;
     })
     .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService) {
+        $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = billingInfo;
         $scope.isChangingCard = false;
