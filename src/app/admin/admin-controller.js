@@ -56,31 +56,32 @@ angular.module('playfully.admin', ['dash','license'])
 })
 
 .controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService) {
-    $scope.order = {
+    $scope.purchaseOrder = {
         key: "",
         number: "",
         amount: ""
     };
-    $scope.package = {
+    $scope.planInfo = {
         plan: "",
         seats: ""
     };
     $scope.action = "";
     $scope.output = "";
 
+
     $scope.updatePurchaseOrder = function() {
-        LicenseService.updatePurchaseOrder($scope.action).then(function(data) {
+        LicenseService.updatePurchaseOrder($scope.purchaseOrder, $scope.planInfo, $scope.action).then(function(data) {
             // Update the output
             $scope.output = data;
 
             // Reset the order
-            $scope.order.key = "";
-            $scope.order.number = "";
-            $scope.order.amount = "";
+            $scope.purchaseOrder.key = "";
+            $scope.purchaseOrder.number = "";
+            $scope.purchaseOrder.amount = "";
 
             // Reset the package
-            $scope.package.plan = "";
-            $scope.package.seats = "";
+            $scope.planInfo.plan = "";
+            $scope.planInfo.seats = "";
 
             // Reset the action
             $scope.action = "";

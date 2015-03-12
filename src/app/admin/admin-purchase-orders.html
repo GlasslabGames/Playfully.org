@@ -14,15 +14,15 @@
 
 <form ng-submit="updatePurchaseOrder()">
 	<h4>Purchase Order info:</h4>
-	Key: <input type="text" id="key" size="30" ng-model="order.key"/>
+	Key: <input type="text" id="key" size="30" ng-model="purchaseOrder.key"/>
 	<br />
-	PO#: <input type="text" id="key" size="30" ng-model="order.number"/>
+	PO#: <input type="text" id="key" size="30" ng-model="purchaseOrder.number"/>
 	<br />
-	Payment Amount: <input type="text" id="key" size="10" ng-model="order.amount"/> (ex. 125.00)
+	Payment Amount: <input type="text" id="key" size="10" ng-model="purchaseOrder.amount"/> (ex. 125.00)
 	<br />
 	<br />
 	<h4>License Package info:</h4>
-	Plan: <select name="plan" ng-model="package.plan">
+	Plan: <select name="plan" ng-model="planInfo.plan">
         <option selected value="allGames">All Games</option>
         <option value="chromebook">Chromebook</option>
         <option value="ipad">iPad</option>
@@ -30,7 +30,7 @@
         <option value="trial">Trial</option>
     </select>
     <br />
-    Seats: <select name="seats" ng-model="package.seats">
+    Seats: <select name="seats" ng-model="planInfo.seats">
         <option selected value="group">Group (10 students, 1 educator)</option>
         <option value="class">Class (30 students, 2 educators)</option>
         <option value="multiClass">Multi Class (120 students, 8 educators)</option>

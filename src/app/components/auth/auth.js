@@ -56,7 +56,8 @@ angular.module('auth', ['session', 'ipCookie'])
       }
       if (authorizedRoles.indexOf('License') !== -1) {
           return (this.isAuthenticated() &&
-              Session.licenseStatus === "active");
+              Session.licenseStatus === "active" ||
+              Session.licenseStatus === "po-received");
       }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);

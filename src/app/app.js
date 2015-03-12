@@ -398,9 +398,11 @@ angular.module( 'playfully', [
                                   redirect.roles.indexOf($rootScope.currentUser.roles) >= 0)) {
                                   event.preventDefault();
                                   $state.go(redirect.state);
+                                  return;
                               } else {
                                   event.preventDefault();
                                   $state.go(redirect.state);
+                                  return;
                               }
                           }
                       });
@@ -452,10 +454,18 @@ angular.module( 'playfully', [
                         UserService.updateUserSession(function () {
                             if (user.licenseStatus === "pending") {
                                 $state.go('modal.notify-invited-subscription');
+                                return;
                             } else if (user.licenseStatus === "po-received") {
-                                $state.go('modal.notify-po-received');
+                                $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
+                                return;
                             }
                         });
+                    });
+                    return;
+                }
+                if (user.licenseStatus === "po-rejected") {
+                    LicenseService.resetLicenseMapStatus().then(function() {
+                        $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
                     });
                     return;
                 }

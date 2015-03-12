@@ -169,7 +169,8 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-leave-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, UserService, UtilService) {
+                    controller: function ($scope, $log, $stateParams, LicenseService, UserService, UtilService, $previousState) {
+                        $previousState.forget('modalInvoker');
                         $scope.ownerName = $stateParams.ownerName;
                         $scope.request = {
                             success: false,
@@ -228,7 +229,8 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService) {
+                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService, $previousState) {
+                        $previousState.forget('modalInvoker');
                         $scope.request = {
                             success: false,
                             errors: []
@@ -264,6 +266,7 @@ angular.module('playfully.manager', [])
         $scope.currentTab = $state.current.url;
     })
     .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService) {
+        $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = billingInfo;
         $scope.isChangingCard = false;

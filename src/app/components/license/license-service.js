@@ -61,7 +61,9 @@ angular.module('license', [])
             };
             this.isPurchaseOrder = function () {
                 if ($rootScope.currentUser) {
-                    return false;
+                    if ($rootScope.currentUser.paymentType==='purchase-order') {
+                        return true;
+                    }
                 }
             };
             this.hasLicense = function (show) {
@@ -173,21 +175,15 @@ angular.module('license', [])
                     return response;
                 });
             };
-            this.updatePurchaseOrder = function (action) {
-                return $http.get(API_BASE + '/license/po/' + action).then(function (response) {
-                    return response.data;
-                }, function (response) {
-                    console.log('error - ', response);
-                    return response;
-                });
+            this.updatePurchaseOrder = function (purchaseOrder, planInfo, action) {
+                var apiUrl = API_BASE + '/license/po/' + action;
+                return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
             };
-            this.cancelActivePurchaseOrder = function (action) {
-                return $http.get(API_BASE + 'license/po/cancel').then(function (response) {
-                    return response.data;
-                }, function (response) {
-                    console.log('error - ', response);
-                    return response;
-                });
+            this.resetLicenseMapStatus = function () {
+                return $http.post(API_BASE + '/license/nullify');
+            };
+            this.cancelActivePurchaseOrder = function () {
+                return $http.post(API_BASE + '/license/po/cancel');
             };
 
     });
