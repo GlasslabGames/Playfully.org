@@ -314,7 +314,7 @@ angular.module('playfully.manager', [])
                 }
                 return;
             }
-            LicenseService.stripeValidation($scope.info.CC);
+            LicenseService.stripeValidation($scope.info.CC, $scope.request.errors);
             if ($scope.isChangingCard) {
 
             }
