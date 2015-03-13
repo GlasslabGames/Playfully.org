@@ -498,6 +498,11 @@ angular.module('playfully.manager', [])
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
 
+            // Attach the promo code as a "coupon" to stripeInfo if it is valid
+            if ($scope.promoCode.valid) {
+                stripeInfo.coupon = $scope.promoCode.code;
+            }
+
             UtilService.submitFormRequest($scope.request, function() {
                 if (plan.packageDetails.name === 'Trial') {
                     return LicenseService.upgradeFromTrial({

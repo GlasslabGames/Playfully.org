@@ -23,9 +23,14 @@
       </div>
     </div>
   </div>
-
-  <div class="jumbotron gl-game-banner-{{ gameId }}">
-  </div>
+    <div class="gl-game-banner-container">
+        <div class="jumbotron gl-game-banner-{{ gameId }}">
+            <div ng-class="{'gl-game-ribbon' : gameDetails.price==='Premium', 'gl-game-ribbon--green' : gameDetails.price==='Coming Soon','gl-game-ribbon--aqua-blue' : gameDetails.price==='Free'}"
+                 ng-hide="game.hover">
+                <div class="gl-game-ribbon-text">{{gameDetails.price}}</div>
+            </div>
+        </div>
+    </div>
   <div class="row" id="content">
     <div class="col-md-3 col-border--right">
       <ul class="gl-games-subnav">
