@@ -108,6 +108,14 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
+        .state('modal-xlg.prorating-information', {
+            url: '/prorating-information',
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/prorating-information-modal.html'
+                }
+            }
+        })
         .state('modal-lg.games-available', {
             url: '/games-available?:planId?:packageName',
             data: {
@@ -396,7 +404,11 @@ angular.module('playfully.manager', [])
           selectedPackage: selectedPackage,
           studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
           isPaymentCreditCard: true,
-          currentCard: 'current'
+          currentCard: 'current',
+          promoDiscount: 0,
+          proratedTotal: 0,
+          currentTotal: 0,
+          originalTotal: 0
         };
 
         if (plan.packageDetails.name === 'Trial') {
@@ -504,27 +516,53 @@ angular.module('playfully.manager', [])
             });
         };
 
+        var _calculateProrateQuotient = function() {
+            var expirationTemp = plan.expirationDate.split(' ');
+            var expirationYear = expirationTemp[2];
+            var startYear = expirationYear - 1;
+            expirationTemp[2] = startYear;
+            var startDate = expirationTemp.join(' ');
+            var daysFromNow = moment(startDate, 'MMMM Do YYYY').fromNow();
+            daysFromNow = parseInt(daysFromNow.split(' ')[0]);
+            return (365-daysFromNow)/365;
+        };
+        $scope.calculateTotal = function (packageName, seatChoice, type) {
 
-        $scope.calculateTotal = function (packageName, seatChoice) {
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var targetPackage = _.find(packages.plans, {name: packageName});
             var total = seatChoice * (targetPackage.pricePerSeat || 0);
-            var result = {total: total};
 
-            result.total = result.total - (result.total * (targetSeatTier.discount / 100));
-
-            // apply a promo code if it's valid
-            if ($scope.promoCode.valid) {
-                var discountedTotal = result.total - ($scope.promoCode.amount_off);
-                discountedTotal = discountedTotal - (discountedTotal * ($scope.promoCode.percent_off / 100));
-                result.discountedTotal = discountedTotal.toFixed(2);
-            }
-            result.total = result.total.toFixed(2);
-
+            total = total - (total * (targetSeatTier.discount / 100));
+            total = total.toFixed(2);
             // Return the final and discounted total
-            return result;
+            return total;
         };
 
+        $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
+            var prorateMultiplier = _calculateProrateQuotient();
+            var total = parseInt($scope.calculateTotal(packageName, seatChoice));
+            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat));
+            var proratedTotal = (total - originalTotal) * prorateMultiplier;
+            $scope.status.proratedTotal = proratedTotal;
+            return proratedTotal.toFixed(2);
+        };
+        $scope.calculateGrandTotal = function () {
+
+            var proratedTotal = $scope.status.proratedTotal;
+            var discountedTotal = proratedTotal;
+
+            if ($scope.promoCode.valid) {
+                discountedTotal = proratedTotal - ($scope.promoCode.amount_off);
+                $scope.promoDiscount = discountedTotal * ($scope.promoCode.percent_off / 100);
+                discountedTotal = discountedTotal - ($scope.promoDiscount);
+            }
+            $scope.promoDiscount = ($scope.promoCode.amount_off) || $scope.promoDiscount;
+            if ($scope.promoDiscount) {
+                $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
+            }
+            // return discounted total
+            return parseInt(discountedTotal).toFixed(2);
+       };
 
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {
