@@ -108,6 +108,14 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
+        .state('modal-xlg.prorating-information', {
+            url: '/prorating-information',
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/prorating-information-modal.html'
+                }
+            }
+        })
         .state('modal-lg.games-available', {
             url: '/games-available?:planId?:packageName',
             data: {
@@ -520,25 +528,18 @@ angular.module('playfully.manager', [])
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var targetPackage = _.find(packages.plans, {name: packageName});
             var total = seatChoice * (targetPackage.pricePerSeat || 0);
-            var result = {total: total};
 
-            result.total = result.total - (result.total * (targetSeatTier.discount / 100));
-            // apply a promo code if it's valid
-            if ($scope.promoCode.valid) {
-                var discountedTotal = result.total - ($scope.promoCode.amount_off);
-                discountedTotal = discountedTotal - (discountedTotal * ($scope.promoCode.percent_off / 100));
-                result.discountedTotal = discountedTotal.toFixed(2);
-            }
-            result.total = result.total.toFixed(2);
+            total = total - (total * (targetSeatTier.discount / 100));
+            total = total.toFixed(2);
 
             // Return the final and discounted total
-            return result;
+            return total;
         };
 
         $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
             var prorateMultiplier = _calculateProrateQuotient();
-            var total = parseInt($scope.calculateTotal(packageName, seatChoice).total);
-            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat).total);
+            var total = parseInt($scope.calculateTotal(packageName, seatChoice));
+            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat));
             var proratedTotal = (total - originalTotal) * prorateMultiplier;
             return proratedTotal.toFixed(2);
         };
