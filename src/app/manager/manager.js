@@ -108,6 +108,14 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
+        .state('modal-xlg.prorating-information', {
+            url: '/prorating-information',
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/prorating-information-modal.html'
+                }
+            }
+        })
         .state('modal-lg.games-available', {
             url: '/games-available?:planId?:packageName',
             data: {
@@ -526,20 +534,14 @@ angular.module('playfully.manager', [])
 
             total = total - (total * (targetSeatTier.discount / 100));
             total = total.toFixed(2);
-            if (type==='original') {
-                $scope.status.originalTotal = total;
-            }
-            if (type==='new') {
-                $scope.status.newTotal = total;
-            }
             // Return the final and discounted total
             return total;
         };
 
         $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
             var prorateMultiplier = _calculateProrateQuotient();
-            var total = parseInt($scope.status.newTotal);
-            var originalTotal = parseInt($scope.status.originalTotal);
+            var total = parseInt($scope.calculateTotal(packageName, seatChoice));
+            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat));
             var proratedTotal = (total - originalTotal) * prorateMultiplier;
             $scope.status.proratedTotal = proratedTotal;
             return proratedTotal.toFixed(2);
