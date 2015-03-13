@@ -396,7 +396,8 @@ angular.module('playfully.manager', [])
           selectedPackage: selectedPackage,
           studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
           isPaymentCreditCard: true,
-          currentCard: 'current'
+          currentCard: 'current',
+          promoDiscount: 0.00
         };
 
         if (plan.packageDetails.name === 'Trial') {
@@ -504,15 +505,24 @@ angular.module('playfully.manager', [])
             });
         };
 
-
+        var _calculateProrateQuotient = function() {
+            var expirationTemp = plan.expirationDate.split(' ');
+            var expirationYear = expirationTemp[2];
+            var startYear = expirationYear - 1;
+            expirationTemp[2] = startYear;
+            var startDate = expirationTemp.join(' ');
+            var daysFromNow = moment(startDate, 'MMMM Do YYYY').fromNow();
+            daysFromNow = parseInt(daysFromNow.split(' ')[0]);
+            return (365-daysFromNow)/365;
+        };
         $scope.calculateTotal = function (packageName, seatChoice) {
+
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var targetPackage = _.find(packages.plans, {name: packageName});
             var total = seatChoice * (targetPackage.pricePerSeat || 0);
             var result = {total: total};
 
             result.total = result.total - (result.total * (targetSeatTier.discount / 100));
-
             // apply a promo code if it's valid
             if ($scope.promoCode.valid) {
                 var discountedTotal = result.total - ($scope.promoCode.amount_off);
@@ -525,6 +535,30 @@ angular.module('playfully.manager', [])
             return result;
         };
 
+        $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
+            var prorateMultiplier = _calculateProrateQuotient();
+            var total = parseInt($scope.calculateTotal(packageName, seatChoice).total);
+            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat).total);
+            var proratedTotal = (total - originalTotal) * prorateMultiplier;
+            return proratedTotal.toFixed(2);
+        };
+        $scope.calculateGrandTotal = function (packageName, seatChoice, originalName, originalSeat) {
+
+            var proratedTotal = $scope.calculateProrated(packageName, seatChoice, originalName, originalSeat);
+            var discountedTotal = proratedTotal;
+
+            if ($scope.promoCode.valid) {
+                discountedTotal = proratedTotal - ($scope.promoCode.amount_off);
+                $scope.promoDiscount = discountedTotal * ($scope.promoCode.percent_off / 100);
+                discountedTotal = discountedTotal - ($scope.promoDiscount);
+            }
+            $scope.promoDiscount = ($scope.promoCode.amount_off) || $scope.promoDiscount;
+            if ($scope.promoDiscount) {
+                $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
+            }
+            // return discounted total
+            return parseInt(discountedTotal).toFixed(2);
+       };
 
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {

@@ -42,7 +42,7 @@
     border-top: 1px solid #eeeeee;
   }
   border-bottom: 1px solid @whiteSmoke;
-  padding: 10px 0px 20px 0px;
+  padding: 15px 0px 15px 0px;
   &:last-child {
     border-bottom: 0px;
   }
@@ -240,4 +240,43 @@
 .modal-body-games-available {
   padding-right: 0px;
   padding-left: 0px;
+}
+
+.gl-upgrade-total-row {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  .row-right {
+    position: absolute;
+    right: 0px;
+    top: 8px;
+  }
+  .row-left {
+    position: absolute;
+    left: 0px;
+    top: 8px;
+  }
+}
+
+.gl-upgrade-total-row.total-row-header {
+  height: 40px;
+  .row-right {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+  .row-left {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+}
+
+.gl-manager-learn-prorate {
+  vertical-align: middle;
+  display: table-cell;
+  background-color: #e0e0e0;
+  width: 268px;
+  height: 30px;
+  padding: 10px;
 }
