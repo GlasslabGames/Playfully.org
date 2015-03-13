@@ -62,7 +62,7 @@ angular.module('playfully.admin', ['dash','license'])
         amount: ""
     };
     $scope.planInfo = {
-        plan: "",
+        type: "",
         seats: ""
     };
     $scope.action = "";
@@ -80,7 +80,7 @@ angular.module('playfully.admin', ['dash','license'])
             $scope.purchaseOrder.amount = "";
 
             // Reset the package
-            $scope.planInfo.plan = "";
+            $scope.planInfo.type = "";
             $scope.planInfo.seats = "";
 
             // Reset the action
