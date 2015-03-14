@@ -375,16 +375,16 @@ angular.module( 'playfully', [
     };
     $scope.$on('$stateChangeStart',
       function (event, toState) {
-        //if (angular.isDefined(toState.data)) {
-        //  if (angular.isDefined(toState.data.ssl)) {
-        //      if (toState.data.ssl) {
-        //          if ($location.protocol() != 'https') {
-        //              event.preventDefault();
-        //              $window.location.href = $location.absUrl().replace('http', 'https');
-        //          }
-        //      }
-        //  }
-        //}
+        if (angular.isDefined(toState.data)) {
+          if (angular.isDefined(toState.data.ssl)) {
+              if (toState.data.ssl) {
+                  if ($location.protocol() != 'https') {
+                      event.preventDefault();
+                      $window.location.href = $location.absUrl().replace('http', 'https');
+                  }
+              }
+          }
+        }
         if (angular.isDefined(toState.data)) {
               if (angular.isDefined(toState.data.redirects)) {
                   if ($rootScope.currentUser &&
