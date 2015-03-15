@@ -110,7 +110,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, STRIPE) {
         var user = null;
         var packageInfo = {
             packageType: null || $stateParams.packageType,
@@ -135,13 +135,15 @@ angular.module('playfully.register', ['register.const'])
       $scope.states = REGISTER_CONSTANTS.states;
 
       $scope.register = function( account ) {
-        /*if ($scope.upgrade === 'trial') {
-            var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
-            if (emailAddress >= 0) {
-                $scope.account.errors.push('Trial accounts cannot have the + symbol in their email address');
-                return;
-            }
-        }*/
+        if( STRIPE.env === "live" ) {
+          if ($scope.upgrade === 'trial') {
+              var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
+              if (emailAddress >= 0) {
+                  $scope.account.errors.push('Trial accounts cannot have the + symbol in their email address');
+                  return;
+              }
+          }
+        }
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
