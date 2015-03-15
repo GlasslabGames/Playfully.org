@@ -52,7 +52,8 @@ angular.module('playfully.config', [])
       publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS"
   },
   live: {
-      publishableKey: "pk_live_Z5Uhx2i2CAxZsRyD03iPG9In"
+      publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS",
+      another: "pk_live_Z5Uhx2i2CAxZsRyD03iPG9In"
   }
 })
 
