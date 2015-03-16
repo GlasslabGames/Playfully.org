@@ -73,6 +73,10 @@ angular.module( 'playfully.home', ['ui.router'])
     $location.path(url);
   };
 
+  $scope.goToLink = function (path) {
+      $window.open(path, '_blank');
+  };
+
   $http.get('/api/v2/data/eventsCount')
     .success(function(data) {
       $scope.eventCount = data.eventCount;
