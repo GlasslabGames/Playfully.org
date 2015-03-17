@@ -524,13 +524,13 @@ angular.module('playfully.manager', [])
 
         var _calculateProrateQuotient = function() {
             var expirationTemp = plan.expirationDate.split(' ');
-            var expirationYear = expirationTemp[2];
+            var expirationYear = parseInt(expirationTemp[2]);
             var startYear = expirationYear - 1;
-            expirationTemp[2] = startYear;
-            var startDate = expirationTemp.join(' ');
-            var daysFromNow = moment(startDate, 'MMMM Do YYYY').fromNow();
-            daysFromNow = parseInt(daysFromNow.split(' ')[0]);
-            return (365-daysFromNow)/365;
+            expirationTemp[2] = startYear+'';
+            var startDate = moment(expirationTemp, 'MMMM-Do-YYYY');
+            var currentDate = moment.utc();
+            var daysFromNow = startDate.diff(currentDate,'days');
+            return (365+daysFromNow)/365;
         };
         var _calculateTotal = function (packageName, seatChoice) {
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
