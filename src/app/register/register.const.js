@@ -16,6 +16,13 @@ angular.module('register.const', [])
         address_zip: null,
         address_country: null
     },
+    "school": {
+        name: null,
+        zipCode: null,
+        address: null,
+        state: null,
+        city: null
+    },
     "poInfo": {
         firstName: null,
         phone: null,

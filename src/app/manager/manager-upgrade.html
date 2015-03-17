@@ -34,13 +34,13 @@
 
 
                         </div>
-                        <div class="gl-manager-side-panel-section">
+                        <div class="gl-manager-side-panel-section" ng-if="!plan.promoCode">
                             <div class="gl-manager-promo-code-box">
                                 <form class="reg-form form-inline">
                                         <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
                                                placeholder="Promo Code" ng-disabled="requestPromo.success">
                                     <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
-                                           ng-click="applyPromoCode()"
+                                           ng-click="applyPromoCode(promoCode.code)"
                                            value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
                                     </input>
                                     <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
@@ -57,32 +57,32 @@
                         <div class="gl-manager-side-panel-section">
                             <div class="gl-upgrade-total-row">
                                 <span class="row-left">Current Plan:</span>
-                                <span class="row-right  gl-text-sea-green" ng-if="!isTrial()">${{(calculateTotal(originalPackage.name,originalPackage.studentSeats))}} / year</span>
+                                <span class="row-right  gl-text-sea-green" ng-if="!isTrial()">${{(currentPlanTotal(originalPackage.name,originalPackage.studentSeats,'current'))}} / year</span>
                                 <span class="row-right" ng-if="isTrial()">Trial</span>
                             </div>
                             <div class="gl-upgrade-total-row">
                                 <span class="row-left">New Plan:</span>
-                                <span class="row-right">${{(calculateTotal(status.packageName,status.studentSeats))}} / year</span>
+                                <span class="row-right">${{newPlanTotal(status.packageName,status.studentSeats)}} / year</span>
+                            </div>
+                            <div class="gl-upgrade-total-row" ng-show="promoDiscount && !plan.promoCode">
+                                <span class="row-left">Promotion Discount:</span>
+                                <span class="row-right">-${{promoDiscount}}</span>
                             </div>
                         </div>
                         <div class="gl-manager-side-panel-section">
-                            <div class="gl-upgrade-total-row">
-                                <span class="row-left"><b>After prorating:</b></span>
-                            </div>
                             <div class="gl-upgrade-total-row">
                                 <span class="row-left">Subtotal:</span>
-                                <span class="row-right">${{calculateProrated(status.packageName,status.studentSeats,originalPackage.name,originalPackage.studentSeats)}}</span>
-                            </div>
-                            <div class="gl-upgrade-total-row">
-                                <span class="row-left">Promotion:</span>
-                                <span class="row-right" ng-class="{'gl-text-red' : promoDiscount}">-${{promoDiscount || "0.00"}}</span>
+                                <span class="row-right">${{(calculateDiscountedTotal(status.packageName,status.studentSeats,'new'))}}</span>
                             </div>
                         </div>
                         <div class="gl-manager-side-panel-section">
+                            <div class="gl-upgrade-total-row">
+                                <span class="row-left">After prorating:</span>
+                            </div>
                             <div class="gl-upgrade-total-row total-row-header gl-margin--B40">
                                 <span class="row-left"><h4 class="headline-4">Total:</h4></span>
                                 <span class="row-right">
-                                    <h4 class="headline-4">${{calculateGrandTotal(status.selectedPackage.name, status.studentSeats,originalPackage.name,originalPackage.studentSeats)}}</h4>
+                                    <h4 class="headline-4">${{calculateProrated(status.packageName,status.studentSeats,originalPackage.name,originalPackage.studentSeats)}}</h4>
                                 </span>
                             </div>
                             <div class="gl-manager-learn-prorate gl-clickable" ui-sref="modal-xlg.prorating-information">

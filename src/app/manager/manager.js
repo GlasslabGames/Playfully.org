@@ -254,6 +254,17 @@ angular.module('playfully.manager', [])
                 }
             }
         })
+        .state('modal.error-processing-upgrade', {
+            url: '/manager/error-processing-upgrade',
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/error-processing-upgrade-modal.html',
+                    controller: function ($scope, $log, $stateParams, $previousState) {
+                        $previousState.forget('modalInvoker');
+                    }
+                }
+            }
+        })
         .state('modal.manager-upgrade-success-modal', {
             url: '/manager/upgrade-success',
             data: {
@@ -270,7 +281,7 @@ angular.module('playfully.manager', [])
             }
         });
     })
-    .controller('ManagerCtrl', function ($scope,$state, SUBSCRIBE_CONSTANTS) {
+    .controller('ManagerCtrl', function ($scope,$state) {
         $scope.currentTab = $state.current.url;
     })
     .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE) {
@@ -404,11 +415,7 @@ angular.module('playfully.manager', [])
           selectedPackage: selectedPackage,
           studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
           isPaymentCreditCard: true,
-          currentCard: 'current',
-          promoDiscount: 0,
-          proratedTotal: 0,
-          currentTotal: 0,
-          originalTotal: 0
+          currentCard: 'current'
         };
 
         if (plan.packageDetails.name === 'Trial') {
@@ -449,13 +456,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.info = {
-            school: {
-                name: null,
-                zipCode: null,
-                address: null,
-                state: "California",
-                city: null
-            },
+            school: REGISTER_CONSTANTS.school,
             subscription: {},
             CC: REGISTER_CONSTANTS.ccInfo,
             PO: REGISTER_CONSTANTS.poInfo
@@ -506,12 +507,12 @@ angular.module('playfully.manager', [])
             UtilService.submitFormRequest($scope.request, function() {
                 if (plan.packageDetails.name === 'Trial') {
                     return LicenseService.upgradeFromTrial({
-                        planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
+                        planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
                         stripeInfo: stripeInfo
                     });
                 }
                 return LicenseService.upgradeLicense({
-                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId},
+                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
                     stripeInfo: stripeInfo
                 });
             }, function() {
@@ -531,49 +532,71 @@ angular.module('playfully.manager', [])
             daysFromNow = parseInt(daysFromNow.split(' ')[0]);
             return (365-daysFromNow)/365;
         };
-        $scope.calculateTotal = function (packageName, seatChoice, type) {
-
+        var _calculateTotal = function (packageName, seatChoice) {
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var targetPackage = _.find(packages.plans, {name: packageName});
             var total = seatChoice * (targetPackage.pricePerSeat || 0);
-
             total = total - (total * (targetSeatTier.discount / 100));
-            total = total.toFixed(2);
-            // Return the final and discounted total
+            /* Changes output from number to string type and fixed to the 10ths digit */
+            return total.toFixed(2);
+        };
+
+        var _calculateDiscounted = function (total, discount, type) {
+            var discountedTotal = total;
+            /* Apply amount off or percentage off */
+            if (type === 'amount off') {
+                discountedTotal = total - (discount);
+                $scope.promoDiscount = discount;
+            } else if (type === 'percent_off'){
+                $scope.promoDiscount = total * (discount / 100);
+                discountedTotal = total - ($scope.promoDiscount);
+            }
+            /* Show how much money was discounted */
+            if ($scope.promoDiscount) {
+                $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
+            }
+            return discountedTotal;
+        };
+
+        $scope.calculateDiscountedTotal = function (packageName, seatChoice, type) {
+            var total = _calculateTotal(packageName, seatChoice);
+            if ($scope.promoCode.valid) {
+                /* Only apply existing promoCode to current subscription */
+                /* If no existing promoCode, only apply to new subscriptions */
+                if ((plan.promoCode && type ==='current') ||
+                    !plan.promoCode && type ==='new') {
+                    if ($scope.promoCode.amount_off) {
+                        return _calculateDiscounted(total, $scope.promoCode.amount_off, 'amount_off');
+                    } else {
+                        return _calculateDiscounted(total, $scope.promoCode.percent_off, 'percent_off');
+                    }
+                }
+
+            }
             return total;
+        };
+
+        $scope.newPlanTotal = function(packageName, seatChoice) {
+            return _calculateTotal(packageName,seatChoice);
+        };
+
+        $scope.currentPlanTotal = function(packageName, seatChoice) {
+            return _calculateTotal(packageName, seatChoice);
         };
 
         $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
             var prorateMultiplier = _calculateProrateQuotient();
-            var total = parseInt($scope.calculateTotal(packageName, seatChoice));
-            var originalTotal = parseInt($scope.calculateTotal(originalName, originalSeat));
+            var total = parseInt(($scope.newPlanTotal(packageName, seatChoice, 'new')));
+            var originalTotal = parseInt($scope.currentPlanTotal(originalName, originalSeat, 'current'));
             var proratedTotal = (total - originalTotal) * prorateMultiplier;
             $scope.status.proratedTotal = proratedTotal;
             return proratedTotal.toFixed(2);
         };
-        $scope.calculateGrandTotal = function () {
 
-            var proratedTotal = $scope.status.proratedTotal;
-            var discountedTotal = proratedTotal;
-
-            if ($scope.promoCode.valid) {
-                discountedTotal = proratedTotal - ($scope.promoCode.amount_off);
-                $scope.promoDiscount = discountedTotal * ($scope.promoCode.percent_off / 100);
-                discountedTotal = discountedTotal - ($scope.promoDiscount);
-            }
-            $scope.promoDiscount = ($scope.promoCode.amount_off) || $scope.promoDiscount;
-            if ($scope.promoDiscount) {
-                $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
-            }
-            // return discounted total
-            return parseInt(discountedTotal).toFixed(2);
-       };
-
-        $scope.applyPromoCode = function () {
+        $scope.applyPromoCode = function (promoCode) {
             UtilService.submitFormRequest($scope.requestPromo, function () {
-                return LicenseService.stripeRequestPromo($scope.promoCode.code);
+                return LicenseService.stripeRequestPromo(promoCode);
             }, function (response) {
-                console.log('applied:', response);
 
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
@@ -582,7 +605,7 @@ angular.module('playfully.manager', [])
                 // Check for the actual amount and percentage off
                 if (response.data.amount_off) {
                     $scope.promoCode.valid = true;
-                    $scope.promoCode.amount_off = (response.data.amount_off / 100).toFixed(2);
+                    $scope.promoCode.amount_off = response.data.amount_off / 100;
                     $scope.requestPromo.successes.push('$' + $scope.promoCode.amount_off + ' discount applied');
                 }
                 else if (response.data.percent_off) {
@@ -590,8 +613,18 @@ angular.module('playfully.manager', [])
                     $scope.promoCode.percent_off = response.data.percent_off;
                     $scope.requestPromo.successes.push(response.data.percent_off + '% discount applied');
                 }
+            }, function () {
+                if (plan.promoCode) {
+                    $state.go('modal.error-processing-upgrade');
+                }
             });
         };
+
+        if (plan.promoCode) {
+            $scope.applyPromoCode(plan.promoCode);
+            /* Apply existing promoCode discount to currentPlan, instead of just calculating the total */
+            $scope.currentPlanTotal = $scope.calculateDiscountedTotal;
+        }
 
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {

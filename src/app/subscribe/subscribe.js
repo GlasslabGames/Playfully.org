@@ -304,7 +304,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             }
 
             UtilService.submitFormRequest($scope.request, function() {
-                return LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId}, stripeInfo: stripeInfo});
+                return LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon}, stripeInfo: stripeInfo});
             }, function() {
                 return UserService.updateUserSession(function () {
                     $state.go('modal.subscribe-success-modal');
