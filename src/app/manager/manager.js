@@ -564,7 +564,7 @@ angular.module('playfully.manager', [])
                 /* Only apply existing promoCode to current subscription */
                 /* If no existing promoCode, only apply to new subscriptions */
                 if ((plan.promoCode && type ==='current') ||
-                    !plan.promoCode && type ===' new') {
+                    !plan.promoCode && type ==='new') {
                     if ($scope.promoCode.amount_off) {
                         return _calculateDiscounted(total, $scope.promoCode.amount_off, 'amount_off');
                     } else {
