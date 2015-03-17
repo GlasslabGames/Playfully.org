@@ -1,6 +1,13 @@
 <div class="gl-home-lead-container">
-  <div>
-    <div class="gl-home-bg"></div>
+  <div style="height: 600px;">
+    <carousel interval="myInterval">
+      <slide ng-repeat="slide in slides" active="slide.active">
+        <div class="gl-home-bg {{'gl-' + slide.image}}">
+          <div ng-include src="'home/_' + slide.image + '.html'"></div>
+        </div>
+      </slide>
+    </carousel>
+    <!-- <div class="gl-home-bg"></div> -->
   </div>
   
   <div class="gl-home-lead-content">
@@ -15,19 +22,6 @@
       <div class="container">
         <button type="button" class="btn gl-btn--blue gl-margin--Rm" ng-click="state.go('modal.register.instructor')">Teachers Start Here</button>
         <button type="button" class="btn gl-btn-green" ng-click="state.go('modal.register.student')">Students Start Here</button>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="gl-home-title">
-            <h1 class="gl-home-logo" data-ng-bind="'home.pagetitle' | translate"></h1>
-            <br/>
-            <br/>
-            <button type="button" class="btn btn-primary" ng-click="closePanel()">How It Works</button>
-          </div>
-
-        </div>
       </div>
     </div>
   </div>

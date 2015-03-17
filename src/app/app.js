@@ -342,7 +342,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
   function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
+    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState, STRIPE) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -375,16 +375,18 @@ angular.module( 'playfully', [
     };
     $scope.$on('$stateChangeStart',
       function (event, toState) {
-        //if (angular.isDefined(toState.data)) {
-        //  if (angular.isDefined(toState.data.ssl)) {
-        //      if (toState.data.ssl) {
-        //          if ($location.protocol() != 'https') {
-        //              event.preventDefault();
-        //              $window.location.href = $location.absUrl().replace('http', 'https');
-        //          }
-        //      }
-        //  }
-        //}
+        if( STRIPE.env === "live" ) {
+          if (angular.isDefined(toState.data)) {
+            if (angular.isDefined(toState.data.ssl)) {
+                if (toState.data.ssl) {
+                    if ($location.protocol() != 'https') {
+                        event.preventDefault();
+                        $window.location.href = $location.absUrl().replace('http', 'https');
+                    }
+                }
+            }
+          }
+        }
         if (angular.isDefined(toState.data)) {
               if (angular.isDefined(toState.data.redirects)) {
                   if ($rootScope.currentUser &&

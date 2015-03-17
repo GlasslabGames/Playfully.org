@@ -149,7 +149,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 }
             });
     })
-    .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS) {
+    .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS, STRIPE) {
         // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
@@ -269,7 +269,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             if (test) {
                 if ($scope.request.errors < 1) {
-                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
                     Stripe.card.createToken({
                         name: 'charles',
                         number: 4242424242424242,
@@ -286,7 +286,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             LicenseService.stripeValidation(info.CC, $scope.request.errors);
 
             if ($scope.request.errors < 1) {
-                Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
                 Stripe.card.createToken(info.CC, function (status, stripeToken) {
                     _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
                 });

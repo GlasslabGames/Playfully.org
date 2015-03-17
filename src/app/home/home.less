@@ -4,6 +4,21 @@ body {
 
 .gl-home-lead-container {
   position: relative;
+
+  .carousel-indicators {
+    bottom: 60px;
+    li {
+      border: none;
+      background: white;
+      width: 16px;
+      height: 16px;
+      margin-left: 6px;
+      margin-right: 6px;
+    }
+    .active {
+      background: @oceanBlue;
+    }
+  }
 }
 
 @media (max-width: 991px) {
@@ -21,7 +36,6 @@ body {
 }
 
 .gl-home-bg {
-  background-image: url('home-banner@2x.jpg');
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
@@ -34,6 +48,70 @@ body {
   z-index: 1;
 }
 
+.gl-home-banner-intro {
+  background-image: url('home-banner.jpg');
+}
+
+.gl-home-banner-mission {
+  background-image: url('home-banner-mission-statement.jpg');
+
+}
+
+.gl-home-banner-approach {
+  background-image: url('home-banner-approach.jpg');
+
+}
+
+.gl-home-banner-results {
+  background-image: url('home-banner-results.jpg');
+
+}
+
+.gl-home-title--mission {
+  position: relative;
+  top: 240px;
+  display: inline-block;
+  padding: 20px 40px;
+  background-color: rgba(237, 30, 121, 0.8);
+  color: white;
+  font-family: @serifHeadlineFontFamily;
+  font-size: 36px;
+  line-height: 1.4em;
+  text-align: center;
+}
+
+.gl-home-title--approach {
+  position: relative;
+  top: 250px;
+  color: @grey1;
+  font-family: @serifHeadlineFontFamily;
+  font-size: 36px;
+}
+
+.gl-home-title--results {
+  color: white;
+  font-family: @serifHeadlineFontFamily;
+  font-size: 32px;
+  // text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.gl-home-logo--results {
+  width: 770px;
+  height: 100px;
+  margin-top: 140px;
+  margin-left: auto;
+  margin-right: auto;
+  .image-2x('logo-mgoaa.png', 770px, 100px);
+}
+
+@media (max-width: 940px) {
+  .gl-home-logo--results {
+    width: 616px;
+    height: 80px;
+    .image-2x('logo-mgoaa.png', 616px, 80px);
+  }
+
+}
 .gl-home-banner-footer {
   text-align: center;
   position: absolute;

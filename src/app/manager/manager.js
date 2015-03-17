@@ -284,7 +284,7 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE) {
         $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = billingInfo;
@@ -307,7 +307,7 @@ angular.module('playfully.manager', [])
         $scope.changeCard = function(info,test) {
             if (test) {
                 if ($scope.request.errors < 1) {
-                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
                     Stripe.card.createToken({
                         name: 'charles',
                         number: 4242424242424242,
@@ -325,12 +325,12 @@ angular.module('playfully.manager', [])
                 }
                 return;
             }
-            LicenseService.stripeValidation($scope.info.CC);
+            LicenseService.stripeValidation($scope.info.CC, $scope.request.errors);
             if ($scope.isChangingCard) {
 
             }
             if ($scope.request.errors < 1) {
-                Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
                 Stripe.card.createToken($scope.info.CC, function (status, stripeToken) {
                     _updateBillingInfo(stripeToken);
                 });
@@ -389,7 +389,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, UtilService, plan, packages, billingInfo,  REGISTER_CONSTANTS) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -466,9 +466,10 @@ angular.module('playfully.manager', [])
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             // stripe request
 
+
             if ($scope.status.isPaymentCreditCard) {
                 if (test) {
-                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
                     Stripe.card.createToken({
                         name: 'charles',
                         number: 4242424242424242,
@@ -486,7 +487,7 @@ angular.module('playfully.manager', [])
                 /* Check for errors in Credit Card Info */
                 LicenseService.stripeValidation(info.CC, $scope.request.errors);
                 if ($scope.request.errors < 1) {
-                    Stripe.setPublishableKey('pk_test_0T7q98EI508iQGcjdv1DVODS');
+                    Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
                     Stripe.card.createToken(info.CC, function (status, stripeToken) {
                         _upgradeLicense(studentSeats, packageName, stripeToken);
                     });
@@ -495,8 +496,6 @@ angular.module('playfully.manager', [])
                 /* Upgrade License using Purchase Order */
                 _upgradeLicense(studentSeats, packageName, null, info.PO);
             }
-
-
         };
 
         var _upgradeLicense = function (studentSeats, packageName, stripeInfo, purchaseOrderInfo) {
