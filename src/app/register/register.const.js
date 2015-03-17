@@ -28,7 +28,7 @@ angular.module('register.const', [])
         phone: null,
         email: null,
         lastName: null,
-        payment: null
+        payment: 0
     },
     "cardTypes": ["Visa", "MasterCard", "American Express", "Discover", "Diners Club", "JCB"]
 });
