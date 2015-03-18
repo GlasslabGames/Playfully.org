@@ -325,7 +325,7 @@ angular.module('playfully.manager', [])
                 }
                 return;
             }
-            LicenseService.stripeValidation($scope.info.CC, $scope.request.errors);
+            LicenseService.stripeValidation($scope.info.CC, $scope.request);
             if ($scope.isChangingCard) {
 
             }
@@ -484,7 +484,7 @@ angular.module('playfully.manager', [])
                     return _upgradeLicense(studentSeats, packageName, {});
                 }
                 /* Check for errors in Credit Card Info */
-                LicenseService.stripeValidation(info.CC, $scope.request.errors);
+                LicenseService.stripeValidation(info.CC, $scope.request);
                 if ($scope.request.errors < 1) {
                     Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
                     Stripe.card.createToken(info.CC, function (status, stripeToken) {
@@ -546,6 +546,7 @@ angular.module('playfully.manager', [])
         };
 
         var _calculateProrateQuotient = function() {
+            /* Stripe gives the expiration date in UTC format */
             var expirationTemp = plan.expirationDate.split(' ');
             var expirationYear = parseInt(expirationTemp[2]);
             var startYear = expirationYear - 1;

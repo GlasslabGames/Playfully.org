@@ -283,7 +283,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 return;
             }
 
-            LicenseService.stripeValidation(info.CC, $scope.request.errors);
+            LicenseService.stripeValidation(info.CC, $scope.request);
 
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
