@@ -395,20 +395,21 @@ angular.module('playfully.manager', [])
         $scope.$parent.currentTab = '/plan';
 
         $scope.plan = plan;
+        $scope.packages = packages;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.originalPackage = plan.packageDetails;
         $scope.billingInfo = billingInfo;
 
-        if (plan.packageDetails.name === 'Trial') {
+        if ($scope.plan.packageDetails.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
-            allGames.studentSeats = plan.packageDetails.studentSeats;
-            allGames.educatorSeats = plan.packageDetails.educatorSeats;
+            allGames.studentSeats = $scope.plan.packageDetails.studentSeats;
+            allGames.educatorSeats = $scope.plan.packageDetails.educatorSeats;
             $scope.originalPackage = allGames;
         }
 
         // Setup Seat and Package Choices
         var selectedPackage = $scope.originalPackage;
-        var packagesChoices = _.map(packages.plans, 'name');
+        var packagesChoices = _.map($scope.packages.plans, 'name');
 
         $scope.status = {
           packageName: selectedPackage.name,
@@ -430,7 +431,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.$watch('status.packageName', function (packageName) {
-            $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
+            $scope.status.selectedPackage = _.find($scope.packages.plans, {name: packageName});
         });
 
         // Request
@@ -464,13 +465,11 @@ angular.module('playfully.manager', [])
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             // stripe request
-            if ($scope.status.currentCard === 'current') {
-                return _upgradeLicense(studentSeats, packageName, {});
-            }
 
-            if (test) {
-                if ($scope.request.errors < 1) {
-                    Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
+
+            if ($scope.status.isPaymentCreditCard) {
+                if (test) {
+                    Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
                     Stripe.card.createToken({
                         name: 'charles',
                         number: 4242424242424242,
@@ -480,46 +479,71 @@ angular.module('playfully.manager', [])
                     }, function (status, stripeToken) {
                         _upgradeLicense(studentSeats, packageName, stripeToken);
                     });
+                    return;
                 }
-                return;
-            }
-
-            LicenseService.stripeValidation(info.CC, $scope.request.errors);
-
-            if ($scope.request.errors < 1) {
-                Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
-                Stripe.card.createToken(info.CC, function (status, stripeToken) {
-                    _upgradeLicense(studentSeats, packageName, stripeToken);
-                });
+                if ($scope.status.currentCard === 'current') {
+                    return _upgradeLicense(studentSeats, packageName, {});
+                }
+                /* Check for errors in Credit Card Info */
+                LicenseService.stripeValidation(info.CC, $scope.request.errors);
+                if ($scope.request.errors < 1) {
+                    Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
+                    Stripe.card.createToken(info.CC, function (status, stripeToken) {
+                        _upgradeLicense(studentSeats, packageName, stripeToken);
+                    });
+                }
+            } else {
+                /* Upgrade License using Purchase Order */
+                _upgradeLicense(studentSeats, packageName, null, info.PO);
             }
         };
 
-        var _upgradeLicense = function (studentSeats, packageName, stripeInfo) {
+        var _upgradeLicense = function (studentSeats, packageName, stripeInfo, purchaseOrderInfo) {
 
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
-            var targetPlan = _.find(packages.plans, {name: packageName});
+            var targetPlan = _.find($scope.packages.plans, {name: packageName});
+            var planInfo = {type: targetPlan.planId, seats: targetSeat.seatId};
 
-            // Attach the promo code as a "coupon" to stripeInfo if it is valid
-            if ($scope.promoCode.valid) {
-                stripeInfo.coupon = $scope.promoCode.code;
+            /* Attach promoCode to Credit Card payments */
+            if (stripeInfo) {
+                if ($scope.promoCode.valid) {
+                    stripeInfo.coupon = $scope.promoCode.code;
+                    planInfo.promoCode = stripeInfo.coupon;
+                }
             }
 
-            UtilService.submitFormRequest($scope.request, function() {
-                if (plan.packageDetails.name === 'Trial') {
-                    return LicenseService.upgradeFromTrial({
-                        planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
+            if (status.isPaymentCreditCard) {
+                UtilService.submitFormRequest($scope.request, function () {
+                    /* Upgrade from Trial using Credit Card */
+                    if ($scope.plan.packageDetails.name === 'Trial') {
+                        return LicenseService.upgradeFromTrial({
+                            planInfo: planInfo,
+                            stripeInfo: stripeInfo
+                        });
+                    }
+                    /* Upgrade from License using Credit Card */
+                    return LicenseService.upgradeLicense({
+                        planInfo: planInfo,
                         stripeInfo: stripeInfo
                     });
-                }
-                return LicenseService.upgradeLicense({
-                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
-                    stripeInfo: stripeInfo
+                }, function () {
+                    UserService.updateUserSession(function () {
+                        $state.go('modal.manager-upgrade-success-modal');
+                    });
                 });
-            }, function() {
-                UserService.updateUserSession(function () {
-                    $state.go('modal.manager-upgrade-success-modal');
+            } else {
+                UtilService.submitFormRequest($scope.request, function () {
+                    /* Upgrade from Trial using Purchase Order */
+                    if (plan.packageDetails.name === 'Trial') {
+                        return LicenseService.upgradeFromTrialwithPurchaseOrder(purchaseOrderInfo, planInfo);
+                    }
+                }, function () {
+                    UserService.updateUserSession(function () {
+                        $state.go('modal.manager-upgrade-success-modal');
+                    });
                 });
-            });
+            }
+
         };
 
         var _calculateProrateQuotient = function() {
@@ -620,12 +644,10 @@ angular.module('playfully.manager', [])
             });
         };
 
-        if (plan.promoCode) {
-            $scope.applyPromoCode(plan.promoCode);
+        if ($scope.plan.promoCode) {
+            $scope.applyPromoCode($scope.plan.promoCode);
             /* Apply existing promoCode discount to currentPlan, instead of just calculating the total */
-            $scope.currentPlanTotal = $scope.calculateDiscountedTotal;
         }
-
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
 

@@ -175,6 +175,10 @@ angular.module('license', [])
                     return response;
                 });
             };
+            this.upgradeFromTrialwithPurchaseOrder = function (purchaseOrder, planInfo) {
+                var apiUrl = API_BASE + '/license/trial/upgrade/po';
+                return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
+            };
             this.updatePurchaseOrder = function (purchaseOrder, planInfo, action) {
                 var apiUrl = API_BASE + '/license/po/' + action;
                 return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
@@ -185,5 +189,6 @@ angular.module('license', [])
             this.cancelActivePurchaseOrder = function () {
                 return $http.post(API_BASE + '/license/po/cancel');
             };
+
 
     });
