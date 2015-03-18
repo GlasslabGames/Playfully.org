@@ -47,13 +47,12 @@ angular.module('playfully.config', [])
 })
 
 .constant('STRIPE', {
-  env: "test",
+  env: "live",
   test: {
       publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS"
   },
   live: {
-      publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS",
-      liveKey: "pk_live_Z5Uhx2i2CAxZsRyD03iPG9In"
+      publishableKey: "pk_live_Z5Uhx2i2CAxZsRyD03iPG9In"
   }
 })
 
