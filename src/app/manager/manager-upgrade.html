@@ -5,7 +5,7 @@
                 <div class="col-md-4">
                     <div class="gl-manager-side-panel gl-margin--B50">
                         <div class="gl-manager-side-panel-label text-center">
-                            Upgrade Plan
+                            Update Plan
                         </div>
                         <div class="gl-manager-side-panel-section">
                             <h4 class="headline-4">Packages:</h4>
@@ -150,17 +150,17 @@
                         <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
                                 class="btn gl-btn--black"
                                 ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)"
-                                value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}">
+                                value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}">
                         <input ng-hide="status.currentCard === 'current'"
                             ng-click="submitPayment(status.studentSeats,status.packageName,info)"
                             class="btn gl-btn--black"
-                            value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Submit'}}"
+                            value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}"
                             ng-disabled="!isTrial() && (paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
                                (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
                         <input ng-hide="status.currentCard === 'current'"
                                ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
                                class="btn gl-btn--black"
-                               value="{{ request.isSubmitting ? 'Requesting Upgrade...' : 'Test Submit'}}">
+                               value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
                     </div>
                 </div>
                 </div>

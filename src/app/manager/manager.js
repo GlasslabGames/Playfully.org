@@ -451,7 +451,6 @@ angular.module('playfully.manager', [])
         };
         $scope.request = {
             success: false,
-            invitedEducators: '',
             errors: [],
             successes: []
         };
@@ -512,7 +511,7 @@ angular.module('playfully.manager', [])
                 }
             }
 
-            if (status.isPaymentCreditCard) {
+            if ($scope.status.isPaymentCreditCard) {
                 UtilService.submitFormRequest($scope.request, function () {
                     /* Upgrade from Trial using Credit Card */
                     if ($scope.plan.packageDetails.name === 'Trial') {
