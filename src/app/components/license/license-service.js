@@ -61,7 +61,7 @@ angular.module('license', [])
             };
             this.isPurchaseOrder = function () {
                 if ($rootScope.currentUser) {
-                    if ($rootScope.currentUser.paymentType==='purchase-order') {
+                    if ($rootScope.currentUser.purchaseOrderLicenseStatus) {
                         return true;
                     }
                 }

@@ -155,7 +155,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         var packagesChoices = _.map(packages.plans, 'name');
 
         $scope.status = {
-            isPaymentCreditCard: true,
+            isPaymentCreditCard: false,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
             studentSeats: $stateParams.seatsSelected || 10,

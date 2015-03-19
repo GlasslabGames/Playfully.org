@@ -415,7 +415,7 @@ angular.module('playfully.manager', [])
           packageName: selectedPackage.name,
           selectedPackage: selectedPackage,
           studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
-          isPaymentCreditCard: true,
+          isPaymentCreditCard: false,
           currentCard: 'current'
         };
 
@@ -538,7 +538,7 @@ angular.module('playfully.manager', [])
                     }
                 }, function () {
                     UserService.updateUserSession(function () {
-                        $state.go('modal.manager-upgrade-success-modal');
+                        $state.go('root.manager.purchase-order-status');
                     });
                 });
             }
@@ -585,7 +585,7 @@ angular.module('playfully.manager', [])
         $scope.calculateDiscountedTotal = function (packageName, seatChoice, type) {
             var total = _calculateTotal(packageName, seatChoice);
             if ($scope.promoCode.valid) {
-                /* Only apply existing promoCode to current subscription */
+                /* If promoCode already exists, only apply to current subscription */
                 /* If no existing promoCode, only apply to new subscriptions */
                 if ((plan.promoCode && type ==='current') ||
                     !plan.promoCode && type ==='new') {
@@ -645,8 +645,8 @@ angular.module('playfully.manager', [])
         };
 
         if ($scope.plan.promoCode) {
+            /* Apply existing promoCode discount */
             $scope.applyPromoCode($scope.plan.promoCode);
-            /* Apply existing promoCode discount to currentPlan, instead of just calculating the total */
         }
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
