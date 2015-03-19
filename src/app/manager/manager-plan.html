@@ -109,6 +109,10 @@
                                            value="{{ request.isSubmitting ? 'Sending...' : 'Send'}}"
                                            ng-disabled="request.$pristine || request.$invalid || request.isSubmitting">
                                 </div>
+                                 <input ng-click="clearMe()"
+                                   type="button"
+                                   class="btn gl-btn--black"
+                                   value="'clear me'">
                         </form>
                     </div>
                 </div>
