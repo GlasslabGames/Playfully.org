@@ -49,7 +49,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 views: {
                     'modal@': {
                         templateUrl: 'subscribe/cancel-purchase-order-modal.html',
-                        controller: function ($scope, LicenseService, UtilService, $previousState) {
+                        controller: function ($scope, LicenseService, UtilService, UserService, $previousState) {
                             $previousState.forget('modalInvoker');
                             $scope.request = {
                                 successes: [],
@@ -59,6 +59,10 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                             $scope.cancelPurchaseOrder = function () {
                                 UtilService.submitFormRequest($scope.request, function () {
                                     return LicenseService.cancelActivePurchaseOrder();
+                                }, function() {
+                                    return UserService.updateUserSession(function () {
+                                        $state.go('root.subscribe.packages');
+                                    });
                                 });
                             };
                         }
@@ -266,7 +270,9 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             UtilService.submitFormRequest($scope.request, function() {
               return LicenseService.subscribeWithPurchaseOrder(purchaseOrder, planInfo);
             }, function() {
-               $state.go('root.subscribe.payment.purchase-order-status');
+              return UserService.updateUserSession(function () {
+                  $state.go('root.subscribe.payment.purchase-order-status');
+              });
             });
         };
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
