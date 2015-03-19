@@ -257,6 +257,9 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
             var planInfo = {seats: targetSeat.seatId, type: targetPlan.planId};
+            if ($scope.promoCode.valid) {
+                planInfo.promoCode = $scope.promoCode.code;
+            }
             /* Convert to database expected values */
             purchaseOrder.payment = parseInt(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;

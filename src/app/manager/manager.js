@@ -503,12 +503,9 @@ angular.module('playfully.manager', [])
             var targetPlan = _.find($scope.packages.plans, {name: packageName});
             var planInfo = {type: targetPlan.planId, seats: targetSeat.seatId};
 
-            /* Attach promoCode to Credit Card payments */
-            if (stripeInfo) {
-                if ($scope.promoCode.valid) {
-                    stripeInfo.coupon = $scope.promoCode.code;
-                    planInfo.promoCode = stripeInfo.coupon;
-                }
+            if ($scope.promoCode.valid) {
+                stripeInfo.coupon = $scope.promoCode.code;
+                planInfo.promoCode = $scope.promoCode.code;
             }
 
             if ($scope.status.isPaymentCreditCard) {
