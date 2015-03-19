@@ -61,7 +61,7 @@ angular.module('license', [])
             };
             this.isPurchaseOrder = function () {
                 if ($rootScope.currentUser) {
-                    if ($rootScope.currentUser.paymentType==='purchase-order') {
+                    if ($rootScope.currentUser.paymentType === 'purchase-order') {
                         return true;
                     }
                 }
@@ -83,11 +83,11 @@ angular.module('license', [])
                       license = {lic: 'premium', badge: 'premium', active: true};
                       return _conditional();
                   }
-                  if ($rootScope.currentUser.licenseStatus === "po-received") {
-                      license = {lic: 'po-received', badge: 'premium', active: true};
+                  if ($rootScope.currentUser.purchaseOrderLicenseStatus === "po-received") {
+                      license = {lic: 'po-received', badge: null, active: null};
                       return _conditional();
                   }
-                  if ($rootScope.currentUser.licenseStatus==='po-pending') {
+                  if ($rootScope.currentUser.purchaseOrderLicenseStatus ==='po-pending') {
                       license = {lic: 'po-pending', badge: null, active: false};
                       return _conditional();
                   }
@@ -137,19 +137,20 @@ angular.module('license', [])
                 var apiUrl = API_BASE + '/license/billing';
                 return $http.post( apiUrl, {stripeInfo: stripeInfo});
             };
-            this.stripeValidation = function (payment, errors) {
+            this.stripeValidation = function (payment, request) {
+                request.errors = [];
                 //stripe request
                 if (!Stripe.card.validateCardNumber(payment.number)) {
-                    errors.push("You entered an invalid Credit Card number");
+                    request.errors.push("You entered an invalid Credit Card number");
                 }
                 if (!Stripe.card.validateExpiry(payment.exp_month, payment.exp_year)) {
-                    errors.push("You entered an invalid expiration date");
+                    request.errors.push("You entered an invalid expiration date");
                 }
                 if (!Stripe.card.validateCVC(payment.cvc)) {
-                    errors.push("You entered an invalid CVC number");
+                    request.errors.push("You entered an invalid CVC number");
                 }
                 if (!Stripe.card.cardType(payment.cardType)) {
-                    errors.push("You entered an invalid card type");
+                    request.errors.push("You entered an invalid card type");
                 }
             };
             this.stripeRequestPromo = function (promoCode) {
