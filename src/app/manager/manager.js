@@ -679,11 +679,6 @@ angular.module('playfully.manager', [])
             });
         };
 
-        $scope.clearMe = function() {
-            $scope.request.invitedEducators = 'Bewbs';
-            console.log('clear me');
-        };
-
         var _validateEmail = function (email) {
             var re = EMAIL_VALIDATION_PATTERN;
             return re.test(email);
