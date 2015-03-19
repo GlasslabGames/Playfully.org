@@ -52,14 +52,16 @@
                             </alert>
 
                             <div class="reg-submit gl-margin--T40">
-                                <button type="button" ng-click="isChangingCard=!isChangingCard"
+                                <button type="button" ng-click="isChangingCard=!isChangingCard; resetForm(); paymentForm.$setPristine()"
                                         class="btn gl-btn--grey gl-margin--Rl">Cancel</button>
 
-                                <input ng-click="changeCard(info)"
+                                <input ng-click="changeCard(info); paymentForm.$setPristine()"
+                                       type="button"
                                        class="btn gl-btn--black"
                                        ng-disabled="paymentForm.$invalid"
                                        value="{{ request.isSubmitting ? 'Requesting Change...' : 'Submit New Card'}}">
-                                <input ng-click="changeCard(info,'test')"
+                                <input ng-click="changeCard(info,'test'); paymentForm.$setPristine();"
+                                       type="button"
                                        class="btn gl-btn--black"
                                        value="{{ request.isSubmitting ? 'Requesting Change...' : 'Test Submit'}}">
                             </div>

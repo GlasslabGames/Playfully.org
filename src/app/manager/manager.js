@@ -302,7 +302,7 @@ angular.module('playfully.manager', [])
         };
 
         $scope.info = {
-            CC: REGISTER_CONSTANTS.ccInfo
+            CC: angular.copy(REGISTER_CONSTANTS.ccInfo)
         };
         $scope.changeCard = function(info,test) {
             if (test) {
@@ -342,7 +342,11 @@ angular.module('playfully.manager', [])
             } ,function(response) {
                 $scope.billingInfo = response.data;
                 $scope.isChangingCard = false;
+                $scope.resetForm();
             });
+        };
+        $scope.resetForm = function() {
+            $scope.info = { CC: angular.copy(REGISTER_CONSTANTS.ccInfo) };
         };
     })
     .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
@@ -503,12 +507,9 @@ angular.module('playfully.manager', [])
             var targetPlan = _.find($scope.packages.plans, {name: packageName});
             var planInfo = {type: targetPlan.planId, seats: targetSeat.seatId};
 
-            /* Attach promoCode to Credit Card payments */
-            if (stripeInfo) {
-                if ($scope.promoCode.valid) {
-                    stripeInfo.coupon = $scope.promoCode.code;
-                    planInfo.promoCode = stripeInfo.coupon;
-                }
+             if ($scope.promoCode.valid) {
+                stripeInfo.coupon = $scope.promoCode.code;
+                planInfo.promoCode = $scope.promoCode.code;
             }
 
             if ($scope.status.isPaymentCreditCard) {
@@ -674,6 +675,7 @@ angular.module('playfully.manager', [])
                 $scope.plan = response;
                 $scope.plan.expirationDate = moment(response.expirationDate).format("MMM Do YYYY");
                 $scope.package = response.packageDetails;
+                $scope.request.invitedEducators = '';
             });
         };
 
