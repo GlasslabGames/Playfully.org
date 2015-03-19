@@ -7,8 +7,8 @@
 
 <div class="modal-body text-center" ng-hide="request.success || request.errors.length">
     <div class="gl-logo-premium-icon"></div>
-    <p class="gl-margin-Vl">You have 60 days to complete this trial</p>
-    <input ng-click="startTrial()" ng-value="request.isSubmitting ? 'Requesting Trial...' : 'Begin'"class="btn gl-btn--blue"></button>
+    <p class="gl-margin-Vl">Your premium trial has started! You have 60 days remaining to try out the full features of GlassLab Games!</p>
+    <input ng-click="startTrial()" ng-value="request.isSubmitting ? 'Requesting Trial...' : 'Get Started'"class="btn gl-btn--blue"></button>
 </div>
 
 
@@ -20,7 +20,7 @@
 
 <div class="modal-body text-center" ng-show="request.success && !request.errors.length">
     <div class="gl-logo-premium-icon"></div>
-    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> You're premium trial starts now!
+    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> Your premium trial starts now!
     </alert>
     <button ui-sref="root.manager.plan" class="btn gl-btn--blue">Okay</button>
 </div>
