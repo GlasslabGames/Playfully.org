@@ -90,7 +90,7 @@
                         <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}</alert>
                         <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success"><span class="fa fa-check-circle"></span>  You invited {{educator}}</alert>
                         <form ng-if="isLicenseOwner()"
-                              name="request" novalidate class="reg-form"
+                              novalidate class="reg-form"
                               ng-submit="inviteEducators(request.invitedEducators)">
                                 <div class="gl-input-group">
                                     <div class="form-group">
@@ -100,7 +100,7 @@
                                                   ng-minlength="6"
                                                   ng-model="request.invitedEducators"></textarea>
                                         <div class="form-errors">
-                                            <div class="form-error" ng-show="request.invitedEducators.$dirty && (request.invitedEducators.$invalid || request.errors.length > 0)"></div>
+                                            <div class="form-error" ng-show="request.errors.length > 0"></div>
                                         </div>
                                     </div>
                                 </div>
