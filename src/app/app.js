@@ -341,7 +341,7 @@ angular.module( 'playfully', [
 })
 
 .controller('AppCtrl',
-  function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
+  function($scope, $rootScope, $state, $stateParams, $log, $modal, $timeout, $window, $location,
     ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState, STRIPE) {
 
     $rootScope.state = $state;
@@ -374,14 +374,15 @@ angular.module( 'playfully', [
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     };
     $scope.$on('$stateChangeStart',
-      function (event, toState) {
+      function (event, toState, toParams, fromState, fromParams) {
         if( STRIPE.env === "live" ) {
           if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.ssl)) {
                 if (toState.data.ssl) {
                     if ($location.protocol() != 'https') {
                         event.preventDefault();
-                        $window.location.href = $location.absUrl().replace('http', 'https');
+                        var toStateUrl = $state.href(toState.name, toParams);
+                        $window.location.href = $window.location.origin.replace('http', 'https') + toStateUrl;
                     }
                 }
             }
@@ -450,14 +451,23 @@ angular.module( 'playfully', [
         if (user &&
             user.role === 'instructor') {
             if (user.licenseStatus) {
-                if (user.licenseStatus === "pending" ||
-                    user.licenseStatus === "po-received") {
+                if (user.licenseStatus === "pending") {
                     LicenseService.activateLicenseStatus().then(function () {
                         UserService.updateUserSession(function () {
                             if (user.licenseStatus === "pending") {
                                 $state.go('modal.notify-invited-subscription');
                                 return;
-                            } else if (user.licenseStatus === "po-received") {
+                            }
+                        });
+                    });
+                    return;
+                }
+            }
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-received") {
                                 $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
                                 return;
                             }
@@ -465,7 +475,7 @@ angular.module( 'playfully', [
                     });
                     return;
                 }
-                if (user.licenseStatus === "po-rejected") {
+                if (user.purchaseOrderLicenseStatus === "po-rejected") {
                     LicenseService.resetLicenseMapStatus().then(function() {
                         $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
                     });
@@ -488,6 +498,36 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
+        if (user &&
+            user.role === 'instructor') {
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-pending" ||
+                    user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-pending") {
+                                $state.go('modal.notify-invited-subscription');
+                                return;
+                            } else if (user.purchaseOrderLicenseStatus === "po-received") {
+                                $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+                if (user.purchaseOrderLicenseStatus === "po-rejected") {
+                    LicenseService.resetLicenseMapStatus().then(function () {
+                        $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
+                    });
+                    return;
+                }
+            }
+            if (user.isUpgradeTrial) {
+                $state.go('modal.start-trial-subscription');
+                return;
+            }
+        }
 
     });
 
