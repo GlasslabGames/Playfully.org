@@ -500,15 +500,24 @@ angular.module( 'playfully', [
       $rootScope.currentUser = user;
         if (user &&
             user.role === 'instructor') {
-            if (user.purchaseOrderLicenseStatus) {
-                if (user.purchaseOrderLicenseStatus === "po-pending" ||
-                    user.purchaseOrderLicenseStatus === "po-received") {
+            if (user.licenseStatus) {
+                if (user.licenseStatus === "pending") {
                     LicenseService.activateLicenseStatus().then(function () {
                         UserService.updateUserSession(function () {
-                            if (user.purchaseOrderLicenseStatus === "po-pending") {
+                            if (user.licenseStatus === "pending") {
                                 $state.go('modal.notify-invited-subscription');
                                 return;
-                            } else if (user.purchaseOrderLicenseStatus === "po-received") {
+                            }
+                        });
+                    });
+                    return;
+                }
+            }
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-received") {
                                 $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
                                 return;
                             }

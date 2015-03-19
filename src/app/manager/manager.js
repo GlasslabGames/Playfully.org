@@ -415,12 +415,13 @@ angular.module('playfully.manager', [])
           packageName: selectedPackage.name,
           selectedPackage: selectedPackage,
           studentSeats: $stateParams.seatsSelected || $scope.originalPackage.studentSeats,
-          isPaymentCreditCard: false,
+          isPaymentCreditCard: true,
           currentCard: 'current'
         };
 
         if (plan.packageDetails.name === 'Trial') {
             $scope.status.currentCard = 'change';
+            $scope.status.isPaymentCreditCard = false;
         }
 
         $scope.choices = {
@@ -464,7 +465,6 @@ angular.module('playfully.manager', [])
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             // stripe request
-
 
             if ($scope.status.isPaymentCreditCard) {
                 if (test) {
