@@ -308,7 +308,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             var targetPlan = _.find(packages.plans, {name: packageName});
 
             // Attach the promo code as a "coupon" to stripeInfo if it is valid
-            if( $scope.promoCode.valid ) {
+            if( $scope.promoCode.valid && stripeInfo) {
                 stripeInfo.coupon = $scope.promoCode.code;
             }
 
