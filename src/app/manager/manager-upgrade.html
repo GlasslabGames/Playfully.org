@@ -103,6 +103,11 @@
 
                 </div>
                 <div class="col-md-8  gl-margin--B50">
+                    <div ng-if="isTrial()"class="gl-upgrade-school-info gl-margin--Bl form-inline">
+
+                        <div ng-include src="'subscribe/_school-info-form.html'"></div>
+
+                    </div>
                     <div class="gl-upgrade-payment  gl-margin--B50 form-inline">
                         <div class="gl-payment-selection l-collection gl-margin--Bl">
                             <h5 ng-if="isTrial()" ng-click="status.isPaymentCreditCard=false"
@@ -155,12 +160,12 @@
                             ng-click="submitPayment(status.studentSeats,status.packageName,info)"
                             class="btn gl-btn--black"
                             value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}"
-                            ng-disabled="!isTrial() && (paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
-                               (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))">
+                            ng-disabled="(paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
+                               (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)))">
                         <input ng-hide="status.currentCard === 'current'"
                                ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
                                class="btn gl-btn--black"
-                               ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)"
+                               ng-disabled="request.isSubmitting || (!isTrial() &(originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
                                value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
                     </div>
                 </div>

@@ -36,7 +36,11 @@ angular.module('license', [])
             };
             this.subscribeToLicense = function (input) {
                 var apiUrl = API_BASE + '/license/subscribe';
-                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo });
+                return $http.post(apiUrl, {
+                    planInfo: input.planInfo,
+                    stripeInfo: input.stripeInfo,
+                    schoolInfo: input.schoolInfo
+                });
             };
             this.inviteTeachers = function (emails) {
                 var apiUrl = API_BASE + '/license/invite';
@@ -114,7 +118,8 @@ angular.module('license', [])
             this.upgradeFromTrial = function (input) {
                 return $http.post(API_BASE + '/license/trial/upgrade', {
                     planInfo: input.planInfo,
-                    stripeInfo: input.stripeInfo
+                    stripeInfo: input.stripeInfo,
+                    schoolInfo: input.schoolInfo
                 });
             };
             this.disableAutoRenew = function () {
@@ -125,7 +130,11 @@ angular.module('license', [])
             };
             this.upgradeLicense = function (input) {
                 var apiUrl = API_BASE + '/license/upgrade';
-                return $http.post(apiUrl, {planInfo: input.planInfo, stripeInfo: input.stripeInfo});
+                return $http.post(apiUrl, {
+                    planInfo: input.planInfo,
+                    stripeInfo: input.stripeInfo,
+                    schoolInfo: input.schoolInfo
+                });
             };
             this.getBillingInfo = function () {
                 var apiUrl = API_BASE + '/license/billing';
@@ -167,9 +176,13 @@ angular.module('license', [])
                     return response;
                 });
             };
-            this.subscribeWithPurchaseOrder = function (purchaseOrder, planInfo) {
+            this.subscribeWithPurchaseOrder = function (info) {
                 var apiUrl = API_BASE + '/license/subscribe/po';
-                return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
+                return $http.post(apiUrl, {
+                    purchaseOrderInfo: info.purchaseOrderInfo,
+                    planInfo: info.planInfo,
+                    schoolInfo: info.schoolInfo
+                });
             };
             this.getPurchaseOrderInfo = function (planId) {
                 return $http.get(API_BASE + '/license/po').then(function (response) {
@@ -179,9 +192,13 @@ angular.module('license', [])
                     return response;
                 });
             };
-            this.upgradeFromTrialwithPurchaseOrder = function (purchaseOrder, planInfo) {
+            this.upgradeFromTrialwithPurchaseOrder = function (info) {
                 var apiUrl = API_BASE + '/license/trial/upgrade/po';
-                return $http.post(apiUrl, {purchaseOrderInfo: purchaseOrder, planInfo: planInfo});
+                return $http.post(apiUrl, {
+                    purchaseOrderInfo: info.purchaseOrderInfo,
+                    planInfo: info.planInfo,
+                    schoolInfo: info.schoolInfo
+                });
             };
             this.updatePurchaseOrder = function (purchaseOrder, planInfo, action) {
                 var apiUrl = API_BASE + '/license/po/' + action;
