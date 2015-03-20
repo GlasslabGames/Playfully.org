@@ -30,6 +30,9 @@ angular.module( 'instructor.courses', [
             var filtered = $filter('filter')(response, {archived: false});
             return filtered;
           });
+      },
+      availableGamesForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     }
   })
@@ -401,8 +404,7 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService) {
-
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense) {
     $scope.courses = courses;
     $scope.MAX_GAMES_COUNT = allGames.length;
 
@@ -411,6 +413,9 @@ angular.module( 'instructor.courses', [
     $scope.courseKey = -1;
     $scope.gamesInfo = {};
     angular.forEach(allGames, function(game) {
+      if (availableGamesForLicense[game.gameId]) {
+        game.availableForLicense = true;
+      }
       $scope.gamesInfo[game.gameId] = game;
     });
 
