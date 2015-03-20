@@ -446,7 +446,8 @@ angular.module('playfully.manager', [])
             code: null,
             valid: false,
             amount_off: 0,
-            percent_off: 0
+            percent_off: 0,
+            existing: false
         };
 
         $scope.requestPromo = {
@@ -640,10 +641,15 @@ angular.module('playfully.manager', [])
             var total = parseInt(($scope.newPlanTotal(packageName, seatChoice, 'new')));
             total -= _planDiscount( total );
             var originalTotal = parseInt($scope.currentPlanTotal(originalName, originalSeat, 'current'));
-            originalTotal -= _planDiscount( originalTotal );
+            if( $scope.promoCode.existing ) {
+                originalTotal -= _planDiscount( originalTotal );
+            }
             var proratedTotal = (total - originalTotal) * prorateMultiplier;
             $scope.status.proratedTotal = proratedTotal;
-            return proratedTotal.toFixed(2);
+            if( proratedTotal < 0 ) {
+                return "-$" + Math.abs(proratedTotal).toFixed(2);
+            }
+            return "$" + proratedTotal.toFixed(2);
         };
 
         // Used for Credit (account balance)
@@ -655,13 +661,24 @@ angular.module('playfully.manager', [])
         // TODO
         $scope.calculateGrandTotalWithTrial = function() {
             var grandTotal =  $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') - $scope.billingInfo.accountBalance;
-            return grandTotal.toFixed(2);
+            if( grandTotal < 0 ) {
+                return "-$" + Math.abs(grandTotal).toFixed(2);
+            }
+            return "$" + grandTotal.toFixed(2);
         };
 
         // Used for Total with trial
         $scope.calculateGrandTotal = function() {
             var grandTotal = $scope.status.proratedTotal - $scope.billingInfo.accountBalance;
-            return grandTotal.toFixed(2);
+            if( grandTotal < 0 ) {
+                return "-$" + Math.abs(grandTotal).toFixed(2);
+            }
+            return "$" + grandTotal.toFixed(2);
+        };
+
+        // Used to determine if we need to explain messaging about credits
+        $scope.willReceiveCredit = function() {
+            return false;
         };
 
         $scope.applyPromoCode = function (promoCode) {
@@ -697,6 +714,7 @@ angular.module('playfully.manager', [])
         if ($scope.plan.promoCode) {
             /* Apply existing promoCode discount */
             $scope.applyPromoCode($scope.plan.promoCode);
+            $scope.promoCode.existing = true;
         }
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
