@@ -190,6 +190,13 @@ angular.module('license', [])
             this.cancelActivePurchaseOrder = function () {
                 return $http.post(API_BASE + '/license/po/cancel');
             };
-
+            this.getGamesAvailableForLicense = function () {
+                return $http.get(API_BASE + '/dash/games/available').then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
 
     });
