@@ -149,9 +149,9 @@ angular.module('license', [])
                 if (!Stripe.card.validateCVC(payment.cvc)) {
                     request.errors.push("You entered an invalid CVC number");
                 }
-                if (!Stripe.card.cardType(payment.cardType)) {
+                /*if (!Stripe.card.cardType(payment.cardType)) {
                     request.errors.push("You entered an invalid card type");
-                }
+                }*/
             };
             this.stripeRequestPromo = function (promoCode) {
                 return $http.get( API_BASE + '/license/promo-code/' + promoCode );

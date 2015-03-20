@@ -403,6 +403,7 @@ angular.module('playfully.manager', [])
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.originalPackage = plan.packageDetails;
         $scope.billingInfo = billingInfo;
+        $scope.billingInfo.accountBalance = Math.abs( $scope.billingInfo.accountBalance / 100 );
 
         if ($scope.plan.packageDetails.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
@@ -566,6 +567,20 @@ angular.module('playfully.manager', [])
             return total.toFixed(2);
         };
 
+        // Helper function for calulating discount on particular plan
+        var _planDiscount = function(total) {
+            if( $scope.promoCode.valid ) {
+                if( $scope.promoCode.amount_off ) {
+                    return $scope.promoCode.amount_off;
+                }
+                else {
+                    return total * ($scope.promoCode.percent_off / 100);
+                }
+            }
+            return 0;
+        };
+
+        // Promotional Discount info located here
         var _calculateDiscounted = function (total, discount, type) {
             var discountedTotal = total;
             /* Apply amount off or percentage off */
@@ -578,11 +593,13 @@ angular.module('playfully.manager', [])
             }
             /* Show how much money was discounted */
             if ($scope.promoDiscount) {
-                $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
+                $scope.formattedPromoDiscount = $scope.promoDiscount.toFixed(2);
             }
             return discountedTotal;
         };
 
+        // Used for current plan if promo code
+        // Used for subtotal if trial
         $scope.calculateDiscountedTotal = function (packageName, seatChoice, type) {
             var total = _calculateTotal(packageName, seatChoice);
             if ($scope.promoCode.valid) {
@@ -601,21 +618,48 @@ angular.module('playfully.manager', [])
             return total;
         };
 
+        // Used for new plan
         $scope.newPlanTotal = function(packageName, seatChoice) {
+            if( $scope.plan.promoCode ) {
+                $scope.calculateDiscountedTotal(packageName, seatChoice, 'current');
+            }
+            
             return _calculateTotal(packageName,seatChoice);
         };
 
+        // Used for current plan if no promo code
         $scope.currentPlanTotal = function(packageName, seatChoice) {
             return _calculateTotal(packageName, seatChoice);
         };
 
+        // Used for subtotal if not trial
         $scope.calculateProrated = function(packageName, seatChoice, originalName, originalSeat) {
             var prorateMultiplier = _calculateProrateQuotient();
             var total = parseInt(($scope.newPlanTotal(packageName, seatChoice, 'new')));
+            total -= _planDiscount( total );
             var originalTotal = parseInt($scope.currentPlanTotal(originalName, originalSeat, 'current'));
+            originalTotal -= _planDiscount( originalTotal );
             var proratedTotal = (total - originalTotal) * prorateMultiplier;
             $scope.status.proratedTotal = proratedTotal;
             return proratedTotal.toFixed(2);
+        };
+
+        // Used for Credit (account balance)
+        $scope.creditBalance = function() {
+            return $scope.billingInfo.accountBalance.toFixed(2);
+        };
+
+        // Used for Total without trial
+        // TODO
+        $scope.calculateGrandTotalWithTrial = function() {
+            var grandTotal =  $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') - $scope.billingInfo.accountBalance;
+            return grandTotal.toFixed(2);
+        };
+
+        // Used for Total with trial
+        $scope.calculateGrandTotal = function() {
+            var grandTotal = $scope.status.proratedTotal - $scope.billingInfo.accountBalance;
+            return grandTotal.toFixed(2);
         };
 
         $scope.applyPromoCode = function (promoCode) {
