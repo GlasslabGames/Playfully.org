@@ -498,6 +498,41 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
+        if (user &&
+            user.role === 'instructor') {
+            if (user.licenseStatus) {
+                if (user.licenseStatus === "pending") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.licenseStatus === "pending") {
+                                $state.go('modal.notify-invited-subscription');
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+            }
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-received") {
+                                $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+                if (user.purchaseOrderLicenseStatus === "po-rejected") {
+                    LicenseService.resetLicenseMapStatus().then(function () {
+                        $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
+                    });
+                    return;
+                }
+            }
+        }
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {
