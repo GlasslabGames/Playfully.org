@@ -532,12 +532,7 @@ angular.module( 'playfully', [
                     return;
                 }
             }
-            if (user.isUpgradeTrial) {
-                $state.go('modal.start-trial-subscription');
-                return;
-            }
         }
-
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

@@ -61,7 +61,10 @@ angular.module('license', [])
             };
             this.isPurchaseOrder = function () {
                 if ($rootScope.currentUser) {
-                    if ($rootScope.currentUser.purchaseOrderLicenseId) {
+                    if ($rootScope.currentUser.isTrial && $rootScope.currentUser.purchaseOrderLicenseId) {
+                        return true;
+                    }
+                    if ($rootScope.currentUser.paymentType === 'purchase-order') {
                         return true;
                     }
                 }
@@ -190,6 +193,13 @@ angular.module('license', [])
             this.cancelActivePurchaseOrder = function () {
                 return $http.post(API_BASE + '/license/po/cancel');
             };
-
+            this.getGamesAvailableForLicense = function () {
+                return $http.get(API_BASE + '/dash/games/available').then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.log('error - ', response);
+                    return response;
+                });
+            };
 
     });

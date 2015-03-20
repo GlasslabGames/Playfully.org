@@ -508,7 +508,9 @@ angular.module('playfully.manager', [])
             var planInfo = {type: targetPlan.planId, seats: targetSeat.seatId};
 
              if ($scope.promoCode.valid) {
-                stripeInfo.coupon = $scope.promoCode.code;
+                if (stripeInfo) {
+                    stripeInfo.coupon = $scope.promoCode.code;
+                }
                 planInfo.promoCode = $scope.promoCode.code;
             }
 
