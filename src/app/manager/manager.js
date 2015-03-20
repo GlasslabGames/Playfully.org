@@ -482,28 +482,28 @@ angular.module('playfully.manager', [])
                         exp_year: 2020,
                         cvc: 123
                     }, function (status, stripeToken) {
-                        _upgradeLicense(studentSeats, packageName, stripeToken);
+                        _upgradeLicense(studentSeats, packageName, stripeToken, info);
                     });
                     return;
                 }
                 if ($scope.status.currentCard === 'current') {
-                    return _upgradeLicense(studentSeats, packageName, {});
+                    return _upgradeLicense(studentSeats, packageName, {}, info);
                 }
                 /* Check for errors in Credit Card Info */
                 LicenseService.stripeValidation(info.CC, $scope.request);
                 if ($scope.request.errors < 1) {
                     Stripe.setPublishableKey(STRIPE[STRIPE.env].publishableKey);
                     Stripe.card.createToken(info.CC, function (status, stripeToken) {
-                        _upgradeLicense(studentSeats, packageName, stripeToken);
+                        _upgradeLicense(studentSeats, packageName, stripeToken, info);
                     });
                 }
             } else {
                 /* Upgrade License using Purchase Order */
-                _upgradeLicense(studentSeats, packageName, null, info.PO);
+                _upgradeLicense(studentSeats, packageName, null, info);
             }
         };
 
-        var _upgradeLicense = function (studentSeats, packageName, stripeInfo, purchaseOrderInfo) {
+        var _upgradeLicense = function (studentSeats, packageName, stripeInfo, info) {
 
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find($scope.packages.plans, {name: packageName});
@@ -522,13 +522,15 @@ angular.module('playfully.manager', [])
                     if ($scope.plan.packageDetails.name === 'Trial') {
                         return LicenseService.upgradeFromTrial({
                             planInfo: planInfo,
-                            stripeInfo: stripeInfo
+                            stripeInfo: stripeInfo,
+                            schoolInfo: info.school
                         });
                     }
                     /* Upgrade from License using Credit Card */
                     return LicenseService.upgradeLicense({
                         planInfo: planInfo,
-                        stripeInfo: stripeInfo
+                        stripeInfo: stripeInfo,
+                        schoolInfo: info.school
                     });
                 }, function () {
                     UserService.updateUserSession(function () {
@@ -539,7 +541,11 @@ angular.module('playfully.manager', [])
                 UtilService.submitFormRequest($scope.request, function () {
                     /* Upgrade from Trial using Purchase Order */
                     if (plan.packageDetails.name === 'Trial') {
-                        return LicenseService.upgradeFromTrialwithPurchaseOrder(purchaseOrderInfo, planInfo);
+                        return LicenseService.upgradeFromTrialwithPurchaseOrder({
+                                purchaseOrderInfo: info.PO,
+                                planInfo: planInfo,
+                                schoolInfo: info.school
+                        });
                     }
                 }, function () {
                     UserService.updateUserSession(function () {

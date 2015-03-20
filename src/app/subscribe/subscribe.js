@@ -257,18 +257,23 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             // Return the final and discounted total
             return result;
         };
-        $scope.requestPurchaseOrder = function (purchaseOrder,studentSeats,packageName) {
+        $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
             var planInfo = {seats: targetSeat.seatId, type: targetPlan.planId};
             if ($scope.promoCode.valid) {
                 planInfo.promoCode = $scope.promoCode.code;
             }
+            var purchaseOrder = info.PO;
             /* Convert to database expected values */
             purchaseOrder.payment = parseInt(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
             UtilService.submitFormRequest($scope.request, function() {
-              return LicenseService.subscribeWithPurchaseOrder(purchaseOrder, planInfo);
+              return LicenseService.subscribeWithPurchaseOrder({
+                  purchaseOrderInfo: purchaseOrder,
+                  planInfo: planInfo,
+                  schoolInfo: info.school
+              });
             }, function() {
               return UserService.updateUserSession(function () {
                   $state.go('root.subscribe.payment.purchase-order-status');
@@ -286,7 +291,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         exp_year: 2020,
                         cvc: 123
                     }, function (status, stripeToken) {
-                        _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
+                        _subscribeToLicense(studentSeats, packageName, stripeToken, info);
                     });
                 }
                 return;
@@ -297,12 +302,12 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             if ($scope.request.errors < 1) {
                 Stripe.setPublishableKey( STRIPE[ STRIPE.env ].publishableKey );
                 Stripe.card.createToken(info.CC, function (status, stripeToken) {
-                    _subscribeToLicense(studentSeats, packageName, stripeToken, info.school);
+                    _subscribeToLicense(studentSeats, packageName, stripeToken, info);
                 });
             }
         };
 
-        var _subscribeToLicense = function (studentSeats, packageName, stripeInfo) {
+        var _subscribeToLicense = function (studentSeats, packageName, stripeInfo, info) {
 
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
@@ -313,7 +318,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             }
 
             UtilService.submitFormRequest($scope.request, function() {
-                return LicenseService.subscribeToLicense({planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon}, stripeInfo: stripeInfo});
+                return LicenseService.subscribeToLicense({
+                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
+                    stripeInfo: stripeInfo,
+                    schoolInfo: info.school
+                });
             }, function() {
                 return UserService.updateUserSession(function () {
                     $state.go('modal.subscribe-success-modal');

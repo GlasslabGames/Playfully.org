@@ -38,7 +38,7 @@
                         <p ng-show="!plan.autoRenew">Your subscription will cancel on:</p>
                         <p>{{plan.expirationDate}}</p>
                     </div>-->
-                    <div ng-if="isLicenseOwner() && !isPurchaseOrder()" class="gl-manager-side-panel-section">
+                    <div ng-if="isLicenseOwner() && !isPurchaseOrder() && plan.packageDetails.planId !== 'trialLegacy'" class="gl-manager-side-panel-section">
                         Need more seats? Switch plans?
                         <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">
                             {{isTrial()? 'Go Premium' :

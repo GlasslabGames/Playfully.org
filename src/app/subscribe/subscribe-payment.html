@@ -63,26 +63,8 @@
                 <div class="form-group">
                     <div class="gl-upgrade-school-info gl-margin--Bl">
 
-                        <div class="gl-upgrade-label-school-info">School Info</div>
+                        <div ng-include src="'subscribe/_school-info-form.html'"></div>
 
-                        <div class="form-group">
-                            <input class="form-control" size="43" ng-model="info.school.zipCode" placeholder="Zip Code">
-                        </div>
-                        <div class="form-group">
-                            <select name="state"
-                                    class="form-control"
-                                    ng-options="state for state in choices.states"
-                                    ng-model="info.school.state" required>
-                            </select>
-                        </div>
-                        <input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address">
-
-                        <div class="form-group">
-                            <input class="form-control" ng-model="info.school.city" placeholder="City">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" ng-model="info.school.name" placeholder="School Name">
-                        </div>
                     </div>
                     <div class="gl-upgrade-payment  gl-margin--B50">
                         <div class="gl-payment-selection l-collection gl-margin--Bl">
@@ -108,6 +90,7 @@
                                type="danger"><span class="fa fa-times-circle"></span> {{ error }}
                         </alert>
                     </div>
+                    <span class="gl-subscribe-fields-required">*All fields are required.</span>
                     <div class="reg-submit text-center">
                         <input ng-show="status.isPaymentCreditCard"
                                ng-click="submitPayment(status.studentSeats,status.packageName, info)"
@@ -115,7 +98,7 @@
                                value="{{ request.isSubmitting ? 'Requesting Subscription...' : 'Submit'}}"
                                ng-disabled="request.isSubmitting || paymentForm.$invalid">
                         <input ng-hide="status.isPaymentCreditCard"
-                               ng-click="requestPurchaseOrder(info.PO, status.studentSeats, status.packageName)"
+                               ng-click="requestPurchaseOrder(status.studentSeats, status.packageName, info)"
                                class="btn gl-payment-submit gl-btn--black"
                                value="{{ request.isSubmitting ? 'Submitting...' : 'Submit'}}"
                                ng-disabled="request.isSubmitting || paymentForm.$invalid">
