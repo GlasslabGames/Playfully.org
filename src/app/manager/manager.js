@@ -672,17 +672,20 @@ angular.module('playfully.manager', [])
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
                 $scope.promoCode.percent_off = 0;
+                $scope.plan.promoCode = promoCode;
 
                 // Check for the actual amount and percentage off
                 if (response.data.amount_off) {
                     $scope.promoCode.valid = true;
                     $scope.promoCode.amount_off = response.data.amount_off / 100;
                     $scope.requestPromo.successes.push('$' + $scope.promoCode.amount_off + ' discount applied');
+                    _calculateDiscounted($scope.newPlanTotal($scope.status.packageName, $scope.status.studentSeats), $scope.promoCode.amount_off, 'amount_off');
                 }
                 else if (response.data.percent_off) {
                     $scope.promoCode.valid = true;
                     $scope.promoCode.percent_off = response.data.percent_off;
                     $scope.requestPromo.successes.push(response.data.percent_off + '% discount applied');
+                    _calculateDiscounted($scope.newPlanTotal($scope.status.packageName, $scope.status.studentSeats), $scope.promoCode.percent_off, 'percent_off');
                 }
             }, function () {
                 if (plan.promoCode) {
