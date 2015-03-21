@@ -110,7 +110,7 @@
     <div class="col-md-9">
       <div>
           <div class="container-fluid gl-game-details gl-margin--Bl">
-            <div class="gl-game-details-top">
+            <div class="gl-game-details-header">
               {{gameDetails.price}}, <span ng-if="gameDetails.price==='Free'">available to all users!</span><span ng-if="gameDetails.price!=='Free'">available to users with <b>{{gameDetails.packages}}</b> packages.</span>
             </div>
             <div class="gl-game-details-top">
@@ -140,7 +140,7 @@
                 </div>
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--releaseDate"></span>
-                  Release: <span ng-bind="gameDetails.releaseDate"></span>
+                  {{gameDetails.release==='live' ? 'Latest Release' : 'Release Date'}}: <span ng-bind="gameDetails.releaseDate"></span>
                 </div>
               </div>
             </div>
