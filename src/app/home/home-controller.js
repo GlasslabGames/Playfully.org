@@ -61,7 +61,7 @@ angular.module( 'playfully.home', ['ui.router'])
     }
   };
 
-  $scope.myInterval = 10000;
+  $scope.myInterval = 6000;
   $scope.slides = [
     { image: 'home-banner-start' },
     { image: 'home-banner-mission' },
