@@ -668,8 +668,10 @@ angular.module('playfully.manager', [])
         $scope.calculateGrandTotalWithTrial = function() {
             var grandTotal =  $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') - $scope.billingInfo.accountBalance;
             if( grandTotal < 0 ) {
+                $scope.status.showCredit = true;
                 return "-$" + Math.abs(grandTotal).toFixed(2);
             }
+            $scope.status.showCredit = false;
             return "$" + grandTotal.toFixed(2);
         };
 
@@ -677,14 +679,11 @@ angular.module('playfully.manager', [])
         $scope.calculateGrandTotal = function() {
             var grandTotal = $scope.status.proratedTotal - $scope.billingInfo.accountBalance;
             if( grandTotal < 0 ) {
+                $scope.status.showCredit = true;
                 return "-$" + Math.abs(grandTotal).toFixed(2);
             }
+            $scope.status.showCredit = false;
             return "$" + grandTotal.toFixed(2);
-        };
-
-        // Used to determine if we need to explain messaging about credits
-        $scope.willReceiveCredit = function() {
-            return false;
         };
 
         $scope.applyPromoCode = function (promoCode) {
