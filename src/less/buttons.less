@@ -3,14 +3,28 @@
   text-shadow: none;
 }
 
+.gl-btn--large {
+  font-size: 18px;
+  padding: 0.75em 2em;
+}
+
 .gl-btn--blue {
   background-color: @aquaBlue;
   color: white;
 }
 
+
 .gl-btn--blue:hover {
   color: white;
   background-color: darken(@aquaBlue, 15%);
+}
+
+.gl-btn--dkblue {
+  background-color: @oceanBlue;
+  color: white;
+  &:hover {
+    background-color: darken(@oceanBlue, 15%);
+  }
 }
 
 .gl-btn--green {
