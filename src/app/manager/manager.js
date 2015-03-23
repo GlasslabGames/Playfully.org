@@ -558,14 +558,22 @@ angular.module('playfully.manager', [])
 
         var _calculateProrateQuotient = function() {
             /* Stripe gives the expiration date in UTC format */
-            var expirationTemp = plan.expirationDate.split(' ');
+            /*var expirationTemp = plan.expirationDate.split(' ');
             var expirationYear = parseInt(expirationTemp[2]);
             var startYear = expirationYear - 1;
             expirationTemp[2] = startYear+'';
-            var startDate = moment(expirationTemp, 'MMMM-Do-YYYY');
+            var endDate = moment(expirationTemp, 'MMMM-Do-YYYY');
             var currentDate = moment.utc();
-            var daysFromNow = startDate.diff(currentDate,'days');
-            return (365+daysFromNow)/365;
+            var daysFromNow = endDate.diff(currentDate,'seconds');
+            return (secondsInYear+daysFromNow)/secondsInYear;*/
+
+            // Calculate prorating using stripe's start/end times, against current utc
+            // Stripe's start/end are without ms, so we need to divide by 1000 on current
+            var periodStart = $scope.billingInfo.currentPeriodStart;
+            var periodEnd = $scope.billingInfo.currentPeriodEnd;
+            var periodCurrent = moment.utc() / 1000;
+            // The final quotient
+            return ( periodEnd - periodCurrent ) / ( periodEnd - periodStart );
         };
         var _calculateTotal = function (packageName, seatChoice) {
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
