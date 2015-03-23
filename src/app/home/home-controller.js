@@ -61,9 +61,9 @@ angular.module( 'playfully.home', ['ui.router'])
     }
   };
 
-  $scope.myInterval = 10000;
+  $scope.myInterval = 6000;
   $scope.slides = [
-    { image: 'home-banner-intro' },
+    { image: 'home-banner-start' },
     { image: 'home-banner-mission' },
     { image: 'home-banner-approach' },
     { image: 'home-banner-results'} 
@@ -71,6 +71,10 @@ angular.module( 'playfully.home', ['ui.router'])
 
   $scope.go = function(url){
     $location.path(url);
+  };
+
+  $scope.goToLink = function (path) {
+      $window.open(path, '_blank');
   };
 
   $http.get('/api/v2/data/eventsCount')
