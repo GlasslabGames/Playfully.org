@@ -765,7 +765,7 @@ angular.module('playfully.manager', [])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
-        $scope.isLegacyUser = plan.packageDetails.planId !== 'trialLegacy';
+        $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
 
         $scope.request = {
             success: false,
