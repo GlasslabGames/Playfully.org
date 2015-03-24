@@ -4,7 +4,7 @@ angular.module('playfully.manager', [])
             abstract: true,
             url: 'manager',
             data: {
-              ssl: true
+                ssl: true
             },
             views: {
                 'main@': {
@@ -30,11 +30,11 @@ angular.module('playfully.manager', [])
             url: '/purchase-order-status',
             templateUrl: 'subscribe/purchase-order-status.html',
             resolve: {
-              purchaseOrderInfo: function(LicenseService) {
-                  return LicenseService.getPurchaseOrderInfo();
-              }
+                purchaseOrderInfo: function (LicenseService) {
+                    return LicenseService.getPurchaseOrderInfo();
+                }
             },
-            controller: function($scope, $state, purchaseOrderInfo) {
+            controller: function ($scope, $state, purchaseOrderInfo) {
                 $scope.$parent.currentTab = $state.current.url;
                 $scope.info = purchaseOrderInfo;
             },
@@ -47,9 +47,9 @@ angular.module('playfully.manager', [])
             templateUrl: 'manager/manager-billing-info.html',
             controller: 'ManagerBillingInfoCtrl',
             resolve: {
-              billingInfo: function(LicenseService) {
-                  return LicenseService.getBillingInfo();
-              }
+                billingInfo: function (LicenseService) {
+                    return LicenseService.getBillingInfo();
+                }
             },
             data: {
                 authorizedRoles: ['License']
@@ -123,7 +123,7 @@ angular.module('playfully.manager', [])
             },
             resolve: {
                 gamesAvailable: function ($stateParams, LicenseService) {
-                   return LicenseService.getGamesByPlanType($stateParams.planId);
+                    return LicenseService.getGamesByPlanType($stateParams.planId);
                 }
             },
             views: {
@@ -185,9 +185,9 @@ angular.module('playfully.manager', [])
                             errors: []
                         };
                         $scope.leaveSubscription = function () {
-                            UtilService.submitFormRequest($scope.request, function() {
+                            UtilService.submitFormRequest($scope.request, function () {
                                 return LicenseService.leaveCurrentPlan();
-                            }, function() {
+                            }, function () {
                                 UserService.updateUserSession();
                             });
                         };
@@ -196,37 +196,37 @@ angular.module('playfully.manager', [])
             }
         })
         /*.state('modal.auto-renew', {
-            url: '/manager/current/auto-renew?expirationDate?autoRenew',
-            data: {
-                pageTitle: 'License Auto-Renew',
-                reloadNextState: true,
-                ssl: true
-            },
-            views: {
-                'modal@': {
-                    templateUrl: 'manager/manager-auto-renew-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
-                        $scope.expirationDate = $stateParams.expirationDate;
-                        $scope.autoRenew = $stateParams.autoRenew === "true";
+         url: '/manager/current/auto-renew?expirationDate?autoRenew',
+         data: {
+         pageTitle: 'License Auto-Renew',
+         reloadNextState: true,
+         ssl: true
+         },
+         views: {
+         'modal@': {
+         templateUrl: 'manager/manager-auto-renew-modal.html',
+         controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
+         $scope.expirationDate = $stateParams.expirationDate;
+         $scope.autoRenew = $stateParams.autoRenew === "true";
 
-                        $scope.request = {
-                            success: false,
-                            errors: []
-                        };
-                        $scope.enableAutoRenew = function () {
-                            UtilService.submitFormRequest($scope.request, function() {
-                                return LicenseService.enableAutoRenew();
-                            });
-                        };
-                        $scope.disableAutoRenew = function () {
-                            UtilService.submitFormRequest($scope.request, function () {
-                                return LicenseService.disableAutoRenew();
-                            });
-                        };
-                    }
-                }
-            }
-        })*/
+         $scope.request = {
+         success: false,
+         errors: []
+         };
+         $scope.enableAutoRenew = function () {
+         UtilService.submitFormRequest($scope.request, function() {
+         return LicenseService.enableAutoRenew();
+         });
+         };
+         $scope.disableAutoRenew = function () {
+         UtilService.submitFormRequest($scope.request, function () {
+         return LicenseService.disableAutoRenew();
+         });
+         };
+         }
+         }
+         }
+         })*/
         .state('modal.start-trial-subscription', {
             url: '/start-trial-subscription',
             data: {
@@ -244,9 +244,9 @@ angular.module('playfully.manager', [])
                             errors: []
                         };
                         $scope.startTrial = function () {
-                            UtilService.submitFormRequest($scope.request, function() {
+                            UtilService.submitFormRequest($scope.request, function () {
                                 return LicenseService.startTrial();
-                            }, function() {
+                            }, function () {
                                 UserService.updateUserSession();
                             });
                         };
@@ -276,6 +276,44 @@ angular.module('playfully.manager', [])
                     templateUrl: 'manager/manager-upgrade-success-modal.html',
                     controller: function ($scope, $log, $stateParams, $previousState) {
                         $previousState.forget('modalInvoker');
+                    }
+                }
+            }
+        })
+        .state('modal.confirm-update-modal', {
+            url: '/manager/confirm-update?:isPaymentCreditCard?:isTrial',
+            data: {
+                pageTitle: 'Confirm Update'
+            },
+            views: {
+                'modal@': {
+                    templateUrl: 'manager/confirm-update-modal.html',
+                    controller: function ($scope, $log, $state, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                        $scope.request = {
+                            success: false,
+                            errors: [],
+                            isSubmitting: false
+                        };
+                        $scope.isTrial = $stateParams.isTrial==='true';
+                        $scope.isPaymentCreditCard = $stateParams.isPaymentCreditCard==='true';
+                        $scope.purchaseInfo = LicenseStore.getData();
+                        $scope.submitPayment = function () {
+                            UtilService.submitFormRequest($scope.request, function () {
+                                if ($scope.isPaymentCreditCard) {
+                                    if ($scope.isTrial) {
+                                        return LicenseService.upgradeFromTrial($scope.purchaseInfo);
+                                    } else {
+                                        return LicenseService.upgradeLicense($scope.purchaseInfo);
+                                    }
+                                } else {
+                                    return LicenseService.upgradeFromTrialwithPurchaseOrder($scope.purchaseInfo);
+                                }
+                            }, function () {
+                                LicenseStore.reset();
+                                $previousState.forget('modalInvoker');
+                                UserService.updateUserSession();
+                            });
+                        };
                     }
                 }
             }
@@ -393,7 +431,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, LicenseStore, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -515,41 +553,36 @@ angular.module('playfully.manager', [])
             }
 
             if ($scope.status.isPaymentCreditCard) {
-                UtilService.submitFormRequest($scope.request, function () {
-                    /* Upgrade from Trial using Credit Card */
-                    if ($scope.plan.packageDetails.name === 'Trial') {
-                        return LicenseService.upgradeFromTrial({
-                            planInfo: planInfo,
-                            stripeInfo: stripeInfo,
-                            schoolInfo: info.school
-                        });
-                    }
-                    /* Upgrade from License using Credit Card */
-                    return LicenseService.upgradeLicense({
+                /* Upgrade from Trial using Credit Card */
+                if ($scope.plan.packageDetails.name === 'Trial') {
+                    LicenseStore.setData({
                         planInfo: planInfo,
                         stripeInfo: stripeInfo,
-                        schoolInfo: info.school
+                        schoolInfo: info.school,
+                        payment: $scope.status.discountedTotal
                     });
-                }, function () {
-                    UserService.updateUserSession(function () {
-                        $state.go('modal.manager-upgrade-success-modal');
+                    return $state.go('modal.confirm-update-modal', {isTrial: true, isPaymentCreditCard: true});
+                } else {
+                    /* Upgrade from License using Credit Card */
+                    LicenseStore.setData({
+                        planInfo: planInfo,
+                        stripeInfo: stripeInfo,
+                        schoolInfo: info.school,
+                        payment: $scope.status.proratedTotal
                     });
-                });
+                    $state.go('modal.confirm-update-modal', {isTrial: false, isPaymentCreditCard: true});
+                }
             } else {
-                UtilService.submitFormRequest($scope.request, function () {
-                    /* Upgrade from Trial using Purchase Order */
-                    if (plan.packageDetails.name === 'Trial') {
-                        return LicenseService.upgradeFromTrialwithPurchaseOrder({
-                                purchaseOrderInfo: info.PO,
-                                planInfo: planInfo,
-                                schoolInfo: info.school
-                        });
-                    }
-                }, function () {
-                    UserService.updateUserSession(function () {
-                        $state.go('root.manager.purchase-order-status');
-                    });
+                LicenseStore.setData({
+                    planInfo: planInfo,
+                    schoolInfo: info.school,
+                    purchaseOrderInfo: info.PO,
+                    payment: $scope.status.discountedTotal
                 });
+                /* Upgrade from Trial using Purchase Order */
+                if ($scope.plan.packageDetails.name === 'Trial') {
+                    $state.go('modal.confirm-update-modal', {isTrial: true, isPaymentCreditCard: false});
+                }
             }
 
         };
@@ -588,24 +621,29 @@ angular.module('playfully.manager', [])
             if ($scope.promoDiscount) {
                 $scope.promoDiscount = $scope.promoDiscount.toFixed(2);
             }
-            return discountedTotal;
+            return discountedTotal.toFixed(2);
         };
 
         $scope.calculateDiscountedTotal = function (packageName, seatChoice, type) {
             var total = _calculateTotal(packageName, seatChoice);
+            var discountedTotal;
             if ($scope.promoCode.valid) {
                 /* If promoCode already exists, only apply to current subscription */
                 /* If no existing promoCode, only apply to new subscriptions */
                 if ((plan.promoCode && type ==='current') ||
                     !plan.promoCode && type ==='new') {
                     if ($scope.promoCode.amount_off) {
-                        return _calculateDiscounted(total, $scope.promoCode.amount_off, 'amount_off');
+                        discountedTotal = _calculateDiscounted(total, $scope.promoCode.amount_off, 'amount_off');
+                        $scope.status.discountedTotal = discountedTotal;
+                        return discountedTotal;
                     } else {
-                        return _calculateDiscounted(total, $scope.promoCode.percent_off, 'percent_off');
+                        discountedTotal = _calculateDiscounted(total, $scope.promoCode.percent_off, 'percent_off');
+                        $scope.status.discountedTotal = discountedTotal;
+                        return discountedTotal;
                     }
                 }
-
             }
+            $scope.status.discountedTotal = total;
             return total;
         };
 

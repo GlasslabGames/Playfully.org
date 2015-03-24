@@ -165,7 +165,7 @@
                         <input ng-hide="status.currentCard === 'current'"
                                ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
                                class="btn gl-btn--black"
-                               ng-disabled="request.isSubmitting || (!isTrial() &(originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
+                               ng-disabled="request.isSubmitting || (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
                                value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
                     </div>
                 </div>
