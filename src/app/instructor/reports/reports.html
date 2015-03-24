@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div class="container" ng-if="games.selectedGameId===null">
+  <div class="container" ng-if="games.hasGames===null">
     <div class="gl-reports--blank text-center">
       <h2 class="headline-2">You do not have any active games</h2>
       <p>
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="container" ng-if="activeCourses.length && games.selectedGameId!==null">
+  <div class="container" ng-if="activeCourses.length && games.hasGames!==null">
     <hr class="rule rule--aqua" />
 
     <div class="row">
