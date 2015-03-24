@@ -6,11 +6,17 @@
 
 
 <div class="modal-body text-center" ng-if="!request.success && !request.errors.length">
-    <p ng-if="purchaseInfo.payment > 0"class="gl-margin-Vl">This update will charge your credit card ${{purchaseInfo.payment.toFixed(2)}}</p>
+    <p ng-if="!isPaymentCreditCard && purchaseInfo.payment > 0" class="gl-margin-Vl">You are requesting a subscription that costs
+        ${{(purchaseInfo.payment).toFixed(2)}}</p>
 
-    <p ng-if="purchaseInfo.payment===0" class="gl-margin-Vl">This update will charge your credit card
-        ${{purchaseInfo.payment.toFixed(2)}}</p>
-    <p ng-if="purchaseInfo.payment < 0"class="gl-margin-Vl">This update will add ${{(purchaseInfo.payment*-1).toFixed(2)}} to your account</p>
+    <p ng-if="isPaymentCreditCard && purchaseInfo.payment > 0" class="gl-margin-Vl">This update will charge your credit card
+        ${{(purchaseInfo.payment).toFixed(2)}}</p>
+
+    <p ng-if="isPaymentCreditCard && purchaseInfo.payment===0" class="gl-margin-Vl">This update will charge your credit card
+        ${{(purchaseInfo.payment).toFixed(2)}}</p>
+
+    <p ng-if="isPaymentCreditCard && purchaseInfo.payment < 0" class="gl-margin-Vl">This update will add ${{(purchaseInfo.payment*-1).toFixed(2)}} credit to
+        your account</p>
     <input ng-click="submitPayment()"
            ng-value="request.isSubmitting ? 'Submitting...' : 'Submit'"
            class="btn btn-success">

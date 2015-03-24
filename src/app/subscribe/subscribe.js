@@ -318,13 +318,17 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             /* Convert to database expected values */
             purchaseOrder.payment = parseInt(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
-            LicenseStore.setData({
-                purchaseOrderInfo: purchaseOrder,
-                planInfo: planInfo,
-                schoolInfo: info.school,
-                payment: purchaseOrder.payment.toFixed(2)
+            UtilService.submitFormRequest($scope.request, function () {
+                return LicenseService.subscribeWithPurchaseOrder({
+                    purchaseOrderInfo: purchaseOrder,
+                    planInfo: planInfo,
+                    schoolInfo: info.school
+                });
+            }, function () {
+                UserService.updateUserSession(function() {
+                    $state.go('root.subscribe.payment.purchase-order-status');
+                });
             });
-            $state.go('modal.confirm-purchase-order-modal');
         };
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             if (test) {
