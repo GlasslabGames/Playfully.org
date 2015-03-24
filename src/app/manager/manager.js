@@ -442,7 +442,7 @@ angular.module('playfully.manager', [])
         $scope.originalPackage = plan.packageDetails;
         $scope.billingInfo = billingInfo;
         $scope.billingInfo.accountBalance = Math.abs( $scope.billingInfo.accountBalance / 100 );
-        $scope.isLegacyUser = plan.packageDetails.planId !== 'trialLegacy';
+        $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
 
         if ($scope.plan.packageDetails.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
