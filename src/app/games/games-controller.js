@@ -143,7 +143,7 @@ angular.module( 'playfully.games', [
     }
   })
   .state( 'root.games.play-page', {
-    url: '/:gameId/play-page',
+    url: '/:gameId/play-page?:courseId',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin'],
       pageTitle: 'Play'
@@ -157,11 +157,20 @@ angular.module( 'playfully.games', [
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
+      },
+      validAccess: function($state, $stateParams, GamesService) {
+        return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
+            .then(function (response) {
+                return response.data;
+            }, function (response) {
+                $state.go('root.home.default');
+                return response;
+            });
       }
     }
   })
   .state( 'modal-lg.missions', {
-    url: '/:gameId/play-missions',
+    url: '/:gameId/play-missions?:courseId',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
@@ -171,6 +180,15 @@ angular.module( 'playfully.games', [
       },
       gameId: function($stateParams){
         return $stateParams.gameId;
+      },
+      validAccess: function($state, $stateParams, GamesService) {
+        return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
+            .then(function (response) {
+                return response.data;
+            }, function (response) {
+                $state.go('root.home.default');
+                return response;
+            });
       }
     },
     views: {

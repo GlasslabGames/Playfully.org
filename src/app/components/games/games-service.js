@@ -75,6 +75,11 @@ angular.module('games', [
             });
     },
 
+    hasAccessToGameInCourse: function(gameId, courseId) {
+      var url = '/lms/course/' + courseId + '/game/' + gameId + '/verify-access';
+        return $http.get(API_BASE + url);
+    },
+
     save: function (gameId) {
       return $http
         .post(API_BASE + '/data/game/' + gameId)

@@ -53,7 +53,7 @@
                     <button ng-switch-when="play"
                         type="button"
                         class="btn gl-btn--green gl-student-dash-btn"
-                        ng-click="goToPlayGame(game.id);
+                        ng-click="goToPlayGame(game.id, course.id);
                                   ga('send', 'event', 'button', 'click', 'play', game.id);
                                   console.log('GA-click!! - play')"
                         ng-bind="button.name"></button>

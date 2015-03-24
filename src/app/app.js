@@ -190,16 +190,6 @@ angular.module( 'playfully', [
     }
   })
 
-  .state('root.privacy', {
-    url: 'privacy',
-    views: {
-      'main@': {
-        templateUrl: 'privacy/privacy.html'
-      }
-    },
-    data:{ pageTitle: "Children's Privacy Policy" }
-  })
-
   // survey redirects for MGO (AA)
   .state('survey_aa_pre', {
     url: '/aa-pre',

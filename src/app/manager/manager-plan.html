@@ -52,7 +52,7 @@
                     <div ng-if="isLicenseOwner() && !isTrial()" class="gl-manager-share-subscription-label">Share Subscription</div>
 
                     <div ng-if="!isLicenseOwner()">
-                        <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s premium plan</h5>
+                        <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s Premium Plan</h5>
                         <button type="button" ui-sref="modal.leave-subscription({ownerName: plan.ownerName})" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
                         <h5 class="headline-5 gl-manager-educators-share-header gl-margin--Tl">Other Educators sharing this subscription:</h5>
                     </div>
