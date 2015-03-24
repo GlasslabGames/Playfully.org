@@ -8,7 +8,16 @@
     </div>
   </div>
 
-  <div class="container" ng-if="activeCourses.length">
+  <div class="container" ng-if="games.selectedGameId===null">
+    <div class="gl-reports--blank text-center">
+      <h2 class="headline-2">You do not have any active games</h2>
+      <p>
+        Click on the Classes tab above to get started creating classes and making game assignments. Once your students start playing, their gameplay data will appear here in the Reports section.
+      </p>
+    </div>
+  </div>
+
+  <div class="container" ng-if="activeCourses.length && games.selectedGameId!==null">
     <hr class="rule rule--aqua" />
 
     <div class="row">

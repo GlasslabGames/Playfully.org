@@ -94,12 +94,14 @@ angular.module( 'instructor.dashboard', [
           return;
         }
         $state.go('root.instructorDashboard.intro');
-      } else {
+      }
+      else if( myGames.length === 0 ) {
+        $state.go('root.instructorDashboard.intro');
+      }
+      else {
         $state.go('root.instructorDashboard.reports',
             {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
       }
-
-
     }
   })
 
