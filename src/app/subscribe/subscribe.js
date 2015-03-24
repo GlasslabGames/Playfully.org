@@ -49,7 +49,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 views: {
                     'modal@': {
                         templateUrl: 'subscribe/cancel-purchase-order-modal.html',
-                        controller: function ($scope, LicenseService, UtilService, UserService, $previousState) {
+                        controller: function ($scope, $state, LicenseService, UtilService, UserService, $previousState) {
                             $previousState.forget('modalInvoker');
                             $scope.request = {
                                 successes: [],
@@ -63,7 +63,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                                     return UserService.updateUserSession(function () {
                                         $state.go('root.subscribe.packages');
                                     });
-                                });
+                               });
                             };
                         }
                     }
@@ -124,6 +124,62 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 }
             })
+           .state('modal.confirm-subscribe-cc-modal', {
+                url: '/subscribe/confirm-subscribe',
+                data: {
+                    pageTitle: 'Confirm Subscribe'
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/confirm-subscribe-cc-modal.html',
+                        controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                            $scope.request = {
+                                success: false,
+                                errors: [],
+                                isSubmitting: false
+                            };
+                            $scope.purchaseInfo = LicenseStore.getData();
+                            $scope.submitPayment = function () {
+                                UtilService.submitFormRequest($scope.request, function () {
+                                    return LicenseService.subscribeToLicense($scope.purchaseInfo);
+                                }, function () {
+                                    UserService.updateUserSession();
+                                    $previousState.forget('modalInvoker');
+                                    LicenseStore.reset();
+                                });
+                            };
+                        }
+                    }
+                }
+            })
+            .state('modal.confirm-purchase-order-modal', {
+                url: '/subscribe/confirm-purchase-order',
+                data: {
+                    pageTitle: 'Confirm Purchase Order'
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/confirm-purchase-order-modal.html',
+                        controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                            $scope.request = {
+                                success: false,
+                                errors: [],
+                                isSubmitting: false
+                            };
+                            $scope.purchaseInfo = LicenseStore.getData();
+                            $scope.submitPayment = function () {
+                                UtilService.submitFormRequest($scope.request, function () {
+                                    return LicenseService.subscribeWithPurchaseOrder($scope.purchaseInfo);
+                                }, function () {
+                                    $previousState.forget('modalInvoker');
+                                    LicenseStore.reset();
+                                    UserService.updateUserSession();
+                                });
+                            };
+                        }
+                    }
+                }
+            })
             .state('root.subscribe.packages', {
                 url: '/packages',
                 resolve: {
@@ -153,7 +209,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 }
             });
     })
-    .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, REGISTER_CONSTANTS, STRIPE) {
+    .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE) {
         // Setup Seats and Package choices
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
         var packagesChoices = _.map(packages.plans, 'name');
@@ -188,13 +244,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         // School and Payment Info
         $scope.info = {
-            school: {
-                name: null,
-                zipCode: null,
-                address: null,
-                state: "California",
-                city: null
-            },
+            school: REGISTER_CONSTANTS.school,
             subscription: {},
             CC: REGISTER_CONSTANTS.ccInfo,
             PO: REGISTER_CONSTANTS.poInfo
@@ -212,8 +262,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             successes: [],
             isSubmitting: false
         };
-
-
 
         $scope.applyPromoCode = function () {
             UtilService.submitFormRequest($scope.requestPromo, function () {
@@ -254,6 +302,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             result.total = result.total.toFixed(2);
             $scope.info.PO.payment = result.discountedTotal || result.total;
             $scope.info.PO.payment = parseInt($scope.info.PO.payment);
+            $scope.info.CC.payment = result.discountedTotal || result.total;
+            $scope.info.CC.payment = parseInt($scope.info.CC.payment);
             // Return the final and discounted total
             return result;
         };
@@ -268,16 +318,16 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             /* Convert to database expected values */
             purchaseOrder.payment = parseInt(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
-            UtilService.submitFormRequest($scope.request, function() {
-              return LicenseService.subscribeWithPurchaseOrder({
-                  purchaseOrderInfo: purchaseOrder,
-                  planInfo: planInfo,
-                  schoolInfo: info.school
-              });
-            }, function() {
-              return UserService.updateUserSession(function () {
-                  $state.go('root.subscribe.payment.purchase-order-status');
-              });
+            UtilService.submitFormRequest($scope.request, function () {
+                return LicenseService.subscribeWithPurchaseOrder({
+                    purchaseOrderInfo: purchaseOrder,
+                    planInfo: planInfo,
+                    schoolInfo: info.school
+                });
+            }, function () {
+                UserService.updateUserSession(function() {
+                    $state.go('root.subscribe.payment.purchase-order-status');
+                });
             });
         };
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
@@ -316,18 +366,13 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             if( $scope.promoCode.valid && stripeInfo) {
                 stripeInfo.coupon = $scope.promoCode.code;
             }
-
-            UtilService.submitFormRequest($scope.request, function() {
-                return LicenseService.subscribeToLicense({
-                    planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
-                    stripeInfo: stripeInfo,
-                    schoolInfo: info.school
-                });
-            }, function() {
-                return UserService.updateUserSession(function () {
-                    $state.go('modal.subscribe-success-modal');
-                });
+            LicenseStore.setData({
+                planInfo: {type: targetPlan.planId, seats: targetSeat.seatId, promoCode: stripeInfo.coupon},
+                stripeInfo: stripeInfo,
+                schoolInfo: info.school,
+                payment: $scope.info.CC.payment || $scope.info.PO.payment
             });
+            $state.go('modal.confirm-subscribe-cc-modal');
         };
 
     })
@@ -346,7 +391,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         $scope.calculateTotal = function(price,seatChoice) {
             var targetPackage = _.find(packages.seats, {studentSeats: seatChoice});
             var total = seatChoice * price;
-
             return total - (total* (targetPackage.discount/100));
         };
     });

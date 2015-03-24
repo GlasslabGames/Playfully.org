@@ -161,9 +161,9 @@ angular.module('license', [])
                 if (!Stripe.card.validateCVC(payment.cvc)) {
                     request.errors.push("You entered an invalid CVC number");
                 }
-                /*if (!Stripe.card.cardType(payment.cardType)) {
+                if (!Stripe.card.cardType(payment.card_type)) {
                     request.errors.push("You entered an invalid card type");
-                }*/
+                }
             };
             this.stripeRequestPromo = function (promoCode) {
                 return $http.get( API_BASE + '/license/promo-code/' + promoCode );
@@ -219,4 +219,19 @@ angular.module('license', [])
                 });
             };
 
+    })
+    .factory('LicenseStore', function() {
+        var data = {};
+
+        return {
+          setData: function (info) {
+            data.info =  info;
+          },
+          getData: function () {
+            return data.info;
+          },
+          reset: function () {
+              data.info = {};
+          }
+        };
     });
