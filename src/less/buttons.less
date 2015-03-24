@@ -13,6 +13,11 @@
   background-color: darken(steelblue, 15%);
 }
 
+.gl-btn--large {
+  font-size: 18px;
+  padding: 0.75em 2em;
+}
+
 .gl-btn--blue {
   background-color: @aquaBlue;
   color: white;
@@ -37,6 +42,14 @@
 .gl-btn--turblue:hover {
   color: white;
   background-color: darken(#61cbd9, 15%);
+}
+
+.gl-btn--dkblue {
+  background-color: @oceanBlue;
+  color: white;
+  &:hover {
+    background-color: darken(@oceanBlue, 15%);
+  }
 }
 
 .gl-btn--green {
@@ -191,4 +204,3 @@
   top: 25px;
   left: 30px;
 }
-
