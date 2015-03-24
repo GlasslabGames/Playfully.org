@@ -87,7 +87,7 @@ angular.module( 'playfully', [
       $previousState.memo("modalInvoker");
       $modal.open({
         template: '<div ui-view="modal"></div>',
-        backdrop: 'static',
+        backdrop: true,
         size: 'sm',
         controller: function($modalInstance, $scope) {
           var isopen = true;
