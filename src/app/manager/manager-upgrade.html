@@ -35,7 +35,7 @@
 
                         <!-- Show upgrade pricing details if the current plan isn't selected. -->
                         <div ng-show="status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name">
-                            <div class="gl-manager-side-panel-section" ng-if="!plan.promoCode">
+                            <div class="gl-manager-side-panel-section">
                                 <div class="gl-manager-promo-code-box">
                                     <form class="reg-form form-inline">
                                             <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
@@ -195,7 +195,7 @@
                         <input ng-hide="status.currentCard === 'current'"
                                ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
                                class="btn gl-btn--black"
-                               ng-disabled="request.isSubmitting || (!isTrial() &(originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
+                               ng-disabled="request.isSubmitting || (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
                                value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
                     </div>
                 </div>
