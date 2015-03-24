@@ -6,8 +6,8 @@
 
 
 <div class="modal-body text-center" ng-if="!request.success && !request.errors.length">
-    <p ng-if="purchaseInfo.payment > 0" class="gl-margin-Vl">This selection will charge your credit card
-        ${{purchaseInfo.payment.toFixed(2)}}</p>
+    <p ng-if="purchaseInfo.payment > 0" class="gl-margin-Vl">${{purchaseInfo.payment.toFixed(2)}} will be charged to your credit
+        card.</p>
     <input ng-click="submitPayment()"
            ng-value="request.isSubmitting ? 'Submitting...' : 'Submit'"
            class="btn btn-success">

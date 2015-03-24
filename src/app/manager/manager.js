@@ -561,7 +561,7 @@ angular.module('playfully.manager', [])
                         planInfo: planInfo,
                         stripeInfo: stripeInfo,
                         schoolInfo: info.school,
-                        payment: $scope.status.discountedTotal
+                        payment: parseInt($scope.status.discountedTotal)
                     });
                     return $state.go('modal.confirm-update-modal', {isTrial: true, isPaymentCreditCard: true});
                 } else {
@@ -570,7 +570,7 @@ angular.module('playfully.manager', [])
                         planInfo: planInfo,
                         stripeInfo: stripeInfo,
                         schoolInfo: info.school,
-                        payment: $scope.status.proratedTotal
+                        payment: parseInt($scope.status.proratedTotal)
                     });
                     $state.go('modal.confirm-update-modal', {isTrial: false, isPaymentCreditCard: true});
                 }
@@ -579,7 +579,7 @@ angular.module('playfully.manager', [])
                     planInfo: planInfo,
                     schoolInfo: info.school,
                     purchaseOrderInfo: info.PO,
-                    payment: $scope.status.discountedTotal
+                    payment: parseInt($scope.status.discountedTotal)
                 });
                 /* Upgrade from Trial using Purchase Order */
                 if ($scope.plan.packageDetails.name === 'Trial') {

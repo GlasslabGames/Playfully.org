@@ -6,11 +6,12 @@
 
 
 <div class="modal-body text-center" ng-if="!request.success && !request.errors.length">
-    <p ng-if="purchaseInfo.payment > 0" class="gl-margin-Vl">This package type will cost
-        ${{purchaseInfo.payment}}</p>
+    <p class="gl-margin-Vl">
+        ${{purchaseInfo.payment}} will be paid via purchase order. For more information on Purchase Orders,
+        please see our FAQs.</p>
 
     <input ng-click="submitPayment()"
-           ng-value="request.isSubmitting ? 'Confirming...' : 'Confirm'"
+           ng-value="request.isSubmitting ? 'Submitting...' : 'Submit'"
            class="btn btn-success">
 </div>
 
