@@ -7,7 +7,7 @@ angular.module('playfully.register', ['register.const'])
     controller: 'RegisterOptionsModalCtrl'
   };
   $stateProvider.state('modal.register', {
-    url: '/register',
+    url: '/register?:upgrade?:packageType?:seatsSelected?:role',
     parent: 'modal',
     data: {
       modalSize: 'lg'
@@ -102,17 +102,22 @@ angular.module('playfully.register', ['register.const'])
   };
 }])
 
-.controller('RegisterOptionsModalCtrl', function ($scope, THIRD_PARTY_AUTH) {
+.controller('RegisterOptionsModalCtrl', function ($scope, $stateParams, THIRD_PARTY_AUTH) {
   $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
   $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
-
+  $scope.upgrade = $stateParams.upgrade;
+  $scope.role = $stateParams.role;
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
-      var user = null;
-
-      $scope.account = {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, STRIPE) {
+        var user = null;
+        var packageInfo = {
+            packageType: null || $stateParams.packageType,
+            seatsSelected: null || $stateParams.seatsSelected
+         };
+        $scope.upgrade = null || $stateParams.upgrade;
+        $scope.account = {
         firstName: '',
         lastName: '',
         email: '',
@@ -130,6 +135,15 @@ angular.module('playfully.register', ['register.const'])
       $scope.states = REGISTER_CONSTANTS.states;
 
       $scope.register = function( account ) {
+        /*if( STRIPE.env === "live" ) {
+          if ($scope.upgrade === 'trial') {
+              var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
+              if (emailAddress >= 0) {
+                  $scope.account.errors.push('Trial accounts cannot have the + symbol in their email address');
+                  return;
+              }
+          }
+        }*/
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
@@ -143,7 +157,7 @@ angular.module('playfully.register', ['register.const'])
         else {
           account.standards = "CCSS";
         }
-        UserService.register(account)
+        UserService.register(account, $scope.upgrade, packageInfo)
           .success(function(data, status, headers, config) {
             user = data;
             Session.create(user.id, user.role, data.loginType);
@@ -326,7 +340,7 @@ angular.module('playfully.register', ['register.const'])
 
 
 .controller('RegisterDeveloperCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.account = {

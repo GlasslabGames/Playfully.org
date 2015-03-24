@@ -1,0 +1,216 @@
+<div class="gl-package-bg">
+    <div class="gl-package-bg-top"></div>
+</div>
+    <div class="container">
+        <div class="row text-center gl-margin--B40">
+            <div class="col-md-12 gl-package-top gl-margin--T30">
+                <div class="gl-logo-premium-icon"></div>
+                <h4 class="headline-3--serif gl-package-title">Premium Subscription</h4>
+                <p>Choose the subscription that best fits your technology environment</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <div class="gl-package-choices">
+                        <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
+                            <h5 class="headline-3--serif gl-margin-Vxl">{{package.name}}</h5>
+                            <div ng-hide="packageFlip">
+                                <div class="gl-package-box-price">
+                                    <div class="gl-package-box-price-info">
+                                        Starting at &nbsp&nbsp
+                                        <span class="gl-package-box-price-dollar">$</span>
+                                        <span class="gl-package-box-price-number">{{package.pricePerSeat*10}}</span> &nbsp&nbsp per year
+                                    </div>
+                                </div>
+                                <div class="gl-package-box-front">
+                                    <div class="gl-package-description">
+                                        <p class="gl-margin-Vxl"> {{package.description}}</p>
+                                    </div>
+                                    <div class="gl-package-games-included">
+                                        <ul class="list--nobullets">
+                                            <a ui-sref="modal-lg.games-available({planId:package.planId, packageName: package.name})">View games included</a>
+                                        </ul>
+                                    </div>
+                                    <button class="gl-package-subscribe-button" ng-click="packageFlip=!packageFlip"> Subscribe</button>
+                                </div>
+                            </div>
+                            <div class="gl-package-box-back" ng-show="packageFlip">
+                                <form class="gl-package-form">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true">
+                                            {{seatChoices[0]}} students + 1 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" >
+                                            {{seatChoices[1]}} students + 2 educator
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
+                                            {{seatChoices[2]}} students + 8 educators
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
+                                            {{seatChoices[3]}} students + 15 educators
+                                        </label>
+                                    </div>
+                                </form>
+                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span> per year
+                                </div>
+                                <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe',role:'instructor'})"
+                                        class="gl-package-continue-button"> Continue
+                                </button>
+                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </div>
+    <div class="row" ng-hide="hasLicense()==='trial'">
+        <div class="col-md-12">
+            <div class="gl-package-try-premium-plan gl-margin--T40 text-center">
+                <h4 class="headline-4--serif gl-margin--Bxxl">Try Our Premium Plan for Free</h4>
+                <ul class="gl-margin--Bxxl">
+                    <li><i class="fa fa-check"></i>60 days Trial</li>
+                    <li><i class="fa fa-check"></i>Access to All Games</li>
+                    <li><i class="fa fa-check"></i>Up to 30 students</li>
+                    <li><i class="fa fa-check"></i>No credit card required</li>
+                    <li><i class="fa fa-check"></i>Instant access</li>
+                </ul>
+                <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription">Try it Out!</button>
+                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})">Try it Out!</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                 <h4 class="headline-3--serif gl-margin--V50">Pricing</h4>
+            </div>
+        </div>
+        <div class="row gl-margin--B50">
+            <div class="col-md-12 text-center gl-packages-price-table">
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-x"><h4 class="gl-headline-3--serif gl-package-title">Packages</h4></div>
+                    <div class="gl-packages-price-table-x" ng-repeat="package in packageChoices">
+                        <h4 class="gl-headline-3--serif gl-package-title">{{package.name}}</h4>
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Group Size</h4>
+                        10 students + 1 educator
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[0])}}</span> /year
+                    </div>
+                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Class Size</h4>
+                        30 students + 2 educators
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[1])}}</span> /year
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">Multi-Class Size</h4>
+                        120 students + 8 educators
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[2])}}</span> /year
+                    </div>                </div>
+                <div class="gl-packages-price-table-row">
+                    <div class="gl-packages-price-table-y">
+                        <h4 class="gl-headline-3--serif gl-package-title">School Size</h4>
+                        500 students + 15 educators
+                    </div>
+                    <div class="gl-packages-price-table-cell" ng-repeat="package in packageChoices">
+                        <sup class="gl-package-box-price-dollar">$ </sup>
+                        <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,seatChoices[3])}}</span> /year
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center">
+
+        <div class="col-md-12 gl-packages-faq-container">
+            <div class="col-md-12 text-center">
+                <h4 class="headline-3--serif gl-margin--V50">FAQ</h4>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">How 60-day free trial works</h4>
+
+                    <p>Sign up for one of our paid plans with no obligation. Cancel within 30 days of your sign up and we
+                        won't charge a dime. If you cancel outside of the 30 day period, you'll only be charged for the
+                        service through the month you cancel.</p>
+                </div>
+                <div class="gl-packages-faq gl-margin--B40">
+                    <h4 class="headline-5--serif">What is the return policy?</h4>
+
+                    <p>Sorry, but we don't issue refunds after your initial 30 day trial and we don't prorate for partial
+                        months.</p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <span class="gl-block">More Questions?</span>
+                    <button class="btn gl-btn--turblue gl-btn--minwidth gl-margin-Vl"><a class="" href="https://glasslab.zendesk.com/hc/en-us">Ask Support</a></button>
+                </div>
+                <div class="gl-packages-questions">
+                  <h4 class="headline-5--serif">Questions before signing up?</h4>
+                  <p> We're happy to answer any questions you have. Just drop us a note and we'll get right back to you. We're around Monday through Friday between 9am -5pm PST (minus the occasional national holiday).</p>
+                  <p>Send an email to <a href="mailto:billing@glasslabgames.org">billing@glasslabgames.org</a>.</p>
+                </div>
+            </div>
+
+        </div>
+</div>

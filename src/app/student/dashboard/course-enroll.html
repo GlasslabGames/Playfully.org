@@ -43,7 +43,7 @@
 
 
 <div class="modal-body" ng-show="enrollment">
-  <alert ng-repeat="error in enrollment.errors" ng-show="enrollment.errors.length" type="danger"><strong>Error:</strong> {{ error }}</alert>
+  <alert ng-repeat="error in enrollment.errors" ng-show="enrollment.errors.length" type="danger">{{ error }}</alert>
 
   <form name="enrollForm" novalidate class="reg-form" ng-submit="enroll(enrollment)">
 

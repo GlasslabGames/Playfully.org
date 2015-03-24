@@ -1,5 +1,6 @@
 {
-    "navbar.link.home": "Home",
+    "navbar.link.subscribe": "Subscribe",
+    "navbar.link.manager": "Subscription Manager",
     "navbar.link.dashboard": "Dashboard",
     "navbar.link.myclass": "My Class",
     "navbar.link.games": "Games",

@@ -12,16 +12,10 @@
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
-      ui-sref="root.home"></div>
+      ui-sref="root.home.default"></div>
     <div class="nav navbar-nav navbar-right">
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
-        <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.home.default"
-            data-ng-bind="'navbar.link.home' | translate">
-          </a>
-        </li>
-
         <li ng-class="{'active': state.includes('root.games')}">
           <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog"
              data-ng-bind="'navbar.link.games' | translate">
@@ -38,6 +32,12 @@
           <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org"
              data-ng-bind="'navbar.link.about' | translate">
           </a>
+        </li>
+
+        <li ui-sref-active="active">
+            <a class="ng-cloak gl-nav-link" href ui-sref="root.subscribe.packages"
+               data-ng-bind="'navbar.link.subscribe' | translate">
+            </a>
         </li>
 
         <li ui-sref-active="active" ng-hide="true">

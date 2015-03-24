@@ -1,0 +1,205 @@
+    <div class="container">
+        <div class="row">
+            <form novalidate name="paymentForm" class="reg-form">
+                <div class="form-group" ng-class="{'has-error': info.$dirty && info.$invalid}">
+                <div class="col-md-4">
+                    <div class="gl-manager-side-panel gl-margin--B50">
+                        <div class="gl-manager-side-panel-label text-center">
+                            Update Plan
+                        </div>
+                        <div class="gl-manager-side-panel-section">
+                            <h4 class="headline-4">Packages:</h4>
+                            <div class="gl-upgrade-form">
+                                <div class="radio" ng-repeat="packageName in choices.packages">
+                                    <label>
+                                        <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                        {{packageName}}
+                                            <span class="gl-text-sea-green" ng-if="packageName===originalPackage.name && !isTrial()">(current)</span>
+                                            <a ng-show="status.packageName===packageName" ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view games</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gl-manager-side-panel-section">
+                            <h4 class="headline-4">Package Sizes:</h4>
+                            <div class="gl-upgrade-form">
+                                <div class="radio" ng-repeat="seat in choices.seats">
+                                    <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < originalPackage.studentSeats && !isTrial()} ">
+                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()">
+                                        {{seat.studentSeats}} students + {{seat.educatorSeats}} educators <span
+                                            class="gl-text-sea-green" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Show upgrade pricing details if the current plan isn't selected. -->
+                        <div ng-show="status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name">
+                            <div class="gl-manager-side-panel-section" ng-if="!plan.promoCode">
+                                <div class="gl-manager-promo-code-box">
+                                    <form class="reg-form form-inline">
+                                            <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
+                                                   placeholder="Promo Code" ng-disabled="requestPromo.success">
+                                        <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                                               ng-click="applyPromoCode(promoCode.code)"
+                                               value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
+                                        </input>
+                                        <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
+                                               ng-show="requestPromo.successes.length" type="success"><span
+                                                class="fa fa-check-circle"></span> {{ success }}
+                                        </alert>
+                                        <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
+                                               ng-show="requestPromo.errors.length" type="danger"><span
+                                                class="fa fa-times-circle"></span> {{ error }}
+                                        </alert>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="gl-manager-side-panel-section">
+                                <div class="gl-upgrade-total-row">
+                                    <span class="row-left">Current Plan:</span>
+                                    <span class="row-right gl-text-sea-green" ng-if="!isTrial()">
+                                        ${{
+                                            plan.promoCode && promoCode.existing ?
+                                            calculateDiscountedTotal(originalPackage.name,originalPackage.studentSeats,'current') :
+                                            currentPlanTotal(originalPackage.name,originalPackage.studentSeats)
+                                        }} / year</span>
+                                    <span class="row-right" ng-if="isTrial()">Trial</span>
+                                </div>
+                                <div class="gl-upgrade-total-row">
+                                    <span class="row-left">New Plan:</span>
+                                    <span class="row-right">${{newPlanTotal(status.packageName,status.studentSeats)}} / year</span>
+                                </div>
+                                <div class="gl-upgrade-total-row" ng-show="promoDiscount || plan.promoCode">
+                                    <span class="row-left">Promotion Discount:</span>
+                                    <span class="row-right">-${{formattedPromoDiscount}}</span>
+                                </div>
+                            </div>
+                            <div class="gl-manager-side-panel-section">
+                                <div class="gl-upgrade-total-row" ng-hide="isTrial()">
+                                    <span class="row-left">After prorating:</span>
+                                </div>
+                                <div class="gl-upgrade-total-row">
+                                    <span class="row-left">Subtotal:</span>
+                                    <span class="row-right">
+                                        {{
+                                            isTrial() ?
+                                            calculateDiscountedTotal(status.packageName,status.studentSeats, 'new') :
+                                            calculateProrated(status.packageName,status.studentSeats,originalPackage.name,originalPackage.studentSeats);
+                                        }}
+                                    </span>
+                                </div>
+                                <div class="gl-manager-learn-prorate gl-clickable" ui-sref="modal-xlg.prorating-information" ng-if="!isTrial()">
+                                    Questions about prorating?
+                                </div>
+                            </div>
+                            <div class="gl-manager-side-panel-section">
+                                <div class="gl-upgrade-total-row" ng-show="billingInfo.accountBalance">
+                                    <span class="row-left">Credit:</span>
+                                    <span class="row-right">${{creditBalance()}}</span>
+                                </div>
+                                <div class="gl-upgrade-total-row total-row-header">
+                                    <span class="row-left"><h4 class="headline-4">Total:</h4></span>
+                                    <span class="row-right">
+                                        <h4 class="headline-4">
+                                            {{
+                                                 isTrial() ?
+                                                 calculateGrandTotalWithTrial() :
+                                                 calculateGrandTotal();
+                                            }}</h4>
+                                    </span>
+                                </div>
+                                <div class="gl-upgrade-total-row">
+                                    <span class="row-left"></span>
+                                    <span class="row-right" ng-show="status.showCredit===true">This total will be your new credit balance.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Only show current plan price if current plan is selected. -->
+                        <div class="gl-manager-side-panel-section" ng-show="status.studentSeats===originalPackage.studentSeats && status.packageName===originalPackage.name">
+                            <div class="gl-upgrade-total-row">
+                                <span class="row-left">Current Plan:</span>
+                                <span class="row-right gl-text-sea-green" ng-if="!isTrial()">
+                                    ${{
+                                        plan.promoCode && promoCode.existing ?
+                                        calculateDiscountedTotal(originalPackage.name,originalPackage.studentSeats,'current') :
+                                        currentPlanTotal(originalPackage.name,originalPackage.studentSeats)
+                                    }} / year</span>
+                                <span class="row-right" ng-if="isTrial()">Trial</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-8  gl-margin--B50">
+                    <div ng-if="isTrial()"class="gl-upgrade-school-info gl-margin--Bl form-inline">
+
+                        <div ng-include src="'subscribe/_school-info-form.html'"></div>
+
+                    </div>
+                    <div class="gl-upgrade-payment  gl-margin--B50 form-inline">
+                        <div class="gl-payment-selection l-collection gl-margin--Bl">
+                            <h5 ng-if="isTrial()" ng-click="status.isPaymentCreditCard=false"
+                                ng-class="{'payment-text-underline': !status.isPaymentCreditCard }"
+                                class="headline-5 gl-inline-block gl-margin--R40 gl-clickable">Purchase Order</h5>
+                            <h5 ng-click="status.isPaymentCreditCard=true"
+                                ng-class="{'payment-text-underline': status.isPaymentCreditCard }"
+                                class="headline-5 gl-inline-block gl-margin--Bl gl-clickable">Credit Card</h5>
+                        </div>
+                        <div class="gl-upgrade-label-payment">Payment</div>
+                        <div ng-if="!status.isPaymentCreditCard">
+                            <div ng-include src="'subscribe/_payment-order-form.html'"></div>
+                        </div>
+                        <div ng-if="status.isPaymentCreditCard">
+                            <div ng-if="!isTrial()" class="radio gl-block">
+                                <label>
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'current'">
+                                    Use current card ({{billingInfo.brand}} card ending in {{billingInfo.last4}})
+                                </label>
+                            </div>
+                            <div ng-if="!isTrial()" class="radio gl-block">
+                                <label>
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'">
+                                    Change card (existing card will be removed)
+                                </label>
+                            </div>
+                            <div ng-show="status.currentCard==='change'" class="gl-margin--T40">
+
+                                <div ng-include src="'subscribe/_credit-card-form.html'"></div>
+                                <div class="gl-margin--Tl">Billing Address:</div>
+                                <div ng-include src="'subscribe/_billing-address-form.html'"></div>
+
+                                <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
+                                       ng-show="request.errors.length" type="danger"><span
+                                        class="fa fa-times-circle"></span>  {{ error }}
+                                </alert>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reg-submit text-center gl-margin--Tl">
+                        <button type="button" ui-sref="root.manager.plan"
+                                class="btn gl-btn--grey gl-margin--Rl">Cancel
+                        </button>
+                        <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                                class="btn gl-btn--black"
+                                ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)"
+                                value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}">
+                        <input ng-hide="status.currentCard === 'current'"
+                            ng-click="submitPayment(status.studentSeats,status.packageName,info)"
+                            class="btn gl-btn--black"
+                            value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}"
+                            ng-disabled="(paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
+                               (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)))">
+                        <input ng-hide="status.currentCard === 'current'"
+                               ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
+                               class="btn gl-btn--black"
+                               ng-disabled="request.isSubmitting || (!isTrial() &(originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
+                               value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
+                    </div>
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>

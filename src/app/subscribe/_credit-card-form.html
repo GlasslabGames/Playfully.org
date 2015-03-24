@@ -1,0 +1,44 @@
+<ul class="list--nobullets">
+    <li>
+        <div class="form-group">
+            <input required class="form-control" size="60" ng-model="info.CC.name"
+                   placeholder="Name on Card">
+        </div>
+    </li>
+    <!--<li>
+        <div class="form-group gl-margin--Tl">
+            <select class="form-control"
+                    ng-options="type for type in choices.cardTypes"
+                    ng-model="info.CC.cardType">
+            </select>
+        </div>
+    </li>-->
+    <li>
+        <div class="form-group">
+            <input required class="form-control gl-margin-Vl" size="60"
+                   ng-model="info.CC.number"
+                   placeholder="Credit Card Number">
+        </div>
+    </li>
+    <li>
+        Expiration Date:
+        <div class="form-group"
+             ng-class="{'has-error': paymentForm.expMonth.$dirty && paymentForm.expMonth.$invalid}">
+            <input name="expMonth" ng-minlength="1" class="form-control" size="4"
+                   ng-model="info.CC.exp_month" maxlength="2" required placeholder="MM">
+        </div>
+        <div class="form-group"
+             ng-class="{'has-error': paymentForm.expYear.$dirty && paymentForm.expYear.$invalid}">
+            <input ng-minlength="2" name="expYear" class="form-control" size="5"
+                   ng-model="info.CC.exp_year" maxlength="4" required placeholder="YYYY">
+        </div>
+        Security Code:
+
+        <div class="form-group"
+             ng-class="{'has-error': paymentForm.cvc.$dirty && paymentForm.cvc.$invalid}">
+            <input name="cvc" ng-minlength="3" maxlength="3" class="form-control" size="5"
+                   ng-model="info.CC.cvc"
+                   required placeholder="CVC">
+        </div>
+    </li>
+</ul>

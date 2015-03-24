@@ -17,8 +17,10 @@ angular.module( 'playfully', [
   'games',
   'dash',
   'reports',
+  'license',
   'checkSpec',
   'research',
+  'util',
   'gl-enter',
   'gl-editable-text-popover',
   'gl-editable-text',
@@ -40,10 +42,19 @@ angular.module( 'playfully', [
   'playfully.login-sdk',
   'playfully.register-sdk',
   'student.dashboard-sdk',
-  'playfully.developer'
+  'playfully.developer',
+  'playfully.subscribe',
+  'playfully.manager'
 ])
 
-.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $provide) {
+
+  $provide.decorator('$uiViewScroll', function ($delegate) {
+     return function (uiViewElement) {
+         document.body.scrollTop = document.documentElement.scrollTop = 0;
+     };
+  });
+
   $stickyStateProvider.enableDebug(false);
 
   $locationProvider.html5Mode({
@@ -179,16 +190,6 @@ angular.module( 'playfully', [
     }
   })
 
-  .state('root.privacy', {
-    url: 'privacy',
-    views: {
-      'main@': {
-        templateUrl: 'privacy/privacy.html'
-      }
-    },
-    data:{ pageTitle: "Children's Privacy Policy" }
-  })
-
   // survey redirects for MGO (AA)
   .state('survey_aa_pre', {
     url: '/aa-pre',
@@ -271,12 +272,7 @@ angular.module( 'playfully', [
                       user.role == 'manager' ||
                       user.role == 'developer'
                     ) {
-                    // TODO: remove this later when we have sowo for icivics login
-                    if(user.loginType == 'icivics'){
-                      $state.go('courses.active');
-                    } else {
-                      $state.go('root.instructorDashboard.default');
-                    }
+                    $state.go('root.instructorDashboard.default');
                   } else {
                     $state.go('root.studentDashboard');
                   }
@@ -330,8 +326,8 @@ angular.module( 'playfully', [
 })
 
 .controller('AppCtrl',
-  function($scope, $rootScope, $state, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
+  function($scope, $rootScope, $state, $stateParams, $log, $modal, $timeout, $window, $location,
+    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState, STRIPE) {
 
     $rootScope.state = $state;
     $rootScope.allGames = null;
@@ -340,6 +336,11 @@ angular.module( 'playfully', [
     $scope.isAuthenticatedButNot = AuthService.isAuthenticatedButNot;
     $scope.isAuthorized = AuthService.isAuthorized;
     $scope.isSSOLogin = UserService.isSSOLogin;
+    $scope.isLicenseOwner = LicenseService.isOwner;
+    $scope.isTrial = LicenseService.isTrial;
+    $scope.isPurchaseOrder = LicenseService.isPurchaseOrder;
+    $scope.hasLicense = LicenseService.hasLicense;
+    $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;
 
@@ -357,6 +358,46 @@ angular.module( 'playfully', [
       $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     };
+    $scope.$on('$stateChangeStart',
+      function (event, toState, toParams, fromState, fromParams) {
+        if( STRIPE.env === "live" ) {
+          if (angular.isDefined(toState.data)) {
+            if (angular.isDefined(toState.data.ssl)) {
+                if (toState.data.ssl) {
+                    if ($location.protocol() != 'https') {
+                        event.preventDefault();
+                        var toStateUrl = $state.href(toState.name, toParams);
+                        $window.location.href = $window.location.origin.replace('http', 'https') + toStateUrl;
+                    }
+                }
+            }
+          }
+        }
+        if (angular.isDefined(toState.data)) {
+              if (angular.isDefined(toState.data.redirects)) {
+                  if ($rootScope.currentUser &&
+                      $rootScope.currentUser.licenseStatus) {
+                      var licenseStatus = LicenseService.hasLicense();
+                      angular.forEach(toState.data.redirects, function (redirect) {
+                          if (redirect.licenses &&
+                              redirect.licenses.indexOf(licenseStatus) >= 0) {
+                              // if role defined then follow rule, else just redirect
+                              if (angular.isArray(redirect.roles &&
+                                  redirect.roles.indexOf($rootScope.currentUser.roles) >= 0)) {
+                                  event.preventDefault();
+                                  $state.go(redirect.state);
+                                  return;
+                              } else {
+                                  event.preventDefault();
+                                  $state.go(redirect.state);
+                                  return;
+                              }
+                          }
+                      });
+                  }
+              }
+          }
+    });
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
         if (!$scope.howItWorksPanel.isCollapsed) {
@@ -368,20 +409,71 @@ angular.module( 'playfully', [
         if ( hasPageTitle ) {
           $scope.pageTitle = toState.data.pageTitle + ' | GlassLab Games' ;
         }
-        if (angular.isDefined(toState.data) &&
-          angular.isDefined(toState.data.hideWrapper)) {
-          $scope.hideWrapper = toState.data.hideWrapper;
+        if (angular.isDefined(toState.data)) {
+            if (angular.isDefined(toState.data.hideWrapper)) {
+                $scope.hideWrapper = toState.data.hideWrapper;
+            }
+            if (angular.isDefined(toState.data.reload) &&
+                toState.data.reload) {
+                $state.reload();
+            }
+        }
+        if (angular.isDefined(fromState.data)) {
+             if (angular.isDefined(fromState.data.reloadNextState) &&
+                 fromState.data.reloadNextState) {
+                     if (fromState.data.reloadNextState==='reload app') {
+                     $window.location.reload();
+                 } else {
+                     $state.reload();
+                 }
+             }
         }
     });
 
     $scope.$on(AUTH_EVENTS.loginSuccess, function(event, user) {
       $rootScope.currentUser = user;
-
       // Google Analytics
-      
-      // Google Analytics - User ID tracking
+        if (user &&
+            user.role === 'instructor') {
+            if (user.licenseStatus) {
+                if (user.licenseStatus === "pending") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.licenseStatus === "pending") {
+                                $state.go('modal.notify-invited-subscription');
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+            }
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-received") {
+                                $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+                if (user.purchaseOrderLicenseStatus === "po-rejected") {
+                    LicenseService.resetLicenseMapStatus().then(function() {
+                        $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
+                    });
+                    return;
+                }
+            }
+            if (user.isUpgradeTrial) {
+                $state.go('modal.start-trial-subscription');
+                return;
+            }
+        }
+        // Google Analytics - User ID tracking
       if ($window.ga) { $window.ga("set", "dimension1", user.id); }
-
       /** Student login/register always redirects back to dashboard **/
       if (user.role==='student') {
         $previousState.forget('modalInvoker');
@@ -391,6 +483,41 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.userRetrieved, function(event, user) {
       $rootScope.currentUser = user;
+        if (user &&
+            user.role === 'instructor') {
+            if (user.licenseStatus) {
+                if (user.licenseStatus === "pending") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.licenseStatus === "pending") {
+                                $state.go('modal.notify-invited-subscription');
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+            }
+            if (user.purchaseOrderLicenseStatus) {
+                if (user.purchaseOrderLicenseStatus === "po-received") {
+                    LicenseService.activateLicenseStatus().then(function () {
+                        UserService.updateUserSession(function () {
+                            if (user.purchaseOrderLicenseStatus === "po-received") {
+                                $state.go('modal.notify-po-status', {purchaseOrderStatus: 'received'});
+                                return;
+                            }
+                        });
+                    });
+                    return;
+                }
+                if (user.purchaseOrderLicenseStatus === "po-rejected") {
+                    LicenseService.resetLicenseMapStatus().then(function () {
+                        $state.go('modal.notify-po-status', {purchaseOrderStatus: 'rejected'});
+                    });
+                    return;
+                }
+            }
+        }
     });
 
     $scope.$on(AUTH_EVENTS.logoutSuccess, function(event) {

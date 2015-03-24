@@ -1,13 +1,13 @@
 angular.module('user', [])
-.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, $rootScope, CHECKLIST) {
+.factory('UserService', function ($q, $http, $log, $window, Session, API_BASE, $rootScope, CHECKLIST, AUTH_EVENTS) {
 
   var _currentUser;
 
   var api = {
 
-    currentUser: function() {
+    currentUser: function(startNewSession) {
       var deferred = $q.defer();
-      if (angular.isDefined(_currentUser) && _currentUser !== null) {
+      if (angular.isDefined(_currentUser) && _currentUser !== null && !startNewSession) {
         deferred.resolve(_currentUser);
         return deferred.promise;
       }
@@ -15,7 +15,7 @@ angular.module('user', [])
       api.retrieveCurrentUser()
         .success(function(data) {
           _currentUser = data;
-          Session.create(data.id, data.role, data.loginType);
+          Session.create(data.id, data.role, data.loginType, data.licenseStatus, data.purchaseOrderLicenseStatus, data.isTrial);
           deferred.resolve(_currentUser);
         })
         .error(function() {
@@ -25,7 +25,14 @@ angular.module('user', [])
         });
       return deferred.promise;
     },
-
+    updateUserSession: function(callback) {
+        api.currentUser('startNewSession').then(function (user) {
+            $rootScope.$broadcast(AUTH_EVENTS.userRetrieved, user);
+            if (callback) {
+                callback();
+            }
+        });
+    },
     isAuthenticated: function() {
       return !!_currentUser;
     },
@@ -74,12 +81,21 @@ angular.module('user', [])
       return result;
     },
 
-    register: function(regInfo) {
+    register: function(regInfo, upgrade, packageInfo) {
+      var params = { cb: new Date().getTime() };
+      if( upgrade ) {
+        params.upgrade = upgrade;
+      }
+      if( packageInfo ) {
+        params.seatsSelected = packageInfo.seatsSelected;
+        params.packageType = packageInfo.packageType;
+      }
+
       return $http({
         method: 'POST',
         url: API_BASE + '/auth/user/register',
         data: regInfo,
-        params: {cb: new Date().getTime()}
+        params: params
       });
     },
 
