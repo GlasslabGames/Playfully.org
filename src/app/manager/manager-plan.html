@@ -13,7 +13,7 @@
                         <h4 class="headline-4">Package Size</h4>
 
                         <p>{{package.size}} Size:</p>
-                        <p>{{package.studentSeats}} students <span ng-if="!isTrial()">+ {{package.educatorSeats}} educators</span></p>
+                        <p>{{package.studentSeats}} students <span ng-if="!isTrial() || isLegacyUser">+ {{package.educatorSeats}} educators</span></p>
                     </div>
                     <div class="gl-manager-side-panel-section ">
                         <h4 class="headline-4">Remaining Seats</h4>
@@ -38,7 +38,7 @@
                         <p ng-show="!plan.autoRenew">Your subscription will cancel on:</p>
                         <p>{{plan.expirationDate}}</p>
                     </div>-->
-                    <div ng-if="isLicenseOwner() && !isPurchaseOrder() && plan.packageDetails.planId !== 'trialLegacy'" class="gl-manager-side-panel-section">
+                    <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser" class="gl-manager-side-panel-section">
                         Need more seats? Switch plans?
                         <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">
                             {{isTrial()? 'Go Premium' :
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-8">
                 <div class="gl-manager-share-subscription gl-margin--B50">
-                    <div ng-if="isLicenseOwner() && !isTrial()" class="gl-manager-share-subscription-label">Share Subscription</div>
+                    <div ng-if="isLicenseOwner() && (!isTrial() || isLegacyUser)" class="gl-manager-share-subscription-label">Share Subscription</div>
 
                     <div ng-if="!isLicenseOwner()">
                         <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s Premium Plan</h5>
@@ -58,9 +58,9 @@
                     </div>
 
                     <div ng-if="isLicenseOwner()">
-                        <h5 ng-if="!isTrial()" class="headline-5--serif gl-margin--B40">You may share your subscription with {{plan.educatorSeatsRemaining}} other educator(s).</h5>
+                        <h5 ng-if="!isTrial() || isLegacyUser" class="headline-5--serif gl-margin--B40">You may share your subscription with {{plan.educatorSeatsRemaining}} other educator(s).</h5>
                         <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5>
-                        <span ng-if="!isTrial()" class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} invitations remaining</span>
+                        <span ng-if="!isTrial() || isLegacyUser" class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} invitations remaining</span>
                     </div>
 
                     <table class="table gl-manager-educator-list-table gl-margin--B50">
@@ -84,7 +84,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div ng-if="!isTrial()">
+                    <div ng-if="!isTrial() || isLegacyUser">
                         <h5 ng-if="isLicenseOwner()" class="headline-5">Invite Educators by Email</h5>
                         <alert ng-repeat="rejected in request.rejectedTeachers" ng-show="request.rejectedTeachers.length" type="danger">  Failed to invite: {{ rejected[0] }}  - {{ rejected[1] }} </b> </alert>
                         <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}</alert>

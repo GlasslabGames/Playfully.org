@@ -442,6 +442,7 @@ angular.module('playfully.manager', [])
         $scope.originalPackage = plan.packageDetails;
         $scope.billingInfo = billingInfo;
         $scope.billingInfo.accountBalance = Math.abs( $scope.billingInfo.accountBalance / 100 );
+        $scope.isLegacyUser = plan.packageDetails.planId !== 'trialLegacy';
 
         if ($scope.plan.packageDetails.name === 'Trial') {
             var allGames = _.find(packages.plans, {name: 'All Games'});
@@ -590,16 +591,6 @@ angular.module('playfully.manager', [])
         };
 
         var _calculateProrateQuotient = function() {
-            /* Stripe gives the expiration date in UTC format */
-            /*var expirationTemp = plan.expirationDate.split(' ');
-            var expirationYear = parseInt(expirationTemp[2]);
-            var startYear = expirationYear - 1;
-            expirationTemp[2] = startYear+'';
-            var endDate = moment(expirationTemp, 'MMMM-Do-YYYY');
-            var currentDate = moment.utc();
-            var daysFromNow = endDate.diff(currentDate,'seconds');
-            return (secondsInYear+daysFromNow)/secondsInYear;*/
-
             // Calculate prorating using stripe's start/end times, against current utc
             // Stripe's start/end are without ms, so we need to divide by 1000 on current
             var periodStart = $scope.billingInfo.currentPeriodStart;
@@ -774,6 +765,7 @@ angular.module('playfully.manager', [])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
+        $scope.isLegacyUser = plan.packageDetails.planId !== 'trialLegacy';
 
         $scope.request = {
             success: false,
