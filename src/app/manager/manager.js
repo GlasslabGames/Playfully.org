@@ -156,7 +156,7 @@ angular.module('playfully.manager', [])
                         $scope.removeEducator = function (email) {
                             UtilService.submitFormRequest($scope.request, function () {
                                 return LicenseService.removeEducator(email);
-                            });
+                            }, function() {});
                         };
                     }
                 }
@@ -178,7 +178,6 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/manager-leave-subscription-modal.html',
                     controller: function ($scope, $log, $stateParams, LicenseService, UserService, UtilService, $previousState) {
-                        $previousState.forget('modalInvoker');
                         $scope.ownerName = $stateParams.ownerName;
                         $scope.request = {
                             success: false,
@@ -188,6 +187,7 @@ angular.module('playfully.manager', [])
                             UtilService.submitFormRequest($scope.request, function () {
                                 return LicenseService.leaveCurrentPlan();
                             }, function () {
+                                $previousState.forget('modalInvoker');
                                 UserService.updateUserSession();
                             });
                         };
@@ -238,7 +238,6 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
                     controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService, $previousState) {
-                        $previousState.forget('modalInvoker');
                         $scope.request = {
                             success: false,
                             errors: []
@@ -248,6 +247,7 @@ angular.module('playfully.manager', [])
                                 return LicenseService.startTrial();
                             }, function () {
                                 UserService.updateUserSession();
+                                $previousState.forget('modalInvoker');
                             });
                         };
                     }
@@ -768,6 +768,11 @@ angular.module('playfully.manager', [])
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
         $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
+        $scope.canUpgrade = plan.canUpgrade;
+        if (plan.nextUpgrade) {
+            $scope.nextUpgrade = moment(plan.nextUpgrade).format("MMM Do YYYY");
+            console.log('nextUpgrade: ', $scope.nextUpgrade);
+        }
 
         $scope.request = {
             success: false,

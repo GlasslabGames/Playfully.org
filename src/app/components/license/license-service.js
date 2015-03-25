@@ -79,23 +79,23 @@ angular.module('license', [])
                   if (show) {
                       return license[show];
                   }
-                  return license.lic;
+                  return license.active;
               };
               if ($rootScope.currentUser) {
                   if ($rootScope.currentUser.isTrial) {
-                      license = {lic:'trial', badge:'trial', active: true};
+                      license = {type:'trial', badge:'trial', active: true};
                       return _conditional();
                   }
                   if ($rootScope.currentUser.licenseStatus==="active") {
-                      license = {lic: 'premium', badge: 'premium', active: true};
+                      license = {type: 'premium', badge: 'premium', active: true};
                       return _conditional();
                   }
                   if ($rootScope.currentUser.purchaseOrderLicenseStatus === "po-received") {
-                      license = {lic: 'po-received', badge: null, active: null};
+                      license = {type: 'po-received', badge: null, active: null};
                       return _conditional();
                   }
                   if ($rootScope.currentUser.purchaseOrderLicenseStatus ==='po-pending') {
-                      license = {lic: 'po-pending', badge: null, active: false};
+                      license = {type: 'po-pending', badge: null, active: false};
                       return _conditional();
                   }
               }
@@ -161,8 +161,11 @@ angular.module('license', [])
                 if (!Stripe.card.validateCVC(payment.cvc)) {
                     request.errors.push("You entered an invalid CVC number");
                 }
-                if (!Stripe.card.cardType(payment.card_type)) {
+                if (Stripe.card.validateCardNumber(payment.number)==='Unknown') {
                     request.errors.push("You entered an invalid card type");
+                }
+                if (Stripe.card.cardType(payment.card_type) !== Stripe.card.validateCardNumber(payment.number)) {
+                    request.errors.push("Your number doesn't match your card type");
                 }
             };
             this.stripeRequestPromo = function (promoCode) {
