@@ -151,6 +151,7 @@ angular.module('license', [])
             };
             this.stripeValidation = function (payment, request) {
                 request.errors = [];
+
                 //stripe request
                 if (!Stripe.card.validateCardNumber(payment.number)) {
                     request.errors.push("You entered an invalid Credit Card number");
@@ -161,11 +162,11 @@ angular.module('license', [])
                 if (!Stripe.card.validateCVC(payment.cvc)) {
                     request.errors.push("You entered an invalid CVC number");
                 }
-                if (Stripe.card.validateCardNumber(payment.number)==='Unknown') {
+                if (Stripe.card.cardType(payment.number)==='Unknown') {
                     request.errors.push("You entered an invalid card type");
                 }
-                if (Stripe.card.cardType(payment.card_type) !== Stripe.card.validateCardNumber(payment.number)) {
-                    request.errors.push("Your number doesn't match your card type");
+                if (Stripe.card.cardType(payment.number) !== payment.card_type) {
+                    request.errors.push("The credit card number you entered doesn't match the card type you selected");
                 }
             };
             this.stripeRequestPromo = function (promoCode) {
