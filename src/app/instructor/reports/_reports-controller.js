@@ -257,6 +257,7 @@ angular.module( 'instructor.reports', [
       $scope.games.isOpen = false;
       $scope.games.selectedGameId = null;
       $scope.games.options = {};
+      $scope.games.hasGames = myGames.length > 0 ? true : false;
 
       angular.forEach(myGames, function (game) {
         if (game.enabled) {

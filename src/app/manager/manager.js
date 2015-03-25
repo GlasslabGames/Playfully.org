@@ -771,7 +771,7 @@ angular.module('playfully.manager', [])
             $scope.nextUpgrade = moment(plan.nextUpgrade).format("MMM Do YYYY");
             console.log('nextUpgrade: ', $scope.nextUpgrade);
         }
-
+        
         $scope.request = {
             success: false,
             invitedEducators: '',

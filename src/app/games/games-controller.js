@@ -402,8 +402,8 @@ angular.module( 'playfully.games', [
             '<param name=\"salign\" value=\"\" />' +
             '<param name=\"allowScriptAccess\" value=\"always\" />' +
             '<param name=\"wmode\" value=\"direct\" />' +
-            '<a href=\"http://www.adobe.com/go/getflash\">' +
-              '<img src=\"http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
+            '<a href=\"https://www.adobe.com/go/getflash\">' +
+              '<img src=\"https://www.adobe.com/images/shared/download_buttons/get_flash_player.gif\" alt=\"Get Adobe Flash player\" />' +
             '</a>' +
             '<embed name="flashObj\" src=\"' + $scope.gamePlayInfo.embed+ '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\"' +
               'type=\"application/x-shockwave-flash\" allowScriptAccess=\"always\">' +

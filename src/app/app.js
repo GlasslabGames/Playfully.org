@@ -272,12 +272,7 @@ angular.module( 'playfully', [
                       user.role == 'manager' ||
                       user.role == 'developer'
                     ) {
-                    // TODO: remove this later when we have sowo for icivics login
-                    if(user.loginType == 'icivics'){
-                      $state.go('courses.active');
-                    } else {
-                      $state.go('root.instructorDashboard.default');
-                    }
+                    $state.go('root.instructorDashboard.default');
                   } else {
                     $state.go('root.studentDashboard');
                   }

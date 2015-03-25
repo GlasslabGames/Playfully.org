@@ -1,7 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="gl-manager-student-list-bg">
+            <!-- Only display the table if students are added to the plan. -->
+            <div class="gl-manager-student-list-bg" ng-show="studentList.length > 0">
                 <h4 class="headline-3--serif gl-margin--B40">Your Students</h4>
                 <table class="table gl-manager-student-list-table gl-margin--B50">
                     <thead>
@@ -26,6 +27,10 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <!-- If no students are in the list, show special messaging. -->
+            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0">
+                There are currently no students added to this plan!
             </div>
         </div>
     </div>
