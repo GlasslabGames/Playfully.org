@@ -766,6 +766,11 @@ angular.module('playfully.manager', [])
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
         $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
+        $scope.canUpgrade = plan.canUpgrade;
+        if (plan.nextUpgrade) {
+            $scope.nextUpgrade = moment(plan.nextUpgrade).format("MMM Do YYYY");
+            console.log('nextUpgrade: ', $scope.nextUpgrade);
+        }
 
         $scope.request = {
             success: false,

@@ -40,9 +40,17 @@
                     </div>-->
                     <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser" class="gl-manager-side-panel-section">
                         Need more seats? Switch plans?
-                        <button type="button" ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">
+                        <button ng-if="canUpgrade" type="button"
+                                ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl" >
                             {{isTrial()? 'Go Premium' :
                             'Update Package'}}</button>
+                        <button ng-if="!canUpgrade" type="button"
+                                class="btn gl-btn--black--disabled gl-margin--Tl"
+                                popover-title="Upgrade Limit Exceeded"
+                                popover="You can upgrade again on {{nextUpgrade}}"
+                                popover-trigger="mouseenter" popover-placement="bottom">
+                                Update Package
+                        </button>
 
                     </div>
                 </div>
