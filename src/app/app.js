@@ -87,7 +87,7 @@ angular.module( 'playfully', [
       $previousState.memo("modalInvoker");
       $modal.open({
         template: '<div ui-view="modal"></div>',
-        backdrop: 'static',
+        backdrop: true,
         size: 'sm',
         controller: function($modalInstance, $scope) {
           var isopen = true;
@@ -377,7 +377,7 @@ angular.module( 'playfully', [
               if (angular.isDefined(toState.data.redirects)) {
                   if ($rootScope.currentUser &&
                       $rootScope.currentUser.licenseStatus) {
-                      var licenseStatus = LicenseService.hasLicense();
+                      var licenseStatus = LicenseService.hasLicense('type');
                       angular.forEach(toState.data.redirects, function (redirect) {
                           if (redirect.licenses &&
                               redirect.licenses.indexOf(licenseStatus) >= 0) {

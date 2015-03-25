@@ -50,7 +50,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     'modal@': {
                         templateUrl: 'subscribe/cancel-purchase-order-modal.html',
                         controller: function ($scope, $state, LicenseService, UtilService, UserService, $previousState) {
-                            $previousState.forget('modalInvoker');
                             $scope.request = {
                                 successes: [],
                                 errors: [],
@@ -60,6 +59,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                                 UtilService.submitFormRequest($scope.request, function () {
                                     return LicenseService.cancelActivePurchaseOrder();
                                 }, function() {
+                                    $previousState.forget('modalInvoker');
                                     return UserService.updateUserSession(function () {
                                         $state.go('root.subscribe.packages');
                                     });
@@ -244,10 +244,10 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
         // School and Payment Info
         $scope.info = {
-            school: REGISTER_CONSTANTS.school,
+            school: angular.copy(REGISTER_CONSTANTS.school),
             subscription: {},
-            CC: REGISTER_CONSTANTS.ccInfo,
-            PO: REGISTER_CONSTANTS.poInfo
+            CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
+            PO: angular.copy(REGISTER_CONSTANTS.poInfo)
         };
 
         $scope.request = {
@@ -372,7 +372,17 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 schoolInfo: info.school,
                 payment: $scope.info.CC.payment || $scope.info.PO.payment
             });
+            resetForm();
             $state.go('modal.confirm-subscribe-cc-modal');
+        };
+
+        var resetForm = function() {
+            $scope.info = {
+                school: angular.copy(REGISTER_CONSTANTS.school),
+                subscription: {},
+                CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
+                PO: angular.copy(REGISTER_CONSTANTS.poInfo)
+            };
         };
 
     })
