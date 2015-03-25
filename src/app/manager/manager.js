@@ -562,7 +562,7 @@ angular.module('playfully.manager', [])
                         planInfo: planInfo,
                         stripeInfo: stripeInfo,
                         schoolInfo: info.school,
-                        payment: parseInt($scope.status.discountedTotal)
+                        payment: parseFloat($scope.status.grandTotal)
                     });
                     return $state.go('modal.confirm-update-modal', {isTrial: true, isPaymentCreditCard: true});
                 } else {
@@ -571,7 +571,7 @@ angular.module('playfully.manager', [])
                         planInfo: planInfo,
                         stripeInfo: stripeInfo,
                         schoolInfo: info.school,
-                        payment: parseInt($scope.status.proratedTotal)
+                        payment: parseFloat($scope.status.grandTotal)
                     });
                     $state.go('modal.confirm-update-modal', {isTrial: false, isPaymentCreditCard: true});
                 }
@@ -580,7 +580,7 @@ angular.module('playfully.manager', [])
                     planInfo: planInfo,
                     schoolInfo: info.school,
                     purchaseOrderInfo: info.PO,
-                    payment: parseInt($scope.status.discountedTotal)
+                    payment: parseFloat($scope.status.discountedTotal)
                 });
                 /* Upgrade from Trial using Purchase Order */
                 if ($scope.plan.packageDetails.name === 'Trial') {
@@ -704,6 +704,7 @@ angular.module('playfully.manager', [])
         // TODO
         $scope.calculateGrandTotalWithTrial = function() {
             var grandTotal =  $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') - $scope.billingInfo.accountBalance;
+            $scope.status.grandTotal = grandTotal;
             if( grandTotal < 0 ) {
                 $scope.status.showCredit = true;
                 return "-$" + Math.abs(grandTotal).toFixed(2);
@@ -715,6 +716,7 @@ angular.module('playfully.manager', [])
         // Used for Total with trial
         $scope.calculateGrandTotal = function() {
             var grandTotal = $scope.status.proratedTotal - $scope.billingInfo.accountBalance;
+            $scope.status.grandTotal = grandTotal;
             if( grandTotal < 0 ) {
                 $scope.status.showCredit = true;
                 return "-$" + Math.abs(grandTotal).toFixed(2);
