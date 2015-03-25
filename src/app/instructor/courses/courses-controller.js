@@ -606,6 +606,7 @@ angular.module( 'instructor.courses', [
   /* TODO: Clean this up. */
   var _gamesById = {};
   $scope.gamesInPlan = [];
+  $scope.errors = [];
   angular.forEach(allGames, function(game) {
     _gamesById[game.gameId] = game;
   });
@@ -647,6 +648,7 @@ angular.module( 'instructor.courses', [
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.errors.push(data.error);
       });
   };
 
