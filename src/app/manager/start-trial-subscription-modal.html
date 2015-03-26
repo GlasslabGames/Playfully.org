@@ -8,7 +8,21 @@
 <div class="modal-body text-center" ng-hide="request.success || request.errors.length">
     <div class="gl-logo-trial-icon"></div>
     <p class="gl-margin-Vl">The premium trial grants you 60 days to try out the full features of GlassLab Games!</p>
-    <input ng-click="startTrial()" ng-value="request.isSubmitting ? 'Requesting Trial...' : 'Get Started'"class="btn gl-btn--blue"></button>
+    <div class="gl-input-group">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="" ng-model="acceptedTerms"
+                       ng-checked="acceptedTerms">
+              <span class="small">
+                I have read and accepted the <span class="gl-sdk-glasslabgames-link"
+                                                   ng-click="goToLink('www.glasslabgames.org/privacy')">Privacy Policy</span>, <span
+                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/terms-of-service')">Terms of Service</span>, and <span
+                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/eula')">EULA</span>
+              </span>
+            </label>
+        </div>
+    </div>
+    <input ng-click="startTrial()" ng-disabled="!acceptedTerms" ng-value="request.isSubmitting ? 'Requesting Trial...' : 'Get Started'"class="btn gl-btn--blue"></button>
 </div>
 
 
