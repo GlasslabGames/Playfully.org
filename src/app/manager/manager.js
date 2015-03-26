@@ -111,7 +111,7 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
-        .state('modal-xlg.prorating-information', {
+        .state('modal-lg.prorating-information', {
             url: '/prorating-information',
             views: {
                 'modal@': {
