@@ -138,6 +138,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                                 errors: [],
                                 isSubmitting: false
                             };
+                            $scope.acceptedTerms = false;
                             $scope.purchaseInfo = LicenseStore.getData();
                             $scope.submitPayment = function () {
                                 UtilService.submitFormRequest($scope.request, function () {
@@ -166,6 +167,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                                 errors: [],
                                 isSubmitting: false
                             };
+                            $scope.acceptedTerms = false;
                             $scope.purchaseInfo = LicenseStore.getData();
                             $scope.submitPayment = function () {
                                 UtilService.submitFormRequest($scope.request, function () {
@@ -316,17 +318,13 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             /* Convert to database expected values */
             purchaseOrder.payment = parseInt(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
-            UtilService.submitFormRequest($scope.request, function () {
-                return LicenseService.subscribeWithPurchaseOrder({
-                    purchaseOrderInfo: purchaseOrder,
-                    planInfo: planInfo,
-                    schoolInfo: info.school
-                });
-            }, function () {
-                UserService.updateUserSession(function() {
-                    $state.go('root.subscribe.payment.purchase-order-status');
-                });
+            LicenseStore.setData({
+                purchaseOrderInfo: purchaseOrder,
+                planInfo: planInfo,
+                schoolInfo: info.school,
+                payment: $scope.info.PO.payment
             });
+            $state.go('modal.confirm-purchase-order-modal');
         };
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
             if (test) {

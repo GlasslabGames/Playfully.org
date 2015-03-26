@@ -304,6 +304,7 @@ angular.module('playfully.manager', [])
                             errors: [],
                             isSubmitting: false
                         };
+                        $scope.acceptedTerms = false;
                         $scope.isTrial = $stateParams.isTrial==='true';
                         $scope.isPaymentCreditCard = $stateParams.isPaymentCreditCard==='true';
                         $scope.purchaseInfo = LicenseStore.getData();
@@ -355,7 +356,6 @@ angular.module('playfully.manager', [])
         $scope.info = {
             CC: angular.copy(REGISTER_CONSTANTS.ccInfo)
         };
-        console.log('$scope.info.CC',$scope.info.CC);
         $scope.changeCard = function(info,test) {
             if (test) {
                 if ($scope.request.errors < 1) {

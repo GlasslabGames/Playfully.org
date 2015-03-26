@@ -14,8 +14,21 @@
         ${{(purchaseInfo.payment).toFixed(2)}} will be charged to your credit card.</p>
 
     <p ng-if="isPaymentCreditCard && purchaseInfo.payment < 0" class="gl-margin-Vl">${{(purchaseInfo.payment*-1).toFixed(2)}}
-        will be credited towards future purchases. For more information see our Terms of Service.</p>
-    <input ng-click="submitPayment()"
+        will be credited towards future purchases</p>
+
+    <div class="gl-input-group gl-margin--Bm">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="" ng-model="acceptedTerms"
+                       ng-checked="acceptedTerms">
+              <span class="small">I have read and accepted the <span class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/terms-of-service')">Terms of Service</span>, and <span
+                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/eula')">EULA</span>
+              </span>
+            </label>
+        </div>
+    </div>
+
+    <input ng-disabled="!acceptedTerms" ng-click="submitPayment()"
            ng-value="request.isSubmitting ? 'Submitting...' : 'Submit'"
            class="btn btn-success">
 </div>
