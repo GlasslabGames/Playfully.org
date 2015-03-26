@@ -232,8 +232,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         $scope.choices = {
             packages: packagesChoices,
             seats: packages.seats,
-            states:REGISTER_CONSTANTS.states,
-            cardTypes:REGISTER_CONSTANTS.cardTypes
+            states: angular.copy(REGISTER_CONSTANTS.states),
+            cardTypes: angular.copy(REGISTER_CONSTANTS.cardTypes)
         };
 
         $scope.$watch('status.packageName', function (packageName) {
