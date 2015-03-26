@@ -338,7 +338,7 @@ angular.module('playfully.manager', [])
     .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE) {
         $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
-        $scope.billingInfo = billingInfo;
+        $scope.billingInfo = angular.copy(billingInfo);
         $scope.isChangingCard = false;
         $scope.choices = {
             states: REGISTER_CONSTANTS.states,
@@ -355,6 +355,7 @@ angular.module('playfully.manager', [])
         $scope.info = {
             CC: angular.copy(REGISTER_CONSTANTS.ccInfo)
         };
+        console.log('$scope.info.CC',$scope.info.CC);
         $scope.changeCard = function(info,test) {
             if (test) {
                 if ($scope.request.errors < 1) {
@@ -484,8 +485,8 @@ angular.module('playfully.manager', [])
         $scope.choices = {
             packages: packagesChoices,
             seats: packages.seats,
-            states: REGISTER_CONSTANTS.states,
-            cardTypes: REGISTER_CONSTANTS.cardTypes
+            states: angular.copy(REGISTER_CONSTANTS.states),
+            cardTypes: angular.copy(REGISTER_CONSTANTS.cardTypes)
         };
 
         $scope.$watch('status.packageName', function (packageName) {
@@ -515,10 +516,10 @@ angular.module('playfully.manager', [])
         };
 
         $scope.info = {
-            school: REGISTER_CONSTANTS.school,
+            school: angular.copy(REGISTER_CONSTANTS.school),
             subscription: {},
-            CC: REGISTER_CONSTANTS.ccInfo,
-            PO: REGISTER_CONSTANTS.poInfo
+            CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
+            PO: angular.copy(REGISTER_CONSTANTS.poInfo)
         };
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
