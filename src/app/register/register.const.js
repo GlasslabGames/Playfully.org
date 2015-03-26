@@ -20,7 +20,7 @@ angular.module('register.const', [])
         name: null,
         zipCode: null,
         address: null,
-        state: 'California',
+        state: null,
         city: null
     },
     "poInfo": {

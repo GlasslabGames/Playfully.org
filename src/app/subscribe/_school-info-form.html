@@ -4,11 +4,15 @@
     <input class="form-control" size="43" ng-model="info.school.zipCode" placeholder="Zip Code" required>
 </div>
 <div class="form-group">
-    <select name="state"
-            class="form-control"
-            ng-options="state for state in choices.states"
-            ng-model="info.school.state" required>
-    </select>
+    <div class="gl-input-group">
+        <select name="state" ng-model="info.school.state" ng-options="state for state in choices.states"
+                class="form-control"
+                placeholder="State" ng-class="account.state ? 'selected' : ''" required>
+            <option value='' disabled="disabled" selected="selected" class="gl-select-disabled-option">
+                State
+            </option>
+        </select>
+    </div>
 </div>
 <input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address" required>
 
