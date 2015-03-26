@@ -241,6 +241,7 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
                     controller: function ($scope, $state, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService, $previousState) {
+                        $scope.acceptedTerms = false;
                         $scope.request = {
                             success: false,
                             errors: []
