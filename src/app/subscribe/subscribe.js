@@ -240,8 +240,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
         });
 
-        $scope.changePackage = function () {};
-
         // School and Payment Info
         $scope.info = {
             school: angular.copy(REGISTER_CONSTANTS.school),

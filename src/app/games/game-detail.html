@@ -136,9 +136,13 @@
                         ui-sref="root.subscribe.packages"
                         class="btn gl-btn--cyangreen">Upgrade to Assign Game
                 </button>
-                <button ng-if="hasLicense()" type="button"
+                <button ng-if="hasLicense() && isGameAvailableForLicense" type="button"
                         ui-sref="root.courses"
                         class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
+                </button>
+                <button ng-if="hasLicense() && !isGameAvailableForLicense" type="button"
+                          ui-sref="modal.game-not-available"
+                          class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
                 </button>
               </div>
               <div ng-hide="gameDetails.type==='App'||isAuthenticated()">

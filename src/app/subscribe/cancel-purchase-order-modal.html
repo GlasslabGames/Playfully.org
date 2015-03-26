@@ -24,7 +24,7 @@
     <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span>  You have successfully
         cancelled your purchase order
     </alert>
-    <button ui-sref="root.subscribe.packages" class="btn gl-btn--blue">Okay</button>
+    <button ng-click="goToLink('root.subscribe.packages')" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-header" ng-show="request.errors.length">

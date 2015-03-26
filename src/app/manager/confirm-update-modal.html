@@ -30,8 +30,8 @@
     <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> You have successfully completed
         your purchase.
     </alert>
-    <button ng-if="!isPaymentCreditCard" ui-sref="root.manager.purchase-order-status" class="btn gl-btn--blue">Okay</button>
-    <button ng-if="isPaymentCreditCard" ui-sref="root.manager.plan" class="btn gl-btn--blue">Okay</button>
+    <button ng-if="!isPaymentCreditCard" ng-click="goToLink('root.manager.purchase-order-status')" class="btn gl-btn--blue">Okay</button>
+    <button ng-if="isPaymentCreditCard" ng-click="goToLink('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-header" ng-show="request.errors.length">

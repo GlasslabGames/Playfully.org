@@ -69,6 +69,9 @@ angular.module( 'playfully.games', [
       },
       myGames: function(GamesService) {
         return GamesService.getMyGames();
+      },
+      gamesAvailableForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     },
     onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
@@ -169,6 +172,20 @@ angular.module( 'playfully.games', [
       }
     }
   })
+  .state( 'modal.game-not-available', {
+    url: '/games/game-not-available',
+    views: {
+      'modal@': {
+        templateUrl: 'games/game-not-available-modal.html',
+        controller: function($scope,$state, $previousState) {
+            $scope.goToLink = function(link) {
+                $previousState.forget('modalInvoker');
+                $state.go(link);
+            };
+        }
+      }
+    }
+  })
   .state( 'modal-lg.missions', {
     url: '/:gameId/play-missions?:courseId',
     data: {
@@ -250,7 +267,7 @@ angular.module( 'playfully.games', [
     }
 )
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, UserService) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, gamesAvailableForLicense) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId.toUpperCase();
@@ -271,8 +288,10 @@ angular.module( 'playfully.games', [
     if (_.has(gameDetails, 'error')) {
       $scope.error = true;
     }
+    if (gamesAvailableForLicense) {
+        $scope.isGameAvailableForLicense = gamesAvailableForLicense[$scope.gameId];
+    }
 
-    
     $scope.isAuthorized = function() {
       return AuthService.isAuthenticatedButNot('student');
     };
