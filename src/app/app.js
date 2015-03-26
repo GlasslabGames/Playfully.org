@@ -226,6 +226,59 @@ angular.module( 'playfully', [
     onEnter: function($window) {
       $window.location = "http://sgiz.mobi/s3/Argubot-Feedback";
     }
+  })
+  // survey redirects for PRIMA
+  .state('prima_survey_pre_a', {
+    url: '/prima-survey/:type/:version',
+    data: {
+      authorizedRoles: ['student','instructor']
+    },
+    views: {
+      'main@': {
+        controller: function( $state, $window, currentUser ) {
+          var linkMap = {
+            "pre_a": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
+            "pre_b": "http://www.surveygizmo.com/s3/2067438/Prima-Beta-Pre-Test-FormB",
+            "post_a": "http://www.surveygizmo.com/s3/2067441/Prima-Beta-Post-Test-FormA",
+            "post_b": "http://www.surveygizmo.com/s3/2067444/Prima-Beta-Post-Test-FormB"
+          };
+
+          if( currentUser ) {
+            // Student
+            if( currentUser.role === 'student' ) {
+              var version = "";
+              if( currentUser.id % 2 ) {
+                version = "a";
+              }
+              else {
+                version = "b";
+              }
+
+              if( linkMap[ $state.params.type + "_" + version ] ) {
+                $window.open( linkMap[ $state.params.type + "_" + version ], '_blank' );
+              }
+            }
+            // Instructor
+            else {
+              if( linkMap[ $state.params.type + "_" + $state.params.version ] ) {
+                $window.open( linkMap[ $state.params.type + "_" + $state.params.version ], '_blank' );
+              }
+            }
+          }
+        }
+      }
+    },
+    resolve:  {
+      currentUser: function(UserService) {
+        return UserService.currentUser();
+      }
+    }
+  })
+  .state('prima_feedback', {
+    url: '/prima-feedback',
+    onEnter: function($window) {
+      $window.location = "http://http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey";
+    }
   });
 })
 

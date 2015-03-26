@@ -192,11 +192,11 @@
                             value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}"
                             ng-disabled="(paymentForm.$pristine || paymentForm.$invalid || request.isSubmitting ||
                                (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)))">
-                        <input ng-hide="status.currentCard === 'current'"
+                        <!--<input ng-hide="status.currentCard === 'current'"
                                ng-click="submitPayment(status.studentSeats,status.packageName,info,'test')"
                                class="btn gl-btn--black"
                                ng-disabled="request.isSubmitting || (!isTrial() && (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats))"
-                               value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">
+                               value="{{ request.isSubmitting ? 'Requesting Update...' : 'Test Submit'}}">-->
                     </div>
                 </div>
                 </div>
