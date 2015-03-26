@@ -97,8 +97,11 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/notify-invited-subscription-modal.html',
-                    controller: function ($scope, plan, $previousState) {
-                        $previousState.forget('modalInvoker');
+                    controller: function ($scope, $state, $previousState, plan) {
+                        $scope.goToLink = function (link) {
+                            $previousState.forget('modalInvoker');
+                            $state.go(link);
+                        };
                         $scope.plan = plan;
                         $scope.package = $scope.plan.packageDetails;
                     }
@@ -108,7 +111,7 @@ angular.module('playfully.manager', [])
                 reloadNextState: 'reload'
             }
         })
-        .state('modal-xlg.prorating-information', {
+        .state('modal-lg.prorating-information', {
             url: '/prorating-information',
             views: {
                 'modal@': {
@@ -237,17 +240,20 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/start-trial-subscription-modal.html',
-                    controller: function ($scope, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService, $previousState) {
+                    controller: function ($scope, $state, $log, $stateParams, $window, $rootScope, LicenseService, UserService, UtilService, $previousState) {
                         $scope.request = {
                             success: false,
                             errors: []
+                        };
+                        $scope.goToLink = function (link) {
+                            $previousState.forget('modalInvoker');
+                            $state.go(link);
                         };
                         $scope.startTrial = function () {
                             UtilService.submitFormRequest($scope.request, function () {
                                 return LicenseService.startTrial();
                             }, function () {
                                 UserService.updateUserSession();
-                                $previousState.forget('modalInvoker');
                             });
                         };
                     }
@@ -259,8 +265,11 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/error-processing-upgrade-modal.html',
-                    controller: function ($scope, $log, $stateParams, $previousState) {
-                        $previousState.forget('modalInvoker');
+                    controller: function ($scope, $state, $previousState) {
+                        $scope.goToLink = function (link) {
+                            $previousState.forget('modalInvoker');
+                            $state.go(link);
+                        };
                     }
                 }
             }
@@ -297,6 +306,10 @@ angular.module('playfully.manager', [])
                         $scope.isTrial = $stateParams.isTrial==='true';
                         $scope.isPaymentCreditCard = $stateParams.isPaymentCreditCard==='true';
                         $scope.purchaseInfo = LicenseStore.getData();
+                        $scope.goToLink = function (link) {
+                            $previousState.forget('modalInvoker');
+                            $state.go(link);
+                        };
                         $scope.submitPayment = function () {
                             UtilService.submitFormRequest($scope.request, function () {
                                 if ($scope.isPaymentCreditCard) {
@@ -310,7 +323,6 @@ angular.module('playfully.manager', [])
                                 }
                             }, function () {
                                 LicenseStore.reset();
-                                $previousState.forget('modalInvoker');
                                 UserService.updateUserSession();
                             });
                         };
@@ -436,16 +448,16 @@ angular.module('playfully.manager', [])
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
 
-        $scope.plan = plan;
-        $scope.packages = packages;
-        $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
-        $scope.originalPackage = plan.packageDetails;
-        $scope.billingInfo = billingInfo;
+        $scope.plan = angular.copy(plan);
+        $scope.packages = angular.copy(packages);
+        $scope.plan.expirationDate = moment($scope.plan.expirationDate).format("MMM Do YYYY");
+        $scope.originalPackage = $scope.plan.packageDetails;
+        $scope.billingInfo = angular.copy(billingInfo);
         $scope.billingInfo.accountBalance = Math.abs( $scope.billingInfo.accountBalance / 100 );
-        $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
+        $scope.isLegacyUser = $scope.plan.packageDetails.planId === 'trialLegacy';
 
         if ($scope.plan.packageDetails.name === 'Trial') {
-            var allGames = _.find(packages.plans, {name: 'All Games'});
+            var allGames = _.find($scope.packages.plans, {name: 'All Games'});
             allGames.studentSeats = $scope.plan.packageDetails.studentSeats;
             allGames.educatorSeats = $scope.plan.packageDetails.educatorSeats;
             $scope.originalPackage = allGames;
@@ -463,7 +475,7 @@ angular.module('playfully.manager', [])
           currentCard: 'current'
         };
 
-        if (plan.packageDetails.name === 'Trial') {
+        if ($scope.plan.packageDetails.name === 'Trial') {
             $scope.status.currentCard = 'change';
             $scope.status.isPaymentCreditCard = false;
         }
@@ -645,10 +657,10 @@ angular.module('playfully.manager', [])
             var total = _calculateTotal(packageName, seatChoice);
             var discountedTotal;
             if ($scope.promoCode.valid) {
-                /* If promoCode already exists, only apply to current subscription */
-                /* If no existing promoCode, only apply to new subscriptions */
-                if ((plan.promoCode && type ==='current') ||
-                    !plan.promoCode && type ==='new') {
+                /* If promoCode previously existed in user's account, only apply to current subscription */
+                /* If no previously existing promoCode in user's account, only apply to new subscriptions */
+                if (($scope.promoCode.existing && type ==='current') ||
+                    !$scope.promoCode.existing && type ==='new') {
                     if ($scope.promoCode.amount_off) {
                         discountedTotal = _calculateDiscounted(total, $scope.promoCode.amount_off, 'amount_off');
                         $scope.status.discountedTotal = discountedTotal;
@@ -733,7 +745,6 @@ angular.module('playfully.manager', [])
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
                 $scope.promoCode.percent_off = 0;
-                $scope.plan.promoCode = promoCode;
 
                 // Check for the actual amount and percentage off
                 if (response.data.amount_off) {
@@ -749,16 +760,14 @@ angular.module('playfully.manager', [])
                     _calculateDiscounted($scope.newPlanTotal($scope.status.packageName, $scope.status.studentSeats), $scope.promoCode.percent_off, 'percent_off');
                 }
             }, function () {
-                if (plan.promoCode) {
-                    $state.go('modal.error-processing-upgrade');
-                }
+                $state.go('modal.error-processing-upgrade');
             });
         };
 
         if ($scope.plan.promoCode) {
             /* Apply existing promoCode discount */
-            $scope.applyPromoCode($scope.plan.promoCode);
             $scope.promoCode.existing = true;
+            $scope.applyPromoCode($scope.plan.promoCode);
         }
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
@@ -769,9 +778,9 @@ angular.module('playfully.manager', [])
         $scope.package = plan.packageDetails;
         $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
         $scope.canUpgrade = plan.canUpgrade;
+
         if (plan.nextUpgrade) {
             $scope.nextUpgrade = moment(plan.nextUpgrade).format("MMM Do YYYY");
-            console.log('nextUpgrade: ', $scope.nextUpgrade);
         }
 
         $scope.request = {
