@@ -237,13 +237,20 @@ angular.module( 'playfully', [
       'main@': {
         controller: function( $state, $window, currentUser ) {
           var linkMap = {
-            "pre_a": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
-            "pre_b": "http://www.surveygizmo.com/s3/2067438/Prima-Beta-Pre-Test-FormB",
-            "post_a": "http://www.surveygizmo.com/s3/2067441/Prima-Beta-Post-Test-FormA",
-            "post_b": "http://www.surveygizmo.com/s3/2067444/Prima-Beta-Post-Test-FormB"
+            "prea": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
+            "preb": "http://www.surveygizmo.com/s3/2067438/Prima-Beta-Pre-Test-FormB",
+            "posta": "http://www.surveygizmo.com/s3/2067441/Prima-Beta-Post-Test-FormA",
+            "postb": "http://www.surveygizmo.com/s3/2067444/Prima-Beta-Post-Test-FormB",
+            "feedback": "http://http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey"
           };
 
           if( currentUser ) {
+            // Feedback survey
+            if( $state.params.type === "feedback" ) {
+              $window.open( linkMap[ $state.params.type ] + "?uid=" + currentUser.id, '_blank' );
+              return;
+            }
+
             // Student
             if( currentUser.role === 'student' ) {
               var version = "";
@@ -254,14 +261,14 @@ angular.module( 'playfully', [
                 version = "b";
               }
 
-              if( linkMap[ $state.params.type + "_" + version ] ) {
-                $window.open( linkMap[ $state.params.type + "_" + version ], '_blank' );
+              if( linkMap[ $state.params.type + version ] ) {
+                $window.open( linkMap[ $state.params.type + version ] + "?uid=" + currentUser.id, '_blank' );
               }
             }
             // Instructor
             else {
-              if( linkMap[ $state.params.type + "_" + $state.params.version ] ) {
-                $window.open( linkMap[ $state.params.type + "_" + $state.params.version ], '_blank' );
+              if( linkMap[ $state.params.type + $state.params.version ] ) {
+                $window.open( linkMap[ $state.params.type + $state.params.version ] + "?uid=" + currentUser.id, '_blank' );
               }
             }
           }
@@ -272,12 +279,6 @@ angular.module( 'playfully', [
       currentUser: function(UserService) {
         return UserService.currentUser();
       }
-    }
-  })
-  .state('prima_feedback', {
-    url: '/prima-feedback',
-    onEnter: function($window) {
-      $window.location = "http://http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey";
     }
   });
 })
