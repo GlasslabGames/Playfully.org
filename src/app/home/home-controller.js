@@ -20,7 +20,7 @@ angular.module( 'playfully.home', ['ui.router'])
       allGamesInfo: function (GamesService) {
         return GamesService.all();
       },
-      freeGames: function (allGamesInfo) {
+      /*freeGames: function (allGamesInfo) {
         return _.filter(allGamesInfo, {'price': 'Free'});
       },
       premiumGames: function (allGamesInfo) {
@@ -28,6 +28,9 @@ angular.module( 'playfully.home', ['ui.router'])
       },
       comingSoonGames: function (allGamesInfo) {
         return _.filter(allGamesInfo, {'price': 'Coming Soon'});
+      },*/
+      gamesAvailableForLicense: function () {
+        return true;
       }
     },
     views: {
