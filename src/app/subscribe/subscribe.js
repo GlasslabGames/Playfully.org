@@ -354,19 +354,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 schoolInfo: info.school,
                 payment: $scope.info.CC.payment || $scope.info.PO.payment
             });
-            resetForm();
             $state.go('modal.confirm-subscribe-cc-modal');
         };
-
-        var resetForm = function() {
-            $scope.info = {
-                school: angular.copy(REGISTER_CONSTANTS.school),
-                subscription: {},
-                CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
-                PO: angular.copy(REGISTER_CONSTANTS.poInfo)
-            };
-        };
-
     })
     .controller('SubscribePackagesCtrl', function ($scope, packages) {
         $scope.seatChoices = [];
