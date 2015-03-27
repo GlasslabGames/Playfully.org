@@ -136,7 +136,7 @@ angular.module('playfully.register', ['register.const'])
 
       $scope.register = function( account ) {
         // TODO: uncomment this for production release
-        /*if( STRIPE.env === "live" ) {
+        if( STRIPE.env === "live" ) {
           if ($scope.upgrade === 'trial') {
               var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
               if (emailAddress >= 0) {
@@ -144,7 +144,7 @@ angular.module('playfully.register', ['register.const'])
                   return;
               }
           }
-        }*/
+        }
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
