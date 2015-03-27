@@ -109,21 +109,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 }
             })
-            .state('modal.subscribe-success-modal', {
-                url: '/subscribe/success',
-                data: {
-                    pageTitle: 'Subscribe Successful',
-                    reloadNextState: true
-                },
-                views: {
-                    'modal@': {
-                        templateUrl: 'subscribe/subscribe-success-modal.html',
-                        controller: function ($scope, $log, $stateParams, $previousState) {
-                            $previousState.forget('modalInvoker');
-                        }
-                    }
-                }
-            })
            .state('modal.confirm-subscribe-cc-modal', {
                 url: '/subscribe/confirm-subscribe',
                 data: {

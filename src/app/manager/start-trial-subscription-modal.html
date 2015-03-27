@@ -14,9 +14,8 @@
                 <input type="checkbox" value="" ng-model="acceptedTerms"
                        ng-checked="acceptedTerms">
               <span class="small">
-                I have read and accepted the <span
-                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/terms-of-service')">Terms of Service</span> and <span
-                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/eula')">EULA</span>
+                I have read and accepted the <a target="_blank" ui-sref="root.terms-of-service" href="#">Terms of Service</a> and <a
+                      target="_blank" ui-sref="root.eula" href="#">EULA</a>
               </span>
             </label>
         </div>
@@ -33,9 +32,9 @@
 
 <div class="modal-body text-center" ng-show="request.success && !request.errors.length">
     <div class="gl-logo-trial-icon"></div>
-    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> Your premium trial starts now! You have 60 days remaining to try out the full features of GlassLab Games!
+    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> Your premium trial <s></s>tarts now! You have 60 days remaining to try out the full features of GlassLab Games!
     </alert>
-    <button ng-click="goToLink('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
+    <button ng-click="goToState('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-body text-center" ng-show="request.errors.length">

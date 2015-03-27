@@ -172,9 +172,9 @@ angular.module( 'playfully.games', [
       'modal@': {
         templateUrl: 'games/game-not-available-modal.html',
         controller: function($scope,$state, $previousState) {
-            $scope.goToLink = function(link) {
+            $scope.goToState = function(state) {
                 $previousState.forget('modalInvoker');
-                $state.go(link);
+                $state.go(state);
             };
         }
       }
