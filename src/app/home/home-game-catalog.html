@@ -13,7 +13,7 @@
                              ng-mouseleave="game.hover=false"
                              ng-class="{'no-hover':game.price==='Coming Soon'}"
                              ng-click="goToGameDetail(game.price,game.gameId)">
-                            <div ng-class="{'gl-game-ribbon' : game.price==='Premium', 'gl-game-ribbon--green' : game.price==='Coming Soon','gl-game-ribbon--aqua-blue' : game.price==='Free'}" ng-hide="game.hover ||game.price==='Premium'">
+                            <div ng-class="{'gl-game-ribbon' : game.price==='Premium', 'gl-game-ribbon--green' : game.price==='Coming Soon','gl-game-ribbon--aqua-blue' : game.price==='Free'}" ng-hide="game.hover || game.price==='Premium'">
                                 <div class="gl-game-ribbon-text">{{game.price}}</div>
                             </div>
                             <div class="gl-game-catalog-game-card-wrapper">

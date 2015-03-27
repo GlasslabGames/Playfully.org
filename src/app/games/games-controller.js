@@ -259,7 +259,6 @@ angular.module( 'playfully.games', [
 
       $scope.platformFilter = function() {
          return function(game) {
-             console.log(game.platform.type);
              if ($scope.platform.selected === 'All Games') {
                  return true;
              }
