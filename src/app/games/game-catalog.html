@@ -43,7 +43,7 @@
                         <div class="gl-game-ribbon-text">{{game.price}}</div>
                     </div>
                     <div class="gl-game-catalog-game-card-wrapper">
-                        <div ng-show="!game.hover && gamesAvailableForLicense[game.gameId]" class="gl-game-catalog-bookmark"><i class="fa fa-bookmark"></i></div>
+                        <div ng-show="!game.hover && gamesAvailableForLicense[game.gameId]" class="gl-game-catalog-ready text-center">Ready to Play</div>
                         <div class="gl-game-catalog-developer-logo">
                             <img ng-src="/{{game.developer.logo.small}}" width="60" height="60">
                         </div>
@@ -64,13 +64,11 @@
                             <li>Subject: {{game.subject}}
                             </li>
                             <li>Grade: {{game.grades}}</li>
+                            <li>Platform: {{game.platform.type}}
+                            </li>
                             <li>Developed by {{game.developer.name}}
                             </li>
                         </ul>
-                    </div>
-                    <div class="gl-game-catalog-platform-triangle">
-                        <img ng-src="/{{game.platform.icon.small}}"
-                             class="gl-game-catalog-platform-icon">
                     </div>
                 </div>
             </div>
