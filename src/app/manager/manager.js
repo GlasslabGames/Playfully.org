@@ -246,9 +246,9 @@ angular.module('playfully.manager', [])
                             success: false,
                             errors: []
                         };
-                        $scope.goToLink = function (link) {
+                        $scope.goToState = function (state) {
                             $previousState.forget('modalInvoker');
-                            $state.go(link);
+                            $state.go(state);
                         };
                         $scope.startTrial = function () {
                             UtilService.submitFormRequest($scope.request, function () {
@@ -267,25 +267,10 @@ angular.module('playfully.manager', [])
                 'modal@': {
                     templateUrl: 'manager/error-processing-upgrade-modal.html',
                     controller: function ($scope, $state, $previousState) {
-                        $scope.goToLink = function (link) {
+                        $scope.goToState = function (state) {
                             $previousState.forget('modalInvoker');
-                            $state.go(link);
+                            $state.go(state);
                         };
-                    }
-                }
-            }
-        })
-        .state('modal.manager-upgrade-success-modal', {
-            url: '/manager/upgrade-success',
-            data: {
-                pageTitle: 'Upgrade Successful',
-                reloadNextState: true
-            },
-            views: {
-                'modal@': {
-                    templateUrl: 'manager/manager-upgrade-success-modal.html',
-                    controller: function ($scope, $log, $stateParams, $previousState) {
-                        $previousState.forget('modalInvoker');
                     }
                 }
             }
@@ -308,9 +293,9 @@ angular.module('playfully.manager', [])
                         $scope.isTrial = $stateParams.isTrial==='true';
                         $scope.isPaymentCreditCard = $stateParams.isPaymentCreditCard==='true';
                         $scope.purchaseInfo = LicenseStore.getData();
-                        $scope.goToLink = function (link) {
+                        $scope.goToState = function (state) {
                             $previousState.forget('modalInvoker');
-                            $state.go(link);
+                            $state.go(state);
                         };
                         $scope.submitPayment = function () {
                             UtilService.submitFormRequest($scope.request, function () {

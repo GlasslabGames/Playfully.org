@@ -21,8 +21,10 @@
             <label>
                 <input type="checkbox" value="" ng-model="acceptedTerms"
                        ng-checked="acceptedTerms">
-              <span class="small">I have read and accepted the <span class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/terms-of-service')">Terms of Service</span> and <span
-                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/eula')">EULA</span>
+              <span class="small">
+                I have read and accepted the <a target="_blank" ui-sref="root.terms-of-service" href="#">Terms of
+                  Service</a> and <a
+                      target="_blank" ui-sref="root.eula" href="#">EULA</a>
               </span>
             </label>
         </div>
@@ -43,8 +45,8 @@
     <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> You have successfully completed
         your purchase.
     </alert>
-    <button ng-if="!isPaymentCreditCard" ng-click="goToLink('root.manager.purchase-order-status')" class="btn gl-btn--blue">Okay</button>
-    <button ng-if="isPaymentCreditCard" ng-click="goToLink('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
+    <button ng-if="!isPaymentCreditCard" ng-click="goToState('root.manager.purchase-order-status')" class="btn gl-btn--blue">Okay</button>
+    <button ng-if="isPaymentCreditCard" ng-click="goToState('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-header" ng-show="request.errors.length">

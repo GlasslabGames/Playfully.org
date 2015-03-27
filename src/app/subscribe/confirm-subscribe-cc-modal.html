@@ -14,9 +14,10 @@
             <label>
                 <input type="checkbox" value="" ng-model="acceptedTerms"
                        ng-checked="acceptedTerms">
-              <span class="small">I have read and accepted the <span class="gl-sdk-glasslabgames-link"
-                                                                     ng-click="goToLink('www.glasslabgames.org/terms-of-service')">Terms of Service</span> and <span
-                      class="gl-sdk-glasslabgames-link" ng-click="goToLink('www.glasslabgames.org/eula')">EULA</span>
+              <span class="small">
+                I have read and accepted the <a target="_blank" ui-sref="root.terms-of-service" href="#">Terms of
+                  Service</a> and <a
+                      target="_blank" ui-sref="root.eula" href="#">EULA</a>
               </span>
             </label>
         </div>
