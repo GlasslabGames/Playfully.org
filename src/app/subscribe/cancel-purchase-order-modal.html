@@ -15,7 +15,7 @@
 </div>
 
 <div class="modal-header" ng-show="request.success && !request.errors.length">
-    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+    <button type="button" class="close" data-dismiss="modal" ng-click="goToState('root.subscribe.packages')"><span
         aria-hidden="true">&times;</span><span class="sr-only" >Close</span></button>
     <h3 class="modal-title">Success</h3>
 </div>
@@ -24,7 +24,7 @@
     <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span>  You have successfully
         cancelled your purchase order
     </alert>
-    <button ng-click="goToLink('root.subscribe.packages')" class="btn gl-btn--blue">Okay</button>
+    <button ng-click="goToState('root.subscribe.packages')" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-header" ng-show="request.errors.length">
