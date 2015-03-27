@@ -47,7 +47,7 @@
 
     <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
       <button class="login-button login-button--instructor"
-        ng-click="state.go(hideWrapper ? 'sdk.sdkLoginInstructor' : 'modal.login.instructor')">
+        ng-click="state.go(hideWrapper ? 'sdk.sdkLoginInstructor' : 'modal.login.instructor', {upgrade: upgrade})">
         <div class="media media--collapsed">
           <div class="media-img media-img--collapsed">
             <div class="login-icon--glasslabgames"></div>

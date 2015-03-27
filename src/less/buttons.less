@@ -3,6 +3,16 @@
   text-shadow: none;
 }
 
+.gl-btn--steelblue {
+  background-color: steelblue;
+  color: white;
+}
+
+.gl-btn--steelblue:hover {
+  color: white;
+  background-color: darken(steelblue, 15%);
+}
+
 .gl-btn--large {
   font-size: 18px;
   padding: 0.75em 2em;
@@ -13,10 +23,25 @@
   color: white;
 }
 
-
 .gl-btn--blue:hover {
   color: white;
   background-color: darken(@aquaBlue, 15%);
+}
+
+.gl-btn--turblue {
+  background-color: #61cbd9;
+  color: white;
+  a {
+    color: white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.gl-btn--turblue:hover {
+  color: white;
+  background-color: darken(#61cbd9, 15%);
 }
 
 .gl-btn--dkblue {
@@ -37,6 +62,15 @@
   background-color: darken(@grassGreen, 15%);
 }
 
+.gl-btn--cyangreen {
+  color: white;
+  background-color: @darkCyan;
+  &:hover {
+    color: white;
+    background-color: darken(@darkCyan, 5%);
+  }
+}
+
 .gl-btn--grey {
   background-color: @grey5;
   color: white;
@@ -50,6 +84,30 @@
 .gl-btn--ltgrey {
   background-color: @grey7;
   color: @grey4;
+}
+
+.gl-btn--black {
+  color: white;
+  background-color: @darkSlateGray;
+  &:hover, &:focus {
+    color: white;
+  }
+}
+
+.btn.gl-btn--black--disabled {
+  color: white;
+  background-color: #BCBCBC;
+  &:hover {
+    cursor: not-allowed;
+  }
+}
+
+.gl-btn--silver {
+  color: white;
+  background-color: silver;
+  &:hover {
+    color: white;
+  }
 }
 
 .gl-btn--white {
@@ -137,7 +195,16 @@
   height: 40px;
   background-color: @lightBlue;
   color: white;
-  font-size: 30px;
+}
+
+.gl-btn-round {
+  width: 120px;
+  height: 30px;
+  margin: auto;
+  border: 0px;
+  color: white;
+  background-color: white;
+  border-radius: 30px;
 }
 
 .gl-sdk-back-btn {

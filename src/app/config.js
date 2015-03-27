@@ -46,6 +46,16 @@ angular.module('playfully.config', [])
   admin:      'admin'
 })
 
+.constant('STRIPE', {
+  env: "live",
+  test: {
+      publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS"
+  },
+  live: {
+      publishableKey: "pk_live_Z5Uhx2i2CAxZsRyD03iPG9In"
+  }
+})
+
 .constant('EMAIL_VALIDATION_PATTERN',
   /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i)
 

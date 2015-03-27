@@ -21,14 +21,18 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      allGames: function (GamesService) {
+            return GamesService.active('basic');
       },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
           .then(function(response) {
-            return $filter('filter')(response, { archived: false });
+            var filtered = $filter('filter')(response, {archived: false});
+            return filtered;
           });
+      },
+      availableGamesForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     }
   })
@@ -45,9 +49,6 @@ angular.module( 'instructor.courses', [
       }
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
-      },
       courses: function(CoursesService, $filter) {
         return CoursesService.getEnrollments()
           .then(function(response) {
@@ -65,8 +66,8 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor','manager','admin']
     },
     resolve: {
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      gamesInPlan: function (GamesService) {
+          return GamesService.getGamesForPlan();
       },
       courses: function(CoursesService) {
         return CoursesService.getEnrollments();
@@ -74,7 +75,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/new-course.html',
+        templateUrl: 'instructor/courses/new-course-modal.html',
         controller: 'NewCourseModalCtrl'
       }
     }
@@ -92,7 +93,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/archive-course.html',
+        templateUrl: 'instructor/courses/archive-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -111,7 +112,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/archive-course.html',
+        templateUrl: 'instructor/courses/archive-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -131,7 +132,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/lock-course.html',
+        templateUrl: 'instructor/courses/lock-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -151,7 +152,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/lock-course.html',
+        templateUrl: 'instructor/courses/lock-course-modal.html',
         controller: 'UpdateCourseModalCtrl'
       }
     }
@@ -173,7 +174,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/edit-course.html',
+        templateUrl: 'instructor/courses/edit-course-modal.html',
         controller: 'EditCourseModalCtrl'
       }
     }
@@ -189,16 +190,52 @@ angular.module( 'instructor.courses', [
       course: function($stateParams, CoursesService) {
         return CoursesService.get($stateParams.id);
       },
-      games: function(GamesService) {
-        return GamesService.active('basic');
+      gamesInPlan: function(GamesService) {
+        return GamesService.getGamesForPlan();
+      },
+      allGames: function(GamesService) {
+          return GamesService.active('basic');
       }
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/assign-games.html',
+        templateUrl: 'instructor/courses/assign-games-modal.html',
         controller: 'AssignGamesModalCtrl'
       }
     }
+  })
+  .state('modal-lg.enableAllPremiumGamesToCourse', {
+      url: '/classes/:id/assigned/:premiumGamesAssigned',
+      data: {
+          pageTitle: 'Enable/Disable Premium Games',
+          authorizedRoles: ['instructor', 'manager', 'admin'],
+          reloadNextState: true
+      },
+      resolve: {
+          course: function ($stateParams, CoursesService) {
+              return CoursesService.get($stateParams.id);
+          }
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/enable-all-premium-games-modal.html',
+              controller: function($scope, course, $stateParams,CoursesService, UtilService) {
+                $scope.premiumGamesAssigned = $stateParams.premiumGamesAssigned === 'true';
+                $scope.course = course;
+                $scope.request = {success: false};
+                $scope.unassignAllPremiumGames = function(course) {
+                    UtilService.submitFormRequest($scope.request, function() {
+                        return CoursesService.unassignAllPremiumGamesFromCourse(course);
+                    });
+                };
+                $scope.assignAllPremiumGames = function(course) {
+                    UtilService.submitFormRequest($scope.request, function () {
+                        return CoursesService.assignAllPremiumGamesFromCourse(course);
+                    });
+                };
+              }
+          }
+      }
   })
 
   .state( 'root.courses.showStudentList', {
@@ -250,7 +287,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/student-unenroll.html',
+        templateUrl: 'instructor/courses/student-unenroll-modal.html',
         controller: 'UnenrollStudentModalCtrl'
       }
     },
@@ -279,7 +316,7 @@ angular.module( 'instructor.courses', [
     },
     views: {
       'modal@': {
-        templateUrl: 'instructor/courses/student-edit.html',
+        templateUrl: 'instructor/courses/student-edit-modal.html',
         controller: 'EditStudentModalCtrl'
       }
     },
@@ -326,7 +363,7 @@ angular.module( 'instructor.courses', [
             return CoursesService.get(courseId);
           }
         },
-        templateUrl: 'instructor/courses/lock-missions.html',
+        templateUrl: 'instructor/courses/lock-missions-modal.html',
         controller: 'LockMissionsModalCtrl'
       });
 
@@ -355,7 +392,7 @@ angular.module( 'instructor.courses', [
             return CoursesService.get(courseId);
           }
         },
-        templateUrl: 'instructor/courses/lock-missions.html',
+        templateUrl: 'instructor/courses/lock-missions-modal.html',
         controller: 'LockMissionsModalCtrl'
       });
 
@@ -366,21 +403,19 @@ angular.module( 'instructor.courses', [
   });
 })
 
-
-
-
-
 .controller( 'CoursesCtrl',
-  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, games, CoursesService) {
-
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense) {
     $scope.courses = courses;
-    $scope.MAX_GAMES_COUNT = games.length;
+    $scope.MAX_GAMES_COUNT = allGames.length;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
     $scope.courseKey = -1;
     $scope.gamesInfo = {};
-    angular.forEach(games, function(game) {
+    angular.forEach(allGames, function(game) {
+      if (availableGamesForLicense[game.gameId]) {
+        game.availableForLicense = true;
+      }
       $scope.gamesInfo[game.gameId] = game;
     });
 
@@ -409,15 +444,17 @@ angular.module( 'instructor.courses', [
     $rootScope.$on('courses:updated', function(event, data) {
       CoursesService.getEnrollments()
         .then(function(response) {
-          $state.go($state.current, {}, {reload: true});
+              $timeout(function() {
+                  $state.go($state.current, {}, {reload: true});
+              }, 100);
         });
     });
 
 })
 
 .controller( 'NewCourseModalCtrl',
-  function ( $scope, $rootScope, $state, $http, $log, $timeout, games, courses, CoursesService, UserService, CHECKLIST) {
-  $scope.games = games;
+  function ( $scope, $rootScope, $state, $http, $log, $timeout, courses, CoursesService, UserService, CHECKLIST, gamesInPlan) {
+  $scope.gamesInPlan = gamesInPlan;
   $scope.course = null;
   $scope.createdCourse = null;
   $scope.formProgress = {
@@ -517,6 +554,7 @@ angular.module( 'instructor.courses', [
   }
 
   $scope.archiveCourse = function (courseData) {
+    courseData.premiumGamesAssigned = false;
     CoursesService.archive(courseData)
       .success(function(data, status, headers, config) {
         $rootScope.$broadcast('courses:updated');
@@ -563,25 +601,36 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'AssignGamesModalCtrl',
-  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, games, CoursesService) {
-  /* TODO: Clean this up. */
+  function ( $scope, $rootScope, $state, $stateParams, $log, $timeout, course, allGames, gamesInPlan, CoursesService) {
 
-  _gamesById = {};
-  angular.forEach(games, function(game) {
+  /* TODO: Clean this up. */
+  var _gamesById = {};
+  $scope.gamesInPlan = [];
+  $scope.errors = [];
+  angular.forEach(allGames, function(game) {
     _gamesById[game.gameId] = game;
   });
-  $scope.games = games;
+  /*  Done so that check-list model array maps to the same value as check-list value */
+  angular.forEach(gamesInPlan, function(game) {
+      var gameToAdd = _gamesById[game.gameId];
+      $scope.gamesInPlan.push(gameToAdd);
+  });
 
   if (course.hasOwnProperty('status')) {
     $scope.error = course.data.error;
   } else {
-    _tempGames = angular.copy(course.games);
-    course.games = [];
-    angular.forEach(_tempGames, function(game) {
-      gameToAdd = _gamesById[game.id];
-      gameToAdd.settings = angular.copy(game.settings);
-      course.games.push(gameToAdd);
+
+    /* Augments course games (course specific info) with basic info  */
+    var gamesToAdd = [];
+    angular.forEach(course.games, function(game) {
+      var gameToAdd = _gamesById[game.id];
+      if (gameToAdd) {
+          gameToAdd.settings = angular.copy(game.settings);
+          gameToAdd.assigned = angular.copy(game.assigned);
+      }
+        gamesToAdd.push(gameToAdd);
     });
+    course.games = gamesToAdd;
     $scope.course = course;
   }
 
@@ -599,6 +648,7 @@ angular.module( 'instructor.courses', [
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.errors.push(data.error);
       });
   };
 
@@ -608,7 +658,6 @@ angular.module( 'instructor.courses', [
   function ($scope, $rootScope, $state, $stateParams, $timeout, $log, students, CoursesService) {
     $scope.students = students;
     var activeCourses = $scope.$parent.courses;
-
     var hasOpenCourse = function(courses) {
       return _.any(courses, function(course) { return _.has(course, 'isOpen'); });
     };
