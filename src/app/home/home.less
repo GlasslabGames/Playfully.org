@@ -248,14 +248,13 @@ body {
 
 
 .gl-home-game-catalog {
-  padding-top: 40px;
-  padding-bottom: 80px;
+  padding-top: 20px;
+  padding-bottom: 0px;
 }
 
 .gl-home-about {
-  border-top: 1px solid #dddddd;
   padding-top: 40px;
-  padding-bottom: 90px;
+  padding-bottom: 40px;
 }
 
 .gl-home-icon-big {
@@ -330,7 +329,7 @@ hr.gl-home-student {
 }
 
 .course-col {
-  // height: 200px;
+  min-height: 206px;
 }
 
 .gl-message-col {
@@ -418,3 +417,98 @@ hr.gl-home-student {
   padding-bottom: 60px;
 }
 
+.gl-home-plan-info {
+  position: absolute;
+  padding: 15px 25px 10px 25px;
+  color: white;
+  width: 100%;
+  height: 58%;
+  bottom: 0px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  li {
+    .fa-check {
+      margin-right: 10px;
+      margin-left: -25px;
+    }
+    margin: 0px 0px 10px 0px;
+    list-style-type: none;
+  }
+  button {
+    position: absolute;
+    right: 30%;
+    bottom: 5%;
+  }
+}
+
+.gl-home-plan {
+  position: relative;
+  padding-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 10px 0px #d6d6d8;
+  border: 1px solid #d6d6d8;
+  height: 470px;
+  width: 300px;
+}
+
+.gl-home-plan-basic {
+  .gl-home-plan;
+  .gl-home-plan-info {
+    background-color: #45BCC7;
+    button {
+      color: #45BCC7;
+    }
+  }
+
+}
+
+.gl-home-plan-premium {
+  .gl-home-plan;
+  .gl-home-plan-info {
+    background-color: #04b678;
+    button {
+      color: #04b678;
+    }
+  }
+}
+
+.gl-home-plan-trial {
+  .gl-home-plan;
+  .gl-home-plan-info {
+    background-color: #0d7ebc;
+    button {
+      color: #0d7ebc;
+    }
+  }
+}
+
+.gl-home-try-premium-plan {
+  height: 250px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-top: 10px solid #dcdcdc;
+  border-bottom: 10px solid #dcdcdc;
+  li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px 20px 0px 0px;
+    .fa-check {
+      color: #5dbae9;
+      margin-right: 8px;
+    }
+  }
+  button {
+    color: white;
+    background-color: #36a9f1;
+  }
+}
+
+.gl-home-subscribe-price{
+ color: #bababa;
+}
+
+.gl-game-banner-container {
+  position: relative;
+  width: 100%;
+}

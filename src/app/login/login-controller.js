@@ -5,7 +5,7 @@ angular.module('playfully.login', [])
   // Login Options
 
   $stateProvider.state('modal.login', {
-    url: '/login',
+    url: '/login?upgrade',
     data:{ pageTitle: 'Sign In'},
     views: {
       'modal@': {
@@ -187,9 +187,10 @@ angular.module('playfully.login', [])
   });
 })
 .controller('LoginOptionsCtrl',
-  function ($scope, $rootScope, $location, $window, $log, $state, THIRD_PARTY_AUTH) {
+  function ($scope, $rootScope, $location, $window, $log, $state, $stateParams, THIRD_PARTY_AUTH) {
     $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
     $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
+    $scope.upgrade = $stateParams.upgrade;
 
     $scope.logInWithEdmodo = function() {
       $window.location.href = '/auth/edmodo/login';
@@ -199,7 +200,7 @@ angular.module('playfully.login', [])
     };
 })
 .controller('LoginCtrl',
-  function ($scope, $rootScope, $log, $state, $window, AuthService, AUTH_EVENTS) {
+  function ($scope, $rootScope, $log, $state, $stateParams, $window, AuthService, AUTH_EVENTS) {
     $scope.credentials = { username: '', password: '' };
     $scope.authError = null;
 
@@ -209,6 +210,9 @@ angular.module('playfully.login', [])
       AuthService.login(credentials)
           .then(function(result) {
             $scope.loginForm.isSubmitting = false;
+            if ($stateParams.upgrade === 'trial') {
+                result.data.isUpgradeTrial = true;
+            }
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, result.data);
           }, function(result) {
             $log.error(result);

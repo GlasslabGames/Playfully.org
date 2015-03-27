@@ -30,6 +30,7 @@
 @import 'arrows.less';
 @import 'text.less';
 @import 'modal.less';
+@import 'images.less';
 @import '../app/check-spec/check-spec.less';
 @import '../app/navbar/navbar.less';
 @import '../app/login/login.less';
@@ -52,6 +53,11 @@
 @import '../app/research/research.less';
 @import '../app/developer/games/developer-games.less';
 @import '../app/components/gl-editable-text/gl-editable-directive.less';
+@import '../app/subscribe/packages.less';
+@import '../app/subscribe/subscribe-payment.less';
+@import '../app/manager/manager.less';
+@import 'components/on-off-switch-button.less';
+
 
 .ng-cloak { display:none; }
 
@@ -477,6 +483,11 @@ h2 {
   background-position: center;
 }
 
+.gl-game-card-PRIMA {
+  .image-2x('game-card-PRIMA.png', 300px, 240px);
+  background-position: center;
+}
+
 .gl-bu-login {
   margin-left: 10px;
   margin-right: 10px;
@@ -492,11 +503,9 @@ h2 {
 }
 
 .gl-nav-username {
-  position: absolute;
-  top: 0;
-  right: 11px;
   background: #67cada;
-  padding: 4px 16px;
+  padding: 10px 16px 5px 16px;
+  margin-left: 10px;
   color: white;
   .border-radiuses(0, 6px, 6px, 0);
 }
@@ -523,8 +532,6 @@ h2 {
 .gl-link--dkgrey:visited {
   color: @grey2;
 }
-
-
 
 .gl-footer {
   background: #f2f2f2;
@@ -713,4 +720,42 @@ h2 {
      -moz-transform: translate(0, -5px);
       -ms-transform: translate(0, -5px);
           transform: translate(0, -5px);
+}
+
+.gl-navbar-status {
+  position: absolute;
+  top: -2px;
+  right: 11px;
+}
+
+.gl-inline {
+  display: inline;
+}
+
+.gl-block {
+  display: block !important;
+}
+
+.gl-inline-block {
+  display: inline-block;
+}
+
+.gl-clickable:hover {
+  cursor: pointer;
+}
+
+.gl-margin-auto {
+  margin: auto;
+}
+
+.gl-div-disabled {
+  .opacity(0.45);
+  cursor: default;
+}
+
+.gl-dropdown {
+  width: 230px;
+  max-width: 230px;
+  text-align: left;
+  .text-overflow;
 }

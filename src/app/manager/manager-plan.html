@@ -1,0 +1,125 @@
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="gl-manager-side-panel gl-margin--B50">
+                    <div class="gl-manager-side-panel-label text-center">
+                        Current Plan
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-3--serif">{{package.name}} Package</h4>
+                        <p>{{package.description}}</p>
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-4">Package Size</h4>
+
+                        <p>{{package.size}} Size:</p>
+                        <p>{{package.studentSeats}} students <span ng-if="!isTrial() || isLegacyUser">+ {{package.educatorSeats}} educators</span></p>
+                    </div>
+                    <div class="gl-manager-side-panel-section ">
+                        <h4 class="headline-4">Remaining Seats</h4>
+                        <div class="gl-manager-remaining-seats text-center">
+                            <span>{{plan.studentSeatsRemaining}}</span>
+                        </div>
+                    </div>
+                    <div class="gl-manager-side-panel-section">
+                        <h4 class="headline-4">Expiration Date</h4>
+                        <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
+                        <p> {{plan.expirationDate}}</p>
+                    </div>
+                    <!--<div class="gl-manager-side-panel-section" ng-if="isLicenseOwner() && !isTrial() && !isPurchaseOrder()">
+                        <h4 class="headline-4">Auto-Renewal</h4>
+                        <div class="gl-switch gl-margin-Vl" ng-class="plan.autoRenew ? 'on' : 'off'"
+                             ng-click="state.go('modal.auto-renew',{expirationDate: plan.expirationDate, autoRenew: plan.autoRenew})">
+                            <div class="toggle"></div>
+                            <span class="on">ON</span>
+                            <span class="off">OFF</span>
+                        </div>
+                        <p ng-show="plan.autoRenew">Your subscription will automatically renew on:</p>
+                        <p ng-show="!plan.autoRenew">Your subscription will cancel on:</p>
+                        <p>{{plan.expirationDate}}</p>
+                    </div>-->
+                    <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser" class="gl-manager-side-panel-section">
+                        Need more seats? Switch plans?
+                        <button ng-if="canUpgrade" type="button"
+                                ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl" >
+                            {{isTrial()? 'Go Premium' :
+                            'Update Package'}}</button>
+                        <button ng-if="!canUpgrade" type="button"
+                                class="btn gl-btn--black--disabled gl-margin--Tl"
+                                popover-title="Upgrade Limit Exceeded"
+                                popover="You can upgrade again on {{nextUpgrade}}"
+                                popover-trigger="mouseenter" popover-placement="bottom">
+                                Update Package
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="gl-manager-share-subscription gl-margin--B50">
+                    <div ng-if="isLicenseOwner() && (!isTrial() || isLegacyUser)" class="gl-manager-share-subscription-label">Share Subscription</div>
+
+                    <div ng-if="!isLicenseOwner()">
+                        <h5 class="headline-5--serif gl-margin--Bxxl">You are currently in {{plan.ownerName}}'s Premium Plan</h5>
+                        <button type="button" ui-sref="modal.leave-subscription({ownerName: plan.ownerName})" class="btn gl-btn--black gl-manager-leave-button gl-margin--B40">Leave Subscription</button>
+                        <h5 class="headline-5 gl-manager-educators-share-header gl-margin--Tl">Other Educators sharing this subscription:</h5>
+                    </div>
+
+                    <div ng-if="isLicenseOwner()">
+                        <h5 ng-if="!isTrial() || isLegacyUser" class="headline-5--serif gl-margin--B40">You may share your subscription with {{plan.educatorSeatsRemaining}} other educator(s).</h5>
+                        <h5 class="headline-5 gl-manager-educators-share-header">Educators in your subscription</h5>
+                        <span ng-if="!isTrial() || isLegacyUser" class="gl-manager-educators-remaining">{{plan.educatorSeatsRemaining }} / {{package.educatorSeats}} invitations remaining</span>
+                    </div>
+
+                    <table class="table gl-manager-educator-list-table gl-margin--B50">
+                        <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>Educator Name</td>
+                            <td>Email</td>
+                            <td ng-if="isLicenseOwner()">Status</td>
+                            <td ng-if="isLicenseOwner()">  </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="educator in plan.educatorList track by $index">
+                                <td>{{$index+1}}</td>
+                                <td>{{educator.firstName==='temp'?'': educator.firstName}}
+                                    {{educator.lastName==='temp'?'': educator.lastName}}</td>
+                                <td>{{educator.email}}</td>
+                                <td ng-if="isLicenseOwner()">{{educator.status}}</td>
+                                <td ng-if="isLicenseOwner()"><i ng-hide="plan.ownerEmail===educator.email" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="!isTrial() || isLegacyUser">
+                        <h5 ng-if="isLicenseOwner()" class="headline-5">Invite Educators by Email</h5>
+                        <alert ng-repeat="rejected in request.rejectedTeachers" ng-show="request.rejectedTeachers.length" type="danger">  Failed to invite: {{ rejected[0] }}  - {{ rejected[1] }} </b> </alert>
+                        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span class="fa fa-times-circle"></span>  {{ error }}</alert>
+                        <alert ng-repeat="educator in request.successes" ng-show="request.success" class="alert alert-success" type="success"><span class="fa fa-check-circle"></span>  You invited {{educator}}</alert>
+                        <form ng-if="isLicenseOwner()"
+                              novalidate class="reg-form"
+                              ng-submit="inviteEducators(request.invitedEducators)">
+                                <div class="gl-input-group">
+                                    <div class="form-group">
+                                        <textarea cols="70" rows="5"
+                                                  class="form-control"
+                                                  placeholder="Separate emails using a comma: blinky@glasslabgames.org, glass@glasslabgames.org, lab@glasslabgames.org"
+                                                  ng-minlength="6"
+                                                  ng-model="request.invitedEducators"></textarea>
+                                        <div class="form-errors">
+                                            <div class="form-error" ng-show="request.errors.length > 0"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="reg-submit">
+                                    <input type="submit" class="btn gl-btn--black"
+                                           value="{{ request.isSubmitting ? 'Sending...' : 'Send'}}"
+                                           ng-disabled="request.$pristine || request.$invalid || request.isSubmitting">
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,6 +1,4 @@
-angular.module( 'playfully.support', [
-  'ui.router'
-])
+angular.module( 'playfully.support', ['ui.router'])
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'support', {
@@ -12,6 +10,33 @@ angular.module( 'playfully.support', [
       }
     },
     data:{ pageTitle: 'Support' }
+  })
+  .state('root.privacy', {
+    url: 'privacy',
+    views: {
+      'main@': {
+        templateUrl: 'support/privacy.html'
+      }
+    },
+    data:{ pageTitle: "Children's Privacy Policy" }
+  })
+  .state('root.terms-of-service', {
+    url: 'terms-of-service',
+    views: {
+      'main@': {
+        templateUrl: 'support/terms-of-service.html'
+      }
+    },
+    data:{ pageTitle: "Terms of Service" }
+  })
+  .state('root.eula', {
+    url: 'eula',
+    views: {
+      'main@': {
+        templateUrl: 'support/eula.html'
+      }
+    },
+    data:{ pageTitle: "End User License Agreement" }
   });
 })
 
@@ -22,7 +47,6 @@ angular.module( 'playfully.support', [
 * @constructor
 */
 .controller( 'SupportCtrl', function SupportController( $scope ) {
-
   $scope.tabs = [
     { 
       title: "SimCityEDU", 
@@ -31,7 +55,4 @@ angular.module( 'playfully.support', [
       title: "MGO",
       content: "Content for MGO" 
     }];
-
 });
-
-

@@ -1,5 +1,5 @@
 <div class="gl-home-lead-container">
-  <div style="height: 600px;">
+  <div style="height: 500px;">
     <carousel interval="myInterval">
       <slide ng-repeat="slide in slides" active="slide.active">
         <div class="gl-home-bg {{'gl-' + slide.image}}">
@@ -23,7 +23,7 @@
 
 <div ui-view="catalog"></div>
 
-<div class="gl-bg--gray gl-home-about">
+<!--<div class="gl-bg--gray gl-home-about">
   <div class="container">
     <div class="row">
       <div class="col-md-2"></div>
@@ -61,10 +61,78 @@
         </p>
       </div>
     </div>
+  </div>
+</div>-->
+<div class="gl-bg--gray gl-home-subscribe gl-margin--B40">
+  <div class="container">
+    <h3 class="headline-1 text-center gl-margin--V50">Start Playing!</h3>
+    <div class="row gl-margin--B40">
+        <div class="col-md-4">
+            <div class="gl-home-plan-premium">
+                <div class="text-center">
+                    <div class="gl-logo-premium-icon"></div>
+                    <h4 class="headline-4--serif">Premium Plan</h4>
 
+                    <div class="gl-block">Starting $25/Year</div>
+                </div>
+                <div class="gl-home-plan-info">
+                    <h5 class="text-center gl-margin--Bl">Give your students full access to games that fit your needs.</h5>
+                    <ul class="gl-margin--Bl gl-home-plan-list">
+                        <li><i class="fa fa-check"></i>365-day access to premium </br> & free games</li>
+                        <li><i class="fa fa-check"></i>Tailor to your device environment
+                        </li>
+                        <li><i class="fa fa-check"></i>Tailor to your class size</li>
+                        <li><i class="fa fa-check"></i>Credit card or purchase order required</li>
+                    </ul>
+                    <button class="gl-btn-round" ui-sref="root.subscribe.packages">Learn More</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="gl-home-plan-trial">
+                <div class="text-center">
+                    <div class="gl-logo-trial-icon"></div>
+                    <h4 class="headline-4--serif">Premium Trial</h4>
+
+                    <div class="gl-block">Free</div>
+                </div>
+                <div class="gl-home-plan-info">
+                    <h5 class="text-center gl-margin--Bl">Try Our Premium Plan for Free!</h5>
+                    <ul class="gl-margin--Bl gl-home-plan-list">
+                        <li><i class="fa fa-check"></i>60-day access to premium </br> & free games</li>
+                        <li><i class="fa fa-check"></i>All devices</li>
+                        <li><i class="fa fa-check"></i>Up to 30 students</li>
+                        <li><i class="fa fa-check"></i>No credit card required</li>
+                    </ul>
+                    <div class="text-center">
+                        <button class="gl-btn-round" ui-sref="modal.register({upgrade:'trial',role:'instructor'})">Go Play</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="gl-home-plan-basic">
+                <div class="text-center">
+                    <div class="gl-logo-basic-icon"></div>
+                    <h4 class="headline-4--serif">Basic Plan</h4>
+                    <div class="gl-block">Free</div>
+                </div>
+                <div class="gl-home-plan-info">
+                    <h5 class="text-center gl-margin--Bl">Sign up for GlassLab Games and get instant access to the free
+                        games!</h5>
+                    <ul class="gl-margin--Bl gl-home-plan-list">
+                        <li><i class="fa fa-check"></i>Unlimited access to free games</li>
+                        <li><i class="fa fa-check"></i>All devices with free games</li>
+                        <li><i class="fa fa-check"></i>Up to 100 students</li>
+                        <li><i class="fa fa-check"></i>No credit card required</li>
+                    </ul>
+                    <button class="gl-btn-round" ui-sref="modal.register({role:'instructor'})">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </div>
-
 <div class="gl-home-stickyfoot">
   <div class="container">
     <div class="row">
@@ -87,7 +155,7 @@
               <label for="mailing-list">Join the mailing list:&nbsp;</label>
               <input type="email" class="form-control" id="mailing-list" placeholder="Your Email" ng-model="subEmail">
             </div>
-            <button type="submit" class="btn gl-btn--blue">Subscribe</button>
+            <button type="submit" class="btn gl-btn--blue">Keep me updated</button>
           </form>
         </div>
         <div ng-show="showSubscribeMessage" ng-bind="subscribeMessage"></div>

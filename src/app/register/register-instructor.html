@@ -111,7 +111,7 @@
             <label>
               <input type="checkbox" value="" ng-model="account.acceptedTerms" ng-checked="account.acceptedTerms" ng-required="true">
               <span class="small">
-                I have read and accepted the <a target="_blank" ui-sref="root.privacy" href="#">Privacy Policy</a>
+                I have read and accepted the <a target="_blank" ui-sref="root.privacy" href="#">Privacy Policy</a>, <a target="_blank" ui-sref="root.terms-of-service" href="#">Terms of Service</a>, and <a target="_blank" ui-sref="root.eula" href="#">EULA</a>
               </span>
             </label>
           </div>
@@ -140,7 +140,7 @@
 
   <div class="modal-body" ng-show="account.isRegCompleted">
     <p class="text-center">
-      Thanks for signing up {{account.firstName}}! A confirmation link was sent to {{account.email}}. Click on the link to complete creating your account.
+      Thanks for signing up {{account.firstName}}! A confirmation link was sent to {{account.email}}. Please check your email and click on the confirmation link to complete creating your account!
     </p>
     <div class="text-center reg-submit">
       <button class="btn gl-btn--blue"

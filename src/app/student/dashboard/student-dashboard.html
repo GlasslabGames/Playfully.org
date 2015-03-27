@@ -28,49 +28,49 @@
       </div>
     </div>
     <div class="course-games course-col">
+      <div ng-if="!course.hasEnabledGames"><h4 class="headline-5">This class has no games available for play.</h4> </div>
       <div ng-show="course.games.length">
         <div class="gl-course-game text-center"
+          ng-if="game.assigned"
           ng-repeat="game in course.games"
           ng-show="gamesInfo[game.id].enabled">
           <div class="gl-course-game-thumb gl-thumb-{{ game.id }} gl-student-dash-btn-parent">
-
-            <div class="gl-student-dash-btn-wrapper"
+            <div  class="gl-student-dash-btn-wrapper"
                  ng-class="{'gl-student-dash-game-thumb-lighter': hasLinks(game.id)}">
-            <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
-
-              <div ng-if="isMultiLinkType(button)"
-                   class="gl-btn--outlined gl-student-dash-btn">
-                  <div ng-repeat="link in button.links">
-                      <button ng-if="currentOS===link.OS" type="button" class="btn gl-btn--blue gl-student-dash-btn"
-                              ng-click="goToLink(link.link,link.target)"
-                              ng-bind="button.name"></button>
+                <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
+                  <div ng-if="isMultiLinkType(button)"
+                       class="gl-btn--outlined gl-student-dash-btn">
+                      <div ng-repeat="link in button.links">
+                          <button ng-if="currentOS===link.OS" type="button" class="btn gl-btn--blue gl-student-dash-btn"
+                                  ng-click="goToLink(link.link,link.target)"
+                                  ng-bind="button.name"></button>
+                      </div>
                   </div>
-              </div>
 
-              <div ng-if="isSingleLinkType(button)"
-                   ng-switch="button.type"
-                   class="gl-btn--outlined gl-student-dash-btn">
-                <button ng-switch-when="play"
-                    type="button"
-                    class="btn gl-btn--green gl-student-dash-btn"
-                    ng-click="goToPlayGame(game.id);
-                              ga('send', 'event', 'button', 'click', 'play', game.id);
-                              console.log('GA-click!! - play')"
-                    ng-bind="button.name"></button>
-                <button ng-switch-when="download"
-                    type="download"
-                    class="btn gl-btn--green gl-student-dash-btn"
-                    ng-click="goToLink(button.links[0].link);
-                              ga('send', 'event', 'button', 'click', 'download', game.id);
-                              console.log('GA-click!! - download')"
-                    ng-bind="button.name"></button>
-              </div>
+                  <div ng-if="isSingleLinkType(button)"
+                       ng-switch="button.type"
+                       class="gl-btn--outlined gl-student-dash-btn">
+                    <button ng-switch-when="play"
+                        type="button"
+                        class="btn gl-btn--green gl-student-dash-btn"
+                        ng-click="goToPlayGame(game.id, course.id);
+                                  ga('send', 'event', 'button', 'click', 'play', game.id);
+                                  console.log('GA-click!! - play')"
+                        ng-bind="button.name"></button>
+                    <button ng-switch-when="download"
+                        type="download"
+                        class="btn gl-btn--green gl-student-dash-btn"
+                        ng-click="goToLink(button.links[0].link);
+                                  ga('send', 'event', 'button', 'click', 'download', game.id);
+                                  console.log('GA-click!! - download')"
+                        ng-bind="button.name"></button>
+                  </div>
 
-            </div>
+                </div>
             </div>
 
           </div>
-          {{ gamesInfo[game.id].longName }} 
+          <span ng-if="game.assigned"> {{ gamesInfo[game.id].longName }} </span>
         </div>
       </div>
     </div>

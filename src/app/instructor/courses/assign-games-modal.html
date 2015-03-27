@@ -4,6 +4,7 @@
 </div>
 
 <div class="modal-body">
+  <alert ng-repeat="error in errors" type="danger"><strong>Error:</strong> {{ error }}</alert>
   <alert ng-show="error" type="danger"><strong>Error:</strong> {{ error }}</alert>
 
   <form name="courseForm" id="courseForm" novalidate
