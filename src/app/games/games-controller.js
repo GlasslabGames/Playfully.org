@@ -40,14 +40,8 @@ angular.module( 'playfully.games', [
       allGamesInfo: function(GamesService) {
         return GamesService.all();
       },
-      freeGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Free' });
-      },
-      premiumGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Premium' });
-      },
-      comingSoonGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
+      gamesAvailableForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     },
     data: {
@@ -226,7 +220,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST, UserService) {
+    function($scope, $rootScope, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST';
       });
@@ -239,16 +233,14 @@ angular.module( 'playfully.games', [
             $scope.allGamesInfo = allGamesInfo;
           }
       }
+      $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
-      $scope.freeGames = {name:'Free Games', games: freeGames};
-      $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
-      $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
 
-      $scope.sections = [
-        $scope.premiumGames,
-        $scope.freeGames,
-        $scope.comingSoonGames
-      ];
+      $scope.platform = {
+          isOpen: false,
+          options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
+          selected: 'All Games'
+      };
 
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
@@ -263,6 +255,28 @@ angular.module( 'playfully.games', [
         } else {
           return text;
         }
+      };
+
+      $scope.platformFilter = function() {
+         return function(game) {
+             console.log(game.platform.type);
+             if ($scope.platform.selected === 'All Games') {
+                 return true;
+             }
+             if ($scope.platform.selected === 'Chromebook') {
+                 return game.platform.type === 'Browser/Flash';
+             }
+             if ($scope.platform.selected === 'PC/Mac') {
+                 return game.platform.type === 'Browser/Flash' || game.platform.type === 'PC & Mac';
+             }
+
+             return game.platform.type === $scope.platform.selected;
+         };
+      };
+      $scope.toggleDropdown = function ($event, collection) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope[collection].isOpen = !$scope[collection].isOpen;
       };
     }
 )
