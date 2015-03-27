@@ -73,7 +73,8 @@ angular.module('courses', [])
       angular.forEach(course.games, function(game) {
         games.push({
           id: (game.gameId || game.id),
-          settings: angular.copy(game.settings)
+          settings: angular.copy(game.settings),
+          assigned: angular.copy(game.assigned)
         });
       });
       return $http.post(API_BASE + '/lms/course/' + course.id + '/games', games);
@@ -201,6 +202,15 @@ angular.module('courses', [])
 
     verifyGameInCourse: function(courseId, gameId) {
       return $http.get(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/verify-course');
+    },
+
+    unassignAllPremiumGamesFromCourse: function(course) {
+        course.premiumGamesAssigned = false;
+        return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
+    },
+    assignAllPremiumGamesFromCourse: function (course) {
+      course.premiumGamesAssigned = true;
+      return $http.post(API_BASE + '/lms/course/' + course.id + '/info', course);
     }
   };
 

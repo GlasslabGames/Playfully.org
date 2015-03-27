@@ -78,6 +78,12 @@ angular.module( 'student.dashboard', [
   $scope.courses = courses;
   $scope.gamesInfo = {};
 
+  angular.forEach(courses, function(course) {
+      course.hasEnabledGames = _.some(course.games, function(game) {
+          return game.assigned;
+      });
+  });
+
   angular.forEach(games, function(game) {
     $scope.gamesInfo[game.gameId] = game;
   });
@@ -115,12 +121,12 @@ angular.module( 'student.dashboard', [
     return (_.has(button, 'links') && button.links.length > 1);
   };
 
-  $scope.goToPlayGame = function(gameId) {
+  $scope.goToPlayGame = function(gameId, courseId) {
 
     if ($scope.gamesInfo[gameId].play.type === 'missions') {
-      $state.go('modal-lg.missions', {gameId: gameId});
+      $state.go('modal-lg.missions', {gameId: gameId, courseId: courseId});
     } else {
-      $window.location = "/games/" + gameId + "/play-" + $scope.gamesInfo[gameId].play.type;
+      $window.location = "/games/" + gameId + "/play-" + $scope.gamesInfo[gameId].play.type + "?courseId=" + courseId;
     }
     // TODO: this should not open a modal here it should just route and the route state should open the modal on the current page
     //  $modal.open({

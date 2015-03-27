@@ -1,14 +1,34 @@
 <div ng-class="{'sdk-container': hideWrapper}">
-    <div class="modal-header" ng-init="verifyEmailCode()">
-        <button type="button" class="close" data-dismiss="modal" ng-click="close()"
-        ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <div ng-switch on="upgrade" class="modal-header" ng-init="verifyEmailCode()">
+
+        <button type="button" class="close" data-dismiss="modal"
+                ng-switch-default
+                ng-hide="hideWrapper"
+                ng-click="close()">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+
+        <button type="button" class="close" data-dismiss="modal"
+                ng-switch-when="subscribe"
+                ng-hide="hideWrapper"
+                ng-click="state.go('root.subscribe.payment.default',{seatsSelected: seatsSelected, packageType: packageType})">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+
+        <button type="button" class="close" data-dismiss="modal"
+                ng-switch-when="trial"
+                ng-hide="hideWrapper"
+                ng-click="state.go('modal.start-trial-subscription')">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+
         <h3 class="modal-title" ng-show="isVerified">Your Account is Activated</h3>
         <h3 class="modal-title" ng-show="!isVerified">Uh oh!</h3>
     </div>
 
     <div class="modal-body" ng-show="!isVerified">
         &nbsp;
-        <p class="text-center" ng-bind="errorMessage"></p>
+        <p class="text-center" ng-show="!isVerified" ng-bind="errorMessage"></p>
         &nbsp;
         <div class="text-center">
             <button class="btn gl-btn--blue"
@@ -23,10 +43,19 @@
             Thank you and have fun in GlassLab Games!
         </p>
         &nbsp;
-        <div class="text-center">
-            <button class="btn gl-btn--blue"
-            ng-click="state.go('root.home.default')">Okay</button>
+        <div class="text-center" ng-switch on="upgrade">
+            <button class="btn gl-btn--blue" ng-switch-when="trial"
+                    ng-click="state.go('modal.start-trial-subscription')">
+                Okay
+            </button>
+            <button class="btn gl-btn--blue" ng-switch-when="subscribe"
+                    ng-click="state.go('root.subscribe.payment.default',{seatsSelected: seatsSelected, packageType: packageType})">Okay
+            </button>
+            <button class="btn gl-btn--blue" ng-switch-default
+                    ng-click="state.go('root.home.default')">Okay
+            </button>
         </div>
+
         &nbsp;
 
     </div>

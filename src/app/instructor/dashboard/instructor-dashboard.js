@@ -94,12 +94,14 @@ angular.module( 'instructor.dashboard', [
           return;
         }
         $state.go('root.instructorDashboard.intro');
-      } else {
+      }
+      else if( myGames.length === 0 ) {
+        $state.go('root.instructorDashboard.intro');
+      }
+      else {
         $state.go('root.instructorDashboard.reports',
             {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
       }
-
-
     }
   })
 
@@ -147,7 +149,6 @@ angular.module( 'instructor.dashboard', [
   $scope.shoutOuts = [];
   $scope.watchOuts = [];
   $scope.messages = messages;
-
   $scope.status = {
     selectedGameId: defaultGameId,
     selectedGame: null,
@@ -186,6 +187,7 @@ angular.module( 'instructor.dashboard', [
     $event.preventDefault();
     $event.stopPropagation();
     $scope[collection].isOpen = !$scope[collection].isOpen;
+      console.log('YEAHHH', $scope[collection].isOpen);
   };
 
   $scope.goToReport = function (reportId, courseId, gameId, groupId) {
@@ -259,7 +261,8 @@ angular.module( 'instructor.dashboard', [
           });
         }
       });
-    if ($scope.status.hasStudents) {
+
+    if ($scope.status.hasStudents && $scope.status.selectedGame.assigned) {
       _calculateTotalTimePlayed($scope.courses.selectedCourseId, $scope.status.selectedGameId, $scope.students);
       _getReports();
     }

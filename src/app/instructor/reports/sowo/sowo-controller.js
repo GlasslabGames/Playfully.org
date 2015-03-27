@@ -10,7 +10,7 @@ angular.module( 'instructor.reports')
 })
 
 .controller( 'SowoCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService,defaultGameId, coursesInfo) {
+  function($scope, $rootScope, $log, $state, $stateParams, $window, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService, defaultGame) {
 
     ///// Setup selections /////
 
@@ -30,7 +30,8 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected= $scope.courses.options[$stateParams.courseId];
     // Games
-    $scope.games.selectedGameId = defaultGameId;
+    $scope.games.selectedGameId = defaultGame.id;
+    $scope.games.selectedGame = defaultGame;
 
     $scope.whatNow = {};
     $scope.whatNow.isCollapsed = false;
@@ -59,6 +60,11 @@ angular.module( 'instructor.reports')
         }
       }
     });
+
+    // Check if game is premium and disabled
+    if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
+        $scope.isGameDisabled = true;
+    }
 
     // Check if game has selected report
       if (!ReportsService.isValidReport(reportId, $scope.reports.options)) {
@@ -91,7 +97,7 @@ angular.module( 'instructor.reports')
       .then(function(users) {
         _init();
         _populateStudentWithReportData(users,reportId);
-        // check if any students have any sowo from this game
+        // Check if any students have SOWO for this class
         _findAnySOWO();
     });
     var _init = function () {
@@ -128,6 +134,7 @@ angular.module( 'instructor.reports')
 
       // Select default whatNow
       $scope.selectWhatNow($scope.reportInfo.activeHeaders[0]);
+
     };
 
     /* for each user augment reportInfo with results from API */
@@ -157,27 +164,27 @@ angular.module( 'instructor.reports')
         return found || null;
     };
 
-      var _findAnySOWO = function () {
-          var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
-          var sowoList = $scope.reportInfo.headers;
+     var _findAnySOWO = function () {
+        var students = $scope.courses.options[$scope.courses.selectedCourseId].users;
+         var sowoList = $scope.reportInfo.headers;
           var found = false;
-          _.each(sowoList, function (sowo) {
-              _.each(students, function (student) {
+         _.each(sowoList, function(sowo) {
+              _.each(students, function(student) {
                   if (student[reportId]) {
                       found = _.any(student[reportId], function (studentSOWO) {
                           return studentSOWO.id === sowo.id;
-                      });
-                      if (found) {
-                          $scope.reportInfo.foundSowo = true;
-                          return false;
-                      }
-                  }
-              });
-              if (found) {
+                    });
+                    if (found) {
+                        $scope.reportInfo.foundSowo = true;
+                        return false;
+                    }
+                }
+            });
+            if (found) {
                   return false;
-              }
-          });
-      };
+            }
+       });
+    };
 
       $scope.hasSOWO = function (sowo, student) {
          if (student &&

@@ -43,14 +43,19 @@
       <div class="gl-navbar--top" ng-if="!hideWrapper">
         <div class="container gl-container">
           <div data-ng-include="'navbar/navbar.html'"></div>
-          <div ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
-            ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
-          <div ng-cloak ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
-            ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
+          <div class="gl-navbar-status">
+              <div ng-cloak ui-sref="root.manager.plan" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense()">
+                  <img ng-src="/assets/{{hasLicense('badge')}}-badge.png">
+              </div>
+              <div ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username gl-inline-block" ng-class="{'gl-nav-student': isAuthorized('student')}"
+                ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
+              <div ng-cloak ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
+                ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
+          </div>
         </div>
       </div>
 
-      <div class="gl-main" ui-view="main">
+      <div class="gl-main" autoscroll="true" ui-view="main">
       </div>
 
       <footer class="footer gl-footer"
@@ -101,6 +106,8 @@
               <h6>Support</h6>
               <ul class="gl-footer-list">
                 <li><a href="https://glasslab.zendesk.com/hc/en-us">Help Center</a></li>
+                <li><a ui-sref="root.terms-of-service" href="#">Terms of Service</a></li>
+                <li><a ui-sref="root.eula" href="#">EULA</a></li>
               </ul>
             </div>
           </div>
@@ -131,7 +138,7 @@
         </div>
       </footer>
     </div>
-
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="/<%= file %>"></script><% }); %>
 

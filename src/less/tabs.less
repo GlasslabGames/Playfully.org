@@ -2,10 +2,12 @@
   position: relative;
   top: 10px;
   padding-left: 0;
+  li {
+    white-space: nowrap;
+  }
 }
 
 .gl-tabs {
-  margin-top: 30px;
   padding-left: 0;
 }
 
@@ -20,7 +22,7 @@
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  z-index: 1;
+  z-index: 3;
 
   .image-2x('tab-inactive.png', 264px, 60px);
   > a,
@@ -30,9 +32,20 @@
   }
 }
 
-.gl-tab:first-child {
-  left: 20px;
+.gl-tab:nth-child(2) {
+  right: 20px;
 }
+
+.gl-tab:nth-child(3) {
+  right: 50px;
+  z-index: 1;
+}
+
+//.gl-tab:nth-child(2) {
+//  left: 20px;
+//}
+
+
 
 .gl-tab.active {
   z-index: 50;

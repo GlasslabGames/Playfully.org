@@ -23,9 +23,14 @@
       </div>
     </div>
   </div>
-
-  <div class="jumbotron gl-game-banner-{{ gameId }}">
-  </div>
+    <div class="gl-game-banner-container">
+        <div class="jumbotron gl-game-banner-{{ gameId }}">
+            <div ng-class="{'gl-game-ribbon' : gameDetails.price==='Premium', 'gl-game-ribbon--green' : gameDetails.price==='Coming Soon','gl-game-ribbon--aqua-blue' : gameDetails.price==='Free'}"
+                 ng-hide="game.hover">
+                <div class="gl-game-ribbon-text">{{gameDetails.price}}</div>
+            </div>
+        </div>
+    </div>
   <div class="row" id="content">
     <div class="col-md-3 col-border--right">
       <ul class="gl-games-subnav">
@@ -62,25 +67,18 @@
     <div class="col-md-9">
       <div>
           <div class="container-fluid gl-game-details gl-margin--Bl">
+            <div class="gl-game-details-header">
+              {{gameDetails.price}}, <span ng-if="gameDetails.price==='Free'">available to all users!</span><span ng-if="gameDetails.price!=='Free'">available to users with <b>{{gameDetails.packages}}</b> packages.</span>
+            </div>
             <div class="gl-game-details-top">
-              <div class="row gl-margin--Bm">
-                <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--price"></span>
-                  Price: <span ng-bind="gameDetails.price"></span>
-                </div>
-                <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--type"></span>
-                  Type: <span ng-bind="gameDetails.type"></span>
-                </div>
-              </div>
               <div class="row gl-margin--Bm">
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--subject"></span>
                   Subject: <span ng-bind="gameDetails.subject"></span>
                 </div>
                 <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--releaseDate"></span>
-                  Release: <span ng-bind="gameDetails.releaseDate"></span>
+                  <span class="gl-icon-game gl-icon-game--grades"></span>
+                  Grade: <span ng-bind="gameDetails.grades"></span>
                 </div>
               </div>
               <div class="row">
@@ -89,12 +87,12 @@
                   Platform: <span ng-bind="gameDetails.platform.type"></span>
                 </div>
                 <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--grades"></span>
-                  Grade: <span ng-bind="gameDetails.grades"></span>
+                  <span class="gl-icon-game gl-icon-game--releaseDate"></span>
+                  {{gameDetails.release==='live' ? 'Latest Release' : 'Release Date'}}: <span ng-bind="gameDetails.releaseDate"></span>
                 </div>
               </div>
             </div>
-            <div class="gl-game-details-bottom text-center">
+            <div class="gl-game-details-bottom l-collection">
               <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
                 <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
                   <div ng-if="isMultiLinkType(button)">
@@ -132,6 +130,20 @@
                             ng-bind="button.name">Play</button>
                   </div>
                 </div>
+              </div>
+              <div ng-if="isAuthenticated()">
+                <button ng-if="!hasLicense()" type="button"
+                        ui-sref="root.subscribe.packages"
+                        class="btn gl-btn--cyangreen">Upgrade to Assign Game
+                </button>
+                <button ng-if="hasLicense() && isGameAvailableForLicense" type="button"
+                        ui-sref="root.courses"
+                        class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
+                </button>
+                <button ng-if="hasLicense() && !isGameAvailableForLicense" type="button"
+                          ui-sref="modal.game-not-available"
+                          class="btn gl-btn--cyangreen gl-pad-Hxxl">Assign Game
+                </button>
               </div>
               <div ng-hide="gameDetails.type==='App'||isAuthenticated()">
                 <button type="button"

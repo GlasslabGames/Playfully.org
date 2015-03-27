@@ -1,0 +1,14 @@
+<div class="modal-header" ng-hide="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="goToLink('root.manager.plan')"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Uh oh!</h3>
+
+</div>
+
+<div class="modal-body text-center">
+    <p>There was an error in processing this page. Please contact support for further help.</p>
+    <div class="text-center gl-margin--T30">
+        <button ng-click="goToState('root.manager.plan')" class="btn gl-btn--blue">Okay</button>
+    </div>
+</div>
+

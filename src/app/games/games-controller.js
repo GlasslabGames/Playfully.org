@@ -40,14 +40,8 @@ angular.module( 'playfully.games', [
       allGamesInfo: function(GamesService) {
         return GamesService.all();
       },
-      freeGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Free' });
-      },
-      premiumGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Premium Subscription' });
-      },
-      comingSoonGames: function (allGamesInfo) {
-        return _.filter(allGamesInfo, { 'price': 'Coming Soon' });
+      gamesAvailableForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     },
     data: {
@@ -69,6 +63,9 @@ angular.module( 'playfully.games', [
       },
       myGames: function(GamesService) {
         return GamesService.getMyGames();
+      },
+      gamesAvailableForLicense: function(LicenseService) {
+          return LicenseService.getGamesAvailableForLicense();
       }
     },
     onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
@@ -143,7 +140,7 @@ angular.module( 'playfully.games', [
     }
   })
   .state( 'root.games.play-page', {
-    url: '/:gameId/play-page',
+    url: '/:gameId/play-page?:courseId',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin'],
       pageTitle: 'Play'
@@ -157,11 +154,34 @@ angular.module( 'playfully.games', [
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
+      },
+      validAccess: function($state, $stateParams, GamesService) {
+        return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
+            .then(function (response) {
+                return response.data;
+            }, function (response) {
+                $state.go('root.home.default');
+                return response;
+            });
+      }
+    }
+  })
+  .state( 'modal.game-not-available', {
+    url: '/games/game-not-available',
+    views: {
+      'modal@': {
+        templateUrl: 'games/game-not-available-modal.html',
+        controller: function($scope,$state, $previousState) {
+            $scope.goToState = function(state) {
+                $previousState.forget('modalInvoker');
+                $state.go(state);
+            };
+        }
       }
     }
   })
   .state( 'modal-lg.missions', {
-    url: '/:gameId/play-missions',
+    url: '/:gameId/play-missions?:courseId',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
@@ -171,6 +191,15 @@ angular.module( 'playfully.games', [
       },
       gameId: function($stateParams){
         return $stateParams.gameId;
+      },
+      validAccess: function($state, $stateParams, GamesService) {
+        return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
+            .then(function (response) {
+                return response.data;
+            }, function (response) {
+                $state.go('root.home.default');
+                return response;
+            });
       }
     },
     views: {
@@ -191,7 +220,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $stateParams, $log, allGamesInfo, freeGames, premiumGames, comingSoonGames, $state, CHECKLIST, UserService) {
+    function($scope, $rootScope, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST';
       });
@@ -204,16 +233,14 @@ angular.module( 'playfully.games', [
             $scope.allGamesInfo = allGamesInfo;
           }
       }
+      $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
-      $scope.freeGames = {name:'Free Games', games: freeGames};
-      $scope.premiumGames = {name: 'Premium Games', games: premiumGames};
-      $scope.comingSoonGames = {name: 'Coming Soon', games: comingSoonGames};
 
-      $scope.sections = [
-        $scope.premiumGames,
-        $scope.freeGames,
-        $scope.comingSoonGames
-      ];
+      $scope.platform = {
+          isOpen: false,
+          options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
+          selected: 'All Games'
+      };
 
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
@@ -229,10 +256,31 @@ angular.module( 'playfully.games', [
           return text;
         }
       };
+
+      $scope.platformFilter = function() {
+         return function(game) {
+             if ($scope.platform.selected === 'All Games') {
+                 return true;
+             }
+             if ($scope.platform.selected === 'Chromebook') {
+                 return game.platform.type === 'Browser/Flash';
+             }
+             if ($scope.platform.selected === 'PC/Mac') {
+                 return game.platform.type === 'Browser/Flash' || game.platform.type === 'PC & Mac';
+             }
+
+             return game.platform.type === $scope.platform.selected;
+         };
+      };
+      $scope.toggleDropdown = function ($event, collection) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          $scope[collection].isOpen = !$scope[collection].isOpen;
+      };
     }
 )
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, UserService) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, gamesAvailableForLicense) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId.toUpperCase();
@@ -253,8 +301,10 @@ angular.module( 'playfully.games', [
     if (_.has(gameDetails, 'error')) {
       $scope.error = true;
     }
+    if (gamesAvailableForLicense) {
+        $scope.isGameAvailableForLicense = gamesAvailableForLicense[$scope.gameId];
+    }
 
-    
     $scope.isAuthorized = function() {
       return AuthService.isAuthenticatedButNot('student');
     };

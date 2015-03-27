@@ -2,7 +2,7 @@
     <div class="container">
 
         <h3 class="headline-1 text-center gl-margin--V40">Featured Games</h3>
-        <div class="gl-margin-Vl">&nbsp</div>
+        <div class="gl-margin--V10">&nbsp</div>
 
         <div class="gl-game-catalog-games-container">
             <div class="gl-game-catalog-games-section">
@@ -13,7 +13,7 @@
                              ng-mouseleave="game.hover=false"
                              ng-class="{'no-hover':game.price==='Coming Soon'}"
                              ng-click="goToGameDetail(game.price,game.gameId)">
-                            <div class="gl-game-ribbon" ng-hide="game.hover">
+                            <div ng-class="{'gl-game-ribbon' : game.price==='Premium', 'gl-game-ribbon--green' : game.price==='Coming Soon','gl-game-ribbon--aqua-blue' : game.price==='Free'}" ng-hide="game.hover || game.price==='Premium'">
                                 <div class="gl-game-ribbon-text">{{game.price}}</div>
                             </div>
                             <div class="gl-game-catalog-game-card-wrapper">

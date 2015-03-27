@@ -8,7 +8,16 @@
     </div>
   </div>
 
-  <div class="container" ng-if="activeCourses.length">
+  <div class="container" ng-if="games.hasGames===null">
+    <div class="gl-reports--blank text-center">
+      <h2 class="headline-2">You do not have any active games</h2>
+      <p>
+        Click on the Classes tab above to get started creating classes and making game assignments. Once your students start playing, their gameplay data will appear here in the Reports section.
+      </p>
+    </div>
+  </div>
+
+  <div class="container" ng-if="activeCourses.length && games.hasGames!==null">
     <hr class="rule rule--aqua" />
 
     <div class="row">
@@ -35,7 +44,7 @@
           </ul>
         </div>
         Game:
-        <div class="btn-group" dropdown is-open="games.isOpen">
+        <div class="btn-group gl-reports-game-selector" dropdown is-open="games.isOpen">
           <button type="button"
             class="btn btn-default gl-reports-dropdown--game"
             ng-click="toggleDropdown($event, 'games')"
@@ -46,8 +55,8 @@
           </button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="(key, game) in games.options | filter:{enabled: true}"
-            ng-class="{'gl-reports-dropdown--selected': games.selectedGameId == game.gameId }">
-              <a href="#"
+            ng-class="{'gl-reports-dropdown--selected': games.selectedGameId == game.gameId}">
+              <a href="#" ng-class="{'gl-reports-disabled-premium-text' : game.assigned===false}"
                 ng-click="goToSelected(reports.selected.id,{gameId:key,courseId:courses.selectedCourseId})"
                 ng-bind="game.shortName"
                 ng-hide="game.maintenance"></a>
