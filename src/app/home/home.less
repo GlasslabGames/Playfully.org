@@ -9,7 +9,7 @@ body {
     bottom: 10px;
     li {
       border: none;
-      background: white;
+      background: @grey6;
       width: 16px;
       height: 16px;
       margin-left: 6px;
@@ -74,18 +74,22 @@ body {
 .gl-home-title--start {
   color: white;
   font-family: @serifHeadlineFontFamily;
-  font-size: 32px;
+  font-size: 38px;
   text-align: center;
 }
 
 .gl-home-link--start {
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 
 .gl-home-slide--start {
-  font-size: 16px;
   margin-top: 120px;
+  font-size: 16px;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .gl-home-slide--mission {
@@ -186,7 +190,7 @@ body {
 }
 
 .gl-home-event-count {
-  background:rgba(103, 202, 218, 0.5);
+  background: rgba(103, 202, 218, 0.8);
   padding: 12px;
 }
 
