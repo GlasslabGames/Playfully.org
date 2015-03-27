@@ -187,6 +187,7 @@ angular.module( 'instructor.dashboard', [
     $event.preventDefault();
     $event.stopPropagation();
     $scope[collection].isOpen = !$scope[collection].isOpen;
+      console.log('YEAHHH', $scope[collection].isOpen);
   };
 
   $scope.goToReport = function (reportId, courseId, gameId, groupId) {
