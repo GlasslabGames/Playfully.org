@@ -55,14 +55,15 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                                 errors: [],
                                 submitting: false
                             };
+                            $scope.goToState = function(state) {
+                                $previousState.forget('modalInvoker');
+                                $state.go(state);
+                            };
                             $scope.cancelPurchaseOrder = function () {
                                 UtilService.submitFormRequest($scope.request, function () {
                                     return LicenseService.cancelActivePurchaseOrder();
                                 }, function() {
-                                    $previousState.forget('modalInvoker');
-                                    return UserService.updateUserSession(function () {
-                                        $state.go('root.subscribe.packages');
-                                    });
+                                    return UserService.updateUserSession();
                                });
                             };
                         }
@@ -286,9 +287,9 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             }
             result.total = result.total.toFixed(2);
             $scope.info.PO.payment = result.discountedTotal || result.total;
-            $scope.info.PO.payment = parseInt($scope.info.PO.payment);
+            $scope.info.PO.payment = parseFloat($scope.info.PO.payment);
             $scope.info.CC.payment = result.discountedTotal || result.total;
-            $scope.info.CC.payment = parseInt($scope.info.CC.payment);
+            $scope.info.CC.payment = parseFloat($scope.info.CC.payment);
             // Return the final and discounted total
             return result;
         };
@@ -301,7 +302,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             }
             var purchaseOrder = info.PO;
             /* Convert to database expected values */
-            purchaseOrder.payment = parseInt(purchaseOrder.payment);
+            purchaseOrder.payment = parseFloat(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
             LicenseStore.setData({
                 purchaseOrderInfo: purchaseOrder,
