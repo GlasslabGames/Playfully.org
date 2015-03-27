@@ -110,23 +110,10 @@
     <div class="col-md-9">
       <div>
           <div class="container-fluid gl-game-details gl-margin--Bl">
+            <div class="gl-game-details-header">
+              {{gameDetails.price}}, <span ng-if="gameDetails.price==='Free'">available to all users!</span><span ng-if="gameDetails.price!=='Free'">available to users with <b>{{gameDetails.packages}}</b> packages.</span>
+            </div>
             <div class="gl-game-details-top">
-              <div class="row gl-margin--Bm">
-                <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--price"></span>
-                  Price: <span>{{gameDetails.price}}</span>
-                </div>
-                <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--type"></span>
-                  Type: <span gl-editable-text-popover="gameDetails.type"
-                              gl-editable-type="'dropdown'"
-                              gl-editable-options="typeOptions"
-                              gl-on-before-save="saveForm"
-                              gl-edit-trigger="editType">{{gameDetails.type}}</span>
-                         <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editType()"></i>
-
-                </div>
-              </div>
               <div class="row gl-margin--Bm">
                 <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--subject"></span>
@@ -137,27 +124,23 @@
                     <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editSubject()"></i>
                 </div>
                 <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--releaseDate"></span>
-                  Release: <span ng-bind="gameDetails.releaseDate"></span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <span class="gl-icon-game gl-icon-game--platform"></span>
-                  Platform: <span gl-editable-text-popover="gameDetails.platform.type"
-                                  gl-editable-type="'dropdown'"
-                                  gl-editable-options="platformOptions"
-                                  gl-on-before-save="saveForm"
-                                  gl-edit-trigger="editPlatform">{{gameDetails.platform.type}}</span>
-                    <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editPlatform()"></i>
-                </div>
-                <div class="col-md-6">
                   <span class="gl-icon-game gl-icon-game--grades"></span>
                   Grade: <span gl-editable-text-popover="gameDetails.grades"
                                gl-editable-type="'textarea'"
                                gl-on-before-save="saveForm"
                                gl-edit-trigger="editGrades">{{gameDetails.grades}}</span>
                     <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editGrades()"></i>
+                </div>
+              </div>
+              <div class="row gl-margin--Bm">
+                <div class="col-md-6">
+                  <span class="gl-icon-game gl-icon-game--platform"></span>
+                  Platform: <span>{{gameDetails.platform.type}}</span>
+                    <i class="fa fa-pencil gl-dev-edit-icon" ng-click="editPlatform()"></i>
+                </div>
+                <div class="col-md-6">
+                  <span class="gl-icon-game gl-icon-game--releaseDate"></span>
+                  {{gameDetails.release==='live' ? 'Latest Release' : 'Release Date'}}: <span ng-bind="gameDetails.releaseDate"></span>
                 </div>
               </div>
             </div>

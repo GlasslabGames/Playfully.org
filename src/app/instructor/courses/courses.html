@@ -1,4 +1,4 @@
-<div class="container gl-tabs">
+<div class="container gl-tabs gl-margin--T30">
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
         <li class="gl-tab"
             ng-class="{'active': !showArchived}">
@@ -71,6 +71,8 @@
                   <li ng-if="course.lockedRegistration"><a ui-sref="modal-lg.unlockCourse({id:course.id})">Unlock Registration</a></li>
                   <li><a ui-sref="modal-lg.archiveCourse({id:course.id})">Archive Class</a></li>
                   <li><a ui-sref="modal-lg.assignGamesToCourse({id:course.id})">Assign More Games</a></li>
+                  <li ng-if="hasLicense() && course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: true})">Disable Premium Games</a></li>
+                  <li ng-if="hasLicense() && !course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})">Enable Premium Games</a></li>
                 </ul>
               </div>
             </div>
@@ -80,22 +82,49 @@
               <div class="gl-course-game text-center"
                 ng-repeat="game in course.games"
                 ng-show="gamesInfo[game.id].enabled">
-
+                <div>
                 <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
-                  <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
-                    <div class="gl-course-game-lock"
-                      ng-if="game.settings.missionProgressLock"
-                      ui-sref="unlockMissions({courseId: course.id, gameId: game.id})">
-                    </div>
-                    <div class="gl-course-game-lock gl-course-game-unlocked"
-                      ng-if="!game.settings.missionProgressLock"
-                      ui-sref="lockMissions({courseId: course.id, gameId: game.id})">
-                    </div>
-                  </div>
+                        <div ng-show="!game.assigned"
+                             ng-init="game.hover=false"
+                             ng-mouseover="game.hover=true"
+                             ng-mouseleave="game.hover=false"
+                             ng-class="game.hover ? 'gl-course-disabled-premium-game-overlay--flipped' : 'gl-course-disabled-premium-game-overlay' ">
+                             <p ng-show="!gamesInfo[game.id].availableForLicense && game.hover">
+                                 This game is not available in your current plan </p>
+                             <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
+                                     ui-sref="root.subscribe.packages"
+                                     class="btn gl-btn--steelblue text-center">Upgrade</button>
+
+                            <p ng-show="gamesInfo[game.id].availableForLicense && game.hover">
+                                Premium Games have been disabled for this class </p>
+                            <button ng-show="gamesInfo[game.id].availableForLicense && game.hover"
+                                    ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})"
+                                    class="btn gl-btn--green text-center">Enable</button>
+                        </div>
+                        <div ng-show="!game.assigned && !game.hover"
+                             class="gl-course-disabled-premium-game">
+                        </div>
+
+                      <div ng-show="gamesInfo[game.id].price == 'Premium' && !game.hover"
+                        class="gl-game-premium-ribbon">
+                        <div class="gl-game-premium-ribbon-text">Premium</div>
+                      </div>
+                      <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
+                        <div class="gl-course-game-lock"
+                          ng-if="game.settings.missionProgressLock"
+                          ui-sref="unlockMissions({courseId: course.id, gameId: game.id})">
+
+                        </div>
+                        <div class="gl-course-game-lock gl-course-game-unlocked"
+                          ng-if="!game.settings.missionProgressLock"
+                          ui-sref="lockMissions({courseId: course.id, gameId: game.id})">
+                        </div>
+                      </div>
+
                 </div>
                 {{ gamesInfo[game.id].longName }}
               </div>
-
+              </div>
               <div ng-if="course.games.length < MAX_GAMES_COUNT" class="gl-course-game text-center text-grey5" ui-sref="modal-lg.assignGamesToCourse({id:course.id})">
                 <div class="gl-course-game-thumb gl-thumb-game-add">
                   <div class="bu-add-circle bu-add-circle--grey"></div>

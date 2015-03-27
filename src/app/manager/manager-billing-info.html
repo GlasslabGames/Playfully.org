@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="gl-manager-billing-panel gl-margin--B50">
+                <div class="gl-manager-side-panel-label text-center">
+                    Credit / Debit Card
+                </div>
+                <div ng-show="!isChangingCard" class="gl-margin--L40 gl-margin--T40">
+                    <h5 class="headline-5">{{billingInfo.brand}} ending in {{billingInfo.last4}}</h5>
+                        <div class="gl-margin--L40">
+                            <ul class="list--nobullets gl-margin--L40 gl-margin--Tl">
+                                <li><h5 class="headline-5--bold">Expires</h5>
+                                    {{billingInfo.expMonth}} / {{billingInfo.expYear}}
+                                </li>
+                                <li><h5 class="headline-5--bold">Name on card</h5>
+                                    {{billingInfo.name}}
+                                </li>
+                                <li ng-if="billingInfo.addressLine1"><h5 class="headline-5--bold">Billing Address</h5>
+                                    <ul class="list--nobullets">
+                                        <li>{{billingInfo.addressLine1}}</li>
+                                        <li>{{billingInfo.addressLine2}}</li>
+                                        <li>{{billingInfo.addressCity}}, {{billingInfo.addressState}},
+                                            {{billingInfo.addressZip}}</li>
+                                        <li>{{billingInfo.addressCountry}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                </div>
+                <button ng-show="!isChangingCard" type="button" ng-click="isChangingCard=true" class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
+                    Change Card
+                </button>
+                <button ng-show="isChangingCard" type="button" ng-click="isChangingCard=false"
+                        class="btn gl-btn--black gl-manager-billing-change-btn gl-margin--Tl">
+                    View Billing Info
+                </button>
+                <div ng-show="isChangingCard">
+                    <div class="gl-margin--T40">
+
+                        <form novalidate name="paymentForm" class="form-inline reg-form">
+
+                            <h4 class="headline-4 gl-margin-Vl">Enter your new card: </h4>
+                            <div ng-include src="'subscribe/_credit-card-form.html'"></div>
+
+                            <h4 class="headline-4 gl-margin-Vl">Enter your billing address: </h4>
+                            <div ng-include src="'subscribe/_billing-address-form.html'"></div>
+
+                            <alert class="gl-margin--Tl" ng-repeat="error in request.errors"
+                                   ng-show="request.errors.length" type="danger"><span
+                                    class="fa fa-times-circle"></span> {{
+                                error }}
+                            </alert>
+
+                            <div class="reg-submit gl-margin--T40">
+                                <button type="button" ng-click="isChangingCard=!isChangingCard; resetForm(); paymentForm.$setPristine()"
+                                        class="btn gl-btn--grey gl-margin--Rl">Cancel</button>
+
+                                <input ng-click="changeCard(info); paymentForm.$setPristine()"
+                                       type="button"
+                                       class="btn gl-btn--black"
+                                       ng-disabled="paymentForm.$invalid"
+                                       value="{{ request.isSubmitting ? 'Requesting Change...' : 'Submit New Card'}}">
+                                <!--<input ng-click="changeCard(info,'test'); paymentForm.$setPristine();"
+                                       type="button"
+                                       class="btn gl-btn--black"
+                                       value="{{ request.isSubmitting ? 'Requesting Change...' : 'Test Submit'}}">-->
+                            </div>
+                          </form>
+                       </div>
+                  </div>
+             </div>
+        </div>
+    </div>
+</div>

@@ -12,44 +12,46 @@ angular.module('reports', [])
           return response;
         });
     };
-    // returns an object that contains the games available for this course and their information.
-    this.getCourseGames = function(courseId){
-        // get games available for this course
-      return CoursesService.get(courseId).then(function(courseInfo) {
-         var courses = [];
-          // get an array of game information
+    // input: list of games with ids
+    // returns a list of games (with full game info merged with inputted game info)
+    this.getListOfFullGameInfo = function(listOfGames,filterBy){
+         var listOfFullGameInfo = [];
+          // get all games available (full game info) for this teacher
           return GamesService.active('basic').then(function(games) {
-              angular.forEach(courseInfo.games,function(game) {
+              angular.forEach(listOfGames,function(game) {
                   angular.forEach(games, function(gameInfo) {
-                      if (game.id === gameInfo.gameId) {
-                          courses.push(gameInfo);
+                      if (filterBy(gameInfo)) {
+                          if (game.id === gameInfo.gameId) {
+                              gameInfo = _.merge(gameInfo, game);
+                              listOfFullGameInfo.push(gameInfo);
+                          }
                       }
                   });
               });
-              return courses;
+              return listOfFullGameInfo;
           });
-      });
     };
-    // Returns all courses for current user, auguments each course with its available games and reports
+    // Returns all courses for current user, auguments each course with its available games (full game info) and reports
     this.getCourseInfo = function(activeCourses) {
         var deferred = $q.defer();
         var courses = {};
         var gamePromises = [];
         var reportPromises = [];
 
+        // augments each course with list of available games that has full game information
         angular.forEach(activeCourses, function(course) {
             courses[course.id] = course;
-            gamePromises.push(this.getCourseGames(course.id).then(function(games) {
-                // set course games that are enabled
-                courses[course.id].games = games.filter(function(game) {
-                    return game.enabled;
-                });
+            gamePromises.push(this.getListOfFullGameInfo(course.games, function(game) {
+                return game.enabled;
+            }).then(function(games) {
+                courses[course.id].games = games;
                 return;
             }, function() {
                 console.err('ReportsService - getCourseInfo: failed to retrieve course games');
             }));
         }.bind(this));
         $q.all(gamePromises).then(function() {
+            // augments each game with list of available reports
             angular.forEach(activeCourses, function(course) {
                 angular.forEach(courses[course.id].games, function(game) {
                   reportPromises.push(GamesService.getAllReports(game.gameId).then(function(report) {

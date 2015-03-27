@@ -1,0 +1,50 @@
+<div class="modal-header" ng-hide="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 ng-hide="request.errors.length" class="modal-title">Are you sure?</h3>
+    <h3 ng-show="request.errors.length" class="modal-title">Uh Oh!</h3>
+</div>
+
+<div class="modal-body text-center" ng-hide="request.success && !request.errors.length">
+    <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
+    <div ng-show="autoRenew">
+        <p class="gl-margin-Vl">You are setting your subscription to cancel on:</p>
+        <p>{{expirationDate}}</p>
+        <input ng-click="disableAutoRenew()"
+               ng-value="request.isSubmitting ? 'Turning off Auto-Renew...' : 'Turn off Auto-Renew'"
+               class="btn btn-danger">
+    </div>
+    <div ng-if="!autoRenew">
+        <p class="gl-margin-Vl">You are setting your subscription to automatically renew on:</p>
+        <p>{{expirationDate}}</p>
+        <input ng-click="enableAutoRenew()"
+               ng-value="request.isSubmitting ? 'Turning on Auto-Renew...' : 'Turn on Auto-Renew'"
+               class="btn btn-success">
+    </div>
+</div>
+
+<div class="modal-header" ng-show="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Success!</h3>
+</div>
+
+<div class="modal-body text-center" ng-show="request.success">
+    <alert ng-if="autoRenew" class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> Your subscription will automatically cancel on
+        {{expirationDate}}.
+    </alert>
+    <alert ng-if="!autoRenew" class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span> Your
+        subscription will automatically renew on
+        {{expirationDate}}.
+    </alert>
+    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+</div>
+
+<div class="modal-body text-center" ng-show="request.errors.length">
+    <p class="gl-margin-Vl">There was an error in processing your request:</p>
+    <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span
+            class="fa fa-times-circle"></span> {{ error }}
+    </alert>
+    <p class="gl-margin-Vl">If you have any questions, please contact support@glasslabgames.org</p>
+    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+</div>

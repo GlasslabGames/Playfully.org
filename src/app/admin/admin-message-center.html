@@ -1,0 +1,19 @@
+<h2 class="text-muted">Message Center</h2>
+
+<!-- Add new message to message center -->
+<form ng-submit="submitMessage()">
+    <p>Add a Message to the Message Center:</p>
+    <p>Subject: <input type="text" id="mcSubject" size="50sd" ng-model="mcSubject" maxlength="32"/>
+		<small style="color: #808080">Character Limit
+			<span ng-class="{'alert alert-danger':mcSubject.length===32}"> {{mcSubject.length}}/32</span>
+		</small>
+	</p>
+	<p>Message:</p>
+    <textarea id="mcMessage" rows="4" cols="50" ng-model="mcMessage"></textarea>
+    <p>Icon: <input type="text" id="mcIcon" size="30" ng-model="mcIcon"/></p>
+    <br />
+	<input type="submit" id="mcPost" value="Post Message" />
+    <br />
+    <br />
+    <p>Result: {{mcOutput}}</p>
+</form>
