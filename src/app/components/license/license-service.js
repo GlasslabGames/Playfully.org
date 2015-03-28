@@ -103,7 +103,11 @@ angular.module('license', [])
             this.licenseExpirationDate = function() {
                 if( $rootScope.currentUser &&
                     this.hasLicense() ) {
-                    return $rootScope.currentUser.expirationDate;
+                    return moment( $rootScope.currentUser.expirationDate ).diff( moment(), 'days' );
+                    //return $rootScope.currentUser.expirationDate;
+                }
+                else {
+                    return 0;
                 }
             };
             this.leaveCurrentPlan = function () {
