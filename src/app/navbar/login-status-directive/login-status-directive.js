@@ -20,12 +20,12 @@ angular.module('playfully.navbar.login-status', ['ui.bootstrap'])
     replace: true,
     controller: function ($scope, $state, $modal, $location, $log, AUTH_EVENTS) {
       var expirationDate = LicenseService.licenseExpirationDate();
-      if( expirationDate ) {
+      /*if( expirationDate ) {
         $scope.daysRemaining = moment( expirationDate ).diff( moment(), 'days' );
       }
       else {
         $scope.daysRemaining = 0;
-      }
+      }*/
     },
     link: function($scope, $element, $attrs, $controller) {
 
