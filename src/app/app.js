@@ -239,9 +239,9 @@ angular.module( 'playfully', [
           var linkMap = {
             "prea": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
             "preb": "http://www.surveygizmo.com/s3/2067438/Prima-Beta-Pre-Test-FormB",
-            "posta": "http://www.surveygizmo.com/s3/2067441/Prima-Beta-Post-Test-FormA",
-            "postb": "http://www.surveygizmo.com/s3/2067444/Prima-Beta-Post-Test-FormB",
-            "feedback": "http://http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey"
+            "posta": "http://www.surveygizmo.com/s3/2072348/Prima-Beta-Post-Test-FormA",
+            "postb": "http://www.surveygizmo.com/s3/2073482/Prima-Beta-Post-Test-FormB",
+            "feedback": "http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey"
           };
 
           if( currentUser ) {
