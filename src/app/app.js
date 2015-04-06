@@ -238,9 +238,9 @@ angular.module( 'playfully', [
         controller: function( $state, $window, currentUser ) {
           var linkMap = {
             "prea": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
-            "preb": "http://www.surveygizmo.com/s3/2067438/Prima-Beta-Pre-Test-FormB",
+            "preb": "http://www.surveygizmo.com/s3/2077975/Prima-Beta-Pre-Test-FormB-STAR",
             "posta": "http://www.surveygizmo.com/s3/2072348/Prima-Beta-Post-Test-FormA",
-            "postb": "http://www.surveygizmo.com/s3/2073482/Prima-Beta-Post-Test-FormB",
+            "postb": "http://www.surveygizmo.com/s3/2077973/Prima-Beta-Post-Test-FormB-STAR",
             "feedback": "http://www.surveygizmo.com/s3/2048726/Prima-Game-Feedback-Survey"
           };
 

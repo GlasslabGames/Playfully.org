@@ -1,0 +1,402 @@
+<article class="legend-header">
+    <p class="legend-header"><span>Competency Levels</span></p>
+</article>
+
+<div class="gl-reports-competency-labels">
+  <table>
+    <tr>
+      <td class="gl-reports-competency-label">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle"></div>
+          </div>
+          <div class="gl-reports-competency-label-text">Not Started Yet</div>
+        </div>
+      </td>
+      <td class="gl-reports-competency-label">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle gl-reports-competency-circle-gray"></div>
+          </div>
+          <div class="gl-reports-competency-label-text">Not Enough Data</div>
+        </div>
+      </td>
+      <td class="gl-reports-competency-label">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle"></div>
+          </div>
+          <div class="gl-reports-competency-label-text">
+            Watch Out!<br>
+            Intervene Now
+          </div>
+        </div>
+      </td>
+      <td class="gl-reports-competency-label">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle"></div>
+          </div>
+          <div class="gl-reports-competency-label-text">
+            Tracking Toward<br>
+            Standard Achievement
+          </div>
+        </div>
+      </td>
+      <td class="gl-reports-competency-label">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle gl-reports-competency-circle-green"></div>
+          </div>
+          <div class="gl-reports-competency-label-text">Standard Achieved</div>
+        </div>
+      </td>
+      <!--td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
+        <div class="gl-reports-competency-label-container">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
+            </div>
+          </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
+        </div>
+      </td-->
+    </tr>
+  </table>
+</div>
+<hr/>
+
+
+
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
+  <div ng-include src="'instructor/reports/_students.html'"></div>
+
+  <div class="report-body--wide gl-pad-Al">
+    <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
+    <!--h1 class="headline-2 text-center gl-margin--Tl"
+      ng-bind="reports.selected.header.text"></h1-->
+
+    <p class="text-center" ng-bind="reports.selected.description">
+      This report shows students&rapos; progress through the standards as they play.
+      The content shown here is based on key in-game learning events that provide
+      strong evidence of standards progression.
+    </p>
+
+    <div class="container-fluid">
+      <div class="row gl-report-standards-header">
+        <div class="col-md-3 gl-pad--Tm">
+          <strong>Name</strong>
+        </div>
+        <div class="col-md-9 gl-report-sep temp-data-scroll" id="temp-header">
+
+          <table class="gl-report-standards-table">
+            <tr>
+              <td colspan="5" class="gl-report-standards-header-title">
+                Common Core
+              </td>
+              <td colspan="2" class="gl-report-standards-header-title">
+                21st Century Skills
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="gl-report-standards-header-subsection-title">
+                English Language Art
+              </td>
+              <td colspan="3" class="gl-report-standards-header-subsection-title">
+                College and Career Readiness
+              </td>
+              <td colspan="2" class="gl-report-standards-header-subsection-title">
+                Critical Thinking and Problem Solving
+              </td>
+            </tr>
+            <tr>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">RI.6.8</div>
+                <div class="gl-report-standards-item-desc">
+                  Trace and evaluate the argument and specific claims
+                  in a text, distinguishing claims that are supported
+                  by reasons and evidence from claims that are not.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">RI.7.8</div>
+                <div class="gl-report-standards-item-desc">
+                  Trace and evaluate the argument and specific claims
+                  in a text, distinguishing claims that are supported
+                  by reasons and evidence from claims that are not.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">RI.8.8</div>
+                <div class="gl-report-standards-item-desc">
+                  Delineate and evaluate the argument and specific claims
+                  in a text, assessing whether the reasoning is sound and
+                  the evidence is relevant and sufficient; recognize when
+                  irrelevant evidence is introduced.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">CCRA.R.1</div>
+                <div class="gl-report-standards-item-desc">
+                  Read closely to determine what the text says explicitly
+                  and to make logical inferences from it; cite specific
+                  textual evidence when writing or speaking to support
+                  conclusions drawn from the text.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">CCRA.R.8</div>
+                <div class="gl-report-standards-item-desc">
+                  Delineate and evaluate the argument and specific claims
+                  in a text, including the validity of the reasoning as
+                  well as the relevance and sufficiency of the evidence.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">Reason Effectively</div>
+                <div class="gl-report-standards-item-desc">
+                  Use various types of reasoning (indeductive, deductive, etc.)
+                  as appropriate to the situation.
+                </div>
+              </td>
+              <td class="gl-report-standards-item">
+                <div class="gl-report-standards-item-title">Making Judgments and Decisions</div>
+                <div class="gl-report-standards-item-desc">
+                  (1) Effectively analyzie and evaluate evidence, arguments, claims
+                  and beliefs (2) Analyze and evaluate major alternative points of
+                  view (3) Synthesize and make connections between information and
+                  arguments (4) Interpret information and draw conclusions based on
+                  the best analysis
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 gl-report-sep--blue"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 gl-pad--An">
+          <table width="100%">
+            <tr class="gl-table-stripe">
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Alex B.</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Brad P.</div>
+              </td>
+            </tr>
+            <tr class="gl-table-stripe">
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Charlie T.</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Diana R.</div>
+              </td>
+            </tr>
+            <tr class="gl-table-stripe">
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Elsa R.</div>
+              </td>
+            </tr>
+            <tr>
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">Fiona P.</div>
+              </td>
+            </tr>
+            <tr class="gl-table-stripe">
+              <td class="gl-report-item-cell">
+                <div class="gl-pad-Hm">George C.</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-9 gl-pad--An gl-report-sep temp-data-scroll" id="temp-body">
+          <table>
+            <tr class="gl-table-stripe">
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+            </tr>
+
+            <tr class="gl-table-stripe">
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+              </td>
+            </tr>
+
+            <tr class="gl-table-stripe">
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+              </td>
+            </tr>
+
+            <tr class="gl-table-stripe">
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $('#temp-header').on('scroll', function () {
+      $('#temp-body').scrollLeft($(this).scrollLeft());
+    });
+
+    $('#temp-body').on('scroll', function () {
+      $('#temp-header').scrollLeft($(this).scrollLeft());
+    });
+  </script>
+</div>
