@@ -1,64 +1,40 @@
-<article class="legend-header">
+<article class="legend-header gl-report-standards-legend-header">
     <p class="legend-header"><span>Competency Levels</span></p>
 </article>
 
-<div class="gl-reports-competency-labels">
-  <table>
-    <tr>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Not Started Yet</div>
-        </div>
+<div class="gl-reports-standard-labels">
+  <table width="100%">
+    <tr ng-init="labels = [{id: 'notstarted', text: 'Not Started Yet'}, {id: 'nodata', text: 'Not Enough Data'}, {id: 'watchout', text: 'Watch Out!<br>Intervene Now'}, {id: 'tracking', text: 'Tracking Toward<br>Standard Achievement'}, {id: 'achieved', text: 'Standard Achieved'}]">
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--notstarted"></div>
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle gl-reports-competency-circle-gray"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Not Enough Data</div>
-        </div>
+      <td class="gl-standards-key-label">
+        Not Started Yet
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">
-            Watch Out!<br>
-            Intervene Now
-          </div>
-        </div>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--nodata"></div>
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">
-            Tracking Toward<br>
-            Standard Achievement
-          </div>
-        </div>
+      <td class="gl-standards-key-label">
+        Not Enough Data
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle gl-reports-competency-circle-green"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Standard Achieved</div>
-        </div>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--watchout"></div>
       </td>
-      <!--td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
-            </div>
-          </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
-        </div>
-      </td-->
+      <td class="gl-standards-key-label">
+        Watch Out!<br>Intervene Now
+      </td>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--tracking"></div>
+      </td>
+      <td class="gl-standards-key-label">
+        Tracking Toward<br>Standard Achievement
+      </td>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--achieved"></div>
+      </td>
+      <td class="gl-standards-key-label">
+        Standard Achieved
+      </td>
     </tr>
   </table>
 </div>
