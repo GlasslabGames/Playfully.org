@@ -106,6 +106,15 @@ angular.module('playfully.login', [])
         return CoursesService.getEnrollments();
       }
     }
+  })
+  .state('sdk.wwfLogin', {
+      url: '/wwf/login',
+      data: {hideWrapper: true},
+      views: {
+          'main@': {
+              templateUrl: 'login/v1/sdk-wwf-login.html'
+          }
+      }
   });
 
   // Password Prompt
