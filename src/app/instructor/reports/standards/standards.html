@@ -83,10 +83,11 @@
                 Critical Thinking and Problem Solving
               </td>
             </tr>
-            <tr>
+            <tr ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions">
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.6.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Trace and evaluate the argument and specific claims
                   in a text, distinguishing claims that are supported
                   by reasons and evidence from claims that are not.
@@ -94,7 +95,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.7.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Trace and evaluate the argument and specific claims
                   in a text, distinguishing claims that are supported
                   by reasons and evidence from claims that are not.
@@ -102,7 +104,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.8.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Delineate and evaluate the argument and specific claims
                   in a text, assessing whether the reasoning is sound and
                   the evidence is relevant and sufficient; recognize when
@@ -111,7 +114,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">CCRA.R.1</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Read closely to determine what the text says explicitly
                   and to make logical inferences from it; cite specific
                   textual evidence when writing or speaking to support
@@ -120,7 +124,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">CCRA.R.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Delineate and evaluate the argument and specific claims
                   in a text, including the validity of the reasoning as
                   well as the relevance and sufficiency of the evidence.
@@ -128,14 +133,16 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">Reason Effectively</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Use various types of reasoning (indeductive, deductive, etc.)
                   as appropriate to the situation.
                 </div>
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">Making Judgments and Decisions</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   (1) Effectively analyzie and evaluate evidence, arguments, claims
                   and beliefs (2) Analyze and evaluate major alternative points of
                   view (3) Synthesize and make connections between information and

@@ -2,10 +2,12 @@ angular.module( 'instructor.reports')
 
 .controller( 'StandardsCtrl',
   function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, REPORT_CONSTANTS) {
-    $log.info("Standards Controller");
-    $log.info(defaultGame);
+
+    $scope.state = {
+      showStandardsDescriptions: true
+    };
+
     $scope.games.selectedGameId = defaultGame.gameId;
-    $log.info($scope.games.selectedGameId);
 
     $scope.games.options = {};
     angular.forEach(myGames, function(game) {
