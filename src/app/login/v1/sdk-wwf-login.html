@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <div id="main"></div>
+</html>
+
+<script>
+    var ele = GlassLabSDK.generateLoginWidget(function() {
+        console.log('success!');
+    }, function() {
+        console.log('failure');
+    });
+    var div = document.createElement('div');
+    div.innerHTML = ele;
+    var node = document.getElementById('main');
+    node.appendChild(div);
+</script>
