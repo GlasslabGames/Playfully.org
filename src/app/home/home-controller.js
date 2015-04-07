@@ -42,7 +42,7 @@ angular.module( 'playfully.home', ['ui.router'])
   });
 })
 
-.controller( 'HomeCtrl', function ( $scope, $location, $log, $http, $window, ipCookie, Session) {
+.controller( 'HomeCtrl', function ( $scope, $location, $log, $http, $window, $anchorScroll, ipCookie, Session) {
 
   $scope.subEmail = "";
   $scope.showSubscribeMessage = false;
@@ -78,6 +78,18 @@ angular.module( 'playfully.home', ['ui.router'])
 
   $scope.goToLink = function (path) {
       $window.open(path, '_blank');
+  };
+
+  $scope.goToAnchor = function(anchorId) {
+    if ($location.hash() !== anchorId) {
+      // set the $location.hash to `newHash` and
+      // $anchorScroll will automatically scroll to it
+      $location.hash(anchorId);
+    } else {
+      // call $anchorScroll() explicitly,
+      // since $location.hash hasn't changed
+      $anchorScroll();
+    }
   };
 
   $http.get('/api/v2/data/eventsCount')
