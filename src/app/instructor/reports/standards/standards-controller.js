@@ -1,5 +1,26 @@
 angular.module( 'instructor.reports')
 
+.config(function ( $stateProvider, USER_ROLES) {
+    $stateProvider.state('modal-xlg.standardsInfo', {
+      url: '/reports/details/standards/game/:gameId/:type',
+      data:{
+        pageTitle: 'Standards Report: Watch Out'
+      },
+      resolve: {
+      },
+      views: {
+        'modal@': {
+          templateUrl: function($stateParams) {
+            return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
+          },
+          controller: function($scope, $log) {
+            $log.info('hello');
+          }
+        }
+      }
+    });
+})
+
 .controller( 'StandardsCtrl',
   function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, REPORT_CONSTANTS) {
 
