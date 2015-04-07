@@ -82,12 +82,12 @@ angular.module( 'playfully.home', ['ui.router'])
 
   $scope.goToAnchor = function(anchorId) {
     if ($location.hash() !== anchorId) {
-      // set the $location.hash to `newHash` and
-      // $anchorScroll will automatically scroll to it
+      // anchorScroll will be automatically invoked when
+      // $location.hash changes
       $location.hash(anchorId);
     } else {
-      // call $anchorScroll() explicitly,
-      // since $location.hash hasn't changed
+      // otherwise we're already on that hash and need
+      // to call it again to reposition
       $anchorScroll();
     }
   };
