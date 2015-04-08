@@ -278,14 +278,14 @@ angular.module( 'instructor.reports', [
       $scope.games.options = {};
       $scope.games.hasGames = myGames.length > 0 ? true : false;
 
-      // angular.forEach(myGames, function (game) {
-      //   if (game.enabled) {
-      //     $scope.games.options['' + game.gameId] = game;
-      //     if (game.gameId == $stateParams.gameId) {
-      //       $scope.games.selectedGameId = game.gameId;
-      //     }
-      //   }
-      // });
+      angular.forEach(myGames, function (game) {
+        if (game.enabled) {
+          $scope.games.options['' + game.gameId] = game;
+          if (game.gameId == $stateParams.gameId) {
+            $scope.games.selectedGameId = game.gameId;
+          }
+        }
+      });
 
       // Courses - Setup course options and select course ///////////
       $scope.courses.isOpen = false;

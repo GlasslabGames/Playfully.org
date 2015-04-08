@@ -85,6 +85,7 @@
                 <div>
                 <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
                         <div ng-show="!game.assigned"
+                             ng-if="!showArchived"
                              ng-init="game.hover=false"
                              ng-mouseover="game.hover=true"
                              ng-mouseleave="game.hover=false"
@@ -101,7 +102,7 @@
                                     ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})"
                                     class="btn gl-btn--green text-center">Enable</button>
                         </div>
-                        <div ng-show="!game.assigned && !game.hover"
+                        <div ng-show="!game.assigned && !game.hover && !showArchived"
                              class="gl-course-disabled-premium-game">
                         </div>
 
@@ -125,7 +126,7 @@
                 {{ gamesInfo[game.id].longName }}
               </div>
               </div>
-              <div ng-if="course.games.length < MAX_GAMES_COUNT" class="gl-course-game text-center text-grey5" ui-sref="modal-lg.assignGamesToCourse({id:course.id})">
+              <div ng-if="course.games.length < MAX_GAMES_COUNT && !showArchived" class="gl-course-game text-center text-grey5" ui-sref="modal-lg.assignGamesToCourse({id:course.id})">
                 <div class="gl-course-game-thumb gl-thumb-game-add">
                   <div class="bu-add-circle bu-add-circle--grey"></div>
                 </div>
