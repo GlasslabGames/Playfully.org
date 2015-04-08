@@ -1,10 +1,19 @@
 /* Standards */
+.standards-data-scroll {
+  overflow-x: scroll;
+}
 
 .gl-report-standards-header {
   background: @grey7; 
 }
 .gl-report-sep {
   border-left: 8px solid white;
+}
+
+.gl-report-standards-legend-header {
+  p.legend-header span:before, p.legend-header span:after {
+    width: 600px;
+  }
 }
 
 .gl-report-sep--blue {
@@ -69,6 +78,10 @@
   padding-left: 15px;
 }
 
+.gl-standards-key-cell {
+  vertical-align: middle;
+}
+
 .gl-standards-rating {
   width: 56px;
   height: 56px;
@@ -78,6 +91,29 @@
   .box-shadow(0px 0px 8px 0px rgba(0, 0, 0, .5));
   border: 6px solid white;
 }
+
+.standards-data-scroll .gl-standards-rating:hover {
+  cursor: pointer;
+}
+
+.gl-standards-rating--small {
+  width: 28px;
+  height: 28px;
+  border: 3px solid white;
+}
+
+.gl-standards-key-label {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.gl-standards-key-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 5px solid blue;
+}
+
 
 .gl-standards-rating--notstarted {
   background: white;
@@ -93,11 +129,17 @@
   background-color: #ee4e51;
   border: none;
   .box-shadow(none);
+  &.gl-standards-rating--small {
+    .image-2x('icon-report-wo.png', 25px, 25px);
+  }
 }
 
 .gl-standards-rating--tracking {
   .image-2x('icon-report-tracking.png', 50px, 50px);
   background-position: center;
+  &.gl-standards-rating--small {
+    .image-2x('icon-report-tracking.png', 25px, 25px);
+  }
 }
 
 .gl-standards-rating--achieved {
