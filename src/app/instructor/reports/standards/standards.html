@@ -1,64 +1,40 @@
-<article class="legend-header">
+<article class="legend-header gl-report-standards-legend-header">
     <p class="legend-header"><span>Competency Levels</span></p>
 </article>
 
-<div class="gl-reports-competency-labels">
-  <table>
-    <tr>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Not Started Yet</div>
-        </div>
+<div class="gl-reports-standard-labels">
+  <table width="100%">
+    <tr ng-init="labels = [{id: 'notstarted', text: 'Not Started Yet'}, {id: 'nodata', text: 'Not Enough Data'}, {id: 'watchout', text: 'Watch Out!<br>Intervene Now'}, {id: 'tracking', text: 'Tracking Toward<br>Standard Achievement'}, {id: 'achieved', text: 'Standard Achieved'}]">
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--notstarted"></div>
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle gl-reports-competency-circle-gray"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Not Enough Data</div>
-        </div>
+      <td class="gl-standards-key-label">
+        Not Started Yet
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">
-            Watch Out!<br>
-            Intervene Now
-          </div>
-        </div>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--nodata"></div>
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">
-            Tracking Toward<br>
-            Standard Achievement
-          </div>
-        </div>
+      <td class="gl-standards-key-label">
+        Not Enough Data
       </td>
-      <td class="gl-reports-competency-label">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle gl-reports-competency-circle-green"></div>
-          </div>
-          <div class="gl-reports-competency-label-text">Standard Achieved</div>
-        </div>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--watchout"></div>
       </td>
-      <!--td class="gl-reports-competency-label" ng-repeat="label in reportInfo.labels">
-        <div class="gl-reports-competency-label-container">
-          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
-            <div class="gl-reports-competency-circle" ng-class="getLabelInfo(label.id,'class')">
-            </div>
-          </div><div class="gl-reports-competency-label-text" ng-bind="label.title"></div>
-        </div>
-      </td-->
+      <td class="gl-standards-key-label">
+        Watch Out!<br>Intervene Now
+      </td>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--tracking"></div>
+      </td>
+      <td class="gl-standards-key-label">
+        Tracking Toward<br>Standard Achievement
+      </td>
+      <td class="">
+        <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--achieved"></div>
+      </td>
+      <td class="gl-standards-key-label">
+        Standard Achieved
+      </td>
     </tr>
   </table>
 </div>
@@ -85,7 +61,7 @@
         <div class="col-md-3 gl-pad--Tm">
           <strong>Name</strong>
         </div>
-        <div class="col-md-9 gl-report-sep temp-data-scroll" id="temp-header">
+        <div class="col-md-9 gl-report-sep standards-data-scroll" id="standards-header">
 
           <table class="gl-report-standards-table">
             <tr>
@@ -107,10 +83,11 @@
                 Critical Thinking and Problem Solving
               </td>
             </tr>
-            <tr>
+            <tr ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions">
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.6.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Trace and evaluate the argument and specific claims
                   in a text, distinguishing claims that are supported
                   by reasons and evidence from claims that are not.
@@ -118,7 +95,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.7.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Trace and evaluate the argument and specific claims
                   in a text, distinguishing claims that are supported
                   by reasons and evidence from claims that are not.
@@ -126,7 +104,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">RI.8.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Delineate and evaluate the argument and specific claims
                   in a text, assessing whether the reasoning is sound and
                   the evidence is relevant and sufficient; recognize when
@@ -135,7 +114,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">CCRA.R.1</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Read closely to determine what the text says explicitly
                   and to make logical inferences from it; cite specific
                   textual evidence when writing or speaking to support
@@ -144,7 +124,8 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">CCRA.R.8</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Delineate and evaluate the argument and specific claims
                   in a text, including the validity of the reasoning as
                   well as the relevance and sufficiency of the evidence.
@@ -152,14 +133,16 @@
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">Reason Effectively</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   Use various types of reasoning (indeductive, deductive, etc.)
                   as appropriate to the situation.
                 </div>
               </td>
               <td class="gl-report-standards-item">
                 <div class="gl-report-standards-item-title">Making Judgments and Decisions</div>
-                <div class="gl-report-standards-item-desc">
+                <div class="gl-report-standards-item-desc"
+                  ng-show="state.showStandardsDescriptions">
                   (1) Effectively analyzie and evaluate evidence, arguments, claims
                   and beliefs (2) Analyze and evaluate major alternative points of
                   view (3) Synthesize and make connections between information and
@@ -216,173 +199,271 @@
             </tr>
           </table>
         </div>
-        <div class="col-md-9 gl-pad--An gl-report-sep temp-data-scroll" id="temp-body">
+        <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
             <tr class="gl-table-stripe">
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
+                <div class="gl-standards-rating gl-standards-rating--notstarted"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+                <div class="gl-standards-rating gl-standards-rating--watchout"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
-              </td>
-            </tr>
-
-            <tr class="gl-table-stripe">
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
             </tr>
 
             <tr>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+                <div class="gl-standards-rating gl-standards-rating--notstarted"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+                <div class="gl-standards-rating gl-standards-rating--notstarted"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--watchout"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
             </tr>
 
             <tr class="gl-table-stripe">
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--notstarted"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
             </tr>
 
             <tr>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"></div>
+                <div class="gl-standards-rating gl-standards-rating--tracking"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
+                </div>
               </td>
             </tr>
 
             <tr class="gl-table-stripe">
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
               </td>
               <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"></div>
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--achieved"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--watchout"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
+                </div>
+              </td>
+            </tr>
+
+            <tr class="gl-table-stripe">
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
+              </td>
+              <td class="gl-report-standards-item gl-report-item-cell">
+                <div class="gl-standards-rating gl-standards-rating--nodata"
+                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
+                </div>
               </td>
             </tr>
           </table>
@@ -391,12 +472,12 @@
     </div>
   </div>
   <script type="text/javascript">
-    $('#temp-header').on('scroll', function () {
-      $('#temp-body').scrollLeft($(this).scrollLeft());
+    $('#standards-header').on('scroll', function () {
+      $('#standards-body').scrollLeft($(this).scrollLeft());
     });
 
-    $('#temp-body').on('scroll', function () {
-      $('#temp-header').scrollLeft($(this).scrollLeft());
+    $('#standards-body').on('scroll', function () {
+      $('#standards-header').scrollLeft($(this).scrollLeft());
     });
   </script>
 </div>
