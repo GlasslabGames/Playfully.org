@@ -1,0 +1,64 @@
+.gl-student-dashboard-banner {
+  width: 1900px;
+  height: 400px;
+  .image-2x('student-dashboard-banner.jpg', 1900px, 400px);
+}
+
+.gl-student-login-navbar {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 400px;
+  height: 70px;
+  background-color: @yellowGreen;
+}
+
+.gl-student-login-nav-list {
+  position: absolute;
+  top: 20px;
+  font-family: @serifHeadlineFontFamily;
+  font-size: 16px;
+  li {
+    display: inline;
+    list-style-type: none;
+    color: white;
+    padding-right: 20px;
+  }
+}
+
+.gl-student-dashboard-nav-list {
+  font-family: @serifHeadlineFontFamily;
+  font-size: 18px;
+  position: absolute;
+  bottom: 0px;
+  margin-left: -50px;
+  li {
+    display: inline;
+    list-style-type: none;
+    color: @grey4;
+    padding: 0px 20px 0px 20px;
+    span {
+      margin-left: 5px;
+    }
+  }
+  li.student-nav-active {
+    color: lightseagreen;
+    border-bottom: 9px solid lightseagreen;
+  }
+}
+
+.gl-student-dashboard-navbar {
+  height: 100px;
+  width: 100%;
+}
+
+.gl-student-login-navbar-triangle {
+  position: relative;
+  right: 70px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 70px 70px 0;
+  border-color: transparent @yellowGreen transparent transparent;
+}
+

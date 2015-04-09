@@ -1,3 +1,3 @@
 angular.module( 'playfully.student', [
-  'student.dashboard'
+  'student.courses'
 ]);
