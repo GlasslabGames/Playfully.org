@@ -1,19 +1,17 @@
-angular.module( 'student.dashboard', [
-  'courses',
-  'ui.router'
+angular.module( 'student.courses', [
 ])
 
 .config(function config( $stateProvider ) {
-  $stateProvider.state('root.studentDashboard', {
-    url: 'home',
+  $stateProvider.state('root.studentCourses', {
+    url: 'courses',
     views: {
       'main@': {
-        controller: 'DashboardStudentCtrl',
-        templateUrl: 'student/dashboard/student-dashboard.html'
+        controller: 'CoursesStudentCtrl',
+        templateUrl: 'student/courses/student-courses.html'
       }
     },
     data:{
-      pageTitle: 'Home',
+      pageTitle: 'Courses',
       authorizedRoles: ['student']
     },
     resolve: {
@@ -31,7 +29,7 @@ angular.module( 'student.dashboard', [
     views: {
       'modal@': {
         controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/course-enroll.html'
+        templateUrl: 'student/courses/course-enroll.html'
       }
     },
     data:{
@@ -58,7 +56,7 @@ angular.module( 'student.dashboard', [
     views: {
       'main@': {
         controller: 'EnrollInCourseModalCtrl',
-        templateUrl: 'student/dashboard/sdk-course-enroll.html'
+        templateUrl: 'student/courses/sdk-course-enroll.html'
       }
     },
     data:{
@@ -68,7 +66,7 @@ angular.module( 'student.dashboard', [
   });
 })
 
-.controller( 'DashboardStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games, DetectionSvc) {
+.controller( 'CoursesStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games, DetectionSvc) {
   $scope.currentOS = null;
 
   if (DetectionSvc.getOSSupport().supported) {
