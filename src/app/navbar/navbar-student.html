@@ -7,9 +7,7 @@
     </ul>
 </div>
 <div gl-student-image-container>
-    <div class="gl-student-dashboard-banner">
-        <div class="gl-student-banner-title text-center"
-             ng-bind="'Welcome back,' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
+    <div ng-include src="'student/student-banner-svg.html'">
     </div>
 </div>
 <div class="gl-student-dashboard-navbar container gl-container">
