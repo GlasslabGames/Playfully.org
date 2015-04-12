@@ -4,7 +4,7 @@
 
 <div class="gl-reports-standard-labels">
   <table width="100%">
-    <tr ng-init="labels = [{id: 'notstarted', text: 'Not Started Yet'}, {id: 'nodata', text: 'Not Enough Data'}, {id: 'watchout', text: 'Watch Out!<br>Intervene Now'}, {id: 'tracking', text: 'Tracking Toward<br>Standard Achievement'}, {id: 'achieved', text: 'Standard Achieved'}]">
+    <tr>
       <td class="">
         <div class="gl-standards-rating gl-standards-rating--small gl-standards-rating--notstarted"></div>
       </td>
@@ -46,6 +46,8 @@
   <div ng-include src="'instructor/reports/_students.html'"></div>
 
   <div class="report-body--wide gl-pad-Al">
+    <div class="fa fa-question-circle gl-standards-question"
+         ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all'})"></div>
     <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
     <!--h1 class="headline-2 text-center gl-margin--Tl"
       ng-bind="reports.selected.header.text"></h1-->
