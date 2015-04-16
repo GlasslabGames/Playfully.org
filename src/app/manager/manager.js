@@ -728,7 +728,10 @@ angular.module('playfully.manager', [])
             UtilService.submitFormRequest($scope.requestPromo, function () {
                 return LicenseService.stripeRequestPromo(promoCode);
             }, function (response) {
-
+                if ($scope.promoCode.existing && response.data.duration === "once") {
+                    $scope.plan.promoCode = null;
+                    return;
+                }
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
                 $scope.promoCode.percent_off = 0;
