@@ -6,12 +6,12 @@
             <div class="col-md-12 gl-package-top gl-margin--T30">
                 <div class="gl-logo-premium-icon"></div>
                 <h4 class="headline-3--serif gl-package-title">Premium Subscription</h4>
-                <p>Choose the subscription that best fits your technology environment</p>
-                <button class="btn gl-btn--cyangreen gl-margin--T30" ui-sref="modal-xlg.subscribe-video">How it works</button>
+                <p class="gl-margin--B40">Choose the subscription that best fits your technology environment</p>
+                <div ui-sref="modal-xlg.subscribe-video" class="gl-video-play-button"></div>
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container gl-package-container">
         <div class="row text-center">
             <div class="col-md-12">
                 <div class="gl-package-choices">
@@ -38,6 +38,11 @@
                                 </div>
                             </div>
                             <div class="gl-package-box-back" ng-show="packageFlip">
+                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span>
+                                    per year
+                                </div>
                                 <form class="gl-package-form">
                                     <div class="radio">
                                         <label>
@@ -68,17 +73,13 @@
                                     <u class="gl-clickable" ui-sref="modal-lg.games-available({planId:package.planId, packageName: package.name})">View
                                         games included</u>
                                 </ul>
-                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
-                                    <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span> per year
-                                </div>
                                 <!--<button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">-->
                                     <!--<i class="fa fa-chevron-left"></i>-->
                                 <!--</button>-->
                                 <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe',role:'instructor'})"
-                                        class="gl-package-continue-button"> Continue
+                                        class="gl-package-continue-button"> Subscribe
                                 </button>
-                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
+                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Subscribe</button>
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,6 @@
                     <a href="mailto:info@glasslabgames.org" target="_top">info@glasslabgames.org</a>
                 </div>
         </div>
-
     </div>
     </div>
     <div class="row" ng-hide="hasLicense('type')==='trial'">

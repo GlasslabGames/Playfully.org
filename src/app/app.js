@@ -522,6 +522,9 @@ angular.module( 'playfully', [
                 }
             }
             if (user.isUpgradeTrial) {
+                if (user.licenseStatus === "pending") {
+                    return;
+                }
                 $state.go('modal.start-trial-subscription');
                 return;
             }
