@@ -174,7 +174,11 @@ angular.module('license', [])
                 }
             };
             this.stripeRequestPromo = function (promoCode, params) {
-                return $http.get( API_BASE + '/license/promo-code/' + promoCode + '?acceptInvalid=' + params.acceptInvalid);
+                if (params) {
+                    return $http.get(API_BASE + '/license/promo-code/' + promoCode + '?acceptInvalid=' + params.acceptInvalid);
+                } else {
+                    return $http.get(API_BASE + '/license/promo-code/' + promoCode);
+                }
             };
             this.getGamesByPlanType = function (planId) {
                 return $http.get( API_BASE + '/dash/games/plan/' + planId + '/basic').then(function(response) {
