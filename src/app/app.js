@@ -24,6 +24,7 @@ angular.module( 'playfully', [
   'gl-enter',
   'gl-editable-text-popover',
   'gl-editable-text',
+  'gl-notification-top-bar',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',
@@ -522,6 +523,9 @@ angular.module( 'playfully', [
                 }
             }
             if (user.isUpgradeTrial) {
+                if (user.licenseStatus === "pending") {
+                    return;
+                }
                 $state.go('modal.start-trial-subscription');
                 return;
             }

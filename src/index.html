@@ -34,11 +34,11 @@
     <div class="gl-navbar-logo.beta"></div>
     <p>GlassLab Games delivers a delightful user experience covering the most critical learning standards. Our games are as engaging as the games students and educators choose to play in their free time.</p>
   </div>
-  <div class="gl-how-it-works-panel" collapse="howItWorksPanel.isCollapsed">
-    <div class="container gl-container">
-      <div data-ng-include="'how-it-works-panel/how-it-works.html'"></div>
-    </div>
-  </div>
+  <!--<div class="gl-how-it-works-panel" collapse="howItWorksPanel.isCollapsed">-->
+    <!--<div class="container gl-container">-->
+      <!--<div data-ng-include="'how-it-works-panel/how-it-works.html'"></div>-->
+    <!--</div>-->
+  <!--</div>-->
     <div class="gl-canvas" autoscroll="true">
       <div class="gl-navbar-student" ng-if="isAuthorized('student')">
           <div data-ng-include="'navbar/navbar-student.html'"></div>
@@ -57,6 +57,7 @@
           </div>
         </div>
       </div>
+      <div ng-if="currentUser.inviteLicense" gl-notification-top-bar gl-current-user="currentUser"></div>
 
       <div class="gl-main" ng-class="{'gl-student-dashboard-background': isAuthorized('student')}" autoscroll="true" ui-view="main">
       </div>
