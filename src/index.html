@@ -57,7 +57,8 @@
           </div>
         </div>
       </div>
-        <!--<div> {{currentUser.inviteLicense}}</div>-->
+      <div ng-if="currentUser.inviteLicense" gl-notification-top-bar gl-current-user="currentUser"></div>
+
       <div class="gl-main" ng-class="{'gl-student-dashboard-background': isAuthorized('student')}" autoscroll="true" ui-view="main">
       </div>
 

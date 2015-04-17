@@ -226,6 +226,12 @@ angular.module('license', [])
                     return response;
                 });
             };
+            this.leaveTrialAcceptInvitation = function () {
+                return $http.post(API_BASE + '/license/trial/move');
+            };
+            this.declineInvitation = function () {
+                return $http.post(API_BASE + '/license/nullify');
+            };
 
     })
     .factory('LicenseStore', function() {

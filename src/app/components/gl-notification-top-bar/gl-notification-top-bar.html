@@ -1,0 +1,11 @@
+<div class="gl-notification-top-bar text-center">
+    <div ng-hide="errors.length > 0">
+        Lucky you! You've been invited to {{owner.firstName}} {{owner.lastName}}'s {{packageType.title}} package.
+        If you accept, your free trial ends.
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <u class="gl-clickable" ng-click="acceptInvitation()"> Accept </u>&nbsp;&nbsp;
+        <u class="gl-clickable" ng-click="declineInvitation()"> Decline</u>&nbsp;&nbsp;
+        <u href="https://glasslab.zendesk.com/hc/en-us/categories/200374805-Subscription">Learn more</u>
+    </div>
+    <div ng-repeat="error in errors"> There was an {{error}}</div>
+</div>
