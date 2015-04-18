@@ -4,7 +4,7 @@ angular.module( 'instructor.reports')
     $stateProvider.state('modal-xlg.standardsInfo', {
       url: '/reports/details/standards/game/:gameId/:type',
       data:{
-        pageTitle: 'Standards Report: Watch Out'
+        pageTitle: 'Standards Report'
       },
       resolve: {
       },
@@ -14,7 +14,7 @@ angular.module( 'instructor.reports')
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
           controller: function($scope, $log) {
-            $log.info('hello');
+
           }
         }
       }

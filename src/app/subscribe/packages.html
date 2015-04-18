@@ -6,15 +6,16 @@
             <div class="col-md-12 gl-package-top gl-margin--T30">
                 <div class="gl-logo-premium-icon"></div>
                 <h4 class="headline-3--serif gl-package-title">Premium Subscription</h4>
-                <p>Choose the subscription that best fits your technology environment</p>
+                <p class="gl-margin--B40">Choose the subscription that best fits your technology environment</p>
+                <div ui-sref="modal-xlg.subscribe-video" class="gl-video-play-button"></div>
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container gl-package-container">
         <div class="row text-center">
             <div class="col-md-12">
                 <div class="gl-package-choices">
-                        <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=false">
+                        <div ng-repeat="package in packageChoices" class="gl-package-box gl-package-box-allgames" ng-init="packageFlip=true">
                             <h5 class="headline-3--serif gl-margin-Vxl">{{package.name}}</h5>
                             <div ng-hide="packageFlip">
                                 <div class="gl-package-box-price">
@@ -37,6 +38,11 @@
                                 </div>
                             </div>
                             <div class="gl-package-box-back" ng-show="packageFlip">
+                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price">
+                                    <sup class="gl-package-box-price-dollar">$ </sup>
+                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span>
+                                    per year
+                                </div>
                                 <form class="gl-package-form">
                                     <div class="radio">
                                         <label>
@@ -63,20 +69,22 @@
                                         </label>
                                     </div>
                                 </form>
-                                <div ng-show="package.seatsSelected > 0" class="gl-package-box-price gl-margin--Bm">
-                                    <sup class="gl-package-box-price-dollar">$ </sup>
-                                    <span class="gl-package-box-price-number">{{calculateTotal(package.pricePerSeat,package.seatsSelected)}}</span> per year
-                                </div>
-                                <button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">
-                                    <i class="fa fa-chevron-left"></i>
-                                </button>
+                                <ul class="packages-games-included list--nobullets">
+                                    <u class="gl-clickable" ui-sref="modal-lg.games-available({planId:package.planId, packageName: package.name})">View
+                                        games included</u>
+                                </ul>
+                                <!--<button class="gl-package-back-button" ng-click="packageFlip=!packageFlip">-->
+                                    <!--<i class="fa fa-chevron-left"></i>-->
+                                <!--</button>-->
                                 <button ng-if="isAuthorized('guest')" ui-sref="modal.register({packageType:package.name,seatsSelected:package.seatsSelected,upgrade: 'subscribe',role:'instructor'})"
-                                        class="gl-package-continue-button"> Continue
+                                        class="gl-package-continue-button"> Subscribe
                                 </button>
-                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Continue</button>
+                                <button ng-if="isAuthenticated()" ui-sref="root.subscribe.payment.default({packageType:package.name,seatsSelected:package.seatsSelected})" class="gl-package-continue-button"> Subscribe</button>
                             </div>
                         </div>
                     </div>
+                    <span>Want to purchase GlassLab Games for more than 500 students? Contact us at</span>
+                    <a href="mailto:info@glasslabgames.org" target="_top">info@glasslabgames.org</a>
                 </div>
         </div>
     </div>
