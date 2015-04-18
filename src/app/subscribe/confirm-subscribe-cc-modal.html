@@ -6,7 +6,7 @@
 
 
 <div class="modal-body text-center" ng-if="!request.success && !request.errors.length">
-    <p ng-if="purchaseInfo.payment > 0" class="gl-margin-Vl">${{purchaseInfo.payment.toFixed(2)}} will be charged to your credit
+    <p ng-if="purchaseInfo.payment >= 0" class="gl-margin-Vl">${{purchaseInfo.payment.toFixed(2)}} will be charged to your credit
         card.</p>
 
     <div class="gl-input-group gl-margin--Bm">

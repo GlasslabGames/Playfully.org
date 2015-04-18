@@ -173,8 +173,12 @@ angular.module('license', [])
                     request.errors.push("The credit card number you entered doesn't match the card type you selected");
                 }
             };
-            this.stripeRequestPromo = function (promoCode) {
-                return $http.get( API_BASE + '/license/promo-code/' + promoCode );
+            this.stripeRequestPromo = function (promoCode, params) {
+                if (params) {
+                    return $http.get(API_BASE + '/license/promo-code/' + promoCode + '?acceptInvalid=' + params.acceptInvalid);
+                } else {
+                    return $http.get(API_BASE + '/license/promo-code/' + promoCode);
+                }
             };
             this.getGamesByPlanType = function (planId) {
                 return $http.get( API_BASE + '/dash/games/plan/' + planId + '/basic').then(function(response) {
@@ -225,6 +229,12 @@ angular.module('license', [])
                     console.log('error - ', response);
                     return response;
                 });
+            };
+            this.leaveTrialAcceptInvitation = function () {
+                return $http.post(API_BASE + '/license/trial/move');
+            };
+            this.declineInvitation = function () {
+                return $http.post(API_BASE + '/license/nullify');
             };
 
     })

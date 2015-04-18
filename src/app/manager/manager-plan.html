@@ -87,7 +87,7 @@
                                 <td>{{educator.firstName==='temp'?'': educator.firstName}}
                                     {{educator.lastName==='temp'?'': educator.lastName}}</td>
                                 <td>{{educator.email}}</td>
-                                <td ng-if="isLicenseOwner()">{{educator.status}}</td>
+                                <td ng-if="isLicenseOwner()">{{educator.status === 'invite-pending' ? 'pending' : educator.status}}</td>
                                 <td ng-if="isLicenseOwner()"><i ng-hide="plan.ownerEmail===educator.email" ui-sref="modal.remove-educator({email:educator.email})" class="fa fa-trash-o gl-manager-trash-educator"></i></td>
                             </tr>
                         </tbody>

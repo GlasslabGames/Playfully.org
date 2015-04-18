@@ -1,4 +1,4 @@
-angular.module('student.dashboard-sdk', [
+angular.module('student.courses-sdk', [
     'ui.router'
 ])
 
@@ -17,7 +17,7 @@ angular.module('student.dashboard-sdk', [
         views: {
             'main@': {
                 controller: 'sdkv2EnrollInCourseModalCtrl',
-                templateUrl: 'student/dashboard/v2/sdk-course-enroll.html'
+                templateUrl: 'student/courses/v2/sdk-course-enroll.html'
             }
         },
         data: {

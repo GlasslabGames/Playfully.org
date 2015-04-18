@@ -110,6 +110,18 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 }
             })
+            .state('modal-xlg.subscribe-video', {
+                url: '/subscribe-video',
+                data: {
+                    pageTitle: 'Subscribe Video',
+                    reloadNextState: true
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'subscribe/subscribe-video-modal.html'
+                    }
+                }
+            })
            .state('modal.confirm-subscribe-cc-modal', {
                 url: '/subscribe/confirm-subscribe',
                 data: {
