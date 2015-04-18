@@ -139,7 +139,8 @@ angular.module('playfully.register', ['register.const'])
         if( STRIPE.env === "live" ) {
           if ($scope.upgrade === 'trial') {
               var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
-              if (emailAddress >= 0) {
+              var emailDomain = $scope.account.email.split('@')[1].indexOf('glasslabgames.org');
+              if (emailAddress >= 0 && emailDomain == -1) {
                   $scope.account.errors.push('Trial accounts cannot have the + symbol in their email address');
                   return;
               }
