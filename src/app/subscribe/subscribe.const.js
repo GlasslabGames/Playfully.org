@@ -1,15 +1,15 @@
 angular.module('subscribe.const', [])
 
     .constant('SUBSCRIBE_CONSTANTS', {
-        "iPadGames": {
+        "ipad": {
           title: "iPad",
           description: "Games in this package are optimized to work on iPads."
         },
-        "PCMacGames": {
+        "pcMac": {
             title: "PC/Mac",
             description: "Games in this package run on PC or Mac computers."
         },
-        "chromeBookGames": {
+        "chromebook": {
             title: "Chromebook",
             description: "Games in this package are optimized to work on Chromebooks."
         },
