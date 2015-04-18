@@ -724,11 +724,14 @@ angular.module('playfully.manager', [])
             return "$" + grandTotal.toFixed(2);
         };
 
-        $scope.applyPromoCode = function (promoCode) {
+        $scope.applyPromoCode = function (promoCode, acceptInvalid) {
             UtilService.submitFormRequest($scope.requestPromo, function () {
-                return LicenseService.stripeRequestPromo(promoCode);
+                return LicenseService.stripeRequestPromo(promoCode, acceptInvalid);
             }, function (response) {
-
+                if ($scope.promoCode.existing && (!response.data.valid || response.data.duration === "once")) {
+                    $scope.plan.promoCode = null;
+                    return;
+                }
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
                 $scope.promoCode.percent_off = 0;
@@ -754,7 +757,8 @@ angular.module('playfully.manager', [])
         if ($scope.plan.promoCode) {
             /* Apply existing promoCode discount */
             $scope.promoCode.existing = true;
-            $scope.applyPromoCode($scope.plan.promoCode);
+            /* API will accept invalid coupons and return a response */
+            $scope.applyPromoCode($scope.plan.promoCode, {acceptInvalid: true });
         }
     })
     .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {

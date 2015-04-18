@@ -234,6 +234,25 @@ angular.module( 'instructor.reports', [
                 return reports;
             }
         }
+    })
+    .state('root.reports.details.standards', {
+      url: '/standards/game/:gameId/course/:courseId?skillsId&stdntIds',
+      templateUrl: 'instructor/reports/standards/standards.html',
+      controller: 'StandardsCtrl',
+      parameters: ['gameId','courseId'],
+      resolve: {
+        defaultCourse: function ($stateParams, coursesInfo) {
+          return coursesInfo[$stateParams.courseId];
+        },
+        myGames: function (defaultCourse) {
+          return defaultCourse.games;
+        },
+        defaultGame: function (defaultCourse, myGames, $stateParams) {
+          var defaultGame = myGames[0];
+          defaultGame = _.findWhere(myGames, { 'id': $stateParams.gameId });
+          return defaultGame;
+        }
+      }
     });
 
 })

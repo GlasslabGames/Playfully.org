@@ -4,18 +4,17 @@
       <div class="gl-home-slide--start">
         <h2 class="gl-home-title--start">Start Playing Today!</h2>
         <div class="gl-margin--Txl gl-pad--Tl">
-          <button type="button" class="btn gl-btn--blue gl-btn--large" ng-click="state.go('modal.register.instructor')">Teachers Start Here</button>
+          <button type="button" class="btn gl-btn--blue gl-btn--large" ng-click="goToAnchor('start-playing-section')">Teachers Start Here</button>
         </div>
         <div class="gl-margin--Tm">
           <button type="button" class="btn gl-btn-green gl-btn--large" ng-click="state.go('modal.register.student')">Students Start Here</button>
         </div>
-        <div class="gl-home-link--start gl-text--white gl-margin--Txl"
-          ng-click="closePanel()">
-          Learn more about what we offer<br>
-          and how it works
+        <div class="gl-text--white gl-margin--Txl">
+          <span class="gl-home-link--start " ui-sref="modal-xlg.subscribe-video" ">Learn more about what we offer<br>
+          and how it works</span>
         </div>
       </div>
-
     </div>
+  <!--<div class="subscribe-video-thumbnail gl-clickable" ui-sref="modal-xlg.subscribe-video"></div>-->
   </div>
 </div>

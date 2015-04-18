@@ -1,0 +1,166 @@
+/* Standards */
+.standards-data-scroll {
+  overflow-x: scroll;
+}
+
+.gl-report-standards-header {
+  background: @grey7; 
+}
+.gl-report-sep {
+  border-left: 8px solid white;
+}
+
+.gl-report-standards-legend-header {
+  p.legend-header span:before, p.legend-header span:after {
+    width: 600px;
+  }
+}
+
+.gl-report-sep--blue {
+  background: @aquaBlue; 
+  height: 8px;
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
+}
+
+.gl-report-standards-table {
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+
+.gl-report-standards-header-title {
+  color: @grey2;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 4px solid @grey6;
+}
+
+.gl-report-standards-header-subsection {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.gl-report-standards-header-subsection-title {
+  color: @grey2;
+  text-align: center;
+  border-bottom: 2px solid @grey6;
+}
+
+.gl-report-standards-item {
+  vertical-align: top;
+  min-width: 150px;
+}
+
+.gl-report-standards-header-item {
+  width: 130px;
+  display: inline-block;
+}
+
+.gl-report-standards-item-title {
+  color: @grey2;
+  text-align: center;
+  font-weight: bold;
+}
+
+.gl-report-standards-item-desc {
+  color: @grey2;
+  white-space: normal;
+  font-size: 12px;
+}
+
+ .gl-report-item-cell {
+  vertical-align: middle;
+  height: 80px;
+  min-width: 165px;
+ }
+
+.gl-report-item-cell:first-child {
+  padding-left: 15px;
+}
+
+.gl-standards-key-cell {
+  vertical-align: middle;
+}
+
+.gl-standards-rating {
+  width: 56px;
+  height: 56px;
+  .border-radius(56px);
+  margin-left: auto;
+  margin-right: auto;
+  .box-shadow(0px 0px 8px 0px rgba(0, 0, 0, .5));
+  border: 6px solid white;
+}
+
+.standards-data-scroll .gl-standards-rating:hover {
+  cursor: pointer;
+}
+
+.gl-standards-rating--small {
+  width: 28px;
+  height: 28px;
+  border: 3px solid white;
+}
+
+.gl-standards-key-label {
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.gl-standards-key-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 5px solid blue;
+}
+
+
+.gl-standards-rating--notstarted {
+  background: white;
+}
+
+.gl-standards-rating--nodata {
+  background: #cccbcb;
+}
+
+.gl-standards-rating--watchout {
+  .image-2x('icon-report-wo.png', 50px, 50px);
+  background-position: center;
+  background-color: #ee4e51;
+  border: none;
+  .box-shadow(none);
+  &.gl-standards-rating--small {
+    .image-2x('icon-report-wo.png', 25px, 25px);
+  }
+}
+
+.gl-standards-rating--tracking {
+  .image-2x('icon-report-tracking.png', 50px, 50px);
+  background-position: center;
+  &.gl-standards-rating--small {
+    .image-2x('icon-report-tracking.png', 25px, 25px);
+  }
+}
+
+.gl-standards-rating--achieved {
+  background: #2DB375;
+}
+
+.gl-table-stripe {
+  background: @grey7;
+}
+
+.gl-standards-question {
+  float: right;
+  color: @yellow;
+  font-size: 32px;
+}
+
+.gl-standard {
+  color: @grey4;
+}
+
+.gl-standard--selected {
+  color: @grey1;
+  font-weight: bold;
+}
