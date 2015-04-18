@@ -1,0 +1,71 @@
+<div class="container gl-home-student-intro">
+    <div class="gl-student-dashboard-container">
+        <h3 class="headline-2 gl-margin--B40"> My Classes </h3>
+        <button class="btn gl-btn--cyangreen gl-student-dashboard-add-class float--r" ui-sref="modal.enrollInCourse">
+            <i class="fa fa-plus"></i> Add New Class
+        </button>
+
+      <div ng-hide="courses.length" class="gl-courses--blank text-center">
+        You do not have any classes yet
+      </div>
+
+      <div class="gl-student-course" ng-repeat="course in courses">
+        <div class="gl-student-course-header">
+            <ul class="list-horizontal--nobullets">
+                <li>
+                    Class: {{ course.title }}
+                </li>
+                <li>
+                    Teacher: {{ course.teacher.firstName }} {{ course.teacher.lastName }}
+                </li>
+                <li>
+                    Class Code: {{course.code}}
+                </li>
+            </ul>
+        </div>
+        <div class="gl-student-course-games">
+          <h4 ng-if="!course.hasEnabledGames" class="headline-5 text-center gl-student-course-no-games" ng-bind="'This class has no games available for play.'"></h4>
+          <div ng-show="course.games.length">
+            <div class="gl-student-course-game text-center"
+              ng-if="game.assigned"
+              ng-repeat="game in course.games"
+              ng-show="gamesInfo[game.id].enabled">
+                <img ng-src="/{{gamesInfo[game.id].card.small}}" class="gl-student-courses-game-card">
+                <div>
+                  <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
+                    <div ng-if="isMultiLinkType(button)"
+                         class="gl-btn--outlined gl-student-dash-btn">
+                        <div ng-repeat="link in button.links">
+                            <button ng-if="currentOS===link.OS" type="button"
+                                    class="btn gl-btn--blue gl-student-dash-btn"
+                                    ng-click="goToLink(link.link,link.target)"
+                                    ng-bind="button.name"></button>
+                        </div>
+                    </div>
+                    <div ng-if="isSingleLinkType(button)"
+                         ng-switch="button.type"
+                         class="gl-btn--outlined gl-student-dash-btn">
+                        <button ng-switch-when="play"
+                                type="button"
+                                class="btn gl-btn--green gl-student-dash-btn"
+                                ng-click="goToPlayGame(game.id, course.id);
+                                  ga('send', 'event', 'button', 'click', 'play', game.id);
+                                  console.log('GA-click!! - play')"
+                                ng-bind="button.name"></button>
+                        <button ng-switch-when="download"
+                                type="download"
+                                class="btn gl-btn--green gl-student-dash-btn"
+                                ng-click="goToLink(button.links[0].link);
+                                  ga('send', 'event', 'button', 'click', 'download', game.id);
+                                  console.log('GA-click!! - download')"
+                                ng-bind="button.name"></button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>

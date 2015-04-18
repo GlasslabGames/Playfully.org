@@ -24,6 +24,7 @@ angular.module( 'playfully', [
   'gl-enter',
   'gl-editable-text-popover',
   'gl-editable-text',
+  'gl-notification-top-bar',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',
@@ -41,7 +42,7 @@ angular.module( 'playfully', [
   'playfully.verify-email',
   'playfully.login-sdk',
   'playfully.register-sdk',
-  'student.dashboard-sdk',
+  'student.courses-sdk',
   'playfully.developer',
   'playfully.subscribe',
   'playfully.manager'
@@ -328,7 +329,7 @@ angular.module( 'playfully', [
                     ) {
                     $state.go('root.instructorDashboard.default');
                   } else {
-                    $state.go('root.studentDashboard');
+                    $state.go('root.studentCourses');
                   }
                 }
 
@@ -522,6 +523,9 @@ angular.module( 'playfully', [
                 }
             }
             if (user.isUpgradeTrial) {
+                if (user.licenseStatus === "pending") {
+                    return;
+                }
                 $state.go('modal.start-trial-subscription');
                 return;
             }
