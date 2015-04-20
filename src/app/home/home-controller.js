@@ -66,10 +66,10 @@ angular.module( 'playfully.home', ['ui.router'])
 
   $scope.myInterval = 6000;
   $scope.slides = [
-    { image: 'home-banner-start' },
-    { image: 'home-banner-mission' },
+    { image: 'home-banner-mission'},
     { image: 'home-banner-approach' },
-    { image: 'home-banner-results'} 
+    { image: 'home-banner-start'},
+    { image: 'home-banner-results'}
   ];
 
   $scope.go = function(url){
