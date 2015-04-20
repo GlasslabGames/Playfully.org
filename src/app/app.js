@@ -416,7 +416,7 @@ angular.module( 'playfully', [
     };
     $scope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
-        if( STRIPE.env === "live" ) {
+        if( ENV.stripe === "live" ) {
           if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.ssl)) {
                 if (toState.data.ssl) {

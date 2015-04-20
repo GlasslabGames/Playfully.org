@@ -101,7 +101,8 @@ module.exports = function ( grunt ) {
               constants: {
                   ENV: {
                       name: platformConfig.env,
-                      path: platformConfig.webapp.staticContentPath
+                      path: platformConfig.webapp.staticContentPath,
+                      stripe: platformConfig.stripe.env
                   }
               }
           },
@@ -112,7 +113,8 @@ module.exports = function ( grunt ) {
               constants: {
                   ENV: {
                       name: platformConfig.env,
-                      path: platformConfig.webapp.staticContentPath
+                      path: platformConfig.webapp.staticContentPath,
+                      stripe: platformConfig.stripe.env
                   }
               }
           }
