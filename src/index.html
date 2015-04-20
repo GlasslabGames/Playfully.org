@@ -143,9 +143,9 @@
       </footer>
     </div>
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="/<%= file %>"></script><% }); %>
-
+    <script type="text/javascript" src="./env-config.js"></script>
   </body>
 </html>
-
