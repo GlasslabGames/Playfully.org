@@ -623,7 +623,7 @@ module.exports = function ( grunt ) {
    */
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'build', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'ngAnnotate', 'concat:compile_js', 'uglify',
+    'build', 'ngAnnotate', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'concat:compile_js', 'uglify',
     'index:compile', 'createDistVersionFile'
   ]);
   
