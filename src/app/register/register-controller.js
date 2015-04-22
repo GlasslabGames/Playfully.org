@@ -110,7 +110,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, STRIPE) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
         var user = null;
         var packageInfo = {
             packageType: null || $stateParams.packageType,
@@ -136,7 +136,7 @@ angular.module('playfully.register', ['register.const'])
 
       $scope.register = function( account ) {
         // TODO: uncomment this for production release
-        if( STRIPE.env === "live" ) {
+        if( ENV.stripe === "live" ) {
           if ($scope.upgrade === 'trial') {
               var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
               var emailDomain = $scope.account.email.split('@')[1].indexOf('glasslabgames.org');

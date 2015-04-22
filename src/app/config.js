@@ -47,7 +47,6 @@ angular.module('playfully.config', [])
 })
 
 .constant('STRIPE', {
-  env: "test",
   test: {
       publishableKey: "pk_test_0T7q98EI508iQGcjdv1DVODS"
   },

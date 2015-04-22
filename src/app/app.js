@@ -383,7 +383,7 @@ angular.module( 'playfully', [
 
 .controller('AppCtrl',
             function($scope, $rootScope, $state, $stateParams, $log, $modal, $timeout, $window, $location, ENV,
-    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState, STRIPE) {
+    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
     $log.info(ENV);
     $rootScope.state = $state;
     $rootScope.allGames = null;
