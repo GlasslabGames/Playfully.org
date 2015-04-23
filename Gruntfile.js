@@ -27,7 +27,7 @@ module.exports = function ( grunt ) {
    */
   var userConfig = require( './config/build.config.js' );
   //var platformConfig = require( '../Platform/servers/config.json');
-  var platformConfig = require( '/srv/www/hydra/platform/servers/config.json');
+  //var platformConfig = require( '/srv/www/hydra/platform/servers/config.json');
 
 
   /**
@@ -101,9 +101,10 @@ module.exports = function ( grunt ) {
               },
               constants: {
                   ENV: {
-                      name: platformConfig.env,
+                      /*name: platformConfig.env,
                       path: platformConfig.webapp.staticContentPath,
-                      stripe: platformConfig.stripe.env
+                      stripe: platformConfig.stripe.env*/
+                      stripe: "test"
                   }
               }
           },
@@ -113,9 +114,10 @@ module.exports = function ( grunt ) {
               },
               constants: {
                   ENV: {
-                      name: platformConfig.env,
+                      /*name: platformConfig.env,
                       path: platformConfig.webapp.staticContentPath,
-                      stripe: platformConfig.stripe.env
+                      stripe: platformConfig.stripe.env*/
+                      stripe: "test"
                   }
               }
           }
