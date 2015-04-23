@@ -26,7 +26,8 @@ module.exports = function ( grunt ) {
    * Load in our build configuration file.
    */
   var userConfig = require( './config/build.config.js' );
-  var platformConfig = require( '../Platform/servers/config.json');
+  //var platformConfig = require( '../Platform/servers/config.json');
+  var platformConfig = require( '/srv/www/hydra/platform/servers/config.json');
 
 
   /**
