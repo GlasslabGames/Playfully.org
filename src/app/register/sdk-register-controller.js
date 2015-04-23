@@ -42,6 +42,51 @@ angular.module('playfully.register-sdk', ['register.const'])
                 }
             }
         })
+        .state('sdk.sdkv2Privacy', {
+            url: '/v2/sdk/privacy',
+            data: {hideWrapper: true},
+            views: {
+                'main@': {
+                    templateUrl: 'register/v2/sdk-privacy.html',
+                    controller: function ($scope, $stateParams, $window) {
+                        $scope.gameId = $stateParams.gameId;
+                        $scope.goToLink = function(link) {
+                            $window.location.search = 'openURL='+link;
+                        };
+                    }
+                }
+            }
+        })
+        .state('sdk.sdkv2Eula', {
+            url: '/v2/sdk/eula',
+            data: {hideWrapper: true},
+            views: {
+                'main@': {
+                    templateUrl: 'register/v2/sdk-eula.html',
+                    controller: function ($scope, $stateParams, $window) {
+                        $scope.gameId = $stateParams.gameId;
+                        $scope.goToLink = function (link) {
+                            $window.location.search = 'openURL=' + link;
+                        };
+                    }
+                }
+            }
+        })
+        .state('sdk.sdkv2Terms', {
+            url: '/v2/sdk/terms',
+            data: {hideWrapper: true},
+            views: {
+                'main@': {
+                    templateUrl: 'register/v2/sdk-terms-of-service.html',
+                    controller: function ($scope, $stateParams, $window) {
+                        $scope.gameId = $stateParams.gameId;
+                        $scope.goToLink = function (link) {
+                            $window.location.search = 'openURL=' + link;
+                        };
+                    }
+                }
+            }
+        })
         .state('sdk.sdkv2RegisterPlayfullyInfo', {
             url: '/v2/game/:gameId/register/playfully/info',
             data: {hideWrapper: true},
@@ -87,7 +132,7 @@ angular.module('playfully.register-sdk', ['register.const'])
         };
 
         $scope.goBackState = function () {
-            $previousState.go();
+            $state.go('sdk.sdkv2RegisterOptions');
         };
 
         $scope.states = REGISTER_CONSTANTS.states;

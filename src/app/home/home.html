@@ -20,7 +20,15 @@
     </div>
   </div>
 </div>
-
+<div class="text-center gl-margin--Tl">
+    <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription"
+            class="btn gl-btn--steelblue">Start Trial
+    </button>
+    </button>
+    <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})"
+            class="btn gl-btn--steelblue">Start Trial
+    </button>
+</div>
 <div ui-view="catalog"></div>
 
 <!--<div class="gl-bg--gray gl-home-about">
