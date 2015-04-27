@@ -406,13 +406,13 @@ angular.module( 'playfully', [
         $rootScope.allGames = data;
       });
     }
-    $scope.howItWorksPanel = {
-      isCollapsed: true
-    };
-    $scope.closePanel = function() {
-      $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    };
+    //$scope.howItWorksPanel = {
+    //  isCollapsed: true
+    //};
+    //$scope.closePanel = function() {
+    //  $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
+    //  document.body.scrollTop = document.documentElement.scrollTop = 0;
+    //};
     $scope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
         if( STRIPE.env === "live" ) {
@@ -455,10 +455,10 @@ angular.module( 'playfully', [
     });
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
-        if (!$scope.howItWorksPanel.isCollapsed) {
-          $scope.howItWorksPanel.isCollapsed = true;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        }
+        //if (!$scope.howItWorksPanel.isCollapsed) {
+        //  $scope.howItWorksPanel.isCollapsed = true;
+        //  document.body.scrollTop = document.documentElement.scrollTop = 0;
+        //}
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {

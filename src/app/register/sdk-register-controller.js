@@ -185,7 +185,7 @@ angular.module('playfully.register-sdk', ['register.const'])
             code: null,
             errors: []
         };
-
+        $scope.acceptedTerms = false;
         $scope.course = null;
 
         $scope.account = null;
