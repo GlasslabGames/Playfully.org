@@ -1,7 +1,6 @@
 <div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
-  <div ng-include src="'instructor/reports/_students.html'"></div>
 
-  <div class="report-body--wide gl-pad-Al">
+  <div class="report-body gl-pad-Al">
 
     <h1 class="headline-2 text-center gl-margin--Tl"
       ng-bind="reports.selected.header.text"></h1>
@@ -100,7 +99,30 @@
   </thead>
   <tbody ng-show="!isGameDisabled && courses.options[courses.selectedCourseId].users">
   <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-nobr">
+          <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
+      </td>
+      <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
+        <i class="fa fa-check-circle-o"
+          ng-show="isAwardedAchievement(achv, student.id)"></i>
+      </td>
+      <td class="gl-nobr">
+        <div class="gl-nobr" ng-show="student.totalTimePlayed != 0" ng-bind="student.totalTimePlayed*1000 | amDurationFormat"></div>
+      </td>
+  </tr>
+  <tr>
+      <td colspan="5" class="gl-report-row-spacer">&nbsp;</td>
+  </tr>
+  <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: false} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">
+          <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
+      </td>
       <td class="gl-reports-achievement" ng-repeat="achv in achievements.active">
         <i class="fa fa-check-circle-o"
           ng-show="isAwardedAchievement(achv, student.id)"></i>
