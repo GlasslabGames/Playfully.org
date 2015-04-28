@@ -36,7 +36,21 @@
             </div>
           </div>
       </div>
-
+      <div class="gl-input-row clearfix" ng-class="{'gl-input-row--tinted': hideWrapper}">
+        <div class="gl-input-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-model="acceptedTerms"
+                           ng-checked="acceptedTerms" ng-required="true">
+          <span class="small">
+            I have read and accepted the <a
+                  target="_blank" ui-sref="root.terms-of-service" href="#">Terms of Service</a>, and <a
+                  target="_blank" ui-sref="root.eula" href="#">EULA</a>
+          </span>
+                </label>
+            </div>
+        </div>
+      </div>
       <div class="text-center reg-submit" ng-class="{'reg-submit--nomargin': hideWrapper}">
         &nbsp;<input type="submit" class="btn gl-btn--blue"
         value="{{ regInit.isSubmitting ? 'Confirming...' : 'Confirm Class Code'}}"

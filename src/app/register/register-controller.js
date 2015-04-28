@@ -2,10 +2,6 @@ angular.module('playfully.register', ['register.const'])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
 
-  var registerOptionsConfig = {
-    templateUrl: 'register/register.html',
-    controller: 'RegisterOptionsModalCtrl'
-  };
   $stateProvider.state('modal.register', {
     url: '/register?:upgrade?:packageType?:seatsSelected?:role',
     parent: 'modal',
@@ -68,27 +64,6 @@ angular.module('playfully.register', ['register.const'])
   });
 
 })
-
-//var registerBetaConfig = {
-//   templateUrl: 'register/register-beta.html',
-//   controller: 'RegisterBetaCtrl'
-// };
-// $stateProvider.state('registerBeta', {
-//   url: 'register/beta',
-//   parent: 'modal',
-//   views: { 'modal@': registerBetaConfig }
-// })
-// .state('sdkRegisterBeta', {
-//   url: '/sdk/v2/register/beta',
-//   parent: 'site',
-//   data: { hideWrapper: true },
-//   views: { 'main@': {
-//     templateUrl: 'register/v2/sdk-register-beta.html',
-//     controller: 'RegisterBetaCtrl'
-//   } }
-// })
-
-
 
 .directive('pwConfirm', [function () {
   return {
@@ -187,9 +162,7 @@ angular.module('playfully.register', ['register.const'])
     $scope.closeWindow = function () {
         $window.location.search = 'action=SUCCESS';
     };
-
 })
-
 
 .controller('RegisterStudentModalCtrl',
     function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
@@ -199,7 +172,7 @@ angular.module('playfully.register', ['register.const'])
         code: null,
         errors: []
       };
-
+      $scope.acceptedTerms = false;
       $scope.course = null;
 
       $scope.account = null;
