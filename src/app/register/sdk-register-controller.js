@@ -48,7 +48,10 @@ angular.module('playfully.register-sdk', ['register.const'])
             views: {
                 'main@': {
                     templateUrl: 'register/v2/sdk-privacy.html',
-                    controller: function ($scope, $stateParams, $window) {
+                    controller: function ($scope, $stateParams, $window, $previousState) {
+                        $scope.goBackState = function () {
+                            $previousState.go();
+                        };
                         $scope.gameId = $stateParams.gameId;
                         $scope.goToLink = function(link) {
                             $window.location.search = 'openURL='+link;
@@ -63,8 +66,11 @@ angular.module('playfully.register-sdk', ['register.const'])
             views: {
                 'main@': {
                     templateUrl: 'register/v2/sdk-eula.html',
-                    controller: function ($scope, $stateParams, $window) {
+                    controller: function ($scope, $stateParams, $window, $previousState) {
                         $scope.gameId = $stateParams.gameId;
+                        $scope.goBackState = function () {
+                            $previousState.go();
+                        };
                         $scope.goToLink = function (link) {
                             $window.location.search = 'openURL=' + link;
                         };
@@ -78,8 +84,11 @@ angular.module('playfully.register-sdk', ['register.const'])
             views: {
                 'main@': {
                     templateUrl: 'register/v2/sdk-terms-of-service.html',
-                    controller: function ($scope, $stateParams, $window) {
+                    controller: function ($scope, $stateParams, $window, $previousState) {
                         $scope.gameId = $stateParams.gameId;
+                        $scope.goBackState = function () {
+                            $previousState.go();
+                        };
                         $scope.goToLink = function (link) {
                             $window.location.search = 'openURL=' + link;
                         };
@@ -132,7 +141,7 @@ angular.module('playfully.register-sdk', ['register.const'])
         };
 
         $scope.goBackState = function () {
-            $state.go('sdk.sdkv2RegisterOptions');
+            $previousState.go();
         };
 
         $scope.states = REGISTER_CONSTANTS.states;
@@ -185,7 +194,7 @@ angular.module('playfully.register-sdk', ['register.const'])
             code: null,
             errors: []
         };
-
+        $scope.acceptedTerms = false;
         $scope.course = null;
 
         $scope.account = null;

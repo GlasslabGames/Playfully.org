@@ -57,7 +57,7 @@
           </div>
         </div>
       </div>
-      <div ng-if="currentUser.inviteLicense" gl-notification-top-bar gl-current-user="currentUser"></div>
+      <div ng-if="currentUser.inviteLicense && !hideWrapper" gl-notification-top-bar gl-current-user="currentUser"></div>
 
       <div class="gl-main" ng-class="{'gl-student-dashboard-background': isAuthorized('student')}" autoscroll="true" ui-view="main">
       </div>
