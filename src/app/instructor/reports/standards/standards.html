@@ -60,107 +60,111 @@
         <div class="col-md-3 gl-pad--Tm">
           <strong>Name</strong>
         </div>
-        <div class="col-md-9 gl-report-sep standards-data-scroll gl-report-standards-header">
-            <!--<div class="gl-report-standards-table" ng-repeat="group in reports.selected.table.groups">-->
-                <!--<div class="gl-report-standards-header-title">{{group.name}}</div>-->
-                <!--<div class="gl-report-standards-header-subsection-title" ng-repeat="subject in group.subjects">-->
-                    <!--<div>-->
-                        <!--{{subject.name}}-->
-                    <!--</div>-->
-                    <!--<div class="gl-report-standards-header-subsection-standard" ng-repeat="standard in subject.standards">-->
-                        <!--<div>{{standard.id}}</div>-->
-                    <!--</div>-->
+        <div class="col-md-9 gl-report-sep standards-data-scroll gl-report-standards-header" id="standards-header">
+            <div class="gl-reports-standards-header-container">
+                <div class="gl-report-standards-table text-center" ng-repeat="group in reports.selected.table.groups">
+                    <div class="gl-report-standards-header-title ">{{group.name}}</div>
+                    <div class="gl-report-standards-header-subsection" ng-repeat="subject in group.subjects">
+                        <div>
+                            {{subject.name}}
+                        </div>
+                        <div class="gl-report-standards-header-subsection-item"
+                             ng-repeat="standard in subject.standards">
+                            <div>{{standard.id}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          <!--<table class="gl-report-standards-table">-->
+            <!--<tr>-->
+              <!--<td colspan="5" class="gl-report-standards-header-title">-->
+                <!--Common Core-->
+              <!--</td>-->
+              <!--<td colspan="2" class="gl-report-standards-header-title">-->
+                <!--21st Century Skills-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td colspan="2" class="gl-report-standards-header-subsection-title">-->
+                <!--English Language Art-->
+              <!--</td>-->
+              <!--<td colspan="3" class="gl-report-standards-header-subsection-title">-->
+                <!--College and Career Readiness-->
+              <!--</td>-->
+              <!--<td colspan="2" class="gl-report-standards-header-subsection-title">-->
+                <!--Critical Thinking and Problem Solving-->
+              <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions">-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">RI.6.8</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Trace and evaluate the argument and specific claims-->
+                  <!--in a text, distinguishing claims that are supported-->
+                  <!--by reasons and evidence from claims that are not.-->
                 <!--</div>-->
-            <!--</div>-->
-          <table class="gl-report-standards-table">
-            <tr>
-              <td colspan="5" class="gl-report-standards-header-title">
-                Common Core
-              </td>
-              <td colspan="2" class="gl-report-standards-header-title">
-                21st Century Skills
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" class="gl-report-standards-header-subsection-title">
-                English Language Art
-              </td>
-              <td colspan="3" class="gl-report-standards-header-subsection-title">
-                College and Career Readiness
-              </td>
-              <td colspan="2" class="gl-report-standards-header-subsection-title">
-                Critical Thinking and Problem Solving
-              </td>
-            </tr>
-            <tr ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions">
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">RI.6.8</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Trace and evaluate the argument and specific claims
-                  in a text, distinguishing claims that are supported
-                  by reasons and evidence from claims that are not.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">RI.7.8</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Trace and evaluate the argument and specific claims
-                  in a text, distinguishing claims that are supported
-                  by reasons and evidence from claims that are not.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">RI.8.8</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Delineate and evaluate the argument and specific claims
-                  in a text, assessing whether the reasoning is sound and
-                  the evidence is relevant and sufficient; recognize when
-                  irrelevant evidence is introduced.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">CCRA.R.1</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Read closely to determine what the text says explicitly
-                  and to make logical inferences from it; cite specific
-                  textual evidence when writing or speaking to support
-                  conclusions drawn from the text.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">CCRA.R.8</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Delineate and evaluate the argument and specific claims
-                  in a text, including the validity of the reasoning as
-                  well as the relevance and sufficiency of the evidence.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">Reason Effectively</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  Use various types of reasoning (indeductive, deductive, etc.)
-                  as appropriate to the situation.
-                </div>
-              </td>
-              <td class="gl-report-standards-item">
-                <div class="gl-report-standards-item-title">Making Judgments and Decisions</div>
-                <div class="gl-report-standards-item-desc"
-                  ng-show="state.showStandardsDescriptions">
-                  (1) Effectively analyzie and evaluate evidence, arguments, claims
-                  and beliefs (2) Analyze and evaluate major alternative points of
-                  view (3) Synthesize and make connections between information and
-                  arguments (4) Interpret information and draw conclusions based on
-                  the best analysis
-                </div>
-              </td>
-            </tr>
-          </table>
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">RI.7.8</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Trace and evaluate the argument and specific claims-->
+                  <!--in a text, distinguishing claims that are supported-->
+                  <!--by reasons and evidence from claims that are not.-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">RI.8.8</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Delineate and evaluate the argument and specific claims-->
+                  <!--in a text, assessing whether the reasoning is sound and-->
+                  <!--the evidence is relevant and sufficient; recognize when-->
+                  <!--irrelevant evidence is introduced.-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">CCRA.R.1</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Read closely to determine what the text says explicitly-->
+                  <!--and to make logical inferences from it; cite specific-->
+                  <!--textual evidence when writing or speaking to support-->
+                  <!--conclusions drawn from the text.-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">CCRA.R.8</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Delineate and evaluate the argument and specific claims-->
+                  <!--in a text, including the validity of the reasoning as-->
+                  <!--well as the relevance and sufficiency of the evidence.-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">Reason Effectively</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--Use various types of reasoning (indeductive, deductive, etc.)-->
+                  <!--as appropriate to the situation.-->
+                <!--</div>-->
+              <!--</td>-->
+              <!--<td class="gl-report-standards-item">-->
+                <!--<div class="gl-report-standards-item-title">Making Judgments and Decisions</div>-->
+                <!--<div class="gl-report-standards-item-desc"-->
+                  <!--ng-show="state.showStandardsDescriptions">-->
+                  <!--(1) Effectively analyzie and evaluate evidence, arguments, claims-->
+                  <!--and beliefs (2) Analyze and evaluate major alternative points of-->
+                  <!--view (3) Synthesize and make connections between information and-->
+                  <!--arguments (4) Interpret information and draw conclusions based on-->
+                  <!--the best analysis-->
+                <!--</div>-->
+              <!--</td>-->
+            <!--</tr>-->
+          <!--</table>-->
         </div>
       </div>
 

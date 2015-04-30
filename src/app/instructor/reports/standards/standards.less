@@ -9,6 +9,7 @@
 }
 .gl-report-sep {
   border-left: 8px solid white;
+  width: 1000px;
 }
 
 .gl-report-standards-legend-header {
@@ -24,11 +25,16 @@
   border-bottom: 4px solid white;
 }
 
+.gl-reports-standards-header-container {
+  display: table-row;
+  overflow: auto;
+  height: 100%;
+}
+
 .gl-report-standards-table {
-  display: inline-block;
+  display: table-cell;
   vertical-align: top;
   border: 1px solid black;
-  padding: 0px !important;
 }
 
 .gl-report-standards-header-title {
@@ -38,7 +44,6 @@
   text-align: center;
   border-bottom: 4px solid @grey6;
   vertical-align: top;
-  padding: 0px;
 }
 
 .gl-report-standards-header-subsection {
@@ -46,14 +51,14 @@
   vertical-align: top;
 }
 
-.gl-report-standards-header-subsection-title {
+.gl-report-standards-header-subsection {
   display: table-cell;
   color: @grey2;
   text-align: center;
   border-bottom: 2px solid @grey6;
   padding: 0px;
 }
-.gl-report-standards-header-subsection-standard {
+.gl-report-standards-header-subsection-item {
   display: table-cell;
   color: @grey2;
   text-align: center;
