@@ -53,9 +53,6 @@
       ng-bind="reports.selected.header.text"></h1-->
 
     <p class="text-center" ng-bind="reports.selected.description">
-      This report shows students&rapos; progress through the standards as they play.
-      The content shown here is based on key in-game learning events that provide
-      strong evidence of standards progression.
     </p>
 
     <div class="container-fluid">
@@ -63,8 +60,18 @@
         <div class="col-md-3 gl-pad--Tm">
           <strong>Name</strong>
         </div>
-        <div class="col-md-9 gl-report-sep standards-data-scroll" id="standards-header">
-
+        <div class="col-md-9 gl-report-sep standards-data-scroll gl-report-standards-header">
+            <!--<div class="gl-report-standards-table" ng-repeat="group in reports.selected.table.groups">-->
+                <!--<div class="gl-report-standards-header-title">{{group.name}}</div>-->
+                <!--<div class="gl-report-standards-header-subsection-title" ng-repeat="subject in group.subjects">-->
+                    <!--<div>-->
+                        <!--{{subject.name}}-->
+                    <!--</div>-->
+                    <!--<div class="gl-report-standards-header-subsection-standard" ng-repeat="standard in subject.standards">-->
+                        <!--<div>{{standard.id}}</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
           <table class="gl-report-standards-table">
             <tr>
               <td colspan="5" class="gl-report-standards-header-title">

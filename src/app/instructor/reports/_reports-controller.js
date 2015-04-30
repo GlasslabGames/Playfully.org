@@ -251,6 +251,14 @@ angular.module( 'instructor.reports', [
           var defaultGame = myGames[0];
           defaultGame = _.findWhere(myGames, { 'id': $stateParams.gameId });
           return defaultGame;
+        },
+        gameReports: function (defaultGame) {
+            // set game report for default game
+            var reports = {};
+            if (defaultGame) {
+                return defaultGame.reports;
+            }
+            return reports;
         }
       }
     });
