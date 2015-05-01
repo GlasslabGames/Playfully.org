@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
 
 .config(function ( $stateProvider, USER_ROLES) {
     $stateProvider.state('modal-xlg.standardsInfo', {
-      url: '/reports/details/standards/game/:gameId/:type/:progress',
+      url: '/reports/details/standards/game/:gameId/:type/:progress/:defaultStandard',
       data:{
         pageTitle: 'Standards Report'
       },
@@ -11,11 +11,32 @@ angular.module( 'instructor.reports')
           templateUrl: function($stateParams) {
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
-          controller: function($scope, $log, $stateParams, StandardStore) {
-            var standard = angular.copy(StandardStore.get());
-            StandardStore.reset();
+          controller: function($scope, $log, $stateParams, StandardStore, REPORT_CONSTANTS) {
+            $scope.standardObj = {};
+            $scope.standardObj.selected = null;
+            $scope.getLabelInfo = function(label,type) {
+                if (label && type) {
+                    return REPORT_CONSTANTS.legend[label][type];
+                } else {
+                    return label;
+                }
+
+            };
+            if ($stateParams.defaultStandard){
+              $scope.standardObj.selected = $stateParams.defaultStandard;
+            }
+            console.dir($scope.selectedStandard);
+            var standard = angular.copy(StandardStore.getStandard());
             if (standard) {
-                $scope.progressText = standard[$stateParams.progress];
+                $scope.progressText = standard.progress[$stateParams.progress];
+            }
+            var report = angular.copy(StandardStore.getReport());
+            if (report) {
+                $scope.report = report;
+            }
+            var standardDictionary = angular.copy(StandardStore.getStandardDict());
+            if (standardDictionary) {
+                $scope.standardDictionary = standardDictionary;
             }
           }
         }
@@ -24,14 +45,40 @@ angular.module( 'instructor.reports')
 })
 .service('StandardStore', function() {
         var _standard = null;
-        this.set = function(standard) {
-            _standard = standard;
+        var _report = null;
+        var _dictionary = null;
+        this.setStandard = function(standard) {
+            if (standard) {
+              _standard = standard;
+            }
         };
-        this.get = function () {
-            return _standard;
-        };
-        this.reset = function () {
+        this.getStandard = function () {
+            var standardCopy = angular.copy(_standard);
+            // reset after retrieval
             _standard = null;
+            return standardCopy;
+        };
+        this.setReport = function (report) {
+            if (report) {
+              _report = report;
+            }
+        };
+        this.getReport = function () {
+            var reportCopy = angular.copy(_report);
+            // reset after retrieval
+            _report = null;
+            return reportCopy;
+        };
+        this.setStandardDict = function (dictionary) {
+            if (dictionary) {
+              _dictionary = dictionary;
+            }
+        };
+        this.getStandardDict = function () {
+            var dictionaryCopy = angular.copy(_dictionary);
+            // reset after retrieval
+            _dictionary = null;
+            return dictionaryCopy;
         };
 })
 .controller( 'StandardsCtrl',
@@ -119,9 +166,17 @@ angular.module( 'instructor.reports')
         });
       }
    };
-   $scope.setStandardStore = function (standardId) {
-       StandardStore.set($scope.reports.standardsDict[standardId]);
+   $scope.setStandard = function (standardId) {
+       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
    };
+   $scope.setReport = function (report) {
+       StandardStore.setReport(report);
+    };
+   $scope.setStandardDict = function (dictionary) {
+       StandardStore.setStandardDict(dictionary);
+    };
+
+
    var _initStandards = function () {
        // create list of standards
        angular.forEach($scope.reports.selected.table.groups, function(group) {
@@ -132,6 +187,7 @@ angular.module( 'instructor.reports')
             });
          });
        });
+       $scope.defaultStandard = $scope.reports.standardsList[0];
    };
     if(!$scope.reportInfo) {
       $scope.reportInfo = {
