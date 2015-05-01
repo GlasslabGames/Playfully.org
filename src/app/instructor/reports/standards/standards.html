@@ -174,21 +174,26 @@
       </div>
 
       <div class="row">
-        <div class="col-md-12 gl-pad--An">
-        <table>
+        <div class="col-md-3 gl-pad--An">
+          <table width="100%">
             <tr class="gl-table-stripe" ng-repeat="student in students">
               <td class="gl-report-item-cell">
                 <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
               </td>
-            <tr>
-        </table>
+            </tr>
+          </table>
         </div>
         <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
             <tr class="gl-table-stripe" ng-repeat="student in students">
-                <td ng-repeat="standard in reports.standards" class="gl-report-standards-item gl-report-item-cell">
-                    <div ng-class="getLabelInfo(student.results[standard.id]) + ' gl-standards-rating'"
-                         ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: standard.id})">
+                <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
+                    <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
+                         ng-click="setStandardStore(standard.id)"
+                         ui-sref="modal-xlg.standardsInfo({
+                             gameId: games.selectedGameId,
+                             progress: student.results[standard.id],
+                             type: getLabelInfo(student.results[standard.id],'text')
+                         })">
                     </div>
                 </td>
             </tr>

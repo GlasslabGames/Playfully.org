@@ -25,10 +25,10 @@ angular.module('reports.const', [])
   'so':'gl-reports-so-icon',
   'wo':'gl-reports-wo-icon',
   // Standards
-  "Full": "gl-standards-rating--achieved",
-  "Partial": "gl-standards-rating--tracking",
-  "Not-Started": "gl-standards-rating--notstarted",
-  "In-Progress": "gl-standards-rating--nodata"
+  "Full": {class:"gl-standards-rating--achieved", text: 'achieved'},
+  "Partial": {class:"gl-standards-rating--tracking", text: 'tracking'},
+  "Not-Started": {class:"gl-standards-rating--notstarted", text: 'notstarted'},
+  "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata'}
  },
  // Order of reports dropdown and default report
  orderOfReports: {

@@ -2,27 +2,40 @@ angular.module( 'instructor.reports')
 
 .config(function ( $stateProvider, USER_ROLES) {
     $stateProvider.state('modal-xlg.standardsInfo', {
-      url: '/reports/details/standards/game/:gameId/:type',
+      url: '/reports/details/standards/game/:gameId/:type/:progress',
       data:{
         pageTitle: 'Standards Report'
-      },
-      resolve: {
       },
       views: {
         'modal@': {
           templateUrl: function($stateParams) {
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
-          controller: function($scope, $log) {
-
+          controller: function($scope, $log, $stateParams, StandardStore) {
+            var standard = angular.copy(StandardStore.get());
+            StandardStore.reset();
+            if (standard) {
+                $scope.progressText = standard[$stateParams.progress];
+            }
           }
         }
       }
     });
 })
-
+.service('StandardStore', function() {
+        var _standard = null;
+        this.set = function(standard) {
+            _standard = standard;
+        };
+        this.get = function () {
+            return _standard;
+        };
+        this.reset = function () {
+            _standard = null;
+        };
+})
 .controller( 'StandardsCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService) {
+  function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, StandardStore) {
     ///// Setup selections /////
 
     // Report
@@ -47,7 +60,8 @@ angular.module( 'instructor.reports')
 
     // Reports
     $scope.reports.options = [];
-    $scope.reports.standards = [];
+    $scope.reports.standardsList = [];
+    $scope.reports.standardsDict = {};
 
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
@@ -84,8 +98,8 @@ angular.module( 'instructor.reports')
       showStandardsDescriptions: true
     };
 
-    $scope.getLabelInfo = function(label) {
-        return REPORT_CONSTANTS.legend[label];
+    $scope.getLabelInfo = function(label,type) {
+        return REPORT_CONSTANTS.legend[label][type];
     };
 
    // retrieve user data
@@ -105,12 +119,16 @@ angular.module( 'instructor.reports')
         });
       }
    };
+   $scope.setStandardStore = function (standardId) {
+       StandardStore.set($scope.reports.standardsDict[standardId]);
+   };
    var _initStandards = function () {
        // create list of standards
        angular.forEach($scope.reports.selected.table.groups, function(group) {
          angular.forEach(group.subjects, function(subject) {
             angular.forEach(subject.standards, function(standard) {
-                $scope.reports.standards.push(standard);
+                $scope.reports.standardsList.push(standard);
+                $scope.reports.standardsDict[standard.id] = standard;
             });
          });
        });
