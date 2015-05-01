@@ -65,12 +65,13 @@
                 <div class="gl-report-standards-table text-center" ng-repeat="group in reports.selected.table.groups">
                     <div class="gl-report-standards-header-title ">{{group.name}}</div>
                     <div class="gl-report-standards-header-subsection" ng-repeat="subject in group.subjects">
-                        <div>
+                        <div class="gl-report-standards-header-subsection-title">
                             {{subject.name}}
                         </div>
-                        <div class="gl-report-standards-header-subsection-item"
+                        <div ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item gl-clickable"
                              ng-repeat="standard in subject.standards">
-                            <div>{{standard.id}}</div>
+                            <div><b>{{standard.id}}</b></div>
+                            <div ng-show="state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item-description">{{standard.description}}</div>
                         </div>
                     </div>
                 </div>
@@ -173,311 +174,23 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3 gl-pad--An">
-          <table width="100%">
-            <tr class="gl-table-stripe">
+        <div class="col-md-12 gl-pad--An">
+        <table>
+            <tr class="gl-table-stripe" ng-repeat="student in students">
               <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Alex B.</div>
+                <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
               </td>
-            </tr>
             <tr>
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Brad P.</div>
-              </td>
-            </tr>
-            <tr class="gl-table-stripe">
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Charlie T.</div>
-              </td>
-            </tr>
-            <tr>
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Diana R.</div>
-              </td>
-            </tr>
-            <tr class="gl-table-stripe">
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Elsa R.</div>
-              </td>
-            </tr>
-            <tr>
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">Fiona P.</div>
-              </td>
-            </tr>
-            <tr class="gl-table-stripe">
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">George C.</div>
-              </td>
-            </tr>
-          </table>
+        </table>
         </div>
         <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
-            <tr class="gl-table-stripe">
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr class="gl-table-stripe">
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--notstarted"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'notstarted'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--tracking"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'tracking'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr class="gl-table-stripe">
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--achieved"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'achieved'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--watchout"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'watchout'})">
-                </div>
-              </td>
-            </tr>
-
-            <tr class="gl-table-stripe">
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
-              <td class="gl-report-standards-item gl-report-item-cell">
-                <div class="gl-standards-rating gl-standards-rating--nodata"
-                  ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: 'nodata'})">
-                </div>
-              </td>
+            <tr class="gl-table-stripe" ng-repeat="student in students">
+                <td ng-repeat="standard in reports.standards" class="gl-report-standards-item gl-report-item-cell">
+                    <div ng-class="getLabelInfo(student.results[standard.id]) + ' gl-standards-rating'"
+                         ui-sref="modal-xlg.standardsInfo({gameId: games.selectedGameId, type: standard.id})">
+                    </div>
+                </td>
             </tr>
           </table>
         </div>

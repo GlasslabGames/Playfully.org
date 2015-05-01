@@ -47,6 +47,8 @@ angular.module( 'instructor.reports')
 
     // Reports
     $scope.reports.options = [];
+    $scope.reports.standards = [];
+
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
         $scope.reports.options.push( angular.copy(report) );
@@ -56,8 +58,6 @@ angular.module( 'instructor.reports')
         }
       }
     });
-    console.log($scope.reports.selected);
-    console.log($scope.reports);
 
     // Check if game is premium and disabled
     if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
@@ -84,8 +84,8 @@ angular.module( 'instructor.reports')
       showStandardsDescriptions: true
     };
 
-    $scope.getLabelInfo = function(label, type) {
-        return REPORT_CONSTANTS.legend[label][type];
+    $scope.getLabelInfo = function(label) {
+        return REPORT_CONSTANTS.legend[label];
     };
 
    // retrieve user data
@@ -100,12 +100,20 @@ angular.module( 'instructor.reports')
       if (users) {
         // Attach achievements and time played to students
         angular.forEach(users, function(user) {
-          $scope.students[user.userId].results    = user.results;
-          $scope.students[user.userId].timestamp = user.timestamp;
+          $scope.students[user.userId].results    = angular.copy(user.results);
+          $scope.students[user.userId].timestamp = angular.copy(user.timestamp);
         });
       }
    };
    var _initStandards = function () {
+       // create list of standards
+       angular.forEach($scope.reports.selected.table.groups, function(group) {
+         angular.forEach(group.subjects, function(subject) {
+            angular.forEach(subject.standards, function(standard) {
+                $scope.reports.standards.push(standard);
+            });
+         });
+       });
    };
     if(!$scope.reportInfo) {
       $scope.reportInfo = {

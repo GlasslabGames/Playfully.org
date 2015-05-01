@@ -33,8 +33,8 @@
 
 .gl-report-standards-table {
   display: table-cell;
+  padding: 0px 5px 0px 5px;
   vertical-align: top;
-  border: 1px solid black;
 }
 
 .gl-report-standards-header-title {
@@ -42,28 +42,28 @@
   color: @grey2;
   font-weight: bold;
   text-align: center;
-  border-bottom: 4px solid @grey6;
   vertical-align: top;
+  padding-top: 10px;
 }
 
-.gl-report-standards-header-subsection {
-  display: inline-block;
-  vertical-align: top;
+.gl-report-standards-header-subsection-title {
+  border-bottom: 2px solid @grey6;
 }
-
 .gl-report-standards-header-subsection {
   display: table-cell;
   color: @grey2;
   text-align: center;
-  border-bottom: 2px solid @grey6;
-  padding: 0px;
+  border-top: 4px solid @grey6;
+  padding-top: 10px;
+  padding-right: 4px;
 }
+
 .gl-report-standards-header-subsection-item {
   display: table-cell;
   color: @grey2;
   text-align: center;
+  padding-top: 10px;
   min-width: 165px;
-  border: 1px solid black;
 }
 
 .gl-report-standards-item {
@@ -74,6 +74,11 @@
 .gl-report-standards-header-item {
   width: 130px;
   display: inline-block;
+}
+
+.gl-report-standards-header-subsection-item-description {
+  text-align: left;
+  padding: 5px;
 }
 
 .gl-report-standards-item-title {

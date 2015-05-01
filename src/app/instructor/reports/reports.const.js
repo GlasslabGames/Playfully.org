@@ -23,7 +23,12 @@ angular.module('reports.const', [])
   "not-covered": {class:'gl-reports-competency-circle-white',text: 'Not Covered'},
   // Shoutout Watchout
   'so':'gl-reports-so-icon',
-  'wo':'gl-reports-wo-icon'
+  'wo':'gl-reports-wo-icon',
+  // Standards
+  "Full": "gl-standards-rating--achieved",
+  "Partial": "gl-standards-rating--tracking",
+  "Not-Started": "gl-standards-rating--notstarted",
+  "In-Progress": "gl-standards-rating--nodata"
  },
  // Order of reports dropdown and default report
  orderOfReports: {
