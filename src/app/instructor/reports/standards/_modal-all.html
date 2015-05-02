@@ -4,179 +4,37 @@
 </div>
 
 <div class="modal-body gl-pad--Hn gl-pad--Txs">
-  <div class="text-center"><strong>Common Core Standards</strong></div>
-  <hr class="gl-margin--Txs gl-margin--Bn">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="gl-margin-Vl gl-standard gl-standard--selected">RI.6.8</div>
-      <div class="gl-margin-Vl gl-standard">RI.7.8</div>
-      <div class="gl-margin-Vl gl-standard">RI.8.8</div>
-      <div class="gl-margin-Vl gl-standard">CCRA.R.1</div>
-      <div class="gl-margin-Vl gl-standard">CCRA.R.6</div>
+
+  <div class="row row-border--bottom gl-margin--Bl" ng-repeat="group in report.table.groups">
+    <div class="text-center"><strong>{{group.name}}</strong></div>
+    <hr class="gl-margin--Txs gl-margin--Bn">
+    <div class="col-md-4 gl-pad-Vl">
+      <div ng-repeat="subject in group.subjects">
+      {{subject.name}}
+        <div ng-repeat="standard in subject.standards"
+             ng-class="{'gl-standard--selected' : standard.id === standardObj.selected}"
+             class="gl-clickable gl-margin-Vl gl-standard"
+             ng-click="standardObj.selected = standard.id">
+             {{standard.title}}
+        </div>
+      </div>
     </div>
-    <div class="col-md-8 col-border--left gl-pad--Tl">
-      <div class="media">
+    <div class="col-md-8 col-border--left  gl-pad--Tl">
+      <div class="media" ng-repeat="(progressType, description) in standardDictionary[standardObj.selected].progress" ng-if="progressType !== 'WatchoutA' && progressType !== 'WatchoutB'">
         <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--achieved">
+          <div ng-class="getLabelInfo(progressType,'class')" class="gl-standards-rating">
           </div>
         </div>
         <div class="media-bd">
-          <div><strong>Standard Achieved</strong></div>
+          <div><strong>{{getLabelInfo(progressType,'title')}}</strong></div>
           <div>
             <p>
-              The student is consistently and accurately able to analyze the givens and constraints in the game.
+              {{description}}
             </p>
           </div>
         </div>
       </div>
-            
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--tracking">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Tracking Toward Standard Achievement</strong></div>
-          <div>
-            <p>
-              The student is able to analyze certain givens and constraints in the game, but needs more practice to achieve the desired outcomes. The student may need to pay more attention to the particular features of each level (e.g., tombs, seas, special objectives, etc.).
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--watchout">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Watch Out! Intervene Now</strong></div>
-          <div>
-            <p>
-              The student is struggling to identify the givens and constraints in most of the levels played. Student should pay more attention to the features of each level (e.g. tombs, seas, special objectives, etc.) before executing any solution.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--nodata">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Not Enough Data</strong></div>
-          <div>
-            <p>
-              The student needs to play more levels for us to provide a more accurate measurement of student's problem-solving performance in the game.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--notstarted">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Not Started Yet</strong></div>
-          <div>
-            <p>
-              The student has not yet started.
-            </p>
-          </div>
-        </div>
-      </div>
-      
     </div>
   </div>
-  <hr class="gl-margin--Bxs gl-margin--Tn">
-  <div class="text-center"><strong>21st Century Skills</strong></div>
-  <hr class="gl-margin--Txs gl-margin--Bn">
-<div class="row">
-    <div class="col-md-4">
-      <div class="gl-margin-Vl gl-standard gl-standard--selected">Reason Effectively</div>
-      <div class="gl-margin-Vl gl-standard">Making Judgments and Decisions</div>
-    </div>
-    <div class="col-md-8 col-border--left gl-pad--Tl">
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--achieved">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Standard Achieved</strong></div>
-          <div>
-            <p>
-              The student is consistently and accurately able to analyze the givens and constraints in the game.
-            </p>
-          </div>
-        </div>
-      </div>
-            
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--tracking">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Tracking Toward Standard Achievement</strong></div>
-          <div>
-            <p>
-              The student is able to analyze certain givens and constraints in the game, but needs more practice to achieve the desired outcomes. The student may need to pay more attention to the particular features of each level (e.g., tombs, seas, special objectives, etc.).
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--watchout">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Watch Out! Intervene Now</strong></div>
-          <div>
-            <p>
-              The student is struggling to identify the givens and constraints in most of the levels played. Student should pay more attention to the features of each level (e.g. tombs, seas, special objectives, etc.) before executing any solution.
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--nodata">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Not Enough Data</strong></div>
-          <div>
-            <p>
-              The student needs to play more levels for us to provide a more accurate measurement of student's problem-solving performance in the game.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="media">
-        <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--notstarted">
-          </div>
-        </div>
-        <div class="media-bd">
-          <div><strong>Not Started Yet</strong></div>
-          <div>
-            <p>
-              The student has not yet started.
-            </p>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  
 </div>
-
