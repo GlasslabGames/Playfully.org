@@ -82,7 +82,7 @@ angular.module( 'instructor.reports')
         };
 })
 .controller( 'StandardsCtrl',
-  function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, StandardStore) {
+  function($scope, $rootScope, $log, $state, $stateParams, $timeout, defaultCourse, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, StandardStore, usersData) {
     ///// Setup selections /////
 
     // Report
@@ -145,27 +145,23 @@ angular.module( 'instructor.reports')
       showStandardsDescriptions: true
     };
 
-    $scope.getLabelInfo = function(label,type) {
-        return REPORT_CONSTANTS.legend[label][type];
+    $scope.getLabelInfo = function(label,type, defaultStandard) {
+        if (label && type) {
+            return REPORT_CONSTANTS.legend[label][type];
+        }
     };
 
-   // retrieve user data
-   ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId)
-      .then(function (users) {
-           // set headers for standards table
-          _initStandards();
-           // populate student data with standards descriptions
-          _populateStudentLearningData(users);
-   });
+
    var _populateStudentLearningData = function(users) {
       if (users) {
         // Attach achievements and time played to students
         angular.forEach(users, function(user) {
-          $scope.students[user.userId].results    = angular.copy(user.results);
+          $scope.students[user.userId].results   = angular.copy(user.results);
           $scope.students[user.userId].timestamp = angular.copy(user.timestamp);
         });
       }
    };
+   // To pass data to modal
    $scope.setStandard = function (standardId) {
        StandardStore.setStandard($scope.reports.standardsDict[standardId]);
    };
@@ -179,10 +175,13 @@ angular.module( 'instructor.reports')
 
    var _initStandards = function () {
        // create list of standards
+       // general
        angular.forEach($scope.reports.selected.table.groups, function(group) {
          angular.forEach(group.subjects, function(subject) {
             angular.forEach(subject.standards, function(standard) {
+                // to help generate student data for report table
                 $scope.reports.standardsList.push(standard);
+                // to help easily access standard info in legend modal
                 $scope.reports.standardsDict[standard.id] = standard;
             });
          });
@@ -194,5 +193,9 @@ angular.module( 'instructor.reports')
         labels: []
       };
     }
+    // set headers for standards table
+    _initStandards();
+    // populate student data with standards descriptions
+    _populateStudentLearningData(usersData);
 });
 

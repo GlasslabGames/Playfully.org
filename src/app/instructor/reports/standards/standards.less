@@ -79,6 +79,8 @@
 .gl-report-standards-header-subsection-item-description {
   text-align: left;
   padding: 5px 5px 0px 5px;
+  font-size: 12px;
+  color: #767676;
 }
 
 .gl-report-standards-item-title {
@@ -149,13 +151,12 @@
 }
 
 .gl-standards-rating--watchout {
-  .image-2x('icon-report-wo.png', 50px, 50px);
   background-position: center;
   background-color: #ee4e51;
   border: none;
   .box-shadow(none);
   &.gl-standards-rating--small {
-    .image-2x('icon-report-wo.png', 25px, 25px);
+    background-color: #ee4e51;
   }
 }
 
@@ -188,4 +189,19 @@
 .gl-standard--selected {
   color: @grey1;
   font-weight: bold;
+}
+
+.gl-reports-standard-labels-icon {
+  display: table-cell;
+  width: 50px;
+  margin-right: 20px;
+}
+
+.gl-reports-standard-labels-box {
+  display: inline-block;
+}
+
+.gl-reports-standard-labels-text {
+  display: table-cell;
+  vertical-align: middle;
 }

@@ -11,13 +11,18 @@
     <div class="col-md-4 gl-pad-Vl">
       <div ng-repeat="subject in group.subjects">
       {{subject.name}}
-        <div ng-repeat="standard in subject.standards" ng-class="{'gl-standard--selected' : standard.id === standardObj.selected}" ng-click="standardObj.selected = standard.id" class="gl-clickable gl-margin-Vl gl-standard">{{standard.id}}</div>
+        <div ng-repeat="standard in subject.standards"
+             ng-class="{'gl-standard--selected' : standard.id === standardObj.selected}"
+             class="gl-clickable gl-margin-Vl gl-standard"
+             ng-click="standardObj.selected = standard.id">
+             {{standard.title}}
+        </div>
       </div>
     </div>
     <div class="col-md-8 col-border--left  gl-pad--Tl">
-      <div class="media" ng-repeat="(progressType, description) in standardDictionary[standardObj.selected].progress">
+      <div class="media" ng-repeat="(progressType, description) in standardDictionary[standardObj.selected].progress" ng-if="progressType !== 'WatchoutA' && progressType !== 'WatchoutB'">
         <div class="media-img gl-pad--As">
-          <div class="gl-standards-rating gl-standards-rating--achieved">
+          <div ng-class="getLabelInfo(progressType,'class')" class="gl-standards-rating">
           </div>
         </div>
         <div class="media-bd">

@@ -259,6 +259,10 @@ angular.module( 'instructor.reports', [
                 return defaultGame.reports;
             }
             return reports;
+        },
+        usersData: function (ReportsService,$stateParams) {
+            var reportId = 'standards';
+            return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
         }
       }
     });

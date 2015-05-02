@@ -25,12 +25,13 @@ angular.module('reports.const', [])
   'so':'gl-reports-so-icon',
   'wo':'gl-reports-wo-icon',
   // Standards
-  "Full": {class:"gl-standards-rating--achieved", text: 'achieved', title: "Standard Achieved"},
-  "Partial": {class:"gl-standards-rating--tracking", text: 'tracking', title: "Tracking Toward Standard Achievement"},
+  "Full": {class:"gl-standards-rating--achieved", text: 'achieved', title: "Standard Complete"},
+  "Partial": {class:"gl-standards-rating--tracking", text: 'tracking', title: "Tracking Toward Standard Completion"},
   "Not-Started": {class:"gl-standards-rating--notstarted", text: "notstarted", title: "Not Started"},
-  "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata', title: "Not Enough Data"},
-  "WatchoutA": {title: "Intervene Now"},
-  "WatchoutB": {title: "Intervene Now"}
+  "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata', title: "In Progress"},
+  "WatchoutA": {class: "gl-standards-rating--watchout",title: "Intervene Now!"},
+  "WatchoutB": {class: "gl-standards-rating--watchout", title: "Intervene Now!"},
+  "Watchout": {class: "gl-standards-rating--watchout", title: "Intervene Now!"}
  },
  // Order of reports dropdown and default report
  orderOfReports: {
