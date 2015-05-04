@@ -236,7 +236,15 @@ angular.module('license', [])
             this.declineInvitation = function () {
                 return $http.post(API_BASE + '/license/nullify');
             };
-
+            this.resellerSubscribeWithPurchaseOrder = function (info) {
+                var apiUrl = API_BASE + '/license/subscribe/internal';
+                return $http.post(apiUrl, {
+                    purchaseOrderInfo: info.purchaseOrderInfo,
+                    planInfo: info.planInfo,
+                    schoolInfo: info.schoolInfo,
+                    user: info.user
+                });
+            };
     })
     .factory('LicenseStore', function() {
         var data = {};
