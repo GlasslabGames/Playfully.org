@@ -15,8 +15,6 @@
 </div>
 <hr/>
 
-
-
 <div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
   <div ng-include src="'instructor/reports/_students.html'"></div>
 
@@ -25,8 +23,6 @@
          ng-click="setReport(reports.selected); setStandardDict(reports.standardsDict)"
          ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
     <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
-    <!--h1 class="headline-2 text-center gl-margin--Tl"
-      ng-bind="reports.selected.header.text"></h1-->
 
     <p class="text-center" ng-bind="reports.selected.description">
     </p>
