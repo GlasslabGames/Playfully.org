@@ -265,7 +265,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             UtilService.submitFormRequest($scope.requestPromo, function () {
                 return LicenseService.stripeRequestPromo($scope.promoCode.code);
             }, function (response) {
-                console.log('applied:', response);
 
                 // Set default discounts to 0, since we can simply apply both
                 $scope.promoCode.amount_off = 0;
