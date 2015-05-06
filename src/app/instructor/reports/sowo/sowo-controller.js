@@ -221,18 +221,18 @@ angular.module( 'instructor.reports')
     // If there are studentIds in parameters, set student's isSelected property as true
     // else set all student's isSelected property as true
 
-    ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
-
-
-    $scope.getSelectedStudents = function() {
-      var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
-      if (activeCourse.isPartiallySelected) {
-        var studentIds = ReportsService.getSelectedStudentIds(activeCourse);
-        return studentIds.length > 0 ? studentIds : null;
-      } else {
-        return null;
-      }
-    };
+    //ReportsService.selectStudents($scope.activeCourse, $stateParams.stdntIds);
+    //
+    //
+    //$scope.getSelectedStudents = function() {
+    //  var activeCourse = $scope.courses.options[$scope.courses.selectedCourseId];
+    //  if (activeCourse.isPartiallySelected) {
+    //    var studentIds = ReportsService.getSelectedStudentIds(activeCourse);
+    //    return studentIds.length > 0 ? studentIds : null;
+    //  } else {
+    //    return null;
+    //  }
+    //};
 
       $scope.userSortFunction = function (colName) {
           return function (user) {

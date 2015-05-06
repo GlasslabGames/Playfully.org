@@ -3,13 +3,13 @@
 </article>
 
 <div class="gl-reports-standard-labels">
-      <div class="gl-reports-standard-labels-box" ng-repeat="(key,title) in defaultStandard.progress"
-           ng-if="key !== 'WatchoutA' && key !== 'WatchoutB'">
+      <div class="gl-reports-standard-labels-box" ng-repeat="progressType in legendOrder"
+           ng-if="progressType !== 'WatchoutA' && progressType !== 'WatchoutB'">
           <div class="gl-reports-standard-labels-icon">
-            <div ng-class="getLabelInfo(key,'class')"
+            <div ng-class="getLabelInfo(progressType,'class')"
                  class="gl-standards-rating gl-standards-rating--small"></div>
           </div>
-            <div class="gl-reports-standard-labels-text">{{getLabelInfo(key,'title')}}</div>
+            <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
       </div>
 
 </div>
@@ -54,11 +54,19 @@
       <div class="row">
         <div class="col-md-12 gl-report-sep--blue"></div>
       </div>
-
+      <!--<row ng-if="noUserData">-->
+        <!--<tr>-->
+            <!--<td colspan="5">-->
+                <!--<div class="text-center gl-pad-Vxxl">-->
+                    <!--There is no student data in this class yet. As students begin to play the game you will see their progress here.-->
+                <!--</div>-->
+            <!--</td>-->
+        <!--</tr>-->
+      <!--</row>-->
       <div class="row">
         <div class="col-md-3 gl-pad--An">
           <table width="100%">
-            <tr class="gl-table-stripe" ng-repeat="student in students">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
               <td class="gl-report-item-cell">
                 <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
               </td>
@@ -67,7 +75,7 @@
         </div>
         <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
-            <tr class="gl-table-stripe" ng-repeat="student in students">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
                 <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
                     <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
                          ng-click="setStandard(standard.id)"

@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
 
 .config(function ( $stateProvider, USER_ROLES) {
     $stateProvider.state('modal-xlg.standardsInfo', {
-      url: '/reports/details/standards/game/:gameId/:type/:progress/:defaultStandard',
+      url: '/reports/details/standards/game/:gameId?:type?:progress?:defaultStandard',
       data:{
         pageTitle: 'Standards Report'
       },
@@ -25,17 +25,17 @@ angular.module( 'instructor.reports')
             if ($stateParams.defaultStandard){
               $scope.standardObj.selected = $stateParams.defaultStandard;
             }
-            console.dir($scope.selectedStandard);
             var standard = angular.copy(StandardStore.getStandard());
             if (standard) {
                 $scope.progressText = standard.progress[$stateParams.progress];
+            } else {
             }
             var report = angular.copy(StandardStore.getReport());
             if (report) {
                 $scope.report = report;
             }
             var standardDictionary = angular.copy(StandardStore.getStandardDict());
-            if (standardDictionary) {
+              if (standardDictionary) {
                 $scope.standardDictionary = standardDictionary;
             }
           }
@@ -109,6 +109,16 @@ angular.module( 'instructor.reports')
     $scope.reports.options = [];
     $scope.reports.standardsList = [];
     $scope.reports.standardsDict = {};
+   // To pass data to modal
+   $scope.setStandard = function (standardId) {
+       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
+   };
+   $scope.setReport = function (report) {
+       StandardStore.setReport(report);
+    };
+   $scope.setStandardDict = function (dictionary) {
+       StandardStore.setStandardDict(dictionary);
+    };
 
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
@@ -140,38 +150,36 @@ angular.module( 'instructor.reports')
       $scope.developer.logo = gameReports.developer.logo;
     }
 
-
     $scope.state = {
       showStandardsDescriptions: true
     };
 
-    $scope.getLabelInfo = function(label,type, defaultStandard) {
+    $scope.getLabelInfo = function(label,type) {
         if (label && type) {
             return REPORT_CONSTANTS.legend[label][type];
+        } else if (type === 'text') {
+            // if student has no data
+            return "notstarted";
         }
     };
 
 
    var _populateStudentLearningData = function(users) {
-      if (users) {
-        // Attach achievements and time played to students
-        angular.forEach(users, function(user) {
-          $scope.students[user.userId].results   = angular.copy(user.results);
-          $scope.students[user.userId].timestamp = angular.copy(user.timestamp);
-        });
+
+       if (users) {
+           if (users.length < 1) {
+               $scope.noUserData = true;
+               return;
+           } else {
+               var students = $scope.courses.selected.users;
+               angular.forEach(users, function (user) {
+                   students[user.userId].results = angular.copy(user.results);
+                   students[user.userId].timestamp = angular.copy(user.timestamp);
+               });
+           }
+
       }
    };
-   // To pass data to modal
-   $scope.setStandard = function (standardId) {
-       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
-   };
-   $scope.setReport = function (report) {
-       StandardStore.setReport(report);
-    };
-   $scope.setStandardDict = function (dictionary) {
-       StandardStore.setStandardDict(dictionary);
-    };
-
 
    var _initStandards = function () {
        // create list of standards
@@ -187,6 +195,8 @@ angular.module( 'instructor.reports')
          });
        });
        $scope.defaultStandard = $scope.reports.standardsList[0];
+       // for displaying legend information
+       $scope.legendOrder = REPORT_CONSTANTS.standardsLegendOrder;
    };
     if(!$scope.reportInfo) {
       $scope.reportInfo = {

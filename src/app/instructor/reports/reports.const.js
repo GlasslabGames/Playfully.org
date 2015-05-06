@@ -24,15 +24,18 @@ angular.module('reports.const', [])
   // Shoutout Watchout
   'so':'gl-reports-so-icon',
   'wo':'gl-reports-wo-icon',
-  // Standards
-  "Full": {class:"gl-standards-rating--achieved", text: 'achieved', title: "Standard Complete"},
-  "Partial": {class:"gl-standards-rating--tracking", text: 'tracking', title: "Tracking Toward Standard Completion"},
-  "Not-Started": {class:"gl-standards-rating--notstarted", text: "notstarted", title: "Not Started"},
-  "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata', title: "In Progress"},
-  "WatchoutA": {class: "gl-standards-rating--watchout",title: "Intervene Now!"},
-  "WatchoutB": {class: "gl-standards-rating--watchout", title: "Intervene Now!"},
-  "Watchout": {class: "gl-standards-rating--watchout", title: "Intervene Now!"}
+  // Standards,
+  "Full": {class:"gl-standards-rating--achieved", text: 'achieved', title: "Standard complete"},
+  "Partial": {class:"gl-standards-rating--tracking", text: 'tracking', title: "Tracking toward standard completion"},
+  "Not-Started": {class:"gl-standards-rating--notstarted", text: "notstarted", title: "Not started"},
+  "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata', title: "In progress"},
+  "WatchoutA": {class: "gl-standards-rating--watchout",title: "Intervene now!"},
+  "WatchoutB": {class: "gl-standards-rating--watchout", title: "Intervene now!"},
+  "WatchoutC": {class: "gl-standards-rating--watchout", title: "Intervene now!"},
+  "WatchoutD": {class: "gl-standards-rating--watchout", title: "Intervene now!"},
+  "Watchout": {class: "gl-standards-rating--watchout", title: "Intervene now!"}
  },
+ "standardsLegendOrder": ['Not-Started', 'In-Progress', 'Partial', 'Full', 'Watchout'],
  // Order of reports dropdown and default report
  orderOfReports: {
   'sowo': 1,
