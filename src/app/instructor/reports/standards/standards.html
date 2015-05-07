@@ -3,19 +3,16 @@
 </article>
 
 <div class="gl-reports-standard-labels">
-      <div class="gl-reports-standard-labels-box" ng-repeat="(key,title) in defaultStandard.progress"
-           ng-if="key !== 'WatchoutA' && key !== 'WatchoutB'">
+      <div class="gl-reports-standard-labels-box" ng-repeat="progressType in legendOrder">
           <div class="gl-reports-standard-labels-icon">
-            <div ng-class="getLabelInfo(key,'class')"
+            <div ng-class="getLabelInfo(progressType,'class')"
                  class="gl-standards-rating gl-standards-rating--small"></div>
           </div>
-            <div class="gl-reports-standard-labels-text">{{getLabelInfo(key,'title')}}</div>
+            <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
       </div>
 
 </div>
 <hr/>
-
-
 
 <div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
   <div ng-include src="'instructor/reports/_students.html'"></div>
@@ -25,8 +22,6 @@
          ng-click="setReport(reports.selected); setStandardDict(reports.standardsDict)"
          ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
     <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
-    <!--h1 class="headline-2 text-center gl-margin--Tl"
-      ng-bind="reports.selected.header.text"></h1-->
 
     <p class="text-center" ng-bind="reports.selected.description">
     </p>
@@ -58,11 +53,10 @@
       <div class="row">
         <div class="col-md-12 gl-report-sep--blue"></div>
       </div>
-
-      <div class="row">
-        <div class="col-md-3 gl-pad--An">
+      <div class="row" ng-hide="isGameDisabled || courses.selected.users.length < 0 || noUserData">
+        <div class="col-md-3 gl-pad--An" >
           <table width="100%">
-            <tr class="gl-table-stripe" ng-repeat="student in students">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
               <td class="gl-report-item-cell">
                 <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
               </td>
@@ -71,7 +65,7 @@
         </div>
         <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
-            <tr class="gl-table-stripe" ng-repeat="student in students">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
                 <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
                     <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
                          ng-click="setStandard(standard.id)"
@@ -85,6 +79,25 @@
             </tr>
           </table>
         </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-hide="isGameDisabled || courses.selected.users.length > 0">
+              <div class="text-center gl-pad-Vxxl">
+                  No students are currently enrolled in this class.
+              </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-if="!isGameDisabled && (courses.selected.users.length > 0 && noUserData)">
+              <div class="text-center gl-pad-Vxxl">
+                  <img src="/assets/blinky-empty.png">
+                  <h5>No student data yet. As students begin to play, you will see their progress here.</h5>
+              </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-if="isGameDisabled">
+              <div class="text-center gl-pad-Vxxl">
+                  <img src="/assets/disabled-premium-game.png">
+                  <h5>This Premium Game is disabled.</h5>
+                  <h5>To view student data, please visit the <a ui-sref="root.courses">Class Manager</a> to
+                      enable Premium Games</h5>
+              </div>
       </div>
     </div>
   </div>

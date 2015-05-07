@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="col-md-8 col-border--left  gl-pad--Tl">
-      <div class="media" ng-repeat="(progressType, description) in standardDictionary[standardObj.selected].progress" ng-if="progressType !== 'WatchoutA' && progressType !== 'WatchoutB'">
+      <div class="media" ng-repeat="progressType in progressTypes">
         <div class="media-img gl-pad--As">
           <div ng-class="getLabelInfo(progressType,'class')" class="gl-standards-rating">
           </div>
@@ -29,7 +29,7 @@
           <div><strong>{{getLabelInfo(progressType,'title')}}</strong></div>
           <div>
             <p>
-              {{description}}
+              {{standardDictionary[standardObj.selected].progress[progressType]}}
             </p>
           </div>
         </div>

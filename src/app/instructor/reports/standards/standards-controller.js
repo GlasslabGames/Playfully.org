@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
 
 .config(function ( $stateProvider, USER_ROLES) {
     $stateProvider.state('modal-xlg.standardsInfo', {
-      url: '/reports/details/standards/game/:gameId/:type/:progress/:defaultStandard',
+      url: '/reports/details/standards/game/:gameId?:type?:progress?:defaultStandard',
       data:{
         pageTitle: 'Standards Report'
       },
@@ -12,6 +12,7 @@ angular.module( 'instructor.reports')
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
           controller: function($scope, $log, $stateParams, StandardStore, REPORT_CONSTANTS) {
+            $scope.progressTypes = REPORT_CONSTANTS.standardsLegendOrder;
             $scope.standardObj = {};
             $scope.standardObj.selected = null;
             $scope.getLabelInfo = function(label,type) {
@@ -25,17 +26,17 @@ angular.module( 'instructor.reports')
             if ($stateParams.defaultStandard){
               $scope.standardObj.selected = $stateParams.defaultStandard;
             }
-            console.dir($scope.selectedStandard);
             var standard = angular.copy(StandardStore.getStandard());
             if (standard) {
                 $scope.progressText = standard.progress[$stateParams.progress];
+            } else {
             }
             var report = angular.copy(StandardStore.getReport());
             if (report) {
                 $scope.report = report;
             }
             var standardDictionary = angular.copy(StandardStore.getStandardDict());
-            if (standardDictionary) {
+              if (standardDictionary) {
                 $scope.standardDictionary = standardDictionary;
             }
           }
@@ -140,42 +141,49 @@ angular.module( 'instructor.reports')
       $scope.developer.logo = gameReports.developer.logo;
     }
 
-
     $scope.state = {
       showStandardsDescriptions: true
     };
 
-    $scope.getLabelInfo = function(label,type, defaultStandard) {
+    $scope.getLabelInfo = function(label,type) {
         if (label && type) {
             return REPORT_CONSTANTS.legend[label][type];
+        } else if (type === 'text') {
+            // if student has no data
+            return "notstarted";
         }
     };
 
 
-   var _populateStudentLearningData = function(users) {
-      if (users) {
-        // Attach achievements and time played to students
-        angular.forEach(users, function(user) {
-          $scope.students[user.userId].results   = angular.copy(user.results);
-          $scope.students[user.userId].timestamp = angular.copy(user.timestamp);
-        });
+   var _populateStudentLearningData = function(usersReportData) {
+       if (usersReportData) {
+           if (usersReportData.length < 1 ) {
+               $scope.noUserData = true;
+               return;
+           } else {
+               // Populate students in course with report data
+               var students = $scope.courses.selected.users;
+               angular.forEach(students, function (student) {
+                   var userReportData = _findUserByUserId(student.id, usersReportData) || {};
+                   student.results = userReportData.results;
+                   student.timestamp = angular.copy(userReportData.timestamp);
+               });
+           }
       }
    };
-   // To pass data to modal
-   $scope.setStandard = function (standardId) {
-       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
-   };
-   $scope.setReport = function (report) {
-       StandardStore.setReport(report);
-    };
-   $scope.setStandardDict = function (dictionary) {
-       StandardStore.setStandardDict(dictionary);
-    };
 
+  var _findUserByUserId = function (userId, users) {
+      var found;
+      for (var i = 0; i < users.length; i++) {
+          if (users[i].userId == userId) {
+              found = users[i];
+          }
+      }
+      return found || null;
+  };
 
    var _initStandards = function () {
        // create list of standards
-       // general
        angular.forEach($scope.reports.selected.table.groups, function(group) {
          angular.forEach(group.subjects, function(subject) {
             angular.forEach(subject.standards, function(standard) {
@@ -186,13 +194,26 @@ angular.module( 'instructor.reports')
             });
          });
        });
+       // for displaying legend information
        $scope.defaultStandard = $scope.reports.standardsList[0];
+       // for displaying legend information
+       $scope.legendOrder = REPORT_CONSTANTS.standardsLegendOrder;
    };
     if(!$scope.reportInfo) {
       $scope.reportInfo = {
         labels: []
       };
     }
+   // To pass data to modal
+   $scope.setStandard = function (standardId) {
+       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
+   };
+   $scope.setReport = function (report) {
+       StandardStore.setReport(report);
+    };
+   $scope.setStandardDict = function (dictionary) {
+       StandardStore.setStandardDict(dictionary);
+    };
     // set headers for standards table
     _initStandards();
     // populate student data with standards descriptions

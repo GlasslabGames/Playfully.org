@@ -24,9 +24,9 @@ angular.module('license', [])
                         return response;
                     });
             };
-            this.getPackages = function () {
+            this.getPackages = function (params) {
                 var apiUrl = API_BASE + '/license/packages';
-                return $http({method: 'GET', url: apiUrl})
+                return $http({method: 'GET', url: apiUrl, params: params})
                     .then(function (response) {
                         return response.data;
                     }, function (response) {
