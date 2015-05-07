@@ -3,8 +3,7 @@
 </article>
 
 <div class="gl-reports-standard-labels">
-      <div class="gl-reports-standard-labels-box" ng-repeat="progressType in legendOrder"
-           ng-if="progressType !== 'WatchoutA' && progressType !== 'WatchoutB'">
+      <div class="gl-reports-standard-labels-box" ng-repeat="progressType in legendOrder">
           <div class="gl-reports-standard-labels-icon">
             <div ng-class="getLabelInfo(progressType,'class')"
                  class="gl-standards-rating gl-standards-rating--small"></div>
@@ -54,17 +53,8 @@
       <div class="row">
         <div class="col-md-12 gl-report-sep--blue"></div>
       </div>
-      <!--<row ng-if="noUserData">-->
-        <!--<tr>-->
-            <!--<td colspan="5">-->
-                <!--<div class="text-center gl-pad-Vxxl">-->
-                    <!--There is no student data in this class yet. As students begin to play the game you will see their progress here.-->
-                <!--</div>-->
-            <!--</td>-->
-        <!--</tr>-->
-      <!--</row>-->
-      <div class="row">
-        <div class="col-md-3 gl-pad--An">
+      <div class="row" ng-hide="isGameDisabled || courses.selected.users.length < 0 || noUserData">
+        <div class="col-md-3 gl-pad--An" >
           <table width="100%">
             <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
               <td class="gl-report-item-cell">
@@ -89,6 +79,25 @@
             </tr>
           </table>
         </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-hide="isGameDisabled || courses.selected.users.length > 0">
+              <div class="text-center gl-pad-Vxxl">
+                  No students are currently enrolled in this class.
+              </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-if="!isGameDisabled && (courses.selected.users.length > 0 && noUserData)">
+              <div class="text-center gl-pad-Vxxl">
+                  <img src="/assets/blinky-empty.png">
+                  <h5>No student data yet. As students begin to play, you will see their progress here.</h5>
+              </div>
+      </div>
+      <div class="gl-report-standards-table-bottom" ng-if="isGameDisabled">
+              <div class="text-center gl-pad-Vxxl">
+                  <img src="/assets/disabled-premium-game.png">
+                  <h5>This Premium Game is disabled.</h5>
+                  <h5>To view student data, please visit the <a ui-sref="root.courses">Class Manager</a> to
+                      enable Premium Games</h5>
+              </div>
       </div>
     </div>
   </div>

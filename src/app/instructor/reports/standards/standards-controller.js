@@ -12,6 +12,7 @@ angular.module( 'instructor.reports')
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
           controller: function($scope, $log, $stateParams, StandardStore, REPORT_CONSTANTS) {
+            $scope.progressTypes = REPORT_CONSTANTS.standardsLegendOrder;
             $scope.standardObj = {};
             $scope.standardObj.selected = null;
             $scope.getLabelInfo = function(label,type) {
@@ -109,16 +110,6 @@ angular.module( 'instructor.reports')
     $scope.reports.options = [];
     $scope.reports.standardsList = [];
     $scope.reports.standardsDict = {};
-   // To pass data to modal
-   $scope.setStandard = function (standardId) {
-       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
-   };
-   $scope.setReport = function (report) {
-       StandardStore.setReport(report);
-    };
-   $scope.setStandardDict = function (dictionary) {
-       StandardStore.setStandardDict(dictionary);
-    };
 
     angular.forEach(gameReports.list, function(report) {
       if(report.enabled) {
@@ -164,26 +155,35 @@ angular.module( 'instructor.reports')
     };
 
 
-   var _populateStudentLearningData = function(users) {
-
-       if (users) {
-           if (users.length < 1) {
+   var _populateStudentLearningData = function(usersReportData) {
+       if (usersReportData) {
+           if (usersReportData.length < 1 ) {
                $scope.noUserData = true;
                return;
            } else {
+               // Populate students in course with report data
                var students = $scope.courses.selected.users;
-               angular.forEach(users, function (user) {
-                   students[user.userId].results = angular.copy(user.results);
-                   students[user.userId].timestamp = angular.copy(user.timestamp);
+               angular.forEach(students, function (student) {
+                   var userReportData = _findUserByUserId(student.id, usersReportData) || {};
+                   student.results = userReportData.results;
+                   student.timestamp = angular.copy(userReportData.timestamp);
                });
            }
-
       }
    };
 
+  var _findUserByUserId = function (userId, users) {
+      var found;
+      for (var i = 0; i < users.length; i++) {
+          if (users[i].userId == userId) {
+              found = users[i];
+          }
+      }
+      return found || null;
+  };
+
    var _initStandards = function () {
        // create list of standards
-       // general
        angular.forEach($scope.reports.selected.table.groups, function(group) {
          angular.forEach(group.subjects, function(subject) {
             angular.forEach(subject.standards, function(standard) {
@@ -194,6 +194,7 @@ angular.module( 'instructor.reports')
             });
          });
        });
+       // for displaying legend information
        $scope.defaultStandard = $scope.reports.standardsList[0];
        // for displaying legend information
        $scope.legendOrder = REPORT_CONSTANTS.standardsLegendOrder;
@@ -203,6 +204,16 @@ angular.module( 'instructor.reports')
         labels: []
       };
     }
+   // To pass data to modal
+   $scope.setStandard = function (standardId) {
+       StandardStore.setStandard($scope.reports.standardsDict[standardId]);
+   };
+   $scope.setReport = function (report) {
+       StandardStore.setReport(report);
+    };
+   $scope.setStandardDict = function (dictionary) {
+       StandardStore.setStandardDict(dictionary);
+    };
     // set headers for standards table
     _initStandards();
     // populate student data with standards descriptions
