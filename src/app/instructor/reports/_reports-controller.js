@@ -80,8 +80,6 @@ angular.module( 'instructor.reports', [
           gameId: defaultGame.gameId,
           courseId: activeCourses[0].id
         });
-      } else {
-        // First course doesn't have any games
       }
     },
     data: {
