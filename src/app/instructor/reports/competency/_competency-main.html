@@ -61,7 +61,11 @@
   </thead>
   <tbody>
     <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-      <td class="gl-nobr competency-cell">{{ student.firstName }} {{ student.lastName }}.
+        <td class="gl-nobr competency-cell">
+            <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
         <!--<div class="gl-progress-tab gl-progress-tab--open">
           Close&nbsp;<i class="fa fa-sort-up"></i>
         </div>-->
@@ -87,160 +91,39 @@
         <span class="competency {{student.competency.competency.iconClass}}"></span>
       </td>
     </tr>
-    <!--<tr class="gl-progress-row">
-      <td colspan="4">
-        <div class="container-fluid gl-progress-container">
-          <div class="row">
-            <div class="col-md-1_5 gl-progress-facet gl-progress-key">Competency Facets</div>
-            <div class="col-md-1_5">&nbsp;</div>
-            <div class="col-md-9">
-              <div class="row">
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2">&nbsp;</div>
-              </div>
-            </div>
+    <tr>
+        <td colspan="4" class="gl-report-row-spacer">&nbsp;</td>
+    </tr>
+    <tr class="gl-reports-table-row" ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: false} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+        <td class="gl-nobr competency-cell">
+          <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
+        <!--<div class="gl-progress-tab gl-progress-tab--open">
+          Close&nbsp;<i class="fa fa-sort-up"></i>
+        </div>-->
+      </td>
+      <td class="competency-cell">
+        <div class="gl-progress-levels gl-nobr">{{student.competency.gameProgress}} / 44 Levels</div>
+        <div class="gl-progress-meter-outer gl-margin--Txs">
+          <div class="gl-progress-meter-inner"
+            ng-style="{ 'width': getProgressPercentage(student.competency.gameProgress,44) }">
           </div>
+        </div>
+      </td>
+      <td class="competency-cell">
+        <div class="container-fluid">
           <div class="row">
-            <div class="col-md-1_5 gl-progress-facet">Evaluate</div>
-            <div class="col-md-1_5">&nbsp;</div>
-            <div class="col-md-9">
-              <div class="row">
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-3 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-4 competency--med"></span>
-                </div>
-                <div class="col-md-2">&nbsp;</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-1_5 gl-progress-facet">Organize</div>
-            <div class="col-md-1_5">&nbsp;</div>
-            <div class="col-md-9">
-              <div class="row">
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">&nbsp;</div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-3 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-4 competency--med"></span>
-                </div>
-                <div class="col-md-2">&nbsp;</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-1_5 gl-progress-facet">Identify</div>
-            <div class="col-md-1_5">&nbsp;</div>
-            <div class="col-md-9">
-              <div class="row">
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-3 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-4 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-4 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-5 competency--med"></span>
-                </div>
-                <div class="col-md-2 gl-progress-val">
-                  <span class="competency competency-5 competency--med"></span>
-                </div>
-                <div class="col-md-2">&nbsp;</div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-1_5">&nbsp;</div>
-            <div class="col-md-1_5 gl-progress-rule--bottom">&nbsp;</div>
-            <div class="col-md-9 gl-progress-rule--bottom">
-                <div class="row">
-                  <div class="col-md-2 text-center gl-progress-key">
-                    <strong>#1</strong><br>
-                    Jan 21 2015
-                  </div>
-                  <div class="col-md-2 text-center gl-progress-key">
-                    <strong>#2</strong><br>
-                    Jan 21 2015
-                  </div>
-                  <div class="col-md-2 text-center gl-progress-key">
-                    <strong>#3</strong><br>
-                    Jan 22 2015
-                  </div>
-                  <div class="col-md-2 text-center gl-progress-key">
-                    <strong>#4</strong><br>
-                    Jan 22 2015
-                  </div>
-                  <div class="col-md-2 text-center gl-progress-key">
-                    <strong>#5</strong><br>
-                    Jan 23 2015
-                  </div>
-                  <div class="col-md-2 text-center gl-progress-key">Check Points</div>
-                </div>
+            <div class="col-md-3 text-center" ng-repeat="facet in student.competency.facets">
+              <span class="competency {{facet.iconClass}}"></span>
             </div>
           </div>
         </div>
       </td>
-    </tr>-->
+      <td>
+        <span class="competency {{student.competency.competency.iconClass}}"></span>
+      </td>
+    </tr>
   </tbody>
-
-    <!--tbody ng-show="courses.options[courses.selectedCourseId].users">
-    <tr class="gl-reports-table-row"
-        ng-repeat="student in courses.options[courses.selectedCourseId].users | hasSOWO: reportInfo.selectedGroupId | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-        <td class="gl-nobr">
-          {{ student.firstName }} {{ student.lastName }}.</td>
-        <td class="gl-reports-sowo" ng-repeat="sowo in reportInfo.activeHeaders">
-          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
-            ng-if="features.canRemoveWO"
-            ng-click="removeWO(sowo.id, student)"
-            ng-attr-title="{{(reportInfo.selectedGroupId == 'wo') ? 'Remove Watch Out' : ''}}"
-              ng-show="hasSOWO(sowo.id, student)"></div>
-          <div ng-class="getLabelInfo(reportInfo.selectedGroupId)"
-            ng-if="!features.canRemoveWO"
-            ng-show="hasSOWO(sowo.id, student)"></div>
-        </td>
-    </tr>
-    </tbody>
-  <tr ng-hide="courses.options[courses.selectedCourseId].users">
-    <td colspan="5" >
-      <div class="text-center gl-pad-Vxxl">
-        No students are currently enrolled in this class. As students begin to play the game and earn comps, you
-        will see them here.
-      </div>
-    </td>
-  </tr>
-    <tr style="height:100px" ng-show="reportInfo.selectedGroupId==='wo'">
-        <div class="gl-reports-what-now-container">
-            <td colspan="5" class="gl-reports-what-now-header text-center">
-            <h5 class="gl-reports-what-now-text">What Now ?</h5>
-            <p>Here are some actions your students can take:</p>
-            <i ng-class="whatNow.isCollapsed ? 'fa fa-caret-square-o-down' : 'fa fa-caret-square-o-up'"
-                ng-click="whatNow.isCollapsed  = !whatNow.isCollapsed"></i>
-                <div class="gl-reports-what-now-body text-center" collapse="whatNow.isCollapsed">
-                    </br>
-                    </br>
-                    Coming Soon!
-                    </br>
-                    </br>
-                    </br>
-                </div>
-            </td>
-
-        </div>
-    </tr>
-  </tbody-->
 </table>

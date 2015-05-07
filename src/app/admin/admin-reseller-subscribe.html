@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
+                <div class="gl-manager-side-panel-label text-center">
+                    Premium Plan
+                </div>
+                <div class="gl-manager-side-panel-section">
+                    <h4 class="headline-4">Packages:</h4>
+
+                    <div class="gl-upgrade-form">
+                        <div class="radio" ng-repeat="packageName in choices.packages">
+                            <label>
+                                <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                {{packageName}}
+                                <a ng-show="status.packageName===packageName"
+                                   ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view
+                                    games</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="gl-manager-side-panel-section gl-manager-side-panel-section--payment gl-margin--Bm">
+                    <p class="gl-margin-Vl">{{packages.selected.description}}</p>
+
+                    <h4 class="headline-4">Package Size:</h4>
+
+                    <form class="gl-upgrade-form">
+                        <div class="radio" ng-repeat="seat in choices.seats">
+                            <label>
+                                <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats">
+                                {{seat.studentSeats}} students + {{seat.educatorSeats}} educators
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 gl-margin--B50">
+            <form name="paymentForm" novalidate class="reg-form form-inline">
+                <div class="form-group">
+                    <div class="gl-upgrade-school-info gl-margin--Bl">
+
+                        <div ng-include src="'subscribe/_school-info-form.html'"></div>
+
+                    </div>
+                    <div class="gl-upgrade-payment  gl-margin--B50">
+                        <div class="gl-payment-selection l-collection gl-margin--Bl">
+                            <h5 class="headline-5 gl-inline-block gl-margin--R40 gl-clickable">Purchase Order</h5>
+                        </div>
+                        <div class="gl-upgrade-label-payment">Payment</div>
+
+                        <div ng-include src="'subscribe/_payment-order-form.html'"></div>
+
+                        <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
+                               type="danger"><span class="fa fa-times-circle"></span> {{ error }}
+                        </alert>
+                    </div>
+                    <div>
+                        Price:
+                        <div class="form-group">
+                            <input size="30" class="form-control gl-margin-Vl"
+                                   ng-model="info.PO.payment"
+                                   placeholder="Price" required>
+                        </div>
+                    </div>
+                    <div>
+                        License Owner Email:
+                        <div class="form-group">
+                            <input size="30" class="form-control gl-margin-Vl"
+                                   ng-model="info.user.email"
+                                   placeholder="License Owner Email" required>
+                        </div>
+                    </div>
+
+                    <div class="reg-submit text-center">
+                        <input ng-click="requestPurchaseOrder(status.studentSeats, status.packageName, info)"
+                               class="btn gl-payment-submit gl-btn--black"
+                               value="{{ request.isSubmitting ? 'Submitting...' : 'Submit'}}"
+                               ng-disabled="request.isSubmitting || paymentForm.$invalid">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

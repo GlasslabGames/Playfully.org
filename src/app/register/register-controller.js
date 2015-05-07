@@ -2,10 +2,6 @@ angular.module('playfully.register', ['register.const'])
 
 .config(function config( $stateProvider, $urlRouterProvider ) {
 
-  var registerOptionsConfig = {
-    templateUrl: 'register/register.html',
-    controller: 'RegisterOptionsModalCtrl'
-  };
   $stateProvider.state('modal.register', {
     url: '/register?:upgrade?:packageType?:seatsSelected?:role',
     parent: 'modal',
@@ -69,27 +65,6 @@ angular.module('playfully.register', ['register.const'])
 
 })
 
-//var registerBetaConfig = {
-//   templateUrl: 'register/register-beta.html',
-//   controller: 'RegisterBetaCtrl'
-// };
-// $stateProvider.state('registerBeta', {
-//   url: 'register/beta',
-//   parent: 'modal',
-//   views: { 'modal@': registerBetaConfig }
-// })
-// .state('sdkRegisterBeta', {
-//   url: '/sdk/v2/register/beta',
-//   parent: 'site',
-//   data: { hideWrapper: true },
-//   views: { 'main@': {
-//     templateUrl: 'register/v2/sdk-register-beta.html',
-//     controller: 'RegisterBetaCtrl'
-//   } }
-// })
-
-
-
 .directive('pwConfirm', [function () {
   return {
     require: 'ngModel',
@@ -110,7 +85,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, STRIPE) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
         var user = null;
         var packageInfo = {
             packageType: null || $stateParams.packageType,
@@ -136,7 +111,7 @@ angular.module('playfully.register', ['register.const'])
 
       $scope.register = function( account ) {
         // TODO: uncomment this for production release
-        if( STRIPE.env === "live" ) {
+        if( ENV.stripe === "live" ) {
           if ($scope.upgrade === 'trial') {
               var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
               var emailDomain = $scope.account.email.split('@')[1].indexOf('glasslabgames.org');
@@ -187,9 +162,7 @@ angular.module('playfully.register', ['register.const'])
     $scope.closeWindow = function () {
         $window.location.search = 'action=SUCCESS';
     };
-
 })
-
 
 .controller('RegisterStudentModalCtrl',
     function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
@@ -199,7 +172,7 @@ angular.module('playfully.register', ['register.const'])
         code: null,
         errors: []
       };
-
+      $scope.acceptedTerms = false;
       $scope.course = null;
 
       $scope.account = null;

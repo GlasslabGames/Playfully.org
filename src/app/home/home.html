@@ -20,7 +20,15 @@
     </div>
   </div>
 </div>
-
+<div class="text-center gl-margin--Tl">
+    <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription"
+            class="btn gl-btn--steelblue">Start Trial
+    </button>
+    </button>
+    <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})"
+            class="btn gl-btn--steelblue">Start Trial
+    </button>
+</div>
 <div ui-view="catalog"></div>
 
 <!--<div class="gl-bg--gray gl-home-about">
@@ -67,8 +75,8 @@
   <div class="container" id="start-playing-section">
     <h3 class="headline-1 text-center gl-margin--V50">Start Playing!</h3>
     <div class="row gl-margin--B40">
-        <div class="col-md-4">
-            <div class="gl-home-plan-premium">
+        <div class="col-md-6">
+            <div class="gl-home-plan-premium float--r">
                 <div class="text-center">
                     <div class="gl-logo-premium-icon"></div>
                     <h4 class="headline-4--serif">Premium Plan</h4>
@@ -78,7 +86,7 @@
                 <div class="gl-home-plan-info">
                     <h5 class="text-center gl-margin--Bl">Give your students full access to games that fit your needs.</h5>
                     <ul class="gl-margin--Bl gl-home-plan-list">
-                        <li><i class="fa fa-check"></i>365-day access to premium </br> & free games</li>
+                        <li><i class="fa fa-check"></i>365-day access to premium & free games</li>
                         <li><i class="fa fa-check"></i>Tailor to your device environment
                         </li>
                         <li><i class="fa fa-check"></i>Tailor to your class size</li>
@@ -88,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="gl-home-plan-trial">
                 <div class="text-center">
                     <div class="gl-logo-trial-icon"></div>
@@ -99,7 +107,7 @@
                 <div class="gl-home-plan-info">
                     <h5 class="text-center gl-margin--Bl">Try Our Premium Plan for Free!</h5>
                     <ul class="gl-margin--Bl gl-home-plan-list">
-                        <li><i class="fa fa-check"></i>60-day access to premium </br> & free games</li>
+                        <li><i class="fa fa-check"></i>60-day access to premium & free games</li>
                         <li><i class="fa fa-check"></i>All devices</li>
                         <li><i class="fa fa-check"></i>Up to 30 students</li>
                         <li><i class="fa fa-check"></i>No credit card required</li>
@@ -110,26 +118,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="gl-home-plan-basic">
-                <div class="text-center">
-                    <div class="gl-logo-basic-icon"></div>
-                    <h4 class="headline-4--serif">Basic Plan</h4>
-                    <div class="gl-block">Free</div>
-                </div>
-                <div class="gl-home-plan-info">
-                    <h5 class="text-center gl-margin--Bl">Sign up for GlassLab Games and get instant access to the free
-                        games!</h5>
-                    <ul class="gl-margin--Bl gl-home-plan-list">
-                        <li><i class="fa fa-check"></i>Unlimited access to free games</li>
-                        <li><i class="fa fa-check"></i>All devices with free games</li>
-                        <li><i class="fa fa-check"></i>Up to 100 students</li>
-                        <li><i class="fa fa-check"></i>No credit card required</li>
-                    </ul>
-                    <button class="gl-btn-round" ui-sref="modal.register({role:'instructor'})">Sign Up</button>
-                </div>
-            </div>
-        </div>
+        <!--<div class="col-md-4">-->
+            <!--<div class="gl-home-plan-basic">-->
+                <!--<div class="text-center">-->
+                    <!--<div class="gl-logo-basic-icon"></div>-->
+                    <!--<h4 class="headline-4--serif">Basic Plan</h4>-->
+                    <!--<div class="gl-block">Free</div>-->
+                <!--</div>-->
+                <!--<div class="gl-home-plan-info">-->
+                    <!--<h5 class="text-center gl-margin--Bl">Sign up for GlassLab Games and get instant access to the free-->
+                        <!--games!</h5>-->
+                    <!--<ul class="gl-margin--Bl gl-home-plan-list">-->
+                        <!--<li><i class="fa fa-check"></i>Unlimited access to free games</li>-->
+                        <!--<li><i class="fa fa-check"></i>All devices with free games</li>-->
+                        <!--<li><i class="fa fa-check"></i>Up to 100 students</li>-->
+                        <!--<li><i class="fa fa-check"></i>No credit card required</li>-->
+                    <!--</ul>-->
+                    <!--<button class="gl-btn-round" ui-sref="modal.register({role:'instructor'})">Sign Up</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
   </div>
 </div>

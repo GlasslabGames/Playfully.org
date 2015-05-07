@@ -4,10 +4,12 @@
 }
 
 .gl-report-standards-header {
+  padding: 0px;
   background: @grey7; 
 }
 .gl-report-sep {
   border-left: 8px solid white;
+  width: 1000px;
 }
 
 .gl-report-standards-legend-header {
@@ -23,27 +25,45 @@
   border-bottom: 4px solid white;
 }
 
+.gl-reports-standards-header-container {
+  display: table-row;
+  overflow: auto;
+  height: 100%;
+}
+
 .gl-report-standards-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-}
-
-.gl-report-standards-header-title {
-  color: @grey2;
-  font-weight: bold;
-  text-align: center;
-  border-bottom: 4px solid @grey6;
-}
-
-.gl-report-standards-header-subsection {
-  display: inline-block;
+  display: table-cell;
+  padding: 0px 0px 15px 0px;
   vertical-align: top;
 }
 
+.gl-report-standards-header-title {
+  display: inline-block;
+  color: @grey2;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: top;
+  padding-top: 10px;
+}
+
 .gl-report-standards-header-subsection-title {
+  border-bottom: 2px solid @grey6;
+}
+.gl-report-standards-header-subsection {
+  display: table-cell;
   color: @grey2;
   text-align: center;
-  border-bottom: 2px solid @grey6;
+  border-top: 4px solid @grey6;
+  padding-top: 10px;
+  padding-right: 2px;
+}
+
+.gl-report-standards-header-subsection-item {
+  display: table-cell;
+  color: @grey2;
+  text-align: center;
+  padding-top: 10px;
+  min-width: 165px;
 }
 
 .gl-report-standards-item {
@@ -54,6 +74,13 @@
 .gl-report-standards-header-item {
   width: 130px;
   display: inline-block;
+}
+
+.gl-report-standards-header-subsection-item-description {
+  text-align: left;
+  padding: 5px 5px 0px 5px;
+  font-size: 12px;
+  color: #767676;
 }
 
 .gl-report-standards-item-title {
@@ -124,13 +151,12 @@
 }
 
 .gl-standards-rating--watchout {
-  .image-2x('icon-report-wo.png', 50px, 50px);
   background-position: center;
   background-color: #ee4e51;
   border: none;
   .box-shadow(none);
   &.gl-standards-rating--small {
-    .image-2x('icon-report-wo.png', 25px, 25px);
+    background-color: #ee4e51;
   }
 }
 
@@ -163,4 +189,23 @@
 .gl-standard--selected {
   color: @grey1;
   font-weight: bold;
+}
+
+.gl-reports-standard-labels-icon {
+  display: table-cell;
+  width: 50px;
+  margin-right: 20px;
+}
+
+.gl-reports-standard-labels-box {
+  display: inline-block;
+}
+
+.gl-reports-standard-labels-text {
+  display: table-cell;
+  vertical-align: middle;
+}
+.gl-report-standards-table-bottom {
+  width: 100%;
+
 }

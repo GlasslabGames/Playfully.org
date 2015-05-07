@@ -94,9 +94,9 @@ body {
 
 .gl-home-slide--mission {
   width: 100%;
-  margin-top: 220px;
+  margin-top: 140px;
   padding: 10px;
-  background-color: rgba(237, 30, 121, 0.8);
+  background-color: rgba(237, 30, 121, 0.66);
   color: white;
   font-family: @serifHeadlineFontFamily;
   font-size: 28px;
@@ -437,7 +437,7 @@ hr.gl-home-student {
   }
   button {
     position: absolute;
-    right: 30%;
+    right: 35%;
     bottom: 5%;
   }
 }
@@ -449,7 +449,7 @@ hr.gl-home-student {
   box-shadow: 0px 10px 0px #d6d6d8;
   border: 1px solid #d6d6d8;
   height: 470px;
-  width: 300px;
+  width: 350px;
 }
 
 .gl-home-plan-basic {
@@ -513,12 +513,14 @@ hr.gl-home-student {
   width: 100%;
 }
 
-.subscribe-video-thumbnail {
-  position: absolute;
-  bottom: 50px;
-  left: 100px;
-  z-index: 100;
-  width:182px;
-  height: 104px;
-  .image-2x('subscribe-video-thumbnail.png', 182px, 104px);
+.gl-play-button-bigger {
+  width: 92px;
+  height: 92px;
+  background-image: url('play-button-bigger.png');
+  margin: auto;
+}
+
+.gl-play-button-bigger:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }

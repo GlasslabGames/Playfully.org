@@ -80,8 +80,6 @@ angular.module( 'instructor.reports', [
           gameId: defaultGame.gameId,
           courseId: activeCourses[0].id
         });
-      } else {
-        // First course doesn't have any games
       }
     },
     data: {
@@ -251,6 +249,18 @@ angular.module( 'instructor.reports', [
           var defaultGame = myGames[0];
           defaultGame = _.findWhere(myGames, { 'id': $stateParams.gameId });
           return defaultGame;
+        },
+        gameReports: function (defaultGame) {
+            // set game report for default game
+            var reports = {};
+            if (defaultGame) {
+                return defaultGame.reports;
+            }
+            return reports;
+        },
+        usersData: function (ReportsService,$stateParams) {
+            var reportId = 'standards';
+            return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
         }
       }
     });

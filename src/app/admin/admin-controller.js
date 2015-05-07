@@ -21,6 +21,47 @@ angular.module('playfully.admin', ['dash','license'])
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.reseller-subscribe', {
+        url: '/reseller-subscribe',
+        templateUrl: 'admin/admin-reseller-subscribe.html',
+        controller: 'AdminResellerCtrl',
+        resolve: {
+            packages: function (LicenseService) {
+                return LicenseService.getPackages({salesRep: true});
+            }
+        },
+        data: {
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('modal.reseller-confirm-purchase-order-modal', {
+        url: '/admin/reseller-confirm-purchase-order',
+        data: {
+            pageTitle: 'Confirm Purchase Order',
+            authorizedRoles: ['admin']
+        },
+        views: {
+            'modal@': {
+                templateUrl: 'admin/reseller-confirm-purchase-order-modal.html',
+                controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                    $scope.request = {
+                        success: false,
+                        errors: [],
+                        isSubmitting: false
+                    };
+                    $scope.acceptedTerms = false;
+                    $scope.purchaseInfo = LicenseStore.getData();
+                    $scope.submitResellerPayment = function () {
+                        UtilService.submitFormRequest($scope.request, function () {
+                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
+                        }, function () {
+                            LicenseStore.reset();
+                        });
+                    };
+                }
+            }
+        }
+    })
     .state('admin.purchase-orders', {
         url: '/purchase-orders',
         templateUrl: 'admin/admin-purchase-orders.html',
@@ -30,7 +71,78 @@ angular.module('playfully.admin', ['dash','license'])
         }
     });
 })
+.controller('AdminResellerCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE, ENV) {
+        // Setup Seats and Package choices
+        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
+        var packagesChoices = _.map(packages.plans, 'name');
 
+        $scope.status = {
+            isPaymentCreditCard: false,
+            packageName: selectedPackage.name,
+            selectedPackage: selectedPackage,
+            studentSeats: $stateParams.seatsSelected || 5,
+            totalPrice: null
+        };
+
+        $scope.promoCode = {
+            code: null,
+            valid: false,
+            amount_off: 0,
+            percent_off: 0
+        };
+
+        $scope.choices = {
+            packages: packagesChoices,
+            seats: packages.seats,
+            states: angular.copy(REGISTER_CONSTANTS.states),
+            cardTypes: angular.copy(REGISTER_CONSTANTS.cardTypes)
+        };
+
+        $scope.$watch('status.packageName', function (packageName) {
+            $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
+        });
+
+        // School and Payment Info
+        $scope.info = {
+            school: angular.copy(REGISTER_CONSTANTS.school),
+            subscription: {},
+            CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
+            PO: angular.copy(REGISTER_CONSTANTS.poInfo),
+            user: {
+                email: ''
+            }
+        };
+
+        $scope.request = {
+            success: false,
+            errors: [],
+            isSubmitting: false
+        };
+
+        $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
+            var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
+            var targetPlan = _.find(packages.plans, {name: packageName});
+            var planInfo = {seats: targetSeat.seatId, type: targetPlan.planId};
+            if ($scope.promoCode.valid) {
+                planInfo.promoCode = $scope.promoCode.code;
+            }
+            var purchaseOrder = info.PO;
+            /* Convert to database expected values */
+            console.log(typeof(purchaseOrder.payment));
+            purchaseOrder.payment = parseFloat(purchaseOrder.payment);
+            purchaseOrder.payment = purchaseOrder.payment.toFixed(2);
+            purchaseOrder.payment = parseFloat(purchaseOrder.payment);
+            purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
+            LicenseStore.setData({
+                purchaseOrderInfo: purchaseOrder,
+                planInfo: planInfo,
+                schoolInfo: info.school,
+                payment: $scope.info.PO.payment,
+                user: $scope.info.user
+            });
+            $state.go('modal.reseller-confirm-purchase-order-modal');
+        };
+    })
 .controller('AdminMessageCenterCtrl', function ($scope, $http, $window, DashService) {
 
     $scope.mcSubject = "";

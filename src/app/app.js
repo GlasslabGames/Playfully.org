@@ -1,4 +1,5 @@
 angular.module( 'playfully', [
+    'env-config',
   'angular-progress-arc',
   'ngOrderObjectBy',
   'ngSanitize',
@@ -371,7 +372,7 @@ angular.module( 'playfully', [
       Authorization.authorize();
     }
   });
-  
+
   // Google Analytics - Track current page w/i SPA
   $rootScope.$on('$stateChangeSuccess', function(event){
     if (!$window.ga) { return; }
@@ -381,9 +382,9 @@ angular.module( 'playfully', [
 })
 
 .controller('AppCtrl',
-  function($scope, $rootScope, $state, $stateParams, $log, $modal, $timeout, $window, $location,
-    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState, STRIPE) {
-
+            function($scope, $rootScope, $state, $stateParams, $log, $modal, $timeout, $window, $location, ENV,
+    ipCookie, UserService, GamesService, AuthService, LicenseService, AUTH_EVENTS, EMAIL_VALIDATION_PATTERN, FEATURES, CHECKLIST, $previousState) {
+    $log.info(ENV);
     $rootScope.state = $state;
     $rootScope.allGames = null;
     $rootScope.currentUser = null;
@@ -406,16 +407,16 @@ angular.module( 'playfully', [
         $rootScope.allGames = data;
       });
     }
-    $scope.howItWorksPanel = {
-      isCollapsed: true
-    };
-    $scope.closePanel = function() {
-      $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
-      document.body.scrollTop = document.documentElement.scrollTop = 0;
-    };
+    //$scope.howItWorksPanel = {
+    //  isCollapsed: true
+    //};
+    //$scope.closePanel = function() {
+    //  $scope.howItWorksPanel.isCollapsed = !$scope.howItWorksPanel.isCollapsed;
+    //  document.body.scrollTop = document.documentElement.scrollTop = 0;
+    //};
     $scope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
-        if( STRIPE.env === "live" ) {
+        if( ENV.stripe === "live" ) {
           if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.ssl)) {
                 if (toState.data.ssl) {
@@ -455,10 +456,10 @@ angular.module( 'playfully', [
     });
     $scope.$on('$stateChangeSuccess',
       function(event, toState, toParams, fromState, fromParams){
-        if (!$scope.howItWorksPanel.isCollapsed) {
-          $scope.howItWorksPanel.isCollapsed = true;
-          document.body.scrollTop = document.documentElement.scrollTop = 0;
-        }
+        //if (!$scope.howItWorksPanel.isCollapsed) {
+        //  $scope.howItWorksPanel.isCollapsed = true;
+        //  document.body.scrollTop = document.documentElement.scrollTop = 0;
+        //}
         var hasPageTitle = (angular.isDefined(toState.data) &&
           angular.isDefined(toState.data.pageTitle));
         if ( hasPageTitle ) {
@@ -626,4 +627,3 @@ angular.module( 'playfully', [
     });
 
 });
-
