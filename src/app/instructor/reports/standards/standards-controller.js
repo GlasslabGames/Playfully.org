@@ -8,7 +8,7 @@ angular.module( 'instructor.reports')
       },
       views: {
         'modal@': {
-          templateUrl: function($stateParams) {
+          templateUrl: function($stateParams, REPORT_CONSTANTS) {
             return 'instructor/reports/standards/_modal-' + $stateParams.type + '.html';
           },
           controller: function($scope, $log, $stateParams, StandardStore, REPORT_CONSTANTS) {
@@ -145,7 +145,19 @@ angular.module( 'instructor.reports')
       showStandardsDescriptions: true
     };
 
+    $scope.progressTypes = REPORT_CONSTANTS.standardsLegendOrder;
+
+    var _convertToGeneralType = function (type) {
+      var general = type;
+      angular.forEach($scope.progressTypes, function (progressType) {
+          if (progressType[0] === type[0]) {
+              general = progressType;
+          }
+      });
+      return general;
+   };
     $scope.getLabelInfo = function(label,type) {
+        label = _convertToGeneralType(label);
         if (label && type) {
             return REPORT_CONSTANTS.legend[label][type];
         } else if (type === 'text') {
@@ -196,14 +208,7 @@ angular.module( 'instructor.reports')
        });
        // for displaying legend information
        $scope.defaultStandard = $scope.reports.standardsList[0];
-       // for displaying legend information
-       $scope.legendOrder = REPORT_CONSTANTS.standardsLegendOrder;
    };
-    if(!$scope.reportInfo) {
-      $scope.reportInfo = {
-        labels: []
-      };
-    }
    // To pass data to modal
    $scope.setStandard = function (standardId) {
        StandardStore.setStandard($scope.reports.standardsDict[standardId]);
