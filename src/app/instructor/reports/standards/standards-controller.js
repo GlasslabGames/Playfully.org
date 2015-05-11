@@ -149,6 +149,7 @@ angular.module( 'instructor.reports')
 
     var _convertToGeneralType = function (type) {
       var general = type;
+      // TODO: Refactor to more robust check
       angular.forEach($scope.progressTypes, function (progressType) {
           if (progressType[0] === type[0]) {
               general = progressType;
