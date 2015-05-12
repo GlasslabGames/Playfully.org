@@ -29,10 +29,6 @@ angular.module('reports.const', [])
   "Partial": {class:"gl-standards-rating--tracking", text: 'tracking', title: "Tracking toward standard completion"},
   "Not-Started": {class:"gl-standards-rating--notstarted", text: "notstarted", title: "Not started"},
   "In-Progress": {class:"gl-standards-rating--nodata", text: 'nodata', title: "In progress"},
-  "WatchoutA": {class: "gl-standards-rating--watchout",title: "Intervene now!", text:"watchout"},
-  "WatchoutB": {class: "gl-standards-rating--watchout", title: "Intervene now!", text: "watchout"},
-  "WatchoutC": {class: "gl-standards-rating--watchout", title: "Intervene now!", text: "watchout"},
-  "WatchoutD": {class: "gl-standards-rating--watchout", title: "Intervene now!", text: "watchout"},
   "Watchout": {class: "gl-standards-rating--watchout", title: "Intervene now!", text: "watchout"}
  },
  "standardsLegendOrder": ['Not-Started', 'In-Progress', 'Partial', 'Full', 'Watchout'],
