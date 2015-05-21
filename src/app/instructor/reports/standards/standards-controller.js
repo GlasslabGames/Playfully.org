@@ -158,8 +158,8 @@ angular.module( 'instructor.reports')
       return general;
    };
     $scope.getLabelInfo = function(label,type) {
-        label = _convertToGeneralType(label);
         if (label && type) {
+            label = _convertToGeneralType(label);
             return REPORT_CONSTANTS.legend[label][type];
         } else if (type === 'text') {
             // if student has no data
