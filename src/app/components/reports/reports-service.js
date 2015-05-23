@@ -104,8 +104,9 @@ angular.module('reports', [])
           activeCourse.isExpanded = true;
         } else {
           student.isSelected = true;
-        }
-      });
+
+    }
+    });
     };
 
     this.getSelectedStudentIds = function(course) {

@@ -30,7 +30,7 @@
 </div>
 <hr/>
 
-<table class="table gl-reports-table" 
+<table class="table gl-reports-table"
   ng-class="{'gl-reports-table--ie': isIE}" sticky collapse-class=".gl-reports-competency-header-info">
   <thead>
     <tr>
@@ -60,7 +60,35 @@
   <tbody ng-show="!isGameDisabled && courses.options[courses.selectedCourseId].users">
   <tr class="gl-reports-table-row"
       ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: true} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
-      <td class="gl-nobr">{{ student.firstName }} {{ student.lastName }}.</td>
+      <td class="gl-nobr">
+          <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
+      </td>
+      <td ng-repeat="comp in student.competency">
+        <div class="gl-reports-competency-table-cell">
+          <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">
+            <div class="gl-reports-competency-circle-large"
+                 ng-class="getCompetencyLabelInfo(comp,'class',reportInfo.selectedGroupId)"
+                 popover="{{getCompetencyLabelInfo(comp,'text',reportInfo.selectedGroupId)}}"
+                 popover-trigger="mouseenter"
+                 popover-placement="bottom"></div>
+          </div>
+        </div>
+      </td>
+  </tr>
+  <tr>
+        <td colspan="2" class="gl-report-row-spacer">&nbsp;</td>
+  </tr>
+  <tr class="gl-reports-table-row"
+      ng-repeat="student in courses.options[courses.selectedCourseId].users | filter:{isSelected: false} | orderBy:userSortFunction(colName.value):col[col.current].reverse">
+      <td class="gl-nobr">
+          <label class="gl-reports-label text-normal">
+              <input type="checkbox" ng-model="student.isSelected">
+              {{ student.firstName }} {{ student.lastName }}.
+          </label>
+      </td>
       <td ng-repeat="comp in student.competency">
         <div class="gl-reports-competency-table-cell">
           <div class="gl-reports-competency-label-icon gl-reports-competency-outer-circle">

@@ -1,6 +1,6 @@
 module.exports = function ( grunt ) {
-  
-  /** 
+
+  /*
    * Load required Grunt tasks. These are installed based on the versions listed
    * in `package.json` when you do `npm install` in this directory.
    */
@@ -20,11 +20,15 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-mocha-protractor');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-git-describe');
+  grunt.loadNpmTasks('grunt-ng-constant');
 
   /**
    * Load in our build configuration file.
    */
   var userConfig = require( './config/build.config.js' );
+  //var platformConfig = require( '../Platform/servers/config.json');
+  //var platformConfig = require( '/srv/www/hydra/platform/servers/config.json');
+
 
   /**
    * This is the configuration object Grunt uses to give each plugin its
@@ -84,6 +88,40 @@ module.exports = function ( grunt ) {
         pushTo: 'origin'
       }
     },
+
+      ngconstant: {
+          options: {
+              space: '  ',
+              wrap: '"use strict";\n\n {%= __ngModule %}',
+              name: 'env-config'
+          },
+          development: {
+              options: {
+                  dest: '<%= build_dir %>/env-config.js'
+              },
+              constants: {
+                  ENV: {
+                      /*name: platformConfig.env,
+                      path: platformConfig.webapp.staticContentPath,
+                      stripe: platformConfig.stripe.env*/
+                      stripe: "test"
+                  }
+              }
+          },
+          production: {
+              options: {
+                  dest: '<%= compile_dir %>/env-config.js'
+              },
+              constants: {
+                  ENV: {
+                      /*name: platformConfig.env,
+                      path: platformConfig.webapp.staticContentPath,
+                      stripe: platformConfig.stripe.env*/
+                      stripe: "test"
+                  }
+              }
+          }
+      },
 
     /**
      * The directories to delete when `grunt clean` is executed.
@@ -248,8 +286,12 @@ module.exports = function ( grunt ) {
      * Minify the sources!
      */
     uglify: {
+      options: {
+        mangle: false
+      },
       compile: {
         options: {
+          mangle: false,
           banner: '<%= meta.banner %>'
         },
         files: {
@@ -600,13 +642,13 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'ngconstant:development', 'index:build',
     'createVersionFile'
   ]);
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'index:build', 'karmaconfig', 'createVersionFile'
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'ngconstant:development', 'index:build', 'karmaconfig', 'createVersionFile'
   ]);
 
 
@@ -619,10 +661,10 @@ module.exports = function ( grunt ) {
    */
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'build', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'ngAnnotate', 'concat:compile_js', 'uglify',
-    'index:compile', 'createDistVersionFile'
+    'build', 'ngAnnotate', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'concat:compile_js', 'uglify',
+    'index:compile', 'createDistVersionFile', 'ngconstant:production'
   ]);
-  
+
 
   grunt.registerTask('createVersionFile', 'Tag the current build revision', function () {
       grunt.event.once("git-describe", function(rev) {
@@ -670,7 +712,7 @@ module.exports = function ( grunt ) {
     });
   }
 
-  /** 
+  /**
    * The index.html template includes the stylesheet and javascript sources
    * based on dynamic names calculated in this Gruntfile. This task assembles
    * the list into variables for the template to use and then runs the
@@ -685,7 +727,7 @@ module.exports = function ( grunt ) {
       return file.replace( dirRE, '' );
     });
 
-    grunt.file.copy('src/index.html', this.data.dir + '/index.html', { 
+    grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
       process: function ( contents, path ) {
         return grunt.template.process( contents, {
           data: {
@@ -705,8 +747,8 @@ module.exports = function ( grunt ) {
    */
   grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
     var jsFiles = filterForJS( this.filesSrc );
-    
-    grunt.file.copy( 'config/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', { 
+
+    grunt.file.copy( 'config/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', {
       process: function ( contents, path ) {
         return grunt.template.process( contents, {
           data: {

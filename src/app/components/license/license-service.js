@@ -24,9 +24,9 @@ angular.module('license', [])
                         return response;
                     });
             };
-            this.getPackages = function () {
+            this.getPackages = function (params) {
                 var apiUrl = API_BASE + '/license/packages';
-                return $http({method: 'GET', url: apiUrl})
+                return $http({method: 'GET', url: apiUrl, params: params})
                     .then(function (response) {
                         return response.data;
                     }, function (response) {
@@ -236,7 +236,15 @@ angular.module('license', [])
             this.declineInvitation = function () {
                 return $http.post(API_BASE + '/license/nullify');
             };
-
+            this.resellerSubscribeWithPurchaseOrder = function (info) {
+                var apiUrl = API_BASE + '/license/subscribe/internal';
+                return $http.post(apiUrl, {
+                    purchaseOrderInfo: info.purchaseOrderInfo,
+                    planInfo: info.planInfo,
+                    schoolInfo: info.schoolInfo,
+                    user: info.user
+                });
+            };
     })
     .factory('LicenseStore', function() {
         var data = {};
