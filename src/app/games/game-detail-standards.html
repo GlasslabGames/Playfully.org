@@ -1,21 +1,33 @@
-<div class="gl-TEKS-box"> <div class="gl-light-bulb l-profile-image"></div> <div class="gl-TEKS-box-info l-profile-info"><p><b>Looking for TEKS or other standards?</b></p><p><b>Create an account to customize your standards view.</b></p></div> </div>
-<div ng-repeat="section in gameDetails.pages.standards[defaultStandards] track by $index">
-  <h5 class="headline-5 gl-standards-category" ng-bind="section.category"></h5>
-  <ul class="list-unstyled gl-indent">
-      <li ng-repeat="groupItem in section.groups track by $index">
-          <h5 ng-if="groupItem.name" class="headline-5 gl-standards-category" ng-bind="groupItem.name"></h5>
-          <p ng-repeat="listItem in groupItem.list track by $index">
-              <a ng-if="listItem.link" href="{{ listItem.link }}"
-                  ng-bind="listItem.name"></a>
-              <span ng-if="!listItem.link && listItem.name" ng-bind="listItem.name"></span>
-              <br ng-if="listItem.name" />
-              <span ng-bind="listItem.description"></span>
-
-              <!-- could not use ul,li for some reason, had to use span -->
-              <span ng-repeat="t in listItem.sublist track by $index" class="gl-standards-category-item">
-                <i class="gl-standards-category-circle"></i>{{t}}
-              </span>
-          </p>
-      </li>
-  </ul>
+<!--
+<div class="gl-TEKS-box">
+  <div class="gl-light-bulb l-profile-image"></div>
+  <div class="gl-TEKS-box-info l-profile-info">
+    <p><b>Looking for TEKS or other standards?</b></p>
+    <p><b>Create an account to customize your standards view.</b></p>
+  </div>
 </div>
+-->
+<tabset>
+  <tab ng-repeat="standard in standardsTabs" heading="{{standard.name}}" active="standard.active" disabled="standard.disabled">
+    <div ng-repeat="section in gameDetails.pages.standards[standard.name] track by $index">
+      <h5 class="headline-5 gl-standards-category" ng-bind="section.category"></h5>
+      <ul class="list-unstyled gl-indent">
+          <li ng-repeat="groupItem in section.groups track by $index">
+              <h5 ng-if="groupItem.name" class="headline-5 gl-standards-category" ng-bind="groupItem.name"></h5>
+              <p ng-repeat="listItem in groupItem.list track by $index">
+                  <a ng-if="listItem.link" href="{{ listItem.link }}"
+                      ng-bind="listItem.name"></a>
+                  <span ng-if="!listItem.link && listItem.name" ng-bind="listItem.name"></span>
+                  <br ng-if="listItem.name" />
+                  <span ng-bind="listItem.description"></span>
+    
+                  <!-- could not use ul,li for some reason, had to use span -->
+                  <span ng-repeat="t in listItem.sublist track by $index" class="gl-standards-category-item">
+                    <i class="gl-standards-category-circle"></i>{{t}}
+                  </span>
+              </p>
+          </li>
+      </ul>
+    </div>
+  </tab>
+</tabset>

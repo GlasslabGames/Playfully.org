@@ -297,6 +297,11 @@ angular.module( 'playfully.games', [
         $scope.gameDetails.pages.standards[$scope.currentUser.standards] ) {
       $scope.defaultStandards = $scope.currentUser.standards;
     }
+    
+    $scope.standardsTabs = _.map(['CCSS', 'TEKS'], function(val) {
+      var enabled = _.has(gameDetails.pages.standards, val);
+      return {name: val, active: enabled && val == $scope.defaultStandards, disabled: !enabled};
+    });
 
     if (_.has(gameDetails, 'error')) {
       $scope.error = true;
