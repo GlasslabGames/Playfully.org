@@ -297,6 +297,11 @@ angular.module( 'playfully.games', [
         $scope.gameDetails.pages.standards[$scope.currentUser.standards] ) {
       $scope.defaultStandards = $scope.currentUser.standards;
     }
+    
+    $scope.standardsTabs = _.map(['CCSS', 'TEKS'], function(val) {
+      var enabled = _.has(gameDetails.pages.standards, val);
+      return {name: val, active: enabled && val == $scope.defaultStandards, disabled: !enabled};
+    });
 
     if (_.has(gameDetails, 'error')) {
       $scope.error = true;
@@ -409,7 +414,7 @@ angular.module( 'playfully.games', [
     }, 100);
   };
 })
-.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $rootScope, $log, $timeout, gameDetails) {
+.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $location, $rootScope, $log, $timeout, gameDetails) {
   $scope.gamePlayInfo = {};
 
   if(gameDetails &&
@@ -446,8 +451,9 @@ angular.module( 'playfully.games', [
     }
     else if( $scope.gamePlayInfo.format == "html" ) {
       setTimeout( function() {
+        var embed = $location.protocol() == 'https' ? $scope.gamePlayInfo.embedSecure : $scope.gamePlayInfo.embed;
         var htmlOutput = '' +
-          '<object name=\"htmlObj\" data=\"' + $scope.gamePlayInfo.embed + '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\" id=\"Sample\" style=\"float: none; vertical-align:middle\">' +
+          '<object name=\"htmlObj\" data=\"' + embed + '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\" id=\"Sample\" style=\"float: none; vertical-align:middle\">' +
           '</object>';
         $( ".gl-gamePlay-embedded" ).html( htmlOutput );
       }, 100 );
