@@ -417,6 +417,8 @@ angular.module( 'playfully', [
     $scope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
         if( ENV.stripe === "live" ) {
+          // TODO: remove the toState.data.ssl checks when we're all secure, because then every page should'
+          // default to https. Make sure this doesn't mess up the webviews.
           if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.ssl)) {
                 if (toState.data.ssl) {
