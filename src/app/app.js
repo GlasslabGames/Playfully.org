@@ -417,18 +417,17 @@ angular.module( 'playfully', [
     $scope.$on('$stateChangeStart',
       function (event, toState, toParams, fromState, fromParams) {
         if( ENV.stripe === "live" ) {
-          // Redirect everything to https
-          //if (angular.isDefined(toState.data)) {
-            //if (angular.isDefined(toState.data.ssl)) {
-                //if (toState.data.ssl) {
+          if (angular.isDefined(toState.data)) {
+            if (angular.isDefined(toState.data.ssl)) {
+                if (toState.data.ssl) {
                     if ($location.protocol() != 'https' && $location.host().indexOf("glasslabgames") !== -1) {
                         event.preventDefault();
                         var toStateUrl = $state.href(toState.name, toParams);
                         $window.location.href = $window.location.origin.replace('http', 'https') + toStateUrl;
                     }
-                //}
-            //}
-          //}
+                }
+            }
+          }
         }
         if (angular.isDefined(toState.data)) {
               if (angular.isDefined(toState.data.redirects)) {
