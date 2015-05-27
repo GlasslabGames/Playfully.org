@@ -263,10 +263,10 @@ angular.module( 'playfully.games', [
                  return true;
              }
              if ($scope.platform.selected === 'Chromebook') {
-                 return game.platform.type === 'Browser/Flash';
+                 return game.platform.type.indexOf('Browser') !== -1;
              }
              if ($scope.platform.selected === 'PC/Mac') {
-                 return game.platform.type === 'Browser/Flash' || game.platform.type === 'PC & Mac';
+                 return game.platform.type.indexOf('Browser') !== -1 || game.platform.type === 'PC & Mac';
              }
 
              return game.platform.type === $scope.platform.selected;
