@@ -211,7 +211,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
     })
     .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE, ENV) {
         // Setup Seats and Package choices
-        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
+        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType}) || packages.plans;
         var packagesChoices = _.map(packages.plans, 'name');
 
         $scope.status = {
