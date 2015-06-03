@@ -1,6 +1,6 @@
 angular.module('playfully.subscribe', ['subscribe.const','register.const'])
 
-    .config(function ($stateProvider) {
+    .config(function ($urlMatcherFactoryProvider, $stateProvider) {
 
         $stateProvider.state('root.subscribe', {
             abstract: true,
@@ -208,10 +208,24 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     ]
                 }
             });
+
+        // Prevent forward slashes in url params from being URL-encoded twice - http://stackoverflow.com/a/29169510
+        function valToString(val) {
+            return val != null ? val.toString() : val;
+        }
+        function regexpMatches(val) {
+            return this.pattern.test(val);
+        }
+        $urlMatcherFactoryProvider.type("string", {
+            encode: valToString,
+            decode: valToString,
+            is: regexpMatches,
+            pattern: /[^/]*/
+        });
     })
     .controller('SubscribePaymentCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE, ENV) {
         // Setup Seats and Package choices
-        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType || "Chromebook/Web"});
+        var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType}) || packages.plans;
         var packagesChoices = _.map(packages.plans, 'name');
 
         $scope.status = {
