@@ -29,7 +29,7 @@ angular.module('research', [])
         if(!urls[index]){
             return;
         }
-        window.open(urls[index]);
+        location.href = urls[index];
         index++;
         if(index < urls.length){
             $timeout(function(){

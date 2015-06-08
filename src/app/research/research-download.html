@@ -49,6 +49,9 @@
         <input type="submit" id="submit" value="Run!" /><br>
         <br>
         Output (# CSV Files {{numCSVs}}):
+        <ul>
+            <li ng-repeat="file in files"><a href="{{file.url}}">{{file.name}}</a></li>
+        </ul>
     </form>
 </div>
 </p>

@@ -259,8 +259,16 @@ angular.module('playfully.research', ['research'])
             }).success(function(data){
                 //console.log("events data:", data);
                 $scope.numCSVs = data.numCSVs;
-                var signedUrls = data.urls;
-                ResearchService.nextLoad($scope, signedUrls, 0);
+                if(data.numCSVs <= 0) {
+                    $scope.loading = false;
+                    $scope.files = [];
+                } else {
+                    $scope.files = _.map(data.urls, function (url) {
+                        return {url: url, name: url.split('/').pop().split('?').shift()};
+                    });
+                    var signedUrls = data.urls;
+                    ResearchService.nextLoad($scope, signedUrls, 0);
+                }
             }).error(function(err){
                 console.error("parse-schema:", err);
                 $scope.loading = false;
