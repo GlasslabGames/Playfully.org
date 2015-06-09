@@ -50,7 +50,7 @@
         <br>
         Output (# CSV Files {{numCSVs}}):
         <ul>
-            <li ng-repeat="file in files"><a href="{{file.url}}">{{file.name}}</a></li>
+            <li ng-repeat="file in files"><a href="{{file.url}}">{{file.name}}</a><iframe ng-src="{{file.url}}" frameborder="0" width="0" height="0"> </iframe></li>
         </ul>
     </form>
 </div>
