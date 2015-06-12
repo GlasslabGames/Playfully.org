@@ -93,6 +93,11 @@
               </div>
             </div>
             <div class="gl-game-details-bottom l-collection">
+              <!-- This is temporary to notify users that PVZ is not yet available on the App Store: REMOVE WHEN PVZ IS AVAILABLE -->
+              <div class="gl-game-details-header" ng-if="gameDetails.gameId === 'PVZ'">
+                <h4>Use Your Brainz EDU will be avaiable in the App Store soon! Stay tuned!</h4>
+              </div>
+              <!-- /////// -->
               <div class="gl-margin-Vm" ng-repeat="button in gameDetails.buttons">
                 <div ng-if="(button.authRequired && isAuthenticated()) || !button.authRequired">
                   <div ng-if="isMultiLinkType(button)">
