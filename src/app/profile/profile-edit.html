@@ -148,6 +148,11 @@
       <button type="button" class="btn gl-btn--grey" ng-click="$dismiss()">Close</button>
       <input type="submit" class="btn gl-btn--blue" value="Save"
       ng-disabled="editProfileForm.$invalid || (!editProfileForm.password.$pristine && editProfileForm.confirm.$pristine)">
+      <br>
+    </div>
+
+    <div class="text-center" ng-if="user.role == 'student'">
+      <a href="https://glasslab.zendesk.com/hc/en-us/requests/new">To delete your account, please submit a request.</a>
     </div>
   </form>
 </div>
