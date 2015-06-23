@@ -222,7 +222,7 @@ angular.module( 'playfully.games', [
 .controller('GameCatalogCtrl',
     function($scope, $rootScope, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
-        return game.price === 'TBD' || game.gameId === 'TEST';
+        return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
 
       if ($scope.currentUser) {
