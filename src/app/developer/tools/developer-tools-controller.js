@@ -28,7 +28,7 @@ angular.module('developer.tools', [])
     });
 })
 
-.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, ResearchService, availableGames) {
+.controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, $sce, ResearchService, availableGames) {
     $scope.gameIds = [];
     for( var game in availableGames ) {
         $scope.gameIds.push( game );
@@ -98,6 +98,7 @@ angular.module('developer.tools', [])
                        "&endDateSec=59";
                 $window.open(url);
             } else {
+                $scope.download = false;
                 $scope.outData = "";
                 $scope.loading = true;
                 $http({
@@ -120,9 +121,16 @@ angular.module('developer.tools', [])
                         $scope.outData = data.data;
                         $scope.numEvents = data.numEvents;
                     } else{
-                        $scope.outData = "Too many events for this query.  Click the above link to download the CSVs for those days.";
-                        signedUrls = data.urls;
                         $scope.download = true;
+                        $scope.numCSVs = data.numCSVs;
+                        if(data.numCSVs <= 0) {
+                            $scope.files = [];
+                        } else {
+                            $scope.files = _.map(data.urls, function (url) {
+                                return {url: $sce.trustAsResourceUrl(url), name: url.split('/').pop().split('?').shift()};
+                            });
+                            var signedUrls = data.urls;
+                        }
                     }
                 }).error(function(err){
                     console.error("parse-schema:", err);
@@ -130,12 +138,6 @@ angular.module('developer.tools', [])
                 });
             }
         }
-    };
-
-    $scope.nextLoad = function(){
-        $scope.download = false;
-        $scope.outData = '';
-        ResearchService.nextLoad($scope, signedUrls, 0);
     };
 
     $scope.today = function() {

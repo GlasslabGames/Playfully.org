@@ -40,7 +40,7 @@ angular.module('playfully.research', ['research'])
 })
 
 
-.controller('ResearchParserCtrl', function ($scope, $http, $window, ResearchService) {
+.controller('ResearchParserCtrl', function ($scope, $http, $window, $sce, ResearchService) {
     $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
@@ -101,6 +101,7 @@ angular.module('playfully.research', ['research'])
                        "&endDateSec=59";
                 $window.open(url);
             } else {
+                $scope.download = false;
                 $scope.outData = "";
                 $scope.loading = true;
                 $http({
@@ -123,9 +124,16 @@ angular.module('playfully.research', ['research'])
                         $scope.outData = data.data;
                         $scope.numEvents = data.numEvents;
                     } else{
-                        $scope.outData = "Too many events for this query.  Click the above link to download the CSVs for those days.";
-                        signedUrls = data.urls;
                         $scope.download = true;
+                        $scope.numCSVs = data.numCSVs;
+                        if(data.numCSVs <= 0) {
+                            $scope.files = [];
+                        } else {
+                            $scope.files = _.map(data.urls, function (url) {
+                                return {url: $sce.trustAsResourceUrl(url), name: url.split('/').pop().split('?').shift()};
+                            });
+                            var signedUrls = data.urls;
+                        }
                     }
                 }).error(function(err){
                     console.error("parse-schema:", err);
@@ -133,12 +141,6 @@ angular.module('playfully.research', ['research'])
                 });
             }
         }
-    };
-
-    $scope.nextLoad = function(){
-        $scope.download = false;
-        $scope.outData = '';
-        ResearchService.nextLoad($scope, signedUrls, 0);
     };
 
     $scope.today = function() {
@@ -218,7 +220,7 @@ angular.module('playfully.research', ['research'])
         getCSVData($scope.gameId);
   })
     // need good messaging, that this section only allows querying within one month
-.controller('ResearchDownloadCtrl', function ($scope, $http, $window, ResearchService) {
+.controller('ResearchDownloadCtrl', function ($scope, $http, $window, $sce, ResearchService) {
     $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
@@ -258,9 +260,16 @@ angular.module('playfully.research', ['research'])
                 }
             }).success(function(data){
                 //console.log("events data:", data);
+                $scope.loading = false;
                 $scope.numCSVs = data.numCSVs;
-                var signedUrls = data.urls;
-                ResearchService.nextLoad($scope, signedUrls, 0);
+                if(data.numCSVs <= 0) {
+                    $scope.files = [];
+                } else {
+                    $scope.files = _.map(data.urls, function (url) {
+                        return {url: $sce.trustAsResourceUrl(url), name: url.split('/').pop().split('?').shift()};
+                    });
+                    var signedUrls = data.urls;
+                }
             }).error(function(err){
                 console.error("parse-schema:", err);
                 $scope.loading = false;

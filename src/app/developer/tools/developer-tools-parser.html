@@ -57,14 +57,20 @@
             Save To File: <input type="checkbox" ng-model="saveToFile" /><br>
             <div>
                 <input type="submit" id="submit" value="Run!" />
-                <div ng-show="download">
-                    <a class="downloadCSVs" ng-click="nextLoad()">download files</a>
-                </div>
             </div>
             <br>
             <br>
-            Output (# Events {{numEvents}}):
-            <textarea readonly rows="20" cols="100" name="csvData" ng-model="outData" ></textarea>
+            <div ng-show="download">
+                <p>Too many events for this query.</p>
+                Output (# CSV Files {{numCSVs}}):
+                <ul>
+                    <li ng-repeat="file in files"><a href="{{file.url}}">{{file.name}}</a><iframe ng-src="{{file.url}}" frameborder="0" width="0" height="0"> </iframe></li>
+                </ul>
+            </div>
+            <div ng-show="!download">
+                Output (# Events {{numEvents}}):
+                <textarea readonly rows="20" cols="100" name="csvData" ng-model="outData" ></textarea>
+            </div>
         </form>
     </div>
 </p>

@@ -25,20 +25,5 @@ angular.module('research', [])
         }
     };
 
-    research.nextLoad = function($scope, urls, index){
-        if(!urls[index]){
-            return;
-        }
-        window.open(urls[index]);
-        index++;
-        if(index < urls.length){
-            $timeout(function(){
-                research.nextLoad($scope, urls, index);
-            }, 100);
-        } else{
-            $scope.loading = false;
-        }
-    };
-
     return research;
 });
