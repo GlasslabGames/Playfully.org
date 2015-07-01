@@ -81,7 +81,9 @@ module.exports = {
       'vendor/lodash/dist/lodash.min.js',
       'vendor/angular-local-storage/dist/angular-local-storage.min.js',
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
-      'vendor/angular-animate/angular-animate.min.js'
+      'vendor/angular-animate/angular-animate.min.js',
+      'vendor/json-editor/dist/jsoneditor.js',
+      'vendor/angular-json-editor/dist/angular-json-editor.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',

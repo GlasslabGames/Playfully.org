@@ -1,12 +1,36 @@
 angular.module('developer.games', [
     'gl-editable-text',
-    'gl-editable-text-popover'
+    'gl-editable-text-popover',
+    'angular-json-editor'
 ])
 
-.config(function ($stateProvider) {
+.config(function ($stateProvider, JSONEditorProvider) {
+        JSONEditorProvider.configure({
+            //plugins: {
+            //    sceditor: {
+            //        style: 'sce/development/jquery.sceditor.default.css'
+            //    }
+            //},
+            defaults: {
+                options: {
+                    //iconlib: 'bootstrap3',
+                    //theme: 'bootstrap3',
+
+                    disable_edit_json: true,
+                    disable_properties: true,
+                    no_additional_properties: true,
+                    ajax: true
+                }
+            }
+        });
         $stateProvider.state('root.developerGames', {
             abstract: true,
-            url: 'developer/games'
+            url: 'developer/games',
+            resolve: {
+                myGames: function (GamesService) {
+                    return GamesService.getMyDeveloperGames();
+                }
+            }
         })
         .state('root.developerGames.default', {
             url: '',
@@ -16,15 +40,31 @@ angular.module('developer.games', [
                     controller: 'DevGamesCtrl'
                 }
             },
-            resolve: {
-                myGames: function (GamesService) {
-                    return GamesService.getMyDeveloperGames();
-                }
-            },
                 data: {
                     authorizedRoles: ['developer']
                 }
         })
+            .state('root.developerGames.editor', {
+                url: '/:gameId/editor',
+                views: {
+                    'main@': {
+                        templateUrl: 'developer/games/developer-game-editor.html',
+                        controller: 'DevGameEditorCtrl'
+                    }
+                },
+                resolve: {
+                    gameInfo: function ($stateParams, GamesService) {
+                        return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                    },
+                    infoSchema: function(GamesService) {
+                        return GamesService.getDeveloperGamesInfoSchema();
+                    }
+                },
+                data: {
+                    authorizedRoles: ['developer'],
+                    pageTitle: 'Game Editor'
+                }
+            })
         .state('root.developerGames.detail', {
             abstract: true,
             url: '/:gameId?scrollTo',
@@ -37,9 +77,6 @@ angular.module('developer.games', [
             resolve: {
                 gameDetails: function ($stateParams, GamesService) {
                     return GamesService.getDetail($stateParams.gameId);
-                },
-                myGames: function (GamesService) {
-                    return GamesService.getMyGames();
                 }
             },
             onEnter: function ($stateParams, $state, $location, $anchorScroll, $log) {
@@ -162,9 +199,10 @@ angular.module('developer.games', [
            section.games = sectionsDict[section.release];
         });
         $scope.goToGameDetail = function(gameId, release) {
-            if (release === 'live') {
+            /*if (release === 'live') {
                 $state.go('root.developerGames.detail.product', {gameId: gameId});
-            }
+            }*/
+            $state.go('root.developerGames.editor', {gameId: gameId});
         };
         $scope.truncateText = function (text, limit) {
             if (text.length > limit) {
@@ -173,6 +211,21 @@ angular.module('developer.games', [
             } else {
                 return text;
             }
+        };
+    })
+    .controller('DevGameEditorCtrl',
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+        $scope.gameId = $stateParams.gameId;
+        $scope.myData = gameInfo;
+        $scope.mySchema = infoSchema;
+        $scope.saveInfo = function() {
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.myData);
+        };
+
+        $scope.onChange = function (data) {
+            console.log('Form changed! valid');
+            console.dir(data);
+            $scope.myData = data;
         };
     })
     .controller('DevGameDetailCtrl',

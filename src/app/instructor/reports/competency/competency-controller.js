@@ -216,7 +216,7 @@ angular.module( 'instructor.reports')
         }
 
         // Get the facet data
-        data.facets = angular.copy($scope.reportInfo.headers.facets);
+        data.facets = angular.copy($scope.reportInfo.facetHeaders);
         angular.forEach(data.facets, function(facet) {
           facet.level = 'not-enough-data';
           facet.iconClass = 'competency-0';
@@ -246,7 +246,7 @@ angular.module( 'instructor.reports')
         data.competency.level = 'not-enough-data';
         data.competency.iconClass = 'competency-0';
         if( usersReportData.cps && usersReportData.cps.data ) {
-          var level = usersReportData.cps.data[ $scope.reportInfo.headers.competency.id ];
+          var level = usersReportData.cps.data[ $scope.reportInfo.competencyHeader.id ];
           if(level === 1) {
             data.competency.level = 'not-mastered';
             data.competency.iconClass = 'competency-1';

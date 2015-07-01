@@ -194,8 +194,28 @@ angular.module('games', [
             return response;
           });
     },
+    getDeveloperGamesInfoSchema: function() {
+      return $http.get(API_BASE + '/dash/developer/info/schema')
+          .then(function(response) {
+            $log.debug(response);
+            return response.data;
+          }, function (response) {
+            $log.error(response);
+            return response;
+          });
+    },
+    getDeveloperGameInfo: function(gameId) {
+      return $http.get(API_BASE + '/dash/developer/info/game/' + gameId)
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
     updateDeveloperGameInfo: function(gameId,data) {
-      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {data: data})
+      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
           .then(function(response) {
             $log.debug(response);
             return response.data;

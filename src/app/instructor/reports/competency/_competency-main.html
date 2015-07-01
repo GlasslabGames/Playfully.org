@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3 gl-reports-colhead" ng-repeat="facetHeader in reportInfo.headers.facets">
+          <div class="col-md-3 gl-reports-colhead" ng-repeat="facetHeader in reportInfo.facetHeaders">
             {{facetHeader.title}}
             <i class="col-sort" ng-class="col.current==='{{facetHeader.id}}' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
               ng-click="colName.value = '{{facetHeader.id}}'; sortSelected('{{facetHeader.id}}')"></i>
@@ -52,7 +52,7 @@
     </th>
 
     <th class="competency-cell">
-      {{reportInfo.headers.competency.title}}
+      {{reportInfo.competencyHeader.title}}
     </th>
   </tr>
   <tr>
