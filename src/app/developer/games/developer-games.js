@@ -13,9 +13,8 @@ angular.module('developer.games', [
             //},
             defaults: {
                 options: {
-                    //iconlib: 'bootstrap3',
-                    //theme: 'bootstrap3',
-
+                    iconlib: 'fontawesome4',
+                    theme: 'bootstrap3',
                     disable_edit_json: true,
                     disable_properties: true,
                     no_additional_properties: true,
@@ -216,16 +215,23 @@ angular.module('developer.games', [
     .controller('DevGameEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
         $scope.gameId = $stateParams.gameId;
-        $scope.myData = gameInfo;
-        $scope.mySchema = infoSchema;
+        $scope.fullData = gameInfo;
+        $scope.fullSchema = infoSchema;
+        $scope.tabs = ["basic", "details", "assessment", "reports"];
         $scope.saveInfo = function() {
-            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.myData);
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
-        $scope.onChange = function (data) {
-            console.log('Form changed! valid');
-            console.dir(data);
-            $scope.myData = data;
+        $scope.tabData = _.reduce($scope.tabs, function(target, tab) {
+            target[tab] = {
+                _info: $scope.fullData[tab],
+                _schema: _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab})
+            };
+            return target;
+        }, {});
+
+        $scope.onChange = function(data, tabName) {
+            $scope.fullData[tabName] = data;
         };
     })
     .controller('DevGameDetailCtrl',
