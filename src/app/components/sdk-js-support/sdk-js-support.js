@@ -6,7 +6,7 @@ angular.module('sdk-js-support', [])
              Helper Messages
              *********************************/
             function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
                 var regexS = "[\\?&]" + name + "=([^&#]*)";
                 var regex = new RegExp(regexS);
                 var results = regex.exec(window.location.search);
