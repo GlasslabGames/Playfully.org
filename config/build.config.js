@@ -86,8 +86,8 @@ module.exports = {
       'vendor/angular-json-editor/dist/angular-json-editor.js'
     ],
     css: [
-      'vendor/bootstrap/dist/css/bootstrap.min.css',
-      'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
+      //'vendor/bootstrap/dist/css/bootstrap.min.css',
+      //'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
     ],
     assets: [
     ]
