@@ -1,4 +1,4 @@
-angular.module('playfully.login-sdk', [])
+angular.module('playfully.login-sdk', ['sdk-js-support'])
 
 .config(function config($stateProvider, $urlRouterProvider) {
     $stateProvider
@@ -88,12 +88,16 @@ angular.module('playfully.login-sdk', [])
 })
 
 .controller('sdkv2LoginCtrl',
-    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, AUTH_EVENTS, THIRD_PARTY_AUTH, $previousState) {
+    function ($scope, $rootScope, $log, $window, $state, $stateParams, AuthService, SdkSupportService, THIRD_PARTY_AUTH, $previousState) {
         $scope.gameId = $stateParams.gameId;
         $scope.isEdmodoActive = THIRD_PARTY_AUTH.edmodo;
         $scope.isiCivicsActive = THIRD_PARTY_AUTH.icivics;
         $scope.credentials = {username: '', password: ''};
         $scope.authError = null;
+        $scope.isInJsSdkIframe = SdkSupportService.isInJsSdkIframe();
+        $scope.closeSdkIframe = function () {
+            SdkSupportService.closeIframe();
+        };
 
         $scope.goBackState = function () {
             $previousState.go();
@@ -125,7 +129,7 @@ angular.module('playfully.login-sdk', [])
         };
 })
 .controller('sdkv2LoginStudentSuccessCtrl',
-    function ($scope, $window, $log, $stateParams, courses) {
+    function ($scope, $window, $log, $stateParams, SdkSupportService, courses) {
         if ($stateParams.gameId) {
             $scope.gameId = $stateParams.gameId.toUpperCase();
             // filters for courses that contains the current game.
@@ -142,10 +146,11 @@ angular.module('playfully.login-sdk', [])
         }
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
+            SdkSupportService.closeIframe();
         };
 })
 .controller('sdkv2LoginInstructorSuccessCtrl',
-    function ($scope, $state, $rootScope, $window, $log) {
+    function ($scope, $state, $rootScope, $window, SdkSupportService, $log) {
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
         };
@@ -153,6 +158,7 @@ angular.module('playfully.login-sdk', [])
             //$window.location.search = 'action=URL';
             $window.open(link);
         };
+        SdkSupportService.closeIframe();
 })
 .controller('sdkv2LoginConfirmCtrl',
     function ($scope, $rootScope, $log, $state, $window, currentUser, AuthService, AUTH_EVENTS) {

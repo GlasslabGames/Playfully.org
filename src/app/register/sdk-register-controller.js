@@ -1,4 +1,4 @@
-angular.module('playfully.register-sdk', ['register.const'])
+angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
 
 .config(function config($stateProvider, $urlRouterProvider) {
 
@@ -122,7 +122,7 @@ angular.module('playfully.register-sdk', ['register.const'])
     };
 })
 .controller('sdkv2RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, $previousState) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, $previousState) {
         var user = null;
 
         $scope.account = {
@@ -183,11 +183,12 @@ angular.module('playfully.register-sdk', ['register.const'])
         };
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
+            SdkSupportService.closeIframe();
         };
 
 })
 .controller('sdkv2RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS, $previousState) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, $previousState) {
         var user = null;
 
         $scope.confirmation = {
@@ -219,6 +220,7 @@ angular.module('playfully.register-sdk', ['register.const'])
 
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
+            SdkSupportService.closeIframe();
         };
 
         $scope.confirmCode = function (conf) {
