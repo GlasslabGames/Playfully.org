@@ -1,5 +1,7 @@
 <div class="modal-header gl-sdk-login">
-  <!--button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button-->
+  <button ng-show="isInJsSdkIframe" type="button" class="close" data-dismiss="modal" ng-click="closeSdkIframe()">
+    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+  </button>
   <h3 class="modal-title">
     <i class="gl-sdk-header-logo gl-sdk-glasslabgames-logo"></i>
   </h3>
@@ -118,15 +120,15 @@
       </button>
     </div>
   </div>
-  <!-- Removing this to be in compliance with Apple... -->
-  <!--<div class="text-center large clearfix gl-sdk-login-get-account ">
+  <!-- Removing registration option when not in js sdk iframe to be in compliance with Apple... -->
+  <div class="text-center large clearfix gl-sdk-login-get-account " ng-show="isInJsSdkIframe">
           Don&rsquo;t have an account?
           <a href="#"
              class="link-register"
-             ng-click="state.go('sdk.sdkv2RegisterOptions',{gameId:gameId})">-->
+             ng-click="state.go('sdk.sdkv2RegisterOptions',{gameId:gameId})">
             <!--ng-click="state.go(hideWrapper ? 'sdkRegisterOptions' : 'registerOptions')">-->
-            <!--Sign Up</a>
-  </div>-->
+            Sign Up</a>
+  </div>
 </div>
 
 
