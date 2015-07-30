@@ -6,7 +6,7 @@
       <tabset>
         <tab ng-repeat="tabName in tabs" heading="{{tabName}}">
 
-          <json-editor schema="tabData[tabName]['_schema']" startval="tabData[tabName]['_info']"
+          <json-editor schema="tabSchema[tabName]" startval="fullData[tabName]"
                        on-change="onChange($editorValue, tabName)"></json-editor>
 
         </tab>

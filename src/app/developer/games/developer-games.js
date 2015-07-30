@@ -222,11 +222,8 @@ angular.module('developer.games', [
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
-        $scope.tabData = _.reduce($scope.tabs, function(target, tab) {
-            target[tab] = {
-                _info: $scope.fullData[tab],
-                _schema: _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab})
-            };
+        $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
+            target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
             return target;
         }, {});
 
