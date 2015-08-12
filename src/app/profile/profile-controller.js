@@ -2,7 +2,7 @@ angular.module( 'playfully.profile', [])
 
 .config(function config( $stateProvider ) {
   $stateProvider.state( 'modal.profile', {
-    url: 'edit-profile',
+    url: '/edit-profile',
     views: {
       'modal@': {
         controller: 'EditProfileModalCtrl',
