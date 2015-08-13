@@ -75,6 +75,12 @@
                   <li ng-if="hasLicense() && !course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})">Enable Premium Games</a></li>
                 </ul>
               </div>
+              <div class="gl-margin--Tm">
+              <button type="button" class="btn gl-btn--blue"
+                  ui-sref="root.reports.details.sowo({courseId:course.id, groupId:'so'})">
+                  Report
+              </button>
+              </div>
             </div>
           </div>
           <div class="col-md-9 gl-course-games">
