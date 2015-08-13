@@ -383,6 +383,12 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         };
     })
     .controller('SubscribePackagesCtrl', function ($scope, packages) {
+        // Students, and only students, should not see this page.
+        // As there is no "unauthorizedRoles" to set, do a redirect explicitly.
+        if (AuthService.isAuthorized('student')) {
+            $window.location.href = '/courses';
+        }
+                
         $scope.seatChoices = [];
         $scope.packageChoices = packages.plans;
 
