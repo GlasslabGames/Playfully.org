@@ -1,5 +1,5 @@
 angular.module('sdk-js-support', [])
-    .factory('SdkSupportService', function ($window) {
+    .factory('SdkSupportService', function ($window, $state) {
 
         var xdm,
             sdk = $window.GlassLabSDK;
@@ -28,6 +28,8 @@ angular.module('sdk-js-support', [])
         return {
             closeIframe: function() {
                 if(xdm) {
+                    // redirect to login so next time the sdk iframe is displayed, the login form is ready to go again
+                    $state.go('sdk.sdkv2LoginOptions');
                     xdm.invoke("close-iframe");
                 }
             },
