@@ -6,7 +6,7 @@
         <h3 class="modal-title">Request Access to Game</h3>
     </div>
 
-    <div class="modal-body">
+    <div class="modal-body" ng-show="!request.isRegCompleted">
         <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}</alert>
 
         <form name="request" novalidate class="reg-form"
