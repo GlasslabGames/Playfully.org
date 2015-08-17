@@ -345,6 +345,19 @@ angular.module( 'playfully', [
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
                   }
                 }
+
+                // sometimes, you want a page to not be accessed by a logged-in user by role
+                var unauthorizedRoles = ($rootScope.toState.data && $rootScope.toState.data.unauthorizedRoles) || null;
+                  
+                if (unauthorizedRoles) {
+                  if (AuthService.isAuthorized(unauthorizedRoles)) {
+                    event.preventDefault();
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                  }
+                  else {
+                    return true;
+                  }
+                }
               }
             });
 

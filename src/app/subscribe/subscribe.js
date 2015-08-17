@@ -194,6 +194,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 },
                 data: {
+                    // This works only because the ultimate redirect an unauthorized
+                    // a student is /courses (GLAS-129)
+                    unauthorizedRoles: [
+                       'student'
+                    ],
                     redirects: [
                         {
                             state: 'root.subscribe.payment.purchase-order-status',
