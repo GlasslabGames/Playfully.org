@@ -15,14 +15,8 @@ angular.module( 'playfully.games', [
   .state('root.games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
-      if(AuthService.isLoginType('clever')){
-        $state.transitionTo('games.detail.product', { gameId: 'SC' });
-      }
-      else if(AuthService.isLoginType('icivics')){
-        $state.transitionTo('games.detail.product', { gameId: 'AW-1' });
-      } else {
-        $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
-      }
+      // GLAS-155: redirect /games to /games/catalog
+      $state.go('root.games.catalog');
     }
   })
   .state('root.games.catalog', {
