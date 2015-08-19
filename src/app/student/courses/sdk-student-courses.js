@@ -67,7 +67,7 @@ angular.module('student.courses-sdk', [
                     })
                     .then(function () {
                         // Check if current game is in course
-                        if (!$scope.enrollment) return;
+                        if (!$scope.enrollment) { return; }
                         
                         CoursesService.verifyGameInCourse($scope.enrollment.id, $scope.gameId)
                             .then(function (courseInfo) {
