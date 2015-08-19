@@ -326,7 +326,8 @@ angular.module( 'playfully', [
                 if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
                       user.role == 'manager' ||
-                      user.role == 'developer'
+                      user.role == 'developer' ||
+                      user.role == 'admin'
                     ) {
                     $state.go('root.instructorDashboard.default');
                   } else {
