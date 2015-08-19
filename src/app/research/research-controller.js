@@ -2,11 +2,17 @@ angular.module('playfully.research', ['research'])
 
 .config(function($stateProvider) {
     $stateProvider.state('research', {
-        url: '/research',
+        url: '/research/:gameId',
         abstract:true,
         views: {
             'main@': {
+                controller: "ResearchCtrl",
                 templateUrl: 'research/research.html'
+            }
+        },
+        resolve: {
+            allGamesInfo: function(GamesService) {
+                return GamesService.all();
             }
         },
         data: {
@@ -39,9 +45,20 @@ angular.module('playfully.research', ['research'])
     });
 })
 
+    .controller('ResearchCtrl', function($scope, $state, $stateParams, allGamesInfo) {
+        $scope.currentState = $state.current.name;
+        $scope.allGamesInfo = allGamesInfo;
+        if (!$stateParams.gameId) {
+            $state.go($state.current.name, {gameId: allGamesInfo[0].gameId});
+        }
+        $scope.gameId = $stateParams.gameId;
+
+        $scope.onGameIdClick = function(gameId) {
+            $state.go($state.current.name, {gameId:gameId});
+        };
+    })
 
 .controller('ResearchParserCtrl', function ($scope, $http, $window, $sce, ResearchService) {
-    $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
     $scope.startHour = 0;
@@ -179,7 +196,6 @@ angular.module('playfully.research', ['research'])
 })
 
 .controller('ResearchEditCsvCtrl', function ($scope, $http) {
-        $scope.gameId = "aa-1";
         $scope.csvData = "";
         $scope.loading = true;
 
@@ -221,7 +237,6 @@ angular.module('playfully.research', ['research'])
   })
     // need good messaging, that this section only allows querying within one month
 .controller('ResearchDownloadCtrl', function ($scope, $http, $window, $sce, ResearchService) {
-    $scope.gameId = "SC";
     $scope.userIds = "";
     $scope.startDate = "";
     $scope.endDate = "";

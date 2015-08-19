@@ -1,14 +1,28 @@
-
 <div class="container">
-    <div class="header">
-        <ul class="nav nav-pills pull-right">
-            <li ui-sref-active="active"><a href ui-sref="research.parser">Run Query</a></li>
-            <li ui-sref-active="active"><a href ui-sref="research.download">Download</a></li>
-            <li ui-sref-active="active"><a href ui-sref="research.editCsv">Edit CSV</a></li>
-        </ul>
-        <h3 class="text-muted">Telemetry Parsing/Query Tools</h3>
+
+  <div class="row">
+    <div class="col-md-3 col-border--right">
+
+      <ul class="gl-games-subnav">
+        <li class="gl-games-subnav-item"
+            ng-repeat="game in allGamesInfo">
+          <a ng-click="onGameIdClick(game.gameId)"
+             class="gl-games-subnav-link"
+             ng-class="{'gl-games-subnav-link--active': game.gameId == gameId}">{{game.shortName}}</a>
+        </li>
+      </ul>
     </div>
 
-    <div ui-view></div>
+    <div class="col-md-9">
 
-</div>
+      <h3 class="text-muted">Telemetry Parsing/Query Tools</h3>
+
+      <ul class="nav nav-pills pull-right">
+        <li ui-sref-active="active"><a href ui-sref="research.parser({gameId:gameId})">Run Query</a></li>
+        <li ui-sref-active="active"><a href ui-sref="research.download({gameId:gameId})">Download</a></li>
+        <li ui-sref-active="active"><a href ui-sref="research.editCsv({gameId:gameId})">Edit CSV</a></li>
+      </ul>
+
+      <div ui-view></div>
+    </div>
+  </div>
