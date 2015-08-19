@@ -5,7 +5,7 @@
 
       <ul class="gl-games-subnav">
         <li class="gl-games-subnav-item"
-            ng-repeat="game in allGamesInfo">
+            ng-repeat="game in allGamesInfo | orderBy:'gameId'">
           <a ng-click="onGameIdClick(game.gameId)"
              class="gl-games-subnav-link"
              ng-class="{'gl-games-subnav-link--active': game.gameId == gameId}">{{game.shortName}}</a>
