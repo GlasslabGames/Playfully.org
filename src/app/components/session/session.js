@@ -7,8 +7,9 @@ angular.module('session', [])
   this.licenseStatus = null;
   this.purchaseOrderLicenseStatus = null;
   this.isTrial = null;
+  this.hadTrial = null;
 
-  this.create = function (userId, userRole, loginType, licenseStatus, purchaseOrderLicenseStatus, isTrial) {
+  this.create = function (userId, userRole, loginType, licenseStatus, purchaseOrderLicenseStatus, isTrial, hadTrial) {
     if (arguments.length < 2) {
       throw new Error("Session.create requires userId and userRole parameters");
     }
@@ -18,7 +19,7 @@ angular.module('session', [])
     this.licenseStatus = licenseStatus;
     this.purchaseOrderLicenseStatus = purchaseOrderLicenseStatus;
     this.isTrial = isTrial;
-
+    this.hadTrial = hadTrial;
   };
 
   this.destroy = function () {
@@ -28,6 +29,7 @@ angular.module('session', [])
     this.licenseStatus = null;
     this.purchaseOrderLicenseStatus = null;
     this.isTrial = null;
+    this.hadTrial = null;
   };
 
   return this;
