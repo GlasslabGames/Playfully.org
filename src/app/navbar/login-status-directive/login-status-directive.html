@@ -8,6 +8,10 @@
             <div>Trial</div>
             <h4 class="headline-3--serif gl-inline">{{licenseExpirationDate()}}</h4><span> days left</span>
         </li>
+        <li class="text-center gl-login-trial-box gl-margin--Bm"ng-if="isAuthenticatedButNot('student') && hasLicense('type')==='premium'">
+            <div>Premium</div>
+            <h4 class="headline-3--serif gl-inline">{{licenseExpirationDate()}}</h4><span> days left</span>
+        </li>
         <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')"
                ui-sref="root.subscribe.packages">Subscription</a></li>
         <li><a ng-hide="isSSOLogin()"
