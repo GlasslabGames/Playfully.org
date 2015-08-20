@@ -94,7 +94,7 @@ angular.module( 'instructor.dashboard', [
           return;
         }
       }
-      if( myGames.length === 0 ) {
+      if( myGames.length === undefined || myGames.length === 0 ) {
         $state.go('root.instructorDashboard.intro');
       }
       else {
