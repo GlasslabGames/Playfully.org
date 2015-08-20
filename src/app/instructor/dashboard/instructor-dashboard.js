@@ -13,7 +13,7 @@ angular.module( 'instructor.dashboard', [
     },
     resolve: {
       courses: function (CoursesService) {
-        return CoursesService.getEnrollmentsWithStudents();
+        return CoursesService.getEnrollments();
       },
       activeCourses: function (courses, $q, $filter) {
         var deferred = $q.defer();
@@ -93,9 +93,8 @@ angular.module( 'instructor.dashboard', [
               {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
           return;
         }
-        $state.go('root.instructorDashboard.intro');
       }
-      else if( myGames.length === 0 ) {
+      if( myGames.length === 0 ) {
         $state.go('root.instructorDashboard.intro');
       }
       else {

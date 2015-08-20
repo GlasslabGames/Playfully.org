@@ -102,7 +102,7 @@ angular.module('playfully.register', ['register.const'])
         confirm: '',
         role: 'instructor',
         acceptedTerms: false,
-        newsletter: true,
+        newsletter: false,
         errors: [],
         isRegCompleted: false
       };
@@ -274,7 +274,7 @@ angular.module('playfully.register', ['register.const'])
             confirm: '',
             role: 'instructor',
             acceptedTerms: false,
-            newsletter: true,
+            newsletter: false,
             errors: [],
             isRegCompleted: false
         };

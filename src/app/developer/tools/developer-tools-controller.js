@@ -30,13 +30,19 @@ angular.module('developer.tools', [])
 
 .controller('DeveloperToolsParserCtrl', function ($scope, $stateParams, $http, $window, $state, $sce, ResearchService, availableGames) {
     $scope.gameIds = [];
+
+    if (availableGames.hasOwnProperty("error")) {
+        return;
+    }
+
     for( var game in availableGames ) {
         $scope.gameIds.push( game );
     }
 
     //if(!availableGames[$stateParams.gameId]){
     if( $scope.gameIds.length === 0 ) {
-        $state.go('root.developerTools');
+        alert("Please request access to a game first.");
+        $state.go('root.developerGames.default');
     }
 
     $scope.gameId = $scope.gameIds[0];

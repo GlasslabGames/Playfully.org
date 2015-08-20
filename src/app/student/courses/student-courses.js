@@ -178,9 +178,13 @@ angular.module( 'student.courses', [
       if (userNotEnrolledInCourse) {
         CoursesService.verifyCode(verification.code)
           .then(function(result) {
-            $scope.enrollment = result.data;
-            $scope.enrollment.courseCode = $scope.verification.code;
-            $scope.enrollment.errors = [];
+            if (result.data.archived) {
+                $scope.verification.errors.push("This course in not active.");
+            } else {
+                $scope.enrollment = result.data;
+                $scope.enrollment.courseCode = $scope.verification.code;
+                $scope.enrollment.errors = [];
+            }
           }, function(result) {
             if ( result.data.error ) {
               $scope.verification.errors.push(result.data.error);
