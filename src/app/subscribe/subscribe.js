@@ -37,7 +37,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         },
                         {
                             state: 'root.manager.plan',
-                            licenses: ['premium', 'po-received', 'trial'],
+                            licenses: ['premium', 'po-received'],
                             roles: ['instructor']
                         }
                     ],
@@ -207,7 +207,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         },
                         {
                             state: 'root.manager.plan',
-                            licenses: ['premium', 'po-received', 'trial'],
+                            licenses: ['premium', 'po-received'],
                             roles: ['instructor']
                         }
                     ]

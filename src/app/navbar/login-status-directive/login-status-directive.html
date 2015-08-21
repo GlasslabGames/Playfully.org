@@ -12,8 +12,10 @@
             <div>Premium</div>
             <h4 class="headline-3--serif gl-inline">{{licenseExpirationDate()}}</h4><span> days left</span>
         </li>
-        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')"
+        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer') && (hasLicense('type')!=='trial')"
                ui-sref="root.subscribe.packages">Subscription</a></li>
+        <li><a ng-show="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer') && (hasLicense('type')==='trial')"
+               ui-sref="root.subscribe.packages">Go Premium!</a></li>
         <li><a ng-hide="isSSOLogin()"
                 ui-sref="modal.profile">Edit My Profile</a></li>
         <li><a ng-show="isAuthenticatedButNot('student')"
