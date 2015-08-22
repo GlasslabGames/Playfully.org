@@ -18,7 +18,13 @@ angular.module('playfully.manager', [])
             resolve: {
                 studentList: function (LicenseService) {
                     return LicenseService.getStudentList();
-                }
+                },
+                plan: function (LicenseService) {
+                    return LicenseService.getCurrentPlan();
+                },
+                packages: function (LicenseService) {
+                    return LicenseService.getPackages();
+                },
             },
             templateUrl: 'manager/manager-student-list.html',
             controller: 'ManagerStudentListCtrl',
@@ -363,11 +369,12 @@ angular.module('playfully.manager', [])
             $scope.info = { CC: angular.copy(REGISTER_CONSTANTS.ccInfo) };
         };
     })
-    .controller('ManagerStudentListCtrl', function ($scope,$state, studentList) {
+    .controller('ManagerStudentListCtrl', function ($scope,$state, studentList, plan) {
         $scope.$parent.currentTab = $state.current.url;
 
         $scope.studentList = studentList;
-
+        $scope.noEnrollment = (plan.packageDetails.studentSeats === plan.studentSeatsRemaining);
+                
         $scope.userSortFunction = function (colName, callback) {
             return function (user) {
                 if (colName === 'firstName') {

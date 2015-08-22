@@ -29,8 +29,12 @@
                 </table>
             </div>
             <!-- If no students are in the list, show special messaging. -->
-            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0">
+            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0 && noEnrollment">
                 There are currently no students added to this plan!
+            </div>
+            <!-- If no students are in the list, show special messaging. -->
+            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0 && !noEnrollment">
+                None of your students are currently added to this plan!
             </div>
         </div>
     </div>
