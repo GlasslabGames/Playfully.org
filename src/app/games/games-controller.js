@@ -175,7 +175,7 @@ angular.module( 'playfully.games', [
     }
   })
   .state( 'modal-lg.missions', {
-    url: '/:gameId/play-missions?:courseId',
+    url: '/:gameId/play-missions?:courseId&:userType',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
@@ -194,6 +194,11 @@ angular.module( 'playfully.games', [
                 $state.go('root.home.default');
                 return response;
             });
+      },
+      extraQuery: function($stateParams) {
+         return $stateParams.userType !== undefined ?
+            ($stateParams.courseId !== undefined ? '&userType=' + $stateParams.userType :
+             '?userType=' + $stateParams.userType) : '';
       }
     },
     views: {
@@ -343,7 +348,7 @@ angular.module( 'playfully.games', [
 
     $scope.goToPlayGame = function(gameId) {
       if (gameDetails.play.type==='missions') {
-        $state.go('modal-lg.missions',{gameId: gameId});
+        $state.go('modal-lg.missions',{gameId: gameId, userType: 'instructor'});
       } else {
         $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type + "?userType=instructor";
       }
@@ -378,14 +383,14 @@ angular.module( 'playfully.games', [
       $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
   $scope.goToLink = function (path, target) {
     if (target) {
-      $window.open(path, target);
+      $window.open(path + extraQuery, target);
     } else {
-      $window.location = path;
+      $window.location = path + extraQuery;
     }
   };
   $scope.goTo = function(path, target) {

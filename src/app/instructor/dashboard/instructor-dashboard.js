@@ -391,7 +391,7 @@ angular.module( 'instructor.dashboard', [
 
   $scope.goToPlayGame = function (gameId,type) {
     if (type === 'missions') {
-      $state.go('modal-lg.missions', {gameId: gameId});
+      $state.go('modal-lg.missions', {gameId: gameId, userType: 'instructor'});
     } else {
       $window.location = "/games/" + gameId + "/play-" + type + "?userType=instructor";
     }

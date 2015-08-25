@@ -298,7 +298,7 @@ angular.module('developer.games', [
 
         $scope.goToPlayGame = function (gameId) {
             if (gameDetails.play.type === 'missions') {
-                $state.go('modal-lg.missions', {gameId: gameId});
+                $state.go('modal-lg.missions', {gameId: gameId, userType: 'developer'});
             } else {
                 $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type + "?userType=developer";
             }
