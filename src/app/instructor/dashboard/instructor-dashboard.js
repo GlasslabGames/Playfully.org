@@ -393,7 +393,7 @@ angular.module( 'instructor.dashboard', [
     if (type === 'missions') {
       $state.go('modal-lg.missions', {gameId: gameId});
     } else {
-      $window.location = "/games/" + gameId + "/play-" + type;
+      $window.location = "/games/" + gameId + "/play-" + type + "?userType=instructor";
     }
   };
 

@@ -345,7 +345,7 @@ angular.module( 'playfully.games', [
       if (gameDetails.play.type==='missions') {
         $state.go('modal-lg.missions',{gameId: gameId});
       } else {
-        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type + "?userType=instructor";
       }
     };
     /**
