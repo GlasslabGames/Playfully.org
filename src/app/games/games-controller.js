@@ -20,7 +20,7 @@ angular.module( 'playfully.games', [
     }
   })
   .state('root.games.catalog', {
-    url: '/catalog',
+    url: '/catalog?:gamePlatform',
     onEnter: function($rootScope, CHECKLIST) {
 
     },
@@ -36,6 +36,12 @@ angular.module( 'playfully.games', [
       },
       gamesAvailableForLicense: function(LicenseService) {
           return LicenseService.getGamesAvailableForLicense();
+      },
+      platform: function($stateParams) {
+         return $stateParams.gamePlatform;
+      },
+      plan: function (LicenseService) {
+         return LicenseService.getCurrentPlan();
       }
     },
     data: {
@@ -219,7 +225,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense) {
+    function($scope, $rootScope, $window, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense, platform, plan) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
@@ -238,9 +244,29 @@ angular.module( 'playfully.games', [
       $scope.platform = {
           isOpen: false,
           options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
+          query: ['all', 'ipad', 'chromebook', 'pcMac'],
+          package: ['', 'iPad', 'Chromebook/Web', 'PC/MAC'],
           selected: 'All Games'
       };
-
+      
+      if (platform === $scope.platform.query[1]) {
+        $scope.platform.selected = $scope.platform.options[1];
+      } else if (platform === $scope.platform.query[2]) {
+        $scope.platform.selected = $scope.platform.options[2];
+      } else if (platform === $scope.platform.query[3]) {
+        $scope.platform.selected = $scope.platform.options[3];
+      } else if (platform !== $scope.platform.query[0]) {
+        if (plan !== undefined && plan.packageDetails !== undefined) {
+            if (plan.packageDetails.name == $scope.platform.package[1]) {
+                $scope.platform.selected = $scope.platform.options[1];
+            } else if (plan.packageDetails.name == $scope.platform.package[2]) {
+                $scope.platform.selected = $scope.platform.options[2];
+            } else if (plan.packageDetails.name == $scope.platform.package[3]) {
+                $scope.platform.selected = $scope.platform.options[3];
+            }
+        }
+      }
+      
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});
@@ -275,6 +301,18 @@ angular.module( 'playfully.games', [
           $event.preventDefault();
           $event.stopPropagation();
           $scope[collection].isOpen = !$scope[collection].isOpen;
+      };
+      $scope.alterSelection = function(type) {
+            $scope.platform.selected = type;
+            if ($window.ga) {
+                for (var i=0;i<4;i++) {
+                    if ($scope.platform.options[i] == type) {
+                        $window.ga('set', 'page', '/games/catalog?gamePlatform=' + $scope.platform.query[i]);
+                        $window.ga('send', 'pageview');
+                        break;
+                    }
+                }
+            }
       };
     }
 )
