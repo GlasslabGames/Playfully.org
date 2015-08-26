@@ -45,7 +45,7 @@ angular.module('playfully.manager', [])
                 $scope.info = purchaseOrderInfo;
             },
             data: {
-                authorizedRoles: ['License']
+                authorizedRoles: ['License-Owner-PO']
             }
         })
         .state('root.manager.billing-info', {
@@ -58,7 +58,7 @@ angular.module('playfully.manager', [])
                 }
             },
             data: {
-                authorizedRoles: ['License']
+                authorizedRoles: ['License-Owner-CC']
             }
         })
         .state('root.manager.upgrade', {

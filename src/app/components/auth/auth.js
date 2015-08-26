@@ -60,6 +60,17 @@ angular.module('auth', ['session', 'ipCookie'])
               Session.purchaseOrderLicenseStatus === "po-received" ||
               Session.isTrial);
       }
+      if (authorizedRoles.indexOf('License-Owner-PO') !== -1) {
+         return (this.isAuthenticated() && Session.userId === Session.licenseOwnerId &&
+                 Session.paymentType === "purchase-order" && !Session.isTrial &&
+                 Session.licenseStatus === "active" ||
+                 Session.purchaseOrderLicenseStatus === "po-received");
+      }
+      if (authorizedRoles.indexOf('License-Owner-CC') !== -1) {
+         return (this.isAuthenticated() && Session.userId === Session.licenseOwnerId &&
+                 Session.paymentType === "credit-card" && !Session.isTrial &&
+                 Session.licenseStatus === "active");
+      }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },

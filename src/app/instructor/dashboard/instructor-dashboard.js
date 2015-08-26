@@ -336,20 +336,25 @@ angular.module( 'instructor.dashboard', [
     _.each(students, function(student) {
       studentIds.push(student.id);
     });
-    GamesService.getTotalTimePlayed(gameId,studentIds).then(function(students) {
-      var studentsList = students.data;
-      numOfStudents = Object.keys(studentsList).length;
-      for (var studentId in studentsList) {
-        sum += studentsList[studentId];
-      }
-      if (!!numOfStudents) {
-        $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
-      } else {
-        $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
-      }
-    }, function() {
-      console.error('could not retrieve total time played');
-    });
+    if (studentIds.length !== 0) {
+      GamesService.getTotalTimePlayed(gameId,studentIds).then(function(students) {
+        var studentsList = students.data;
+        numOfStudents = Object.keys(studentsList).length;
+        for (var studentId in studentsList) {
+          sum += studentsList[studentId];
+        }
+        if (!!numOfStudents) {
+          $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
+        } else {
+          $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
+        }
+      }, function() {
+        console.error('could not retrieve total time played');
+      });
+    } else {
+      $scope.status.avgTotalTimePlayed = 0;
+      $scope.status.avgTotalTimePlayed = 0;
+    }
   };
 
   var _populateSOWO = function(data) {
