@@ -13,10 +13,16 @@ Make sure you have Node.js installed.
 
 1. git clone git@github.com:GlasslabGames/Playfully.org.git
 2. cd Playfully.org
-3. sudo npm -g install grunt-cli karma bower
-4. sudo npm install
-5. bower install
-6. grunt watch
+3. Ensure that you are using node.js 0.10
+	   $ . ~/.nvm/nvm.sh
+	   $ nvm install 0.10
+	   $ nvm use 0.10
+	   $ nvm alias default 0.10
+4. sudo npm -g install grunt-cli karma bower
+5. sudo npm install
+6. bower install
+7. grunt watch
+   (Note: this will run non-stop, as it is monitoring.)
 
 
 End-to-end testing

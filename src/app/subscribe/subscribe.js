@@ -37,7 +37,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         },
                         {
                             state: 'root.manager.plan',
-                            licenses: ['premium', 'po-received', 'trial'],
+                            licenses: ['premium', 'po-received'],
                             roles: ['instructor']
                         }
                     ],
@@ -194,6 +194,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 },
                 data: {
+                    // This works only because the ultimate redirect an unauthorized
+                    // a student is /courses (GLAS-129)
+                    unauthorizedRoles: [
+                       'student'
+                    ],
                     redirects: [
                         {
                             state: 'root.subscribe.payment.purchase-order-status',
@@ -202,7 +207,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                         },
                         {
                             state: 'root.manager.plan',
-                            licenses: ['premium', 'po-received', 'trial'],
+                            licenses: ['premium', 'po-received'],
                             roles: ['instructor']
                         }
                     ]
@@ -383,12 +388,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         };
     })
     .controller('SubscribePackagesCtrl', function ($scope, packages) {
-        // Students, and only students, should not see this page.
-        // As there is no "unauthorizedRoles" to set, do a redirect explicitly.
-        if (AuthService.isAuthorized('student')) {
-            $window.location.href = '/courses';
-        }
-                
         $scope.seatChoices = [];
         $scope.packageChoices = packages.plans;
 

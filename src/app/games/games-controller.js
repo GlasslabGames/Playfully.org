@@ -15,18 +15,12 @@ angular.module( 'playfully.games', [
   .state('root.games.default', {
     url: '',
     onEnter: function($state, $log, AuthService) {
-      if(AuthService.isLoginType('clever')){
-        $state.transitionTo('games.detail.product', { gameId: 'SC' });
-      }
-      else if(AuthService.isLoginType('icivics')){
-        $state.transitionTo('games.detail.product', { gameId: 'AW-1' });
-      } else {
-        $state.transitionTo('games.detail.product', { gameId: 'AA-1' });
-      }
+      // GLAS-155: redirect /games to /games/catalog
+      $state.go('root.games.catalog');
     }
   })
   .state('root.games.catalog', {
-    url: '/catalog',
+    url: '/catalog?:gamePlatform',
     onEnter: function($rootScope, CHECKLIST) {
 
     },
@@ -42,6 +36,12 @@ angular.module( 'playfully.games', [
       },
       gamesAvailableForLicense: function(LicenseService) {
           return LicenseService.getGamesAvailableForLicense();
+      },
+      platform: function($stateParams) {
+         return $stateParams.gamePlatform;
+      },
+      plan: function (LicenseService) {
+         return LicenseService.getCurrentPlan();
       }
     },
     data: {
@@ -181,7 +181,7 @@ angular.module( 'playfully.games', [
     }
   })
   .state( 'modal-lg.missions', {
-    url: '/:gameId/play-missions?:courseId',
+    url: '/:gameId/play-missions?:courseId&:userType',
     data: {
       authorizedRoles: ['student','instructor','manager','developer','admin']
     },
@@ -200,6 +200,11 @@ angular.module( 'playfully.games', [
                 $state.go('root.home.default');
                 return response;
             });
+      },
+      extraQuery: function($stateParams) {
+         return $stateParams.userType !== undefined ?
+            ($stateParams.courseId !== undefined ? '&userType=' + $stateParams.userType :
+             '?userType=' + $stateParams.userType) : '';
       }
     },
     views: {
@@ -220,7 +225,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense) {
+    function($scope, $rootScope, $window, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense, platform, plan) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
@@ -239,9 +244,29 @@ angular.module( 'playfully.games', [
       $scope.platform = {
           isOpen: false,
           options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
+          query: ['all', 'ipad', 'chromebook', 'pcMac'],
+          package: ['', 'iPad', 'Chromebook/Web', 'PC/MAC'],
           selected: 'All Games'
       };
-
+      
+      if (platform === $scope.platform.query[1]) {
+        $scope.platform.selected = $scope.platform.options[1];
+      } else if (platform === $scope.platform.query[2]) {
+        $scope.platform.selected = $scope.platform.options[2];
+      } else if (platform === $scope.platform.query[3]) {
+        $scope.platform.selected = $scope.platform.options[3];
+      } else if (platform !== $scope.platform.query[0]) {
+        if (plan !== undefined && plan.packageDetails !== undefined) {
+            if (plan.packageDetails.name == $scope.platform.package[1]) {
+                $scope.platform.selected = $scope.platform.options[1];
+            } else if (plan.packageDetails.name == $scope.platform.package[2]) {
+                $scope.platform.selected = $scope.platform.options[2];
+            } else if (plan.packageDetails.name == $scope.platform.package[3]) {
+                $scope.platform.selected = $scope.platform.options[3];
+            }
+        }
+      }
+      
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});
@@ -276,6 +301,18 @@ angular.module( 'playfully.games', [
           $event.preventDefault();
           $event.stopPropagation();
           $scope[collection].isOpen = !$scope[collection].isOpen;
+      };
+      $scope.alterSelection = function(type) {
+            $scope.platform.selected = type;
+            if ($window.ga) {
+                for (var i=0;i<4;i++) {
+                    if ($scope.platform.options[i] == type) {
+                        $window.ga('set', 'page', '/games/catalog?gamePlatform=' + $scope.platform.query[i]);
+                        $window.ga('send', 'pageview');
+                        break;
+                    }
+                }
+            }
       };
     }
 )
@@ -349,9 +386,9 @@ angular.module( 'playfully.games', [
 
     $scope.goToPlayGame = function(gameId) {
       if (gameDetails.play.type==='missions') {
-        $state.go('modal-lg.missions',{gameId: gameId});
+        $state.go('modal-lg.missions',{gameId: gameId, userType: 'instructor'});
       } else {
-        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+        $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type + "?userType=instructor";
       }
     };
     /**
@@ -384,14 +421,14 @@ angular.module( 'playfully.games', [
       $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
     };
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
   $scope.goToLink = function (path, target) {
     if (target) {
-      $window.open(path, target);
+      $window.open(path + extraQuery, target);
     } else {
-      $window.location = path;
+      $window.location = path + extraQuery;
     }
   };
   $scope.goTo = function(path, target) {

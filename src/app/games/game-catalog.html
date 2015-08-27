@@ -23,7 +23,7 @@
                 <li ng-repeat="type in platform.options"
                     ng-class="{'gl-reports-dropdown--selected': platform.selected == type}">
                     <a href="#"
-                       ng-click="platform.selected=type"
+                       ng-click="alterSelection(type)"
                        ng-bind="type"></a>
                 </li>
             </ul>

@@ -135,7 +135,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             confirm: '',
             role: 'instructor',
             acceptedTerms: false,
-            newsletter: true,
+            newsletter: false,
             errors: [],
             isRegCompleted: false
         };

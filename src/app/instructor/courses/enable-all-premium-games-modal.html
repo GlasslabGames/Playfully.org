@@ -8,9 +8,9 @@
 <div class="modal-body text-center" ng-hide="request.success || request.errors.length">
     <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
     <div ng-show="premiumGamesAssigned">
-        <p class="gl-margin-Vl">You are disabling all premium games from this class</p>
+        <p class="gl-margin-Vl">You are disabling all premium games from this class:</p>
 
-        <p>{{expirationDate}}</p>
+        <p>{{course.title}}</p>
         <input ng-click="unassignAllPremiumGames(course)"
                ng-value="request.isSubmitting ? 'Disabling...' : 'Disable Premium Games'"
                class="btn btn-danger">
@@ -18,7 +18,7 @@
     <div ng-if="!premiumGamesAssigned">
         <p class="gl-margin-Vl">You are enabling all premium games for this class:</p>
 
-        <p>{{expirationDate}}</p>
+        <p>{{course.title}}</p>
         <input ng-click="assignAllPremiumGames(course)"
                ng-value="request.isSubmitting ? 'Enabling...' : 'Enable Premium Games'"
                class="btn btn-success">
@@ -38,7 +38,7 @@
     <alert ng-if="!premiumGamesAssigned" class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span>
         You enabled all premium games for this class.
     </alert>
-    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+    <button ng-click="closeAndReload()" class="btn gl-btn--blue">Okay</button>
 </div>
 
 <div class="modal-body text-center" ng-show="request.errors.length">

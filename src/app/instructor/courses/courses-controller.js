@@ -33,6 +33,9 @@ angular.module( 'instructor.courses', [
       },
       availableGamesForLicense: function(LicenseService) {
           return LicenseService.getGamesAvailableForLicense();
+      },
+      currentPlan: function(LicenseService) {
+        return LicenseService.getCurrentPlan();
       }
     }
   })
@@ -209,7 +212,7 @@ angular.module( 'instructor.courses', [
       data: {
           pageTitle: 'Enable/Disable Premium Games',
           authorizedRoles: ['instructor', 'manager', 'admin'],
-          reloadNextState: true
+          reloadNextState: false
       },
       resolve: {
           course: function ($stateParams, CoursesService) {
@@ -219,7 +222,7 @@ angular.module( 'instructor.courses', [
       views: {
           'modal@': {
               templateUrl: 'instructor/courses/enable-all-premium-games-modal.html',
-              controller: function($scope, course, $stateParams,CoursesService, UtilService) {
+              controller: function($scope, course, $stateParams, $timeout, $window, CoursesService, UtilService) {
                 $scope.premiumGamesAssigned = $stateParams.premiumGamesAssigned === 'true';
                 $scope.course = course;
                 $scope.request = {success: false};
@@ -232,6 +235,12 @@ angular.module( 'instructor.courses', [
                     UtilService.submitFormRequest($scope.request, function () {
                         return CoursesService.assignAllPremiumGamesFromCourse(course);
                     });
+                };
+                $scope.closeAndReload = function() {
+                    $scope.close();
+                    $timeout(function() {
+                        $window.location.reload();
+                    }, 100);
                 };
               }
           }
@@ -404,9 +413,10 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense) {
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense, currentPlan) {
     $scope.courses = courses;
     $scope.MAX_GAMES_COUNT = allGames.length;
+    $scope.currentPlan = currentPlan;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');

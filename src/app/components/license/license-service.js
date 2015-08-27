@@ -73,6 +73,12 @@ angular.module('license', [])
                     }
                 }
             };
+            this.hadTrial = function () {
+                if ($rootScope.currentUser) {
+                    return $rootScope.currentUser.hadTrial;
+                }
+                return false;
+            };
             this.hasLicense = function (show) {
               var license = null;
               var _conditional = function() {
