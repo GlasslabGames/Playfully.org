@@ -114,7 +114,7 @@ angular.module('developer.games', [
         .state('root.developerGames.detail.lessonPlans', {
             url: '/lesson-plans',
             templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
-            data: {authorizedRoles: ['instructor', 'manager', 'developer', 'admin']}
+            data: {authorizedRoles: ['instructor', 'developer', 'admin']}
         })
         .state('modal-lg.developer-edit', {
             url: '/games/:gameId/developer',

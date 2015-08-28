@@ -11,7 +11,7 @@ angular.module( 'playfully.profile', [])
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','developer','admin']
     },
     resolve: {
       user: function(UserService) {
@@ -31,7 +31,7 @@ angular.module( 'playfully.profile', [])
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','developer','admin']
     },
     resolve: {
       user: function(UserService) {

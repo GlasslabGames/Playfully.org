@@ -8,7 +8,7 @@ angular.module( 'instructor.tour', [
     url: '/tour',
     data:{
       pageTitle: 'Instructor Tour',
-      authorizedRoles: ['instructor','manager','developer','admin']
+      authorizedRoles: ['instructor','developer','admin']
     },
     views: {
       'modal@': {

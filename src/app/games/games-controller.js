@@ -122,7 +122,7 @@ angular.module( 'playfully.games', [
   .state('root.games.detail.lessonPlans', {
     url: '/lesson-plans',
     templateUrl: 'games/game-detail-lesson-plans.html',
-    data: { authorizedRoles: ['instructor','manager','developer','admin'] }
+    data: { authorizedRoles: ['instructor','developer','admin'] }
   })
 
   .state('sdkGameAppLink', {
@@ -142,7 +142,7 @@ angular.module( 'playfully.games', [
   .state( 'root.games.play-page', {
     url: '/:gameId/play-page?:courseId',
     data: {
-      authorizedRoles: ['student','instructor','manager','developer','admin'],
+      authorizedRoles: ['student','instructor','developer','admin'],
       pageTitle: 'Play'
     },
     views: {
@@ -183,7 +183,7 @@ angular.module( 'playfully.games', [
   .state( 'modal-lg.missions', {
     url: '/:gameId/play-missions?:courseId&:userType',
     data: {
-      authorizedRoles: ['student','instructor','manager','developer','admin']
+      authorizedRoles: ['student','instructor','developer','admin']
     },
     resolve: {
       gameMissions: function($stateParams, GamesService) {
