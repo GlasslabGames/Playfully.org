@@ -34,14 +34,16 @@ angular.module( 'playfully.games', [
       allGamesInfo: function(GamesService) {
         return GamesService.all();
       },
-      gamesAvailableForLicense: function(LicenseService) {
-          return LicenseService.getGamesAvailableForLicense();
+      gamesAvailableForLicense: function(AuthService, LicenseService) {
+         if (!AuthService.isAuthenticated()) { return true; } // matches home-controller.js
+         return LicenseService.getGamesAvailableForLicense();
       },
-      platform: function($stateParams) {
-         return $stateParams.gamePlatform;
-      },
-      plan: function (LicenseService) {
+      currentPlan: function(AuthService, LicenseService) {
+         if (!AuthService.isAuthenticated()) { return { }; }
          return LicenseService.getCurrentPlan();
+      },
+      startPlatform: function($stateParams) {
+         return $stateParams.gamePlatform;
       }
     },
     data: {
@@ -225,7 +227,7 @@ angular.module( 'playfully.games', [
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $window, $stateParams, $log, allGamesInfo, $state, CHECKLIST, UserService, gamesAvailableForLicense, platform, plan) {
+    function($scope, $rootScope, $window, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, startPlatform, currentPlan, $state, CHECKLIST, UserService) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
@@ -249,24 +251,24 @@ angular.module( 'playfully.games', [
           selected: 'All Games'
       };
       
-      if (platform === $scope.platform.query[1]) {
+      if (startPlatform === $scope.platform.query[1]) {
         $scope.platform.selected = $scope.platform.options[1];
-      } else if (platform === $scope.platform.query[2]) {
+      } else if (startPlatform === $scope.platform.query[2]) {
         $scope.platform.selected = $scope.platform.options[2];
-      } else if (platform === $scope.platform.query[3]) {
+      } else if (startPlatform === $scope.platform.query[3]) {
         $scope.platform.selected = $scope.platform.options[3];
-      } else if (platform !== $scope.platform.query[0]) {
-        if (plan !== undefined && plan.packageDetails !== undefined) {
-            if (plan.packageDetails.name == $scope.platform.package[1]) {
+      } else if (startPlatform !== $scope.platform.query[0]) {
+        if (currentPlan !== undefined && currentPlan.packageDetails !== undefined) {
+            if (currentPlan.packageDetails.name == $scope.platform.package[1]) {
                 $scope.platform.selected = $scope.platform.options[1];
-            } else if (plan.packageDetails.name == $scope.platform.package[2]) {
+            } else if (currentPlan.packageDetails.name == $scope.platform.package[2]) {
                 $scope.platform.selected = $scope.platform.options[2];
-            } else if (plan.packageDetails.name == $scope.platform.package[3]) {
+            } else if (currentPlan.packageDetails.name == $scope.platform.package[3]) {
                 $scope.platform.selected = $scope.platform.options[3];
             }
         }
       }
-      
+            
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});
