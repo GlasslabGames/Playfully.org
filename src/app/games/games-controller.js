@@ -68,7 +68,7 @@ angular.module( 'playfully.games', [
       },
       gamesAvailableForLicense: function(LicenseService) {
           return LicenseService.getGamesAvailableForLicense();
-      }
+      },
     },
     onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
       // GH: Added in a last-minute fashion prior to a Friday release to
@@ -79,7 +79,14 @@ angular.module( 'playfully.games', [
       }
     },
     data: {
-      pageTitle: 'Game Detail'
+      // Search through allgames for the short name to put in the title
+      pageTitle: function($stateParams, $$rootScope) {
+        for (var i = 0, len = $$rootScope.allGames.length; i < len; ++i) {
+          if ($$rootScope.allGames[i].gameId === $stateParams.gameId) {
+            return $$rootScope.allGames[i].shortName;
+          }
+        }
+      }
     }
   })
   .state('modal-lg.developer', {
