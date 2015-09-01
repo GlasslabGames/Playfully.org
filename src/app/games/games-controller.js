@@ -78,13 +78,7 @@ angular.module( 'playfully.games', [
     },
     data: {
       // Search through allgames for the short name to put in the title
-      pageTitle: function($stateParams, $$rootScope) {
-        for (var i = 0, len = $$rootScope.allGames.length; i < len; ++i) {
-          if ($$rootScope.allGames[i].gameId === $stateParams.gameId) {
-            return $$rootScope.allGames[i].shortName;
-          }
-        }
-      }
+      pageTitle: 'Game Details'
     }
   })
   .state('modal-lg.developer', {
@@ -330,6 +324,9 @@ angular.module( 'playfully.games', [
     $scope.gameId = $stateParams.gameId.toUpperCase();
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
+    if (gameDetails.shortName !== undefined) {
+	$state.$current.data.pageTitle = gameDetails.shortName;
+    }
 
     // Get the default standard from the user
     $scope.defaultStandards = "CCSS";
@@ -427,6 +424,7 @@ angular.module( 'playfully.games', [
        **/
       $state.go('modal-lg.developer', {'gameId': gameId}, {location: false});
     };
+
 })
 .controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery) {
   $scope.gameMissions = gameMissions;

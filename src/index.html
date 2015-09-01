@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html data-ng-app="playfully" data-ng-controller="AppCtrl">
-  <head>
-    <title data-ng-bind="pageTitle"></title>
+  <head  class="ng-cloak">
+    <title data-ng-bind="(state.current.data.pageTitle || pageTitle) + ' | GlassLab Games'"></title>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <!-- FB OpenGraph tags -->
     <meta property="og:site_name" content="GlassLab Games"/>

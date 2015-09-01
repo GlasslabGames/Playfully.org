@@ -477,17 +477,6 @@ angular.module( 'playfully', [
         //  $scope.howItWorksPanel.isCollapsed = true;
         //  document.body.scrollTop = document.documentElement.scrollTop = 0;
         //}
-        var hasPageTitle = (angular.isDefined(toState.data) &&
-          angular.isDefined(toState.data.pageTitle));
-        if ( hasPageTitle ) {
-          var subpage;
-          if (angular.isFunction(toState.data.pageTitle)) {
-            subpage = toState.data.pageTitle(toParams, $rootScope);
-          } else {
-            subpage = toState.data.pageTitle;
-          }
-          $scope.pageTitle = subpage +  ' | GlassLab Games' ;
-        }
         if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.hideWrapper)) {
                 $scope.hideWrapper = toState.data.hideWrapper;
