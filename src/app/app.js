@@ -410,6 +410,7 @@ angular.module( 'playfully', [
     $scope.isPurchaseOrder = LicenseService.isPurchaseOrder;
     $scope.hadTrial = LicenseService.hadTrial;
     $scope.hasLicense = LicenseService.hasLicense;
+    $scope.packageType = LicenseService.packageType;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;

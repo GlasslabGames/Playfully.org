@@ -106,6 +106,24 @@ angular.module('license', [])
                   }
               }
             };
+            this.packageType = function(show) {
+                var result = null;
+                if ($rootScope.currentUser) {
+                    result = $rootScope.currentUser.packageType;
+                    if (show == 'badge') {
+                        if (result == 'ipad') {
+                            result = 'ipad';
+                        } else if (result == 'chromebook') {
+                            result = 'chromebook';
+                        } else if (result == 'pcMac') {
+                            result = 'pc-mac';
+                        } else {
+                            result = 'all';
+                        }
+                    }
+                }
+                return result;
+            };
             this.licenseExpirationDate = function() {
                 if( $rootScope.currentUser &&
                     this.hasLicense() ) {

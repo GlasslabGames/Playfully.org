@@ -34,12 +34,10 @@ angular.module( 'playfully.games', [
       allGamesInfo: function(GamesService) {
         return GamesService.all();
       },
-      gamesAvailableForLicense: function(AuthService, LicenseService) {
-         if (!AuthService.isAuthenticated()) { return true; } // matches home-controller.js
+      gamesAvailableForLicense: function(LicenseService) {
          return LicenseService.getGamesAvailableForLicense();
       },
-      currentPlan: function(AuthService, LicenseService) {
-         if (!AuthService.isAuthenticated()) { return { }; }
+      currentPlan: function(LicenseService) {
          return LicenseService.getCurrentPlan();
       },
       startPlatform: function($stateParams) {

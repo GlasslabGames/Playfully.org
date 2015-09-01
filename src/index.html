@@ -47,6 +47,9 @@
         <div class="container gl-container">
           <div data-ng-include="'navbar/navbar.html'"></div>
           <div class="gl-navbar-status">
+              <div ng-cloak ui-sref="root.games.catalog" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense() && !isTrial()">
+                  <img ng-src="/assets/{{packageType('badge')}}badge.png">
+              </div>
               <div ng-cloak ui-sref="root.manager.plan" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense()">
                   <img ng-src="/assets/{{hasLicense('badge')}}-badge.png">
               </div>
