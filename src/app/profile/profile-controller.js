@@ -41,7 +41,7 @@ angular.module( 'playfully.profile', [])
   });*/
 })
 
-.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService ) {
+.controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService, AuthService ) {
 
   if (user.role == 'instructor') {
     user.name = user.firstName + (user.lastName ? ' ' + user.lastName : '');
@@ -55,6 +55,9 @@ angular.module( 'playfully.profile', [])
   // Default standards
   $scope.user.standards = user.standards;
   $scope.defaultStandards = [ "CCSS", "TEKS" ];
+
+  $scope.validatePassword = AuthService.validatePassword;
+  $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
 
   $scope.updateProfile = function(user) {
     if (user.name) {

@@ -85,7 +85,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, AuthService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
         var user = null;
         var packageInfo = {
             packageType: null || $stateParams.packageType,
@@ -109,6 +109,10 @@ angular.module('playfully.register', ['register.const'])
 
       $scope.states = REGISTER_CONSTANTS.states;
 
+      $scope.validatePassword = AuthService.validatePassword;
+      $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+      $scope.validatePasswordTip = AuthService.validatePasswordTip;
+            
       $scope.register = function( account ) {
         // TODO: uncomment this for production release
         if( ENV.stripe === "live" ) {
@@ -165,7 +169,7 @@ angular.module('playfully.register', ['register.const'])
 })
 
 .controller('RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, AuthService, CoursesService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.confirmation = {
@@ -188,6 +192,10 @@ angular.module('playfully.register', ['register.const'])
         errors: [],
         isRegCompleted: false
       };
+
+      $scope.validatePassword = AuthService.validatePassword;
+      $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+      $scope.validatePasswordTip = AuthService.validatePasswordTip;
 
       $scope.closeWindow = function() {
         $window.location.search = 'action=SUCCESS';
@@ -261,7 +269,7 @@ angular.module('playfully.register', ['register.const'])
 
 
 .controller('RegisterBetaCtrl',
-    function ($scope, $log, $rootScope, $state, UserService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, UserService, AuthService, Session, AUTH_EVENTS, ERRORS) {
         var user = null;
         $scope.account = {
             firstName: '',
@@ -278,6 +286,10 @@ angular.module('playfully.register', ['register.const'])
             errors: [],
             isRegCompleted: false
         };
+
+        $scope.validatePassword = AuthService.validatePassword;
+        $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+        $scope.validatePasswordTip = AuthService.validatePasswordTip;
 
         $scope.register = function (account) {
             $scope.regForm.isSubmitting = true;
@@ -315,7 +327,7 @@ angular.module('playfully.register', ['register.const'])
 
 
 .controller('RegisterDeveloperCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, AUTH_EVENTS, ERRORS) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, AuthService, Session, AUTH_EVENTS, ERRORS) {
       var user = null;
 
       $scope.account = {
@@ -329,6 +341,10 @@ angular.module('playfully.register', ['register.const'])
         isRegCompleted: false
       };
 
+      $scope.validatePassword = AuthService.validatePassword;
+      $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+      $scope.validatePasswordTip = AuthService.validatePasswordTip;
+      
       $scope.register = function( account ) {
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {

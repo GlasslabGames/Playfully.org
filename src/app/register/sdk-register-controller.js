@@ -122,7 +122,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
     };
 })
 .controller('sdkv2RegisterInstructorCtrl',
-    function ($scope, $log, $rootScope, $state, $window, UserService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, $previousState) {
+    function ($scope, $log, $rootScope, $state, $window, UserService, AuthService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, $previousState) {
         var user = null;
 
         $scope.account = {
@@ -146,6 +146,10 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
 
         $scope.states = REGISTER_CONSTANTS.states;
 
+        $scope.validatePassword = AuthService.validatePassword;
+        $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+        $scope.validatePasswordTip = AuthService.validatePasswordTip;
+            
         $scope.register = function (account) {
             $scope.regForm.isSubmitting = true;
             if (account.firstName && account.firstName.indexOf(' ') > -1) {
@@ -188,7 +192,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
 
 })
 .controller('sdkv2RegisterStudentModalCtrl',
-    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, CoursesService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, $previousState) {
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, AuthService, CoursesService, Session, SdkSupportService, AUTH_EVENTS, ERRORS, $previousState) {
         var user = null;
 
         $scope.confirmation = {
@@ -214,6 +218,10 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             isRegCompleted: false
         };
 
+        $scope.validatePassword = AuthService.validatePassword;
+        $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+        $scope.validatePasswordTip = AuthService.validatePasswordTip;
+            
         $scope.goBackState = function () {
             $previousState.go();
         };

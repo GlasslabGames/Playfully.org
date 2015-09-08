@@ -107,7 +107,23 @@ angular.module('auth', ['session', 'ipCookie'])
         code: hashCode
       };
       return $http.post(API_BASE + '/auth/password-reset/update', data);
-    }
+    },
+         
+    validatePassword: function(formPwd, dataPwd) {
+         if (formPwd.$dirty && formPwd.$error.minlength) {
+            return true;
+         }
+         if (dataPwd === undefined || dataPwd.length === 0) {
+            return false;
+         }
+         
+         // test rule: password must have one number and one uppercase letter
+         return dataPwd.match(/[0-9]+/) === null || dataPwd.match(/[A-Z]+/) === null;
+    },
+         
+    validatePasswordMessage: "Your password must be at least 6 characters and contain at least one lowercase letter, one uppercase letter, and a number.",
+         
+    validatePasswordTip: "At least 6 characters with mixed-case letters and at least one number"
   };
 
   return api;

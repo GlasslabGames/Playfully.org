@@ -727,10 +727,13 @@ angular.module( 'instructor.courses', [
 })
 
 .controller('EditStudentModalCtrl',
-  function($scope, $rootScope, $state, $log, $timeout, course, student, UserService) {
+  function($scope, $rootScope, $state, $log, $timeout, course, student, UserService, AuthService) {
     $scope.course = course;
     $scope.student = student;
 
+    $scope.validatePassword = AuthService.validatePassword;
+    $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+            
     $scope.editInfo = function(student) {
       UserService.update(student, false)
         .success(function(data, status, headers, config) {
