@@ -58,6 +58,7 @@ angular.module( 'playfully.profile', [])
 
   $scope.validatePassword = AuthService.validatePassword;
   $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+  $scope.passwordMinLength = AuthService.passwordMinLength;
 
   $scope.updateProfile = function(user) {
     if (user.name) {

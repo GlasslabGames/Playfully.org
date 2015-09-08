@@ -73,7 +73,7 @@
                 <div class="gl-input-group">
                     <div class="form-group" ng-class="{'has-error': validatePassword(regForm.password, account.password)}">
                         <input type="password" name="password" class="form-control" id="account-password" placeholder="Choose a password" required ng-model="account.password"
-                               ng-minlength="6"
+                               ng-minlength="{{passwordMinLength}}"
                                pw-confirm="account.confirm">
                         &nbsp;<span class="fa fa-question-circle"
                                     popover-placement="top"

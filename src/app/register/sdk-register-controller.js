@@ -149,7 +149,8 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
         $scope.validatePassword = AuthService.validatePassword;
         $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
         $scope.validatePasswordTip = AuthService.validatePasswordTip;
-            
+        $scope.passwordMinLength = AuthService.passwordMinLength;
+
         $scope.register = function (account) {
             $scope.regForm.isSubmitting = true;
             if (account.firstName && account.firstName.indexOf(' ') > -1) {
@@ -221,7 +222,8 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
         $scope.validatePassword = AuthService.validatePassword;
         $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
         $scope.validatePasswordTip = AuthService.validatePasswordTip;
-            
+        $scope.passwordMinLength = AuthService.passwordMinLength;
+
         $scope.goBackState = function () {
             $previousState.go();
         };

@@ -103,6 +103,7 @@ angular.module('playfully.password-reset', [])
 
   $scope.validatePassword = AuthService.validatePassword;
   $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+  $scope.passwordMinLength = AuthService.passwordMinLength;
 
   $scope.resetPassword = function(formInfo) {
     AuthService.updatePassword(formInfo.password, $stateParams.hashCode)

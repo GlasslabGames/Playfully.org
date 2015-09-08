@@ -733,6 +733,7 @@ angular.module( 'instructor.courses', [
 
     $scope.validatePassword = AuthService.validatePassword;
     $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+    $scope.passwordMinLength = AuthService.passwordMinLength;
             
     $scope.editInfo = function(student) {
       UserService.update(student, false)

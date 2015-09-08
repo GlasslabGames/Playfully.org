@@ -112,7 +112,8 @@ angular.module('playfully.register', ['register.const'])
       $scope.validatePassword = AuthService.validatePassword;
       $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
       $scope.validatePasswordTip = AuthService.validatePasswordTip;
-            
+      $scope.passwordMinLength = AuthService.passwordMinLength;
+
       $scope.register = function( account ) {
         // TODO: uncomment this for production release
         if( ENV.stripe === "live" ) {
@@ -196,6 +197,7 @@ angular.module('playfully.register', ['register.const'])
       $scope.validatePassword = AuthService.validatePassword;
       $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
       $scope.validatePasswordTip = AuthService.validatePasswordTip;
+      $scope.passwordMinLength = AuthService.passwordMinLength;
 
       $scope.closeWindow = function() {
         $window.location.search = 'action=SUCCESS';
@@ -290,6 +292,7 @@ angular.module('playfully.register', ['register.const'])
         $scope.validatePassword = AuthService.validatePassword;
         $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
         $scope.validatePasswordTip = AuthService.validatePasswordTip;
+        $scope.passwordMinLength = AuthService.passwordMinLength;
 
         $scope.register = function (account) {
             $scope.regForm.isSubmitting = true;
@@ -344,7 +347,8 @@ angular.module('playfully.register', ['register.const'])
       $scope.validatePassword = AuthService.validatePassword;
       $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
       $scope.validatePasswordTip = AuthService.validatePasswordTip;
-      
+      $scope.passwordMinLength = AuthService.passwordMinLength;
+
       $scope.register = function( account ) {
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {

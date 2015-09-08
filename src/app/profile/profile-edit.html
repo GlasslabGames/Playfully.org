@@ -108,7 +108,7 @@
         id="user-password"
         placeholder="Choose a password" 
         ng-model="user.password"
-        ng-minlength="6"
+        ng-minlength="{{passwordMinLength}}"
         pw-confirm="user.confirm">
       <div class="form-errors">
         <div class="form-error" ng-show="validatePassword(editProfileForm.password, user.password)">

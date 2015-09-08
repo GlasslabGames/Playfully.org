@@ -58,7 +58,7 @@
     <div class="form-group form-group--labeled" ng-class="{'has-error': validatePassword(editStudentForm.password, student.password)}">
       <label for="student-password">Password</label>
       <input type="password" name="password" class="form-control" id="student-password" placeholder="Leave blank unless changing" ng-model="student.password"
-      ng-minlength="6"
+      ng-minlength="{{passwordMinLength}}"
       pw-confirm="student.confirm">
       <div class="form-errors">
         <div class="form-error" ng-show="validatePassword(editStudentForm.password, student.password)">

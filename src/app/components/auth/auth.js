@@ -123,7 +123,9 @@ angular.module('auth', ['session', 'ipCookie'])
          
     validatePasswordMessage: "Your password must be at least 6 characters and contain at least one lowercase letter, one uppercase letter, and a number.",
          
-    validatePasswordTip: "At least 6 characters with mixed-case letters and at least one number"
+    validatePasswordTip: "At least 6 characters with mixed-case letters and at least one number",
+         
+    passwordMinLength: 6
   };
 
   return api;
