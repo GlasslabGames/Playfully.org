@@ -1,8 +1,15 @@
 <div class="gl-upgrade-label-school-info">School Info</div>
 
 <div class="form-group">
-    <input class="form-control" size="43" ng-model="info.school.zipCode" placeholder="Zip Code" required>
+    <input class="form-control" size="100" ng-model="info.school.name" placeholder="School Name" required>
 </div>
+
+<input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address" required>
+
+<div class="form-group">
+    <input class="form-control" size="26" ng-model="info.school.city" placeholder="City" required>
+</div>
+
 <div class="form-group">
     <div class="gl-input-group">
         <select name="state" ng-model="info.school.state" ng-options="state for state in choices.states"
@@ -14,11 +21,6 @@
         </select>
     </div>
 </div>
-<input class="form-control gl-margin-Vl" ng-model="info.school.address" placeholder="Address" required>
-
 <div class="form-group">
-    <input class="form-control" ng-model="info.school.city" placeholder="City" required>
-</div>
-<div class="form-group">
-    <input class="form-control" ng-model="info.school.name" placeholder="School Name" required>
+    <input class="form-control" size="15" ng-model="info.school.zipCode" placeholder="Zip Code" required>
 </div>
