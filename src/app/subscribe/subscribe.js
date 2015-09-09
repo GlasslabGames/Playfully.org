@@ -233,6 +233,8 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         var selectedPackage = _.find(packages.plans, {name: $stateParams.packageType}) || packages.plans;
         var packagesChoices = _.map(packages.plans, 'name');
 
+        $scope.packageId = { 'All Games': '1', 'iPad': '2', 'Chromebook/Web': '3', 'PC/MAC': '4' };
+                
         $scope.status = {
             isPaymentCreditCard: false,
             packageName: selectedPackage.name,
@@ -368,6 +370,18 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 });
             }
         };
+                
+        $scope.impression = function(packageName, seatChoice) {
+            var seatChoiceAsId  = seatChoice >= 100 ? seatChoice : "0" + seatChoice;
+            $window.ga('ec:addImpression', {
+                       'id': 'P' + $scope.packageId[packageName] + seatChoiceAsId,
+                       'name': packageName,
+                       'category': 'subscription',
+                       'brand': 'Glasslab Games',
+                       'variant': seatChoice + " seats",
+                       'list': 'purchase view',
+                    });
+        };
 
         var _subscribeToLicense = function (studentSeats, packageName, stripeInfo, info) {
 
@@ -387,10 +401,12 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             $state.go('modal.confirm-subscribe-cc-modal');
         };
     })
-    .controller('SubscribePackagesCtrl', function ($scope, packages) {
+    .controller('SubscribePackagesCtrl', function ($scope, $window, packages) {
         $scope.seatChoices = [];
         $scope.packageChoices = packages.plans;
-
+                
+        $scope.packageId = { 'All Games': '1', 'iPad': '2', 'Chromebook/Web': '3', 'PC/MAC': '4' };
+                
         angular.forEach(packages.seats, function (pack) {
             $scope.seatChoices.push(pack.studentSeats);
         });
@@ -403,5 +419,29 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             var targetPackage = _.find(packages.seats, {studentSeats: seatChoice});
             var total = seatChoice * price;
             return total - (total* (targetPackage.discount/100));
+        };
+                
+        $scope.impressionPackage = function(packageName, seatChoice) {
+            var seatChoiceAsId  = seatChoice >= 100 ? seatChoice : "0" + seatChoice;
+            $window.ga('ec:addImpression', {
+               'id': 'P' + $scope.packageId[packageName] + seatChoiceAsId,
+               'name': packageName,
+               'category': 'subscription',
+               'brand': 'Glasslab Games',
+               'variant': seatChoice + " seats",
+               'list': 'subcription view',
+            });
+        };
+                
+        $scope.impressionTryItOut = function(role) {
+                console.log(role);
+            $window.ga('ec:addImpression', {
+                       'id': 'T3030',
+                       'name': 'Trial',
+                       'category': 'subscription',
+                       'brand': 'Glasslab Games',
+                       'variant': role,
+                       'list': 'subcription view',
+            });
         };
     });
