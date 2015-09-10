@@ -421,7 +421,13 @@ angular.module('playfully.manager', [])
 
         $scope.plan = angular.copy(plan);
         $scope.packages = angular.copy(packages);
+
+        var expiry = $scope.plan.expirationDate;
         $scope.plan.expirationDate = moment($scope.plan.expirationDate).format("MMM Do YYYY");
+        var oneYearLater = new Date( expiry );
+        oneYearLater.setFullYear( oneYearLater.getFullYear() + 1 );
+        $scope.extendedOneYearDate = moment( oneYearLater ).format("MMM Do YYYY");
+
         $scope.originalPackage = $scope.plan.packageDetails;
         $scope.billingInfo = angular.copy(billingInfo);
         $scope.billingInfo.accountBalance = Math.abs( $scope.billingInfo.accountBalance / 100 );
@@ -471,7 +477,7 @@ angular.module('playfully.manager', [])
             percent_off: 0,
             existing: false
         };
-
+        $scope.yearAdded = false;
         $scope.requestPromo = {
             success: false,
             errors: [],
@@ -686,7 +692,13 @@ angular.module('playfully.manager', [])
         // Used for Total without trial
         // TODO
         $scope.calculateGrandTotalWithTrial = function() {
-            var grandTotal =  $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') - $scope.billingInfo.accountBalance;
+            var oneYearTotal = parseFloat( $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') );
+            var grandTotal = oneYearTotal - $scope.billingInfo.accountBalance;
+
+            if ( $scope.addOneYear ) {
+                grandTotal += oneYearTotal;
+            }
+
             $scope.status.grandTotal = grandTotal;
             if( grandTotal < 0 ) {
                 $scope.status.showCredit = true;
@@ -699,6 +711,11 @@ angular.module('playfully.manager', [])
         // Used for Total with trial
         $scope.calculateGrandTotal = function() {
             var grandTotal = $scope.status.proratedTotal - $scope.billingInfo.accountBalance;
+
+            if ( $scope.yearAdded ) {
+                grandTotal += parseFloat($scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') );
+            }
+
             $scope.status.grandTotal = grandTotal;
             if( grandTotal < 0 ) {
                 $scope.status.showCredit = true;
@@ -706,6 +723,10 @@ angular.module('playfully.manager', [])
             }
             $scope.status.showCredit = false;
             return "$" + grandTotal.toFixed(2);
+        };
+
+        $scope.addOneYear = function () {
+            $scope.yearAdded = ! $scope.yearAdded;
         };
 
         $scope.applyPromoCode = function (promoCode, acceptInvalid) {
