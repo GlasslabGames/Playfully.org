@@ -92,7 +92,32 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-      // Games
+    // students in course grouped by columns and rows
+    var studentsToSort = [];
+    
+    $scope.courses.selected.users.forEach(function(student) { studentsToSort.push(student); });
+    studentsToSort.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
+                        
+    var columns = Math.floor((studentsToSort.length + 14) / 15);
+    var rows = studentsToSort.length > 15 ? 15 : studentsToSort.length;
+    var students = [];
+                        
+    for (var i=0;i<rows;i++) {
+        var row = [];
+        for (var j=0;j<columns;j++) {
+            if (i + 15 * j < studentsToSort.length) {
+                row.push(studentsToSort[i + 15 * j]);
+            } else {
+                row.push(null);
+            }
+        }
+        students.push(row);
+    }
+    
+    $scope.students = students;
+    $scope.studentListWidth = 80 + 120 * columns;
+                        
+    // Games
     $scope.games.selectedGameId = defaultGame.gameId;
 
     // Get the default standard from the user
