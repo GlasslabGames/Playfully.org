@@ -106,7 +106,9 @@ angular.module( 'instructor.reports')
         var row = [];
         for (var j=0;j<columns;j++) {
             if (i + 15 * j < studentsToSort.length) {
-                row.push(studentsToSort[i + 15 * j]);
+                var student = studentsToSort[i + 15 * j];
+                student.isSelected = true; // set to initally visible
+                row.push(student);
             } else {
                 row.push(null);
             }
@@ -209,6 +211,21 @@ angular.module( 'instructor.reports')
            }
       }
    };
+
+    /*
+    // populate with test data
+    var _populateStudentLearningData = function(usersReportData) {
+         var students = $scope.courses.selected.users;
+         angular.forEach(students, function (student) {
+             student.results = { };
+             student.results['6.RP.A.1'] = 'Partial';
+             student.results['6.RP.A.2'] = 'Partial';
+             student.results['6.RP.A.3'] = 'Partial';
+             student.results['6.RP.A.3.A'] = 'Partial';
+             student.timestamp = new Date();
+         });
+     };
+     */
 
   var _findUserByUserId = function (userId, users) {
       var found;
