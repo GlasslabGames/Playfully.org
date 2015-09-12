@@ -8,6 +8,26 @@ angular.module( 'playfully.games', [
 })
 
 .config(function ( $stateProvider) {
+        
+$stateProvider.state( 'modal.game-user-mismatch', {
+    url: '/games/game-user-mismatch',
+    parent: 'modal',
+    data: {
+               modalSize: 'lg'
+    },
+    views: {
+            'modal@': {
+               templateUrl: 'games/game-play-usermismatch.html',
+                controller: function($scope, $window) {
+                        console.log("inside GameUserMismatchCtrl");
+                        $scope.goToRoot = function() {
+                            $window.location = "/";
+                        };
+                     }
+            }
+    }
+});
+
   $stateProvider.state( 'root.games', {
     abstract: true,
     url: 'games'
@@ -151,6 +171,35 @@ angular.module( 'playfully.games', [
         templateUrl: 'games/game-play-page.html',
         controller: 'GamePlayPageCtrl'
       }
+    },
+    onEnter: function($state, $interval, $timeout, UserService){
+         UserService.retrieveCurrentUser()
+         .success(function(data) {
+            $state.activeUserId = data.id;
+            $state.checkLogin = $interval(function () {
+                console.log('hello', $state.activeUserId);
+                UserService.retrieveCurrentUser()
+                .success(function(data) {
+                     if ($state.activeUserId != data.id) {
+                         console.log("user changed!");
+                         $interval.cancel($state.checkLogin);
+                         $state.go('modal.game-user-mismatch', { }, {location: false});
+                     }
+                })
+                .error(function() {
+                    console.log("double-check user error");
+                    $interval.cancel($state.checkLogin);
+                    $state.go('modal.game-user-mismatch', { }, {location: false});
+                });
+            }, 5000); // poll every 5 seconds to see if user changed/logged-out
+         })
+         .error(function() {
+            // failed -- abort game load
+            $state.go('modal.game-user-mismatch', { }, {location: false});
+         });
+    },
+    onExit: function($state, $interval){
+         $interval.cancel($state.checkLogin);
     },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
