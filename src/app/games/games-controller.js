@@ -173,22 +173,27 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       }
     },
     onEnter: function($state, $interval, $timeout, UserService){
+         $state.checkLogin = null;
+         
          UserService.retrieveCurrentUser()
          .success(function(data) {
             $state.activeUserId = data.id;
             $state.checkLogin = $interval(function () {
-                console.log('hello', $state.activeUserId);
                 UserService.retrieveCurrentUser()
                 .success(function(data) {
                      if ($state.activeUserId != data.id) {
-                         console.log("user changed!");
-                         $interval.cancel($state.checkLogin);
+                         if ($state.checkLogin) {
+                            $interval.cancel($state.checkLogin);
+                            $state.checkLogin = null;
+                         }
                          $state.go('modal.game-user-mismatch', { }, {location: false});
                      }
                 })
                 .error(function() {
-                    console.log("double-check user error");
-                    $interval.cancel($state.checkLogin);
+                    if ($state.checkLogin) {
+                       $interval.cancel($state.checkLogin);
+                       $state.checkLogin = null;
+                    }
                     $state.go('modal.game-user-mismatch', { }, {location: false});
                 });
             }, 5000); // poll every 5 seconds to see if user changed/logged-out
@@ -199,7 +204,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
          });
     },
     onExit: function($state, $interval){
-         $interval.cancel($state.checkLogin);
+         if ($state.checkLogin) {
+            $interval.cancel($state.checkLogin);
+            $state.checkLogin = null;
+         }
     },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
