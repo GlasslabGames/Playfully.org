@@ -298,7 +298,35 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       }
       $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
-
+      // completely relaod page if the UI top is a role mismatch
+      $scope.$on('$viewContentLoaded',
+        function(event) {
+            var elem = document.getElementById('teacher-info-bar');
+            if (elem) {
+                 UserService.retrieveCurrentUser()
+                 .success(function(data) {
+                    if (data.role == 'student') {
+                        $window.location = "/";
+                    }
+                  })
+                 .error(function() {
+                    $window.location = "/";
+                  });
+            }
+            elem = document.getElementById('student-info-bar');
+            if (elem) {
+                 UserService.retrieveCurrentUser()
+                 .success(function(data) {
+                      if (data.role != 'student') {
+                          $window.location = "/";
+                      }
+                 })
+                 .error(function() {
+                    $window.location = "/";
+                 });
+            }
+      });
+            
       $scope.platform = {
           isOpen: false,
           options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
