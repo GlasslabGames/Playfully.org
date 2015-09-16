@@ -329,7 +329,7 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE, ENV) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, $window, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE, ENV) {
         $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = angular.copy(billingInfo);
@@ -355,6 +355,7 @@ angular.module('playfully.manager', [])
                 Stripe.setPublishableKey( STRIPE[ ENV.stripe ].publishableKey );
                 Stripe.card.createToken(info.CC, function (status, stripeToken) {
                     _updateBillingInfo(stripeToken);
+                    $window.ga('send', 'event', 'button', 'click', 'change-card');
                 });
             }
         };
