@@ -155,7 +155,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-remove-educator-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
+                    controller: function ($scope, $log, $stateParams, $window, LicenseService, UtilService) {
                         $scope.email = $stateParams.email;
                         $scope.request = {
                             success: false,
@@ -164,7 +164,9 @@ angular.module('playfully.manager', [])
                         };
                         $scope.removeEducator = function (email) {
                             UtilService.submitFormRequest($scope.request, function () {
-                                return LicenseService.removeEducator(email);
+                                var result = LicenseService.removeEducator(email);
+                                $window.ga('send', 'event', 'button', 'click', 'remove-educator');
+                                return result;
                             }, function() {});
                         };
                     }
@@ -763,7 +765,7 @@ angular.module('playfully.manager', [])
             $scope.applyPromoCode($scope.plan.promoCode, {acceptInvalid: true });
         }
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
@@ -833,6 +835,7 @@ angular.module('playfully.manager', [])
 
             if (invalid.length < 1) {
                 _requestInvite(valid);
+                $window.ga('send', 'event', 'button', 'click', 'invite-educators', valid.length);
             }
 
             $scope.request.errors = invalid;
