@@ -291,7 +291,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/confirm-update-modal.html',
-                    controller: function ($scope, $log, $state, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                    controller: function ($scope, $log, $state, $stateParams, $previousState, $window, LicenseStore, UtilService, LicenseService, UserService) {
                         $scope.request = {
                             success: false,
                             errors: [],
@@ -307,6 +307,7 @@ angular.module('playfully.manager', [])
                         };
                         $scope.submitPayment = function () {
                             UtilService.submitFormRequest($scope.request, function () {
+                                $window.ga('send', 'event', 'button', 'click', 'update-plan');
                                 if ($scope.isPaymentCreditCard) {
                                     if ($scope.isTrial) {
                                         return LicenseService.upgradeFromTrial($scope.purchaseInfo);
@@ -417,7 +418,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, LicenseStore, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE, ENV) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, $window, LicenseService, LicenseStore, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE, ENV) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -446,6 +447,8 @@ angular.module('playfully.manager', [])
         // Setup Seat and Package Choices
         var selectedPackage = $scope.originalPackage;
         var packagesChoices = _.map($scope.packages.plans, 'name');
+
+        $scope.packageId = { 'All Games': '1', 'iPad': '2', 'Chromebook/Web': '3', 'PC/MAC': '4' };                
 
         $scope.status = {
           packageName: selectedPackage.name,
@@ -498,6 +501,22 @@ angular.module('playfully.manager', [])
             subscription: {},
             CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
             PO: angular.copy(REGISTER_CONSTANTS.poInfo)
+        };
+                
+        $scope.impression = function(packageName, seatChoice) {
+            var seatChoiceAsId  = seatChoice >= 100 ? seatChoice : "0" + seatChoice;
+            $window.ga('ec:addImpression', {
+               'id': 'P' + $scope.packageId[packageName] + seatChoiceAsId,
+               'name': packageName,
+               'category': 'subscription',
+               'brand': 'Glasslab Games',
+               'variant': seatChoice + " seats",
+               'list': 'upgrade view',
+            });
+        };
+                
+        $scope.creditCardSelect = function(action) {
+            $window.ga('send', 'event', 'button', 'click', action);
         };
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
@@ -730,6 +749,12 @@ angular.module('playfully.manager', [])
 
         $scope.addOneYear = function () {
             $scope.yearAdded = ! $scope.yearAdded;
+            var action = $scope.yearAdded ? "add-year-added" : "add-year-removed";
+            $window.ga('send', 'event', 'button', 'click', action);
+        };
+                
+        $scope.upgradeCancelled = function() {
+            $window.ga('send', 'event', 'button', 'click', 'update-cancelled');
         };
 
         $scope.applyPromoCode = function (promoCode, acceptInvalid) {

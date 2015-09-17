@@ -434,7 +434,6 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         };
                 
         $scope.impressionTryItOut = function(role) {
-                console.log(role);
             $window.ga('ec:addImpression', {
                        'id': 'T3030',
                        'name': 'Trial',
