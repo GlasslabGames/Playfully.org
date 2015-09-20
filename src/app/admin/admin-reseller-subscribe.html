@@ -1,6 +1,36 @@
 <div class="container">
+    <h2 class="text-muted">Create Purchase Order</h2>
+    <p>
+        Use this page to create a new Purchase Order.  You must first either find or create a license owner for this purchase order.
+    </p>
+        <div>
+            License Owner Email:
+            <div class="form-group">
+                <input size="30" class="form-control gl-margin-Vl"
+                       ng-model="info.user.email"
+                       placeholder="License Owner Email" required>
+            </div>
+            <div class="reg-submit text-center">
+                <input ng-click="findLicenseOwner(info)"
+                       class="btn gl-payment-submit gl-btn--black"
+                       value="Find"
+            </div>
+            <p>
+            </p>
+            <p ng-show="licenseOwnerExists && licenseOwnerValid">
+                Found license owner: {{info.PO.firstName}} {{info.PO.lastName}}
+            </p>
+            <p ng-show="!licenseOwnerExists && licenseOwnerValid">
+                License owner {{info.user.email}} was not found!
+            </p>
+            <p ng-show="!licenseOwnerExists && licenseOwnerValid">
+                A new user account for {{info.user.email}} will be created when you submit the purchase order
+            </p>
+        </div>
+    </br >
+
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4" ng-show="licenseOwnerValid">
             <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
                 <div class="gl-manager-side-panel-label text-center">
                     Premium Plan
@@ -36,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 gl-margin--B50">
+        <div class="col-md-8 gl-margin--B50" ng-show="licenseOwnerValid">
             <form name="paymentForm" novalidate class="reg-form form-inline">
                 <div class="form-group">
                     <div class="gl-upgrade-school-info gl-margin--Bl">
@@ -50,7 +80,28 @@
                         </div>
                         <div class="gl-upgrade-label-payment">Payment</div>
 
-                        <div ng-include src="'subscribe/_payment-order-form.html'"></div>
+                        <p>Please share with us the primary contact for this order. It may be different from the
+                            person placing this order. We need this information so we know who to contact regarding
+                            this order. </p>
+
+                        <div class="form-group">
+                            <input ng-disabled="licenseOwnerExists" size="30" class="form-control gl-margin-Vl" ng-model="info.PO.firstName"
+                                   placeholder="Primary Contact First Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input ng-disabled="licenseOwnerExists" size="30" class="form-control gl-margin-Vl"
+                                   ng-model="info.PO.lastName"
+                                   placeholder="Last Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input size="30" class="form-control gl-margin-Vl" ng-model="info.PO.phone"
+                                   placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <input ng-disabled="true" size="30" class="form-control gl-margin-Vl"
+                                   ng-model="info.PO.email"
+                                   placeholder="Email" required>
+                        </div>
 
                         <alert class="gl-margin--Tl" ng-repeat="error in request.errors" ng-show="request.errors.length"
                                type="danger"><span class="fa fa-times-circle"></span> {{ error }}
@@ -62,14 +113,6 @@
                             <input size="30" class="form-control gl-margin-Vl"
                                    ng-model="info.PO.payment"
                                    placeholder="Price" required>
-                        </div>
-                    </div>
-                    <div>
-                        License Owner Email:
-                        <div class="form-group">
-                            <input size="30" class="form-control gl-margin-Vl"
-                                   ng-model="info.user.email"
-                                   placeholder="License Owner Email" required>
                         </div>
                     </div>
 

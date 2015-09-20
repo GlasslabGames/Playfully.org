@@ -119,6 +119,39 @@ angular.module('playfully.admin', ['dash','license'])
             isSubmitting: false
         };
 
+        $scope.licenseOwnerValid = false;
+        $scope.licenseOwnerExists = false;
+
+        $scope.findLicenseOwner = function ( info ) {
+            console.log( "fLO: ", info.user.email);
+            $scope.licenseOwnerValid = false;
+            $scope.licenseOwnerExists = false;
+
+            if ( _validateEmail( info.user.email ) ) {
+                $scope.licenseOwnerValid = true;
+
+                UserService.getByEmail( info.user.email )
+                .success(function (data,status) {
+                    console.log("fLO: data ", data );
+                    if ( ! _.isEmpty(data) ) {
+                        $scope.licenseOwnerExists = true;
+                        info.PO.firstName = data.firstName;
+                        info.PO.lastName = data.lastName;
+                        info.PO.email = info.user.email;
+                    } else {
+                        info.PO.firstName = "";
+                        info.PO.lastName = "";
+                        info.PO.email = info.user.email;
+                    }
+                });
+            }
+        };
+
+        var _validateEmail = function (email) {
+            var re = $rootScope.emailValidationPattern;
+            return re.test(email);
+        };
+
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});

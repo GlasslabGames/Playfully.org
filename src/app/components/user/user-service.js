@@ -67,6 +67,14 @@ angular.module('user', [])
       return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
+    getByEmail: function (emailAddr) {
+      return $http.get(API_BASE + '/auth/userbyemail/', {
+        params: {
+            email: emailAddr
+          }
+       } );
+    },
+
     update: function (user, shouldUpdateCurrentUser) {
       if (typeof(shouldUpdateCurrentUser) === 'undefined') {
         shouldUpdateCurrentUser = true;
