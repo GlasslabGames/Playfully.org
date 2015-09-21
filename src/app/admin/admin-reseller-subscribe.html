@@ -11,9 +11,9 @@
                        placeholder="License Owner Email" required>
             </div>
             <div class="reg-submit text-center">
-                <input ng-click="findLicenseOwner(info)"
+                <button ng-click="findLicenseOwner(info)"
                        class="btn gl-payment-submit gl-btn--black"
-                       value="Find"
+                       ng-disabled="false">Find</button>
             </div>
             <p>
             </p>
@@ -56,13 +56,25 @@
                     <h4 class="headline-4">Package Size:</h4>
 
                     <form class="gl-upgrade-form">
-                        <div class="radio" ng-repeat="seat in choices.seats">
-                            <label>
-                                <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats">
-                                {{seat.studentSeats}} students + {{seat.educatorSeats}} educators
-                            </label>
+                        # of Students:
+                        <div class="form-group">
+                            <input size="30" class="form-control gl-margin-Vl"
+                                   ng-keyup="calculatePOPrice()"
+                                   ng-model="status.studentSeats"
+                                   placeholder="5" required>
+                        </div>
+
+                        # of Educators:
+                        <div class="form-group">
+                            <input size="30" class="form-control gl-margin-Vl"
+                                   ng-keyup="calculatePOPrice()"
+                                   ng-model="status.educatorSeats"
+                                   placeholder="1" required>
                         </div>
                     </form>
+
+                    <h4 class="headline-4">Package Price:</h4>
+                        Total Price: ${{info.PO.payment}}
                 </div>
             </div>
         </div>
@@ -107,20 +119,12 @@
                                type="danger"><span class="fa fa-times-circle"></span> {{ error }}
                         </alert>
                     </div>
-                    <div>
-                        Price:
-                        <div class="form-group">
-                            <input size="30" class="form-control gl-margin-Vl"
-                                   ng-model="info.PO.payment"
-                                   placeholder="Price" required>
-                        </div>
-                    </div>
 
                     <div class="reg-submit text-center">
-                        <input ng-click="requestPurchaseOrder(status.studentSeats, status.packageName, info)"
+                        <button ng-click="requestPurchaseOrder(status.studentSeats, status.packageName, info)"
                                class="btn gl-payment-submit gl-btn--black"
-                               value="{{ request.isSubmitting ? 'Submitting...' : 'Submit'}}"
                                ng-disabled="request.isSubmitting || paymentForm.$invalid">
+                               {{ request.isSubmitting ? 'Submitting...' : 'Submit'}}</button>
                     </div>
                 </div>
 

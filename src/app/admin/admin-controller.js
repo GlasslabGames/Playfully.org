@@ -80,7 +80,8 @@ angular.module('playfully.admin', ['dash','license'])
             isPaymentCreditCard: false,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
-            studentSeats: $stateParams.seatsSelected || 5,
+            studentSeats: 5,
+            educatorSeats: 1,
             totalPrice: null
         };
 
@@ -100,6 +101,9 @@ angular.module('playfully.admin', ['dash','license'])
 
         $scope.$watch('status.packageName', function (packageName) {
             $scope.status.selectedPackage = _.find(packages.plans, {name: packageName});
+
+            // Adjust prices
+            $scope.calculatePOPrice();
         });
 
         // School and Payment Info
@@ -123,7 +127,6 @@ angular.module('playfully.admin', ['dash','license'])
         $scope.licenseOwnerExists = false;
 
         $scope.findLicenseOwner = function ( info ) {
-            console.log( "fLO: ", info.user.email);
             $scope.licenseOwnerValid = false;
             $scope.licenseOwnerExists = false;
 
@@ -132,7 +135,6 @@ angular.module('playfully.admin', ['dash','license'])
 
                 UserService.getByEmail( info.user.email )
                 .success(function (data,status) {
-                    console.log("fLO: data ", data );
                     if ( ! _.isEmpty(data) ) {
                         $scope.licenseOwnerExists = true;
                         info.PO.firstName = data.firstName;
@@ -152,10 +154,48 @@ angular.module('playfully.admin', ['dash','license'])
             return re.test(email);
         };
 
+        $scope.calculatePOPrice = function () {
+            var students = 1.0;
+            var educators = 1.0;
+
+            if ( ! $scope.status.studentSeats ) {
+                students = 1.0;
+            } else {
+                students = parseFloat( $scope.status.studentSeats );
+            }
+
+            if ( ! $scope.status.educatorSeats ) {
+                educators = 1.0;
+            } else {
+                educators = parseFloat( $scope.status.educatorSeats );
+            }
+
+            // Need limits defined
+            if ( students < 1.0 ) {
+                students = 1.0;
+                $scope.status.studentSeats = '1';
+            }
+
+            if ( educators < 1.0 ) {
+                educators = 1.0;
+                $scope.status.educatorSeats = '1';
+            }
+
+            // Need to get official pricing formula, dependent on plan
+            $scope.info.PO.payment = ( students * $scope.status.selectedPackage.studentPrice ) + ( educators * $scope.status.selectedPackage.educatorPrice ); 
+
+            if ( isNaN( $scope.info.PO.payment ) ) {
+                $scope.info.PO.payment = 0.0;
+            }
+        };
+
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
-            var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
             var targetPlan = _.find(packages.plans, {name: packageName});
-            var planInfo = {seats: targetSeat.seatId, type: targetPlan.planId};
+            var planInfo = {
+                                seats: parseInt(studentSeats),
+                                educators: parseInt(educatorSeats),
+                                type: targetPlan.planId
+                            };
             if ($scope.promoCode.valid) {
                 planInfo.promoCode = $scope.promoCode.code;
             }
