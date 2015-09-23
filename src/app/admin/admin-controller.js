@@ -49,9 +49,34 @@ angular.module('playfully.admin', ['dash','license'])
                         errors: [],
                         isSubmitting: false
                     };
-                    $scope.acceptedTerms = false;
                     $scope.purchaseInfo = LicenseStore.getData();
+                    $scope.acceptedTerms = false;
                     $scope.submitResellerPayment = function () {
+                        // First, we might have to create the license holder
+                        if ( ! $scope.purchaseInfo.licenseOwnerExists ) {
+                            UserService.register( $scope.purchaseInfo.account )
+                                .success(function(data, status, headers, config) {
+                                    var user = data;
+                                    // TODO: KMY: Confirm - do not think I need Session.create()
+                                    //Session.create(user.id, user.role, data.loginType);
+                                    console.log("-----> sucessfully created ", user );
+                                    $scope.purchaseInfo.user = user;
+                                })
+                                .error(function(data, status, headers, config) {
+                                    console.log("-----> failed to create ", $scope.purchaseInfo.account);
+                                    console.log("-----> error ", data.error);
+                                    if ( data.error ) {
+                                        $scope.purchaseInfo.account.errors.push(data.error);
+                                    } else {
+                                        $scope.purchaseInfo.account.errors.push(ERRORS['general']);
+                                    }
+
+                                    // Do not create PO
+                                    return;
+                                }
+                            );
+                        }
+
                         UtilService.submitFormRequest($scope.request, function () {
                             return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
                         }, function () {
@@ -137,6 +162,7 @@ angular.module('playfully.admin', ['dash','license'])
                 .success(function (data,status) {
                     if ( ! _.isEmpty(data) ) {
                         $scope.licenseOwnerExists = true;
+                        info.user = data;
                         info.PO.firstName = data.firstName;
                         info.PO.lastName = data.lastName;
                         info.PO.email = info.user.email;
@@ -219,27 +245,68 @@ angular.module('playfully.admin', ['dash','license'])
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetPlan = _.find(packages.plans, {name: packageName});
             var planInfo = {
-                                seats: studentSeats.toString(),
-                                educators: parseInt(educatorSeats),
-                                students: parseInt(studentSeats),
+                                seats: $scope.status.studentSeats.toString(),
+                                educators: parseInt($scope.status.educatorSeats),
+                                students: parseInt($scope.status.studentSeats),
                                 type: targetPlan.planId
                             };
             if ($scope.promoCode.valid) {
                 planInfo.promoCode = $scope.promoCode.code;
             }
-            var purchaseOrder = info.PO;
+            var purchaseOrder = $scope.info.PO;
             /* Convert to database expected values */
-            console.log(typeof(purchaseOrder.payment));
             purchaseOrder.payment = parseFloat(purchaseOrder.payment);
             purchaseOrder.payment = purchaseOrder.payment.toFixed(2);
             purchaseOrder.payment = parseFloat(purchaseOrder.payment);
             purchaseOrder.name = purchaseOrder.firstName + ' ' + purchaseOrder.lastName;
+
+            // If we require a new user account
+            var account = {
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                state: null,
+                school: '',
+                confirm: '',
+                role: 'instructor',
+                acceptedTerms: true,
+                newsletter: true,
+                errors: [],
+                isRegCompleted: false
+            };
+
+            if ( ! $scope.licenseOwnerExists ) {
+                // Fill in
+                account.firstName = $scope.info.PO.firstName;
+                account.lastName = $scope.info.PO.lastName;
+                account.email = $scope.info.PO.email;
+
+                // TODO: KMY: get this from current pwd randomizer
+                account.password = "nglsenFUuiu395389h84ghekljhgl";
+                account.confirm = account.password;
+
+                account.state = $scope.info.school.state;
+
+                // Get the standard based on state
+                if( account.state === "Texas" ) {
+                    account.standards = "TEKS";
+                }
+                else {
+                    account.standards = "CCSS";
+                }
+
+                account.school = $scope.info.school.name;
+            }
+
             LicenseStore.setData({
                 purchaseOrderInfo: purchaseOrder,
                 planInfo: planInfo,
-                schoolInfo: info.school,
+                schoolInfo: $scope.info.school,
                 payment: $scope.info.PO.payment,
-                user: $scope.info.user
+                user: $scope.info.user,
+                licenseOwnerExists: $scope.licenseOwnerExists,
+                account: account
             });
             $state.go('modal.reseller-confirm-purchase-order-modal');
         };
