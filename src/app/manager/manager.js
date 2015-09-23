@@ -544,6 +544,8 @@ angular.module('playfully.manager', [])
                 planInfo.promoCode = $scope.promoCode.code;
             }
 
+            planInfo.yearAdded = $scope.yearAdded;
+
             if ($scope.status.isPaymentCreditCard) {
                 /* Upgrade from Trial using Credit Card */
                 if ($scope.plan.packageDetails.name === 'Trial') {

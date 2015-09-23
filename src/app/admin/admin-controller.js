@@ -80,7 +80,7 @@ angular.module('playfully.admin', ['dash','license'])
             isPaymentCreditCard: false,
             packageName: selectedPackage.name,
             selectedPackage: selectedPackage,
-            studentSeats: 5,
+            studentSeats: 10,
             educatorSeats: 1,
             totalPrice: null
         };
@@ -130,7 +130,7 @@ angular.module('playfully.admin', ['dash','license'])
             $scope.licenseOwnerValid = false;
             $scope.licenseOwnerExists = false;
 
-            if ( _validateEmail( info.user.email ) ) {
+            if ( $scope.validateEmail( info.user.email ) ) {
                 $scope.licenseOwnerValid = true;
 
                 UserService.getByEmail( info.user.email )
@@ -149,51 +149,79 @@ angular.module('playfully.admin', ['dash','license'])
             }
         };
 
-        var _validateEmail = function (email) {
+        $scope.validateEmail = function (email) {
             var re = $rootScope.emailValidationPattern;
             return re.test(email);
         };
 
         $scope.calculatePOPrice = function () {
-            var students = 1.0;
+            var students = 10.0;
             var educators = 1.0;
 
             if ( ! $scope.status.studentSeats ) {
-                students = 1.0;
+                students = 10.0;
             } else {
                 students = parseFloat( $scope.status.studentSeats );
             }
 
+            // Current limits
+            if ( students < 1.0 ) {
+                students = 10.0;
+                $scope.status.studentSeats = "1";
+            } else if ( students < 10.0 ) {
+                students = 10.0;
+            } else if ( students > 9999 ) {
+                students = 9999.0;
+                $scope.status.studentSeats = students.toString();
+            }
+
+            // For now, force educators value based on # of students
+            var discount = 0;
+            if ( students < 11.0 ) {
+                discount = 0;
+                educators = 1.0;
+            } else if ( students < 31.0 ) {
+                discount = 20;
+                educators = 2.0;
+            } else if ( students < 121.0 ) {
+                discount = 25;
+                educators = 8.0;
+            } else if ( students < 501.0 ) {
+                discount = 30;
+                educators = 15.0;
+            } else {
+                discount = 35;
+                educators = 100.0;
+            }
+
+            $scope.status.educatorSeats = educators.toString();
+
+            /*
+            // In case we make it flexible again
             if ( ! $scope.status.educatorSeats ) {
                 educators = 1.0;
             } else {
                 educators = parseFloat( $scope.status.educatorSeats );
             }
+            */
 
-            // Need limits defined
-            if ( students < 1.0 ) {
-                students = 1.0;
-                $scope.status.studentSeats = '1';
-            }
-
+            /*
             if ( educators < 1.0 ) {
                 educators = 1.0;
                 $scope.status.educatorSeats = '1';
             }
+            */
 
-            // Need to get official pricing formula, dependent on plan
-            $scope.info.PO.payment = ( students * $scope.status.selectedPackage.studentPrice ) + ( educators * $scope.status.selectedPackage.educatorPrice ); 
-
-            if ( isNaN( $scope.info.PO.payment ) ) {
-                $scope.info.PO.payment = 0.0;
-            }
+            var baseStripeQuantity = $scope.status.selectedPackage.pricePerSeat * students;
+            $scope.info.PO.payment = Math.round(baseStripeQuantity - baseStripeQuantity*discount/100);
         };
 
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetPlan = _.find(packages.plans, {name: packageName});
             var planInfo = {
-                                seats: parseInt(studentSeats),
+                                seats: studentSeats.toString(),
                                 educators: parseInt(educatorSeats),
+                                students: parseInt(studentSeats),
                                 type: targetPlan.planId
                             };
             if ($scope.promoCode.valid) {

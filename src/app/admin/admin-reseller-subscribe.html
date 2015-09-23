@@ -13,7 +13,7 @@
             <div class="reg-submit text-center">
                 <button ng-click="findLicenseOwner(info)"
                        class="btn gl-payment-submit gl-btn--black"
-                       ng-disabled="false">Find</button>
+                       ng-disabled="!validateEmail(info.user.email)">Find</button>
             </div>
             <p>
             </p>
@@ -43,9 +43,7 @@
                             <label>
                                 <input type="radio" ng-model="status.packageName" ng-value="packageName">
                                 {{packageName}}
-                                <a ng-show="status.packageName===packageName"
-                                   ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view
-                                    games</a>
+                                <a ng-show="status.packageName===packageName"></a>
                             </label>
                         </div>
                     </div>
@@ -58,17 +56,18 @@
                     <form class="gl-upgrade-form">
                         # of Students:
                         <div class="form-group">
-                            <input size="30" class="form-control gl-margin-Vl"
+                            <input size="6" class="form-control gl-margin-Vl"
                                    ng-keyup="calculatePOPrice()"
                                    ng-model="status.studentSeats"
-                                   placeholder="5" required>
+                                   placeholder="10" required>
                         </div>
 
                         # of Educators:
                         <div class="form-group">
-                            <input size="30" class="form-control gl-margin-Vl"
+                            <input size="6" class="form-control gl-margin-Vl"
                                    ng-keyup="calculatePOPrice()"
                                    ng-model="status.educatorSeats"
+                                   ng-disabled="true" 
                                    placeholder="1" required>
                         </div>
                     </form>
