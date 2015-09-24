@@ -1,7 +1,17 @@
-<div ng-repeat="section in gameDetails.pages.badges.list">
-  <p ng-repeat="listItem in section.list">
-	<span ng-bind-html="listItem.badge"></span>
-    <span ng-bind-html="listItem.name"></span>
-    <span ng-bind="listItem.description"></span>
-  </p>
+<div ng-repeat="badge in gameDetails.pages.badges.list">
+	<div><h3>{{badge.name}}</h3></div>
+	<div><img vertical-align='text-top' class='media media-image' src='{{badge.img}}' width='200' height='200'></img></div>
+	<p ng-bind="badge.description"></p>
+	<p><h4>Age Group</h4></p>
+	<p ng-repeat="listItem in badge.ageGroup">
+		<span>{{listItem}}</span>
+	</p>
+	<p><h4>To Do:</h4></p>
+	<p ng-repeat="listItem in badge.todos">
+		<span>{{listItem}}</span>
+	</p>
+	<p><h4>Requirements:</h4></p>
+	<p ng-repeat="listItem in badge.requirements">
+		<span>{{listItem}}</span>
+	</p>
 </div>
