@@ -8,6 +8,26 @@ angular.module( 'playfully.games', [
 })
 
 .config(function ( $stateProvider) {
+        
+$stateProvider.state( 'modal.game-user-mismatch', {
+    url: '/games/game-user-mismatch',
+    parent: 'modal',
+    data: {
+               modalSize: 'lg'
+    },
+    views: {
+            'modal@': {
+               templateUrl: 'games/game-play-usermismatch.html',
+                controller: function($scope, $window) {
+                        console.log("inside GameUserMismatchCtrl");
+                        $scope.goToRoot = function() {
+                            $window.location = "/";
+                        };
+                     }
+            }
+    }
+});
+
   $stateProvider.state( 'root.games', {
     abstract: true,
     url: 'games'
@@ -152,6 +172,43 @@ angular.module( 'playfully.games', [
         controller: 'GamePlayPageCtrl'
       }
     },
+    onEnter: function($state, $interval, $timeout, UserService){
+         $state.checkLogin = null;
+         
+         UserService.retrieveCurrentUser()
+         .success(function(data) {
+            $state.activeUserId = data.id;
+            $state.checkLogin = $interval(function () {
+                UserService.retrieveCurrentUser()
+                .success(function(data) {
+                     if ($state.activeUserId != data.id) {
+                         if ($state.checkLogin) {
+                            $interval.cancel($state.checkLogin);
+                            $state.checkLogin = null;
+                         }
+                         $state.go('modal.game-user-mismatch', { }, {location: false});
+                     }
+                })
+                .error(function() {
+                    if ($state.checkLogin) {
+                       $interval.cancel($state.checkLogin);
+                       $state.checkLogin = null;
+                    }
+                    $state.go('modal.game-user-mismatch', { }, {location: false});
+                });
+            }, 5000); // poll every 5 seconds to see if user changed/logged-out
+         })
+         .error(function() {
+            // failed -- abort game load
+            $state.go('modal.game-user-mismatch', { }, {location: false});
+         });
+    },
+    onExit: function($state, $interval){
+         if ($state.checkLogin) {
+            $interval.cancel($state.checkLogin);
+            $state.checkLogin = null;
+         }
+    },
     resolve: {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
@@ -241,7 +298,35 @@ angular.module( 'playfully.games', [
       }
       $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
-
+      // completely relaod page if the UI top is a role mismatch
+      $scope.$on('$viewContentLoaded',
+        function(event) {
+            var elem = document.getElementById('teacher-info-bar');
+            if (elem) {
+                 UserService.retrieveCurrentUser()
+                 .success(function(data) {
+                    if (data.role == 'student') {
+                        $window.location = "/";
+                    }
+                  })
+                 .error(function() {
+                    $window.location = "/";
+                  });
+            }
+            elem = document.getElementById('student-info-bar');
+            if (elem) {
+                 UserService.retrieveCurrentUser()
+                 .success(function(data) {
+                      if (data.role != 'student') {
+                          $window.location = "/";
+                      }
+                 })
+                 .error(function() {
+                    $window.location = "/";
+                 });
+            }
+      });
+            
       $scope.platform = {
           isOpen: false,
           options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],

@@ -56,7 +56,7 @@
       <div class="row" ng-hide="isGameDisabled || courses.selected.users.length < 0 || noUserData">
         <div class="col-md-3 gl-pad--An" >
           <table width="100%">
-            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
               <td class="gl-report-item-cell">
                 <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
               </td>
@@ -65,7 +65,7 @@
         </div>
         <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
           <table>
-            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users">
+            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
                 <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
                     <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
                          ng-click="setStandard(standard.id)"
