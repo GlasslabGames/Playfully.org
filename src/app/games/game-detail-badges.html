@@ -1,0 +1,7 @@
+<div ng-repeat="section in gameDetails.pages.badges.list">
+  <p ng-repeat="listItem in section.list">
+	<span ng-bind-html="listItem.badge"></span>
+    <span ng-bind-html="listItem.name"></span>
+    <span ng-bind="listItem.description"></span>
+  </p>
+</div>

@@ -132,6 +132,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     url: '/research',
     templateUrl: 'games/game-detail-research.html'
   })
+  .state('root.games.detail.badges', {
+    url: '/badges',
+    templateUrl: 'games/game-detail-badges.html'
+  })
   .state('root.games.detail.check', {
     url: '/check',
     templateUrl: 'games/game-detail-check-spec.html'
