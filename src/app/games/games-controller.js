@@ -86,7 +86,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       },
       gamesAvailableForLicense: function(LicenseService) {
           return LicenseService.getGamesAvailableForLicense();
-      },
+      }
     },
     onEnter: function($stateParams, $state, $location, $anchorScroll, $log) {
       // GH: Added in a last-minute fashion prior to a Friday release to
@@ -407,14 +407,14 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }
 )
 .controller( 'GameDetailCtrl',
-  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, gamesAvailableForLicense) {
+  function($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, gamesAvailableForLicense, GamesService) {
     document.body.scrollTop = 0;
     $scope.currentPage = null;
     $scope.gameId = $stateParams.gameId.toUpperCase();
     $scope.gameDetails = gameDetails;
     $scope.navItems = gameDetails.pages;
     if (gameDetails.shortName !== undefined) {
-	$state.$current.data.pageTitle = gameDetails.shortName;
+    	$state.$current.data.pageTitle = gameDetails.shortName;
     }
 
     // Get the default standard from the user
@@ -438,6 +438,22 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }
     if (gamesAvailableForLicense) {
         $scope.isGameAvailableForLicense = gamesAvailableForLicense[$scope.gameId];
+    }
+
+    // Query LNGR's API for relevant badges (if any)
+    $scope.badges = [];
+    if ( $scope.gameDetails.pages.badges ) {
+        angular.forEach( $scope.gameDetails.pages.badges.list, function( badge ) {
+            console.log("LNRG Query for ", badge.id);
+            GamesService.getBadgeDetailsFromLRNG( badge.id )
+              .then(function(response) {
+                if ( response.data ) {
+                  $scope.badges.push( response.data[0] );
+                }
+              }, function (response) {
+                console.log("ERROR from LNRG", response);
+              });
+          } );
     }
 
     $scope.isAuthorized = function() {
