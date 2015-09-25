@@ -240,11 +240,10 @@ angular.module('games', [
     },
 
     getBadgeDetailsFromLRNG: function(badgeId) {
-      var url = "https://api-qa.lrng.org/api/v1/badge/remote-badges?badgeIds=[" + badgeId + "]";
-      return $http.get( url, { headers: { "token": "b0a20a70-61a8-11e5-9d70-feff819cdc9" } } )
+      return $http.get(API_BASE + '/dash/badge/' + badgeId )
           .then(function(response) {
               $log.debug(response);
-              return response.data;
+              return response;
           }, function (response) {
               $log.error(response);
               return response;

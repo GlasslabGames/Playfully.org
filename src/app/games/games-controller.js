@@ -440,18 +440,21 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         $scope.isGameAvailableForLicense = gamesAvailableForLicense[$scope.gameId];
     }
 
-    // Query LNGR's API for relevant badges (if any)
+    // Query LRNG's API for relevant badges (if any)
     $scope.badges = [];
     if ( $scope.gameDetails.pages.badges ) {
         angular.forEach( $scope.gameDetails.pages.badges.list, function( badge ) {
-            console.log("LNRG Query for ", badge.id);
+            console.log("LRNG Query for ", badge.id);
             GamesService.getBadgeDetailsFromLRNG( badge.id )
               .then(function(response) {
                 if ( response.data ) {
-                  $scope.badges.push( response.data[0] );
+                  var responseStr = JSON.parse(response.data);
+                  var responseJSON = JSON.parse( responseStr );
+
+                  $scope.badges.push( responseJSON.data[ 0 ] );
                 }
               }, function (response) {
-                console.log("ERROR from LNRG", response);
+                console.log("ERROR from LRNG", response);
               });
           } );
     }
