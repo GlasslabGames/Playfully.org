@@ -1,4 +1,5 @@
 angular.module( 'playfully.student', [
   'student.courses',
-  'student.messages'
+  'student.messages',
+  'student.badges'
 ]);
