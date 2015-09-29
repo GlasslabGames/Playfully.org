@@ -1,4 +1,4 @@
-angular.module('playfully.admin', ['dash','license'])
+angular.module('playfully.admin', ['dash','data','games','license'])
 
 .config(function($stateProvider) {
     $stateProvider.state('admin', {
@@ -69,7 +69,54 @@ angular.module('playfully.admin', ['dash','license'])
         data: {
             authorizedRoles: ['admin']
         }
+    })
+    .state('admin.report-data-export', {
+        url: '/report-data-export',
+        templateUrl: 'admin/admin-report-data.html',
+        controller: 'AdminReportDataExportCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     });
+})
+.controller('AdminReportDataExportCtrl', function ($scope, $http, $window, DataService) {
+    $scope.rdeTextArea1 = 'press "Get Data" button.';
+    $scope.dataExportForm = function() {
+        $scope.rdeTextArea1 = "\nProcessing...";
+        DataService.exportReportData().then(function(data) {
+
+            if("string" == typeof(data[0])) {
+                $scope.rdeTextArea1 = '' + data[0];
+            }else{
+                $scope.rdeTextArea1 = ' sorry -- no data ';
+            }
+
+            if(1 < data.length) {
+                if("string" == typeof(data[1])) {
+                    $scope.rdeTextArea2 = '' + data[1];
+                }else{
+                    $scope.rdeTextArea2 = ' sorry -- no data ';
+                }
+            }
+
+            if(2 < data.length) {
+                if("string" == typeof(data[2])) {
+                    $scope.rdeTextArea3 = '' + data[2];
+                }else{
+                    $scope.rdeTextArea3 = ' sorry -- no data ';
+                }
+            }
+
+            // if(3 < data.length) {
+            //     if("string" == typeof(data[3])) {
+            //         $scope.rdeTextArea4 = '' + data[3];
+            //     }else{
+            //         $scope.rdeTextArea4 = ' sorry -- no data ';
+            //     }
+            // }
+
+        });
+    };
 })
 .controller('AdminResellerCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE, ENV) {
         // Setup Seats and Package choices
