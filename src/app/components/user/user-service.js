@@ -81,6 +81,59 @@ angular.module('user', [])
       return result;
     },
 
+    getBadgeList: function () {
+			return $http.get(API_BASE + '/auth/user/' + _currentUser.id + '/badgeList');
+		},
+
+    getBadgeDetailsFromLRNG: function(badgeId) {
+      return $http.get(API_BASE + '/dash/badge/' + badgeId )
+          .then(function(response) {
+              $log.debug(response);
+              return response;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    getUserBadgeListAndLRNGDetails: function() { 
+      // TODO: KMY: get userservice.list and then retrieve badge data for each
+    	var url = API_BASE + '/auth/user/' + _currentUser.id + '/badgeList';
+			var badgeMerged = [];
+    	$http.get(url)
+				.then( function( response ) {
+		    	var badgeList = response.data;
+		    	
+	        angular.forEach( badgeList, function( badge ) {
+	            console.log("LRNG Query for ", badge.id);
+							$http.get(API_BASE + '/dash/badge/' + badge.id )
+			          .then(function(response) {
+			              $log.debug(response);
+			              return response;
+			          }.bind(), function (response) {
+			              $log.error(response);
+			              return response;
+			          }.bind())
+	              .then(function(response) {
+                  var responseJSONStr = JSON.parse( response.data );
+                  var responseJSON = JSON.parse( responseJSONStr );
+                  var badgeDetail = responseJSON.data[ 0 ];
+                  _.merge( badge, badgeDetail );
+                  badgeMerged.push( badge );
+	              }, function (response) {
+	                console.log("ERROR from LRNG", response);
+	              });
+	          });
+
+				},
+				function( response ){
+					console.log("getUBL error", response);
+				}
+			);
+
+      return badgeMerged;
+  	},
+
     register: function(regInfo, upgrade, packageInfo) {
       var params = { cb: new Date().getTime() };
       if( upgrade ) {

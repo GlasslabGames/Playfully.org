@@ -7,7 +7,7 @@
       <div class="gl-student-badge" ng-repeat="badge in badges">
         <div class="gl-student-badge-badges">
                 <img vertical-align='text-top' class='media media-image' src='{{badge.image.src}}' width='200' height='200'>
-                <button ng-show="badge.status==='redeemable'"
+                <button ng-show="!badge.redeemed"
                         type="button"
                         class="btn gl-btn--green">Redeem Now!</button>
         </div>

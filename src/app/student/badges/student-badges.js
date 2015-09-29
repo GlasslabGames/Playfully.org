@@ -14,12 +14,13 @@ angular.module('student.badges', [])
                 authorizedRoles: ['student']
             },
             resolve: {
-                badges: function (DashService) {
-                    return [ { "image": { "src": "https://s3-us-west-1.amazonaws.com/collectiveshift/badgeImages/50x5/Mozilla_Badge_PC_400.png" }, "status": "redeemable" }, { "image": { "src": "https://s3-us-west-1.amazonaws.com/collectiveshift/badgeImages/50x5/placeholder_badge.png" }, "status": "awarded" } ];
+                badges: function (UserService) {
+                    // Get badge list (status and badge data combined)
+                    return UserService.getUserBadgeListAndLRNGDetails();
                 }
             }
         });
     })
 .controller('BadgesStudentCtrl', function ($scope, $log, $window, $state, $modal, badges) {
-        $scope.badges = badges;
+    $scope.badges = badges;
 });

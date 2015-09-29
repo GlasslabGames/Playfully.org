@@ -249,7 +249,7 @@ angular.module('games', [
               return response;
           });
     }
-  };
+	};
 
   return api;
 
