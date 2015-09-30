@@ -33,6 +33,11 @@ angular.module('user', [])
             }
         });
     },
+
+    currentUserId: function() {
+    	return _currentUser.id;
+    },
+
     isAuthenticated: function() {
       return !!_currentUser;
     },

@@ -17,10 +17,14 @@ angular.module('student.badges', [])
                 badges: function (UserService) {
                     // Get badge list (status and badge data combined)
                     return UserService.getUserBadgeListAndLRNGDetails();
+                },
+                TESTMakeBadge: function(GamesService, UserService) {
+                    return function( badgeId ) { GamesService.generateBadgeCode( UserService.currentUserId(), badgeId ); };
                 }
             }
         });
     })
-.controller('BadgesStudentCtrl', function ($scope, $log, $window, $state, $modal, badges) {
+.controller('BadgesStudentCtrl', function ($scope, $log, $window, $state, $modal, badges,TESTMakeBadge) {
     $scope.badges = badges;
+    $scope.TESTMakeBadge = TESTMakeBadge;
 });
