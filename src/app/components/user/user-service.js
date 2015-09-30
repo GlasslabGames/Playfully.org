@@ -115,9 +115,7 @@ angular.module('user', [])
 			              return response;
 			          }.bind())
 	              .then(function(response) {
-                  var responseJSONStr = JSON.parse( response.data );
-                  var responseJSON = JSON.parse( responseJSONStr );
-                  var badgeDetail = responseJSON.data[ 0 ];
+                  var badgeDetail = response.data.data[ 0 ];
                   _.merge( badge, badgeDetail );
                   badgeMerged.push( badge );
 	              }, function (response) {
