@@ -82,6 +82,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         data: {
             authorizedRoles: ['admin']
         }
+    })
     .state('admin.report-data-export', {
         url: '/report-data-export',
         templateUrl: 'admin/admin-report-data.html',
