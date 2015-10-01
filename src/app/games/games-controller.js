@@ -448,10 +448,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
             GamesService.getBadgeDetailsFromLRNG( badge.id )
               .then(function(response) {
                 if ( response.data ) {
-                  var responseStr = JSON.parse(response.data);
-                  var responseJSON = JSON.parse( responseStr );
-
-                  $scope.badges.push( responseJSON.data[ 0 ] );
+                  $scope.badges.push( response.data.data[0] );
                 }
               }, function (response) {
                 console.log("ERROR from LRNG", response);

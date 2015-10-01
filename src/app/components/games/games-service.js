@@ -248,8 +248,20 @@ angular.module('games', [
               $log.error(response);
               return response;
           });
+    },
+
+    generateBadgeCode: function(userId, badgeId) {
+      return $http.post(API_BASE + '/dash/badge/' + badgeId + '/generateCode/' + userId)
+          .then(function(response) {
+              $log.debug(response);
+              return response;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
     }
-  };
+
+	};
 
   return api;
 

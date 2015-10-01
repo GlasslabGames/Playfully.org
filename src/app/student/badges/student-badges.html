@@ -2,12 +2,24 @@
     <div class="gl-student-dashboard-container">
       <div ng-hide="badges.length" class="headline-2 gl-margin--B40">
         You do not have any badges yet
+        <button ng-hide="badges.length"
+                type="button"
+                ng-click="TESTMakeBadge(14)"
+                class="btn gl-btn--green">TEST MAKE 14</button>
+        <button ng-hide="badges.length"
+                type="button"
+                ng-click="TESTMakeBadge(15)"
+                class="btn gl-btn--green">TEST MAKE 15</button>
+        <button ng-hide="badges.length"
+                type="button"
+                ng-click="TESTMakeBadge(31)"
+                class="btn gl-btn--green">TEST MAKE 31</button>
       </div>
 
       <div class="gl-student-badge" ng-repeat="badge in badges">
         <div class="gl-student-badge-badges">
                 <img vertical-align='text-top' class='media media-image' src='{{badge.image.src}}' width='200' height='200'>
-                <button ng-show="badge.status==='redeemable'"
+                <button ng-show="!badge.redeemed"
                         type="button"
                         class="btn gl-btn--green">Redeem Now!</button>
         </div>
