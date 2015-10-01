@@ -69,7 +69,21 @@ angular.module('playfully.admin', ['dash','license'])
         data: {
             authorizedRoles: ['admin']
         }
+    })
+    .state('admin.developer-approval', {
+        url: '/developer-approval',
+        templateUrl: 'admin/admin-developer-approval.html',
+        controller: 'AdminDeveloperApprovalCtrl',
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
+        data: {
+            authorizedRoles: ['admin']
+        }
     });
+
 })
 .controller('AdminResellerCtrl', function ($scope, $state, $stateParams, $rootScope, $window, AUTH_EVENTS, packages, LicenseService, UtilService, UserService, LicenseStore, REGISTER_CONSTANTS, STRIPE, ENV) {
         // Setup Seats and Package choices
@@ -199,4 +213,66 @@ angular.module('playfully.admin', ['dash','license'])
             $scope.action = "";
         });
     };
+})
+
+.controller('AdminDeveloperApprovalCtrl', function (developers, $scope, $window, UserService) {
+
+	$scope.pending = developers.pending;
+	$scope.approved = developers.approved;
+
+	$scope.predicateApprove = 'date';
+    $scope.reverseApprove = false;
+    $scope.orderApprove = function(predicate) {
+        $scope.reverseApprove = ($scope.predicateApprove === predicate) ? !$scope.reverseApprove : false;
+        $scope.predicateApprove = predicate;
+    };
+      
+	$scope.predicateVerified = 'date';
+    $scope.reverseVerified = false;
+    $scope.orderVerified = function(predicate) {
+        $scope.reverseVerified = ($scope.predicateVerified === predicate) ? !$scope.reverseVerified : false;
+        $scope.predicateVerified = predicate;
+    };
+     
+    $scope.approveDeveloper = function(developer) {    	
+    	var i;
+    	for(i = $scope.pending.length; i--;) {
+          if($scope.pending[i] === developer) {
+              break;
+          }
+        }
+        if (i >= 0) {
+		  var doApprove = $window.confirm('Are you sure you want to approve ' + developer.name + '?');
+		  if (doApprove) {
+			UserService.alterDeveloperStatus(developer.id, "sent")
+			.then(function(response) {
+				$scope.pending.splice(i, 1);
+			}.bind(this),
+			function (response) {
+				$window.alert(response.message);
+			});
+		  }
+        }
+    };
+      
+    $scope.revokeDeveloper = function(developer) {
+    	var i;
+    	for(i = $scope.approved.length; i--;) {
+          if($scope.approved[i] === developer) {
+              break;
+          }
+        }
+        if (i >= 0) {
+		  var doRevoke = $window.confirm('Are you sure you want to revoke ' + developer.name + '?');
+		  if (doRevoke) {
+			UserService.alterDeveloperStatus(developer.id, "revoked")
+			.then(function(response) {
+				$scope.approved.splice(i, 1);
+			}.bind(this),
+			function (response) {
+				$window.alert(response.message);
+			});
+		  }
+        }
+   };
 });

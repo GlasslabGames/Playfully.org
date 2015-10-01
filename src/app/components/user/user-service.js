@@ -67,6 +67,13 @@ angular.module('user', [])
       return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
+	getAllDevelopers: function() {
+    	return $http.get(API_BASE + '/auth/developers')
+    	.then(function (response) {
+            return response.data;
+        });
+	},
+	
     update: function (user, shouldUpdateCurrentUser) {
       if (typeof(shouldUpdateCurrentUser) === 'undefined') {
         shouldUpdateCurrentUser = true;
@@ -99,6 +106,16 @@ angular.module('user', [])
       });
     },
 
+	alterDeveloperStatus: function(userId, status) {
+		var data = { userId: userId, status: status };
+
+      return $http({
+        method: 'POST',
+        url: API_BASE + '/auth/alter-developer-status',
+        data: data
+      });
+	},
+	
     updateUserFTUE: function(checkListEvent) {
       var _updateUserFTUE = function (order) {
         if ($rootScope.currentUser.ftue < order) {

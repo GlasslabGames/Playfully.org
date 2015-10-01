@@ -1,0 +1,35 @@
+<h2 class="text-muted">Developer Approval</h2>
+<p>
+	Use this page to approve pending requests for developer accounts. The developer will be sent an email to compete the process.
+</p>
+<p>
+	You can also revoke developer accounts here. No email is sent to the developer.
+</p>
+</br >
+<table><tr><td style="width:360px"><span style="font-weight:bold">Pending Approvals</span></td>
+<td style="width:40px">&nbsp;</td>
+<td style="width:360px"><span style="font-weight:bold">Verified Developers</span></td></tr>
+<tr><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-button-header">&nbsp</th></tr>
+<tr ng-repeat="developer in pending | orderBy:predicateApprove:reverseApprove">
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{developer.date}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{developer.name}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="approveDeveloper(developer)">Approve</button></td>
+</tr>
+</table>
+</td><td style="width:40px">&nbsp;</td><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderVerified('date')">Date</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'date'" ng-class="{reverse:reverseVerified}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderVerified('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'name'" ng-class="{reverse:reverseVerified}"></span></th>
+<th class="admin-da-button-header">&nbsp</th></tr>
+<tr ng-repeat="developer in approved | orderBy:predicateVerified:reverseVerified">
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{developer.date}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{developer.name}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="revokeDeveloper(developer)">Revoke</button></td>
+</tr>
+</table>
+</td></tr>
+</table>
