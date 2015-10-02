@@ -14,17 +14,17 @@ angular.module('student.badges', [])
                 authorizedRoles: ['student']
             },
             resolve: {
-                badges: function (UserService) {
+                badges: function( UserService ) {
                     // Get badge list (status and badge data combined)
                     return UserService.getUserBadgeListAndLRNGDetails();
                 },
-                TESTMakeBadge: function(GamesService, UserService) {
+                TESTMakeBadge: function( GamesService, UserService ) {
                     return function( badgeId ) { GamesService.generateBadgeCode( UserService.currentUserId(), badgeId ); };
                 }
             }
         });
     })
-.controller('BadgesStudentCtrl', function ($scope, $log, $window, $state, $modal, badges,TESTMakeBadge) {
+.controller('BadgesStudentCtrl', function ($scope, $log, $window, $state, $modal, badges, TESTMakeBadge) {
     $scope.badges = badges;
     $scope.TESTMakeBadge = TESTMakeBadge;
 });
