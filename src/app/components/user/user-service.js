@@ -108,41 +108,54 @@ angular.module('user', [])
           });
     },
 
-    getUserBadgeListAndLRNGDetails: function() { 
-      // TODO: KMY: get userservice.list and then retrieve badge data for each
-    	var url = API_BASE + '/auth/user/' + _currentUser.id + '/badgeList';
-			var badgeMerged = [];
-    	$http.get(url)
+		getUserBadgeListAndLRNGDetails: function() { 
+      	// TODO: KMY: get userservice.list and then retrieve badge data for each
+    		var url = API_BASE + '/auth/user/' + _currentUser.id + '/badgeList';
+				var badgesMerged = [];
+    		$http.get(url)
 				.then( function( response ) {
-		    	var badgeList = response.data;
-		    	
-	        angular.forEach( badgeList, function( badge ) {
-	            console.log("LRNG Query for ", badge.id);
-							$http.get(API_BASE + '/dash/badge/' + badge.id )
-			          .then(function(response) {
-			              $log.debug(response);
-			              return response;
-			          }.bind(), function (response) {
-			              $log.error(response);
-			              return response;
-			          }.bind())
-	              .then(function(response) {
-                  var badgeDetail = response.data.data[ 0 ];
-                  _.merge( badge, badgeDetail );
-                  badgeMerged.push( badge );
-	              }, function (response) {
-	                console.log("ERROR from LRNG", response);
-	              });
-	          });
+						var badgeList = response.data;
 
+						angular.forEach( badgeList, function( badge ) {
+		            console.log("LRNG Query for ", badge.id);
+								$http.get(API_BASE + '/dash/badge/' + badge.id )
+								.then(function(response) {
+								    $log.debug(response);
+								    return response;
+								}.bind(), function (response) {
+								    $log.error(response);
+								    return response;
+								}.bind())
+								.then(function(response) {
+										var badgeDetail = response.data.data[ 0 ];
+										_.merge( badge, badgeDetail );
+								}, function (response) {
+										console.log("ERROR from LRNG", response);
+								});
+
+		            // Update redeemed status
+		            if ( ( ! badge.redeemed ) && badge.code ) {
+		            		url = API_BASE + '/dash/badge/' + badge.id + "/codeAwarded/" + badge.code;
+										$http.get( url )
+										.then(function(response) {
+										    $log.debug(response);
+										    badge.redeemed = response.data.data.redeemed;
+
+			                  badgesMerged.push( badge );
+										}.bind(), function (response) {
+										    $log.error(response);
+										}.bind());
+								} else {
+										badgesMerged.push( badge );
+								}
+						});
 				},
 				function( response ){
-					console.log("getUBL error", response);
-				}
-			);
+						console.log("getUBL error", response);
+				} );
 
-      return badgeMerged;
-  	},
+				return badgesMerged;
+		},
 
     register: function(regInfo, upgrade, packageInfo) {
       var params = { cb: new Date().getTime() };
