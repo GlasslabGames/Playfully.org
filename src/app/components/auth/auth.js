@@ -60,6 +60,17 @@ angular.module('auth', ['session', 'ipCookie'])
               Session.purchaseOrderLicenseStatus === "po-received" ||
               Session.isTrial);
       }
+      if (authorizedRoles.indexOf('License-Owner-PO') !== -1) {
+         return (this.isAuthenticated() && Session.userId === Session.licenseOwnerId &&
+                 Session.paymentType === "purchase-order" && !Session.isTrial &&
+                 Session.licenseStatus === "active" ||
+                 Session.purchaseOrderLicenseStatus === "po-received");
+      }
+      if (authorizedRoles.indexOf('License-Owner-CC') !== -1) {
+         return (this.isAuthenticated() && Session.userId === Session.licenseOwnerId &&
+                 Session.paymentType === "credit-card" && !Session.isTrial &&
+                 Session.licenseStatus === "active");
+      }
       return (this.isAuthenticated() &&
           authorizedRoles.indexOf(Session.userRole) !== -1);
     },
@@ -96,7 +107,25 @@ angular.module('auth', ['session', 'ipCookie'])
         code: hashCode
       };
       return $http.post(API_BASE + '/auth/password-reset/update', data);
-    }
+    },
+         
+    validatePassword: function(formPwd, dataPwd) {
+         if (formPwd.$dirty && formPwd.$error.minlength) {
+            return true;
+         }
+         if (dataPwd === undefined || dataPwd.length === 0) {
+            return false;
+         }
+         
+         // test rule: password must have one number and one uppercase letter
+         return dataPwd.match(/[0-9]+/) === null || dataPwd.match(/[A-Z]+/) === null;
+    },
+         
+    validatePasswordMessage: "Your password must be at least 6 characters and contain at least one lowercase letter, one uppercase letter, and a number.",
+         
+    validatePasswordTip: "At least 6 characters with mixed-case letters and at least one number",
+         
+    passwordMinLength: 6
   };
 
   return api;

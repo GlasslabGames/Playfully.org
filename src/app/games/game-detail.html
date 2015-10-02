@@ -132,7 +132,7 @@
                 </div>
               </div>
               <div ng-if="isAuthenticated()">
-                <button ng-if="!hasLicense()" type="button"
+                <button ng-if="!hasLicense() && !(gameDetails.price==='Free')" type="button"
                         ui-sref="root.subscribe.packages"
                         class="btn gl-btn--cyangreen">Upgrade to Assign Game
                 </button>

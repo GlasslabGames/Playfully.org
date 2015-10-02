@@ -114,7 +114,7 @@ angular.module('developer.games', [
         .state('root.developerGames.detail.lessonPlans', {
             url: '/lesson-plans',
             templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
-            data: {authorizedRoles: ['instructor', 'manager', 'developer', 'admin']}
+            data: {authorizedRoles: ['instructor', 'developer', 'admin']}
         })
         .state('modal-lg.developer-edit', {
             url: '/games/:gameId/developer',
@@ -298,9 +298,9 @@ angular.module('developer.games', [
 
         $scope.goToPlayGame = function (gameId) {
             if (gameDetails.play.type === 'missions') {
-                $state.go('modal-lg.missions', {gameId: gameId});
+                $state.go('modal-lg.missions', {gameId: gameId, userType: 'developer'});
             } else {
-                $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type;
+                $window.location = "/games/" + gameId + "/play-" + gameDetails.play.type + "?userType=developer";
             }
         };
         /**

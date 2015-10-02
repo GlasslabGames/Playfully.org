@@ -12,7 +12,7 @@
                             <div class="gl-upgrade-form">
                                 <div class="radio" ng-repeat="packageName in choices.packages">
                                     <label>
-                                        <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                        <input type="radio" ng-model="status.packageName" ng-value="packageName" ng-click="impression(packageName,status.studentSeats)">
                                         {{packageName}}
                                             <span class="gl-text-sea-green" ng-if="packageName===originalPackage.name && !isTrial()">(current)</span>
                                             <a ng-show="status.packageName===packageName" ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view games</a>
@@ -25,16 +25,26 @@
                             <div class="gl-upgrade-form">
                                 <div class="radio" ng-repeat="seat in choices.seats">
                                     <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < originalPackage.studentSeats && !isTrial()} ">
-                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()">
+                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()" ng-click="impression(status.packageName,seat.studentSeats)">
                                         {{seat.studentSeats}} students + {{seat.educatorSeats}} educators <span
                                             class="gl-text-sea-green" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
+                        <div class="gl-manager-side-panel-section">
+                            <h4 class="headline-4">Expiration Date:</h4>
+                            <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
+                            <p ng-show="yearAdded"><h4 ng-show="yearAdded" class="headline-4">{{extendedOneYearDate}}</h4></p>
+                            <p ng-hide="yearAdded">{{plan.expirationDate}}</p>
+                            <input ng-show="!isTrial()" class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                                   ng-click="addOneYear()"
+                                   value="{{yearAdded ? 'Added' : 'Add Year'}}">
+                            </input>
+                        </div>
 
                         <!-- Show upgrade pricing details if the current plan isn't selected. -->
-                        <div ng-show="(isTrial() || (status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name))">
+                        <div ng-show="(isTrial() || (status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name || yearAdded))">
                             <div ng-if="!promoCode.existing" class="gl-manager-side-panel-section">
                                 <div class="gl-manager-promo-code-box">
                                     <form class="reg-form form-inline">
@@ -91,6 +101,14 @@
                                 </div>
                                 <div class="gl-manager-learn-prorate gl-clickable" ui-sref="modal-lg.prorating-information" ng-if="!isTrial()">
                                     Questions about prorating?
+                                </div>
+                                <div ng-show="yearAdded" class="gl-extra-year-total-row">
+                                    <span class="row-left">Extra year:</span>
+                                    <span class="row-right">
+                                        {{
+                                            '$' + calculateDiscountedTotal(status.packageName,status.studentSeats, 'new');
+                                        }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="gl-manager-side-panel-section">
@@ -154,13 +172,13 @@
                         <div ng-if="status.isPaymentCreditCard">
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'current'">
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'current'" ng-click="creditCardSelect('current-card-radio')">
                                     Use current card ({{billingInfo.brand}} card ending in {{billingInfo.last4}})
                                 </label>
                             </div>
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'">
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'" ng-click="creditCardSelect('change-card-radio')">
                                     Change card (existing card will be removed)
                                 </label>
                             </div>
@@ -180,11 +198,11 @@
 
                     <div class="reg-submit text-center gl-margin--Tl">
                         <button type="button" ui-sref="root.manager.plan"
-                                class="btn gl-btn--grey gl-margin--Rl">Cancel
+                                class="btn gl-btn--grey gl-margin--Rl" ng-click="upgradeCancelled()">Cancel
                         </button>
                         <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
                                 class="btn gl-btn--black"
-                                ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats)"
+                                ng-disabled="request.isSubmitting || (originalPackage.name === status.packageName && originalPackage.studentSeats === status.studentSeats && ( ! yearAdded ) )"
                                 value="{{ request.isSubmitting ? 'Requesting Update...' : 'Submit'}}">
                         <input ng-hide="status.currentCard === 'current'"
                             ng-click="submitPayment(status.studentSeats,status.packageName,info)"

@@ -1,0 +1,17 @@
+<div ng-repeat="badge in badges">
+	<div><h3>{{badge.name}}</h3></div>
+	<div><img vertical-align='text-top' class='media media-image' src='{{badge.image.src}}' width='200' height='200'></img></div>
+	<p ng-bind="badge.description"></p>
+	<p><h4>Age Group</h4></p>
+	<p ng-repeat="listItem in badge.ageGroup">
+		<span>{{listItem}}</span>
+	</p>
+	<p><h4>To Do:</h4></p>
+	<p ng-repeat="listItem in badge.criteria.todos">
+		<span>{{listItem}}</span>
+	</p>
+	<p><h4>Requirements:</h4></p>
+	<p ng-repeat="listItem in badge.criteria.requirements">
+		<span>{{listItem}}</span>
+	</p>
+</div>

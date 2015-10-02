@@ -127,6 +127,10 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
         $scope.logInWithEdmodo = function () {
             $window.location.href = '/auth/edmodo/login';
         };
+        
+        $scope.goBackIncludeGameId = function() {
+            $state.go('sdk.sdkv2LoginOptions', {gameId: $stateParams.gameId});
+        };
 })
 .controller('sdkv2LoginStudentSuccessCtrl',
     function ($scope, $window, $log, $stateParams, SdkSupportService, courses) {

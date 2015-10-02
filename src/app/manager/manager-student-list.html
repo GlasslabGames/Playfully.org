@@ -16,6 +16,9 @@
                             <td>Screen Name <i
                                     ng-class="col.current==='screenName' ? (col[col.current].reverse ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
                                     ng-click="colName.value = 'screenName'; sortSelected('screenName')"></i></td>
+                            <td>Class(es) <i
+                                    ng-class="col.current==='educators'"
+                                    ng-click="colName.value = 'educators'"></i></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,13 +27,18 @@
                             <td>{{student.firstName}}</td>
                             <td>{{student.lastInitial}}</td>
                             <td>{{student.username}}</td>
+                            <td>{{student.educators[0]}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!-- If no students are in the list, show special messaging. -->
-            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0">
+            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0 && noEnrollment">
                 There are currently no students added to this plan!
+            </div>
+            <!-- If no students are in the list, show special messaging. -->
+            <div class="gl-manager-student-list-bg gl-student-list--empty" ng-show="studentList.length === 0 && !noEnrollment">
+                None of your students are currently added to this plan!
             </div>
         </div>
     </div>

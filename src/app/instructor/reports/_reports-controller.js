@@ -63,7 +63,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','manager','admin'],
+      authorizedRoles: ['instructor','admin'],
       pageTitle: 'Reports'
     }
   })
@@ -83,7 +83,7 @@ angular.module( 'instructor.reports', [
       }
     },
     data: {
-      authorizedRoles: ['instructor','manager','admin'],
+      authorizedRoles: ['instructor','admin'],
       pageTitle: 'Reports'
     }
   })
@@ -191,7 +191,7 @@ angular.module( 'instructor.reports', [
       url: '/reports/details/competency/game/:gameId/info',
       data:{
         pageTitle: 'Competency Report Info',
-        authorizedRoles: ['instructor','manager','admin']
+        authorizedRoles: ['instructor','admin']
       },
       resolve: {
       },

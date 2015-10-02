@@ -52,6 +52,8 @@
             </div>
             <div ng-if="!course.lockedRegistration">Class Code: <span ng-bind="course.code"></span></div>
             <div ng-if="course.lockedRegistration"><i class="fa fa-lock"></i> Registration Locked</div>
+            <div ng-if="!course.archived">Available Seats: {{currentPlan.packageDetails.studentSeats - course.studentCount}}</div>
+            <img ng-if="!course.archived" ng-src="/assets/{{hasLicense('badge')}}-badge.png"></img>
             <div ng-if="course.archived">
               Archived On: <span ng-bind="course.archivedDate | date:longDate"></span>
             </div>
@@ -74,6 +76,12 @@
                   <li ng-if="hasLicense() && course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: true})">Disable Premium Games</a></li>
                   <li ng-if="hasLicense() && !course.premiumGamesAssigned"><a ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})">Enable Premium Games</a></li>
                 </ul>
+              </div>
+              <div class="gl-margin--Tm">
+              <button type="button" class="btn gl-btn--blue"
+                  ui-sref="root.reports.details.sowo({courseId:course.id, groupId:'so'})">
+                  Report
+              </button>
               </div>
             </div>
           </div>

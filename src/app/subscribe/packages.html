@@ -46,25 +46,25 @@
                                 <form class="gl-package-form">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true">
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[0]" ng-checked="true" ng-click="impressionPackage(package.name,seatChoices[0])">
                                             {{seatChoices[0]}} students + 1 educator
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" >
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[1]" ng-click="impressionPackage(package.name,seatChoices[1])">
                                             {{seatChoices[1]}} students + 2 educator
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]">
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[2]" ng-click="impressionPackage(package.name,seatChoices[2])">
                                             {{seatChoices[2]}} students + 8 educators
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" >
+                                            <input type="radio" ng-model="package.seatsSelected" ng-value="seatChoices[3]" ng-click="impressionPackage(package.name,seatChoices[3])">
                                             {{seatChoices[3]}} students + 15 educators
                                         </label>
                                     </div>
@@ -89,7 +89,7 @@
         </div>
     </div>
     </div>
-    <div class="row" ng-hide="hasLicense('type')==='trial'">
+    <div class="row" ng-hide="(hasLicense('type')==='trial') || hadTrial()">
         <div class="col-md-12">
             <div class="gl-package-try-premium-plan gl-margin--T40 text-center">
                 <h4 class="headline-4--serif gl-margin--Bxxl">Try Our Premium Plan for Free</h4>
@@ -100,8 +100,8 @@
                     <li><i class="fa fa-check"></i>No credit card required</li>
                     <li><i class="fa fa-check"></i>Instant access</li>
                 </ul>
-                <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription">Try it Out!</button>
-                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})">Try it Out!</button>
+                <button ng-if="isAuthenticatedButNot(['student','developer'])" ui-sref="modal.start-trial-subscription" ng-click="impressionTryItOut('instructor')">Try it Out!</button>
+                <button ng-if="isAuthorized('guest')" ui-sref="modal.register({upgrade:'trial',role:'instructor'})" ng-click="impressionTryItOut('guest')">Try it Out!</button>
             </div>
         </div>
     </div>
@@ -189,9 +189,7 @@
                 <div class="gl-packages-faq gl-margin--B40">
                     <h4 class="headline-5--serif">What payment methods are accepted?
                     </h4>
-                    <p>We accept credit cards (Visa, MasterCard, American Express, JCB, Discover, and Diners Club). We also accept purchase orders. <a href="https://glasslab.zendesk.com/hc/en-us/categories/200374795-Billing">For
-                        more
-                        information.</a></p>
+                    <p>We accept credit cards (Visa, MasterCard, American Express, JCB, Discover, and Diners Club). We also accept purchase orders. <a href="https://glasslab.zendesk.com/hc/en-us/categories/200374795-Billing">See our Billing FAQ</a> for more information.</p>
                 </div>
                 <div class="gl-packages-faq gl-margin--B40">
                     <h4 class="headline-5--serif">I’ve submitted a purchase order, but it has not be accepted yet.
@@ -209,7 +207,7 @@
                     </h4>
 
                     <p>If you subscribed via credit card, you can update your plan using the Subscription Manager. If
-                        you subscribed via purchase order, you must contact us directly at billing@glasslabgames.org in
+                        you subscribed via purchase order, you must contact us directly at <a href="mailto:billing@glasslabgames.org">billing@glasslabgames.org</a> in
                         order to update. Please note that student and educator seats cannot be downgraded at any point.
                         Unfortunately, we do not issue refunds. If you need additional support, please submit a <a href="https://glasslab.zendesk.com/hc/en-us/requests/new">support
                         ticket</a>.

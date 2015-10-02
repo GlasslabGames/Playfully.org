@@ -8,12 +8,12 @@ angular.module( 'instructor.dashboard', [
     abstract: true,
     url: 'dashboard',
     data: {
-      authorizedRoles: ['instructor','manager','admin'],
+      authorizedRoles: ['instructor','admin'],
       pageTitle: 'Dashboard'
     },
     resolve: {
       courses: function (CoursesService) {
-        return CoursesService.getEnrollmentsWithStudents();
+        return CoursesService.getEnrollments();
       },
       activeCourses: function (courses, $q, $filter) {
         var deferred = $q.defer();
@@ -93,9 +93,8 @@ angular.module( 'instructor.dashboard', [
               {gameId: myGames[0].gameId, courseId: activeCourses[0].id});
           return;
         }
-        $state.go('root.instructorDashboard.intro');
       }
-      else if( myGames.length === 0 ) {
+      if( myGames.length === undefined || myGames.length === 0 ) {
         $state.go('root.instructorDashboard.intro');
       }
       else {
@@ -337,20 +336,25 @@ angular.module( 'instructor.dashboard', [
     _.each(students, function(student) {
       studentIds.push(student.id);
     });
-    GamesService.getTotalTimePlayed(gameId,studentIds).then(function(students) {
-      var studentsList = students.data;
-      numOfStudents = Object.keys(studentsList).length;
-      for (var studentId in studentsList) {
-        sum += studentsList[studentId];
-      }
-      if (!!numOfStudents) {
-        $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
-      } else {
-        $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
-      }
-    }, function() {
-      console.error('could not retrieve total time played');
-    });
+    if (studentIds.length !== 0) {
+      GamesService.getTotalTimePlayed(gameId,studentIds).then(function(students) {
+        var studentsList = students.data;
+        numOfStudents = Object.keys(studentsList).length;
+        for (var studentId in studentsList) {
+          sum += studentsList[studentId];
+        }
+        if (!!numOfStudents) {
+          $scope.status.avgTotalTimePlayed = String(sum / numOfStudents).toHHMMSS();
+        } else {
+          $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
+        }
+      }, function() {
+        console.error('could not retrieve total time played');
+      });
+    } else {
+      $scope.status.avgTotalTimePlayed = 0;
+      $scope.status.avgTotalTimePlayed = 0;
+    }
   };
 
   var _populateSOWO = function(data) {
@@ -392,9 +396,9 @@ angular.module( 'instructor.dashboard', [
 
   $scope.goToPlayGame = function (gameId,type) {
     if (type === 'missions') {
-      $state.go('modal-lg.missions', {gameId: gameId});
+      $state.go('modal-lg.missions', {gameId: gameId, userType: 'instructor'});
     } else {
-      $window.location = "/games/" + gameId + "/play-" + type;
+      $window.location = "/games/" + gameId + "/play-" + type + "?userType=instructor";
     }
   };
 

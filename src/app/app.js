@@ -325,7 +325,6 @@ angular.module( 'playfully', [
               if ($rootScope.toState) {
                 if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
-                      user.role == 'manager' ||
                       user.role == 'developer' ||
                       user.role == 'admin'
                     ) {
@@ -344,6 +343,19 @@ angular.module( 'playfully', [
                   else {
                     event.preventDefault();
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                  }
+                }
+
+                // sometimes, you want a page to not be accessed by a logged-in user by role
+                var unauthorizedRoles = ($rootScope.toState.data && $rootScope.toState.data.unauthorizedRoles) || null;
+                  
+                if (unauthorizedRoles) {
+                  if (AuthService.isAuthorized(unauthorizedRoles)) {
+                    event.preventDefault();
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                  }
+                  else {
+                    return true;
                   }
                 }
               }
@@ -396,7 +408,9 @@ angular.module( 'playfully', [
     $scope.isLicenseOwner = LicenseService.isOwner;
     $scope.isTrial = LicenseService.isTrial;
     $scope.isPurchaseOrder = LicenseService.isPurchaseOrder;
+    $scope.hadTrial = LicenseService.hadTrial;
     $scope.hasLicense = LicenseService.hasLicense;
+    $scope.packageType = LicenseService.packageType;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
     $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
     $rootScope.features = FEATURES;
@@ -463,11 +477,6 @@ angular.module( 'playfully', [
         //  $scope.howItWorksPanel.isCollapsed = true;
         //  document.body.scrollTop = document.documentElement.scrollTop = 0;
         //}
-        var hasPageTitle = (angular.isDefined(toState.data) &&
-          angular.isDefined(toState.data.pageTitle));
-        if ( hasPageTitle ) {
-          $scope.pageTitle = toState.data.pageTitle + ' | GlassLab Games' ;
-        }
         if (angular.isDefined(toState.data)) {
             if (angular.isDefined(toState.data.hideWrapper)) {
                 $scope.hideWrapper = toState.data.hideWrapper;

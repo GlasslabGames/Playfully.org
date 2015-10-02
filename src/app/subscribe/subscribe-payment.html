@@ -11,7 +11,7 @@
                     <div class="gl-upgrade-form">
                         <div class="radio" ng-repeat="packageName in choices.packages">
                             <label>
-                                <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                <input type="radio" ng-model="status.packageName" ng-value="packageName" ng-click="impression(packageName,status.studentSeats)">
                                 {{packageName}}
                                 <a ng-show="status.packageName===packageName"
                                    ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view
@@ -28,7 +28,7 @@
                     <form class="gl-upgrade-form">
                         <div class="radio" ng-repeat="seat in choices.seats">
                             <label>
-                                <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats">
+                                <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-click="impression(status.packageName,seat.studentSeats)">
                                 {{seat.studentSeats}} students + {{seat.educatorSeats}} educators
                             </label>
                         </div>

@@ -55,7 +55,11 @@ angular.module('student.courses-sdk', [
                 // Check if verification code is valid
                 CoursesService.verifyCode(verification.code)
                     .then(function (result) {
-                        $scope.enrollment = result.data;
+                        if (result.data.archived) {
+                          $scope.verification.errors.push("This course in not active.");
+                        } else {
+                          $scope.enrollment = result.data;
+                        }
                     }, function (result) {
                         if (result.data.error) {
                             $scope.verification.errors.push(result.data.error);
@@ -63,6 +67,8 @@ angular.module('student.courses-sdk', [
                     })
                     .then(function () {
                         // Check if current game is in course
+                        if (!$scope.enrollment) { return; }
+                        
                         CoursesService.verifyGameInCourse($scope.enrollment.id, $scope.gameId)
                             .then(function (courseInfo) {
                                 CoursesService.enroll(verification.code)

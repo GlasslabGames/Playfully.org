@@ -101,6 +101,10 @@ angular.module('playfully.password-reset', [])
   $scope.isPasswordUpdated = false;
   $scope.isConfirmed = (confirmation.status < 400) ? true : false;
 
+  $scope.validatePassword = AuthService.validatePassword;
+  $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+  $scope.passwordMinLength = AuthService.passwordMinLength;
+
   $scope.resetPassword = function(formInfo) {
     AuthService.updatePassword(formInfo.password, $stateParams.hashCode)
       .success(function(data, status, headers, config) {
