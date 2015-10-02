@@ -73,6 +73,20 @@
         </div>
       </button>
     </div>
+
+    <div class="login-option" ng-mouseenter="hoverEdmodoInfo()" ng-mouseleave="hoverEdmodoInfo()">
+      <button class="login-button login-button--developer"
+        ng-click="state.go(hideWrapper ? 'sdk.sdkLoginDeveloper' : 'modal.login.developer')">
+        <div class="media media--collapsed">
+          <div class="media-img media-img--collapsed">
+            <div class="login-icon--glasslabgames"></div>
+          </div>
+          <div class="media-bd">
+            Developer Sign In
+          </div>
+        </div>
+      </button>
+    </div>
   </div>
 
   <div class="text-center small clearfix">

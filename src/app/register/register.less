@@ -51,7 +51,7 @@
 
 .gl-register-option-center {
   position: relative;
-  left: 77px;
+  left: 0px;
 }
 
 .gl-register-option-wrapper {
@@ -77,6 +77,16 @@
 
 .gl-register-card-student:hover {
   .image-2x('../../assets/register-student-hover.png', 111px, 112px);
+  background-position: center;
+}
+
+.gl-register-card-developer {
+  .image-2x('../../assets/register-developer.png', 298px, 52px);
+  background-position: center;
+}
+
+.gl-register-card-developer:hover {
+  .image-2x('../../assets/register-developer-hover.png', 298px, 52px);
   background-position: center;
 }
 
@@ -117,7 +127,24 @@
   background-size: cover;
  }
 
+.gl-register-card-developer-image {
+  display: table-cell;
+  vertical-align: bottom;
+
+  position: relative;
+  background-color: #F0F0F0;
+  width: 299px;
+  height: 63px;
+  background-size: cover;
+ }
+
 .gl-register-card-text {
+}
+
+.gl-register-card-developer-text {
+	position: absolute;
+	left: 60px;
+	top: 25px;
 }
 
 select.gl-register-select-field {
