@@ -100,7 +100,8 @@ angular.module('playfully.password-reset', [])
   $scope.confirmation = confirmation;
   $scope.isPasswordUpdated = false;
   $scope.isConfirmed = (confirmation.status < 400) ? true : false;
-
+  $scope.updateError = null;
+  
   $scope.validatePassword = AuthService.validatePassword;
   $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
   $scope.passwordMinLength = AuthService.passwordMinLength;
@@ -112,6 +113,7 @@ angular.module('playfully.password-reset', [])
       })
       .error(function(data, status, headers, config) {
         $log.error(data);
+        $scope.updateError = data.error;
       });
   };
 
