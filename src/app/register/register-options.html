@@ -36,7 +36,22 @@
       </div>
     </div>
 
-    <br/>
+	<hr class="rule rule--1 rule--grey" ng-if="role!=='instructor'"/>
+    <div class="text-center clearfix gl-register-options" ng-if="role!=='instructor'">
+      <div class="gl-register-options-wrapper" ng-class="{'gl-register-option-center': true}">
+        <div class="gl-register-option" ng-if="role!=='instructor'">
+          <div class="gl-register-option-wrapper">
+            <div class="gl-game-card gl-game-card--linked" ng-click="state.go('modal.register.developer')">
+              <div class="gl-register-card-developer-image gl-register-card-developer">
+                <span class="gl-register-card-developer-text">Developer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+	<hr class="rule rule--1 rule--grey"/>
     <div class="text-center small clearfix">
       Already have an account?
       <a href="#"

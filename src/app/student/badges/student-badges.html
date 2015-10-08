@@ -1,0 +1,26 @@
+<div class="container gl-home-student-intro">
+    <div class="gl-student-dashboard-container">
+      <!--
+        <button type="button"
+                ng-click="TESTMakeBadge(14)"
+                class="btn gl-btn--green">TEST MAKE 14</button>
+        <button type="button"
+                ng-click="TESTMakeBadge(15)"
+                class="btn gl-btn--green">TEST MAKE 15</button>
+        <button type="button"
+                ng-click="TESTMakeBadge(31)"
+                class="btn gl-btn--green">TEST MAKE 31</button>
+      -->
+      <div class="gl-student-badge" ng-repeat="badge in badges">
+        <div class="gl-student-badge-badges">
+                <img vertical-align='text-top' class='media media-image' src='{{badge.image.src}}' width='200' height='200'>
+                <a ng-show="!badge.redeemed"
+                   ng-href="https://www.lrng.org/earn-badge/{{badge.id}}/code/{{badge.code}}">Redeem Now!</a>
+        </div>
+        </div>
+      </div>
+      <div ng-show="badges.length==0" class="headline-2 gl-margin--B40">
+        You do not have any badges yet
+      </div>
+    </div>
+</div>

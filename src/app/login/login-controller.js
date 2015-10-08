@@ -62,6 +62,11 @@ angular.module('playfully.login', [])
     url: '/developer',
     views: { 'modal@': loginDeveloperConfig },
     data:{ pageTitle: 'Developer Sign In'}
+  })
+  .state('sdk.sdkLoginDeveloper', {
+    url: '/login/developer',
+    data: { hideWrapper: true },
+    views: { 'main@': loginDeveloperConfig }
   });
 
   // Edomodo Login

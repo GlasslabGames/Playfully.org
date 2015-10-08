@@ -92,7 +92,34 @@ angular.module( 'instructor.reports')
     $scope.courses.selectedCourseId = $stateParams.courseId;
     $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-      // Games
+    // students in course grouped by columns and rows
+    var studentsToSort = [];
+    
+    $scope.courses.selected.users.forEach(function(student) { studentsToSort.push(student); });
+    studentsToSort.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
+                        
+    var columns = Math.floor((studentsToSort.length + 14) / 15);
+    var rows = studentsToSort.length > 15 ? 15 : studentsToSort.length;
+    var students = [];
+                        
+    for (var i=0;i<rows;i++) {
+        var row = [];
+        for (var j=0;j<columns;j++) {
+            if (i + 15 * j < studentsToSort.length) {
+                var student = studentsToSort[i + 15 * j];
+                student.isSelected = true; // set to initally visible
+                row.push(student);
+            } else {
+                row.push(null);
+            }
+        }
+        students.push(row);
+    }
+    
+    $scope.students = students;
+    $scope.studentListWidth = 80 + 120 * columns;
+                        
+    // Games
     $scope.games.selectedGameId = defaultGame.gameId;
 
     // Get the default standard from the user
@@ -184,6 +211,21 @@ angular.module( 'instructor.reports')
            }
       }
    };
+
+    /*
+    // populate with test data
+    var _populateStudentLearningData = function(usersReportData) {
+         var students = $scope.courses.selected.users;
+         angular.forEach(students, function (student) {
+             student.results = { };
+             student.results['6.RP.A.1'] = 'Partial';
+             student.results['6.RP.A.2'] = 'Partial';
+             student.results['6.RP.A.3'] = 'Partial';
+             student.results['6.RP.A.3.A'] = 'Partial';
+             student.timestamp = new Date();
+         });
+     };
+     */
 
   var _findUserByUserId = function (userId, users) {
       var found;

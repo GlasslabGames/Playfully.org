@@ -1,0 +1,38 @@
+<h2 class="text-muted">Report Data Export</h2>
+
+Collect and export data for the "GlassLab LiveData Report"
+<br /><br />
+
+<!-- Add new message to message center -->
+<form ng-submit="dataExportForm()">
+    <input type="submit" id="rdeFetch" value="Get Data" />
+    <br /><br />
+    New Users by Date
+    <p>
+    <textarea id="rdeTextArea1" rows="6" cols="66" ng-model="rdeTextArea1"></textarea>
+    </p><br />
+    New Students by Date
+    <p>
+    <textarea id="rdeTextAre2" rows="4" cols="66" ng-model="rdeTextArea2"></textarea>
+    </p><br />
+    New Teachers by Date
+    <p>
+    <textarea id="rdeTextAre3" rows="4" cols="66" ng-model="rdeTextArea3"></textarea>
+    </p><br />
+    Output 2
+    <p>
+    <textarea id="rdeTextArea4" rows="12" cols="120" ng-model="rdeTextArea4"></textarea>
+    </p>
+    <br />
+
+    Select and copy data from the Output window.<br /><br />
+
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</form>
+
+<script src="../src/app/components/data/data-service.js"></script>

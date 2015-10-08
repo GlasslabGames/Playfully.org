@@ -1,6 +1,7 @@
 <div class="report-student-list"
   ng-click="isStudentListVisible=true"
-  ng-class="{'report-student-list--visible': isStudentListVisible}">
+  ng-class="{'report-student-list--visible': isStudentListVisible}"
+  style="width:{{studentListWidth}}px">
   <button type="button" class="close gl-margin--Txs gl-margin--Rs"
     ng-click="isStudentListVisible=false; $event.stopPropagation()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
   <div class="report-student-list-margin gl-margin-Vm">
@@ -16,18 +17,21 @@
         <div ng-if="!courses.selected.users.length" class="text-grey5">
           No students in class
         </div>
-        <div ng-if="courses.selected.users.length"
-          ng-repeat="student in courses.selected.users | orderBy:'firstName'">
-          <label class="gl-reports-nav-student"
-            ng-class="{'gl-reports-nav-student--disabled': false}"
-            ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
-            <div class="gl-reports-nav-selector"
-              ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
-              <i class="fa fa-check"></i>
-            </div>
-            {{ student.firstName }}
-            {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
-          </label>
+        <div ng-if="courses.selected.users.length">
+            <table class="report-student-list-table"><tr ng-repeat="row in students">
+                <td ng-repeat="student in row" class="report-student-list-column-width">
+                    <label class="gl-reports-nav-student" ng-if="student !== null"
+                        ng-class="{'gl-reports-nav-student--disabled': false}"
+                        ng-click="toggleStudent($event, student, courses.selected, reports.selected.id)">
+                        <div class="gl-reports-nav-selector"
+                            ng-class="{'gl-reports-nav-selector--selected': student.isSelected}">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        {{ student.firstName }}
+                        {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
+                    </label>
+                </td></tr>
+            </table>
         </div>
       </div>
     </div>

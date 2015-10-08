@@ -12,7 +12,7 @@
                             <div class="gl-upgrade-form">
                                 <div class="radio" ng-repeat="packageName in choices.packages">
                                     <label>
-                                        <input type="radio" ng-model="status.packageName" ng-value="packageName">
+                                        <input type="radio" ng-model="status.packageName" ng-value="packageName" ng-click="impression(packageName,status.studentSeats)">
                                         {{packageName}}
                                             <span class="gl-text-sea-green" ng-if="packageName===originalPackage.name && !isTrial()">(current)</span>
                                             <a ng-show="status.packageName===packageName" ui-sref="modal-lg.games-available({planId:status.selectedPackage.planId, packageName: status.packageName})">view games</a>
@@ -25,7 +25,7 @@
                             <div class="gl-upgrade-form">
                                 <div class="radio" ng-repeat="seat in choices.seats">
                                     <label ng-class="{'gl-manager-selection-disabled' : seat.studentSeats < originalPackage.studentSeats && !isTrial()} ">
-                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()">
+                                        <input type="radio" ng-model="status.studentSeats" ng-value="seat.studentSeats" ng-disabled="seat.studentSeats < originalPackage.studentSeats && !isTrial()" ng-click="impression(status.packageName,seat.studentSeats)">
                                         {{seat.studentSeats}} students + {{seat.educatorSeats}} educators <span
                                             class="gl-text-sea-green" ng-if="originalPackage.studentSeats===seat.studentSeats && !isTrial()">(current)</span>
                                     </label>
@@ -172,13 +172,13 @@
                         <div ng-if="status.isPaymentCreditCard">
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'current'">
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'current'" ng-click="creditCardSelect('current-card-radio')">
                                     Use current card ({{billingInfo.brand}} card ending in {{billingInfo.last4}})
                                 </label>
                             </div>
                             <div ng-if="!isTrial()" class="radio gl-block">
                                 <label>
-                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'">
+                                    <input type="radio" ng-model="status.currentCard" ng-value="'change'" ng-click="creditCardSelect('change-card-radio')">
                                     Change card (existing card will be removed)
                                 </label>
                             </div>
@@ -198,7 +198,7 @@
 
                     <div class="reg-submit text-center gl-margin--Tl">
                         <button type="button" ui-sref="root.manager.plan"
-                                class="btn gl-btn--grey gl-margin--Rl">Cancel
+                                class="btn gl-btn--grey gl-margin--Rl" ng-click="upgradeCancelled()">Cancel
                         </button>
                         <input ng-show="status.currentCard === 'current'" ng-click="submitPayment(status.studentSeats,status.packageName,info)"
                                 class="btn gl-btn--black"

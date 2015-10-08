@@ -155,7 +155,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/manager-remove-educator-modal.html',
-                    controller: function ($scope, $log, $stateParams, LicenseService, UtilService) {
+                    controller: function ($scope, $log, $stateParams, $window, LicenseService, UtilService) {
                         $scope.email = $stateParams.email;
                         $scope.request = {
                             success: false,
@@ -164,7 +164,9 @@ angular.module('playfully.manager', [])
                         };
                         $scope.removeEducator = function (email) {
                             UtilService.submitFormRequest($scope.request, function () {
-                                return LicenseService.removeEducator(email);
+                                var result = LicenseService.removeEducator(email);
+                                $window.ga('send', 'event', 'button', 'click', 'remove-educator');
+                                return result;
                             }, function() {});
                         };
                     }
@@ -289,7 +291,7 @@ angular.module('playfully.manager', [])
             views: {
                 'modal@': {
                     templateUrl: 'manager/confirm-update-modal.html',
-                    controller: function ($scope, $log, $state, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                    controller: function ($scope, $log, $state, $stateParams, $previousState, $window, LicenseStore, UtilService, LicenseService, UserService) {
                         $scope.request = {
                             success: false,
                             errors: [],
@@ -305,6 +307,7 @@ angular.module('playfully.manager', [])
                         };
                         $scope.submitPayment = function () {
                             UtilService.submitFormRequest($scope.request, function () {
+                                $window.ga('send', 'event', 'button', 'click', 'update-plan');
                                 if ($scope.isPaymentCreditCard) {
                                     if ($scope.isTrial) {
                                         return LicenseService.upgradeFromTrial($scope.purchaseInfo);
@@ -327,7 +330,7 @@ angular.module('playfully.manager', [])
     .controller('ManagerCtrl', function ($scope,$state) {
         $scope.currentTab = $state.current.url;
     })
-    .controller('ManagerBillingInfoCtrl', function ($scope, $state, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE, ENV) {
+    .controller('ManagerBillingInfoCtrl', function ($scope, $state, $window, billingInfo, REGISTER_CONSTANTS, LicenseService, UtilService, STRIPE, ENV) {
         $scope.$parent.currentTab = $state.current.url;
         $scope.billingInfo = {};
         $scope.billingInfo = angular.copy(billingInfo);
@@ -353,6 +356,7 @@ angular.module('playfully.manager', [])
                 Stripe.setPublishableKey( STRIPE[ ENV.stripe ].publishableKey );
                 Stripe.card.createToken(info.CC, function (status, stripeToken) {
                     _updateBillingInfo(stripeToken);
+                    $window.ga('send', 'event', 'button', 'click', 'change-card');
                 });
             }
         };
@@ -414,7 +418,7 @@ angular.module('playfully.manager', [])
         $scope.col = {firstName: {reverse: false}, lastInitial: {}, screenName: {}, current: 'firstName'};
         $scope.colName = {value: 'firstName'};
     })
-    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, LicenseService, LicenseStore, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE, ENV) {
+    .controller('ManagerUpgradeCtrl', function ($scope, $state, $stateParams, $window, LicenseService, LicenseStore, UserService, UtilService, plan, packages, billingInfo, REGISTER_CONSTANTS, STRIPE, ENV) {
 
         // Current Plan Info
         $scope.$parent.currentTab = '/plan';
@@ -443,6 +447,8 @@ angular.module('playfully.manager', [])
         // Setup Seat and Package Choices
         var selectedPackage = $scope.originalPackage;
         var packagesChoices = _.map($scope.packages.plans, 'name');
+
+        $scope.packageId = { 'All Games': '1', 'iPad': '2', 'Chromebook/Web': '3', 'PC/MAC': '4' };                
 
         $scope.status = {
           packageName: selectedPackage.name,
@@ -495,6 +501,22 @@ angular.module('playfully.manager', [])
             subscription: {},
             CC: angular.copy(REGISTER_CONSTANTS.ccInfo),
             PO: angular.copy(REGISTER_CONSTANTS.poInfo)
+        };
+                
+        $scope.impression = function(packageName, seatChoice) {
+            var seatChoiceAsId  = seatChoice >= 100 ? seatChoice : "0" + seatChoice;
+            $window.ga('ec:addImpression', {
+               'id': 'P' + $scope.packageId[packageName] + seatChoiceAsId,
+               'name': packageName,
+               'category': 'subscription',
+               'brand': 'Glasslab Games',
+               'variant': seatChoice + " seats",
+               'list': 'upgrade view',
+            });
+        };
+                
+        $scope.creditCardSelect = function(action) {
+            $window.ga('send', 'event', 'button', 'click', action);
         };
 
         $scope.submitPayment = function (studentSeats, packageName, info, test) {
@@ -729,6 +751,12 @@ angular.module('playfully.manager', [])
 
         $scope.addOneYear = function () {
             $scope.yearAdded = ! $scope.yearAdded;
+            var action = $scope.yearAdded ? "add-year-added" : "add-year-removed";
+            $window.ga('send', 'event', 'button', 'click', action);
+        };
+                
+        $scope.upgradeCancelled = function() {
+            $window.ga('send', 'event', 'button', 'click', 'update-cancelled');
         };
 
         $scope.applyPromoCode = function (promoCode, acceptInvalid) {
@@ -765,7 +793,7 @@ angular.module('playfully.manager', [])
             $scope.applyPromoCode($scope.plan.promoCode, {acceptInvalid: true });
         }
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, $q, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
@@ -835,6 +863,7 @@ angular.module('playfully.manager', [])
 
             if (invalid.length < 1) {
                 _requestInvite(valid);
+                $window.ga('send', 'event', 'button', 'click', 'invite-educators', valid.length);
             }
 
             $scope.request.errors = invalid;

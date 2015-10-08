@@ -41,7 +41,7 @@
   <!--</div>-->
     <div class="gl-canvas" autoscroll="true">
       <div class="gl-navbar-student" ng-if="!hideWrapper && isAuthorized('student')">
-          <div data-ng-include="'navbar/navbar-student.html'"></div>
+          <div id="student-info-bar" data-ng-include="'navbar/navbar-student.html'"></div>
       </div>
       <div class="gl-navbar--top" ng-if="!hideWrapper && (isAuthorized('guest') || !isAuthorized('student'))">
         <div class="container gl-container">
@@ -53,7 +53,7 @@
               <div ng-cloak ui-sref="root.manager.plan" class="gl-inline-block gl-clickable" ng-if="isAuthenticated() && hasLicense()">
                   <img ng-src="/assets/{{hasLicense('badge')}}-badge.png">
               </div>
-              <div ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username gl-inline-block" ng-class="{'gl-nav-student': isAuthorized('student')}"
+              <div id="teacher-info-bar" ng-cloak ng-if="isAuthenticatedButNot('student')" class="gl-nav-username gl-inline-block" ng-class="{'gl-nav-student': isAuthorized('student')}"
                 ng-bind="'Welcome back, ' + currentUser.firstName + (currentUser.lastName ? ' ' + currentUser.lastName : '') + '!'"></div>
               <div ng-cloak ng-if="isAuthorized('student')" class="gl-nav-username" ng-class="{'gl-nav-student': isAuthorized('student')}"
                 ng-bind="'Welcome back, ' + truncateUsername(currentUser.username) + '!'"></div>
