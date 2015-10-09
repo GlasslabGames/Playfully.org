@@ -797,7 +797,7 @@ angular.module('playfully.manager', [ 'env-config' ])
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
-        $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
+        $scope.isLegacyUser = plan.packageDetails && plan.packageDetails.planId === 'trialLegacy';
         $scope.canUpgrade = plan.canUpgrade;
 
         if (plan.nextUpgrade) {
