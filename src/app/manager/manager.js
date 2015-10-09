@@ -1,4 +1,4 @@
-angular.module('playfully.manager', [])
+angular.module('playfully.manager', [ 'env-config' ])
     .config(function ($stateProvider) {
         $stateProvider.state('root.manager', {
             abstract: true,
@@ -791,7 +791,7 @@ angular.module('playfully.manager', [])
             $scope.applyPromoCode($scope.plan.promoCode, {acceptInvalid: true });
         }
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN, ENV) {
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
@@ -827,7 +827,7 @@ angular.module('playfully.manager', [])
         };
 
         var _validateEmail = function (email) {
-            var re = EMAIL_VALIDATION_PATTERN;
+            var re = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
             return re.test(email);
         };
 

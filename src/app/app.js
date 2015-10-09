@@ -412,7 +412,7 @@ angular.module( 'playfully', [
     $scope.hasLicense = LicenseService.hasLicense;
     $scope.packageType = LicenseService.packageType;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
-    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
+    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
     $rootScope.features = FEATURES;
 
 

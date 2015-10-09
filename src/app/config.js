@@ -55,8 +55,10 @@ angular.module('playfully.config', [])
   }
 })
 
-.constant('EMAIL_VALIDATION_PATTERN',
-  /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i)
+.constant('EMAIL_VALIDATION_PATTERN', {
+	test: /^[-0-9a-z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i,
+	live: /^[-0-9a-z._]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i
+})
 
 .config(function($logProvider){
   // $logProvider.debugEnabled(false);
