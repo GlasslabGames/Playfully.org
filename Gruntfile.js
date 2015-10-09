@@ -117,7 +117,7 @@ module.exports = function ( grunt ) {
                       /*name: platformConfig.env,
                       path: platformConfig.webapp.staticContentPath,
                       stripe: platformConfig.stripe.env*/
-                      stripe: "test"
+                      stripe: "live"
                   }
               }
           }
