@@ -37,7 +37,7 @@
                             <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
                             <p ng-show="yearAdded"><h4 ng-show="yearAdded" class="headline-4">{{extendedOneYearDate}}</h4></p>
                             <p ng-hide="yearAdded">{{plan.expirationDate}}</p>
-                            <input ng-show="!isTrial()" class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                            <input ng-show="false" class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
                                    ng-click="addOneYear()"
                                    value="{{yearAdded ? 'Added' : 'Add Year'}}">
                             </input>
