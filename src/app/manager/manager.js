@@ -717,7 +717,7 @@ angular.module('playfully.manager', [])
             var oneYearTotal = parseFloat( $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') );
             var grandTotal = oneYearTotal - $scope.billingInfo.accountBalance;
 
-            if ( $scope.addOneYear ) {
+            if ( $scope.yearAdded ) {
                 grandTotal += oneYearTotal;
             }
 
