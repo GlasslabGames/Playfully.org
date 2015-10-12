@@ -13,7 +13,7 @@ angular.module( 'instructor.dashboard', [
     },
     resolve: {
       courses: function (CoursesService) {
-        return CoursesService.getEnrollments();
+        return CoursesService.getEnrollmentsWithStudents();
       },
       activeCourses: function (courses, $q, $filter) {
         var deferred = $q.defer();
@@ -352,8 +352,7 @@ angular.module( 'instructor.dashboard', [
         console.error('could not retrieve total time played');
       });
     } else {
-      $scope.status.avgTotalTimePlayed = 0;
-      $scope.status.avgTotalTimePlayed = 0;
+      $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
     }
   };
 
