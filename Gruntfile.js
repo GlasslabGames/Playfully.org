@@ -105,7 +105,12 @@ module.exports = function ( grunt ) {
                       path: platformConfig.webapp.staticContentPath,
                       stripe: platformConfig.stripe.env*/
                       stripe: "test",
-                      emailPlus: "test"
+                      emailPlus: "test",
+                      /*
+                       * To override default set game_sdkURI to host for game to contact
+                       * (like http://developer.glasslabgames.org)
+                       */
+                      game_sdkURI: false
                   }
               }
           },
@@ -116,7 +121,8 @@ module.exports = function ( grunt ) {
               constants: {
                   ENV: {
                       stripe: "test",
-                      emailPlus: "live"
+                      emailPlus: "live",
+                      game_sdkURI: false
                   }
               }
           },
@@ -130,7 +136,8 @@ module.exports = function ( grunt ) {
                       path: platformConfig.webapp.staticContentPath,
                       stripe: platformConfig.stripe.env*/
                       stripe: "live",
-                      emailPlus: "live"
+                      emailPlus: "live",
+                      game_sdkURI: false
                   }
               }
           }
