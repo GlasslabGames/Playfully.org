@@ -371,7 +371,7 @@ angular.module( 'instructor.dashboard', [
     _.each(data, function(obj) {
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
-console.log('wo a =',wo);
+// console.log('wo a =',wo);
         wo.user = studentObj;
         wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
 console.log('wo b =',wo);
@@ -380,6 +380,7 @@ console.log('wo b =',wo);
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
         so.timestamp = moment(new Date(so.timestamp)).fromNow();
+console.log('so b =',so);
         shoutOuts.push(so);
       });
     });
