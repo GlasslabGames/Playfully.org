@@ -51,6 +51,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
                     };
                     $scope.purchaseInfo = LicenseStore.getData();
                     $scope.acceptedTerms = false;
+
                     $scope.submitResellerPayment = function () {
                         // First, we might have to create the license holder
                         if ( ! $scope.purchaseInfo.licenseOwnerExists ) {
@@ -240,6 +241,13 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             var re = $rootScope.emailValidationPattern;
             return re.test(email);
         };
+
+		$scope.cancelPurchaseOrder = function () {
+			$scope.licenseOwnerValid = false;
+			$scope.licenseOwnerExists = false;
+			$scope.info.user.email = "";
+			$scope.info.PO.email = "";
+		};
 
         $scope.calculatePOPrice = function () {
             var students = 10.0;

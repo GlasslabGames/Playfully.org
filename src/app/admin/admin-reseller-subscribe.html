@@ -124,6 +124,10 @@
                                class="btn gl-payment-submit gl-btn--black"
                                ng-disabled="request.isSubmitting || paymentForm.$invalid">
                                {{ request.isSubmitting ? 'Submitting...' : 'Submit'}}</button>
+                        <button ng-click="cancelPurchaseOrder()"
+                               class="btn gl-payment-submit gl-btn--black">
+                               Cancel</button>
+
                     </div>
                 </div>
 
