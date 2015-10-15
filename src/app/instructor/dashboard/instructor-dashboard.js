@@ -266,6 +266,14 @@ angular.module( 'instructor.dashboard', [
     }
   };
 
+
+
+
+////////////////    ////////////////
+////////////////    ////////////////
+////////////////    ////////////////
+////////////////    ////////////////
+
   var _getReports = function () {
     GamesService.getAllReports($stateParams.gameId).then(function (data) {
       if (data.list && data.list.length) {
@@ -363,8 +371,10 @@ angular.module( 'instructor.dashboard', [
     _.each(data, function(obj) {
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
+console.log('wo a =',wo);
         wo.user = studentObj;
         wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
+console.log('wo b =',wo);
         watchOuts.push(wo);
       });
       _.each(obj.results.shoutout, function (so) {
