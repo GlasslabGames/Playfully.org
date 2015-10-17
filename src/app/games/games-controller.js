@@ -531,17 +531,24 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     };
 
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery, ENV) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
   $scope.goToLink = function (path, target) {
+    path = path + extraQuery;
+    if (ENV.game_sdkURI) {
+        path = path + (path.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+    }
     if (target) {
-      $window.open(path + extraQuery, target);
+      $window.open(path, target);
     } else {
-      $window.location = path + extraQuery;
+      $window.location = path;
     }
   };
   $scope.goTo = function(path, target) {
+    if (ENV.game_sdkURI) {
+        path = path + (path.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+    }
     if(target) {
       $window.open(path, target);
     } else {
