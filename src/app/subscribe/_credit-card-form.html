@@ -36,7 +36,7 @@
 
         <div class="form-group"
              ng-class="{'has-error': paymentForm.cvc.$dirty && paymentForm.cvc.$invalid}">
-            <input name="cvc" ng-minlength="3" maxlength="3" class="form-control" size="5"
+            <input name="cvc" ng-minlength="3" maxlength="4" class="form-control" size="5"
                    ng-model="info.CC.cvc"
                    required placeholder="CVC">
         </div>

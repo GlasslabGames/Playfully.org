@@ -142,8 +142,23 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         data: {
             authorizedRoles: ['admin']
         }
+    })
+    .state('admin.one-page', {
+        url: '/one-page',
+        templateUrl: 'admin/admin-one-page.html',
+        controller: 'AdminOnePageCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
     });
 
+})
+.controller('AdminOnePageCtrl', function ($scope) {
+
+    //     $scope.dataExportForm = function() {
+    //         DataService.exportReportData().then(function(data) {
+    //         });
+    //     };
 })
 .controller('AdminReportDataExportCtrl', function ($scope, $http, $window, DataService) {
     $scope.rdeTextArea1 = 'press "Get Data" button.';

@@ -1,4 +1,4 @@
-angular.module('playfully.manager', [])
+angular.module('playfully.manager', [ 'env-config' ])
     .config(function ($stateProvider) {
         $stateProvider.state('root.manager', {
             abstract: true,
@@ -719,7 +719,7 @@ angular.module('playfully.manager', [])
             var oneYearTotal = parseFloat( $scope.calculateDiscountedTotal($scope.status.packageName, $scope.status.studentSeats, 'new') );
             var grandTotal = oneYearTotal - $scope.billingInfo.accountBalance;
 
-            if ( $scope.addOneYear ) {
+            if ( $scope.yearAdded ) {
                 grandTotal += oneYearTotal;
             }
 
@@ -793,13 +793,13 @@ angular.module('playfully.manager', [])
             $scope.applyPromoCode($scope.plan.promoCode, {acceptInvalid: true });
         }
     })
-    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN) {
+    .controller('ManagerPlanCtrl', function ($scope,$state, $q, $window, plan, LicenseService, UtilService, EMAIL_VALIDATION_PATTERN, ENV) {
 
         $scope.$parent.currentTab = $state.current.url;
         $scope.plan = plan;
         $scope.plan.expirationDate = moment(plan.expirationDate).format("MMM Do YYYY");
         $scope.package = plan.packageDetails;
-        $scope.isLegacyUser = plan.packageDetails.planId === 'trialLegacy';
+        $scope.isLegacyUser = plan.packageDetails && plan.packageDetails.planId === 'trialLegacy';
         $scope.canUpgrade = plan.canUpgrade;
 
         if (plan.nextUpgrade) {
@@ -829,7 +829,7 @@ angular.module('playfully.manager', [])
         };
 
         var _validateEmail = function (email) {
-            var re = EMAIL_VALIDATION_PATTERN;
+            var re = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
             return re.test(email);
         };
 

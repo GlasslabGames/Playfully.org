@@ -13,7 +13,7 @@ angular.module( 'instructor.dashboard', [
     },
     resolve: {
       courses: function (CoursesService) {
-        return CoursesService.getEnrollments();
+        return CoursesService.getEnrollmentsWithStudents();
       },
       activeCourses: function (courses, $q, $filter) {
         var deferred = $q.defer();
@@ -266,6 +266,14 @@ angular.module( 'instructor.dashboard', [
     }
   };
 
+
+
+
+////////////////    ////////////////
+////////////////    ////////////////
+////////////////    ////////////////
+////////////////    ////////////////
+
   var _getReports = function () {
     GamesService.getAllReports($stateParams.gameId).then(function (data) {
       if (data.list && data.list.length) {
@@ -352,8 +360,7 @@ angular.module( 'instructor.dashboard', [
         console.error('could not retrieve total time played');
       });
     } else {
-      $scope.status.avgTotalTimePlayed = 0;
-      $scope.status.avgTotalTimePlayed = 0;
+      $scope.status.avgTotalTimePlayed = {hours:0,minutes:0,seconds:0};
     }
   };
 
@@ -364,13 +371,16 @@ angular.module( 'instructor.dashboard', [
     _.each(data, function(obj) {
        var studentObj = _compileNameOfStudent($scope.students[obj.userId]);
       _.each(obj.results.watchout, function(wo) {
+// console.log('wo a =',wo);
         wo.user = studentObj;
         wo.timeAgo = moment(new Date(wo.timestamp)).fromNow();
+console.log('wo b =',wo);
         watchOuts.push(wo);
       });
       _.each(obj.results.shoutout, function (so) {
         so.user = studentObj;
         so.timestamp = moment(new Date(so.timestamp)).fromNow();
+console.log('so b =',so);
         shoutOuts.push(so);
       });
     });

@@ -49,7 +49,7 @@ angular.module( 'playfully', [
   'playfully.manager'
 ])
 
-.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $provide) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $provide) {
 
   $provide.decorator('$uiViewScroll', function ($delegate) {
      return function (uiViewElement) {
@@ -285,6 +285,31 @@ angular.module( 'playfully', [
   });
 })
 
+.factory('myHttpInterceptor', function ($q, ipCookie, $rootScope, Session) {
+    return {
+        response: function (response) {
+            
+            if ($rootScope.lastSessionCookie) {
+            	if ($rootScope.lastSessionCookie != ipCookie('connect.sid')) {
+					$rootScope.lastSessionCookie = ipCookie('connect.sid');
+	
+					Session.destroy();
+					//window.location.reload();
+					return $q.reject(response);
+            	}
+            } else if (ipCookie) {
+            	$rootScope.lastSessionCookie = ipCookie('connect.sid');
+            }
+      
+            return response;
+        },
+        responseError: function (response) {
+            // do something on error
+            return $q.reject(response);
+        }
+    };
+})
+
 .config(function($httpProvider) {
   //initialize get if not there
   if (!$httpProvider.defaults.headers.get) {
@@ -295,6 +320,9 @@ angular.module( 'playfully', [
   $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
   dt = new Date(1999, 12, 31);
   $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
+  
+  $httpProvider.interceptors.push('myHttpInterceptor');
+
 })
 
 .config(function ($translateProvider) {
@@ -412,7 +440,7 @@ angular.module( 'playfully', [
     $scope.hasLicense = LicenseService.hasLicense;
     $scope.packageType = LicenseService.packageType;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
-    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
+    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
     $rootScope.features = FEATURES;
 
 

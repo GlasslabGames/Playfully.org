@@ -531,17 +531,24 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     };
 
 })
-.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery) {
+.controller( 'GameMissionsModalCtrl', function ($scope, $state, $rootScope, $window, $log, $timeout, $stateParams, AuthService, gameMissions, gameId, extraQuery, ENV) {
   $scope.gameMissions = gameMissions;
   $scope.gameId = gameId;
   $scope.goToLink = function (path, target) {
+    path = path + extraQuery;
+    if (ENV.game_sdkURI) {
+        path = path + (path.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+    }
     if (target) {
-      $window.open(path + extraQuery, target);
+      $window.open(path, target);
     } else {
-      $window.location = path + extraQuery;
+      $window.location = path;
     }
   };
   $scope.goTo = function(path, target) {
+    if (ENV.game_sdkURI) {
+        path = path + (path.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+    }
     if(target) {
       $window.open(path, target);
     } else {
@@ -561,7 +568,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }, 100);
   };
 })
-.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $location, $rootScope, $log, $timeout, gameDetails) {
+.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $location, $rootScope, $log, $timeout, gameDetails, ENV) {
   $scope.gamePlayInfo = {};
 
   if(gameDetails &&
@@ -599,6 +606,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     else if( $scope.gamePlayInfo.format == "html" ) {
       setTimeout( function() {
         var embed = $location.protocol() == 'https' ? $scope.gamePlayInfo.embedSecure : $scope.gamePlayInfo.embed;
+        if (ENV.game_sdkURI) {
+        	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+        }
+        console.log(embed);
         var htmlOutput = '' +
           '<object name=\"htmlObj\" data=\"' + embed + '\" width=\"' + $scope.gamePlayInfo.size.width + '\" height=\"' + $scope.gamePlayInfo.size.height + '\" id=\"Sample\" style=\"float: none; vertical-align:middle\">' +
           '</object>';
