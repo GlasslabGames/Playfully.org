@@ -53,9 +53,6 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
                             $previousState.go();
                         };
                         $scope.gameId = $stateParams.gameId;
-                        $scope.goToLink = function(link) {
-                            $window.location.search = 'openURL='+link;
-                        };
                     }
                 }
             }
@@ -70,9 +67,6 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
                         $scope.gameId = $stateParams.gameId;
                         $scope.goBackState = function () {
                             $previousState.go();
-                        };
-                        $scope.goToLink = function (link) {
-                            $window.location.search = 'openURL=' + link;
                         };
                     }
                 }
@@ -89,9 +83,6 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
                         $scope.goBackState = function () {
                             $previousState.go();
                         };
-                        $scope.goToLink = function (link) {
-                            $window.location.search = 'openURL=' + link;
-                        };
                     }
                 }
             }
@@ -104,9 +95,6 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
                     templateUrl: 'register/v2/sdk-register-playfully-info.html',
                     controller: function ($scope, $stateParams, $window) {
                         $scope.gameId = $stateParams.gameId;
-                        $scope.goToLink = function(link) {
-                            $window.location.search = 'openURL='+link;
-                        };
                     }
                 }
             }
@@ -182,9 +170,6 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             if (user !== null) {
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
             }
-        };
-        $scope.goToLink = function (link) {
-            $window.location.search = 'openURL=' + link;
         };
         $scope.closeWindow = function () {
             $window.location.search = 'action=SUCCESS';
