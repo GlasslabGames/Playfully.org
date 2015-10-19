@@ -43,7 +43,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         views: {
             'modal@': {
                 templateUrl: 'admin/reseller-confirm-purchase-order-modal.html',
-                controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService, AuthService) {
                     $scope.request = {
                         success: false,
                         errors: [],
@@ -56,33 +56,59 @@ angular.module('playfully.admin', ['dash','data','games','license'])
                         // First, we might have to create the license holder
                         if ( ! $scope.purchaseInfo.licenseOwnerExists ) {
                             UserService.register( $scope.purchaseInfo.account )
-                                .success(function(data, status, headers, config) {
-                                    var user = data;
-                                    // TODO: KMY: Confirm - do not think I need Session.create()
-                                    //Session.create(user.id, user.role, data.loginType);
-                                    console.log("-----> sucessfully created ", user );
-                                    $scope.purchaseInfo.user = user;
-                                })
-                                .error(function(data, status, headers, config) {
-                                    console.log("-----> failed to create ", $scope.purchaseInfo.account);
-                                    console.log("-----> error ", data.error);
-                                    if ( data.error ) {
-                                        $scope.purchaseInfo.account.errors.push(data.error);
-                                    } else {
-                                        $scope.purchaseInfo.account.errors.push(ERRORS['general']);
-                                    }
-
-                                    // Do not create PO
-                                    return;
+                            .then( function(data, status, headers, config) {
+                                var user = data.config.data;
+                                // TODO: KMY: Confirm - do not think I need Session.create()
+                                //Session.create(user.id, user.role, data.loginType);
+                                console.log("-----> sucessfully created ", user);
+                                $scope.purchaseInfo.user = user;
+                                return AuthService.sendPasswordResetLink( $scope.purchaseInfo.account.email );
+                            }.bind(this), function(error) {
+                                console.log("-----> failed to create ", $scope.purchaseInfo.account);
+                                console.log("-----> error ", data.error);
+                                if ( data.error ) {
+                                    $scope.purchaseInfo.account.errors.push(data.error);
+                                } else {
+                                    $scope.purchaseInfo.account.errors.push(ERRORS['general']);
                                 }
-                            );
-                        }
 
-                        UtilService.submitFormRequest($scope.request, function () {
-                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
-                        }, function () {
-                            LicenseStore.reset();
-                        });
+                                // Do not create PO
+                                return;
+                            }.bind(this) )
+                            .then( function(data, status, headers, config) {
+                            	console.log("-----> sent password email");
+
+		                        // Submit PO
+			                    $scope.request = {
+			                        success: false,
+			                        errors: [],
+			                        isSubmitting: false
+			                    };
+		                        console.log("submit req ", $scope.request);
+		                        UtilService.submitFormRequest($scope.request, function () {
+		                        	console.log("success submit now po ", $scope.purchaseInfo);
+		                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
+		                        }, function () {
+		                            LicenseStore.reset();
+		                        });
+                            }.bind(this), function(error) {
+                            	console.log("-----> failed to send password email ", $scope.purchaseInfo.account.email );
+                            }.bind(this) );
+                        } else {
+	                        // Submit PO
+		                    $scope.request = {
+		                        success: false,
+		                        errors: [],
+		                        isSubmitting: false
+		                    };
+	                        console.log("submit req ", $scope.request);
+	                        UtilService.submitFormRequest($scope.request, function () {
+	                        	console.log("success submit now po ", $scope.purchaseInfo);
+	                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
+	                        }, function () {
+	                            LicenseStore.reset();
+	                        });
+	                    }
                     };
                 }
             }
@@ -181,7 +207,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 
         $scope.choices = {
             packages: packagesChoices,
-            seats: packages.seats,
+			seats: packages.seats,
             states: angular.copy(REGISTER_CONSTANTS.states),
             cardTypes: angular.copy(REGISTER_CONSTANTS.cardTypes)
         };
@@ -314,7 +340,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetPlan = _.find(packages.plans, {name: packageName});
             var planInfo = {
-                                seats: $scope.status.studentSeats.toString(),
+                                seats: '_' + $scope.status.studentSeats.toString() + '_' + $scope.status.educatorSeats.toString(),
                                 educators: parseInt($scope.status.educatorSeats),
                                 students: parseInt($scope.status.studentSeats),
                                 type: targetPlan.planId
