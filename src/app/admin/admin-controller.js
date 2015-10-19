@@ -60,12 +60,9 @@ angular.module('playfully.admin', ['dash','data','games','license'])
                                 var user = data.config.data;
                                 // TODO: KMY: Confirm - do not think I need Session.create()
                                 //Session.create(user.id, user.role, data.loginType);
-                                console.log("-----> sucessfully created ", user);
                                 $scope.purchaseInfo.user = user;
                                 return AuthService.sendPasswordResetLink( $scope.purchaseInfo.account.email );
                             }.bind(this), function(error) {
-                                console.log("-----> failed to create ", $scope.purchaseInfo.account);
-                                console.log("-----> error ", data.error);
                                 if ( data.error ) {
                                     $scope.purchaseInfo.account.errors.push(data.error);
                                 } else {
@@ -76,17 +73,13 @@ angular.module('playfully.admin', ['dash','data','games','license'])
                                 return;
                             }.bind(this) )
                             .then( function(data, status, headers, config) {
-                            	console.log("-----> sent password email");
-
 		                        // Submit PO
 			                    $scope.request = {
 			                        success: false,
 			                        errors: [],
 			                        isSubmitting: false
 			                    };
-		                        console.log("submit req ", $scope.request);
 		                        UtilService.submitFormRequest($scope.request, function () {
-		                        	console.log("success submit now po ", $scope.purchaseInfo);
 		                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
 		                        }, function () {
 		                            LicenseStore.reset();
@@ -101,9 +94,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 		                        errors: [],
 		                        isSubmitting: false
 		                    };
-	                        console.log("submit req ", $scope.request);
 	                        UtilService.submitFormRequest($scope.request, function () {
-	                        	console.log("success submit now po ", $scope.purchaseInfo);
 	                            return LicenseService.resellerSubscribeWithPurchaseOrder($scope.purchaseInfo);
 	                        }, function () {
 	                            LicenseStore.reset();
