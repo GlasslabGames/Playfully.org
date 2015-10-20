@@ -322,6 +322,16 @@ angular.module('developer.games', [
         // $scope.onChange = function(data, tabName) {
         //     $scope.fullData[tabName] = data;
         // };
+
+        $scope.sokeys = ['so1','so2','so3'];
+        $scope.wokeys = ['wo1','wo2'];
+        $scope.soitems = [
+            {"so1": {"name": "name11", "description": "shout 111description"}},
+            {"so2": {"name": "name22", "description": "shout 222description"}},
+            {"so3": {"name": "name33", "description": "shout 333description"}}];
+        $scope.woitems = [
+            {"wo1": {"name": "name11", "description": "111description"}},
+            {"wo2": {"name": "name22", "description": "222description"}}];
     })
 
 
