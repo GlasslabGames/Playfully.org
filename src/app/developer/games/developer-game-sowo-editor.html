@@ -8,28 +8,27 @@
 
       <div ng-repeat="item in soitems track by $index">
         {{item["id"]}} name: <br>
-        <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
+        <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br><br>
         description:<br>
-        <input type="text" id="keykey" size="120" ng-model='item["description"]'/><br><br>
+        <input type="text" id="keykey" size="120" ng-model='item["description"]'/>
+        <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br>
       </div>
 
       <button class="btn btn-default" type="button" ng-click="moreShout()">+ More ...</button><br>
 
       <h2>Watch Outs</h2>
 
-      <div ng-repeat="ww in woitems track by $index">
-        {{ww["id"]}} name: <br>
-        <input type="text" id="keykey" size="40" ng-model='ww["name"]'/><br>
+      <div ng-repeat="item in woitems track by $index">
+        {{item["id"]}} name: <br>
+        <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
         description:<br>
-        <input type="text" id="keykey" size="120" ng-model='ww["description"]'/><br><br>
+        <input type="text" id="keykey" size="120" ng-model='item["description"]'/>
+        <button class="btn btn-default" type="button" ng-click="deleteWatchRule($index)">Del</button><br><br>
       </div>
 
       <button class="btn btn-default" type="button" ng-click="moreWatch()">+ More ...</button><br>
 
-<button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button><br>
-
-<!--  {{dump}}<br><br>
-      {{dump5}}<br><br> -->
+      <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button><br>
 
     </div>
   </div>

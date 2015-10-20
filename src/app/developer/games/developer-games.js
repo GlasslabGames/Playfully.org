@@ -312,6 +312,8 @@ angular.module('developer.games', [
         var max_shouts = 15;
         var max_watches = 15;
 
+        var i;
+        var newidx;
         var newrule = {};
         var soworules = {};
         var soworuleskeys = [];
@@ -347,19 +349,45 @@ angular.module('developer.games', [
         }
 
         var solen = $scope.soitems.length;
+        $scope.deleteShoutRule = function(idx) {
+            $scope.soitems.splice(idx, 1);
+            solen = $scope.soitems.length;
+        };
+
+        var wolen = $scope.woitems.length;
+        $scope.deleteWatchRule = function(idx) {
+            $scope.woitems.splice(idx, 1);
+            wolen = $scope.woitems.length;
+        };
+
+        solen = $scope.soitems.length;
         $scope.moreShout = function() {
             if(solen < max_shouts) {
-                newrule = {"id": ("so"+ (1 + solen)), "name": "new shout out name", "description": "new rule description"};
-                $scope.soitems.push(newrule);
+                newidx =1;
+                for(i = 0; i < solen; ++ i) {
+                    if($scope.soitems[i].id != ('so'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("so" + newidx), "name": "new shout out name", "description": "new rule description"};
+                $scope.soitems.splice((newidx - 1), 0, newrule);
                 solen = $scope.soitems.length;
             }
         };
 
-        var wolen = $scope.woitems.length;
+        wolen = $scope.woitems.length;
         $scope.moreWatch = function() {
             if(wolen < max_watches) {
-                newrule = {"id": ("wo"+ (1 + wolen)), "name": "new watch out name", "description": "new rule description"};
-                $scope.woitems.push(newrule);
+                newidx = 1;
+                for(i = 0; i < wolen; ++i) {
+                    if($scope.woitems[i].id != ('wo'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("wo" + newidx), "name": "new watch out name", "description": "new rule description"};
+                $scope.woitems.splice((newidx - 1), 0, newrule);
                 wolen = $scope.woitems.length;
             }
         };
@@ -367,7 +395,6 @@ angular.module('developer.games', [
         $scope.saveInfo = function() {
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
-
     })
 
 
