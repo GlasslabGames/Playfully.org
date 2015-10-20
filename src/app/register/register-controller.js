@@ -276,7 +276,6 @@ angular.module('playfully.register', ['register.const'])
 
 .controller('RegisterResellerCtrl',
     function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, AuthService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
-        console.log("---> RRC");
         var user = null;
         var packageInfo = {
             packageType: null || $stateParams.packageType,

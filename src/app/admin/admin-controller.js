@@ -141,8 +141,15 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         data: {
             authorizedRoles: ['admin']
         }
+    })
+    .state('admin.reseller-one-page', {
+        url: '/reseller-one-page',
+        templateUrl: 'admin/admin-reseller-one-page.html',
+        controller: 'ResellerOnePageCtrl',
+        data: {
+            authorizedRoles: ['admin','reseller']
+        }
     });
-
 })
 .controller('AdminOnePageCtrl', function ($scope) {
 
@@ -150,6 +157,8 @@ angular.module('playfully.admin', ['dash','data','games','license'])
     //         DataService.exportReportData().then(function(data) {
     //         });
     //     };
+})
+.controller('ResellerOnePageCtrl', function ($scope) {
 })
 .controller('AdminReportDataExportCtrl', function ($scope, $http, $window, DataService) {
     $scope.rdeTextArea1 = 'press "Get Data" button.';
