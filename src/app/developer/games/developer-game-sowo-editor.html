@@ -3,39 +3,33 @@
     <div class="col-md-12">
 
       <h2>Shout Out / Watch Out Editor</h2>
-
-      ( GLAS-305 )<br>
-
       <h1>{{gameId}}</h1>
       <h2>Shout Outs</h2>
 
       <div ng-repeat="item in soitems track by $index">
         {{item["id"]}} name: <br>
         <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
-
         description:<br>
         <input type="text" id="keykey" size="120" ng-model='item["description"]'/><br><br>
-
       </div>
-      + more ... <br><br>
+
+      <button class="btn btn-default" type="button" ng-click="moreShout()">+ More ...</button><br>
 
       <h2>Watch Outs</h2>
 
       <div ng-repeat="ww in woitems track by $index">
         {{ww["id"]}} name: <br>
         <input type="text" id="keykey" size="40" ng-model='ww["name"]'/><br>
-
         description:<br>
         <input type="text" id="keykey" size="120" ng-model='ww["description"]'/><br><br>
-
       </div>
-      + more ... <br><br>
 
-      {{dump}}<br><br>
-      {{dump2}}<br><br>
-      {{dump3}}<br><br>
-      {{dump4}}<br><br>
-      {{dump5}}<br><br>
+      <button class="btn btn-default" type="button" ng-click="moreWatch()">+ More ...</button><br>
+
+<button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button><br>
+
+<!--  {{dump}}<br><br>
+      {{dump5}}<br><br> -->
 
     </div>
   </div>

@@ -309,6 +309,9 @@ angular.module('developer.games', [
         $scope.soitems = [];
         $scope.woitems = [];
 
+        var max_shouts = 15;
+        var max_watches = 15;
+
         var newrule = {};
         var soworules = {};
         var soworuleskeys = [];
@@ -342,6 +345,25 @@ angular.module('developer.games', [
                 }
             });
         }
+
+        var solen = $scope.soitems.length;
+        $scope.moreShout = function() {
+            if(solen < max_shouts) {
+                newrule = {"id": ("so"+ (1 + solen)), "name": "new shout out name", "description": "new rule description"};
+                $scope.soitems.push(newrule);
+                solen = $scope.soitems.length;
+            }
+        };
+
+        var wolen = $scope.woitems.length;
+        $scope.moreWatch = function() {
+            if(wolen < max_watches) {
+                newrule = {"id": ("wo"+ (1 + wolen)), "name": "new watch out name", "description": "new rule description"};
+                $scope.woitems.push(newrule);
+                wolen = $scope.woitems.length;
+            }
+        };
+
     })
 
 
