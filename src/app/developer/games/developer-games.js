@@ -364,6 +364,10 @@ angular.module('developer.games', [
             }
         };
 
+        $scope.saveInfo = function() {
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+        };
+
     })
 
 
