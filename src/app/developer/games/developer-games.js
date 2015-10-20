@@ -43,35 +43,27 @@ angular.module('developer.games', [
                     authorizedRoles: ['developer']
                 }
         })
-            .state('root.developerGames.editor', {
-                url: '/:gameId/editor',
-                views: {
-                    'main@': {
-                        templateUrl: 'developer/games/developer-game-editor.html',
-                        controller: 'DevGameEditorCtrl'
-                    }
-                },
-                resolve: {
-                    gameInfo: function ($stateParams, GamesService) {
-                        return GamesService.getDeveloperGameInfo($stateParams.gameId);
-                    },
-                    infoSchema: function(GamesService) {
-                        return GamesService.getDeveloperGamesInfoSchema();
-                    }
-                },
-                data: {
-                    authorizedRoles: ['developer'],
-                    pageTitle: 'Game Editor'
+        .state('root.developerGames.editor', {
+            url: '/:gameId/editor',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-editor.html',
+                    controller: 'DevGameEditorCtrl'
                 }
-            })
-
-
-
-
-////////////////  ////////////////  ////////////////  ////////////////
-////////////////  ////////////////  ////////////////  ////////////////
-////////////////  ////////////////  ////////////////  ////////////////
-////////////////  ////////////////  ////////////////  ////////////////
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                },
+                infoSchema: function(GamesService) {
+                    return GamesService.getDeveloperGamesInfoSchema();
+                }
+            },
+            data: {
+                authorizedRoles: ['developer'],
+                pageTitle: 'Game Editor'
+            }
+        })
 
 
 
@@ -307,31 +299,49 @@ angular.module('developer.games', [
     .controller('DevGameSoWoEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
         $scope.gameId = $stateParams.gameId;
-        // $scope.fullData = gameInfo;
-        // $scope.fullSchema = infoSchema;
-        // $scope.tabs = ["basic", "details", "assessment", "reports"];
-        // $scope.saveInfo = function() {
-        //     return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
-        // };
 
-        // $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
-        //     target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
-        //     return target;
-        // }, {});
+// $scope.dump = $state;
+// $scope.dump2 = myGames;
+// $scope.dump3 = gameInfo;
+// $scope.dump4 = infoSchema;
+// $scope.dump5 = GamesService;
 
-        // $scope.onChange = function(data, tabName) {
-        //     $scope.fullData[tabName] = data;
-        // };
+        $scope.soitems = [];
+        $scope.woitems = [];
 
-        $scope.sokeys = ['so1','so2','so3'];
-        $scope.wokeys = ['wo1','wo2'];
-        $scope.soitems = [
-            {"so1": {"name": "name11", "description": "shout 111description"}},
-            {"so2": {"name": "name22", "description": "shout 222description"}},
-            {"so3": {"name": "name33", "description": "shout 333description"}}];
-        $scope.woitems = [
-            {"wo1": {"name": "name11", "description": "111description"}},
-            {"wo2": {"name": "name22", "description": "222description"}}];
+        var newrule = {};
+        var soworules = {};
+        var soworuleskeys = [];
+
+        if(gameInfo.hasOwnProperty('assessment') &&
+            gameInfo.assessment[0].hasOwnProperty('id') &&
+            gameInfo.assessment[0].hasOwnProperty('rules') &&
+            (gameInfo.assessment[0].id == 'sowo')) {
+
+            soworules = gameInfo.assessment[0].rules;
+            soworuleskeys = Object.keys(soworules);
+
+            soworuleskeys.forEach( function(rule) {
+
+                if(0 <= rule.indexOf('so')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.soitems.push(newrule);
+                }
+
+                if(0 <= rule.indexOf('wo')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.woitems.push(newrule);
+                }
+            });
+        }
     })
 
 

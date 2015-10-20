@@ -6,17 +6,15 @@
 
       ( GLAS-305 )<br>
 
-      This is /Users/wcj/1/web-dev/GlasslabGames/platform-test/hydra/Playfully.org/src/app/developer/games/developer-game-sowo-editor.html
-
       <h1>{{gameId}}</h1>
       <h2>Shout Outs</h2>
 
-      <div ng-repeat="ww in soitems track by $index">
-        {{sokeys[$index]}} name: <br>
-        <input type="text" id="keykey" size="40" ng-model="pokey"/><br>
+      <div ng-repeat="item in soitems track by $index">
+        {{item["id"]}} name: <br>
+        <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
 
         description:<br>
-        <input type="text" id="keykey" size="120" ng-model="pokey"/><br><br>
+        <input type="text" id="keykey" size="120" ng-model='item["description"]'/><br><br>
 
       </div>
       + more ... <br><br>
@@ -24,14 +22,20 @@
       <h2>Watch Outs</h2>
 
       <div ng-repeat="ww in woitems track by $index">
-        {{wokeys[$index]}} name: <br>
-        <input type="text" id="keykey" size="40" ng-model="pokey"/><br>
+        {{ww["id"]}} name: <br>
+        <input type="text" id="keykey" size="40" ng-model='ww["name"]'/><br>
 
         description:<br>
-        <input type="text" id="keykey" size="120" ng-model="pokey"/><br><br>
+        <input type="text" id="keykey" size="120" ng-model='ww["description"]'/><br><br>
 
       </div>
       + more ... <br><br>
+
+      {{dump}}<br><br>
+      {{dump2}}<br><br>
+      {{dump3}}<br><br>
+      {{dump4}}<br><br>
+      {{dump5}}<br><br>
 
     </div>
   </div>
