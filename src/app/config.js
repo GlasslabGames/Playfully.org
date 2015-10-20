@@ -45,7 +45,7 @@ angular.module('playfully.config', [])
   developer:			'developer',
   admin: 				'admin',
   reseller:				'reseller',
-  reseller_candidate:	'reseller_candidate'
+  reseller_candidate:	'res-cand'
 })
 
 .constant('STRIPE', {
