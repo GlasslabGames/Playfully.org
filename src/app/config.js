@@ -38,12 +38,14 @@ angular.module('playfully.config', [])
 })
 
 .constant('USER_ROLES', {
-  all:        '*',
-  student:    'student',
-  instructor: 'instructor',
-  manager:    'manager',
-  developer:  'developer',
-  admin:      'admin'
+  all:					'*',
+  student:				'student',
+  instructor:			'instructor',
+  manager:				'manager',
+  developer:			'developer',
+  admin: 				'admin',
+  reseller:				'reseller',
+  reseller_candidate:	'reseller_candidate'
 })
 
 .constant('STRIPE', {

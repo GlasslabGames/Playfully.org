@@ -39,7 +39,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
         })
         .state('sdk.sdkv2LoginInstructorSuccess', {
             url: '/v2/game/:gameId/login/instructor-success',
-            data: {hideWrapper: true, authorizedRoles: ['instructor', 'admin']},
+            data: {hideWrapper: true, authorizedRoles: ['instructor', 'admin', 'reseller']},
             views: {
                 'main@': {
                     templateUrl: 'login/v2/sdk-login-instructor-success.html',
@@ -49,7 +49,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
         })
         .state('sdk.sdkv2PasswordPrompt', {
             url: '/v2/login/confirm',
-            data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin']},
+            data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin', 'reseller']},
             views: {
                 'main@': {
                     templateUrl: 'login/v2/sdk-password-prompt.html',
@@ -64,7 +64,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
         })
         .state('sdk.sdkv2LoginResetData', {
             url: '/v2/login/resetdata',
-            data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin']},
+            data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin', 'reseller']},
             views: {
                 'main@': {
                     templateUrl: 'login/v2/sdk-resetdata-prompt.html',

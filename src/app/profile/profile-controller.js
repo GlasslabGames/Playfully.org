@@ -11,7 +11,7 @@ angular.module( 'playfully.profile', [])
     },
     data:{
       pageTitle: 'Edit Profile',
-      authorizedRoles: ['student','instructor','developer','admin']
+      authorizedRoles: ['student','instructor','developer','admin','reseller']
     },
     resolve: {
       user: function(UserService) {
@@ -19,26 +19,6 @@ angular.module( 'playfully.profile', [])
       }
     }
   });
-  /*
-  .state( 'editProfile', {
-    parent: 'profileModal',
-    url: 'edit-profile',
-    views: {
-      'modal@': {
-        controller: 'EditProfileModalCtrl',
-        templateUrl: 'profile/profile-edit.html'
-      }
-    },
-    data:{
-      pageTitle: 'Edit Profile',
-      authorizedRoles: ['student','instructor','developer','admin']
-    },
-    resolve: {
-      user: function(UserService) {
-        return UserService.currentUser();
-      }
-    }
-  });*/
 })
 
 .controller( 'EditProfileModalCtrl', function ( $scope, $rootScope, $state, $log, $timeout, user, UserService, AuthService ) {

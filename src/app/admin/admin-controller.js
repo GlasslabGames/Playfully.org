@@ -31,14 +31,14 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             }
         },
         data: {
-            authorizedRoles: ['admin']
+            authorizedRoles: ['admin','reseller']
         }
     })
     .state('modal.reseller-confirm-purchase-order-modal', {
         url: '/admin/reseller-confirm-purchase-order',
         data: {
             pageTitle: 'Confirm Purchase Order',
-            authorizedRoles: ['admin']
+            authorizedRoles: ['admin','reseller']
         },
         views: {
             'modal@': {
@@ -110,7 +110,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         templateUrl: 'admin/admin-purchase-orders.html',
         controller: 'AdminPurchaseOrdersCtrl',
         data: {
-            authorizedRoles: ['admin']
+            authorizedRoles: ['admin','reseller']
         }
     })
     .state('admin.developer-approval', {
