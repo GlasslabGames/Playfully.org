@@ -353,10 +353,12 @@ angular.module( 'playfully', [
               if ($rootScope.toState) {
                 if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
-                      user.role == 'developer' ||
-                      user.role == 'admin'
-                    ) {
+                      user.role == 'developer' ) {
                     $state.go('root.instructorDashboard.default');
+                  } else if ( user.role == 'admin' ) {
+                    $state.go('admin.one-page');
+                  } else if ( user.role == 'reseller' ) {
+                    $state.go('admin.reseller-one-page');
                   } else {
                     $state.go('root.studentCourses');
                   }
