@@ -393,6 +393,25 @@ angular.module('developer.games', [
         };
 
         $scope.saveInfo = function() {
+
+            gameInfo.assessment[0].rules = {};
+
+            solen = $scope.soitems.length;
+            for(i = 0; i < solen; ++i) {
+                gameInfo.assessment[0].rules[$scope.soitems[i].id] = {
+                    "name": $scope.soitems[i].name,
+                    "description": $scope.soitems[i].description
+                };
+            }
+
+            wolen = $scope.woitems.length;
+            for(i = 0; i < wolen; ++i) {
+                gameInfo.assessment[0].rules[$scope.woitems[i].id] = {
+                    "name": $scope.woitems[i].name,
+                    "description": $scope.woitems[i].description
+                };
+            }
+
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
     })
