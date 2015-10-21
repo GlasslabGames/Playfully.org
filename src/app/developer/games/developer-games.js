@@ -43,27 +43,53 @@ angular.module('developer.games', [
                     authorizedRoles: ['developer']
                 }
         })
-            .state('root.developerGames.editor', {
-                url: '/:gameId/editor',
-                views: {
-                    'main@': {
-                        templateUrl: 'developer/games/developer-game-editor.html',
-                        controller: 'DevGameEditorCtrl'
-                    }
-                },
-                resolve: {
-                    gameInfo: function ($stateParams, GamesService) {
-                        return GamesService.getDeveloperGameInfo($stateParams.gameId);
-                    },
-                    infoSchema: function(GamesService) {
-                        return GamesService.getDeveloperGamesInfoSchema();
-                    }
-                },
-                data: {
-                    authorizedRoles: ['developer'],
-                    pageTitle: 'Game Editor'
+        .state('root.developerGames.editor', {
+            url: '/:gameId/editor',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-editor.html',
+                    controller: 'DevGameEditorCtrl'
                 }
-            })
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                },
+                infoSchema: function(GamesService) {
+                    return GamesService.getDeveloperGamesInfoSchema();
+                }
+            },
+            data: {
+                authorizedRoles: ['developer'],
+                pageTitle: 'Game Editor'
+            }
+        })
+
+        .state('root.developerGames.sowo-editor', {
+            url: '/:gameId/sowo-editor',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-sowo-editor.html',
+                    controller: 'DevGameSoWoEditorCtrl'
+                }
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                },
+                infoSchema: function(GamesService) {
+                    return GamesService.getDeveloperGamesInfoSchema();
+                }
+            },
+            data: {
+                authorizedRoles: ['developer', 'admin'],
+                pageTitle: 'Game Shout Out Watch Out Editor'
+            }
+        })
+
+
+
+
         .state('root.developerGames.detail', {
             abstract: true,
             url: '/:gameId?scrollTo',
@@ -231,6 +257,127 @@ angular.module('developer.games', [
             $scope.fullData[tabName] = data;
         };
     })
+
+    .controller('DevGameSoWoEditorCtrl',
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+        $scope.gameId = $stateParams.gameId;
+
+// $scope.dump = $state;
+// $scope.dump2 = myGames;
+// $scope.dump3 = gameInfo;
+// $scope.dump4 = infoSchema;
+// $scope.dump5 = GamesService;
+
+        $scope.soitems = [];
+        $scope.woitems = [];
+
+        var max_shouts = 15;
+        var max_watches = 15;
+
+        var i;
+        var newidx;
+        var newrule = {};
+        var soworules = {};
+        var soworuleskeys = [];
+
+        if(gameInfo.hasOwnProperty('assessment') &&
+            gameInfo.assessment[0].hasOwnProperty('id') &&
+            gameInfo.assessment[0].hasOwnProperty('rules') &&
+            (gameInfo.assessment[0].id == 'sowo')) {
+
+            soworules = gameInfo.assessment[0].rules;
+            soworuleskeys = Object.keys(soworules);
+
+            soworuleskeys.forEach( function(rule) {
+
+                if(0 <= rule.indexOf('so')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.soitems.push(newrule);
+                }
+
+                if(0 <= rule.indexOf('wo')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.woitems.push(newrule);
+                }
+            });
+        }
+
+        var solen = $scope.soitems.length;
+        $scope.deleteShoutRule = function(idx) {
+            $scope.soitems.splice(idx, 1);
+            solen = $scope.soitems.length;
+        };
+
+        var wolen = $scope.woitems.length;
+        $scope.deleteWatchRule = function(idx) {
+            $scope.woitems.splice(idx, 1);
+            wolen = $scope.woitems.length;
+        };
+
+        solen = $scope.soitems.length;
+        $scope.moreShout = function() {
+            if(solen < max_shouts) {
+                newidx =1;
+                for(i = 0; i < solen; ++ i) {
+                    if($scope.soitems[i].id != ('so'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("so" + newidx), "name": "new shout out name", "description": "new rule description"};
+                $scope.soitems.splice((newidx - 1), 0, newrule);
+                solen = $scope.soitems.length;
+            }
+        };
+
+        wolen = $scope.woitems.length;
+        $scope.moreWatch = function() {
+            if(wolen < max_watches) {
+                newidx = 1;
+                for(i = 0; i < wolen; ++i) {
+                    if($scope.woitems[i].id != ('wo'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("wo" + newidx), "name": "new watch out name", "description": "new rule description"};
+                $scope.woitems.splice((newidx - 1), 0, newrule);
+                wolen = $scope.woitems.length;
+            }
+        };
+
+        $scope.saveInfo = function() {
+
+            gameInfo.assessment[0].rules = {};
+
+            solen = $scope.soitems.length;
+            for(i = 0; i < solen; ++i) {
+                gameInfo.assessment[0].rules[$scope.soitems[i].id] = {
+                    "name": $scope.soitems[i].name,
+                    "description": $scope.soitems[i].description
+                };
+            }
+
+            wolen = $scope.woitems.length;
+            for(i = 0; i < wolen; ++i) {
+                gameInfo.assessment[0].rules[$scope.woitems[i].id] = {
+                    "name": $scope.woitems[i].name,
+                    "description": $scope.woitems[i].description
+                };
+            }
+
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+        };
+    })
+
     .controller('DevGameDetailCtrl',
     function ($scope, $state, $stateParams, $log, $window, gameDetails, myGames, AuthService, GamesService) {
         document.body.scrollTop = 0;
