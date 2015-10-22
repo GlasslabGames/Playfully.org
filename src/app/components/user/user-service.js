@@ -80,6 +80,14 @@ angular.module('user', [])
        } );
     },
 
+    getResellers: function() {
+		return $http.get(API_BASE + '/auth/userResellers');
+    },
+
+    updateUserRole: function( id, role ) {
+    	return $http.post(API_BASE + '/auth/user/' + id + '/updateRole/' + role );
+    },
+
     getAllDevelopers: function() {
       	return $http.get(API_BASE + '/auth/developers')
       	.then(function (response) {

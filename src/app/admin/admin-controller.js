@@ -126,6 +126,19 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.reseller-approval', {
+        url: '/reseller-approval',
+        templateUrl: 'admin/admin-reseller-approval.html',
+        controller: 'AdminResellerApprovalCtrl',
+        resolve: {
+            resellers: function (UserService) {
+                return UserService.getResellers();
+            }
+        },
+        data: {
+            authorizedRoles: ['admin']
+        }
+    })
     .state('admin.report-data-export', {
         url: '/report-data-export',
         templateUrl: 'admin/admin-report-data.html',
@@ -477,6 +490,89 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             $scope.action = "";
         });
     };
+})
+
+.controller('AdminResellerApprovalCtrl', function (resellers, $scope, $window, UserService) {
+	$scope.pending = [];
+	$scope.approved = [];
+
+	var resellerList = resellers.data;
+
+	// build lists
+	angular.forEach( resellerList, function( value ) {
+		if ( value.role === "reseller" ) {
+			$scope.approved.push( value );
+		} else if ( value.role === "res-cand" ) {
+			$scope.pending.push( value );
+		}
+	});
+
+	$scope.predicateApprove = 'username';
+    $scope.reverseApprove = false;
+    $scope.orderApprove = function(predicate) {
+        $scope.reverseApprove = ($scope.predicateApprove === predicate) ? !$scope.reverseApprove : false;
+        $scope.predicateApprove = predicate;
+    };
+      
+	$scope.predicateVerified = 'username';
+    $scope.reverseVerified = false;
+    $scope.orderVerified = function(predicate) {
+        $scope.reverseVerified = ($scope.predicateVerified === predicate) ? !$scope.reverseVerified : false;
+        $scope.predicateVerified = predicate;
+    };
+
+    $scope.approveReseller = function(reseller) {
+    	var i;
+		for(i = $scope.pending.length; i--;) {
+			if($scope.pending[i] === reseller) {
+				break;
+			}
+		}
+
+		if (i >= 0) {
+			var doApprove = $window.confirm('Are you sure you want to approve ' + reseller.username + '?');
+			if (doApprove) {
+				UserService.updateUserRole( reseller.id, "reseller")
+				.then(function(response) {
+					$scope.pending.splice(i, 1);
+
+					// Add to approved
+					reseller.role = "reseller";
+					$scope.approved.push( reseller );
+				}.bind(this),
+				function (response) {
+					$window.alert(response.message);
+				});
+			}
+		}
+    };
+
+    $scope.revokeReseller = function(reseller) {
+		var i;
+		for(i = $scope.approved.length; i--;) {
+			if($scope.approved[i] === reseller) {
+				break;
+			}
+		}
+		if (i >= 0) {
+			var doRevoke = $window.confirm('Are you sure you want to revoke ' + reseller.username + '?');
+			if (doRevoke) {
+				UserService.updateUserRole( reseller.id, "res-cand")
+				.then(function(response) {
+					$scope.approved.splice(i, 1);
+
+					// Can we FORCE them to be logged off (in case they're logged in)?
+
+					// Add to pending
+					reseller.role = "res-cand";
+					$scope.pending.push( reseller );
+				}.bind(this),
+				function (response) {
+					$window.alert(response.message);
+				});
+			}
+		}
+   };
 })
 
 .controller('AdminDeveloperApprovalCtrl', function (developers, $scope, $window, UserService) {
