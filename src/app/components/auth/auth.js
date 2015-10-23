@@ -121,7 +121,7 @@ angular.module('auth', ['session', 'ipCookie'])
          return dataPwd.match(/[0-9]+/) === null || dataPwd.match(/[A-Z]+/) === null;
     },
          
-    validatePasswordMessage: "Your password must be at least 6 characters and contain at least one lowercase letter, one uppercase letter, and a number.",
+    validatePasswordMessage: "Password must be at least 6 characters long with mixed-case letters and contain a number.",
          
     validatePasswordTip: "At least 6 characters with mixed-case letters and at least one number",
          
