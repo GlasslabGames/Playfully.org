@@ -215,14 +215,6 @@ angular.module('games', [
           });
     },
     updateDeveloperGameInfo: function(gameId,data) {
-
-// data = undefined
-
-console.log('xxxx--------xxxx trying to call /dash/developer/info/game/<gameId> ...');
-console.log('    data keys =', '\n'+Object.keys(data));
-console.log('    data.assessment[0].rules.wo5.description =', '\n'+data.assessment[0].rules.wo5.description);
-console.log('xxxxxxxx');
-
       return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
           .then(function(response) {
             $log.debug(response);

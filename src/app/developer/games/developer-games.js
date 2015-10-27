@@ -245,11 +245,6 @@ angular.module('developer.games', [
         $scope.fullSchema = infoSchema;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
         $scope.saveInfo = function() {
-
-console.log('        >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
-console.log('        >>>>>>>>>>>>>>>> ');
-console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
-
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
@@ -379,21 +374,6 @@ console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDeta
                 };
             }
 
-console.log('        sowo >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo keys = ', '"'+Object.keys(gameInfo)+'"');
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo = ', gameInfo);
-// console.log('        sowo >>>>>>>>>>>>>>>> ');
-// console.log('        sowo >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    $scope = ', $scope);
-
-
-
-
-
-
             soworules = gameInfo.assessment[0].rules;
             soworuleskeys = Object.keys(soworules);
 
@@ -417,9 +397,6 @@ console.log('        sowo >>>>>>>>>>>>>>>>    $scope = ', $scope);
                     $scope.woitems.push(newrule);
                 }
             });
-
-
-
 
             return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
         };
