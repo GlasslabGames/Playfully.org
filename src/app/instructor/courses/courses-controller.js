@@ -207,6 +207,64 @@ angular.module( 'instructor.courses', [
       }
     }
   })
+
+  .state('modal-lg.removeInvalidGame', {
+      url: '/classes/:id/remove/:gameId',
+      data: {
+          pageTitle: 'Remove Game Not in Plan',
+          authorizedRoles: ['instructor','admin'],
+          reloadNextState: false
+      },
+      resolve: {
+          allGames: function(GamesService) {
+            return GamesService.active('basic');
+          },
+          course: function ($stateParams, CoursesService) {
+              return CoursesService.get($stateParams.id);
+          }
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/remove-invalid-game.html',
+              controller: function($scope, course, allGames, $stateParams, $rootScope, $timeout, $window, CoursesService, UtilService) {
+                    $scope.gameId = $stateParams.gameId;
+                    $scope.course = course;
+                    $scope.request = {success: false};
+         
+                    allGames.some(function(game) {
+                        if (game.gameId == $scope.gameId) {
+                            $scope.game = game;
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    $scope.removeGame = function(courseData, game) {
+                        courseData.games = courseData.games.filter(function (el) {
+                            return el.id !== game.gameId;
+                        });
+         
+                        CoursesService.updateGames(courseData)
+                        .success(function(data, status, headers, config) {
+                            $rootScope.$broadcast('courses:updated');
+                            $scope.closeAndReload();
+                        })
+                        .error(function(data, status, headers, config) {
+                            $log.error(data);
+                            $scope.errors.push(data.error);
+                        });
+                    };
+                    $scope.closeAndReload = function() {
+                        $scope.close();
+                        $timeout(function() {
+                            $window.location.reload();
+                        }, 100);
+                    };
+              }
+          }
+      }
+  })
+
   .state('modal-lg.enableAllPremiumGamesToCourse', {
       url: '/classes/:id/assigned/:premiumGamesAssigned',
       data: {
