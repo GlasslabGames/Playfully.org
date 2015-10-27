@@ -245,6 +245,11 @@ angular.module('developer.games', [
         $scope.fullSchema = infoSchema;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
         $scope.saveInfo = function() {
+
+console.log('        >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
+console.log('        >>>>>>>>>>>>>>>> ');
+console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
+
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
@@ -374,7 +379,49 @@ angular.module('developer.games', [
                 };
             }
 
-            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+console.log('        sowo >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
+console.log('        sowo >>>>>>>>>>>>>>>> ');
+console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo keys = ', '"'+Object.keys(gameInfo)+'"');
+console.log('        sowo >>>>>>>>>>>>>>>> ');
+console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo = ', gameInfo);
+// console.log('        sowo >>>>>>>>>>>>>>>> ');
+// console.log('        sowo >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
+console.log('        sowo >>>>>>>>>>>>>>>> ');
+console.log('        sowo >>>>>>>>>>>>>>>>    $scope = ', $scope);
+
+
+
+
+
+
+            soworules = gameInfo.assessment[0].rules;
+            soworuleskeys = Object.keys(soworules);
+
+            soworuleskeys.forEach( function(rule) {
+
+                if(0 <= rule.indexOf('so')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.soitems.push(newrule);
+                }
+
+                if(0 <= rule.indexOf('wo')) {
+                    newrule = {"id": "", "name": "", "description": ""};
+                    newrule.id = rule;
+                    newrule.name = soworules[rule].name;
+                    newrule.description = soworules[rule].description;
+
+                    $scope.woitems.push(newrule);
+                }
+            });
+
+
+
+
+            return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
         };
     })
 
