@@ -296,35 +296,29 @@ angular.module('developer.games', [
             gameInfo.assessment[0].rules = {};
         }
 
-        if(gameInfo.hasOwnProperty('assessment') &&
-            gameInfo.assessment[0].hasOwnProperty('id') &&
-            gameInfo.assessment[0].hasOwnProperty('rules') &&
-            (gameInfo.assessment[0].id == 'sowo')) {
+        soworules = gameInfo.assessment[0].rules;
+        soworuleskeys = Object.keys(soworules);
 
-            soworules = gameInfo.assessment[0].rules;
-            soworuleskeys = Object.keys(soworules);
+        soworuleskeys.forEach( function(rule) {
 
-            soworuleskeys.forEach( function(rule) {
+            if(0 <= rule.indexOf('so')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
 
-                if(0 <= rule.indexOf('so')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
+                $scope.soitems.push(newrule);
+            }
 
-                    $scope.soitems.push(newrule);
-                }
+            if(0 <= rule.indexOf('wo')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
 
-                if(0 <= rule.indexOf('wo')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.woitems.push(newrule);
-                }
-            });
-        }
+                $scope.woitems.push(newrule);
+            }
+        });
 
         var solen = $scope.soitems.length;
         $scope.deleteShoutRule = function(idx) {
@@ -389,30 +383,6 @@ angular.module('developer.games', [
                     "description": $scope.woitems[i].description
                 };
             }
-
-            soworules = gameInfo.assessment[0].rules;
-            soworuleskeys = Object.keys(soworules);
-
-            soworuleskeys.forEach( function(rule) {
-
-                if(0 <= rule.indexOf('so')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.soitems.push(newrule);
-                }
-
-                if(0 <= rule.indexOf('wo')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.woitems.push(newrule);
-                }
-            });
 
             return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
         };
