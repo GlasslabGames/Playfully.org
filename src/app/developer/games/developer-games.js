@@ -245,11 +245,6 @@ angular.module('developer.games', [
         $scope.fullSchema = infoSchema;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
         $scope.saveInfo = function() {
-
-console.log('        >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
-console.log('        >>>>>>>>>>>>>>>> ');
-console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
-
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
@@ -285,35 +280,63 @@ console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDeta
         var soworules = {};
         var soworuleskeys = [];
 
-        if(gameInfo.hasOwnProperty('assessment') &&
-            gameInfo.assessment[0].hasOwnProperty('id') &&
-            gameInfo.assessment[0].hasOwnProperty('rules') &&
-            (gameInfo.assessment[0].id == 'sowo')) {
-
-            soworules = gameInfo.assessment[0].rules;
-            soworuleskeys = Object.keys(soworules);
-
-            soworuleskeys.forEach( function(rule) {
-
-                if(0 <= rule.indexOf('so')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.soitems.push(newrule);
-                }
-
-                if(0 <= rule.indexOf('wo')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.woitems.push(newrule);
-                }
-            });
+        if(!gameInfo.hasOwnProperty('assessment')) {
+            gameInfo.assessment = [];
         }
+
+        if(gameInfo.assessment.length < 1) {
+            gameInfo.assessment[0] = {};
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('id')) {
+            gameInfo.assessment[0].id = 'sowo';
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
+
+        // do we need these ?
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('enabled')) {
+        //     gameInfo.assessment[0].enabled = true;
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('dataProcessScope')) {
+        //     gameInfo.assessment[0].dataProcessScope = 'gameSession';
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('engine')) {
+        //     gameInfo.assessment[0].engine = 'javascript';
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('trigger')) {
+        //     gameInfo.assessment[0].trigger = 'endSession';
+        // }
+
+        soworules = gameInfo.assessment[0].rules;
+        soworuleskeys = Object.keys(soworules);
+
+        soworuleskeys.forEach( function(rule) {
+
+            if(0 <= rule.indexOf('so')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.soitems.push(newrule);
+            }
+
+            if(0 <= rule.indexOf('wo')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.woitems.push(newrule);
+            }
+        });
 
         var solen = $scope.soitems.length;
         $scope.deleteShoutRule = function(idx) {
@@ -378,48 +401,6 @@ console.log('        >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDeta
                     "description": $scope.woitems[i].description
                 };
             }
-
-console.log('        sowo >>>>>>>>>>>>>>>>    .state(modal-lg.developer-edit) ...');
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo keys = ', '"'+Object.keys(gameInfo)+'"');
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    gameInfo = ', gameInfo);
-// console.log('        sowo >>>>>>>>>>>>>>>> ');
-// console.log('        sowo >>>>>>>>>>>>>>>>    $scope.gameDetails = ', $scope.gameDetails);
-console.log('        sowo >>>>>>>>>>>>>>>> ');
-console.log('        sowo >>>>>>>>>>>>>>>>    $scope = ', $scope);
-
-
-
-
-
-
-            soworules = gameInfo.assessment[0].rules;
-            soworuleskeys = Object.keys(soworules);
-
-            soworuleskeys.forEach( function(rule) {
-
-                if(0 <= rule.indexOf('so')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.soitems.push(newrule);
-                }
-
-                if(0 <= rule.indexOf('wo')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.woitems.push(newrule);
-                }
-            });
-
-
-
 
             return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
         };
