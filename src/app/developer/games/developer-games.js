@@ -280,6 +280,22 @@ angular.module('developer.games', [
         var soworules = {};
         var soworuleskeys = [];
 
+        if(!gameInfo.hasOwnProperty('assessment')) {
+            gameInfo.assessment = [];
+        }
+
+        if(gameInfo.assessment.length < 1) {
+            gameInfo.assessment[0] = {};
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('id')) {
+            gameInfo.assessment[0].id = 'sowo';
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
+
         if(gameInfo.hasOwnProperty('assessment') &&
             gameInfo.assessment[0].hasOwnProperty('id') &&
             gameInfo.assessment[0].hasOwnProperty('rules') &&
