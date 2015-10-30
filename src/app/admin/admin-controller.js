@@ -109,6 +109,11 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         url: '/purchase-orders',
         templateUrl: 'admin/admin-purchase-orders.html',
         controller: 'AdminPurchaseOrdersCtrl',
+        resolve: {
+        	purchaseOrders: function (LicenseService) {
+        		return LicenseService.getOpenPurchaseOrders();
+        	}
+        },
         data: {
             authorizedRoles: ['admin','reseller']
         }
@@ -458,7 +463,34 @@ angular.module('playfully.admin', ['dash','data','games','license'])
     };
 })
 
-.controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService) {
+.controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService, purchaseOrders) {
+	$scope.openPurchaseOrders = purchaseOrders.data;
+
+	$scope.predicateApprove = 'name';
+    $scope.reverseApprove = false;
+    $scope.orderApprove = function(predicate) {
+        $scope.reverseApprove = ($scope.predicateApprove === predicate) ? !$scope.reverseApprove : false;
+        $scope.predicateApprove = predicate;
+    };
+
+    $scope.actionPO = function( po ) {
+    };
+
+    $scope.rejectPO = function( po ) {
+    };
+
+    $scope.actionPOName = function( po ) {
+    	if ( po.status === 'pending' ) {
+    		return 'RECEIVE';
+    	} else if ( po.status === 'received' ) {
+    		return 'INVOICE';
+    	}
+
+		return 'APPROVE';
+    };
+
+
+	/*
     $scope.purchaseOrder = {
         key: "",
         number: "",
@@ -490,6 +522,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             $scope.action = "";
         });
     };
+    */
 })
 
 .controller('AdminResellerApprovalCtrl', function (resellers, $scope, $window, UserService) {

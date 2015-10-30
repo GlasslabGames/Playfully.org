@@ -260,6 +260,9 @@ angular.module('license', [])
             this.declineInvitation = function () {
                 return $http.post(API_BASE + '/license/nullify');
             };
+            this.getOpenPurchaseOrders = function() {
+            	return $http.get( API_BASE + '/license/po/open' );
+            };
             this.resellerSubscribeWithPurchaseOrder = function (info) {
                 var apiUrl = API_BASE + '/license/subscribe/internal';
                 return $http.post(apiUrl, {

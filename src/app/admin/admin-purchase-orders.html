@@ -1,55 +1,37 @@
-<h2 class="text-muted">Purchase Orders</h2>
+<h2 class="text-muted">Process Purchase Orders</h2>
 <p>
-	Use this page to handle all purchase order transactions. Here you can indicate you've received a purchase order (which will grant the owner premium access), approve a purchase order, or reject a purchase order. Each action requires the same information in order to validate:
-	<ul>
-		<li><b>key</b>: a unique identifier associated with the form, created by GlassLab, Inc.</li>
-		<li><b>PO#</b>: the number on the form</li>
-		<li><b>payment</b>: the amount being paid to GlassLab, Inc.</li>
-		<li><b>plan</b>: the package plan type</li>
-		<li><b>seats</b>: the package seats size</li>
-		<li><b>action</b>: received, approved, rejected</li>
-	</ul>
+	Use this page to process Purchase Orders that are pending, received, or invoiced.  You can reject the purchase order or advance it to the next step (pending to received, received to invoiced, invoiced to approved).
+	While an invoice is pending, the educator who created the invoice can cancel it.
 </p>
 </br >
 
-<form ng-submit="updatePurchaseOrder()">
-	<h4>Purchase Order info:</h4>
-	Key: <input type="text" id="key" size="30" ng-model="purchaseOrder.key"/>
-	<br />
-	PO#: <input type="text" id="key" size="30" ng-model="purchaseOrder.number"/>
-	<br />
-	Payment Amount: <input type="text" id="key" size="10" ng-model="purchaseOrder.amount"/> (ex. 125.00)
-	<br />
-	<br />
-	<h4>License Package info:</h4>
-	Plan: <select name="type" ng-model="planInfo.type">
-        <option selected value="allGames">All Games</option>
-        <option value="chromebook">Chromebook</option>
-        <option value="ipad">iPad</option>
-        <option value="pcMac">PC/Mac</option>
-        <option value="trial">Trial</option>
-    </select>
-    <br />
-    Seats: <select name="seats" ng-model="planInfo.seats">
-        <option selected value="group">Group (10 students, 1 educator)</option>
-        <option value="class">Class (30 students, 2 educators)</option>
-        <option value="multiClass">Multi Class (120 students, 8 educators)</option>
-        <option value="school">School (500 students, 15 educators)</option>
-        <option value="trial">Trial (30 students)</option>
-    </select>
-    <br />
-    <br />
-    <h4>Action to take:</h4>
-    <select name="action" ng-model="action">
-        <option selected value="receive">RECEIVED</option>
-        <option value="invoice">INVOICED</option>
-        <option value="approve">APPROVED</option>
-        <option value="reject">REJECTED</option>
-    </select>
-    <br />
-    <br />
-    <input type="submit" id="submit" value="Update Purchase Order" />
-    <br />
-    <br />
-    <p ng-if="output">Result: {{output}}</p>
-</form>
+<table><tr><td style="width:720px"><span style="font-weight:bold">Open Purchase Orders</span></td></tr>
+<tr><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date_created')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date_created'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-button-header">&nbsp</th></tr>
+<tr ng-repeat="po in openPurchaseOrders | orderBy:predicateApprove:reverseApprove">
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{po.date_created}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.name}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.email}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.payment}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="actionPO(po)">{{actionPOName(po)}}</button>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="rejectPO(po)">REJECT</button></td>
+</tr>
+</table>
+</table>
+
+
+<!--
+
+ #    id, user_id, license_id, status, purchase_order_number, purchase_order_key, phone, email, name, payment, current_package_type, current_package_size_tier, action, date_created
+'3', '295', '10', 'approved', '666', 'cb7af590-5600-11e5-a1a1-29d249f2cc7110', '888-888-8888', 'first@email.com', 'First Last', '270.00', NULL, NULL, 'trial upgrade', '2015-09-08 01:08:31'
+'4', '296', '12', 'approved', '6666', '66f90b70-56cd-11e5-9052-0bbe9d56269a12', '999-999-9900', 'ocho@here.com', 'Primero Ultimo', '84.00', NULL, NULL, 'subscribe', '2015-09-09 01:33:10'
+'5', '297', '13', 'pending', NULL, '5b09d010-5817-11e5-9636-cf5de78ff79713', '999-888-7777', 'funky@email.com', 'Funky Wunkies', '30.00', NULL, NULL, 'subscribe', '2015-09-10 16:55:03'
+'6', '300', '14', 'received', 'e87a1a70-61fb-11e5-a', 'e8b88300-61fb-11e5-a0cb-51269a91070a14', '616-666-3612', 'this@that.net', 'This That', '1082.00', 'chromebook', '_666_100', 'subscribe', '2015-09-23 07:03:47'
+'7', '313', '20', 'received', 'a4158c10-768d-11e5-b', 'a453a680-768d-11e5-b921-050a8369c08020', '999-888-7777', 'test-015@email.com', 'test-015 test', '25.00', NULL, NULL, 'subscribe', '2015-10-19 11:17:22'
+'8', '316', '21', 'received', '859c7660-7690-11e5-b', '85c81a40-7690-11e5-b921-050a8369c08021', '999-888-7777', 'test-018@email.com', 'test-018 test', '375.00', NULL, NULL, 'subscribe', '2015-10-19 11:37:59'
+
+-->
