@@ -126,6 +126,51 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.game-approval', {
+        url: '/game-approval',
+        resolve: {
+        },
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-game-approval.html',
+            controller: 'AdminGameApprovalCtrl'
+          }
+        },
+        data: {
+            pageTitle: 'Approved Games',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.game-approval.pending', {
+        url: '/game-approval/pending',
+        resolve: {
+        },
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-game-approval.html',
+            controller: 'AdminGameApprovalCtrl'
+          }
+        },
+        data: {
+            pageTitle: 'Pending Games',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.game-approval.rejected', {
+        url: '/game-approval/pending',
+        resolve: {
+        },
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-game-approval.html',
+            controller: 'AdminGameApprovalCtrl'
+          }
+        },
+        data: {
+            pageTitle: 'Rejected Games',
+            authorizedRoles: ['admin']
+        }
+    })
     .state('admin.reseller-approval', {
         url: '/reseller-approval',
         templateUrl: 'admin/admin-reseller-approval.html',
@@ -635,4 +680,37 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 		  }
         }
    };
+})
+.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService) {
+    $scope.showTab = 0;
+    if ($state.includes('admin.game-approval.pending')) {
+        $scope.showTab = 1;
+    } else if ($state.includes('admin.game-approval.rejected')) {
+        $scope.showTab = 2;
+    }
+
+	$scope.predicateList = 'name';
+    $scope.reverseList = false;
+    $scope.orderList = function(predicate) {
+        $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
+        $scope.predicateList = predicate;
+    };
+    
+    $scope.games = [];
+    
+    $scope.games.push( { name: "Fruit Land EDU", company: "Sweet Game Acres" } );
+    $scope.games.push( { name: "Aap Apple rancher", company: "Big Apple Games" } );
+    
+    $scope.approveGame = function(game) {
+    
+    };
+
+    $scope.rejectGame = function(game) {
+    
+    };
+
+    $scope.needMoreInfo = function(game) {
+    
+    };
+
 });
