@@ -204,7 +204,7 @@ angular.module('developer.games', [
             }
         });
     })
-    .controller('DevGamesCtrl', function ($scope, $state, myGames) {
+    .controller('DevGamesCtrl', function ($scope, $state, $modal, myGames) {
         $scope.sections = [
             {name:'Live', release: 'live'},
             {name:'In development', release: 'dev'}/*,
@@ -236,6 +236,41 @@ angular.module('developer.games', [
             } else {
                 return text;
             }
+        };
+        $scope.createNewGame = function() {
+            $modal.open({
+                templateUrl: 'developer/games/developer-create-game.html',
+                controller: function($scope, $log, GamesService) {
+                    $scope.request = {
+                        isRegCompleted: false,
+                        gameId: null,
+                        errors: []
+                    };
+                    $scope.createGame = function (request) {
+                        request.isSubmitting = true;
+                        GamesService.createGame(request.gameId)
+                            .then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.isRegCompleted = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push( response.data.error );
+                                });
+                    };
+                    $scope.finish = function() {
+
+                    };
+                }
+            }).result.then(function (result) {
+                $state.reload();
+                $state.go('root.developerGames.editor', {gameId: result});
+            }, function (reason) {//This will be triggered on dismiss/Esc/backdrop click
+                $state.reload();
+            });
         };
     })
     .controller('DevGameEditorCtrl',
