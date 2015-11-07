@@ -466,7 +466,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 .controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService, purchaseOrders) {
 	$scope.openPurchaseOrders = purchaseOrders.data;
 
-	$scope.predicateApprove = 'name';
+	$scope.predicateApprove = 'date';
     $scope.reverseApprove = false;
     $scope.orderApprove = function(predicate) {
         $scope.reverseApprove = ($scope.predicateApprove === predicate) ? !$scope.reverseApprove : false;
@@ -474,9 +474,68 @@ angular.module('playfully.admin', ['dash','data','games','license'])
     };
 
     $scope.actionPO = function( po ) {
+		var purchaseOrder = {
+			key: "",
+			number: "",
+			amount: ""
+		};
+
+		purchaseOrder.key	 = po.purchase_order_key;
+		purchaseOrder.number = po.purchase_order_number;
+		purchaseOrder.amount = po.payment;
+
+		var planInfo = {
+			type: "",
+			seats: ""
+		};
+
+		planInfo.type = po.current_package_type;
+		planInfo.seats = po.current_package_size_tier;
+
+    	var action = "";
+
+    	if ( po.status === 'pending' ) {
+    		action = 'receive';
+    	} else if ( po.status === 'received' ) {
+    		action = 'invoice';
+    	} else {
+    		action = 'approve';
+    	}
+
+        LicenseService.updatePurchaseOrder( purchaseOrder, planInfo, action )
+        	.then(function(data) {
+        	}.bind(this));
     };
 
     $scope.rejectPO = function( po ) {
+		var purchaseOrder = {
+			key: "",
+			number: "",
+			amount: ""
+		};
+
+		purchaseOrder.key	 = po.purchase_order_key;
+		purchaseOrder.number = po.purchase_order_number;
+		purchaseOrder.amount = po.payment;
+
+		var planInfo = {
+			type: "",
+			seats: ""
+		};
+
+		planInfo.type = po.current_package_type;
+		planInfo.seats = po.current_package_size_tier;
+
+    	var action = "reject";
+
+        LicenseService.updatePurchaseOrder( purchaseOrder, planInfo, action )
+        	.then(function(data) {
+        	}.bind(this));
+    };
+
+    $scope.showDate = function( dt ) {
+    	var date = new Date( dt );
+    	return date.toLocaleDateString();
     };
 
     $scope.actionPOName = function( po ) {
@@ -488,41 +547,6 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 
 		return 'APPROVE';
     };
-
-
-	/*
-    $scope.purchaseOrder = {
-        key: "",
-        number: "",
-        amount: ""
-    };
-    $scope.planInfo = {
-        type: "",
-        seats: ""
-    };
-    $scope.action = "";
-    $scope.output = "";
-
-
-    $scope.updatePurchaseOrder = function() {
-        LicenseService.updatePurchaseOrder($scope.purchaseOrder, $scope.planInfo, $scope.action).then(function(data) {
-            // Update the output
-            $scope.output = data;
-
-            // Reset the order
-            $scope.purchaseOrder.key = "";
-            $scope.purchaseOrder.number = "";
-            $scope.purchaseOrder.amount = "";
-
-            // Reset the package
-            $scope.planInfo.type = "";
-            $scope.planInfo.seats = "";
-
-            // Reset the action
-            $scope.action = "";
-        });
-    };
-    */
 })
 
 .controller('AdminResellerApprovalCtrl', function (resellers, $scope, $window, UserService) {

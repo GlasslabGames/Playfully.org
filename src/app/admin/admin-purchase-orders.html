@@ -9,12 +9,17 @@
 <tr><td style="vertical-align:top">
 <table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date_created')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date_created'" ng-class="{reverse:reverseApprove}"></span></th>
 <th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
-<th class="admin-da-button-header">&nbsp</th></tr>
+<th class="admin-da-button-header">Email</th>
+<th class="admin-da-button-header">Purchase Order</th>
+<th class="admin-da-button-header">Amount</th>
+<th class="admin-da-button-header">Action</th>
+</tr>
 <tr ng-repeat="po in openPurchaseOrders | orderBy:predicateApprove:reverseApprove">
-<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{po.date_created}}</td>
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{showDate(po.date_created)}}</td>
 <td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.name}}</td>
 <td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.email}}</td>
-<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.payment}}</td>
+<td ng-class="$even ? 'admin-da-po-even' : 'admin-da-po-odd'">#{{po.purchase_order_number}}</td>
+<td ng-class="$even ? 'admin-da-payment-even' : 'admin-da-payment-odd'">${{po.payment}}</td>
 <td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
 <button ng-click="actionPO(po)">{{actionPOName(po)}}</button>
 <td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
