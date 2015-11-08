@@ -17,9 +17,9 @@
                          ng-click="goToGameDetail(game.gameId,game.release)">
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
-                                <img ng-src="/{{game.developer.logo.small}}" width="60" height="60">
+                                <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
                             </div>
-                            <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+                            <img ng-src="{{game.card.small}}" class="gl-game-catalog-game-card">
 
                             <div class="gl-dev-catalog-game-description" ng-show="game.release==='live'&&game.hover">
                                 <p>
@@ -42,7 +42,7 @@
                             </ul>
                         </div>
                         <div class="gl-game-catalog-platform-triangle">
-                            <img ng-src="/{{game.platform.icon.small}}"
+                            <img ng-src="{{game.platform.icon.small}}"
                                  class="gl-game-catalog-platform-icon">
                         </div>
                     </div>
