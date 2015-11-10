@@ -292,27 +292,31 @@ angular.module('developer.games', [
             gameInfo.assessment[0].id = 'sowo';
         }
 
-        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
-            gameInfo.assessment[0].rules = {};
-        }
+
 
         // do we need these ?
 
-        // if(!gameInfo.assessment[0].hasOwnProperty('enabled')) {
-        //     gameInfo.assessment[0].enabled = true;
-        // }
+        if(!gameInfo.assessment[0].hasOwnProperty('enabled')) {
+            gameInfo.assessment[0].enabled = true;
+        }
 
-        // if(!gameInfo.assessment[0].hasOwnProperty('dataProcessScope')) {
-        //     gameInfo.assessment[0].dataProcessScope = 'gameSession';
-        // }
+        if(!gameInfo.assessment[0].hasOwnProperty('dataProcessScope')) {
+            gameInfo.assessment[0].dataProcessScope = 'gameSession';
+        }
 
-        // if(!gameInfo.assessment[0].hasOwnProperty('engine')) {
-        //     gameInfo.assessment[0].engine = 'javascript';
-        // }
+        if(!gameInfo.assessment[0].hasOwnProperty('engine')) {
+            gameInfo.assessment[0].engine = 'javascript';
+        }
 
-        // if(!gameInfo.assessment[0].hasOwnProperty('trigger')) {
-        //     gameInfo.assessment[0].trigger = 'endSession';
-        // }
+        if(!gameInfo.assessment[0].hasOwnProperty('trigger')) {
+            gameInfo.assessment[0].trigger = 'endSession';
+        }
+
+
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
 
         soworules = gameInfo.assessment[0].rules;
         soworuleskeys = Object.keys(soworules);
