@@ -97,16 +97,18 @@ angular.module( 'instructor.reports')
     
     $scope.courses.selected.users.forEach(function(student) { studentsToSort.push(student); });
     studentsToSort.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
-                        
-    var columns = Math.floor((studentsToSort.length + 14) / 15);
-    var rows = studentsToSort.length > 15 ? 15 : studentsToSort.length;
+    
+    var maxRows = 15;
+    var visibleColumns = 7;
+    var columns = Math.floor((studentsToSort.length + maxRows - 1) / maxRows);
+    var rows = studentsToSort.length > maxRows ? maxRows : studentsToSort.length;
     var students = [];
                         
     for (var i=0;i<rows;i++) {
         var row = [];
         for (var j=0;j<columns;j++) {
-            if (i + 15 * j < studentsToSort.length) {
-                var student = studentsToSort[i + 15 * j];
+            if (i + maxRows * j < studentsToSort.length) {
+                var student = studentsToSort[i + maxRows * j];
                 student.isSelected = true; // set to initally visible
                 row.push(student);
             } else {
@@ -117,8 +119,8 @@ angular.module( 'instructor.reports')
     }
     
     $scope.students = students;
-    $scope.studentListWidth = 80 + 120 * columns;
-                        
+    $scope.studentAreaWidth = 80 + 120 * Math.min(visibleColumns, columns);
+            
     // Games
     $scope.games.selectedGameId = defaultGame.gameId;
 
