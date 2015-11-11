@@ -8,9 +8,9 @@
             <div class="gl-game-catalog-game-box gl-dev-catalog-game-box">
                 <div class="gl-game-catalog-game-card-wrapper">
                     <div class="gl-game-catalog-developer-logo">
-                        <img ng-src="/{{gameDetails.developer.logo.small}}" width="60" height="60">
+                        <img ng-src="{{gameDetails.developer.logo.small}}" width="60" height="60">
                     </div>
-                    <img ng-src="/{{gameDetails.card.small}}" class="gl-game-catalog-game-card">
+                    <img ng-src="{{gameDetails.card.small}}" class="gl-game-catalog-game-card">
 
                     <div class="gl-dev-catalog-game-description">
                         <p>
@@ -31,7 +31,7 @@
                     </ul>
                 </div>
                 <div class="gl-game-catalog-platform-triangle">
-                    <img ng-src="/{{gameDetails.platform.icon.small}}"
+                    <img ng-src="{{gameDetails.platform.icon.small}}"
                          class="gl-game-catalog-platform-icon">
                 </div>
             </div>
@@ -55,7 +55,7 @@
 <div class="container" ng-if="!error">
   <div class="media gl-game-header">
     <div class="gl-game-developer-logo media-img">
-      <img ng-src="/{{ gameDetails.developer.logo.small }}" width="60" height="60">
+      <img ng-src="{{ gameDetails.developer.logo.small }}" width="60" height="60">
     </div>
     <div class="media-bd">
       <h1 class="headline-2 gl-game-title" ng-bind="gameDetails.longName"></h1>
