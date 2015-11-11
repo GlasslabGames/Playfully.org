@@ -1,7 +1,7 @@
 <h2 class="text-muted">Process Purchase Orders</h2>
 <p>
 	Use this page to process Purchase Orders that are pending, received, or invoiced.  You can reject the purchase order or advance it to the next step (pending to received, received to invoiced, invoiced to approved).
-	While an invoice is pending, the educator who created the invoice can cancel it.
+	While an invoice is pending, the educator who created the invoice can cancel it.  Once an invoice is marked as received, the instructor can start using the license.
 </p>
 </br >
 
@@ -27,16 +27,3 @@
 </tr>
 </table>
 </table>
-
-
-<!--
-
- #    id, user_id, license_id, status, purchase_order_number, purchase_order_key, phone, email, name, payment, current_package_type, current_package_size_tier, action, date_created
-'3', '295', '10', 'approved', '666', 'cb7af590-5600-11e5-a1a1-29d249f2cc7110', '888-888-8888', 'first@email.com', 'First Last', '270.00', NULL, NULL, 'trial upgrade', '2015-09-08 01:08:31'
-'4', '296', '12', 'approved', '6666', '66f90b70-56cd-11e5-9052-0bbe9d56269a12', '999-999-9900', 'ocho@here.com', 'Primero Ultimo', '84.00', NULL, NULL, 'subscribe', '2015-09-09 01:33:10'
-'5', '297', '13', 'pending', NULL, '5b09d010-5817-11e5-9636-cf5de78ff79713', '999-888-7777', 'funky@email.com', 'Funky Wunkies', '30.00', NULL, NULL, 'subscribe', '2015-09-10 16:55:03'
-'6', '300', '14', 'received', 'e87a1a70-61fb-11e5-a', 'e8b88300-61fb-11e5-a0cb-51269a91070a14', '616-666-3612', 'this@that.net', 'This That', '1082.00', 'chromebook', '_666_100', 'subscribe', '2015-09-23 07:03:47'
-'7', '313', '20', 'received', 'a4158c10-768d-11e5-b', 'a453a680-768d-11e5-b921-050a8369c08020', '999-888-7777', 'test-015@email.com', 'test-015 test', '25.00', NULL, NULL, 'subscribe', '2015-10-19 11:17:22'
-'8', '316', '21', 'received', '859c7660-7690-11e5-b', '85c81a40-7690-11e5-b921-050a8369c08021', '999-888-7777', 'test-018@email.com', 'test-018 test', '375.00', NULL, NULL, 'subscribe', '2015-10-19 11:37:59'
-
--->
