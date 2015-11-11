@@ -80,6 +80,14 @@ angular.module('user', [])
        } );
     },
 
+    getByUsername: function (name) {
+      return $http.get(API_BASE + '/auth/userbyusername/', {
+        params: {
+            username: name
+          }
+       } );
+    },
+
     getResellers: function() {
 		return $http.get(API_BASE + '/auth/userResellers');
     },

@@ -126,6 +126,19 @@ angular.module('playfully.admin', ['dash','data','games','license'])
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.account-management', {
+        url: '/account-management',
+        templateUrl: 'admin/admin-account-management.html',
+        controller: 'AdminAccountManagementCtrl',
+        resolve: {
+            packages: function (LicenseService) {
+                return LicenseService.getPackages();
+            }
+        },
+        data: {
+            authorizedRoles: ['admin']
+        }
+    })
     .state('admin.game-approval', {
         url: '/game-approval',
         resolve: {
@@ -680,6 +693,152 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 		  }
         }
    };
+})
+.controller('AdminAccountManagementCtrl', function ($scope, $state, $window, packages, REGISTER_CONSTANTS, UserService, LicenseService) {
+    
+    $scope.packages = angular.copy(packages);
+    $scope.role = 'none';
+    $scope.username = '';
+    $scope.userInfo = null;
+    $scope.lookupErrorMsg = null;
+    $scope.changeErrorMsg = null;
+    $scope.hasPlan = false;
+    $scope.planLevel = 0;
+    $scope.hasInstitution = false;
+    $scope.planSetting = 'noChange';
+    $scope.seatsSetting = { id: 'noChange' };
+    $scope.yearAdded = false;
+    $scope.institutionInfo = { name: "", address: "", city: "", state: "", zipCode: "" };
+    $scope.seatOptions = { };
+    $scope.states = angular.copy(REGISTER_CONSTANTS.states);
+
+    $scope.planLevelMap = { trial: 0, group: 1, class: 2, multiClass: 3, school: 4 };
+
+    $scope.lookupAccount = function() {
+        UserService.getByUsername($scope.username)
+        .success(function (data, status) {
+            if ( ! _.isEmpty(data) ) {
+                //console.log(data);
+                $scope.role = data.role;
+                $scope.userInfo = data;
+                $scope.expirationDate = (new Date(data.expirationDate)).toLocaleDateString();
+                $scope.lookupErrorMsg = null;
+                $scope.changeErrorMsg = null;
+                if (data.role === 'instructor' && data.licenseStatus === 'active') {
+                    LicenseService.getUserPlan(data.id, data.licenseId, data.licenseOwnerId)
+                    .then(function(response) {
+                        if (response.autoRenew !== undefined) {
+                            $scope.hasPlan = true;
+                            $scope.plan = response;
+                            $scope.hasInstitution = response.institution !== undefined;
+                            $scope.planSetting = 'noChange';
+                            $scope.yearAdded = false;
+                            $scope.institutionInfo = { name: "", address: "", city: "", state: "", zipCode: "" };
+                          
+                            $scope.planLevel = $scope.planLevelMap[response.packageDetails.seatId];
+                            $scope.seatOptions = [ { id: "noChange", title: "[No change]"} ];
+                            $scope.seatsSetting = $scope.seatOptions[0];
+                            if ($scope.planLevel < 1) {
+                                $scope.seatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
+                            }
+                            if ($scope.planLevel < 2) {
+                                $scope.seatOptions.push({ id: "class", title: "Class (30 students, 2 educators)"});
+                            }
+                            if ($scope.planLevel < 3) {
+                                $scope.seatOptions.push({ id: "multiClass", title: "Multi Class (120 students, 8 educators)"});
+                            }
+                            if ($scope.planLevel < 4) {
+                                $scope.seatOptions.push({ id: "school", title: "School (500 students, 15 educators)"});
+                            }
+                          
+                            //console.log(response);
+                        } else {
+                            $scope.hasPlan = false;
+                            $scope.hasInstitution = false;
+                            //console.log("No plan?");
+                        }
+                    });
+                }
+            } else {
+                $scope.role = 'none';
+                $scope.lookupErrorMsg = 'Cannot find that user!';
+            }
+        });
+    };
+    
+    $scope.changePlan = function() {
+        var changed = false;
+        var details = $scope.plan.packageDetails;
+        var planInfo = { type: details.planId, seats: details.seatId, yearAdded: false };
+        
+        if ($scope.yearAdded) {
+            changed = true;
+            planInfo.yearAdded = true;
+        }
+        if ($scope.planSetting !== 'noChange') {
+            changed = true;
+            planInfo.type = $scope.planSetting;
+        }
+        if ($scope.seatsSetting.id !== 'noChange') {
+            changed = true;
+            planInfo.seats = $scope.seatsSetting.id;
+        }
+        
+        var schoolInfo = { name: "", address: "", city: "", state: "", zipCode: "" };
+        if ($scope.hasInstitution) {
+            schoolInfo.name = $scope.plan.institution.TITLE;
+            schoolInfo.address = $scope.plan.institution.ADDRESS;
+            schoolInfo.city = $scope.plan.institution.CITY;
+            schoolInfo.state = $scope.plan.institution.STATE;
+            schoolInfo.zipCode = $scope.plan.institution.ZIP;
+        }
+        
+        if ($scope.institutionInfo.name.length > 0) {
+            changed = true;
+            schoolInfo.name = $scope.institutionInfo.name;
+        }
+        if ($scope.institutionInfo.address.length > 0) {
+            changed = true;
+            schoolInfo.address = $scope.institutionInfo.address;
+        }
+        if ($scope.institutionInfo.city.length > 0) {
+            changed = true;
+            schoolInfo.city = $scope.institutionInfo.city;
+        }
+        if ($scope.institutionInfo.state.length > 0) {
+            changed = true;
+            schoolInfo.state = $scope.institutionInfo.state;
+        }
+        if ($scope.institutionInfo.zipCode.length > 0) {
+            changed = true;
+            schoolInfo.zipCode = $scope.institutionInfo.zipCode;
+        }
+
+        if (changed) {
+            if (!$scope.hasInstitution && $scope.userInfo.isTrial) {
+                if (planInfo.type === 'trail' || planInfo.seats === 'trial') {
+                    $scope.changeErrorMsg = "Subscribing requires selecting plan and seats!";
+                    return;
+                }
+                if (schoolInfo.name === '' || schoolInfo.address === '' || schoolInfo.city === '' ||                schoolInfo.state === '' || schoolInfo.zipCode === '') {
+                    $scope.changeErrorMsg = "Subscribing requires entering institution information!";
+                    return;
+                }
+            }
+
+            var licenseInfo = { userId: $scope.userInfo.id, email: $scope.userInfo.email, licenseId: $scope.userInfo.licenseId, licenseOwnerId: $scope.userInfo.licenseOwnerId };
+            
+            LicenseService.alterLicense({ licenseInfo: licenseInfo, planInfo: planInfo, schoolInfo: schoolInfo })
+            .then(function(response) {
+                $scope.changeErrorMsg = null;
+                $scope.lookupAccount();
+            }, function (response) {
+                $scope.changeErrorMsg = "Error! " + response.statusText + " (" + response.status + ")";
+            });
+        } else {
+            $scope.changeErrorMsg = "No data changed";
+        }
+    };
 })
 .controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService) {
     $scope.showTab = 0;
