@@ -112,6 +112,9 @@ angular.module('playfully.admin', ['dash','data','games','license'])
         resolve: {
         	purchaseOrders: function (LicenseService) {
         		return LicenseService.getOpenPurchaseOrders();
+        	},
+        	processedPurchaseOrders: function (LicenseService) {
+        		return LicenseService.getNotOpenPurchaseOrders();
         	}
         },
         data: {
@@ -521,8 +524,11 @@ angular.module('playfully.admin', ['dash','data','games','license'])
     };
 })
 
-.controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService, purchaseOrders) {
+.controller('AdminPurchaseOrdersCtrl', function ($scope, $http, $window, LicenseService, purchaseOrders, processedPurchaseOrders) {
 	$scope.openPurchaseOrders = purchaseOrders.data;
+	$scope.closedPurchaseOrders = processedPurchaseOrders.data;
+
+	console.log( "closed ", $scope.closedPurchaseOrders );
 
 	$scope.predicateApprove = 'date';
     $scope.reverseApprove = false;

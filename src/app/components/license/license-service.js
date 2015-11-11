@@ -286,6 +286,9 @@ angular.module('license', [])
             this.getOpenPurchaseOrders = function() {
             	return $http.get( API_BASE + '/license/po/open' );
             };
+            this.getNotOpenPurchaseOrders = function() {
+            	return $http.get( API_BASE + '/license/po/notopen' );
+            };
             this.resellerSubscribeWithPurchaseOrder = function (info) {
                 var apiUrl = API_BASE + '/license/subscribe/internal';
                 return $http.post(apiUrl, {
