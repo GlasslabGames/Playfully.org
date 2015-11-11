@@ -528,8 +528,6 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 	$scope.openPurchaseOrders = purchaseOrders.data;
 	$scope.closedPurchaseOrders = processedPurchaseOrders.data;
 
-	console.log( "closed ", $scope.closedPurchaseOrders );
-
 	$scope.predicateApprove = 'date';
     $scope.reverseApprove = false;
     $scope.orderApprove = function(predicate) {
