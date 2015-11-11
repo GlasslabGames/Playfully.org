@@ -504,6 +504,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 
         LicenseService.updatePurchaseOrder( purchaseOrder, planInfo, action )
         	.then(function(data) {
+        		$window.location.reload( true );
         	}.bind(this));
     };
 
@@ -530,6 +531,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 
         LicenseService.updatePurchaseOrder( purchaseOrder, planInfo, action )
         	.then(function(data) {
+        		$window.location.reload( true );
         	}.bind(this));
     };
 
