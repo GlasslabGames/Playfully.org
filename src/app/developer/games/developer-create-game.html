@@ -1,0 +1,57 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="$dismiss()"
+                ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">Create Game</h3>
+    </div>
+
+    <div class="modal-body" ng-show="!request.isRegCompleted">
+        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}</alert>
+
+        <form name="request" novalidate class="reg-form"
+              ng-submit="createGame(request)">
+
+            <div class="gl-input-group">
+                <div class="form-group"
+                     ng-class="{'has-error': request.gameId.$dirty && request.gameId.$invalid}">
+                    <input type="text" name="gameId" class="form-control"
+                           placeholder="Game ID"
+                           required
+                           autofocus="autofocus"
+                           ng-model="request.gameId"
+                           ng-minlength="2">
+                    &nbsp;<span class="fa fa-question-circle"
+                                popover-placement="bottom"
+                                popover-trigger="mouseenter"
+                                popover="Unique identifier for the game"></span>
+
+                    <div class="form-errors">
+                        <div class="form-error" ng-show="request.gameId.$dirty && request.gameId.$invalid">
+                            Name must be at least 2 characters
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center reg-submit">
+                <input type="submit" class="btn gl-btn--blue"
+                       value="{{ request.isSubmitting ? 'Creating...' : 'Create'}}"
+                       ng-disabled="request.$invalid || request.isSubmitting">
+            </div>
+        </form>
+    </div>
+
+
+    <div class="modal-body" ng-show="request.isRegCompleted">
+        <p class="text-center">
+            Game created.
+        </p>
+        <div class="text-center reg-submit">
+            <button class="btn gl-btn--blue"
+                    ng-click="$close(request.gameId)"
+                    ng-hide="hideWrapper">Okay
+            </button>
+
+        </div>
+    </div>
+</div>

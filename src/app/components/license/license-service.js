@@ -14,6 +14,21 @@ angular.module('license', [])
                         return response;
                     });
             };
+            this.getUserPlan = function (userId, licenseId, licenseOwnerId) {
+                var params = {
+                    userId: userId,
+                    licenseId: licenseId,
+                    licenseOwnerId: licenseOwnerId
+                };
+                var apiUrl = API_BASE + '/license/planforuser';
+                return $http({method: 'GET', url: apiUrl, params: params})
+                    .then(function (response) {
+                        return response.data;
+                    }, function (response) {
+                        console.log(response);
+                        return response;
+                    });
+            };
             this.getStudentList = function () {
                 var apiUrl = API_BASE + '/license/students';
                 return $http({method: 'GET', url: apiUrl})
@@ -161,6 +176,14 @@ angular.module('license', [])
                 return $http.post(apiUrl, {
                     planInfo: input.planInfo,
                     stripeInfo: input.stripeInfo,
+                    schoolInfo: input.schoolInfo
+                });
+            };
+            this.alterLicense = function (input) {
+                var apiUrl = API_BASE + '/license/alter';
+                return $http.post(apiUrl, {
+                    licenseInfo: input.licenseInfo,
+                    planInfo: input.planInfo,
                     schoolInfo: input.schoolInfo
                 });
             };

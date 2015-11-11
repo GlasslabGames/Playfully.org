@@ -204,7 +204,7 @@ angular.module('developer.games', [
             }
         });
     })
-    .controller('DevGamesCtrl', function ($scope, $state, myGames) {
+    .controller('DevGamesCtrl', function ($scope, $state, $modal, myGames) {
         $scope.sections = [
             {name:'Live', release: 'live'},
             {name:'In development', release: 'dev'}/*,
@@ -236,6 +236,41 @@ angular.module('developer.games', [
             } else {
                 return text;
             }
+        };
+        $scope.createNewGame = function() {
+            $modal.open({
+                templateUrl: 'developer/games/developer-create-game.html',
+                controller: function($scope, $log, GamesService) {
+                    $scope.request = {
+                        isRegCompleted: false,
+                        gameId: null,
+                        errors: []
+                    };
+                    $scope.createGame = function (request) {
+                        request.isSubmitting = true;
+                        GamesService.createGame(request.gameId)
+                            .then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.isRegCompleted = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push( response.data.error );
+                                });
+                    };
+                    $scope.finish = function() {
+
+                    };
+                }
+            }).result.then(function (result) {
+                $state.reload();
+                $state.go('root.developerGames.editor', {gameId: result});
+            }, function (reason) {//This will be triggered on dismiss/Esc/backdrop click
+                $state.reload();
+            });
         };
     })
     .controller('DevGameEditorCtrl',
@@ -280,35 +315,63 @@ angular.module('developer.games', [
         var soworules = {};
         var soworuleskeys = [];
 
-        if(gameInfo.hasOwnProperty('assessment') &&
-            gameInfo.assessment[0].hasOwnProperty('id') &&
-            gameInfo.assessment[0].hasOwnProperty('rules') &&
-            (gameInfo.assessment[0].id == 'sowo')) {
-
-            soworules = gameInfo.assessment[0].rules;
-            soworuleskeys = Object.keys(soworules);
-
-            soworuleskeys.forEach( function(rule) {
-
-                if(0 <= rule.indexOf('so')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.soitems.push(newrule);
-                }
-
-                if(0 <= rule.indexOf('wo')) {
-                    newrule = {"id": "", "name": "", "description": ""};
-                    newrule.id = rule;
-                    newrule.name = soworules[rule].name;
-                    newrule.description = soworules[rule].description;
-
-                    $scope.woitems.push(newrule);
-                }
-            });
+        if(!gameInfo.hasOwnProperty('assessment')) {
+            gameInfo.assessment = [];
         }
+
+        if(gameInfo.assessment.length < 1) {
+            gameInfo.assessment[0] = {};
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('id')) {
+            gameInfo.assessment[0].id = 'sowo';
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
+
+        // do we need these ?
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('enabled')) {
+        //     gameInfo.assessment[0].enabled = true;
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('dataProcessScope')) {
+        //     gameInfo.assessment[0].dataProcessScope = 'gameSession';
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('engine')) {
+        //     gameInfo.assessment[0].engine = 'javascript';
+        // }
+
+        // if(!gameInfo.assessment[0].hasOwnProperty('trigger')) {
+        //     gameInfo.assessment[0].trigger = 'endSession';
+        // }
+
+        soworules = gameInfo.assessment[0].rules;
+        soworuleskeys = Object.keys(soworules);
+
+        soworuleskeys.forEach( function(rule) {
+
+            if(0 <= rule.indexOf('so')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.soitems.push(newrule);
+            }
+
+            if(0 <= rule.indexOf('wo')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.woitems.push(newrule);
+            }
+        });
 
         var solen = $scope.soitems.length;
         $scope.deleteShoutRule = function(idx) {
@@ -374,7 +437,7 @@ angular.module('developer.games', [
                 };
             }
 
-            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+            return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
         };
     })
 

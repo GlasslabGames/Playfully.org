@@ -225,6 +225,10 @@ angular.module('games', [
           });
     },
 
+    createGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/developer/new-game/' + gameId);
+    },
+
     checkForGameAccess: function() {
       return $http.get(API_BASE + '/dash/developer/profile')
           .then(function(response) {

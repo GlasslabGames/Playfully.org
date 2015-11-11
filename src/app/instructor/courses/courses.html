@@ -106,10 +106,13 @@
                              ng-class="game.hover ? 'gl-course-disabled-premium-game-overlay--flipped' : 'gl-course-disabled-premium-game-overlay' ">
                              <p ng-show="!gamesInfo[game.id].availableForLicense && game.hover">
                                  This game is not available in your current plan </p>
+                             
                              <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
                                      ui-sref="root.subscribe.packages"
-                                     class="btn gl-btn--steelblue text-center">Upgrade</button>
-
+                                     class="btn gl-btn--small gl-btn--steelblue text-center">Upgrade</button>
+                             <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
+                                     ui-sref="modal-lg.removeInvalidGame({id:course.id,gameId: game.id})"
+                                     class="btn gl-btn--small gl-btn--red text-center">Remove</button>
                             <p ng-show="gamesInfo[game.id].availableForLicense && game.hover">
                                 Premium Games have been disabled for this class </p>
                             <button ng-show="gamesInfo[game.id].availableForLicense && game.hover"
