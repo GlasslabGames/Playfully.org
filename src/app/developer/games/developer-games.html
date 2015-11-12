@@ -24,7 +24,7 @@
 
                             <div class="gl-dev-catalog-game-description" ng-show="game.release==='live'&&game.hover">
                                 <p>
-                                    {{truncateText(game.description,350)}}
+                                    {{game.description ? truncateText(game.description,350) : ""}}
                                 </p>
                                 <button class="btn gl-btn--blue">Edit Game Details</button>
                             </div>

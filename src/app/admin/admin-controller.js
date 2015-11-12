@@ -1,4 +1,4 @@
-angular.module('playfully.admin', ['dash','data','games','license'])
+angular.module('playfully.admin', ['dash','data','games','license','gl-popover-unsafe-html'])
 
 .config(function($stateProvider) {
     $stateProvider.state('admin', {
@@ -123,14 +123,32 @@ angular.module('playfully.admin', ['dash','data','games','license'])
     })
     .state('admin.developer-approval', {
         url: '/developer-approval',
-        templateUrl: 'admin/admin-developer-approval.html',
-        controller: 'AdminDeveloperApprovalCtrl',
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-developer-approval.html',
+            controller: 'AdminDeveloperApprovalCtrl'
+          }
+        },
         resolve: {
             developers: function (UserService) {
                 return UserService.getAllDevelopers();
             }
         },
         data: {
+            pageTitle: 'Developers Pending',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.developer-approval.approved', {
+        url: '/developer-approval/approved',
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-developer-approval.html',
+            controller: 'AdminDeveloperApprovalCtrl'
+          }
+        },
+        data: {
+            pageTitle: 'Developers Approved',
             authorizedRoles: ['admin']
         }
     })
@@ -698,29 +716,36 @@ angular.module('playfully.admin', ['dash','data','games','license'])
    };
 })
 
-.controller('AdminDeveloperApprovalCtrl', function (developers, $scope, $window, UserService) {
+.controller('AdminDeveloperApprovalCtrl', function (developers, $scope, $state, $window, UserService) {
+    $scope.showTab = 0;
+    if ($state.includes('admin.developer-approval.approved')) {
+        $scope.showTab = 1;
+    }
 
-	$scope.pending = developers.pending;
-	$scope.approved = developers.approved;
+	$scope.developers = $scope.showTab === 1 ? developers.approved : developers.pending;
 
-	$scope.predicateApprove = 'date';
-    $scope.reverseApprove = false;
-    $scope.orderApprove = function(predicate) {
-        $scope.reverseApprove = ($scope.predicateApprove === predicate) ? !$scope.reverseApprove : false;
-        $scope.predicateApprove = predicate;
+	$scope.predicateList = 'date';
+    $scope.reverseList = false;
+    $scope.orderList = function(predicate) {
+        $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
+        $scope.predicateList = predicate;
     };
-      
-	$scope.predicateVerified = 'date';
-    $scope.reverseVerified = false;
-    $scope.orderVerified = function(predicate) {
-        $scope.reverseVerified = ($scope.predicateVerified === predicate) ? !$scope.reverseVerified : false;
-        $scope.predicateVerified = predicate;
+
+    $scope.organizationInfo = function(developer) {
+        if (!developer.organization) {
+            return "No organization information";
+        }
+        
+        return "<strong>Role:</strong> " + developer.orgRole + "<br />" +
+            "<strong>Number of games:</strong> " + developer.numGames + "<br />" +
+            "<strong>Subjects:</strong> " + developer.subjects + "<br />" +
+            "<strong>Interest:</strong> " + developer.interest;
     };
-     
-    $scope.approveDeveloper = function(developer) {    	
+    
+    $scope.approveDeveloper = function(developer) {
     	var i;
-    	for(i = $scope.pending.length; i--;) {
-          if($scope.pending[i] === developer) {
+    	for(i = $scope.developers.length; i--;) {
+          if($scope.developers[i] === developer) {
               break;
           }
         }
@@ -729,7 +754,7 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 		  if (doApprove) {
 			UserService.alterDeveloperStatus(developer.id, "sent")
 			.then(function(response) {
-				$scope.pending.splice(i, 1);
+				$scope.developers.splice(i, 1);
 			}.bind(this),
 			function (response) {
 				$window.alert(response.message);
@@ -740,8 +765,8 @@ angular.module('playfully.admin', ['dash','data','games','license'])
       
     $scope.revokeDeveloper = function(developer) {
     	var i;
-    	for(i = $scope.approved.length; i--;) {
-          if($scope.approved[i] === developer) {
+    	for(i = $scope.developers.length; i--;) {
+          if($scope.developers[i] === developer) {
               break;
           }
         }
@@ -750,14 +775,18 @@ angular.module('playfully.admin', ['dash','data','games','license'])
 		  if (doRevoke) {
 			UserService.alterDeveloperStatus(developer.id, "revoked")
 			.then(function(response) {
-				$scope.approved.splice(i, 1);
+				$scope.developers.splice(i, 1);
 			}.bind(this),
 			function (response) {
 				$window.alert(response.message);
 			});
 		  }
         }
-   };
+    };
+    
+    $scope.emailDeveloper = function(developer) {
+        $window.location = "mailto:" + developer.email;
+    };
 })
 .controller('AdminAccountManagementCtrl', function ($scope, $state, $window, packages, REGISTER_CONSTANTS, UserService, LicenseService) {
     

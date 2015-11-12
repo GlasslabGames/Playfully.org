@@ -24,7 +24,7 @@
 
                                 <div class="gl-game-catalog-game-description" ng-show="game.hover">
                                     <p>
-                                        {{truncateText(game.description,350)}}
+                                        {{game.description ? truncateText(game.description,350) : ""}}
                                     </p>
                                     <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
                                 </div>

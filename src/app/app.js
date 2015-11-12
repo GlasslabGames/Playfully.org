@@ -26,6 +26,7 @@ angular.module( 'playfully', [
   'gl-editable-text-popover',
   'gl-editable-text',
   'gl-notification-top-bar',
+  'gl-popover-unsafe-html',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',

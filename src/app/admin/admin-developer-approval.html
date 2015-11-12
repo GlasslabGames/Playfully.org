@@ -1,35 +1,41 @@
-<h2 class="text-muted">Developer Approval</h2>
-<p>
-	Use this page to approve pending requests for developer accounts. The developer will be sent an email to compete the process.
-</p>
-<p>
-	You can also revoke developer accounts here. No email is sent to the developer.
-</p>
-</br >
-<table><tr><td style="width:360px"><span style="font-weight:bold">Pending Approvals</span></td>
-<td style="width:40px">&nbsp;</td>
-<td style="width:360px"><span style="font-weight:bold">Verified Developers</span></td></tr>
-<tr><td style="vertical-align:top">
-<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date'" ng-class="{reverse:reverseApprove}"></span></th>
-<th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
+<div class="container gl-tabs gl-margin--T30">
+    <h2 class="text-muted">Developer Approval</h2>
+    <p>
+        Use this page to approve pending requests for developer accounts. The developer will be sent an email to compete the process.
+    </p>
+    <p>
+        You can also revoke developer accounts here. No email is sent to the developer.
+    </p>
+    <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 0}">
+            <a href ui-sref="admin.developer-approval">Pending Approval</a>
+        </li>
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 1}">
+            <a href ui-sref="admin.developer-approval.approved">Approved</a>
+        </li>
+    </ul>
+</div>
+
+<div class="gl-courses-container">
+  <div class="container">
+
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderList('date')">Date<span class="admin-da-sortorder" ng-show="predicateList === 'date'" ng-class="{reverse:reverseList}"></span></a></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('name')">Contact Name<span class="admin-da-sortorder" ng-show="predicateList === 'name'" ng-class="{reverse:reverseList}"></span></a></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('org')">Organization<span class="admin-da-sortorder" ng-show="predicateList === 'org'" ng-class="{reverse:reverseList}"></span></a></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('email')">Email<span class="admin-da-sortorder" ng-show="predicateList === 'email'" ng-class="{reverse:reverseList}"></span></a></th>
 <th class="admin-da-button-header">&nbsp</th></tr>
-<tr ng-repeat="developer in pending | orderBy:predicateApprove:reverseApprove">
+<tr ng-repeat="developer in developers | orderBy:predicateList:reverseList">
 <td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{developer.date}}</td>
 <td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{developer.name}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">
+    <span class="fa fa-question-circle" popover-placement="bottom" popover-trigger="mouseenter" popover-html-unsafe="{{organizationInfo(developer)}}"></span>&nbsp;{{developer.organization}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'"><a href='' ng-click='emailDeveloper(developer)'>{{developer.email}}</a></td>
 <td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
-<button ng-click="approveDeveloper(developer)">Approve</button></td>
-</tr>
-</table>
-</td><td style="width:40px">&nbsp;</td><td style="vertical-align:top">
-<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderVerified('date')">Date</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'date'" ng-class="{reverse:reverseVerified}"></span></th>
-<th class="admin-da-name-header"><a href="" ng-click="orderVerified('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'name'" ng-class="{reverse:reverseVerified}"></span></th>
-<th class="admin-da-button-header">&nbsp</th></tr>
-<tr ng-repeat="developer in approved | orderBy:predicateVerified:reverseVerified">
-<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{developer.date}}</td>
-<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{developer.name}}</td>
-<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
-<button ng-click="revokeDeveloper(developer)">Revoke</button></td>
-</tr>
-</table>
-</td></tr>
-</table>
+<button ng-if="showTab == 0" ng-click="approveDeveloper(developer)">Approve</button>
+<button ng-if="showTab == 1" ng-click="revokeDeveloper(developer)">Revoke</button></td>
+</tr></table>
+
+  </div>
+</div>
