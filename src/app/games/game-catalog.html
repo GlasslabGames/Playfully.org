@@ -3,7 +3,7 @@
     <div class="gl-game-catalog-carousel-container gl-margin--V40">
         <carousel interval="5000" class="gl-games-carousel gl-games-carousel--full">
             <slide ng-if="game.price!=='Coming Soon' && game.price!=='TBD'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
-                <img ng-src="/{{game.banners.product}}"
+                <img ng-src="{{game.banners.product}}"
                      class="gl-game-catalog-banner"
                      ui-sref="root.games.detail.product({gameId:game.gameId})">
                 </img>
@@ -45,9 +45,9 @@
                     <div class="gl-game-catalog-game-card-wrapper">
                         <div ng-show="!game.hover && gamesAvailableForLicense[game.gameId]" class="gl-game-catalog-ready text-center">Ready to Assign</div>
                         <div class="gl-game-catalog-developer-logo">
-                            <img ng-src="/{{game.developer.logo.small}}" width="60" height="60">
+                            <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
                         </div>
-                        <img ng-src="/{{game.card.small}}" class="gl-game-catalog-game-card">
+                        <img ng-src="{{game.card.small}}" class="gl-game-catalog-game-card">
                         <div class="gl-game-catalog-game-description" ng-show="game.hover">
                             <p>
                                 {{game.description ? truncateText(game.description,350) : ""}}

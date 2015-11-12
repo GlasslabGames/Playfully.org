@@ -30,7 +30,7 @@
               ng-if="game.assigned"
               ng-repeat="game in course.games"
               ng-show="gamesInfo[game.id].enabled">
-                <img ng-src="/{{gamesInfo[game.id].card.small}}" class="gl-student-courses-game-card">
+                <img ng-src="{{gamesInfo[game.id].card.small}}" class="gl-student-courses-game-card">
                 <div>
                   <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
                     <div ng-if="isMultiLinkType(button)"
