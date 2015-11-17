@@ -140,7 +140,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     })
     .state('admin.developer-approval.approved', {
-        url: '/developer-approval/approved',
+        url: '/approved',
         views: {
           'main@': {
             templateUrl: 'admin/admin-developer-approval.html',
