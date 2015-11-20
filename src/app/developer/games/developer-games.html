@@ -15,7 +15,7 @@
                          ng-mouseover="game.hover=true"
                          ng-mouseleave="game.hover=false"
                          ng-class="{'no-hover':game.release!=='live'}"
-                         ng-click="goToGameDetail(game.gameId,game.release)">
+                         >
                         <div class="gl-game-catalog-game-card-wrapper">
                             <div class="gl-game-catalog-developer-logo">
                                 <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
@@ -41,6 +41,8 @@
                                 <li>Developed by {{game.developer.name}}
                                 </li>
                             </ul>
+                            <button ng-click="goToGameDetail(game.gameId,game.release)">Edit</button>
+                            <button ng-click="submitGame(game.gameId)">Submit For Approval</button>
                         </div>
                         <div class="gl-game-catalog-platform-triangle">
                             <img ng-src="{{game.platform.icon.small}}"

@@ -229,6 +229,21 @@ angular.module('games', [
       return $http.post(API_BASE + '/dash/developer/new-game/' + gameId);
     },
 
+    getAllDeveloperGamesAwaitingApproval: function() {
+      return $http.get(API_BASE + '/dash/games/awaiting-approval')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    approveGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/approve');
+    },
+
     checkForGameAccess: function() {
       return $http.get(API_BASE + '/dash/developer/profile')
           .then(function(response) {
@@ -242,6 +257,12 @@ angular.module('games', [
     requestGameAccess: function(gameId) {
       return $http.get(API_BASE + '/auth/developer/game/' + gameId + '/request');
     },
+
+    submitGameForApproval: function(gameId) {
+      return $http.post(API_BASE + '/dash/developer/submit/' + gameId);
+    },
+
+
 
     getBadgeDetailsFromLRNG: function(badgeId) {
       return $http.get(API_BASE + '/dash/badge/' + badgeId )

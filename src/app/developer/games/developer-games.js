@@ -204,7 +204,7 @@ angular.module('developer.games', [
             }
         });
     })
-    .controller('DevGamesCtrl', function ($scope, $state, $modal, myGames) {
+    .controller('DevGamesCtrl', function ($scope, $state, $modal, myGames, GamesService) {
         $scope.sections = [
             {name:'Live', release: 'live'},
             {name:'In development', release: 'dev'}/*,
@@ -268,6 +268,41 @@ angular.module('developer.games', [
             }).result.then(function (result) {
                 $state.reload();
                 $state.go('root.developerGames.editor', {gameId: result});
+            }, function (reason) {//This will be triggered on dismiss/Esc/backdrop click
+                $state.reload();
+            });
+        };
+        $scope.submitGame = function(gameId) {
+            //console.log("submitGameForApproval", gameId);
+            $modal.open({
+                templateUrl: 'developer/games/developer-submit-game-modal.html',
+                controller: function($scope, $log, GamesService) {
+                    $scope.request = {
+                        isCompleted: false,
+                        gameId: gameId,
+                        errors: []
+                    };
+                    $scope.submitGame = function (request) {
+                        request.isSubmitting = true;
+                        GamesService.submitGameForApproval(gameId)
+                            .then(function (response) {
+                                    $scope.request.errors = [];
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.isCompleted = true;
+                                },
+                                function (response) {
+                                    $log.error(response.data);
+                                    $scope.request.isSubmitting = false;
+                                    $scope.request.errors = [];
+                                    $scope.request.errors.push( response.data.error );
+                                });
+                    };
+                    $scope.finish = function() {
+
+                    };
+                }
+            }).result.then(function (result) {
+                $state.reload();
             }, function (reason) {//This will be triggered on dismiss/Esc/backdrop click
                 $state.reload();
             });

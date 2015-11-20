@@ -168,6 +168,9 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.game-approval', {
         url: '/game-approval',
         resolve: {
+            gamesAwaitingApproval: function (GamesService) {
+                return GamesService.getAllDeveloperGamesAwaitingApproval();
+            }
         },
         views: {
           'main@': {
@@ -932,7 +935,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     };
 })
-.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService, GamesService, gamesAwaitingApproval) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
@@ -940,7 +943,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         $scope.showTab = 2;
     }
 
-	$scope.predicateList = 'name';
+	$scope.predicateList = 'gameId';
     $scope.reverseList = false;
     $scope.orderList = function(predicate) {
         $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
@@ -949,15 +952,17 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     
     $scope.games = [];
     
-    $scope.games.push( { name: "Fruit Land EDU", company: "Sweet Game Acres" } );
-    $scope.games.push( { name: "Aap Apple rancher", company: "Big Apple Games" } );
+    //$scope.games.push( { name: "Fruit Land EDU", company: "Sweet Game Acres" } );
+    //$scope.games.push( { name: "Aap Apple rancher", company: "Big Apple Games" } );
+    $scope.games = gamesAwaitingApproval;
     
     $scope.approveGame = function(game) {
-    
+        console.log("approveGame", game);
+        GamesService.approveGame(game.gameId);
     };
 
     $scope.rejectGame = function(game) {
-    
+
     };
 
     $scope.needMoreInfo = function(game) {

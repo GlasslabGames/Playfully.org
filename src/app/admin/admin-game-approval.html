@@ -18,12 +18,12 @@
 <div class="gl-courses-container">
   <div class="container">
 
-<table><tr><th class="admin-da-name-header"><a href="" ng-click="orderList('game')">Game Name</a><span class="admin-da-sortorder" ng-show="predicateList === 'name'" ng-class="{reverse:reverseList}"></span></th>
+<table><tr><th class="admin-da-name-header"><a href="" ng-click="orderList('gameId')">Game Id</a><span class="admin-da-sortorder" ng-show="predicateList === 'gameId'" ng-class="{reverse:reverseList}"></span></th>
 <th class="admin-da-name-header"><a href="" ng-click="orderList('dev')">Developer</a><span class="admin-da-sortorder" ng-show="predicateList === 'company'" ng-class="{reverse:reverseList}"></span></th>
 <th class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th></tr>
 
 <tr ng-repeat="game in games | orderBy:predicateList:reverseList">
-<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.name}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.gameId}}</td>
 <td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.company}}</td>
 <td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
 <button ng-if="showTab != 0" ng-click="approveGame(game)">Approve</button>
