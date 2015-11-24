@@ -168,8 +168,14 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.game-approval', {
         url: '/game-approval',
         resolve: {
+            gamesApproved: function (GamesService) {
+                return GamesService.getAllDeveloperGamesApproved();
+            },
             gamesAwaitingApproval: function (GamesService) {
                 return GamesService.getAllDeveloperGamesAwaitingApproval();
+            },
+            gamesRejected: function (GamesService) {
+                return [];
             }
         },
         views: {
@@ -935,7 +941,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     };
 })
-.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService, GamesService, gamesAwaitingApproval) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
@@ -950,12 +956,23 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         $scope.predicateList = predicate;
     };
     
-    $scope.games = [];
-    
-    //$scope.games.push( { name: "Fruit Land EDU", company: "Sweet Game Acres" } );
-    //$scope.games.push( { name: "Aap Apple rancher", company: "Big Apple Games" } );
-    $scope.games = gamesAwaitingApproval;
-    
+    // $scope.games must after any massaging must be an array of objects
+    // with fields "gameId", "userId", "company" and "longName"
+    if ($scope.showTab === 0) {
+        $scope.games = gamesApproved;
+        angular.forEach( $scope.games, function( value ) {
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
+        });
+    } else if ($scope.showTab === 1) {
+        $scope.games = gamesAwaitingApproval;
+        angular.forEach( $scope.games, function( value ) {
+            value.company = value.organization.organization;
+            value.longName = value.basic.longName;
+        });
+    } else if ($scope.showTab === 1) {
+        $scope.games = gamesRejected;
+    }
+
     $scope.approveGame = function(game) {
         console.log("approveGame", game);
         GamesService.approveGame(game.gameId);

@@ -52,7 +52,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     },
     resolve: {
       allGamesInfo: function(GamesService) {
-        return GamesService.all();
+        return GamesService.active('basic');
       },
       gamesAvailableForLicense: function(LicenseService) {
          return LicenseService.getGamesAvailableForLicense();

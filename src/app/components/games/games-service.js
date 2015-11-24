@@ -240,8 +240,27 @@ angular.module('games', [
           });
     },
 
+    getAllDeveloperGamesApproved: function() {
+      return $http.get(API_BASE + '/dash/games/approved')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
     approveGame: function(gameId) {
       return $http.post(API_BASE + '/dash/game/'+gameId+'/approve');
+    },
+
+    rejectGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/reject');
+    },
+
+    requestMoreInfoAboutGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/requestInfo');
     },
 
     checkForGameAccess: function() {
