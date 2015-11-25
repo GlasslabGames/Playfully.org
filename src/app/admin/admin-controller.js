@@ -205,7 +205,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     })
     .state('admin.game-approval.rejected', {
-        url: '/game-approval/pending',
+        url: '/game-approval/rejected',
         resolve: {
         },
         views: {
