@@ -2,15 +2,15 @@
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
         <li class="gl-tab"
             ng-class="{'active': showTab == 0}">
-            <a href ui-sref="admin.game-approval">Approved Games</a>
+            <a href ui-sref="admin.game-approval" ui-sref-opts="{ reload: true }">Approved Games</a>
         </li>
         <li class="gl-tab"
             ng-class="{'active': showTab == 1}">
-            <a href ui-sref="admin.game-approval.pending">Pending Games</a>
+            <a href ui-sref="admin.game-approval.pending" ui-sref-opts="{ reload: true }">Pending Games</a>
         </li>
         <li class="gl-tab"
             ng-class="{'active': showTab == 2}">
-            <a href ui-sref="admin.game-approval.rejected">Rejected Games</a>
+            <a href ui-sref="admin.game-approval.rejected" ui-sref-opts="{ reload: true }">Rejected Games</a>
         </li>
     </ul>
 </div>

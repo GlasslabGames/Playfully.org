@@ -165,6 +165,62 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             authorizedRoles: ['admin']
         }
     })
+    .state('modal.developer-email-reason-modal', {
+        url: '/admin/developer-email-reason',
+        data: {
+            pageTitle: 'Enter message or explanation',
+            authorizedRoles: ['admin']
+        },
+        views: {
+            'modal@': {
+                templateUrl: 'admin/admin-develoepr-email-reason-modal.html',
+                controller: function ($scope, $log, $window, GamesService) {
+                    $scope.request = {
+                        success: false,
+                        errors: [],
+                        isSubmitting: false
+                    };
+
+                    $scope.notice = {text: ""};
+                    
+                    $scope.completeAction = function() {
+                        var data = GamesService.getGameData();
+                        $scope.request.isSubmitting = true;
+           
+                        if (data.action == 'reject') {
+                            GamesService.rejectGame(data.game.gameId, $scope.notice.text)
+                            .then(function(response) {
+                                // could be array or object
+                                if (angular.isArray($scope.games)) {
+                                    data.games.splice(data.game.myKey, 1);
+                                } else {
+                                    delete data.games[data.game.myKey];
+                                }
+                                angular.forEach( data.games, function( value, key ) {
+                                    value.myKey = key;
+                                });
+                                
+                                $scope.close();
+                            }, function(err){
+                                $log.error("check game access:", err);
+                                $window.alert(err);
+                                $scope.close();
+                            });
+                        } else {
+                            GamesService.requestMoreInfoAboutGame(data.game.gameId, $scope.notice.text)
+                            .then(function(response) {
+                                $scope.close();
+                            }, function(err){
+                                $log.error("check game access:", err);
+                                $window.alert(err);
+                                $scope.close();
+                            });
+                        }
+                    };
+                }
+            }
+        }
+    })
     .state('admin.game-approval', {
         url: '/game-approval',
         resolve: {
@@ -175,7 +231,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                 return GamesService.getAllDeveloperGamesAwaitingApproval();
             },
             gamesRejected: function (GamesService) {
-                return [];
+                return GamesService.getAllDeveloperGamesRejected();
             }
         },
         views: {
@@ -191,8 +247,6 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     })
     .state('admin.game-approval.pending', {
         url: '/game-approval/pending',
-        resolve: {
-        },
         views: {
           'main@': {
             templateUrl: 'admin/admin-game-approval.html',
@@ -206,8 +260,6 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     })
     .state('admin.game-approval.rejected', {
         url: '/game-approval/rejected',
-        resolve: {
-        },
         views: {
           'main@': {
             templateUrl: 'admin/admin-game-approval.html',
@@ -941,7 +993,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     };
 })
-.controller('AdminGameApprovalCtrl', function ($scope, $state, $window, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, $timeout, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
@@ -960,30 +1012,45 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     // with fields "gameId", "userId", "company" and "longName"
     if ($scope.showTab === 0) {
         $scope.games = gamesApproved;
-        angular.forEach( $scope.games, function( value ) {
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
             value.company = (value.organization !== undefined ? value.organization.organization : "");
         });
     } else if ($scope.showTab === 1) {
         $scope.games = gamesAwaitingApproval;
-        angular.forEach( $scope.games, function( value ) {
-            value.company = value.organization.organization;
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
             value.longName = value.basic.longName;
         });
-    } else if ($scope.showTab === 1) {
+    } else if ($scope.showTab === 2) {
         $scope.games = gamesRejected;
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
+            value.longName = value.basic.longName;
+        });
     }
 
     $scope.approveGame = function(game) {
-        console.log("approveGame", game);
-        GamesService.approveGame(game.gameId);
+        GamesService.approveGame(game.gameId)
+        .then(function(response) {
+            // always on objct
+            delete $scope.games[game.myKey];
+        }, function(err){
+            $log.error("check game access:", err);
+            $window.alert(err);
+        });
     };
 
     $scope.rejectGame = function(game) {
-
+        GamesService.setGameData({ games: $scope.games, game: game, action: 'reject' });
+        $state.go("modal.developer-email-reason-modal");
     };
 
     $scope.needMoreInfo = function(game) {
-    
+        GamesService.setGameData({ game: game, action: 'more-info' });
+        $state.go("modal.developer-email-reason-modal");
     };
 
 });
