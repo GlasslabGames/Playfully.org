@@ -94,6 +94,10 @@ angular.module('license', [])
                 }
                 return false;
             };
+            this.getPendingPOForUser = function (userId) {
+            	// userId has existing PO with status of 'pending', 'received', or 'invoiced'
+            	return $http.get( API_BASE + '/license/po/openforuser/' + userId );
+            };
             this.hasLicense = function (show) {
               var license = null;
               var _conditional = function() {
