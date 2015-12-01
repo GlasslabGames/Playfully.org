@@ -41,7 +41,7 @@ angular.module('playfully.config', [])
   all:					'*',
   student:				'student',
   instructor:			'instructor',
-  manager:				'manager',
+  manager:				'manager',			// role was deprecated, no longer supported
   developer:			'developer',
   admin: 				'admin',
   reseller:				'reseller',

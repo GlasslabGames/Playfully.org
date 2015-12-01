@@ -359,28 +359,39 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
         $scope.licenseOwnerValid = false;
         $scope.licenseOwnerExists = false;
+        $scope.licenseOwnerPending = false;
 
         $scope.findLicenseOwner = function ( info ) {
             $scope.licenseOwnerValid = false;
             $scope.licenseOwnerExists = false;
+            $scope.licenseOwnerPending = false;
 
             if ( $scope.validateEmail( info.user.email ) ) {
                 $scope.licenseOwnerValid = true;
 
+				info.PO.firstName = "";
+				info.PO.lastName = "";
+				info.PO.email = info.user.email;
+
                 UserService.getByEmail( info.user.email )
-                .success(function (data,status) {
-                    if ( ! _.isEmpty(data) ) {
-                        $scope.licenseOwnerExists = true;
-                        info.user = data;
-                        info.PO.firstName = data.firstName;
-                        info.PO.lastName = data.lastName;
-                        info.PO.email = info.user.email;
-                    } else {
-                        info.PO.firstName = "";
-                        info.PO.lastName = "";
-                        info.PO.email = info.user.email;
-                    }
-                });
+                .then( function( data ) {
+					if ( ! _.isEmpty( data.data ) ) {
+	                    $scope.licenseOwnerExists = true;
+	                    info.user = data.data;
+	                    info.PO.firstName = info.user.firstName;
+	                    info.PO.lastName = info.user.lastName;
+	                    return LicenseService.getPendingPOForUser( info.user.id );
+	                } else {
+	                    return;
+	                }
+                }.bind(this))
+                .then( function( data ) {
+                	if ( data && ( ! _.isEmpty( data.data ) ) ) {
+                		$scope.licenseOwnerPending = true;
+                	}
+                }.bind(this))
+                .then( null, function( err ) {
+                }.bind(this));
             }
         };
 
@@ -392,6 +403,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 		$scope.cancelPurchaseOrder = function () {
 			$scope.licenseOwnerValid = false;
 			$scope.licenseOwnerExists = false;
+			$scope.licenseOwnerPending = false;
 			$scope.info.user.email = "";
 			$scope.info.PO.email = "";
 		};
