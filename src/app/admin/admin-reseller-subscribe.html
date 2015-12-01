@@ -17,8 +17,11 @@
             </div>
             <p>
             </p>
-            <p ng-show="licenseOwnerExists && licenseOwnerValid">
+            <p ng-show="licenseOwnerExists && licenseOwnerValid && !licenseOwnerPending">
                 Found license owner: {{info.PO.firstName}} {{info.PO.lastName}}
+            </p>
+            <p ng-show="licenseOwnerExists && licenseOwnerValid && licenseOwnerPending">
+                Found license owner: {{info.PO.firstName}} {{info.PO.lastName}}, but owner already has PO pending!
             </p>
             <p ng-show="!licenseOwnerExists && licenseOwnerValid">
                 License owner {{info.user.email}} was not found!
@@ -30,7 +33,7 @@
     </br >
 
     <div class="row">
-        <div class="col-md-4" ng-show="licenseOwnerValid">
+        <div class="col-md-4" ng-show="licenseOwnerValid && !licenseOwnerPending">
             <div class="gl-manager-side-panel gl-manager-side-panel--payment gl-margin--B50">
                 <div class="gl-manager-side-panel-label text-center">
                     Premium Plan
@@ -77,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 gl-margin--B50" ng-show="licenseOwnerValid">
+        <div class="col-md-8 gl-margin--B50" ng-show="licenseOwnerValid && !licenseOwnerPending">
             <form name="paymentForm" novalidate class="reg-form form-inline">
                 <div class="form-group">
                     <div class="gl-upgrade-school-info gl-margin--Bl">
@@ -96,11 +99,11 @@
                             this order. </p>
 
                         <div class="form-group">
-                            <input ng-disabled="licenseOwnerExists" size="30" class="form-control gl-margin-Vl" ng-model="info.PO.firstName"
+                            <input ng-disabled="licenseOwnerExists && !licenseOwnerPending" size="30" class="form-control gl-margin-Vl" ng-model="info.PO.firstName"
                                    placeholder="Primary Contact First Name" required>
                         </div>
                         <div class="form-group">
-                            <input ng-disabled="licenseOwnerExists" size="30" class="form-control gl-margin-Vl"
+                            <input ng-disabled="licenseOwnerExists && !licenseOwnerPending" size="30" class="form-control gl-margin-Vl"
                                    ng-model="info.PO.lastName"
                                    placeholder="Last Name" required>
                         </div>
