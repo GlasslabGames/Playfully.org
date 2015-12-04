@@ -294,9 +294,11 @@ angular.module( 'playfully', [
             	if ($rootScope.lastSessionCookie != ipCookie('connect.sid')) {
 					$rootScope.lastSessionCookie = ipCookie('connect.sid');
 	
-					Session.destroy();
-					//window.location.reload();
-					return $q.reject(response);
+                    if (response.config.url.indexOf("/auth/logout") == -1) {
+                        Session.destroy();
+                        //window.location.reload();
+                        return $q.reject(response);
+                    }
             	}
             } else if (ipCookie) {
             	$rootScope.lastSessionCookie = ipCookie('connect.sid');
