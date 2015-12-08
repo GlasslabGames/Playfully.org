@@ -880,8 +880,6 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.states = angular.copy(REGISTER_CONSTANTS.states);
 
     $scope.seatsLevelMap = { "trial": 0, "group": 1, "class": 2, "multiClass": 3, "school": 4 };
-
-    console.log($scope.packages);
             
     $scope.lookupAccount = function() {
         UserService.getByUsername($scope.username)
