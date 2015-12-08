@@ -43,6 +43,9 @@ angular.module('developer.games', [
                     authorizedRoles: ['developer']
                 }
         })
+
+
+
         .state('root.developerGames.editor', {
             url: '/:gameId/editor',
             views: {
@@ -60,10 +63,36 @@ angular.module('developer.games', [
                 }
             },
             data: {
-                authorizedRoles: ['developer'],
+                authorizedRoles: ['admin', 'developer'],
                 pageTitle: 'Game Editor'
             }
         })
+
+
+
+        .state('root.developerGames.editor-orig', {
+            url: '/:gameId/editor-orig',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-editor-orig.html',
+                    controller: 'DevGameEditor-origCtrl'
+                }
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                },
+                infoSchema: function(GamesService) {
+                    return GamesService.getDeveloperGamesInfoSchema();
+                }
+            },
+            data: {
+                authorizedRoles: ['admin', 'developer'],
+                pageTitle: 'Game Editor --(original)'
+            }
+        })
+
+
 
         .state('root.developerGames.sowo-editor', {
             url: '/:gameId/sowo-editor',
@@ -82,7 +111,7 @@ angular.module('developer.games', [
                 }
             },
             data: {
-                authorizedRoles: ['developer', 'admin'],
+                authorizedRoles: ['admin', 'developer'],
                 pageTitle: 'Game Shout Out Watch Out Editor'
             }
         })
@@ -204,7 +233,9 @@ angular.module('developer.games', [
             }
         });
     })
+
     .controller('DevGamesCtrl', function ($scope, $state, $modal, myGames, GamesService) {
+
         $scope.sections = [
             {name:'Live', release: 'live'},
             {name:'In development', release: 'dev'}/*,
@@ -308,7 +339,78 @@ angular.module('developer.games', [
             });
         };
     })
+
+
+
+
+
+
+
+
+////////////////    ////////////////
+////////////////    ////////////////
+
+
+
+
+
+
+
+
     .controller('DevGameEditorCtrl',
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+        $scope.gameId = $stateParams.gameId;
+        $scope.fullData = gameInfo;
+        $scope.fullSchema = infoSchema;
+        $scope.tabs = ["basic", "details", "assessment", "reports"];
+
+        $scope.giBasic = gameInfo.basic;
+        $scope.fullName = gameInfo.basic.shortName;
+        $scope.shortName = gameInfo.basic.shortName;
+
+        $scope.playlink = "";
+
+        $scope.dbgdmp = gameInfo;
+
+        if ("page" == gameInfo.basic.play.type) {
+            $scope.playlink = gameInfo.basic.play.page.embed;
+        }
+
+        // $scope.origGameEdit = function() {
+
+        //     // return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+        // };
+
+        $scope.RefreshIcon = function() {
+            // giBasic.platform.icon.large
+        };
+
+        $scope.RefreshSettingsIcon = function() {
+            // giBasic.platform.icon.large
+        };
+
+        $scope.saveInfo = function() {
+
+console.log('        xxxxxxx    calling ssss() ... ');
+console.log('        sssssss    passing $scope.fullData =', $scope.fullData);
+
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+        };
+
+        $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
+            target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
+            return target;
+        }, {});
+
+        $scope.onChange = function(data, tabName) {
+            $scope.fullData[tabName] = data;
+        };
+    })
+
+
+
+
+    .controller('DevGameEditor-origCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
@@ -327,6 +429,9 @@ angular.module('developer.games', [
             $scope.fullData[tabName] = data;
         };
     })
+
+
+
 
     .controller('DevGameSoWoEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {

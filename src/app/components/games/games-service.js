@@ -216,6 +216,8 @@ angular.module('games', [
               return response;
           });
     },
+
+
     updateDeveloperGameInfo: function(gameId,data) {
       return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
           .then(function(response) {
@@ -285,6 +287,7 @@ angular.module('games', [
             return err;
           });
     },
+
 
     requestGameAccess: function(gameId) {
       return $http.get(API_BASE + '/auth/developer/game/' + gameId + '/request');
