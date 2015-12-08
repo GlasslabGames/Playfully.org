@@ -67,11 +67,11 @@
                 <option value="ipad">iPad</option>
                 <option value="pcMac">PC/Mac</option>
             </select>
-            <div ng-show="planLevel < 4">
+            <div ng-show="canUpgradeSeats">
             Change Seats: <select name="seats" ng-model="seatsSetting" ng-options="item as item.title for item in seatOptions track by item.id" >
             </select>
             </div>
-            <div ng-show="planLevel > 0">
+            <div ng-show="canAddYear">
             <input type="checkbox" ng-model="yearAdded"> Add Year
             </div>
             Institution (required to convert from trial)

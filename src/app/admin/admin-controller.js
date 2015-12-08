@@ -868,7 +868,9 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.lookupErrorMsg = null;
     $scope.changeErrorMsg = null;
     $scope.hasPlan = false;
-    $scope.planLevel = 0;
+    $scope.seatsLevel = 0;
+    $scope.canUpgradeSeats = false;
+    $scope.canAddYear = false;
     $scope.hasInstitution = false;
     $scope.planSetting = 'noChange';
     $scope.seatsSetting = { id: 'noChange' };
@@ -877,8 +879,10 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.seatOptions = { };
     $scope.states = angular.copy(REGISTER_CONSTANTS.states);
 
-    $scope.planLevelMap = { trial: 0, group: 1, class: 2, multiClass: 3, school: 4 };
+    $scope.seatsLevelMap = { "trial": 0, "group": 1, "class": 2, "multiClass": 3, "school": 4 };
 
+    console.log($scope.packages);
+            
     $scope.lookupAccount = function() {
         UserService.getByUsername($scope.username)
         .success(function (data, status) {
@@ -900,21 +904,41 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                             $scope.yearAdded = false;
                             $scope.institutionInfo = { name: "", address: "", city: "", state: "", zipCode: "" };
                           
-                            $scope.planLevel = $scope.planLevelMap[response.packageDetails.seatId];
+                            if (response.packageDetails.planId == 'trial') {
+                                $scope.seatsLevel = 0;
+                            } else {
+                                var seatId = response.packageDetails.seatId;
+                                if ($scope.seatsLevelMap[seatId] !== undefined) {
+                                    $scope.seatsLevel = $scope.seatsLevelMap[seatId];
+                                } else {
+                                    if (seatId < 30) {
+                                        $scope.seatsLevel = 1;
+                                    } else if (seatId < 120) {
+                                        $scope.seatsLevel = 2;
+                                    } else if (seatId < 500) {
+                                        $scope.seatsLevel = 3;
+                                    } else {
+                                        $scope.seatsLevel = 4;
+                                    }
+                                }
+                            }
                             $scope.seatOptions = [ { id: "noChange", title: "[No change]"} ];
                             $scope.seatsSetting = $scope.seatOptions[0];
-                            if ($scope.planLevel < 1) {
+                            if ($scope.seatsLevel < 1) {
                                 $scope.seatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
                             }
-                            if ($scope.planLevel < 2) {
+                            if ($scope.seatsLevel < 2) {
                                 $scope.seatOptions.push({ id: "class", title: "Class (30 students, 2 educators)"});
                             }
-                            if ($scope.planLevel < 3) {
+                            if ($scope.seatsLevel < 3) {
                                 $scope.seatOptions.push({ id: "multiClass", title: "Multi Class (120 students, 8 educators)"});
                             }
-                            if ($scope.planLevel < 4) {
+                            if ($scope.seatsLevel < 4) {
                                 $scope.seatOptions.push({ id: "school", title: "School (500 students, 15 educators)"});
                             }
+
+                            $scope.canUpgradeSeats = $scope.seatsLevel < 4;
+                            $scope.canAddYear = $scope.seatsLevel > 0;
                           
                             //console.log(response);
                         } else {
