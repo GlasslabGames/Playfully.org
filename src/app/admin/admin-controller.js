@@ -158,7 +158,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         controller: 'AdminAccountManagementCtrl',
         resolve: {
             packages: function (LicenseService) {
-                return LicenseService.getPackages();
+                return LicenseService.getPackages({salesRep: true});
             }
         },
         data: {
@@ -868,7 +868,6 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.lookupErrorMsg = null;
     $scope.changeErrorMsg = null;
     $scope.hasPlan = false;
-    $scope.seatsLevel = 0;
     $scope.canUpgradeSeats = false;
     $scope.canAddYear = false;
     $scope.hasInstitution = false;
@@ -880,12 +879,11 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.states = angular.copy(REGISTER_CONSTANTS.states);
 
     $scope.seatsLevelMap = { "trial": 0, "group": 1, "class": 2, "multiClass": 3, "school": 4 };
-            
+
     $scope.lookupAccount = function() {
         UserService.getByUsername($scope.username)
         .success(function (data, status) {
             if ( ! _.isEmpty(data) ) {
-                //console.log(data);
                 $scope.role = data.role;
                 $scope.userInfo = data;
                 $scope.expirationDate = (new Date(data.expirationDate)).toLocaleDateString();
@@ -902,41 +900,33 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                             $scope.yearAdded = false;
                             $scope.institutionInfo = { name: "", address: "", city: "", state: "", zipCode: "" };
                           
-                            if (response.packageDetails.planId == 'trial') {
-                                $scope.seatsLevel = 0;
-                            } else {
-                                var seatId = response.packageDetails.seatId;
-                                if ($scope.seatsLevelMap[seatId] !== undefined) {
-                                    $scope.seatsLevel = $scope.seatsLevelMap[seatId];
-                                } else {
-                                    if (seatId < 30) {
-                                        $scope.seatsLevel = 1;
-                                    } else if (seatId < 120) {
-                                        $scope.seatsLevel = 2;
-                                    } else if (seatId < 500) {
-                                        $scope.seatsLevel = 3;
-                                    } else {
-                                        $scope.seatsLevel = 4;
+                            $scope.seatOptions = [];
+
+                            var standardSeatOptions = [{ id: "noChange", title: "[No change]"}];
+                            var isTrial = (response.packageDetails.planId == 'trial');
+                            var students = response.packageDetails.studentSeats;
+                            var educators = response.packageDetails.educatorSeats;
+
+                            $scope.canAddYear = !isTrial;
+
+                            angular.forEach( $scope.packages.seats, function(seat) {
+                                if (seat.studentSeats > students && seat.educatorSeats > educators) {                               if (seat.size == "Custom") {
+                                        $scope.seatOptions.push({ id: seat.seatId, title: "Custom (" +  seat.studentSeats + " students, " + seat.educatorSeats + " educators)"});
+                                    } else if (seat.seatId == "group") {
+                                        standardSeatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
+                                    } else if (seat.seatId == "class") {
+                                        standardSeatOptions.push({ id: "class", title: "Class (30 students, 2 educators)"});
+                                    } else if (seat.seatId == "multiClass") {
+                                        standardSeatOptions.push({ id: "multiClass", title: "Multi Class (120 students, 8 educators)"});
+                                    } else if (seat.seatId == "school") {
+                                        standardSeatOptions.push({ id: "school", title: "School (500 students, 15 educators)"});
                                     }
                                 }
-                            }
-                            $scope.seatOptions = [ { id: "noChange", title: "[No change]"} ];
+                            });
+                            
+                            $scope.seatOptions = standardSeatOptions.concat($scope.seatOptions);
                             $scope.seatsSetting = $scope.seatOptions[0];
-                            if ($scope.seatsLevel < 1) {
-                                $scope.seatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
-                            }
-                            if ($scope.seatsLevel < 2) {
-                                $scope.seatOptions.push({ id: "class", title: "Class (30 students, 2 educators)"});
-                            }
-                            if ($scope.seatsLevel < 3) {
-                                $scope.seatOptions.push({ id: "multiClass", title: "Multi Class (120 students, 8 educators)"});
-                            }
-                            if ($scope.seatsLevel < 4) {
-                                $scope.seatOptions.push({ id: "school", title: "School (500 students, 15 educators)"});
-                            }
-
-                            $scope.canUpgradeSeats = $scope.seatsLevel < 4;
-                            $scope.canAddYear = $scope.seatsLevel > 0;
+                            $scope.canUpgradeSeats = $scope.seatOptions.length > 1;
                           
                             //console.log(response);
                         } else {

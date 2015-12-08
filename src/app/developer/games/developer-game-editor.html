@@ -85,7 +85,7 @@
                   <input type="text" id="keykey" size="9" ng-model='giBasic.enabled'/><br><br>
 
                   <button class="btn btn-default" type="button" class="btn btn-primary" ng-click="refreshIcon()">Refresh</button><br>
-                  <img src="/{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
+                  <img src="{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
                 </div>
 
                 <div style="float: right; width: 40%;">
@@ -143,7 +143,7 @@
                 <div style="float: left; width: 15%;">
                   <br>
                   <button class="btn btn-default" type="button" class="btn btn-primary" ng-click="refreshSettingsIcon()">Refresh</button><br>
-                  <img src="/{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
+                  <img src="{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
                 </div>
               </h4>
               <br><br><br><br><br><br>
@@ -175,7 +175,7 @@
                 Reports<br>
                 <input type="text" id="keykey" size="100" ng-model='giBasic.banners.reports'/><br>
                 <center>Preview<br>
-                  <img src="/{{giBasic.banners.product}}"><br>
+                  <img src="{{giBasic.banners.product}}"><br>
                 </center>
               </h4>
             </div>
@@ -190,7 +190,7 @@
                 Large<br>
                 <input type="text" id="keykey" size="100" ng-model='giBasic.card.large'/><br>
                 <center>Preview<br>
-                  <img src="/{{giBasic.card.large}}"><br>
+                  <img src="{{giBasic.card.large}}"><br>
                 </center>
               </h4>
             </div>
@@ -204,6 +204,7 @@
           </div><br><br><br><br>
 
         </tab>
+
 
 
 
@@ -230,7 +231,7 @@ link to shout out editor ? ...
             <h1>
               {{gameId}}
               <button class="btn btn-default" type="button" ng-click="saveInfo()"> Save Draft </button>
-              <button class="btn btn-default" type="button" ng-click="saveInfo()"> Submit for Review </button>
+              <!-- <button class="btn btn-default" type="button" ng-click="saveInfo()"> Submit for Review </button> -->
             </h1>
 
           </div>
