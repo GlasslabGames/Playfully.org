@@ -362,7 +362,7 @@ angular.module('developer.games', [
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
         $scope.fullSchema = infoSchema;
-        $scope.tabs = ["basic", "details", "assessment", "reports"];
+        //  $scope.tabs = ["basic", "details", "assessment", "reports"];
 
         $scope.giBasic = gameInfo.basic;
         $scope.fullName = gameInfo.basic.shortName;
