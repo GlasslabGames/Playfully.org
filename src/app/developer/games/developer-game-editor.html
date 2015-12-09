@@ -213,21 +213,44 @@
           <div class="bigbox">
             Game ID # {{gameId}}
 
-            <div class="groupbox" style="height:120px">
+            <div class="groupbox">
               <font color="blue"> Shout Outs </font><br>
 
               <h4>
-long text descriptions of shout outs ...<br><br>
-link to shout out editor ? ...
+
+                <div ng-repeat="item in soitems track by $index">
+                  {{item["id"]}} name: <br>
+                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br><br>
+
+                  description:<br>
+                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
+
+                  <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br>
+                </div>
+
+                <button class="btn btn-default" type="button" ng-click="moreShout()">+ More ...</button><br>
 
               </h4>
             </div>
 
-            <div class="groupbox" style="height:120px">
+
+
+            <div class="groupbox">
               <font color="blue"> Watch Outs </font><br>
 
               <h4>
-ipsum ...<br><br>
+
+                <div ng-repeat="item in woitems track by $index">
+                  {{item["id"]}} name: <br>
+                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br><br>
+
+                  description:<br>
+                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
+
+                  <button class="btn btn-default" type="button" ng-click="deleteWatchRule($index)">Del</button><br><br>
+                </div>
+
+                <button class="btn btn-default" type="button" ng-click="moreWatch()">+ More ...</button><br>
 
               </h4>
             </div>

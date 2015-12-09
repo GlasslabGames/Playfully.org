@@ -346,19 +346,18 @@ angular.module('developer.games', [
 
 
 
-
-////////////////    ////////////////
-////////////////    ////////////////
-
-
-
-
-
-
-
-
     .controller('DevGameEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+
+        var max_shouts = 15;
+        var max_watches = 15;
+
+        var i;
+        var newidx;
+        var newrule = {};
+        var soworules = {};
+        var soworuleskeys = [];
+
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
         $scope.fullSchema = infoSchema;
@@ -375,6 +374,59 @@ angular.module('developer.games', [
         if ("page" == gameInfo.basic.play.type) {
             $scope.playlink = gameInfo.basic.play.page.embed;
         }
+
+        //  ----------------
+
+        // SOWO stuff
+
+        $scope.soitems = [];
+        $scope.woitems = [];
+
+        if(!gameInfo.hasOwnProperty('assessment')) {
+            gameInfo.assessment = [];
+        }
+
+        if(gameInfo.assessment.length < 1) {
+            gameInfo.assessment[0] = {};
+        }
+
+        // id: 'sowo' must be in first assessment object .. ?
+        if(!gameInfo.assessment[0].hasOwnProperty('id')) {
+            gameInfo.assessment[0].id = 'sowo';
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
+
+        soworules = gameInfo.assessment[0].rules;
+        soworuleskeys = Object.keys(soworules);
+
+        soworuleskeys.forEach( function(rule) {
+
+            if(0 <= rule.indexOf('so')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.soitems.push(newrule);
+            }
+
+            if(0 <= rule.indexOf('wo')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.woitems.push(newrule);
+            }
+        });
+
+
+
+
+
 
         // $scope.origGameEdit = function() {
 
