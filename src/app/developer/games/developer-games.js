@@ -347,8 +347,20 @@ angular.module('developer.games', [
 
 
 
-////////////////    ////////////////
-////////////////    ////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -359,10 +371,32 @@ angular.module('developer.games', [
 
     .controller('DevGameEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+
+        var max_shouts = 15;
+        var max_watches = 15;
+
+        var i;
+        var newidx;
+        var newrule = {};
+        var soworules = {};
+        var soworuleskeys = [];
+
+        var solen;
+        var wolen;
+
+        // setup
+
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
-        $scope.fullSchema = infoSchema;
-        $scope.tabs = ["basic", "details", "assessment", "reports"];
+
+        //  $scope.fullSchema = infoSchema;
+
+        //  $scope.tabs = ["basic", "details", "assessment", "reports"];
+
+        //  $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
+        //      target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
+        //      return target;
+        //  }, {});
 
         $scope.giBasic = gameInfo.basic;
         $scope.fullName = gameInfo.basic.shortName;
@@ -376,36 +410,166 @@ angular.module('developer.games', [
             $scope.playlink = gameInfo.basic.play.page.embed;
         }
 
-        // $scope.origGameEdit = function() {
+        // SOWO setup
 
-        //     // return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
-        // };
+        $scope.soitems = [];
+        $scope.woitems = [];
 
-        $scope.RefreshIcon = function() {
-            // giBasic.platform.icon.large
+        if(!gameInfo.hasOwnProperty('assessment')) {
+            gameInfo.assessment = [];
+        }
+
+        if(gameInfo.assessment.length < 1) {
+            gameInfo.assessment[0] = {};
+        }
+
+        // id: 'sowo' must be in first assessment object .. ?
+        if(!gameInfo.assessment[0].hasOwnProperty('id')) {
+            gameInfo.assessment[0].id = 'sowo';
+        }
+
+        if(!gameInfo.assessment[0].hasOwnProperty('rules')) {
+            gameInfo.assessment[0].rules = {};
+        }
+
+        soworules = gameInfo.assessment[0].rules;
+        soworuleskeys = Object.keys(soworules);
+
+        soworuleskeys.forEach( function(rule) {
+
+            if(0 <= rule.indexOf('so')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.soitems.push(newrule);
+            }
+
+            if(0 <= rule.indexOf('wo')) {
+                newrule = {"id": "", "name": "", "description": ""};
+                newrule.id = rule;
+                newrule.name = soworules[rule].name;
+                newrule.description = soworules[rule].description;
+
+                $scope.woitems.push(newrule);
+            }
+        });
+
+        solen = $scope.soitems.length;
+        wolen = $scope.woitems.length;
+
+        // Basic functions
+
+        $scope.onChange = function(data, tabName) {
+            console.log('    onChange() ...');
+            $scope.fullData[tabName] = data;
         };
 
-        $scope.RefreshSettingsIcon = function() {
-            // giBasic.platform.icon.large
-        };
-
-        $scope.saveInfo = function() {
-
-console.log('        xxxxxxx    calling ssss() ... ');
-console.log('        sssssss    passing $scope.fullData =', $scope.fullData);
-
+        $scope.saveBasicInfo = function() {
+            console.log('        calling saveBasicInfo() ... ');
+        //  console.log('        passing $scope.fullData =', $scope.fullData);
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
 
-        $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
-            target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
-            return target;
-        }, {});
+        //  $scope.RefreshIcon = function() {
+        //      // giBasic.platform.icon.large
+        //  };
 
-        $scope.onChange = function(data, tabName) {
-            $scope.fullData[tabName] = data;
+        //  $scope.RefreshSettingsIcon = function() {
+        //      // giBasic.platform.icon.large
+        //  };
+
+        // Sowo functions
+
+        $scope.deleteShoutRule = function(idx) {
+            $scope.soitems.splice(idx, 1);
+            solen = $scope.soitems.length;
         };
+
+        $scope.moreShout = function() {
+            if(solen < max_shouts) {
+                newidx =1;
+                for(i = 0; i < solen; ++ i) {
+                    if($scope.soitems[i].id != ('so'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("so" + newidx), "name": "new shout out name", "description": "new rule description"};
+                $scope.soitems.splice((newidx - 1), 0, newrule);
+                solen = $scope.soitems.length;
+            }
+        };
+
+        $scope.deleteWatchRule = function(idx) {
+            $scope.woitems.splice(idx, 1);
+            wolen = $scope.woitems.length;
+        };
+
+        $scope.moreWatch = function() {
+            if(wolen < max_watches) {
+                newidx = 1;
+                for(i = 0; i < wolen; ++i) {
+                    if($scope.woitems[i].id != ('wo'+newidx)) {
+                        break;
+                    }
+                    ++ newidx;
+                }
+                newrule = {"id": ("wo" + newidx), "name": "new watch out name", "description": "new rule description"};
+                $scope.woitems.splice((newidx - 1), 0, newrule);
+                wolen = $scope.woitems.length;
+            }
+        };
+
+        $scope.saveSowoInfo = function() {
+
+            gameInfo.assessment[0].rules = {};
+
+            solen = $scope.soitems.length;
+            for(i = 0; i < solen; ++i) {
+                gameInfo.assessment[0].rules[$scope.soitems[i].id] = {
+                    "name": $scope.soitems[i].name,
+                    "description": $scope.soitems[i].description
+                };
+            }
+
+            wolen = $scope.woitems.length;
+            for(i = 0; i < wolen; ++i) {
+                gameInfo.assessment[0].rules[$scope.woitems[i].id] = {
+                    "name": $scope.woitems[i].name,
+                    "description": $scope.woitems[i].description
+                };
+            }
+
+            return GamesService.updateDeveloperGameInfo($scope.gameId, gameInfo);
+        };
+
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -683,6 +847,3 @@ console.log('        sssssss    passing $scope.fullData =', $scope.fullData);
             $state.go('modal-lg.developer-edit', {'gameId': gameId}, {location: false});
         };
     });
-
-
-
