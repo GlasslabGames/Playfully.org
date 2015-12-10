@@ -52,8 +52,14 @@
             </div>
             <div ng-if="!course.lockedRegistration">Class Code: <span ng-bind="course.code"></span></div>
             <div ng-if="course.lockedRegistration"><i class="fa fa-lock"></i> Registration Locked</div>
-            <div ng-if="!course.archived">Available Seats: {{currentPlan.packageDetails.studentSeats - course.studentCount}}</div>
-            <img ng-if="!course.archived" ng-src="/assets/{{hasLicense('badge')}}-badge.png"></img>
+            <div ng-if="!course.archived && currentPlan.packageDetails">Available Seats: {{currentPlan.packageDetails.studentSeats - course.studentCount}}</div>
+            <div ng-if="!course.archived && !currentPlan.packageDetails">{{ currentPlan.hadSubscribe ? "Subscription Expired" : "Trial Expired" }}</div>
+            <img ng-if="!course.archived && currentPlan.packageDetails" ng-src="/assets/{{hasLicense('badge')}}-badge.png"></img>
+            <div ng-if="!course.archived && !currentPlan.packageDetails" class="gl-margin--Ts">
+              <button type="button" class="btn gl-btn--blue" ui-sref="root.subscribe.packages">
+                Subscribe
+              </button>
+            </div>
             <div ng-if="course.archived">
               Archived On: <span ng-bind="course.archivedDate | date:longDate"></span>
             </div>
@@ -91,7 +97,7 @@
                 ng-repeat="game in course.games"
                 ng-show="gamesInfo[game.id].enabled">
                 <div>
-                <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
+                <div class="gl-course-game-thumb" ng-style="{'background-image': 'url('+gamesInfo[game.id].thumbnail.small+')'}">
                         <div ng-show="!game.assigned"
                              ng-if="!showArchived"
                              ng-init="game.hover=false"
@@ -100,10 +106,13 @@
                              ng-class="game.hover ? 'gl-course-disabled-premium-game-overlay--flipped' : 'gl-course-disabled-premium-game-overlay' ">
                              <p ng-show="!gamesInfo[game.id].availableForLicense && game.hover">
                                  This game is not available in your current plan </p>
+                             
                              <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
                                      ui-sref="root.subscribe.packages"
-                                     class="btn gl-btn--steelblue text-center">Upgrade</button>
-
+                                     class="btn gl-btn--small gl-btn--steelblue text-center">Upgrade</button>
+                             <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
+                                     ui-sref="modal-lg.removeInvalidGame({id:course.id,gameId: game.id})"
+                                     class="btn gl-btn--small gl-btn--red text-center">Remove</button>
                             <p ng-show="gamesInfo[game.id].availableForLicense && game.hover">
                                 Premium Games have been disabled for this class </p>
                             <button ng-show="gamesInfo[game.id].availableForLicense && game.hover"

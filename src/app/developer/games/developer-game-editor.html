@@ -1,17 +1,268 @@
 <div class="container gl-margin--Txxl">
   <div class="row">
     <div class="col-md-12">
-      <h1>{{gameId}} <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></h1>
+
+      <!-- <link rell="stylesheet" type="text/css" href="developer-game-editor.css"> -->
+
+      <style>
+      .bigbox {
+        color: white;
+        background-color: #CFE6BA;
+        padding: 12px;
+      }
+
+      .groupbox {
+        color: black;
+        background-color: #EAF3DE;
+        border-radius: 12px;
+        margin: 12px;
+        padding: 12px;
+      }
+
+      h4 {
+        /*background-color: orange;*/
+      }
+
+/*      #box2 {
+        background-color: yellow;
+      }*/
+      </style>
+
+
+      <a href="sowo-editor"> goto SOWO Editor </a><br>
+      <a href="editor-orig"> original Game Editor </a><br>
+
+      <h2><center><font color=#2579B0>Game Editor<br>
+      {{gameId}}</font></center></h2>
+
+      <hr style="border-width:8px;border-color:#67CADA">
+
+      <h3>
 
       <tabset>
-        <tab ng-repeat="tabName in tabs" heading="{{tabName}}">
+        <tab heading="Basic">
 
-          <json-editor schema="tabSchema[tabName]" startval="fullData[tabName]"
-                       on-change="onChange($editorValue, tabName)"></json-editor>
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <div class="groupbox" style="height:120px">
+              <font color="blue"> Name </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Full Game Name<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.longName'/><br>
+                </div>
+                <div style="float: right; width: 35%;">
+                  Short Game Name<br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.shortName'/><br>
+                </div>
+              </h4>
+            </div>
+
+            <div class="groupbox">
+              <font color="blue"> Basics </font><br>
+
+              <h4>
+                <div id="box2" style="float: left; width: 45%;">
+                  Platform<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.platform.type'/><br>
+                  Subject<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.subject'/><br>
+                  Grade Level (# - # format)<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.grades'/><br>
+
+                  Small Icon<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.platform.icon.small'/><br>
+                  Large Icon<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.platform.icon.large'/>
+                </div>
+
+                <div style="float: left; width: 15%;">
+                  Visible?<br>
+                  <input type="text" id="keykey" size="9" ng-model='giBasic.visible'/><br>
+                  Enabled?<br>
+                  <input type="text" id="keykey" size="9" ng-model='giBasic.enabled'/><br><br>
+
+                  <button class="btn btn-default" type="button" class="btn btn-primary" ng-click="refreshIcon()">Refresh</button><br>
+                  <img src="{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
+                </div>
+
+                <div style="float: right; width: 40%;">
+                  License Info
+                  License Type<br>
+                  <input type="text" id="keykey" size="36" ng-model='giBasic.license.type'/><br>
+                  Login Type<br>
+                  <input type="text" id="keykey" size="36" ng-model='giBasic.license.loginType'/><br>
+                  Valid?<br>
+                  <input type="text" id="keykey" size="36" ng-model='giBasic.license.valid'/><br>
+                  Invalid Message<br>
+                  <input type="text" id="keykey" size="36" ng-model='giBasic.license.message.invalid'/><br>
+                  Price ($0.00 format)<br>
+                  <input type="text" id="keykey" size="36" ng-model='giBasic.price'/><br><br>
+                </div>
+              </h4>
+              <br><br><br><br><br><br><br><br><br>
+            </div>
+
+            <div class="groupbox">
+            <font color="blue"> Description </font><br>
+
+              <h4>
+                Long Description<br>
+                <input type="text" id="keykey" size="98" ng-model='giBasic.description'/><br>
+                Short Description<br>
+                <input type="text" id="keykey" size="98" ng-model='giBasic.shortDescription'/><br>
+
+                <div style="float: left; width: 65%">
+                  Release Type<br>
+                  <input type="text" id="keykey" size="20" ng-model='giBasic.release'/><br><br>
+                </div>
+
+                <div style="float: right; width: 25%;">
+                  Release Date<br>
+                  <input type="text" id="keykey" size="20" ng-model='giBasic.releaseDate'/><br>
+                </div>
+                <br><br>
+              </h4>
+            </div>
+
+            <div class="groupbox">
+              <font color="blue"> Settings </font><br>
+
+              <h4>
+                <div style="float: left; width: 45%;">
+                  Match Creation?<br>
+                  <input type="text" id="keykey" size="20" ng-model='giBasic.settings.canCreateMatches'/><br>
+                  Small Icon<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.thumbnail.small'/><br>
+                  Large Icon<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.xxxxxxxx'/><br>
+                </div>
+
+                <div style="float: left; width: 15%;">
+                  <br>
+                  <button class="btn btn-default" type="button" class="btn btn-primary" ng-click="refreshSettingsIcon()">Refresh</button><br>
+                  <img src="{{giBasic.platform.icon.large}}" style="width:80px;height:80px">
+                </div>
+              </h4>
+              <br><br><br><br><br><br>
+            </div>
+
+
+
+
+
+            <div class="groupbox">
+              <font color="blue"> Play </font><br>
+
+              <h4>
+                Link<br>
+                <input type="text" id="keykey" size="100" ng-model='playlink'/><br>
+                <!-- <input type="text" id="keykey" size="100" ng-model='giBasic.play.page.embed'/><br> -->
+                Type<br>
+                <input type="text" id="keykey" size="20" ng-model='giBasic.play.type'/><br>
+              </h4>
+            </div>
+
+
+            <div class="groupbox">
+              <font color="blue"> Banners </font><br>
+
+              <h4>
+                Product<br>
+                <input type="text" id="keykey" size="100" ng-model='giBasic.banners.product'/><br>
+                Reports<br>
+                <input type="text" id="keykey" size="100" ng-model='giBasic.banners.reports'/><br>
+                <center>Preview<br>
+                  <img src="{{giBasic.banners.product}}"><br>
+                </center>
+              </h4>
+            </div>
+
+            <div class="groupbox">
+              <font color="blue"> Card </font><br>
+
+              <h4>
+                Small<br>
+                <input type="text" id="keykey" size="100" ng-model='giBasic.card.small'/><br>
+
+                Large<br>
+                <input type="text" id="keykey" size="100" ng-model='giBasic.card.large'/><br>
+                <center>Preview<br>
+                  <img src="{{giBasic.card.large}}"><br>
+                </center>
+              </h4>
+            </div>
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveInfo()"> Save Draft </button>
+              <button class="btn btn-default" type="button" ng-click="saveInfo()"> Submit for Review </button>
+            </h1>
+
+          </div><br><br><br><br>
 
         </tab>
-      </tabset>
 
+
+
+
+        <!-- <tab heading="Details"> -->
+        <!-- </tab> -->
+
+
+
+        <tab heading="Assessment">
+
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <div class="groupbox" style="height:120px">
+              <font color="blue"> Shout Outs </font><br>
+
+              <h4>
+long text descriptions of shout outs ...<br><br>
+link to shout out editor ? ...
+
+              </h4>
+            </div>
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveInfo()"> Save Draft </button>
+              <!-- <button class="btn btn-default" type="button" ng-click="saveInfo()"> Submit for Review </button> -->
+            </h1>
+
+          </div>
+
+        </tab>
+
+
+
+        <!-- <tab heading="Report"> -->
+        <!-- </tab> -->
+
+        <!-- <tab heading="Mechanics"> -->
+        <!-- </tab> -->
+
+        <!-- <tab heading="Help"> -->
+        <!-- </tab> -->
+
+        <!-- <tab heading="Developer"> -->
+        <!-- </tab> -->
+
+      </tabset>
+      </h3>
+<!-- 
+      <h1>{{gameId}}
+      <button class="btn btn-default" type="button" ng-click="saveInfo()"> Save Draft </button>
+      <button class="btn btn-default" type="button" ng-click="saveInfo()"> Submit for Review </button>
+      </h1>
+ -->
     </div>
   </div>
+
+<!-- {{dbgdmp}}<br> -->
+
 </div>

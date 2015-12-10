@@ -1,0 +1,40 @@
+<div class="modal-header" ng-hide="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 ng-hide="request.errors.length" class="modal-title">Are you sure ?</h3>
+    <h3 ng-show="request.errors.length" class="modal-title">Error</h3>
+</div>
+
+<div class="modal-body text-center" ng-hide="request.success || request.errors.length">
+    <div class="gl-manager-remove-teacher-blinky blinky-warning"></div>
+    <div>
+        <p class="gl-margin-Vl">You are removing the following game as it is unavailable in your plan:</p>
+
+        <p>{{game.longName}}</p>
+        <input ng-click="removeGame(course, game)"
+               ng-value="request.isSubmitting ? 'Removing...' : 'Remove Game'"
+               class="btn btn-danger">
+    </div>
+</div>
+
+<div class="modal-header" ng-show="request.success">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()"><span
+            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h3 class="modal-title">Success!</h3>
+</div>
+
+<div class="modal-body text-center" ng-show="request.success">
+    <alert class="gl-margin-Vl" type="success"><span class="fa fa-check-circle"></span>
+        You successfully removed the game.
+    </alert>
+    <button ng-click="closeAndReload()" class="btn gl-btn--blue">Okay</button>
+</div>
+
+<div class="modal-body text-center" ng-show="request.errors.length">
+    <p class="gl-margin-Vl">There was an error in processing your request:</p>
+    <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger"><span
+            class="fa fa-times-circle"></span> {{ error }}
+    </alert>
+    <p class="gl-margin-Vl">If you have any questions, please contact <a href="mailto:support@glasslabgames.org">support@glasslabgames.org</a></p>
+    <button ng-click="$close()" class="btn gl-btn--blue">Okay</button>
+</div>

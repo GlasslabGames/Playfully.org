@@ -104,7 +104,25 @@ module.exports = function ( grunt ) {
                       /*name: platformConfig.env,
                       path: platformConfig.webapp.staticContentPath,
                       stripe: platformConfig.stripe.env*/
-                      stripe: "test"
+                      stripe: "test",
+                      emailPlus: "test",
+                      /*
+                       * To override default set game_sdkURI to host for game to contact
+                       * (like http://developer.glasslabgames.org)
+                       */
+                      game_sdkURI: false
+                  }
+              }
+          },
+          stage: {
+              options: {
+                  dest: '<%= build_dir %>/env-config.js'
+              },
+              constants: {
+                  ENV: {
+                      stripe: "test",
+                      emailPlus: "live",
+                      game_sdkURI: false
                   }
               }
           },
@@ -117,7 +135,9 @@ module.exports = function ( grunt ) {
                       /*name: platformConfig.env,
                       path: platformConfig.webapp.staticContentPath,
                       stripe: platformConfig.stripe.env*/
-                      stripe: "live"
+                      stripe: "live",
+                      emailPlus: "live",
+                      game_sdkURI: false
                   }
               }
           }
@@ -648,7 +668,14 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'buildtest', [
     'clean', 'html2js', 'jshint', 'less:build',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'ngconstant:development', 'index:build', 'karmaconfig', 'createVersionFile'
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'ngconstant:development', 'index:build',
+    'karmaconfig', 'createVersionFile'
+  ]);
+  grunt.registerTask( 'buildstage', [
+    'clean', 'html2js', 'jshint', 'less:build',
+    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+    'copy:build_appjs', 'copy:build_vendorjs', 'copy:crossdomain', 'copy:favicon', 'ngconstant:stage', 'index:build',
+    'createVersionFile'
   ]);
 
 

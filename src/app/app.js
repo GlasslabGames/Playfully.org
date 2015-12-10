@@ -26,6 +26,7 @@ angular.module( 'playfully', [
   'gl-editable-text-popover',
   'gl-editable-text',
   'gl-notification-top-bar',
+  'gl-popover-unsafe-html',
   'playfully.admin',
   'playfully.research',
   'playfully.navbar',
@@ -49,7 +50,7 @@ angular.module( 'playfully', [
   'playfully.manager'
 ])
 
-.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $provide) {
+.config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $provide) {
 
   $provide.decorator('$uiViewScroll', function ($delegate) {
      return function (uiViewElement) {
@@ -285,6 +286,33 @@ angular.module( 'playfully', [
   });
 })
 
+.factory('myHttpInterceptor', function ($q, ipCookie, $rootScope, Session) {
+    return {
+        response: function (response) {
+            
+            if ($rootScope.lastSessionCookie) {
+            	if ($rootScope.lastSessionCookie != ipCookie('connect.sid')) {
+					$rootScope.lastSessionCookie = ipCookie('connect.sid');
+	
+                    if (response.config.url.indexOf("/auth/logout") == -1) {
+                        Session.destroy();
+                        //window.location.reload();
+                        return $q.reject(response);
+                    }
+            	}
+            } else if (ipCookie) {
+            	$rootScope.lastSessionCookie = ipCookie('connect.sid');
+            }
+      
+            return response;
+        },
+        responseError: function (response) {
+            // do something on error
+            return $q.reject(response);
+        }
+    };
+})
+
 .config(function($httpProvider) {
   //initialize get if not there
   if (!$httpProvider.defaults.headers.get) {
@@ -295,6 +323,9 @@ angular.module( 'playfully', [
   $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
   dt = new Date(1999, 12, 31);
   $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
+  
+  $httpProvider.interceptors.push('myHttpInterceptor');
+
 })
 
 .config(function ($translateProvider) {
@@ -325,10 +356,12 @@ angular.module( 'playfully', [
               if ($rootScope.toState) {
                 if ($rootScope.toState.name == 'root.home.default' && user && user.role) {
                   if (user.role == 'instructor' ||
-                      user.role == 'developer' ||
-                      user.role == 'admin'
-                    ) {
+                      user.role == 'developer' ) {
                     $state.go('root.instructorDashboard.default');
+                  } else if ( user.role == 'admin' ) {
+                    $state.go('admin.one-page');
+                  } else if ( user.role == 'reseller' ) {
+                    $state.go('admin.reseller-one-page');
                   } else {
                     $state.go('root.studentCourses');
                   }
@@ -412,7 +445,7 @@ angular.module( 'playfully', [
     $scope.hasLicense = LicenseService.hasLicense;
     $scope.packageType = LicenseService.packageType;
     $scope.licenseExpirationDate = LicenseService.licenseExpirationDate;
-    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN;
+    $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
     $rootScope.features = FEATURES;
 
 

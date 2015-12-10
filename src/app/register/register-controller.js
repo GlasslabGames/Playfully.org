@@ -54,6 +54,22 @@ angular.module('playfully.register', ['register.const'])
   });
 
 
+  var registerResellerConfig = {
+    templateUrl: 'register/register-reseller.html',
+    controller: 'RegisterResellerCtrl'
+  };
+  $stateProvider.state('modal.register.reseller', {
+    url: '/reseller',
+    views: { 'modal@': registerResellerConfig }
+  })
+  .state('sdk.sdkRegisterReseller', {
+    url: '/register/reseller',
+    data: { hideWrapper: true },
+    views: { 'main@': registerResellerConfig }
+  });
+
+
+
   var registerDeveloperConfig = {
     templateUrl: 'register/register-developer.html',
     controller: 'RegisterDeveloperCtrl'
@@ -115,17 +131,6 @@ angular.module('playfully.register', ['register.const'])
       $scope.passwordMinLength = AuthService.passwordMinLength;
 
       $scope.register = function( account ) {
-        // TODO: uncomment this for production release
-        if( ENV.stripe === "live" ) {
-          if ($scope.upgrade === 'trial') {
-              var emailAddress = $scope.account.email.split('@')[0].indexOf('+');
-              var emailDomain = $scope.account.email.split('@')[1].indexOf('glasslabgames.org');
-              if (emailAddress >= 0 && emailDomain == -1) {
-                  $scope.account.errors.push('Trial accounts cannot have the + symbol in their email address');
-                  return;
-              }
-          }
-        }
         $scope.regForm.isSubmitting = true;
         if (account.firstName && account.firstName.indexOf(' ') > -1) {
           firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
@@ -269,6 +274,80 @@ angular.module('playfully.register', ['register.const'])
       };
 })
 
+.controller('RegisterResellerCtrl',
+    function ($scope, $log, $rootScope, $state, $stateParams, $window, UserService, AuthService, Session, AUTH_EVENTS, ERRORS, REGISTER_CONSTANTS, ENV) {
+        var user = null;
+        var packageInfo = {
+            packageType: null || $stateParams.packageType,
+            seatsSelected: null || $stateParams.seatsSelected
+         };
+        $scope.upgrade = null || $stateParams.upgrade;
+        $scope.account = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          state: null,
+          school: '',
+          confirm: '',
+          role: 'res-cand',
+          acceptedTerms: false,
+          newsletter: false,
+          errors: [],
+          isRegCompleted: false
+        };
+
+      $scope.states = REGISTER_CONSTANTS.states;
+
+      $scope.validatePassword = AuthService.validatePassword;
+      $scope.validatePasswordMessage = AuthService.validatePasswordMessage;
+      $scope.validatePasswordTip = AuthService.validatePasswordTip;
+      $scope.passwordMinLength = AuthService.passwordMinLength;
+
+      $scope.registerReseller = function( account ) {
+        $scope.regForm.isSubmitting = true;
+        if (account.firstName && account.firstName.indexOf(' ') > -1) {
+          firstName = account.firstName.substr(0, account.firstName.indexOf(' '));
+          $scope.account.lastName = account.firstName.substr(account.firstName.indexOf(' ')+1);
+          $scope.account.firstName = firstName;
+        }
+        // Get the standard based on state
+        if( account.state === "Texas" ) {
+          account.standards = "TEKS";
+        }
+        else {
+          account.standards = "CCSS";
+        }
+        UserService.register(account, $scope.upgrade, packageInfo)
+          .success(function(data, status, headers, config) {
+            user = data;
+            Session.create(user.id, user.role, data.loginType);
+            $scope.regForm.isSubmitting = false;
+            $scope.account.isRegCompleted = true;
+          })
+          .error(function(data, status, headers, config) {
+            $log.error(data);
+            $scope.regForm.isSubmitting = false;
+            $scope.account.isRegCompleted = false;
+            if ( data.error ) {
+              $scope.account.errors.push(data.error);
+            } else {
+              $scope.account.errors.push(ERRORS['general']);
+            }
+          });
+      };
+
+
+    $scope.finish = function() {
+      if (user !== null) {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess, user);
+      }
+    };
+    $scope.closeWindow = function () {
+        $window.location.search = 'action=SUCCESS';
+    };
+})
+
 
 .controller('RegisterBetaCtrl',
     function ($scope, $log, $rootScope, $state, UserService, AuthService, Session, AUTH_EVENTS, ERRORS) {
@@ -337,7 +416,11 @@ angular.module('playfully.register', ['register.const'])
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
+        organization: '',
+        orgRole: '',
+        numGames: '',
+        subjects: '',
+        interest: '',
         confirm: '',
         role: 'developer',
         errors: [],

@@ -125,7 +125,7 @@ angular.module('playfully.login', [])
   // Password Prompt
   $stateProvider.state('sdk.sdkPasswordPrompt', {
     url: '/login/confirm',
-    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin','reseller'] },
     views: {
       'main@': {
         templateUrl: 'login/v1/sdk-password-prompt.html',
@@ -142,7 +142,7 @@ angular.module('playfully.login', [])
   // Login Success
   .state('sdk.sdkLoginSuccess', {
     url: '/login/success',
-    data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin'] },
+    data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin','reseller'] },
     views: {
       'main@': {
         templateUrl: 'login/v1/sdk-login-success.html',
@@ -164,7 +164,7 @@ angular.module('playfully.login', [])
   // Reset Login Data
   .state('sdk.sdkLoginResetData', {
     url: '/login/resetdata',
-    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin'] },
+    data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin','reseller'] },
     views: {
       'main@': {
         templateUrl: 'login/v1/sdk-resetdata-prompt.html',

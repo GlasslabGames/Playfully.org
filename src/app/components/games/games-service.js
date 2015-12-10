@@ -5,6 +5,8 @@ angular.module('games', [
 
   var api = {
 
+    gameData: null,
+    
     get: function (gameId) {
       return $http
         .get(API_BASE + '/data/game/' + gameId)
@@ -214,6 +216,8 @@ angular.module('games', [
               return response;
           });
     },
+
+
     updateDeveloperGameInfo: function(gameId,data) {
       return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
           .then(function(response) {
@@ -223,6 +227,55 @@ angular.module('games', [
             $log.error(response);
             return response;
           });
+    },
+
+    createGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/developer/new-game/' + gameId);
+    },
+
+    getAllDeveloperGamesAwaitingApproval: function() {
+      return $http.get(API_BASE + '/dash/games/awaiting-approval')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    getAllDeveloperGamesApproved: function() {
+      return $http.get(API_BASE + '/dash/games/approved')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    getAllDeveloperGamesRejected: function() {
+      return $http.get(API_BASE + '/dash/games/rejected')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    approveGame: function(gameId) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/approve');
+    },
+
+    rejectGame: function(gameId, why) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/reject', { reason: why });
+    },
+
+    requestMoreInfoAboutGame: function(gameId, why) {
+      return $http.post(API_BASE + '/dash/game/'+gameId+'/requestInfo', { reason: why });
     },
 
     checkForGameAccess: function() {
@@ -235,8 +288,13 @@ angular.module('games', [
           });
     },
 
+
     requestGameAccess: function(gameId) {
       return $http.get(API_BASE + '/auth/developer/game/' + gameId + '/request');
+    },
+
+    submitGameForApproval: function(gameId) {
+      return $http.post(API_BASE + '/dash/developer/submit/' + gameId);
     },
 
     getBadgeDetailsFromLRNG: function(badgeId) {
@@ -259,10 +317,16 @@ angular.module('games', [
               $log.error(response);
               return response;
           });
-    }
+    },
 
-	};
-
+    setGameData: function(data) {
+        gameData = data;
+	},
+    getGameData: function() {
+        return gameData;
+	}
+  };
+  
   return api;
 
 });

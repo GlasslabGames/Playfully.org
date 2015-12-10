@@ -1,0 +1,55 @@
+<!-- <link rel="stylesheet" type="text/css" href="esi.css"> -->
+<div class="container gl-margin--Txxl">
+  <div class="row">
+    <!-- <div class="col-md-12"> -->
+    <div>
+
+      <br>
+      <h2><center><font color="blue"> Shout Out / Watch Out Editor </font></center></h2>
+
+      <div style="background-color:#CFE6BA">
+        <font color="white"> Game ID # {{gameId}} </font>
+
+        <div style="background-color:#EAF3DE">
+
+          <h1>{{gameId}}</h1>
+
+          <h2><font color="blue"> Shout Outs </font></h2>
+
+          <div ng-repeat="item in soitems track by $index">
+            {{item["id"]}} name: <br>
+            <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br><br>
+            description:<br>
+            <input type="text" id="keykey" size="120" ng-model='item["description"]'/>
+            <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br>
+          </div>
+
+          <button class="btn btn-default" type="button" ng-click="moreShout()">+ More ...</button><br>
+
+        </div>
+
+        <br><br><br><br>
+
+        <div style="background-color:#EAF3DE">
+
+          <h2><font color="blue"> Watch Outs </font></h2>
+
+          <div ng-repeat="item in woitems track by $index">
+            {{item["id"]}} name: <br>
+            <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
+            description:<br>
+            <input type="text" id="keykey" size="120" ng-model='item["description"]'/>
+            <button class="btn btn-default" type="button" ng-click="deleteWatchRule($index)">Del</button><br><br>
+          </div>
+
+          <button class="btn btn-default" type="button" ng-click="moreWatch()">+ More ...</button><br>
+
+        </div>
+
+        <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button><br>
+
+      </div>
+
+    </div>
+  </div>
+</div>

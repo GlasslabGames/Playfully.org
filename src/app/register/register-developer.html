@@ -16,7 +16,7 @@
       <div class="gl-input-group">
           <div class="form-group" ng-class="{'has-error': regForm.firstName.$dirty && regForm.firstName.$invalid}">
             <input type="text" name="firstName" class="form-control"
-              placeholder="Name (example John Doe, Bob)"
+              placeholder="Contact name (example John Doe, Bob)"
               required
               autofocus="autofocus"
               ng-model="account.firstName"
@@ -53,6 +53,75 @@
           </div>
         </div>
       </div>
+
+      <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.organization.$dirty && regForm.organization.$invalid}">
+            <input type="text" name="organization" class="form-control"
+              placeholder="Organization (company name, etc.)"
+              required
+              ng-model="account.organization"
+              ng-minlength="2">
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.organization.$dirty && regForm.organization.$invalid">
+                  Organization must be at least 2 characters
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.orgRole.$dirty && regForm.orgRole.$invalid}">
+            <input type="text" name="orgRole" class="form-control"
+              placeholder="Role (title, job, etc.)"
+              required
+              ng-model="account.orgRole"
+              ng-minlength="2">
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.orgRole.$dirty && regForm.orgRole.$invalid">
+                  Role must be at least 2 characters
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.numGames.$dirty && regForm.numGames.$invalid}">
+            <input type="text" name="numGames" class="form-control"
+              placeholder="Number of games published"
+              required
+              ng-model="account.numGames"
+              ng-pattern="/^[\d]+$/"
+              ng-minlength="1">
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.numGames.$dirty && regForm.numGames.$invalid">
+                  You must enter a number -- can be zero
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <div class="gl-input-group">
+          <div class="form-group" ng-class="{'has-error': regForm.subjects.$dirty && regForm.subjects.$invalid}">
+            <input type="text" name="subjects" class="form-control"
+              placeholder="Subjects of games (current or future)"
+              required
+              ng-model="account.subjects"
+              ng-minlength="2">
+              <div class="form-errors">
+                <div class="form-error" ng-show="regForm.subjects.$dirty && regForm.subjects.$invalid">
+                  Interest must be at least 2 characters
+                </div>
+              </div>
+          </div>
+        </div>
+
+      <div class="gl-input-group">
+          <div class="form-group">
+            <input type="text" name="interest" class="form-control"
+              placeholder="Interest"
+              ng-model="account.interest">
+          </div>
+        </div>
 
       <div class="gl-input-row">
         <div class="gl-input-group">

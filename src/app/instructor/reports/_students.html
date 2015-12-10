@@ -1,7 +1,7 @@
 <div class="report-student-list"
   ng-click="isStudentListVisible=true"
   ng-class="{'report-student-list--visible': isStudentListVisible}"
-  style="width:{{studentListWidth}}px">
+  style="width:{{studentAreaWidth}}px">
   <button type="button" class="close gl-margin--Txs gl-margin--Rs"
     ng-click="isStudentListVisible=false; $event.stopPropagation()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
   <div class="report-student-list-margin gl-margin-Vm">
@@ -17,8 +17,8 @@
         <div ng-if="!courses.selected.users.length" class="text-grey5">
           No students in class
         </div>
-        <div ng-if="courses.selected.users.length">
-            <table class="report-student-list-table"><tr ng-repeat="row in students">
+        <div ng-if="courses.selected.users.length" class="report-student-list-outter">
+            <table class="report-student-list-table"><tbody><tr ng-repeat="row in students">
                 <td ng-repeat="student in row" class="report-student-list-column-width">
                     <label class="gl-reports-nav-student" ng-if="student !== null"
                         ng-class="{'gl-reports-nav-student--disabled': false}"
@@ -30,7 +30,7 @@
                         {{ student.firstName }}
                         {{ student.lastName }}<span ng-show="student.lastName.length == 1">.</span>
                     </label>
-                </td></tr>
+                </td></tr></tbody>
             </table>
         </div>
       </div>

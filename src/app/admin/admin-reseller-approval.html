@@ -1,0 +1,35 @@
+<h2 class="text-muted">Reseller Approval</h2>
+<p>
+	Use this page to approve pending requests for reseller accounts. The reseller will be able to login once approved.
+</p>
+<p>
+	You can also revoke reseller accounts here. No email is sent to the reseller.
+</p>
+</br >
+<table><tr><td style="width:360px"><span style="font-weight:bold">Pending Approvals</span></td>
+<td style="width:40px">&nbsp;</td>
+<td style="width:360px"><span style="font-weight:bold">Verified Resellers</span></td></tr>
+<tr><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('username')">Username</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'username'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderApprove('email')">Email</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'email'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-button-header">&nbsp</th></tr>
+<tr ng-repeat="reseller in pending | orderBy:predicateApprove:reverseApprove">
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{reseller.username}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{reseller.email}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="approveReseller(reseller)">Approve</button></td>
+</tr>
+</table>
+</td><td style="width:40px">&nbsp;</td><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderVerified('username')">Username</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'username'" ng-class="{reverse:reverseVerified}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderVerified('email')">Email</a><span class="admin-da-sortorder" ng-show="predicateVerified === 'email'" ng-class="{reverse:reverseVerified}"></span></th>
+<th class="admin-da-button-header">&nbsp</th></tr>
+<tr ng-repeat="reseller in approved | orderBy:predicateVerified:reverseVerified">
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{reseller.username}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{reseller.email}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="revokeReseller(reseller)">Revoke</button></td>
+</tr>
+</table>
+</td></tr>
+</table>

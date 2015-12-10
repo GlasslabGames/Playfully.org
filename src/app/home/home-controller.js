@@ -18,7 +18,7 @@ angular.module( 'playfully.home', ['ui.router'])
     url: '',
     resolve: {
       allGamesInfo: function (GamesService) {
-        return GamesService.all();
+        return GamesService.active('basic');
       },
       /*freeGames: function (allGamesInfo) {
         return _.filter(allGamesInfo, {'price': 'Free'});

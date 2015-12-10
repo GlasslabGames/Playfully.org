@@ -1,0 +1,101 @@
+<h2 class="text-muted">Account Management</h2>
+<p>
+	Use this page to manage accounts.
+</p>
+</br >
+
+<form ng-submit="lookupAccount()">
+	Username: <input type="text" id="username" size="30" ng-model="username"/> <input type="submit" id="lookup" value="Find" />
+	<br /><br />
+</form>
+
+<div ng-show="lookupErrorMsg">
+    <span class="gl-text-red">{{ lookupErrorMsg }}</span>
+</div>
+
+<div ng-show="role!=='none'">
+    <div>
+        Name: {{ userInfo.firstName }} {{ userInfo.lastName }}
+        <br />
+    </div>
+    <div>
+        Role: {{ role }}
+        <br />
+    </div>
+    <div ng-show="role!=='student'">
+        Email: {{ userInfo.email }}
+        <br />
+    </div>
+    <div ng-show="role==='instructor'">
+        License status: {{ userInfo.licenseStatus }}
+        <br />
+    </div>
+    <div ng-show="hasPlan">
+        Expires: {{ expirationDate }}
+        <br />
+        Trial: {{ userInfo.isTrial ? 'Yes' : 'No' }}
+        <br />
+        Plan: {{ plan.packageDetails.name }}
+        <br />
+        Educators: {{ plan.packageDetails.educatorSeats }}
+        <br />
+        Seats: {{ plan.packageDetails.studentSeats }}
+        <br />
+        Auto-renew: {{ plan.autoRenew ? "Yes" : "No" }}
+        <br />
+        Owner: {{ plan.ownerName }}
+        <br />
+        Owner email: {{ plan.ownerEmail }}
+        <div ng-show="hasInstitution">
+        <table>
+        <tr><td style="text-align:right">Institution:&nbsp;</td><td>{{ plan.institution.TITLE }}</td></tr>
+        <tr><td style="text-align:right">Address:&nbsp;</td><td>{{ plan.institution.ADDRESS }}</td></tr>
+        <tr><td></td><td>{{ plan.institution.CITY }}, {{ plan.institution.STATE }} {{ plan.institution.ZIP }}</td></tr>
+        </table>
+        </div>
+        <div ng-show="!hasInstitution">
+        <br />
+        Institution: None
+        <br />
+        </div>
+        <br/>
+        <form ng-submit="changePlan()">
+            Change Plan: <select name="type" ng-model="planSetting">
+                <option selected value="noChange">[No change]</option>
+                <option value="allGames">All Games</option>
+                <option value="chromebook">Chromebook</option>
+                <option value="ipad">iPad</option>
+                <option value="pcMac">PC/Mac</option>
+            </select>
+            <div ng-show="canUpgradeSeats">
+            Change Seats: <select name="seats" ng-model="seatsSetting" ng-options="item as item.title for item in seatOptions track by item.id" >
+            </select>
+            </div>
+            <div ng-show="canAddYear">
+            <input type="checkbox" ng-model="yearAdded"> Add Year
+            </div>
+            Institution (required to convert from trial)
+            <br />
+            Name: <input type="text" id="inst_name" size="40" ng-model="institutionInfo.name" />
+            <br />
+            Address: <input type="text" id="inst_address" size="60" ng-model="institutionInfo.address" />
+            <br />
+            City: <input type="text" id="inst_city" size="40" ng-model="institutionInfo.city" />
+            <br />
+            <select name="inst_state"
+                    ng-model="institutionInfo.state"
+                    ng-options="state for state in states"
+                    placeholder="State">
+                <option value='' disabled="disabled" selected="selected" class="gl-select-disabled-option">State</option>
+            </select>
+            Zip: <input type="text" id="inst_zip" size="10" ng-model="institutionInfo.zipCode" />
+            <div ng-show="changeErrorMsg">
+                <br /><br />
+                <span class="gl-text-red">{{ changeErrorMsg }}</span>
+            </div>
+            <br /><br />
+            <input type="submit" id="changeSubscription" value="Change Subscription" />
+            <br /></br >
+        </form>
+    </div>
+</div>

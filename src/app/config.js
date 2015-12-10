@@ -38,12 +38,14 @@ angular.module('playfully.config', [])
 })
 
 .constant('USER_ROLES', {
-  all:        '*',
-  student:    'student',
-  instructor: 'instructor',
-  manager:    'manager',
-  developer:  'developer',
-  admin:      'admin'
+  all:					'*',
+  student:				'student',
+  instructor:			'instructor',
+  manager:				'manager',			// role was deprecated, no longer supported
+  developer:			'developer',
+  admin: 				'admin',
+  reseller:				'reseller',
+  reseller_candidate:	'res-cand'
 })
 
 .constant('STRIPE', {
@@ -55,8 +57,10 @@ angular.module('playfully.config', [])
   }
 })
 
-.constant('EMAIL_VALIDATION_PATTERN',
-  /^[-0-9a-zA-Z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i)
+.constant('EMAIL_VALIDATION_PATTERN', {
+	test: /^[-0-9a-z.+_]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i,
+	live: /^[-0-9a-z._]+@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/i
+})
 
 .config(function($logProvider){
   // $logProvider.debugEnabled(false);

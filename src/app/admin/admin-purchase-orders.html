@@ -1,55 +1,51 @@
-<h2 class="text-muted">Purchase Orders</h2>
+<h2 class="text-muted">Process Purchase Orders</h2>
 <p>
-	Use this page to handle all purchase order transactions. Here you can indicate you've received a purchase order (which will grant the owner premium access), approve a purchase order, or reject a purchase order. Each action requires the same information in order to validate:
-	<ul>
-		<li><b>key</b>: a unique identifier associated with the form, created by GlassLab, Inc.</li>
-		<li><b>PO#</b>: the number on the form</li>
-		<li><b>payment</b>: the amount being paid to GlassLab, Inc.</li>
-		<li><b>plan</b>: the package plan type</li>
-		<li><b>seats</b>: the package seats size</li>
-		<li><b>action</b>: received, approved, rejected</li>
-	</ul>
+	Use this page to process Purchase Orders that are pending, received, or invoiced.  You can reject the purchase order or advance it to the next step (pending to received, received to invoiced, invoiced to approved).
+	While an invoice is pending, the educator who created the invoice can cancel it.  Once an invoice is marked as received, the instructor can start using the license.
 </p>
-</br >
+<br></br>
 
-<form ng-submit="updatePurchaseOrder()">
-	<h4>Purchase Order info:</h4>
-	Key: <input type="text" id="key" size="30" ng-model="purchaseOrder.key"/>
-	<br />
-	PO#: <input type="text" id="key" size="30" ng-model="purchaseOrder.number"/>
-	<br />
-	Payment Amount: <input type="text" id="key" size="10" ng-model="purchaseOrder.amount"/> (ex. 125.00)
-	<br />
-	<br />
-	<h4>License Package info:</h4>
-	Plan: <select name="type" ng-model="planInfo.type">
-        <option selected value="allGames">All Games</option>
-        <option value="chromebook">Chromebook</option>
-        <option value="ipad">iPad</option>
-        <option value="pcMac">PC/Mac</option>
-        <option value="trial">Trial</option>
-    </select>
-    <br />
-    Seats: <select name="seats" ng-model="planInfo.seats">
-        <option selected value="group">Group (10 students, 1 educator)</option>
-        <option value="class">Class (30 students, 2 educators)</option>
-        <option value="multiClass">Multi Class (120 students, 8 educators)</option>
-        <option value="school">School (500 students, 15 educators)</option>
-        <option value="trial">Trial (30 students)</option>
-    </select>
-    <br />
-    <br />
-    <h4>Action to take:</h4>
-    <select name="action" ng-model="action">
-        <option selected value="receive">RECEIVED</option>
-        <option value="invoice">INVOICED</option>
-        <option value="approve">APPROVED</option>
-        <option value="reject">REJECTED</option>
-    </select>
-    <br />
-    <br />
-    <input type="submit" id="submit" value="Update Purchase Order" />
-    <br />
-    <br />
-    <p ng-if="output">Result: {{output}}</p>
-</form>
+<table><tr><td style="width:720px"><span style="font-weight:bold">Open Purchase Orders</span></td></tr>
+<tr><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date_created')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date_created'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-button-header">Email</th>
+<th class="admin-da-button-header">Purchase Order</th>
+<th class="admin-da-button-header">Amount</th>
+<th class="admin-da-button-header">Action</th>
+</tr>
+<tr ng-repeat="po in openPurchaseOrders | orderBy:predicateApprove:reverseApprove">
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{showDate(po.date_created)}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.name}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{po.email}}</td>
+<td ng-class="$even ? 'admin-da-po-even' : 'admin-da-po-odd'">#{{po.purchase_order_number}}</td>
+<td ng-class="$even ? 'admin-da-payment-even' : 'admin-da-payment-odd'">${{po.payment}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="actionPO(po)">{{actionPOName(po)}}</button>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="rejectPO(po)">REJECT</button></td>
+</tr>
+</table>
+</table>
+<br></br>
+
+<table><tr><td style="width:720px"><span style="font-weight:bold">Processed Purchase Orders</span></td></tr>
+<tr><td style="vertical-align:top">
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderApprove('date_created')">Date</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'date_created'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderApprove('name')">Name</a><span class="admin-da-sortorder" ng-show="predicateApprove === 'name'" ng-class="{reverse:reverseApprove}"></span></th>
+<th class="admin-da-button-header">Email</th>
+<th class="admin-da-button-header">Purchase Order</th>
+<th class="admin-da-button-header">Amount</th>
+<th class="admin-da-button-header">Status</th>
+</tr>
+<tr ng-repeat="cpo in closedPurchaseOrders | orderBy:predicateApprove:reverseApprove">
+<td ng-class="$even ? 'admin-da-date-even' : 'admin-da-date-odd'">{{showDate(cpo.date_created)}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{cpo.name}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{cpo.email}}</td>
+<td ng-class="$even ? 'admin-da-po-even' : 'admin-da-po-odd'">#{{cpo.purchase_order_number}}</td>
+<td ng-class="$even ? 'admin-da-payment-even' : 'admin-da-payment-odd'">${{cpo.payment}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">{{cpo.status}}</td>
+</tr>
+</table>
+</table>
+<br></br>

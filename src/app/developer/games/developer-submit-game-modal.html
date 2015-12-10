@@ -1,0 +1,44 @@
+<div ng-class="{'sdk-container': hideWrapper}">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="$dismiss()"
+                ng-hide="hideWrapper"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title">Submit Game for Approval</h3>
+    </div>
+
+    <div class="modal-body" ng-show="!request.isCompleted">
+        <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}</alert>
+
+        <form name="requestForm" novalidate class="reg-form"
+              ng-submit="submitGame(request)">
+
+            <p>TODO: Explain submission process.</p>
+
+            <p>Extra paragraphs</p>
+
+            <p>Extra paragraphs</p>
+
+            <p>Extra paragraphs</p>
+
+            <div class="text-center reg-submit">
+                <input type="submit" class="btn gl-btn--blue"
+                       value="{{ request.isSubmitting ? 'Submitting...' : 'Confirm'}}"
+                       ng-disabled="request.$invalid || request.isSubmitting">
+            </div>
+        </form>
+    </div>
+
+
+    <div class="modal-body" ng-show="request.isCompleted">
+        <p class="text-center">
+            Game submitted for approval.
+        </p>
+        <div class="text-center reg-submit">
+            <button class="btn gl-btn--blue"
+                    ng-click="$close(request)"
+                    ng-hide="hideWrapper">Okay
+            </button>
+
+        </div>
+    </div>
+</div>

@@ -82,16 +82,12 @@ angular.module('playfully.research', ['research'])
 
             if($scope.startDate) {
                 sd = new Date($scope.startDate);
-                if( sd && sd.format ) {
-                    sd = sd.format($scope.format);
-                }
+                sd = sd.toISOString();
             }
 
             if($scope.endDate) {
                 ed = new Date($scope.endDate);
-                if( ed && ed.format ) {
-                    ed = ed.format($scope.format);
-                }
+                ed = ed.toISOString();
             }
 
             if( $scope.startHour ) {

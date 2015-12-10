@@ -72,12 +72,36 @@ angular.module('user', [])
       return $http.get(API_BASE + '/auth/user/' + userId);
     },
 
-	getAllDevelopers: function() {
-    	return $http.get(API_BASE + '/auth/developers')
-    	.then(function (response) {
-            return response.data;
-        });
-	},
+    getByEmail: function (emailAddr) {
+      return $http.get(API_BASE + '/auth/userbyemail/', {
+        params: {
+            email: emailAddr
+          }
+       } );
+    },
+
+    getByUsername: function (name) {
+      return $http.get(API_BASE + '/auth/userbyusername/', {
+        params: {
+            username: name
+          }
+       } );
+    },
+
+    getResellers: function() {
+		return $http.get(API_BASE + '/auth/userResellers');
+    },
+
+    updateUserRole: function( id, role ) {
+    	return $http.post(API_BASE + '/auth/user/' + id + '/updateRole/' + role );
+    },
+
+    getAllDevelopers: function() {
+      	return $http.get(API_BASE + '/auth/developers')
+      	.then(function (response) {
+              return response.data;
+          });
+    },
 	
     update: function (user, shouldUpdateCurrentUser) {
       if (typeof(shouldUpdateCurrentUser) === 'undefined') {

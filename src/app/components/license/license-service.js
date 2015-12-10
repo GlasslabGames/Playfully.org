@@ -14,6 +14,21 @@ angular.module('license', [])
                         return response;
                     });
             };
+            this.getUserPlan = function (userId, licenseId, licenseOwnerId) {
+                var params = {
+                    userId: userId,
+                    licenseId: licenseId,
+                    licenseOwnerId: licenseOwnerId
+                };
+                var apiUrl = API_BASE + '/license/planforuser';
+                return $http({method: 'GET', url: apiUrl, params: params})
+                    .then(function (response) {
+                        return response.data;
+                    }, function (response) {
+                        console.log(response);
+                        return response;
+                    });
+            };
             this.getStudentList = function () {
                 var apiUrl = API_BASE + '/license/students';
                 return $http({method: 'GET', url: apiUrl})
@@ -78,6 +93,10 @@ angular.module('license', [])
                     return $rootScope.currentUser.hadTrial;
                 }
                 return false;
+            };
+            this.getPendingPOForUser = function (userId) {
+            	// userId has existing PO with status of 'pending', 'received', or 'invoiced'
+            	return $http.get( API_BASE + '/license/po/openforuser/' + userId );
             };
             this.hasLicense = function (show) {
               var license = null;
@@ -161,6 +180,14 @@ angular.module('license', [])
                 return $http.post(apiUrl, {
                     planInfo: input.planInfo,
                     stripeInfo: input.stripeInfo,
+                    schoolInfo: input.schoolInfo
+                });
+            };
+            this.alterLicense = function (input) {
+                var apiUrl = API_BASE + '/license/alter';
+                return $http.post(apiUrl, {
+                    licenseInfo: input.licenseInfo,
+                    planInfo: input.planInfo,
                     schoolInfo: input.schoolInfo
                 });
             };
@@ -259,6 +286,12 @@ angular.module('license', [])
             };
             this.declineInvitation = function () {
                 return $http.post(API_BASE + '/license/nullify');
+            };
+            this.getOpenPurchaseOrders = function() {
+            	return $http.get( API_BASE + '/license/po/open' );
+            };
+            this.getNotOpenPurchaseOrders = function() {
+            	return $http.get( API_BASE + '/license/po/notopen' );
             };
             this.resellerSubscribeWithPurchaseOrder = function (info) {
                 var apiUrl = API_BASE + '/license/subscribe/internal';
