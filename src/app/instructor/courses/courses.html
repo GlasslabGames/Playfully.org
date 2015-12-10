@@ -97,7 +97,7 @@
                 ng-repeat="game in course.games"
                 ng-show="gamesInfo[game.id].enabled">
                 <div>
-                <div class="gl-course-game-thumb gl-thumb-{{ game.id }}">
+                <div class="gl-course-game-thumb" ng-style="{'background-image': 'url('+gamesInfo[game.id].thumbnail.small+')'}">
                         <div ng-show="!game.assigned"
                              ng-if="!showArchived"
                              ng-init="game.hover=false"

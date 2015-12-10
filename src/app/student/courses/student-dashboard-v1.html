@@ -34,7 +34,7 @@
           ng-if="game.assigned"
           ng-repeat="game in course.games"
           ng-show="gamesInfo[game.id].enabled">
-          <div class="gl-course-game-thumb gl-thumb-{{ game.id }} gl-student-dash-btn-parent">
+          <div class="gl-course-game-thumb gl-student-dash-btn-parent" ng-style="{'background-image': 'url('+gamesInfo[game.id].thumbnail.small+')'}">
             <div  class="gl-student-dash-btn-wrapper"
                  ng-class="{'gl-student-dash-game-thumb-lighter': hasLinks(game.id)}">
                 <div class="gl-margin-Vm" ng-repeat="(buttonKey, button) in gamesInfo[game.id].buttons">
