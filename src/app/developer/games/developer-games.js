@@ -1,7 +1,7 @@
 angular.module('developer.games', [
     'gl-editable-text',
     'gl-editable-text-popover',
-    'angular-json-editor'
+    'gl-angular-json-editor'
 ])
 
 .config(function ($stateProvider, JSONEditorProvider) {
@@ -13,12 +13,10 @@ angular.module('developer.games', [
             //},
             defaults: {
                 options: {
-                    iconlib: 'fontawesome4',
-                    theme: 'bootstrap3',
                     disable_edit_json: true,
                     disable_properties: true,
-                    no_additional_properties: true,
-                    ajax: true
+                    no_additional_properties: true
+
                 }
             }
         });
@@ -575,7 +573,7 @@ angular.module('developer.games', [
 
 
     .controller('DevGameEditor-origCtrl',
-    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, JSONEditor) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
         $scope.fullSchema = infoSchema;
@@ -590,7 +588,39 @@ angular.module('developer.games', [
         }, {});
 
         $scope.onChange = function(data, tabName) {
+            $scope.tabName = tabName;
             $scope.fullData[tabName] = data;
+        };
+
+        $scope.options = {
+            upload: function(type, file, cbs) {
+
+
+                var formData = new FormData();
+                formData.append($scope.tabName + '.' + type.split('.').slice(1).join('.'), file, file.name);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/v2/dash/developer/info/game/'+$scope.gameId+'/image', true);
+                xhr.upload.onprogress = function(evt) {
+                    var percentComplete = (evt.loaded / evt.total)*100;
+                    cbs.updateProgress(percentComplete);
+                };
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            var response = JSON.parse(xhr.response);
+                            cbs.success(response.path);
+                        } catch(err) {
+                            cbs.failure('Upload failed');
+                            console.error(status, xhr.response);
+                        }
+                    } else {
+                        cbs.failure('Upload failed');
+                        console.error(status, xhr.response);
+                    }
+                };
+                xhr.send(formData);
+            }
         };
     })
 
