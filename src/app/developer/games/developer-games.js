@@ -573,7 +573,7 @@ angular.module('developer.games', [
 
 
     .controller('DevGameEditor-origCtrl',
-    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, JSONEditor) {
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, API_BASE) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
         $scope.fullSchema = infoSchema;
@@ -594,13 +594,11 @@ angular.module('developer.games', [
 
         $scope.options = {
             upload: function(type, file, cbs) {
-
-
                 var formData = new FormData();
                 formData.append($scope.tabName + '.' + type.split('.').slice(1).join('.'), file, file.name);
 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/api/v2/dash/developer/info/game/'+$scope.gameId+'/image', true);
+                xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
                 xhr.upload.onprogress = function(evt) {
                     var percentComplete = (evt.loaded / evt.total)*100;
                     cbs.updateProgress(percentComplete);
