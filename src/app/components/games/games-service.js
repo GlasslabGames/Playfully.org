@@ -233,6 +233,17 @@ angular.module('games', [
       return $http.post(API_BASE + '/dash/developer/new-game/' + gameId);
     },
 
+    getAllDeveloperGamesAvailable: function() {
+      return $http.get(API_BASE + '/dash/games/available')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
     getAllDeveloperGamesAwaitingApproval: function() {
       return $http.get(API_BASE + '/dash/games/awaiting-approval')
           .then(function(response) {

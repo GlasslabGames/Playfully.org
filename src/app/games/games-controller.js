@@ -292,6 +292,8 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
 
+$scope.agi = allGamesInfo;
+
       if ($scope.currentUser) {
           if (!$scope.currentUser.ftue || $scope.currentUser.ftue < 3) {
             UserService.updateUserFTUE(CHECKLIST.visitGameCatalog);
