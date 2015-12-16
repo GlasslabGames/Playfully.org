@@ -21,7 +21,8 @@ Make sure you have Node.js installed.
 4. sudo npm -g install grunt-cli karma bower
 5. sudo npm install
 6. bower install
-7. grunt watch
+7. bower install angular-nvd3
+8. grunt watch
    (Note: this will run non-stop, as it is monitoring.)
 
 

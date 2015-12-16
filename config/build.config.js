@@ -84,9 +84,14 @@ module.exports = {
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
       'vendor/angular-animate/angular-animate.min.js',
       'vendor/json-editor/dist/jsoneditor.js',
-      'vendor/angular-ui-ace/ui-ace.js'
+      'vendor/angular-ui-ace/ui-ace.js',
+      'vendor/angular-json-editor/dist/angular-json-editor.js',
+      'vendor/d3/d3.js',
+      'vendor/nvd3/build/nv.d3.js',
+      'vendor/angular-nvd3/dist/angular-nvd3.js'
     ],
     css: [
+		'vendor/nvd3/build/nv.d3.css'
       //'vendor/bootstrap/dist/css/bootstrap.min.css',
       //'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
     ],
