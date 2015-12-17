@@ -60,6 +60,7 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/jquery/dist/jquery.min.js',
+      'vendor/ace-builds/src-min-noconflict/ace.js',
       'vendor/angular/angular.js',
       'vendor/angular-cookie/angular-cookie.min.js',
       'vendor/angular-sanitize/angular-sanitize.min.js',
@@ -83,7 +84,7 @@ module.exports = {
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
       'vendor/angular-animate/angular-animate.min.js',
       'vendor/json-editor/dist/jsoneditor.js',
-      'vendor/angular-json-editor/dist/angular-json-editor.js'
+      'vendor/angular-ui-ace/ui-ace.js'
     ],
     css: [
       //'vendor/bootstrap/dist/css/bootstrap.min.css',

@@ -47,7 +47,8 @@ angular.module( 'playfully', [
   'student.courses-sdk',
   'playfully.developer',
   'playfully.subscribe',
-  'playfully.manager'
+  'playfully.manager',
+  'ui.ace'
 ])
 
 .config(function ($stateProvider, $stickyStateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $provide) {

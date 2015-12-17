@@ -3,11 +3,11 @@
     <div class="col-md-12">
       <h1>{{gameId}} <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></h1>
 
-      <tabset>
-        <tab ng-repeat="tabName in tabs" heading="{{tabName}}">
+      <tabset ng-init="tabsActive.basic = true">
+        <tab ng-repeat="tabName in tabs" heading="{{tabName}}" active="tabsActive[tabName]">
 
           <json-editor schema="tabSchema[tabName]" startval="fullData[tabName]"
-                       on-change="onChange($editorValue, tabName)" extra-options="options"></json-editor>
+                       on-change="onChange($editorValue, tabName)" extra-options="JSONEditorOptions"></json-editor>
 
         </tab>
       </tabset>

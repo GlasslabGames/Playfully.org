@@ -1,7 +1,8 @@
 angular.module('developer.games', [
     'gl-editable-text',
     'gl-editable-text-popover',
-    'gl-angular-json-editor'
+    'gl-angular-json-editor',
+    'ui.ace'
 ])
 
 .config(function ($stateProvider, JSONEditorProvider) {
@@ -68,12 +69,12 @@ angular.module('developer.games', [
 
 
 
-        .state('root.developerGames.editor-orig', {
-            url: '/:gameId/editor-orig',
+        .state('root.developerGames.advanced-editor', {
+            url: '/:gameId/editor/advanced',
             views: {
                 'main@': {
-                    templateUrl: 'developer/games/developer-game-editor-orig.html',
-                    controller: 'DevGameEditor-origCtrl'
+                    templateUrl: 'developer/games/developer-game-editor-advanced.html',
+                    controller: 'DevGameAdvancedEditorCtrl'
                 }
             },
             resolve: {
@@ -86,10 +87,31 @@ angular.module('developer.games', [
             },
             data: {
                 authorizedRoles: ['admin', 'developer'],
-                pageTitle: 'Game Editor --(original)'
+                pageTitle: 'Advanced Game Editor'
             }
         })
 
+        .state('root.developerGames.raw-editor', {
+            url: '/:gameId/editor/raw',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-editor-raw.html',
+                    controller: 'DevGameAdvancedEditorCtrl'
+                }
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                },
+                infoSchema: function(GamesService) {
+                    return GamesService.getDeveloperGamesInfoSchema();
+                }
+            },
+            data: {
+                authorizedRoles: ['admin', 'developer'],
+                pageTitle: 'Advanced Game Editor'
+            }
+        })
 
 
         .state('root.developerGames.sowo-editor', {
@@ -574,12 +596,16 @@ angular.module('developer.games', [
 
 
 
-    .controller('DevGameEditor-origCtrl',
+    .controller('DevGameAdvancedEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, API_BASE) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
+        $scope.fullDataAsStr = JSON.stringify(gameInfo, null, 2);
         $scope.fullSchema = infoSchema;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
+        if (gameInfo["missions"]) {
+            $scope.tabs.push("missions");
+        }
         $scope.saveInfo = function() {
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };
@@ -594,7 +620,7 @@ angular.module('developer.games', [
             $scope.fullData[tabName] = data;
         };
 
-        $scope.options = {
+        $scope.JSONEditorOptions = {
             upload: function(type, file, cbs) {
                 var formData = new FormData();
                 formData.append($scope.tabName + '.' + type.split('.').slice(1).join('.'), file, file.name);
@@ -620,6 +646,18 @@ angular.module('developer.games', [
                     }
                 };
                 xhr.send(formData);
+            }
+        };
+
+        $scope.aceLoaded = function(_editor) {
+            $scope.aceEditor = _editor;
+        };
+
+        $scope.aceChanged = function(evt) {
+            try {
+                $scope.fullData = JSON.parse($scope.aceEditor.getValue());
+            } catch(err) {
+
             }
         };
     })
