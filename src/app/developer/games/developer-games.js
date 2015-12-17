@@ -404,8 +404,10 @@ angular.module('developer.games', [
 
         $scope.dbgdmp = gameInfo;
 
-        if ("page" == gameInfo.basic.play.type) {
-            $scope.playlink = gameInfo.basic.play.page.embed;
+        if (gameInfo && gameInfo.basic && gameInfo.basic.play) {
+            if ("page" == gameInfo.basic.play.type) {
+                $scope.playlink = gameInfo.basic.play.page.embed;
+            }
         }
 
         // SOWO setup
