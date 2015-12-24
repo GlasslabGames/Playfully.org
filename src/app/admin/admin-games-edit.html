@@ -1,0 +1,26 @@
+
+<div><!-- <div class="gl-courses-container"> -->
+	<div class="container">
+		<h2 class="text-muted">Admin Games Edit</h2>
+		<div class="gl-hooga">
+			<table>
+<tr>
+<th class="admin-da-date-header"><a href="" ng-click="orderList('gameId')">Game ID</a><span class="admin-da-sortorder" ng-show="predicateList === 'gameId'" ng-class="{reverse:reverseList}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('longName')">Game Name</a><span class="admin-da-sortorder" ng-show="predicateList === 'longName'" ng-class="{reverse:reverseList}"></span></th>
+
+<th class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th>
+</tr>
+
+<tr ng-repeat="game in games | orderBy:predicateList:reverseList" ng-click="go(game.gameId)">
+
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.gameId}}</td>
+
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.shortName}}</td>
+
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+</tr>
+			</table>
+			<br><br>
+		</div>
+	</div>
+</div>
