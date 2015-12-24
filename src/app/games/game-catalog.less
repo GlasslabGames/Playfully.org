@@ -1,23 +1,217 @@
 .gl-game-catalog-carousel-container {
-  width: 1000px;
+  position: relative;
+  width: 986px;
+  left: -17px;
+  display: table;
   .carousel-control {
     opacity: 0;
   }
 }
 
+.gl-games-carousel--full {
+  width: 850px;
+  height: auto;
+}
+
+.gl-game-catalog-featured-game {
+    text-align: center
+}
+
 .gl-game-catalog-banner {
-  height: 293px !important;
-  min-width: 940px !important;
+  height: 174px !important;
+  min-width: 546px !important;
 }
 
 .gl-game-catalog-banner:hover {
   cursor:pointer;
 }
 
-
 .gl-game-catalog-games-container {
   position: relative;
   left: -17px;
+}
+
+.gl-new-game-catalog-games-container {
+  position: relative;
+  width: 986px;
+  display: table;
+  left: -17px;
+}
+
+.gl-game-catalog-carousel-row {
+    display: table-row;
+}
+
+.gl-game-catalog-advert-cell {
+    display: table-cell;
+    min-width:150px;
+}
+
+.gl-game-catalog-carousel-cell {
+    display: table-cell;
+}
+
+.gl-game-catalog-carousel-game-table {
+    display: table;
+}
+
+.gl-game-catalog-carousel-game-row {
+    position: relative;
+    display: table-row;
+}
+
+.gl-game-catalog-carousel-card-cell {
+    display: table-cell;
+}
+
+.gl-game-catalog-carousel-info-cell {
+    position: relative;
+    display: table-cell;
+    padding: 2px 2px 2px 8px;
+    width: 300px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.gl-new-game-catalog-all-row {
+    display: table-row;
+}
+
+.gl-new-game-catalog-controls-cell {
+    display: table-cell;
+    padding: 0px 12px 0px 0px;
+}
+
+.gl-new-game-catalog-skills-header-red {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 3px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gl-new-game-catalog-skills-header-green {
+  color: green;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gl-new-game-catalog-skills-header-blue {
+  color: blue;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gl-new-game-catalog-category-header {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gl-new-game-catalog-skills-box {
+  font-size: 10px;
+  background-color: #eeeeee;
+  padding: 4px 8px 4px 8px;
+}
+
+.gl-new-game-catalog-grades-column {
+  width: 70px;
+}
+
+.gl-new-game-catalog-allgames-box {
+  font-size: 10px;
+  background-color: #eeeeee;
+  padding: 4px 8px 4px 8px;
+  margin-top: 10px;
+}
+
+.gl-new-game-catalog-games-cell {
+  display: table-cell;
+}
+
+.gl-new-game-catalog-games-section {
+  width: 830px;
+  height: 660px;
+  overflow-y:scroll;
+}
+
+.gl-new-game-catalog-games-section-header {
+    font-size: 24px;
+}
+
+.gl-new-game-catalog-games-table-outer {
+    width: 830px;
+    display: table;
+    background-color: #dddddd;
+    border-collapse: separate;
+    border-spacing: 3px;
+}
+
+.gl-new-game-catalog-games-row-outer {
+    display: table-row;
+}
+
+.gl-new-game-catalog-games-cell-outer {
+    display: table-row;
+}
+
+.gl-new-game-catalog-games-table-inner {
+    width: 818px;
+    display: table;
+    border: 1px solid #888888;
+    background-color: #ffffff;
+}
+
+.gl-new-game-catalog-games-row-inner {
+    position: relative;
+    display: table-row;
+}
+
+.gl-new-game-catalog-games-box-cell {
+    position: relative;
+    display: table-cell;
+    width:362px;
+    padding: 2px;
+    vertical-align: top;
+}
+
+.gl-new-game-catalog-games-box-info-cell {
+    position: relative;
+    display: table-cell;
+    padding: 2px;
+}
+
+.gl-new-game-catalog-game-grades {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.gl-new-game-catalog-game-developer {
+    position: absolute;
+    left: 0px;
+    bottom: 3px;
+    font-size: 14px;
+}
+
+.gl-new-game-catalog-game-platform {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    font-size: 14px;
+}
+
+.gl-new-game-catalog-game-skill-icon {
+    position: absolute;
+    right: 3px;
+    top: 3px;
 }
 
 .gl-game-catalog-games-section {
@@ -92,6 +286,27 @@
 }
 
 .gl-game-catalog-game-title {
+  font-size: 17px;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.gl-game-catalog-game-title-red {
+  color: red;
+  font-size: 17px;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.gl-game-catalog-game-title-blue {
+  color: blue;
+  font-size: 17px;
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.gl-game-catalog-game-title-green {
+  color: green;
   font-size: 17px;
   margin-bottom: 3px;
   font-weight: 500;

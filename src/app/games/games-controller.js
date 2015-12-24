@@ -287,12 +287,12 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $window, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, startPlatform, currentPlan, $state, CHECKLIST, UserService) {
+    function($scope, $rootScope, $window, $timeout, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, startPlatform, currentPlan, $state, CHECKLIST, UserService) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
 
-$scope.agi = allGamesInfo;
+    // $scope.agi = allGamesInfo;
 
       if ($scope.currentUser) {
           if (!$scope.currentUser.ftue || $scope.currentUser.ftue < 3) {
@@ -304,6 +304,133 @@ $scope.agi = allGamesInfo;
       }
       $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
+      $scope.academicSkills = [
+        { name: "English Language Arts", state: 1, mask: 0x0001, icon: "icon_englanguagearts.jpg" },
+        { name: "Mathematics", state: 1, mask: 0x0002, icon: "icon_math.jpg" },
+        { name: "Social Studies", state: 1, mask: 0x0004, icon: "icon_socialstudies.jpg"  },
+        { name: "Science", state: 1, mask: 0x0008, icon: "icon_science.jpg"  },
+        { name: "Foreign Language", state: 1, mask: 0x0010, icon: "icon_foreignlanguage.jpg"  },
+        { name: "Arts", state: 1, mask: 0x0020, icon: "icon_arts.jpg"  },
+        { name: "Health and Phys Ed", state: 1, mask: 0x0040, icon: "icon_healthphysed.jpg"  }
+      ];
+      $scope._21stCenturySkills = [
+        { name: "Collaboration", state: 1, mask: 0x0001, icon: "icon_collaboration.jpg"  },
+        { name: "Problem Solving", state: 1, mask: 0x0002, icon: "icon_problemsolving.jpg"  },
+        { name: "System Thinking", state: 1, mask: 0x0004, icon: "icon_systemsthinking.jpg"  },
+        { name: "Creativity", state: 1, mask: 0x0008, icon: "icon_creativity.jpg"  },
+        { name: "Communication", state: 1, mask: 0x0010, icon: "icon_communication.jpg"  }
+      ];
+      $scope._21stCenturyReadiness = [
+        { name: "Financial Literacy", state: 1, mask: 0x0001, icon: "icon_financialliteracy.jpg"  },
+        { name: "Life Skills", state: 1, mask: 0x0002, icon: "icon_lifeskills.jpg"  },
+        { name: "Career Skills", state: 1, mask: 0x0004, icon: "icon_career.jpg"  },
+        { name: "Technology", state: 1, mask: 0x0008, icon: "icon_technology.jpg"  },
+        { name: "Leadership", state: 1, mask: 0x0010, icon: "icon_leadership.jpg"  }
+      ];
+      $scope.gradeLevels = [
+        { name: "K-2", state: 1, mask: 0x0007 },
+        { name: "3-4", state: 1, mask: 0x0018 },
+        { name: "5-6", state: 1, mask: 0x0060 },
+        { name: "7-8", state: 1, mask: 0x0180 },
+        { name: "9-10", state: 1, mask: 0x0600 },
+        { name: "11-12", state: 1, mask: 0x1800 }
+      ];
+      $scope.platformList = [
+        { name: "PC/Mac", state: 1 },
+        { name: "iOS", state: 1 },
+        { name: "Android", state: 0, disable: 1 },
+        { name: "Browser", state: 1 }
+      ];
+      $scope.platformListMap = { "PC/Mac": 0, "iOS": 1, "Andriod": 2, "Browser": 3 };
+      
+      $scope.allGames = 1;
+      $scope.selectedAcademicSkillsMask = 0x007f;
+      $scope.selected21stCenturySkillsMask = 0x001f;
+      $scope.selected21stCenturyReadinessMask = 0x001f;
+      $scope.selectedGradeMask = 0x1fff;
+      
+      $scope.gradesPreMask = [ 0x0000, 0x0001, 0x0003, 0x0007, 0x000f, 0x001f, 0x003f, 0x007f,
+        0x00ff, 0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff ];
+        
+      $scope.gradesToMask = function(s) {
+        var limits = s.split(/[^\d\w]+/);
+        limits[0] = (limits[0] === "K" ? 0 : parseInt(limits[0], 10));
+        if (limits.length === 1) {
+            return $scope.gradesPreMask[limits[0] + 1]  - $scope.gradesPreMask[limits[0]];
+        }
+        limits[1] = parseInt(limits[1], 10);
+        return $scope.gradesPreMask[limits[1] + 1]  - $scope.gradesPreMask[limits[0]];
+      };
+
+      $scope.skillsToMask = function(assigned, known) {
+        var mask = 0;
+        for (var i=0;i<assigned.length;i++) {
+            for (var j=0;j<known.length;j++) {
+                if (assigned[i] === known[j].name) {
+                    mask |= known[j].mask;
+                    break;
+                }
+            }
+        }
+        return mask;
+      };
+
+      $scope.makeTitleColorSelector = function(skills) {
+        if (skills !== undefined && skills.primary !== undefined) {
+            var i;
+            for (i=0;i<$scope.academicSkills.length;i++) {
+                if ($scope.academicSkills[i].name === skills.primary) {
+                    return "red";
+                }
+            }
+            for (i=0;i<$scope._21stCenturySkills.length;i++) {
+                if ($scope._21stCenturySkills[i].name === skills.primary) {
+                    return 'green';
+                }
+            }
+            for (i=0;i<$scope._21stCenturyReadiness.length;i++) {
+                if ($scope._21stCenturyReadiness[i].name === skills.primary) {
+                    return 'blue';
+                }
+            }
+        }
+        return 'red';
+      };
+
+      $scope.makeSkillIconName = function(skills) {
+        if (skills !== undefined && skills.primary !== undefined) {
+            var i;
+            for (i=0;i<$scope.academicSkills.length;i++) {
+                if ($scope.academicSkills[i].name === skills.primary) {
+                    return "/assets/skill-icons/" + $scope.academicSkills[i].icon;
+                }
+            }
+            for (i=0;i<$scope._21stCenturySkills.length;i++) {
+                if ($scope._21stCenturySkills[i].name === skills.primary) {
+                    return "/assets/skill-icons/" + $scope._21stCenturySkills[i].icon;
+                }
+            }
+            for (i=0;i<$scope._21stCenturyReadiness.length;i++) {
+                if ($scope._21stCenturyReadiness[i].name === skills.primary) {
+                    return "/assets/skill-icons/" + $scope._21stCenturyReadiness[i].icon;
+                }
+            }
+        }
+        return "/assets/dev-logo-placeholder.jpg";
+      };
+      
+      $scope.allGamesFilterData = { };
+      $scope.allGamesInfo.forEach(function(game) {
+        $scope.allGamesFilterData[game.shortName] = {
+            gradesMask: $scope.gradesToMask(game.grades),
+            academicSkillMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills.academicSkills, $scope.academicSkills) : 0x7fff),
+            _21stCenturySkillsMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturySkills, $scope._21stCenturySkills) : 0x7fff),
+            _21stCenturyReadinessMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturyReadiness, $scope._21stCenturyReadiness) : 0x7fff),
+            titleColorSelector: $scope.makeTitleColorSelector(game.skills),
+            skillIconName: $scope.makeSkillIconName(game.skills)
+        };
+      });
+      
       // completely relaod page if the UI top is a role mismatch
       $scope.$on('$viewContentLoaded',
         function(event) {
@@ -359,6 +486,66 @@ $scope.agi = allGamesInfo;
         }
       }
             
+      $scope.gameTitleColorSelctor = function(game) {
+        return $scope.allGamesFilterData[game.shortName].titleColorSelector;
+      };
+      
+      $scope.gameSkillIcon = function(game) {
+        return $scope.allGamesFilterData[game.shortName].skillIconName;
+      };
+      
+      $scope.academicSkillsChangeDelayed = function() {
+        $scope.selectedAcademicSkillsMask = 0;
+        for (var i=0;i<$scope.academicSkills.length;i++) {
+            if ($scope.academicSkills[i].state) {
+                $scope.selectedAcademicSkillsMask |= $scope.academicSkills[i].mask;
+            }
+        }
+      };
+
+      $scope.academicSkillsChange = function() {
+        $timeout($scope.academicSkillsChangeDelayed, 20);
+      };
+
+      $scope._21stCenturySkillChangeDelayed = function() {
+        $scope.selected21stCenturySkillsMask = 0;
+        for (var i=0;i<$scope._21stCenturySkills.length;i++) {
+            if ($scope._21stCenturySkills[i].state) {
+                $scope.selected21stCenturySkillsMask |= $scope._21stCenturySkills[i].mask;
+            }
+        }
+      };
+
+      $scope._21stCenturySkillChange = function() {
+        $timeout($scope._21stCenturySkillChangeDelayed, 20);
+      };
+
+      $scope._21stCenturyReadinessChangeDelayed = function() {
+        $scope.selected21stCenturyReadinessMask = 0;
+        for (var i=0;i<$scope._21stCenturyReadiness.length;i++) {
+            if ($scope._21stCenturyReadiness[i].state) {
+                $scope.selected21stCenturyReadinessMask |= $scope._21stCenturyReadiness[i].mask;
+            }
+        }
+      };
+
+      $scope._21stCenturyReadinessChange = function() {
+        $timeout($scope._21stCenturyReadinessChangeDelayed, 20);
+      };
+
+      $scope.gradeLevelsChangeDelayed = function() {
+        $scope.selectedGradeMask = 0;
+        for (var i=0;i<$scope.gradeLevels.length;i++) {
+            if ($scope.gradeLevels[i].state) {
+                $scope.selectedGradeMask |= $scope.gradeLevels[i].mask;
+            }
+        }
+      };
+      
+      $scope.gradeLevelsChange = function() {
+        $timeout($scope.gradeLevelsChangeDelayed, 20);
+      };
+
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
           $state.go('root.games.detail.product', {gameId: gameId});
@@ -373,20 +560,53 @@ $scope.agi = allGamesInfo;
           return text;
         }
       };
-
-      $scope.platformFilter = function() {
+      
+      $scope.gameFilter = function() {
          return function(game) {
-             if ($scope.platform.selected === 'All Games') {
-                 return true;
-             }
-             if ($scope.platform.selected === 'Chromebook') {
-                 return game.platform.type.indexOf('Browser') !== -1;
-             }
-             if ($scope.platform.selected === 'PC/Mac') {
-                 return game.platform.type.indexOf('Browser') !== -1 || game.platform.type === 'PC & Mac';
-             }
-
-             return game.platform.type === $scope.platform.selected;
+            if (game.platform.type === 'PC & Mac') {
+                if (!$scope.platformList[$scope.platformListMap["PC/Mac"]].state && !$scope.platformList[$scope.platformListMap["Browser"]].state) {
+                    return false;
+                }
+            }
+            if (game.platform.type.indexOf('Browser') !== -1) {
+                if (!$scope.platformList[$scope.platformListMap["Browser"]].state) {
+                    return false;
+                }
+            }
+            if (game.platform.type === 'iPad') {
+                if (!$scope.platformList[$scope.platformListMap["iOS"]].state) {
+                    return false;
+                }
+            }
+            
+            var mask = $scope.allGamesFilterData[game.shortName].gradesMask;
+            if (($scope.selectedGradeMask & mask) === 0) {
+                return false;
+            }
+            if (!$scope.allGames) {
+                var any = false;
+                mask = $scope.allGamesFilterData[game.shortName].academicSkillMask;
+                if (($scope.selectedAcademicSkillsMask & mask) !== 0) {
+                    any = true;
+                }
+                if (!any) {
+                    mask = $scope.allGamesFilterData[game.shortName]._21stCenturySkillsMask;
+                    if (($scope.selected21stCenturySkillsMask & mask) !== 0) {
+                        any = true;
+                    }
+                }
+                if (!any) {
+                    mask = $scope.allGamesFilterData[game.shortName]._21stCenturyReadinessMask;
+                    if (($scope.selected21stCenturyReadinessMask & mask) !== 0) {
+                        any = true;
+                    }
+                }
+                if (!any) {
+                    return false;
+                }
+            }
+            
+            return true;
          };
       };
       $scope.toggleDropdown = function ($event, collection) {

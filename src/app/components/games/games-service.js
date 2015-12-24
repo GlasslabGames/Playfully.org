@@ -218,8 +218,8 @@ angular.module('games', [
     },
 
 
-    updateDeveloperGameInfo: function(gameId,data) {
-      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
+    updateDeveloperGameInfo: function(gameId,data,overwrite) {
+      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data), overwrite: (overwrite ? 1 : 0) })
           .then(function(response) {
             $log.debug(response);
             return response.data;

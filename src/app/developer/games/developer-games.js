@@ -607,7 +607,7 @@ angular.module('developer.games', [
             $scope.tabs.push("missions");
         }
         $scope.saveInfo = function() {
-            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
         };
 
         $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {

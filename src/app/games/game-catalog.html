@@ -1,78 +1,149 @@
 <div class="container gl-container">
-    <h3 class="headline-4--serif">Featured Games</h3>
-    <div class="gl-game-catalog-carousel-container gl-margin--V40">
-        <carousel interval="5000" class="gl-games-carousel gl-games-carousel--full">
-            <slide ng-if="game.price!=='Coming Soon' && game.price!=='TBD'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
-                <img ng-src="{{game.banners.product}}"
-                     class="gl-game-catalog-banner"
-                     ui-sref="root.games.detail.product({gameId:game.gameId})">
-                </img>
-            </slide>
-        </carousel>
-    </div>
-    <hr>
-    <div class="gl-margin--B40 gl-game-catalog-top">
-        <div class="btn-group float--r" dropdown is-open="platform.isOpen">
-            <button type="button" class="btn btn-default gl-dropdown"
-                    ng-click="toggleDropdown($event, 'platform')">{{platform.selected}}</button>
-            <button type="button" class="btn gl-btn--blue dropdown-toggle">
-                <span class="caret"></span>
-                <span class="sr-only">Split button!</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="type in platform.options"
-                    ng-class="{'gl-reports-dropdown--selected': platform.selected == type}">
-                    <a href="#"
-                       ng-click="alterSelection(type)"
-                       ng-bind="type"></a>
-                </li>
-            </ul>
+    <h3 class="headline-4--serif gl-game-catalog-featured-game">Featured Games</h3>
+    <div class="gl-game-catalog-carousel-container gl-margin--Vm">
+        <div class="gl-game-catalog-carousel-row">
+            <div class="gl-game-catalog-advert-cell gl-margin--Rm">
+                <!-- Ad or other image/contest goes here -->
+            </div>
+            <div class="gl-game-catalog-carousel-cell">
+                <carousel interval="5000" class="gl-games-carousel gl-games-carousel--full">
+                    <slide ng-if="game.price!=='Coming Soon' && game.price!=='TBD'" ng-repeat="game in allGamesInfo" active="game.active" class="gl-game-catalog-banner">
+                        <div class="gl-game-catalog-carousel-game-table">
+                            <div class="gl-game-catalog-carousel-game-row">
+                                <div class="gl-game-catalog-carousel-card-cell">
+                                    <img ng-src="{{game.banners.product}}" class="gl-game-catalog-banner" ui-sref="root.games.detail.product({gameId:game.gameId})">
+                                    </img>
+                                </div>
+                                <div class="gl-game-catalog-carousel-info-cell">
+                                    <span ng-class="{red:'gl-game-catalog-game-title-red', green:'gl-game-catalog-game-title-green', blue:'gl-game-catalog-game-title-blue'}[gameTitleColorSelctor(game)]">
+                                        {{game.shortName}}
+                                    </span>
+                                    <br />
+                                    <br />
+                                    {{game.description ? truncateText(game.description,350) : ""}}
+                                </div>
+                            </div>
+                        </div>
+                    </slide>
+                </carousel>
+            </div>
         </div>
     </div>
-    <div class="gl-game-catalog-games-container  gl-margin--T30">
-        <div class="gl-game-catalog-games-section">
-            <div class="col-md-4" ng-repeat="game in allGamesInfo | orderBy: 'releaseDate':true | filter: platformFilter()">
-                <div class="gl-game-catalog-game-box gl-margin--Bl"
-                     ng-init="game.hover=false"
-                     ng-mouseover="game.hover=true"
-                     ng-mouseleave="game.hover=false"
-                     ng-class="{'no-hover':game.price==='Coming Soon'}"
-                     ng-click="goToGameDetail(game.price,game.gameId)">
-                    <div ng-class="{'gl-game-ribbon' : game.price==='Premium', 'gl-game-ribbon--green' : game.price==='Coming Soon','gl-game-ribbon--aqua-blue' : game.price==='Free'}"
-                         ng-hide="game.hover || game.price==='Premium'">
-                        <div class="gl-game-ribbon-text">{{game.price}}</div>
+    <hr>
+    <div class="gl-new-game-catalog-games-container gl-margin--Tl gl-margin--Bl">
+        <div class="gl-new-game-catalog-all-row">
+            <div class="gl-new-game-catalog-controls-cell">
+                <div class="gl-new-game-catalog-skills-header-red">
+                    Academic Skills
+                </div>
+                <div class="gl-new-game-catalog-skills-box">
+                    <div ng-repeat="skill in academicSkills">
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="academicSkillsChange()" /> {{skill.name}}</label>
                     </div>
-                    <div class="gl-game-catalog-game-card-wrapper">
-                        <div ng-show="!game.hover && gamesAvailableForLicense[game.gameId]" class="gl-game-catalog-ready text-center">Ready to Assign</div>
-                        <div class="gl-game-catalog-developer-logo">
-                            <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
-                        </div>
-                        <img ng-src="{{game.card.small}}" class="gl-game-catalog-game-card">
-                        <div class="gl-game-catalog-game-description" ng-show="game.hover">
-                            <p>
-                                {{game.description ? truncateText(game.description,350) : ""}}
-                            </p>
-                            <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
-                        </div>
+                </div>
+                <div class="gl-new-game-catalog-skills-header-green">
+                    21st Centrury Skills
+                </div>
+                <div class="gl-new-game-catalog-skills-box">
+                    <div ng-repeat="skill in _21stCenturySkills">
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="_21stCenturySkillChange()" /> {{skill.name}}</label>
                     </div>
-                    <div class="gl-game-catalog-game-box-info">
-                        <span class="gl-game-catalog-game-title">
-                            {{game.shortName}}
-                            <span class="gl-text-end-fade"></span>
-                        </span>
-                        <ul>
-                            <li>Subject: {{game.subject}}
-                            </li>
-                            <li>Grade: {{game.grades}}</li>
-                            <li>Platform: {{game.platform.type}}
-                            </li>
-                            <li>Developed by {{game.developer.name}}
-                            </li>
-                        </ul>
+                </div>
+                <div class="gl-new-game-catalog-skills-header-blue">
+                    21st Centrury Readiness
+                </div>
+                <div class="gl-new-game-catalog-skills-box">
+                    <div ng-repeat="skill in _21stCenturyReadiness">
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="_21stCenturyReadinessChange()" /> {{skill.name}}</label>
+                    </div>
+                </div>
+                <div class="gl-new-game-catalog-allgames-box">
+                    <label><input type="checkbox" ng-model="allGames" ng-checked="allGames" /> All Games</label>
+                </div>
+                <div class="gl-new-game-catalog-category-header">
+                    Grade Level
+                </div>
+                <div class="gl-new-game-catalog-skills-box">
+                    <table>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[0].state" ng-checked="gradeLevels[0].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[0].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[3].state" ng-checked="gradeLevels[3].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[3].name}}</label></td></tr>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[1].state" ng-checked="gradeLevels[1].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[1].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[4].state" ng-checked="gradeLevels[4].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[4].name}}</label></td></tr>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[2].state" ng-checked="gradeLevels[2].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[2].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[5].state" ng-checked="gradeLevels[5].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[5].name}}</label></td></tr>
+                    </table>
+                </div>
+                <div class="gl-new-game-catalog-category-header">
+                    Platform
+                </div>
+                <div class="gl-new-game-catalog-skills-box">
+                    <div ng-repeat="platform in platformList">
+                        <label><input type="checkbox" ng-model="platform.state" ng-checked="platform.state" ng-disabled="platform.disable"/> {{platform.name}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="gl-new-game-catalog-games-cell">
+                <div class="headline-4--serif gl-new-game-catalog-games-section-header">
+                Games
+                </div>
+                <div class="gl-new-game-catalog-games-section">
+                    <div class="gl-new-game-catalog-games-table-outer">
+                        <div class="gl-new-game-catalog-games-row-outer" ng-repeat="game in allGamesInfo | orderBy: 'releaseDate':true | filter: gameFilter()">
+                            <div class="gl-new-game-catalog-games-cell-outer">
+                                <div class="gl-new-game-catalog-games-table-inner">
+                                    <div class="gl-new-game-catalog-games-row-inner">
+                                        <div class="gl-new-game-catalog-games-box-cell"
+                                            ng-init="game.hover=false"
+                                            ng-mouseover="game.hover=true"
+                                            ng-mouseleave="game.hover=false"
+                                            ng-class="{'no-hover':game.price==='Coming Soon'}"
+                                            ng-click="goToGameDetail(game.price,game.gameId)">
+                                            <div ng-class="{'gl-game-ribbon' : game.price==='Premium', 'gl-game-ribbon--green' : game.price==='Coming Soon','gl-game-ribbon--aqua-blue' : game.price==='Free'}"
+                                                 ng-hide="game.hover || game.price==='Premium'">
+                                                <div class="gl-game-ribbon-text">{{game.price}}</div>
+                                            </div>
+                                            <div class="gl-game-catalog-game-card-wrapper">
+                                                <div ng-show="!game.hover && gamesAvailableForLicense[game.gameId]" class="gl-game-catalog-ready text-center">Ready to Assign</div>
+                                                <!--
+                                                <div class="gl-game-catalog-developer-logo">
+                                                    <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
+                                                </div>
+                                                -->
+                                                <img ng-src="{{game.banners.product}}" class="gl-game-catalog-game-card">
+                                                <div class="gl-game-catalog-game-description" ng-show="game.hover">
+                                                    <p>
+                                                        {{game.description ? truncateText(game.description,350) : ""}}
+                                                    </p>
+                                                    <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="gl-new-game-catalog-games-box-info-cell">
+                                            <span ng-class="{red:'gl-game-catalog-game-title-red', green:'gl-game-catalog-game-title-green', blue:'gl-game-catalog-game-title-blue'}[gameTitleColorSelctor(game)]">
+                                                {{game.shortName}}
+                                                <!-- <span class="gl-text-end-fade"></span> -->
+                                            </span>
+                                            <br />
+                                            <span class="gl-new-game-catalog-game-grades">
+                                                Grades {{game.grades}}
+                                            </span>
+                                            <span class="gl-new-game-catalog-game-developer">
+                                                Developer {{game.developer.name}}
+                                            </span>
+                                            <span class="gl-new-game-catalog-game-platform">
+                                                {{game.platform.type}}
+                                            </span>
+                                            <span class="gl-new-game-catalog-game-skill-icon">
+                                                <img src="{{gameSkillIcon(game)}}" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{agi}}
 </div>
