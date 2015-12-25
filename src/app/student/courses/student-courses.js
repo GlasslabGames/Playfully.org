@@ -18,8 +18,12 @@ angular.module( 'student.courses', [
       games: function(GamesService) {
         return GamesService.active('details');
       },
-      courses: function(CoursesService) {
-        return CoursesService.getEnrollments();
+      activeCourses: function(CoursesService, $filter) {
+        return CoursesService.getEnrollments()
+          .then(function(response) {
+            var filtered = $filter('filter')(response, {archived: false});
+            return filtered;
+          });
       }
     }
   })
@@ -66,17 +70,17 @@ angular.module( 'student.courses', [
   });
 })
 
-.controller( 'CoursesStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, courses, games, DetectionSvc) {
+.controller( 'CoursesStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, activeCourses, games, DetectionSvc) {
   $scope.currentOS = null;
 
   if (DetectionSvc.getOSSupport().supported) {
     $scope.currentOS = DetectionSvc.getOSSupport().identity;
   }
 
-  $scope.courses = courses;
+  $scope.courses = activeCourses;
   $scope.gamesInfo = {};
 
-  angular.forEach(courses, function(course) {
+  angular.forEach(activeCourses, function(course) {
       course.hasEnabledGames = _.some(course.games, function(game) {
           return game.assigned;
       });
