@@ -1,6 +1,14 @@
 <p>
-    <h2>REPORT DETAIL for {{fullData.basic.shortName}}</h2>
+    <h2 style="text-align:center">Reports for {{fullData.basic.shortName}}</h2>
     <br>
+
+	<div class="container gl-container" style="text-align:center">
+	    <button class="btn btn-primary" ng-click="setReport( 'dauu' )">Daily Active Unique Users</button>
+	    <button class="btn btn-primary" ng-click="setReport( 'up' )">Unit Progress</button>
+	    <button class="btn btn-primary" ng-click="setReport( 'tsiu' )">Time Spent in Unit</button>
+	    <button class="btn btn-primary" ng-click="setReport( 'sfiu' )">Sucess/Fail in Unit</button>
+	    <button class="btn btn-primary" ng-click="setReport( 'luc' )">Last Unit Completed</button>
+	</div>
 
     <div>
 		<nvd3 options="options" data="data"></nvd3>
