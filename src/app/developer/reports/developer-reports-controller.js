@@ -431,7 +431,7 @@ angular.module('developer.reports', ['nvd3'])
 
         //Data is represented as an array of {x,y} pairs.
         for (var i = -31; i <= 0; i++) {
-            sin.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
+            sin.push({x: i, y: Math.random() * 90 });
         }
 
         //Line chart data should be sent as an array of series objects.
