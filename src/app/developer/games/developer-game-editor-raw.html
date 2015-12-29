@@ -1,0 +1,15 @@
+<div class="container gl-margin--Txxl">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{gameId}} <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></h1>
+
+      <tabset>
+        <tab>
+          <tab-heading><code>raw json</code></tab-heading>
+          <div ui-ace="{mode:json,useWrapMode:true,onLoad:aceLoaded,onChange:aceChanged}" ng-model="fullDataAsStr"></div>
+        </tab>
+      </tabset>
+
+    </div>
+  </div>
+</div>

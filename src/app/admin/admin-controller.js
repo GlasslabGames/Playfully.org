@@ -271,6 +271,44 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             authorizedRoles: ['admin']
         }
     })
+
+
+
+
+    .state('admin.admin-games-edit', {
+        url: '/admin-games-edit',
+        resolve: {
+            allGamesInfo: function(GamesService) {
+                return GamesService.all();
+            },
+            gamesAvailable: function (GamesService) {
+                return GamesService.getAllDeveloperGamesAvailable();
+            },
+            gamesApproved: function (GamesService) {
+                return GamesService.getAllDeveloperGamesApproved();
+            },
+            gamesAwaitingApproval: function (GamesService) {
+                return GamesService.getAllDeveloperGamesAwaitingApproval();
+            },
+            gamesRejected: function (GamesService) {
+                return GamesService.getAllDeveloperGamesRejected();
+            }
+        },
+        views: {
+          'main@': {
+            templateUrl: 'admin/admin-games-edit.html',
+            controller: 'AdminGamesEditCtrl'
+          }
+        },
+        data: {
+            pageTitle: 'Admin Games Edit',
+            authorizedRoles: ['admin']
+        }
+    })
+
+
+
+
     .state('admin.reseller-approval', {
         url: '/reseller-approval',
         templateUrl: 'admin/admin-reseller-approval.html',
@@ -309,6 +347,12 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     });
 })
+
+
+////////////////
+////////////////
+
+
 .controller('AdminOnePageCtrl', function ($scope) {
 
     //     $scope.dataExportForm = function() {
@@ -1017,6 +1061,100 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         }
     };
 })
+
+
+
+
+////    ////////                        ////////
+////      ////////                    ////////
+////        ////////                ////////
+////          ////////            ////////
+////            ////////        ////////
+////              ////////    ////////
+////                ////////////////
+////                  ////////////
+////                    ////////
+////                  ////////////
+////                ////////////////
+////              ////////    ////////
+////            ////////        ////////
+////          ////////            ////////
+////        ////////                ////////
+////      ////////                    ////////
+////    ////////                        ////////
+
+
+
+
+.controller('AdminGamesEditCtrl', function ($scope, $state, $timeout, UserService, GamesService, allGamesInfo, gamesAvailable, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+
+    $scope.showTab = 0;
+    // if ($state.includes('admin.game-approval.pending')) {
+    //     $scope.showTab = 1;
+    // } else if ($state.includes('admin.game-approval.rejected')) {
+    //     $scope.showTab = 2;
+    // }
+
+    $scope.usersxx = gamesAvailable;
+    $scope.allgames = allGamesInfo;
+
+    $scope.predicateList = 'gameId';
+    $scope.reverseList = false;
+    $scope.orderList = function(predicate) {
+        $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
+        $scope.predicateList = predicate;
+    };
+    
+    // $scope.games must after any massaging must be an array of objects
+    // with fields "gameId", "userId", "company" and "longName"
+    if ($scope.showTab === 0) {
+        // $scope.games = gamesApproved;
+        $scope.games = allGamesInfo;
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
+        });
+/*
+    } else if ($scope.showTab === 1) {
+        $scope.games = gamesAwaitingApproval;
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
+            value.longName = value.basic.longName;
+        });
+    } else if ($scope.showTab === 2) {
+        $scope.games = gamesRejected;
+        angular.forEach( $scope.games, function( value, key ) {
+            value.myKey = key;
+            value.company = (value.organization !== undefined ? value.organization.organization : "");
+            value.longName = value.basic.longName;
+        });
+*/
+    }
+    $scope.go = function(gameId) {
+        console.log('go(gameID) ... gameId =', gameId);
+        // $state.go("admin.admin-games-edit");
+        $state.go("root.developerGames.editor", {gameId: gameId});
+        // developer/games/AA-1/editor
+    };
+/*
+    $scope.approveGame = function(game) {
+        GamesService.approveGame(game.gameId)
+        .then(function(response) {
+            // always on objct
+            delete $scope.games[game.myKey];
+        }, function(err){
+            $log.error("check game access:", err);
+            $window.alert(err);
+        });
+    };
+*/
+
+})
+
+
+
+
 .controller('AdminGameApprovalCtrl', function ($scope, $state, $timeout, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
@@ -1025,7 +1163,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         $scope.showTab = 2;
     }
 
-	$scope.predicateList = 'gameId';
+    $scope.predicateList = 'gameId';
     $scope.reverseList = false;
     $scope.orderList = function(predicate) {
         $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
