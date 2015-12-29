@@ -40,7 +40,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }
   })
   .state('root.games.catalog', {
-    url: '/catalog?:gamePlatform',
+    url: '/catalog',
     onEnter: function($rootScope, CHECKLIST) {
 
     },
@@ -59,9 +59,6 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       },
       currentPlan: function(LicenseService) {
          return LicenseService.getCurrentPlan();
-      },
-      startPlatform: function($stateParams) {
-         return $stateParams.gamePlatform;
       }
     },
     data: {
@@ -287,7 +284,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         }
 })
 .controller('GameCatalogCtrl',
-    function($scope, $rootScope, $window, $timeout, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, startPlatform, currentPlan, $state, CHECKLIST, UserService) {
+    function($scope, $rootScope, $window, $timeout, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, currentPlan, $state, CHECKLIST, UserService) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
         return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
       });
@@ -305,49 +302,49 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       $scope.gamesAvailableForLicense = gamesAvailableForLicense;
 
       $scope.academicSkills = [
-        { name: "English Language Arts", state: 1, mask: 0x0001, icon: "icon_englanguagearts.jpg" },
-        { name: "Mathematics", state: 1, mask: 0x0002, icon: "icon_math.jpg" },
-        { name: "Social Studies", state: 1, mask: 0x0004, icon: "icon_socialstudies.jpg"  },
-        { name: "Science", state: 1, mask: 0x0008, icon: "icon_science.jpg"  },
-        { name: "Foreign Language", state: 1, mask: 0x0010, icon: "icon_foreignlanguage.jpg"  },
-        { name: "Arts", state: 1, mask: 0x0020, icon: "icon_arts.jpg"  },
-        { name: "Health and Phys Ed", state: 1, mask: 0x0040, icon: "icon_healthphysed.jpg"  }
+        { name: "English Language Arts", state: 0, mask: 0x0001, icon: "icon_englanguagearts.jpg" },
+        { name: "Mathematics", state: 0, mask: 0x0002, icon: "icon_math.jpg" },
+        { name: "Social Studies", state: 0, mask: 0x0004, icon: "icon_socialstudies.jpg"  },
+        { name: "Science", state: 0, mask: 0x0008, icon: "icon_science.jpg"  },
+        { name: "Foreign Language", state: 0, mask: 0x0010, icon: "icon_foreignlanguage.jpg"  },
+        { name: "Arts", state: 0, mask: 0x0020, icon: "icon_arts.jpg"  },
+        { name: "Health and Phys Ed", state: 0, mask: 0x0040, icon: "icon_healthphysed.jpg"  }
       ];
       $scope._21stCenturySkills = [
-        { name: "Collaboration", state: 1, mask: 0x0001, icon: "icon_collaboration.jpg"  },
-        { name: "Problem Solving", state: 1, mask: 0x0002, icon: "icon_problemsolving.jpg"  },
-        { name: "System Thinking", state: 1, mask: 0x0004, icon: "icon_systemsthinking.jpg"  },
-        { name: "Creativity", state: 1, mask: 0x0008, icon: "icon_creativity.jpg"  },
-        { name: "Communication", state: 1, mask: 0x0010, icon: "icon_communication.jpg"  }
+        { name: "Collaboration", state: 0, mask: 0x0001, icon: "icon_collaboration.jpg"  },
+        { name: "Problem Solving", state: 0, mask: 0x0002, icon: "icon_problemsolving.jpg"  },
+        { name: "System Thinking", state: 0, mask: 0x0004, icon: "icon_systemsthinking.jpg"  },
+        { name: "Creativity", state: 0, mask: 0x0008, icon: "icon_creativity.jpg"  },
+        { name: "Communication", state: 0, mask: 0x0010, icon: "icon_communication.jpg"  }
       ];
       $scope._21stCenturyReadiness = [
-        { name: "Financial Literacy", state: 1, mask: 0x0001, icon: "icon_financialliteracy.jpg"  },
-        { name: "Life Skills", state: 1, mask: 0x0002, icon: "icon_lifeskills.jpg"  },
-        { name: "Career Skills", state: 1, mask: 0x0004, icon: "icon_career.jpg"  },
-        { name: "Technology", state: 1, mask: 0x0008, icon: "icon_technology.jpg"  },
-        { name: "Leadership", state: 1, mask: 0x0010, icon: "icon_leadership.jpg"  }
+        { name: "Financial Literacy", state: 0, mask: 0x0001, icon: "icon_financialliteracy.jpg"  },
+        { name: "Life Skills", state: 0, mask: 0x0002, icon: "icon_lifeskills.jpg"  },
+        { name: "Career Skills", state: 0, mask: 0x0004, icon: "icon_career.jpg"  },
+        { name: "Technology", state: 0, mask: 0x0008, icon: "icon_technology.jpg"  },
+        { name: "Leadership", state: 0, mask: 0x0010, icon: "icon_leadership.jpg"  }
       ];
       $scope.gradeLevels = [
-        { name: "K-2", state: 1, mask: 0x0007 },
-        { name: "3-4", state: 1, mask: 0x0018 },
-        { name: "5-6", state: 1, mask: 0x0060 },
-        { name: "7-8", state: 1, mask: 0x0180 },
-        { name: "9-10", state: 1, mask: 0x0600 },
-        { name: "11-12", state: 1, mask: 0x1800 }
+        { name: "K-2", state: 0, mask: 0x0007 },
+        { name: "3-4", state: 0, mask: 0x0018 },
+        { name: "5-6", state: 0, mask: 0x0060 },
+        { name: "7-8", state: 0, mask: 0x0180 },
+        { name: "9-10", state: 0, mask: 0x0600 },
+        { name: "11-12", state: 0, mask: 0x1800 }
       ];
       $scope.platformList = [
-        { name: "PC/Mac", state: 1 },
-        { name: "iOS", state: 1 },
-        { name: "Android", state: 0, disable: 1 },
-        { name: "Browser", state: 1 }
+        { name: "PC/Mac", state: 0, event: "pcMac" },
+        { name: "iOS", state: 0, event: "iPad" },
+        { name: "Android", state: 0, event: "android", disable: 1 },
+        { name: "Browser", state: 0, event: "chromebook" }
       ];
       $scope.platformListMap = { "PC/Mac": 0, "iOS": 1, "Andriod": 2, "Browser": 3 };
       
       $scope.allGames = 1;
-      $scope.selectedAcademicSkillsMask = 0x007f;
-      $scope.selected21stCenturySkillsMask = 0x001f;
-      $scope.selected21stCenturyReadinessMask = 0x001f;
-      $scope.selectedGradeMask = 0x1fff;
+      $scope.selectedAcademicSkillsMask = 0;
+      $scope.selected21stCenturySkillsMask = 0;
+      $scope.selected21stCenturyReadinessMask = 0;
+      $scope.selectedGradeMask = 0;
       
       $scope.gradesPreMask = [ 0x0000, 0x0001, 0x0003, 0x0007, 0x000f, 0x001f, 0x003f, 0x007f,
         0x00ff, 0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff ];
@@ -459,33 +456,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
                  });
             }
       });
-            
-      $scope.platform = {
-          isOpen: false,
-          options: ['All Games', 'iPad', 'Chromebook', 'PC/Mac'],
-          query: ['all', 'ipad', 'chromebook', 'pcMac'],
-          package: ['', 'iPad', 'Chromebook/Web', 'PC/MAC'],
-          selected: 'All Games'
-      };
       
-      if (startPlatform === $scope.platform.query[1]) {
-        $scope.platform.selected = $scope.platform.options[1];
-      } else if (startPlatform === $scope.platform.query[2]) {
-        $scope.platform.selected = $scope.platform.options[2];
-      } else if (startPlatform === $scope.platform.query[3]) {
-        $scope.platform.selected = $scope.platform.options[3];
-      } else if (startPlatform !== $scope.platform.query[0]) {
-        if (currentPlan !== undefined && currentPlan.packageDetails !== undefined) {
-            if (currentPlan.packageDetails.name == $scope.platform.package[1]) {
-                $scope.platform.selected = $scope.platform.options[1];
-            } else if (currentPlan.packageDetails.name == $scope.platform.package[2]) {
-                $scope.platform.selected = $scope.platform.options[2];
-            } else if (currentPlan.packageDetails.name == $scope.platform.package[3]) {
-                $scope.platform.selected = $scope.platform.options[3];
-            }
-        }
-      }
-            
       $scope.gameTitleColorSelctor = function(game) {
         return $scope.allGamesFilterData[game.shortName].titleColorSelector;
       };
@@ -563,6 +534,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       
       $scope.gameFilter = function() {
          return function(game) {
+            if ($scope.allGames) {
+                return true;
+            }
+            
             if (game.platform.type === 'PC & Mac') {
                 if (!$scope.platformList[$scope.platformListMap["PC/Mac"]].state && !$scope.platformList[$scope.platformListMap["Browser"]].state) {
                     return false;
@@ -583,48 +558,35 @@ $stateProvider.state( 'modal.game-user-mismatch', {
             if (($scope.selectedGradeMask & mask) === 0) {
                 return false;
             }
-            if (!$scope.allGames) {
-                var any = false;
-                mask = $scope.allGamesFilterData[game.shortName].academicSkillMask;
-                if (($scope.selectedAcademicSkillsMask & mask) !== 0) {
+
+            var any = false;
+            mask = $scope.allGamesFilterData[game.shortName].academicSkillMask;
+            if (($scope.selectedAcademicSkillsMask & mask) !== 0) {
+                any = true;
+            }
+            if (!any) {
+                mask = $scope.allGamesFilterData[game.shortName]._21stCenturySkillsMask;
+                if (($scope.selected21stCenturySkillsMask & mask) !== 0) {
                     any = true;
                 }
-                if (!any) {
-                    mask = $scope.allGamesFilterData[game.shortName]._21stCenturySkillsMask;
-                    if (($scope.selected21stCenturySkillsMask & mask) !== 0) {
-                        any = true;
-                    }
+            }
+            if (!any) {
+                mask = $scope.allGamesFilterData[game.shortName]._21stCenturyReadinessMask;
+                if (($scope.selected21stCenturyReadinessMask & mask) !== 0) {
+                    any = true;
                 }
-                if (!any) {
-                    mask = $scope.allGamesFilterData[game.shortName]._21stCenturyReadinessMask;
-                    if (($scope.selected21stCenturyReadinessMask & mask) !== 0) {
-                        any = true;
-                    }
-                }
-                if (!any) {
-                    return false;
-                }
+            }
+            if (!any) {
+                return false;
             }
             
             return true;
          };
       };
-      $scope.toggleDropdown = function ($event, collection) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          $scope[collection].isOpen = !$scope[collection].isOpen;
-      };
-      $scope.alterSelection = function(type) {
-            $scope.platform.selected = type;
-            if ($window.ga) {
-                for (var i=0;i<4;i++) {
-                    if ($scope.platform.options[i] == type) {
-                        $window.ga('set', 'page', '/games/catalog?gamePlatform=' + $scope.platform.query[i]);
-                        $window.ga('send', 'pageview');
-                        break;
-                    }
-                }
-            }
+      
+      $scope.analyticEvent = function(value, oldState) {
+        var action = 'catalog-' + value + '-' + (oldState ? 'off' : 'on');
+        $window.ga('send', 'event', 'button', 'click', action);
       };
     }
 )
