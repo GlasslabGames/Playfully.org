@@ -43,8 +43,6 @@ angular.module('developer.games', [
                 }
         })
 
-
-
         .state('root.developerGames.editor', {
             url: '/:gameId/editor',
             views: {

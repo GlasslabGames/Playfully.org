@@ -1,9 +1,7 @@
-<div class="gl-dev-catalog-top-bar">
-<div class="container gl-container">
-    <button class="btn btn-primary" ui-sref="modal-lg.developerRequestGame">Request Access to Game</button>
-    <button class="btn btn-primary" ng-click="createNewGame()">Create New Game</button>
-</div>
-</div>
+<p>
+    <h2>REPORTS</h2>
+    <br>
+
 <div class="container gl-container gl-margin--B40">
     <div class="gl-game-catalog-games-container">
         <div ng-repeat="section in sections">
@@ -26,7 +24,7 @@
                                 <p>
                                     {{game.description ? truncateText(game.description,350) : ""}}
                                 </p>
-                                <button class="btn gl-btn--blue" ng-click="goToGameDetail(game.gameId,game.release)">Edit Game Details</button>
+                                <button class="btn gl-btn--blue">View Game Reports</button>
                             </div>
                         </div>
                         <div class="gl-game-catalog-game-box-info">
@@ -41,8 +39,7 @@
                                 <li>Developed by {{game.developer.name}}
                                 </li>
                             </ul>
-                            <button ng-click="goToGameDetail(game.gameId,game.release)">Edit</button>
-                            <button ng-click="submitGame(game.gameId)">Submit For Approval</button>
+                            <button ng-click="viewGameReports(game.gameId)">View Reports</button>
                         </div>
                         <div class="gl-game-catalog-platform-triangle">
                             <img ng-src="{{game.platform.icon.small}}"
@@ -60,3 +57,5 @@
         </div>
     </div>
 </div>
+
+</p>
