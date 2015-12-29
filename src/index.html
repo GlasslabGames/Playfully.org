@@ -13,7 +13,15 @@
     <!-- font awesome from BootstrapCDN -->
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
+	<!-- Angular nvD3 -->
+	<meta charset="utf-8">  <!-- it's important for d3.js -->
+	<script type="text/javascript" src="/vendor/angular/angular.js"></script>
+	<script type="text/javascript" src="/vendor/d3/d3.js"></script>
+	<script type="text/javascript" src="/vendor/nvd3/build/nv.d3.js"></script>
+	<script type="text/javascript" src="/vendor/angular-nvd3/dist/angular-nvd3.js"></script>
+
     <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
+	<link rel="stylesheet" href="/vendor/nvd3/nv.d3.css">
     <link rel="stylesheet" type="text/css" href="/<%= file %>" /><% }); %>
     <style type="text/css">.snippet-content { display: none; }</style>
     <script type="text/javascript">
