@@ -1,6 +1,4 @@
 <p>
-    <h2>REPORTS</h2>
-    <br>
 
 <div class="container gl-container gl-margin--B40">
     <div class="gl-game-catalog-games-container">
@@ -24,7 +22,7 @@
                                 <p>
                                     {{game.description ? truncateText(game.description,350) : ""}}
                                 </p>
-                                <button class="btn gl-btn--blue">View Game Reports</button>
+                                <button class="btn gl-btn--blue" ng-click="viewGameReports(game.gameId)">View Game Reports</button>
                             </div>
                         </div>
                         <div class="gl-game-catalog-game-box-info">
