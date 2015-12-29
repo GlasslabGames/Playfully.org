@@ -92,7 +92,7 @@ angular.module('developer.reports', ['nvd3'])
     $scope.data = {};
 
 
-    $scope.options_dauu = {
+    var options_dauu = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -158,7 +158,7 @@ angular.module('developer.reports', ['nvd3'])
         }
     };
 
-    $scope.options_up = {
+    var options_up = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -224,7 +224,7 @@ angular.module('developer.reports', ['nvd3'])
         }
     };
 
-    $scope.options_tsiu = {
+    var options_tsiu = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -290,7 +290,7 @@ angular.module('developer.reports', ['nvd3'])
         }
     };
 
-    $scope.options_sfiu = {
+    var options_sfiu = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -356,7 +356,7 @@ angular.module('developer.reports', ['nvd3'])
         }
     };
 
-    $scope.options_luc = {
+    var options_luc = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -442,27 +442,43 @@ angular.module('developer.reports', ['nvd3'])
         ];
     }
 
+    function data_up() {
+    	return data_dauu();
+    }
+
+    function data_tsiu() {
+    	return data_dauu();
+    }
+
+    function data_sfiu() {
+    	return data_dauu();
+    }
+
+    function data_luc() {
+    	return data_dauu();
+    }
+
     $scope.setReport = function( type ) {
     	switch ( type ) {
     		case 'dauu':
-    			$scope.options = $scope.options_dauu;
+    			$scope.options = options_dauu;
     			$scope.data = data_dauu();
 	    		break;
     		case 'up':
-    			$scope.options = $scope.options_up;
-    			$scope.data = data_dauu();
+    			$scope.options = options_up;
+    			$scope.data = data_up();
 	    		break;
     		case 'tsiu':
-    			$scope.options = $scope.options_tsiu;
-    			$scope.data = data_dauu();
+    			$scope.options = options_tsiu;
+    			$scope.data = data_tsiu();
 	    		break;
     		case 'sfiu':
-    			$scope.options = $scope.options_sfiu;
-    			$scope.data = data_dauu();
+    			$scope.options = options_sfiu;
+    			$scope.data = data_sfiu();
 	    		break;
     		case 'luc':
-    			$scope.options = $scope.options_luc;
-    			$scope.data = data_dauu();
+    			$scope.options = options_luc;
+    			$scope.data = data_luc();
 	    		break;
     	}
     };
