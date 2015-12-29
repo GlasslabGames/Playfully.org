@@ -497,19 +497,19 @@ angular.module('developer.reports', ['nvd3'])
 
         	switch ( i ) {
         		case 0:
-        			ret.key = 'Units Fail';
+        			ret.key = 'Units Started';
         			break;
 
         		case 1:
-        			ret.key = 'Units Success';
+        			ret.key = 'Units Completed';
     	    		break;
 
         		case 2:
-        			ret.key = 'Units Completed';
+        			ret.key = 'Units Sucess';
 	        		break;
 
         		case 3:
-        			ret.key = 'Units Started';
+        			ret.key = 'Units Fail';
 	        		break;
         	}
 
