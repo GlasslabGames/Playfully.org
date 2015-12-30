@@ -21,8 +21,7 @@ Make sure you have Node.js installed.
 4. sudo npm -g install grunt-cli karma bower
 5. sudo npm install
 6. bower install
-7. bower install angular-nvd3
-8. grunt watch
+7. grunt watch
    (Note: this will run non-stop, as it is monitoring.)
 
 
@@ -34,8 +33,7 @@ OSX Reboot
 3. sudo npm -g install grunt-cli karma bower
 4. sudo npm install
 5. bower install
-6. bower install angular-nvd3
-7. grunt watch
+6. grunt watch
 
 End-to-end testing
 ------------------
