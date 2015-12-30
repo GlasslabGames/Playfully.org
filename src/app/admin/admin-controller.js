@@ -954,7 +954,8 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                             $scope.canAddYear = !isTrial;
 
                             angular.forEach( $scope.packages.seats, function(seat) {
-                                if (seat.studentSeats > students && seat.educatorSeats > educators) {                               if (seat.size == "Custom") {
+                                if (isTrial || (seat.studentSeats > students && seat.educatorSeats > educators)) {
+                                    if (seat.size == "Custom") {
                                         $scope.seatOptions.push({ id: seat.seatId, title: "Custom (" +  seat.studentSeats + " students, " + seat.educatorSeats + " educators)"});
                                     } else if (seat.seatId == "group") {
                                         standardSeatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
@@ -1037,12 +1038,13 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
         if (changed) {
             if (!$scope.hasInstitution && $scope.userInfo.isTrial) {
-                if (planInfo.type === 'trail' || planInfo.seats === 'trial') {
-                    $scope.changeErrorMsg = "Subscribing requires selecting plan and seats!";
+                if (planInfo.type === 'trial' || planInfo.seats === 'trial') {
+                    $scope.changeErrorMsg = "Upgrading from trial requires selecting plan and seats!";
                     return;
                 }
+            
                 if (schoolInfo.name === '' || schoolInfo.address === '' || schoolInfo.city === '' ||                schoolInfo.state === '' || schoolInfo.zipCode === '') {
-                    $scope.changeErrorMsg = "Subscribing requires entering institution information!";
+                    $scope.changeErrorMsg = "Upgrading from trial requires entering institution information!";
                     return;
                 }
             }
