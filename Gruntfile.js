@@ -106,6 +106,7 @@ module.exports = function ( grunt ) {
                       stripe: platformConfig.stripe.env*/
                       stripe: "test",
                       emailPlus: "test",
+                      monitorRateMillis: 300000,
                       /*
                        * To override default set game_sdkURI to host for game to contact
                        * (like http://developer.glasslabgames.org)
@@ -122,6 +123,7 @@ module.exports = function ( grunt ) {
                   ENV: {
                       stripe: "test",
                       emailPlus: "live",
+                      monitorRateMillis: 300000,
                       game_sdkURI: false
                   }
               }
@@ -137,6 +139,7 @@ module.exports = function ( grunt ) {
                       stripe: platformConfig.stripe.env*/
                       stripe: "live",
                       emailPlus: "live",
+                      monitorRateMillis: 300000,
                       game_sdkURI: false
                   }
               }

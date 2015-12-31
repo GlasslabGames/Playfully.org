@@ -360,7 +360,11 @@ angular.module( 'playfully', [
                       user.role == 'developer' ) {
                     $state.go('root.instructorDashboard.default');
                   } else if ( user.role == 'admin' ) {
-                    $state.go('admin.one-page');
+                    if (!user.archiver) {
+                        $state.go('admin.one-page');
+                    } else {
+                        $state.go('admin.monitor');
+                    }
                   } else if ( user.role == 'reseller' ) {
                     $state.go('admin.reseller-one-page');
                   } else {

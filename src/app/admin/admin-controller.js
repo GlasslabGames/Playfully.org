@@ -165,6 +165,14 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.monitor', {
+        url: '/monitor',
+        templateUrl: 'admin/admin-monitor.html',
+        controller: 'AdminMonitorCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    })
     .state('modal.developer-email-reason-modal', {
         url: '/admin/developer-email-reason',
         data: {
@@ -1088,7 +1096,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGamesEditCtrl', function ($scope, $state, $timeout, UserService, GamesService, allGamesInfo, gamesAvailable, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGamesEditCtrl', function ($scope, $state, UserService, GamesService, allGamesInfo, gamesAvailable, gamesApproved, gamesAwaitingApproval, gamesRejected) {
 
     $scope.showTab = 0;
     // if ($state.includes('admin.game-approval.pending')) {
@@ -1157,7 +1165,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGameApprovalCtrl', function ($scope, $state, $timeout, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
@@ -1217,4 +1225,58 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         $state.go("modal.developer-email-reason-modal");
     };
 
+})
+
+.controller('AdminMonitorCtrl', function ($scope, $state, $interval, DataService, ENV) {
+    $scope.loaded = false;
+
+    $scope.monitorReport = function() {
+        DataService.monitorReport()
+        .then(function(response) {
+            $scope.report = response;
+            $scope.loaded = true;
+            $scope.lastReportDate = moment().format("YYYY-MM-DD HH:mm:ss");
+        });
+    };
+
+    $scope.myInterval = $interval(function () {
+        $scope.monitorReport();
+    }, ENV.monitorRateMillis ? ENV.monitorRateMillis : 300000);
+
+    $scope.$on("$destroy", function(){
+        $interval.cancel($scope.myInterval);
+    });
+
+    $scope.monitorReport(); // prime it
+    
+    $scope.fetchData = function() {
+        DataService.runMonitor()
+        .then(function(response) {
+            $scope.monitorReport();
+        });
+    };
+    
+    $scope.upText = function(data) {
+        return data ? "UP" : "DOWN";
+    };
+
+    $scope.infoText = function(data) {
+        return data ? "OK" : "MISSING";
+    };
+
+    $scope.cpuUsageText = function(data) {
+        return data.toFixed(2);
+    };
+
+    $scope.jobCountText = function(missing, count) {
+        return missing ? "MISSING" : count;
+    };
+    
+    $scope.leakText = function(leak, msg) {
+        return leak ? msg : "None";
+    };
+    
+    $scope.nodeText = function(data) {
+        return data === 'healthy' ? 'Healthy' : 'ERROR: ' + data;
+    };
 });
