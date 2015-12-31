@@ -138,7 +138,7 @@
                   Small Icon<br>
                   <input type="text" id="keykey" size="40" ng-model='giBasic.thumbnail.small'/><br>
                   Large Icon<br>
-                  <input type="text" id="keykey" size="40" ng-model='giBasic.xxxxxxxx'/><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.thumbnail.large'/><br>
                 </div>
 
                 <div style="float: left; width: 15%;">
@@ -195,7 +195,7 @@
 
             <h1>
               {{gameId}}
-              <button class="btn btn-default" type="button" ng-click="saveBasicInfo()"> Save Draft </button>
+              <button class="btn btn-default" type="button" ng-click="saveGameInfoChanges()"> Save Changes </button>
               <!-- <button class="btn btn-default" type="button" ng-click="submitBasicInfo()"> Submit for Review </button> -->
             </h1>
 
@@ -206,6 +206,7 @@
         <!-- ----------------    ---------------- -->
 
         <tab heading="SOWO">
+
           <div class="bigbox">
             Game ID # {{gameId}}
 
@@ -251,7 +252,7 @@
 
             <h1>
               {{gameId}}
-              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Draft </button>
+              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Changes </button>
               <!-- <button class="btn btn-default" type="button" ng-click="submitSowoInfo()"> Submit for Review </button> -->
             </h1>
 
@@ -259,7 +260,526 @@
 
         </tab>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- ----------------    ---------------- -->
+
+        <tab heading=" Reports ">
+
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Full Game Name </font><br>
+              <h4>
+                {{giBasic.longName}}
+              </h4>
+            </div>
+
+            <div class="groupbox">
+              <font color="blue"> ID: {{giFull.reports.list[0].id}}<br>
+                {{giFull.reports.list[0].name}}<br>
+              </font>
+
+              <h4>
+                <div>
+                  <!-- Enabled <input type="text" id="keykey" size="8" ng-model="giFull.reports.list[0].enabled"/> -->
+
+                  <input type="checkbox" name="enabled" ng-model="giFull.reports.list[0].enabled"> Reports Enabled <br><br>
+
+          <div ng-show="giFull.reports.list[0].enabled">
+
+
+                  Report Description <br>
+                  <textarea id="keykey" cols="96" rows="4" ng-model="giFull.reports.list[0].description"></textarea><br><br>
+
+<!-- 
+                  Labels <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.labels"></textarea><br>
+ -->
+
+<!-- 
+                  Groups <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups"></textarea><br>
+ -->
+
+                  List ID: {{giFull.reports.list[0].table.groups[0].id}}<br>
+                  List Name: {{giFull.reports.list[0].table.groups[0].title}}<br><br>
+
+                  ----------------<br><br>
+<!-- 
+                  <div ng-repeat="item in sorepitems track by $index">
+
+                  </div>
+ -->
+
+
+                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
+                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
+                  Rule Description <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[0].description"></textarea><br><br>
+
+                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[1].id}}<br>
+                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[1].title}}<br>
+                  Rule Description <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[1].description"></textarea><br><br>
+
+                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[2].id}}<br>
+                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[2].title}}<br>
+                  Rule Description <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[2].description"></textarea><br><br>
+
+                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[3].id}}<br>
+                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[3].title}}<br>
+                  Rule Description <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[3].description"></textarea><br><br>
+
+                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[4].id}}<br>
+                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[4].title}}<br>
+                  Rule Description <br>
+                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[4].description"></textarea><br><br>
+
+
+          </div>
+
+
+
+
+
+                <div ng-repeat="item in repSoItems track by $index">
+                  Rule {{item["id"]}} Name: <br>
+                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
+
+                  Rule Description:<br>
+                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
+
+                  <!-- <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br> -->
+                </div>
+
+<!-- 
+
+
+                <div ng-repeat="item in repSoItems track by $index">
+                  {{item["id"]}} name: <br>
+                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
+
+                  description:<br>
+                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
+
+                  <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br>
+                </div>
+
+
+ -->
+
+
+
+
+                  <br><br><br><br>
+
+                </div>
+              </h4>
+
+            </div>
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Changes </button>
+              <!-- <button class="btn btn-default" type="button" ng-click="submitSowoInfo()"> Submit for Review </button> -->
+            </h1>
+
+          </div>
+
+
+
+
+
+<br><br><br><br>
+
+xx1 {{giFull.reports.list[0].id}}<br>
+xx2 {{giFull.reports.list[0].enabled}}<br>
+xx3 {{giFull.reports.list[0].name}}<br>
+xx4 {{giFull.reports.list[0].header.text}}<br>
+xx5 {{giFull.reports.list[0].header.image}}<br>
+xx6 {{giFull.reports.list[0].header.skinny}}<br>
+xx7 {{giFull.reports.list[0].header.large}}<br>
+xx8 {{giFull.reports.list[0].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.labels}}<br><br>
+<!-- 
+xx {{giFull.reports.list[0].table.groups}}<br>
+ -->
+10 xx {{giFull.reports.list[0].table.groups[0].id}}<br>
+11 xx {{giFull.reports.list[0].table.groups[0].title}}<br><br>
+
+12 xx {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
+13 xx {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
+14 xx {{giFull.reports.list[0].table.groups[0].headers[0].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[0].headers[1].id}}<br>
+xx {{giFull.reports.list[0].table.groups[0].headers[1].title}}<br>
+xx {{giFull.reports.list[0].table.groups[0].headers[1].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[0].headers[2].id}}<br>
+xx {{giFull.reports.list[0].table.groups[0].headers[2].title}}<br>
+xx {{giFull.reports.list[0].table.groups[0].headers[2].description}}<br><br>
+<!-- 
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
+xx {{giFull.reports.list[0]}}<br><br>
+ -->
+
+--------<br>
+
+xx {{giFull.reports.list[0].table.groups[1].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].title}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[1].headers[0].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[0].title}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[0].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[1].headers[1].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[1].title}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[1].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[1].headers[2].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[2].title}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[2].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[1].headers[3].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[3].title}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[3].description}}<br><br>
+
+xx {{giFull.reports.list[0].table.groups[1].headers[4].id}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[4].title}}<br>
+xx {{giFull.reports.list[0].table.groups[1].headers[4].description}}<br><br>
+
+
+
+
+
+
+
+xx {{giFull.reports.list[1]}}<br><br>
+
+
+xxxx {{giFull.reports.list}}<br><br>
+
+xx {{giFull.reports}}<br><br>
+
+<br><br><br>
+
+
+
+
+
+        </tab>
+
+
+
+
+
+
+
+        <!-- ----------------    ---------------- -->
+
+        <tab heading="xxxxxxxxx xxxxxxxxx xxxxxxxxx">
+
+
+
+
+
+
+
+
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> xxxxxxxxxxxxxxxxxxxxxx </font><br>
+
+              <h4>
+
+
+
+
+
+<br><br><br><br>
+giFull.assessment ***<br><br>
+
+xx {{giFull.assessment[0].enabled}}<br>
+xx {{giFull.assessment[0].id}}<br>
+xx {{giFull.assessment[0].dataProcessScope}}<br>
+xx {{giFull.assessment[0].engine}}<br>
+xx {{giFull.assessment[0].trigger}}<br>
+<br>
+
+Use SOWO Editor to edit rules.<br><br><br><br>
+
+
+<!-- 
+xx {{giFull.assessment[0].rules.so1.name}}<br>
+xx {{giFull.assessment[0].rules.so1.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.so2.name}}<br>
+xx {{giFull.assessment[0].rules.so2.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.so3.name}}<br>
+xx {{giFull.assessment[0].rules.so3.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.so4.name}}<br>
+xx {{giFull.assessment[0].rules.so4.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.so5.name}}<br>
+xx {{giFull.assessment[0].rules.so5.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.wo1.name}}<br>
+xx {{giFull.assessment[0].rules.wo1.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.wo2.name}}<br>
+xx {{giFull.assessment[0].rules.wo2.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.wo3.name}}<br>
+xx {{giFull.assessment[0].rules.wo3.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.wo4.name}}<br>
+xx {{giFull.assessment[0].rules.wo4.description}}<br><br>
+
+<br>
+xx {{giFull.assessment[0].rules.wo5.name}}<br>
+xx {{giFull.assessment[0].rules.wo5.description}}<br><br>
+ -->
+
+<br><br>
+
+xxxxxx {{giFull.assessment[0]}}<br>
+yyyyyy
+<br><br><br>
+
+
+
+
+
+
+
+
+<!-- 
+{{giFull}}<br>
+
+<br><br><br>
+ -->
+
+              </h4>
+
+<!-- logo{ small, large} -->
+
+<!-- description -->
+
+            </div>
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Details </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Developer xxxxxxxxxxxxxName <br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.name'/><br>
+                </div>
+                <div style="float: right; width: 35%;">
+                  Developer xxxxxxxxxxxxxxxxID <br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.developer.id'/><br>
+                </div>
+                <br><br><br>
+                <div>
+
+                  {{giBasic.developer.logo.small}}<br>
+                  {{giBasic.developer.logo.large}}<br>
+
+<br><br><br>
+
+xx {{giFull.details}}<br>
+
+<br><br><br><br><br><br>
+
+
+
+
+
+                </div>
+
+              </h4>
+
+          </div>
+
+<br><br><br><br>
+{{giKeys}}<br>
+{{giBasicKeys}}<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </tab>
+
+        <!-- ----------------    ---------------- -->
+
+        <tab heading="Admin Only">
+
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <div class="groupbox" style="height:120px">
+              <font color="blue"> Name </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Full Game Name<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.longName'/><br>
+                </div>
+                <div style="float: right; width: 35%;">
+                  Short Game Name<br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.shortName'/><br>
+                </div>
+              </h4>
+            </div>
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Control Info </font><br>
+
+              <h4>
+                <div>
+                  {{giFull.basic.gameId}} Switches <br><br>
+
+                  <input type="checkbox" name="enabled" ng-model="giFull.basic.enabled"> Enabled<br>
+
+                  <input type="checkbox" name="visible" ng-model="giFull.basic.visible"> Visible<br><br>
+
+                  <!-- xx {{giFull.basic.maintenance}}<br>
+                  <!-- "maintenance": null, -->
+
+                  <input type="checkbox" name="mplock" ng-model="giFull.basic.settings.missionProgressLock"> Mission Progress Lock<br>
+
+                  <input type="checkbox" name="cancm" ng-model="giFull.basic.settings.canCreateMatches"> Can Create Matches <br>
+
+                  <br><br>
+                  Play Type:
+                  <input type="text" id="keykey" size="12" ng-model='giFull.basic.play.type'/><br>
+
+                  <div ng-show="giFull.basic.play.type == 'page'">
+                  <!-- <div ng-show= false > -->
+
+                    <br> Page Title:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.title'/><br>
+
+                    Page Format:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.format'/><br>
+
+                    Page Width:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.size.width'/><br>
+
+                    Page Height:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.size.height'/><br>
+
+                    Page Embeded Link <br>
+                    <input type="text" id="keykey" size="96" ng-model='giFull.basic.play.page.embed'/><br>
+                  </div>
+
+                </div>
+              </h4>
+            </div>
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Developer Info </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Developer Name <br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.name'/><br>
+                </div>
+
+                <div style="float: right; width: 35%;">
+                  Developer ID <br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.developer.id'/><br>
+                </div>
+
+                <div style="float: left; width: 65%;">
+                  <img src="{{giBasic.developer.logo.small}}" style="width:80px;height:80px"><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.logo.small'/>
+                  <br><br>
+                </div>
+
+                <div style="float: right; width: 35%;">
+                  <img src="{{giBasic.developer.logo.large}}" style="width:80px;height:80px"><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.logo.large'/>
+                  <br><br>
+                </div>
+
+                <div>
+                  Description <br>
+                  <textarea id="keykey" cols="96" rows="10" ng-model="giBasic.developer.description"></textarea>
+                  <br><br>
+
+                </div>
+              </h4>
+            </div>
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveGameInfoChanges()"> Save Changes </button>
+            </h1>
+
+          </div>
+        </tab>
+
+
+
+
 
 
 
@@ -274,6 +794,8 @@
 
         <!-- <tab heading="Developer"> -->
         <!-- </tab> -->
+
+
 
       </tabset>
       </h3>
