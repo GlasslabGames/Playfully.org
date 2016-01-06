@@ -416,6 +416,11 @@ angular.module('developer.games', [
         //      return target;
         //  }, {});
 
+        $scope.giFull = gameInfo;
+
+        $scope.giKeys = Object.keys(gameInfo);
+        $scope.giBasicKeys = Object.keys(gameInfo.basic);
+
         $scope.giBasic = gameInfo.basic;
         $scope.fullName = gameInfo.basic.shortName;
         $scope.shortName = gameInfo.basic.shortName;
@@ -423,6 +428,7 @@ angular.module('developer.games', [
         $scope.playlink = "";
 
         $scope.dbgdmp = gameInfo;
+
 
         if (gameInfo && gameInfo.basic && gameInfo.basic.play) {
             if ("page" == gameInfo.basic.play.type) {
@@ -479,6 +485,62 @@ angular.module('developer.games', [
         solen = $scope.soitems.length;
         wolen = $scope.woitems.length;
 
+
+        // To avoid editing errors and mis-matches the Reports tab should really be 
+        // merged with SOWO tab.
+
+        // It might be problematic that the SOWO reports data is in
+        // a different object array than the SOWO data (assessment vs. reports).
+
+        // Reports setup
+
+        $scope.sorepitems = [];
+        $scope.worepitems = [];
+
+
+/*
+      Rule ID: {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
+      Rule Name: {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
+      Rule Description <br>
+      <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[0].description"></textarea><br><br>
+*/
+
+/*
+        if(!gameInfo.hasOwnProperty('reports')) {
+            gameInfo.reports = {};
+        }
+
+        if(!gameInfo.reports.hasOwnProperty('list')) {
+            gameInfo.reports.list = [];
+        }
+
+        if(gameInfo.reports.list.length < 1) {
+            gameInfo.reports.list[0] = {};
+        }
+
+        if(!gameInfo.reports.list[0].hasOwnProperty('id')) {
+            gameInfo.reports.list[0].id = 'so';
+        }
+*/
+/*
+
+xx1 {{giFull.reports.list[0].id}}<br>
+xx2 {{giFull.reports.list[0].enabled}}<br>
+xx3 {{giFull.reports.list[0].name}}<br>
+xx4 {{giFull.reports.list[0].header.text}}<br>
+xx5 {{giFull.reports.list[0].header.image}}<br>
+xx6 {{giFull.reports.list[0].header.skinny}}<br>
+xx7 {{giFull.reports.list[0].header.large}}<br>
+xx8 {{giFull.reports.list[0].description}}<br><br>
+
+12 xx {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
+13 xx {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
+14 xx {{giFull.reports.list[0].table.groups[0].headers[0].description}}<br><br>
+*/
+
+
+
+
         // Basic functions
 
         $scope.onChange = function(data, tabName) {
@@ -486,8 +548,8 @@ angular.module('developer.games', [
             $scope.fullData[tabName] = data;
         };
 
-        $scope.saveBasicInfo = function() {
-            console.log('        calling saveBasicInfo() ... ');
+        $scope.saveGameInfoChanges = function() {
+            console.log('        calling saveGameInfoChanges() ... ');
         //  console.log('        passing $scope.fullData =', $scope.fullData);
             return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData);
         };

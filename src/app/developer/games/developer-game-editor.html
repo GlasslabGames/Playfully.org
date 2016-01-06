@@ -40,7 +40,12 @@
 
       <h3>
 
+
+
       <tabset>
+
+        <!-- ----------------    ---------------- -->
+
         <tab heading="Basic">
 
           <div class="bigbox">
@@ -138,7 +143,7 @@
                   Small Icon<br>
                   <input type="text" id="keykey" size="40" ng-model='giBasic.thumbnail.small'/><br>
                   Large Icon<br>
-                  <input type="text" id="keykey" size="40" ng-model='giBasic.xxxxxxxx'/><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.thumbnail.large'/><br>
                 </div>
 
                 <div style="float: left; width: 15%;">
@@ -195,7 +200,7 @@
 
             <h1>
               {{gameId}}
-              <button class="btn btn-default" type="button" ng-click="saveBasicInfo()"> Save Draft </button>
+              <button class="btn btn-default" type="button" ng-click="saveGameInfoChanges()"> Save Changes </button>
               <!-- <button class="btn btn-default" type="button" ng-click="submitBasicInfo()"> Submit for Review </button> -->
             </h1>
 
@@ -206,8 +211,35 @@
         <!-- ----------------    ---------------- -->
 
         <tab heading="SOWO">
+        <!-- Assessment -->
+
           <div class="bigbox">
             Game ID # {{gameId}}
+
+            <div class="groupbox">
+              <font color="blue"> SOWO stuff ... </font><br>
+
+              <h4>
+                <input type="checkbox" name="enabled" ng-model="giFull.assessment[0].enabled"> Enabled <br>
+
+                <div style="float: left"> <!-- "float: left; width: 40%" -->
+
+                  ID: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].id"/><br>
+
+                  trigger: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].trigger"/><br><br>
+
+                </div>
+
+                <div style="float: right"> <!-- "float: right; width: 40%" -->
+
+                  engine: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].engine"/><br>
+
+                  dataProcessScope: <input type="text" id="keykey" size="24" ng-model="giFull.assessment[0].dataProcessScope"/><br>
+                </div>
+                <br><br><br>
+
+              </h4>
+            </div>
 
             <div class="groupbox">
               <font color="blue"> Shout Outs </font><br>
@@ -251,7 +283,7 @@
 
             <h1>
               {{gameId}}
-              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Draft </button>
+              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Changes </button>
               <!-- <button class="btn btn-default" type="button" ng-click="submitSowoInfo()"> Submit for Review </button> -->
             </h1>
 
@@ -260,6 +292,217 @@
         </tab>
 
         <!-- ----------------    ---------------- -->
+
+        <tab heading="Reports">
+
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Full Game Name </font><br>
+              <h4>
+                {{giBasic.longName}}
+              </h4>
+            </div>
+
+            <div ng-repeat="element in giFull.reports.list track by $index">
+              list {{$index}} <br>
+
+              <!-- <div ng-show="giFull.reports.list[$index]"> -->
+                <div class="groupbox">
+                  <font color="blue">
+                    [{{$index}}] ID: {{element.id}}<br>
+                  </font>
+
+                  <h4>
+
+                    <div>
+                      <input type="checkbox" name="enabled" ng-model="element.enabled"> Reports Enabled <br><br>
+
+                      <div ng-show="element.enabled">
+
+                        reports.list[{{$index}}].name <br>
+                        <input type="text" id="keykey" size="40" ng-model="element.name"/><br><br>
+
+reports.list[{{$index}}].header.text <br>
+<input type="text" id="keykey" size="40" ng-model="element.header.text"/><br><br>
+
+<!-- <img src="{{element.header.image}}" style="width:770px"><br> -->
+
+<img src="{{element.header.image}}" onload="this.width*=0.80;"><br>
+header.image: <input type="text" id="keykey" size="40" ng-model="element.header.image"/><br><br>
+
+
+<img src="{{element.header.skinny}}" onload="this.width*=0.40"><br>
+header.skinny: <input type="text" id="keykey" size="40" ng-model="element.header.skinny"/><br><br>
+
+<img src="{{element.header.large}}" onload="this.width*=0.40"><br>
+header.large: <input type="text" id="keykey" size="40" ng-model="element.header.large"/><br><br>
+
+Report Description <br>
+<textarea id="keykey" cols="96" rows="3" ng-model="element.description"></textarea>
+<br><br><br>
+
+                        <!-- When is this used ? -->
+                        <!-- table.labels = {{element.table.labels}}<br><br> -->
+
+                        <div ng-repeat="gel in element.table.groups">
+
+                          Table Group index: {{$index}}<br>
+                          Table Group ID: {{gel.id}}<br>
+                          Table Group Title: <input type="text" id="keykey" size="20" ng-model="gel.title"/><br><br><br>
+
+
+                          <div ng-repeat="headel in gel.headers">
+
+                            index: {{$index}} - id: <input type="text" id="keykey" size="6" ng-model="headel.id"/> title: <input type="text" id="keykey" size="24" ng-model="headel.title"/><br>
+
+                            description <br>
+                            <textarea id="keykey" cols="96" rows="2" ng-model="headel.description"></textarea><br><br>
+
+                          </div>
+                        </div>
+
+                        <!-- <br><br><br><br> -->
+                        <!-- table.groups = {{element.table.groups}}<br> -->
+
+                      </div>
+                    </div>
+                  </h4>
+
+                <!-- end of groupbox -->
+                </div>
+              <!-- end of ng-show -->
+              <!-- </div> -->
+            <!-- end of ng-repeat -->
+            </div>
+
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveSowoInfo()"> Save Changes </button>
+              <!-- <button class="btn btn-default" type="button" ng-click="submitSowoInfo()"> Submit for Review </button> -->
+            </h1>
+
+          </div>
+        </tab>
+
+        <!-- ----------------    ---------------- -->
+
+        <tab heading="Admin Only">
+
+          <div class="bigbox">
+            Game ID # {{gameId}}
+
+            <div class="groupbox" style="height:120px">
+              <font color="blue"> Name </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Full Game Name<br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.longName'/><br>
+                </div>
+                <div style="float: right; width: 35%;">
+                  Short Game Name<br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.shortName'/><br>
+                </div>
+              </h4>
+            </div>
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Control Info </font><br>
+
+              <h4>
+                <div>
+                  {{giFull.basic.gameId}} Switches <br><br>
+
+                  <input type="checkbox" name="enabled" ng-model="giFull.basic.enabled"> Enabled<br>
+
+                  <input type="checkbox" name="visible" ng-model="giFull.basic.visible"> Visible<br><br>
+
+                  <!-- xx {{giFull.basic.maintenance}}<br>
+                  <!-- "maintenance": null, -->
+
+                  <input type="checkbox" name="mplock" ng-model="giFull.basic.settings.missionProgressLock"> Mission Progress Lock<br>
+
+                  <input type="checkbox" name="cancm" ng-model="giFull.basic.settings.canCreateMatches"> Can Create Matches <br>
+
+                  <br><br>
+                  Play Type:
+                  <input type="text" id="keykey" size="12" ng-model='giFull.basic.play.type'/><br>
+
+                  <div ng-show="giFull.basic.play.type == 'page'">
+                  <!-- <div ng-show= false > -->
+
+                    <br> Page Title:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.title'/><br>
+
+                    Page Format:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.format'/><br>
+
+                    Page Width:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.size.width'/><br>
+
+                    Page Height:
+                    <input type="text" id="keykey" size="40" ng-model='giFull.basic.play.page.size.height'/><br>
+
+                    Page Embeded Link <br>
+                    <input type="text" id="keykey" size="96" ng-model='giFull.basic.play.page.embed'/><br>
+                  </div>
+
+                </div>
+              </h4>
+            </div>
+
+            <!-- <div class="groupbox" style="height:120px"> -->
+            <div class="groupbox">
+              <font color="blue"> Developer Info </font><br>
+
+              <h4>
+                <div style="float: left; width: 65%;">
+                  Developer Name <br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.name'/><br>
+                </div>
+
+                <div style="float: right; width: 35%;">
+                  Developer ID <br>
+                  <input type="text" id="keykey" size="25" ng-model='giBasic.developer.id'/><br>
+                </div>
+
+                <div style="float: left; width: 65%;">
+                  <img src="{{giBasic.developer.logo.small}}" style="width:80px;height:80px"><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.logo.small'/>
+                  <br><br>
+                </div>
+
+                <div style="float: right; width: 35%;">
+                  <img src="{{giBasic.developer.logo.large}}" style="width:80px;height:80px"><br>
+                  <input type="text" id="keykey" size="40" ng-model='giBasic.developer.logo.large'/>
+                  <br><br>
+                </div>
+
+                <div>
+                  Description <br>
+                  <textarea id="keykey" cols="96" rows="10" ng-model="giBasic.developer.description"></textarea>
+                  <br><br>
+
+                </div>
+              </h4>
+            </div>
+
+            <h1>
+              {{gameId}}
+              <button class="btn btn-default" type="button" ng-click="saveGameInfoChanges()"> Save Changes </button>
+            </h1>
+
+          </div>
+        </tab>
+
+
+
+
 
 
 
@@ -274,6 +517,8 @@
 
         <!-- <tab heading="Developer"> -->
         <!-- </tab> -->
+
+
 
       </tabset>
       </h3>
