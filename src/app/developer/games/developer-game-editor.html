@@ -40,7 +40,12 @@
 
       <h3>
 
+
+
       <tabset>
+
+        <!-- ----------------    ---------------- -->
+
         <tab heading="Basic">
 
           <div class="bigbox">
@@ -206,9 +211,35 @@
         <!-- ----------------    ---------------- -->
 
         <tab heading="SOWO">
+        <!-- Assessment -->
 
           <div class="bigbox">
             Game ID # {{gameId}}
+
+            <div class="groupbox">
+              <font color="blue"> SOWO stuff ... </font><br>
+
+              <h4>
+                <input type="checkbox" name="enabled" ng-model="giFull.assessment[0].enabled"> Enabled <br>
+
+                <div style="float: left"> <!-- "float: left; width: 40%" -->
+
+                  ID: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].id"/><br>
+
+                  trigger: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].trigger"/><br><br>
+
+                </div>
+
+                <div style="float: right"> <!-- "float: right; width: 40%" -->
+
+                  engine: <input type="text" id="keykey" size="16" ng-model="giFull.assessment[0].engine"/><br>
+
+                  dataProcessScope: <input type="text" id="keykey" size="24" ng-model="giFull.assessment[0].dataProcessScope"/><br>
+                </div>
+                <br><br><br>
+
+              </h4>
+            </div>
 
             <div class="groupbox">
               <font color="blue"> Shout Outs </font><br>
@@ -260,23 +291,9 @@
 
         </tab>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <!-- ----------------    ---------------- -->
 
-        <tab heading=" Reports ">
+        <tab heading="Reports">
 
           <div class="bigbox">
             Game ID # {{gameId}}
@@ -289,111 +306,78 @@
               </h4>
             </div>
 
-            <div class="groupbox">
-              <font color="blue"> ID: {{giFull.reports.list[0].id}}<br>
-                {{giFull.reports.list[0].name}}<br>
-              </font>
+            <div ng-repeat="element in giFull.reports.list track by $index">
+              list {{$index}} <br>
 
-              <h4>
-                <div>
-                  <!-- Enabled <input type="text" id="keykey" size="8" ng-model="giFull.reports.list[0].enabled"/> -->
+              <!-- <div ng-show="giFull.reports.list[$index]"> -->
+                <div class="groupbox">
+                  <font color="blue">
+                    [{{$index}}] ID: {{element.id}}<br>
+                  </font>
 
-                  <input type="checkbox" name="enabled" ng-model="giFull.reports.list[0].enabled"> Reports Enabled <br><br>
+                  <h4>
 
-          <div ng-show="giFull.reports.list[0].enabled">
+                    <div>
+                      <input type="checkbox" name="enabled" ng-model="element.enabled"> Reports Enabled <br><br>
 
+                      <div ng-show="element.enabled">
 
-                  Report Description <br>
-                  <textarea id="keykey" cols="96" rows="4" ng-model="giFull.reports.list[0].description"></textarea><br><br>
+                        reports.list[{{$index}}].name <br>
+                        <input type="text" id="keykey" size="40" ng-model="element.name"/><br><br>
 
-<!-- 
-                  Labels <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.labels"></textarea><br>
- -->
+reports.list[{{$index}}].header.text <br>
+<input type="text" id="keykey" size="40" ng-model="element.header.text"/><br><br>
 
-<!-- 
-                  Groups <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups"></textarea><br>
- -->
+<!-- <img src="{{element.header.image}}" style="width:770px"><br> -->
 
-                  List ID: {{giFull.reports.list[0].table.groups[0].id}}<br>
-                  List Name: {{giFull.reports.list[0].table.groups[0].title}}<br><br>
-
-                  ----------------<br><br>
-<!-- 
-                  <div ng-repeat="item in sorepitems track by $index">
-
-                  </div>
- -->
+<img src="{{element.header.image}}" onload="this.width*=0.80;"><br>
+header.image: <input type="text" id="keykey" size="40" ng-model="element.header.image"/><br><br>
 
 
-                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
-                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
-                  Rule Description <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[0].description"></textarea><br><br>
+<img src="{{element.header.skinny}}" onload="this.width*=0.40"><br>
+header.skinny: <input type="text" id="keykey" size="40" ng-model="element.header.skinny"/><br><br>
 
-                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[1].id}}<br>
-                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[1].title}}<br>
-                  Rule Description <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[1].description"></textarea><br><br>
+<img src="{{element.header.large}}" onload="this.width*=0.40"><br>
+header.large: <input type="text" id="keykey" size="40" ng-model="element.header.large"/><br><br>
 
-                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[2].id}}<br>
-                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[2].title}}<br>
-                  Rule Description <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[2].description"></textarea><br><br>
+Report Description <br>
+<textarea id="keykey" cols="96" rows="3" ng-model="element.description"></textarea>
+<br><br><br>
 
-                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[3].id}}<br>
-                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[3].title}}<br>
-                  Rule Description <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[3].description"></textarea><br><br>
+                        <!-- When is this used ? -->
+                        <!-- table.labels = {{element.table.labels}}<br><br> -->
 
-                  Rule ID: {{giFull.reports.list[0].table.groups[0].headers[4].id}}<br>
-                  Rule Name: {{giFull.reports.list[0].table.groups[0].headers[4].title}}<br>
-                  Rule Description <br>
-                  <textarea id="keykey" cols="96" rows="2" ng-model="giFull.reports.list[0].table.groups[0].headers[4].description"></textarea><br><br>
+                        <div ng-repeat="gel in element.table.groups">
+
+                          Table Group index: {{$index}}<br>
+                          Table Group ID: {{gel.id}}<br>
+                          Table Group Title: <input type="text" id="keykey" size="20" ng-model="gel.title"/><br><br><br>
 
 
-          </div>
+                          <div ng-repeat="headel in gel.headers">
 
+                            index: {{$index}} - id: <input type="text" id="keykey" size="6" ng-model="headel.id"/> title: <input type="text" id="keykey" size="24" ng-model="headel.title"/><br>
 
+                            description <br>
+                            <textarea id="keykey" cols="96" rows="2" ng-model="headel.description"></textarea><br><br>
 
+                          </div>
+                        </div>
 
+                        <!-- <br><br><br><br> -->
+                        <!-- table.groups = {{element.table.groups}}<br> -->
 
-                <div ng-repeat="item in repSoItems track by $index">
-                  Rule {{item["id"]}} Name: <br>
-                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
+                      </div>
+                    </div>
+                  </h4>
 
-                  Rule Description:<br>
-                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
-
-                  <!-- <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br> -->
+                <!-- end of groupbox -->
                 </div>
-
-<!-- 
-
-
-                <div ng-repeat="item in repSoItems track by $index">
-                  {{item["id"]}} name: <br>
-                  <input type="text" id="keykey" size="40" ng-model='item["name"]'/><br>
-
-                  description:<br>
-                  <textarea id="keykey" cols="98" rows="2" ng-model='item["description"]'/></textarea>
-
-                  <button class="btn btn-default" type="button" ng-click="deleteShoutRule($index)">Del</button><br><br>
-                </div>
-
-
- -->
-
-
-
-
-                  <br><br><br><br>
-
-                </div>
-              </h4>
-
+              <!-- end of ng-show -->
+              <!-- </div> -->
+            <!-- end of ng-repeat -->
             </div>
+
 
             <h1>
               {{gameId}}
@@ -402,200 +386,15 @@
             </h1>
 
           </div>
-
-
-
-
-
-<br><br><br><br>
-
-xx1 {{giFull.reports.list[0].id}}<br>
-xx2 {{giFull.reports.list[0].enabled}}<br>
-xx3 {{giFull.reports.list[0].name}}<br>
-xx4 {{giFull.reports.list[0].header.text}}<br>
-xx5 {{giFull.reports.list[0].header.image}}<br>
-xx6 {{giFull.reports.list[0].header.skinny}}<br>
-xx7 {{giFull.reports.list[0].header.large}}<br>
-xx8 {{giFull.reports.list[0].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.labels}}<br><br>
-<!-- 
-xx {{giFull.reports.list[0].table.groups}}<br>
- -->
-10 xx {{giFull.reports.list[0].table.groups[0].id}}<br>
-11 xx {{giFull.reports.list[0].table.groups[0].title}}<br><br>
-
-12 xx {{giFull.reports.list[0].table.groups[0].headers[0].id}}<br>
-13 xx {{giFull.reports.list[0].table.groups[0].headers[0].title}}<br>
-14 xx {{giFull.reports.list[0].table.groups[0].headers[0].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[0].headers[1].id}}<br>
-xx {{giFull.reports.list[0].table.groups[0].headers[1].title}}<br>
-xx {{giFull.reports.list[0].table.groups[0].headers[1].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[0].headers[2].id}}<br>
-xx {{giFull.reports.list[0].table.groups[0].headers[2].title}}<br>
-xx {{giFull.reports.list[0].table.groups[0].headers[2].description}}<br><br>
-<!-- 
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0].xxxxxxxxxxx}}<br><br>
-xx {{giFull.reports.list[0]}}<br><br>
- -->
-
---------<br>
-
-xx {{giFull.reports.list[0].table.groups[1].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].title}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[1].headers[0].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[0].title}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[0].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[1].headers[1].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[1].title}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[1].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[1].headers[2].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[2].title}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[2].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[1].headers[3].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[3].title}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[3].description}}<br><br>
-
-xx {{giFull.reports.list[0].table.groups[1].headers[4].id}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[4].title}}<br>
-xx {{giFull.reports.list[0].table.groups[1].headers[4].description}}<br><br>
-
-
-
-
-
-
-
-xx {{giFull.reports.list[1]}}<br><br>
-
-
-xxxx {{giFull.reports.list}}<br><br>
-
-xx {{giFull.reports}}<br><br>
-
-<br><br><br>
-
-
-
-
-
         </tab>
-
-
-
-
-
-
 
         <!-- ----------------    ---------------- -->
 
-        <tab heading="xxxxxxxxx xxxxxxxxx xxxxxxxxx">
-
-
-
-
-
-
-
-
+        <tab heading="Details (WIP)">
 
             <!-- <div class="groupbox" style="height:120px"> -->
             <div class="groupbox">
-              <font color="blue"> xxxxxxxxxxxxxxxxxxxxxx </font><br>
-
-              <h4>
-
-
-
-
-
-<br><br><br><br>
-giFull.assessment ***<br><br>
-
-xx {{giFull.assessment[0].enabled}}<br>
-xx {{giFull.assessment[0].id}}<br>
-xx {{giFull.assessment[0].dataProcessScope}}<br>
-xx {{giFull.assessment[0].engine}}<br>
-xx {{giFull.assessment[0].trigger}}<br>
-<br>
-
-Use SOWO Editor to edit rules.<br><br><br><br>
-
-
-<!-- 
-xx {{giFull.assessment[0].rules.so1.name}}<br>
-xx {{giFull.assessment[0].rules.so1.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.so2.name}}<br>
-xx {{giFull.assessment[0].rules.so2.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.so3.name}}<br>
-xx {{giFull.assessment[0].rules.so3.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.so4.name}}<br>
-xx {{giFull.assessment[0].rules.so4.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.so5.name}}<br>
-xx {{giFull.assessment[0].rules.so5.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.wo1.name}}<br>
-xx {{giFull.assessment[0].rules.wo1.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.wo2.name}}<br>
-xx {{giFull.assessment[0].rules.wo2.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.wo3.name}}<br>
-xx {{giFull.assessment[0].rules.wo3.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.wo4.name}}<br>
-xx {{giFull.assessment[0].rules.wo4.description}}<br><br>
-
-<br>
-xx {{giFull.assessment[0].rules.wo5.name}}<br>
-xx {{giFull.assessment[0].rules.wo5.description}}<br><br>
- -->
-
-<br><br>
-
-xxxxxx {{giFull.assessment[0]}}<br>
-yyyyyy
-<br><br><br>
-
-
-
-
-
-
-
-
-<!-- 
-{{giFull}}<br>
-
-<br><br><br>
- -->
-
-              </h4>
-
-<!-- logo{ small, large} -->
+              <font color="blue"> xxxxxxxxxx xxxxxxxxxxxx </font><br>
 
 <!-- description -->
 
@@ -622,6 +421,12 @@ yyyyyy
 
 <br><br><br>
 
+
+                  giFull.details <br>
+                  <textarea id="keykey" cols="96" rows="10" ng-model="giFull.details"></textarea>
+                  <br><br>
+
+
 xx {{giFull.details}}<br>
 
 <br><br><br><br><br><br>
@@ -635,34 +440,6 @@ xx {{giFull.details}}<br>
               </h4>
 
           </div>
-
-<br><br><br><br>
-{{giKeys}}<br>
-{{giBasicKeys}}<br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </tab>
 
         <!-- ----------------    ---------------- -->

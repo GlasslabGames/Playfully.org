@@ -485,6 +485,13 @@ angular.module('developer.games', [
         solen = $scope.soitems.length;
         wolen = $scope.woitems.length;
 
+
+        // To avoid editing errors and mis-matches the Reports tab should really be 
+        // merged with SOWO tab.
+
+        // It might be problematic that the SOWO reports data is in
+        // a different object array than the SOWO data (assessment vs. reports).
+
         // Reports setup
 
         $scope.sorepitems = [];
