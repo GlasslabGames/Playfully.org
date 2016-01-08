@@ -825,7 +825,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 "details": {
                     "shortDescription": gameInfo.basic.description,
                     "longDescription": gameInfo.details.pages.product.about,
-                    "curriculum": gameInfo.details.pages.product.curriculum.join("\n")
+                    "curriculum": [].concat(gameInfo.details.pages.product.curriculum).join("\n")
                 },
                 "resources": {
                     "video": gameInfo.details.pages.product.video,
