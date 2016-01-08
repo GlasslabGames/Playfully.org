@@ -742,13 +742,16 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             "title": "Link",
                             "properties": {
                                 "name": {
-                                    "type": "string"
+                                    "type": "string",
+                                    "options": {
+                                        "input_width": "310px"
+                                    }
                                 },
                                 "link": {
                                     "type": "string",
                                     "format": "url",
                                     "options": {
-                                        "input_width": "600px"
+                                        "input_width": "500px"
                                     }
                                 }
                             }
