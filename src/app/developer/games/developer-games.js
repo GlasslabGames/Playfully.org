@@ -733,6 +733,30 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             }
                         }
                     },
+                    "lessonPlans": {
+                        "type": "array",
+                        "format": "table",
+                        "title": "Lesson Plans",
+                        "items": {
+                            "type": "object",
+                            "title": "Link",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "link": {
+                                    "type": "string",
+                                    "format": "url",
+                                    "options": {
+                                        "input_width": "600px"
+                                    }
+                                }
+                            }
+                        },
+                        "options": {
+                            "grid_columns": 12
+                        }
+                    },
                     "developer": {
                         "type": "object",
                         "format": "grid",
@@ -804,6 +828,9 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                     "$ref": "#/definitions/image_url"
                                 }
                             }
+                        },
+                        "options": {
+                            "grid_columns": 12
                         }
                     }
                 }
@@ -831,6 +858,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "video": gameInfo.details.pages.product.video,
                     "brochure": gameInfo.details.pages.product.brochure
                 },
+                "lessonPlans": gameInfo.details.pages.lessonPlans.list[0].list,
                 "developer": {
                     "name": gameInfo.basic.developer.name,
                     "description": gameInfo.basic.developer.description,
