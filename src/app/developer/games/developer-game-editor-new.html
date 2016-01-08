@@ -2,12 +2,14 @@
   <div class="row">
     <div class="col-md-12">
 
-      <!--<button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>-->
+      <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
 
       <div class="gl-dev-editor">
-        <json-editor schema="schema" startval="data"
-                     on-change="onChange($editorValue)" extra-options="JSONEditorOptions"></json-editor>
+        <json-editor schema="editorSchema" startval="editorData"
+                     on-change="onChange($editorValue)" extra-options="editorOptions"></json-editor>
       </div>
+
+      <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
 
     </div>
   </div>

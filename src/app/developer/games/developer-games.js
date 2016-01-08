@@ -455,7 +455,7 @@ angular.module('developer.games', [
         wolen = $scope.woitems.length;
 
 
-        // To avoid editing errors and mis-matches the Reports tab should really be 
+        // To avoid editing errors and mis-matches the Reports tab should really be
         // merged with SOWO tab.
 
         // It might be problematic that the SOWO reports data is in
@@ -606,7 +606,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             $scope.gameId = $stateParams.gameId;
             $scope.fullData = gameInfo;
 
-            $scope.schema = {
+            $scope.editorSchema = {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "id": "http://developer.playfully.org/api/v2/dash/developer/info/schema-frontend",
                 "title": "Game ID # "+$scope.gameId,
@@ -658,7 +658,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             },
                             "applink": {
                                 "type": "string",
-                                "title": "App Link",
+                                "title": "iPad App Link",
                                 "format": "url",
                                 "options": {
                                     "grid_columns": 4
@@ -836,15 +836,17 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
             };
 
-            console.log("schema", $scope.schema);
-
-            $scope.data = {
+            $scope.editorData = {
                 "name": {
                     "longName": gameInfo.basic.longName,
                     "shortName": gameInfo.basic.shortName
                 },
                 "basics": {
-                    "platform": gameInfo.basic.platform.type,
+                    "platform": (function(p){
+                        if (p.match(/pc.*mac/i)) { return "PC/Mac";  }
+                        if (p.match(/browser/i)) { return "Browser"; }
+                        if (p.match(/ipad/i)   ) { return "iPad";    }
+                    })(gameInfo.basic.platform.type),
                     "subject": gameInfo.basic.subject,
                     "gradeLevel": gameInfo.basic.grades,
                     "applink": gameInfo.details.applink
@@ -873,27 +875,78 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             };
 
 
-
-
-
             $scope.saveInfo = function() {
-                //return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
+                return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
             };
 
             $scope.onChange = function(data) {
 
                 console.log("onChange", JSON.stringify(data, null, 2));
-                $scope.data = data;
+                $scope.editorData = data;
+
+                var updatedInfo = $scope.fullData;
+                updatedInfo.basic.longName = data.name.longName;
+                updatedInfo.basic.shortName = data.name.shortName;
+                updatedInfo.basic.platform.type = data.basics.platform;
+
+                var platformIconBase = (function(p){
+                        if (p.match(/pc.*mac/i)) { return "/assets/platform-client";  }
+                        if (p.match(/browser/i)) { return "/assets/platform-browser"; }
+                        if (p.match(/ipad/i)   ) { return "/assets/platform-ipad";    }
+                    })(data.basics.platform);
+                updatedInfo.basic.platform.icon.small = platformIconBase + ".png";
+                updatedInfo.basic.platform.icon.large = platformIconBase + "@2x.png";
+
+                updatedInfo.basic.subject = data.basics.subject;
+                updatedInfo.basic.grades = data.basics.gradeLevel;
+                updatedInfo.details.applink = data.basics.applink;
+
+                updatedInfo.basic.description = data.details.shortDescription;
+                updatedInfo.details.pages.product.about = data.details.longDescription;
+                updatedInfo.details.pages.product.curriculum = data.details.curriculum.split("\n");
+
+                updatedInfo.details.pages.product.video = data.resources.video;
+                updatedInfo.details.pages.product.brochure = data.resources.brochure;
+
+                if(!updatedInfo.details.pages.lessonPlans) {
+                    updatedInfo.details.pages.lessonPlans = {
+                        order: 3,
+                        enabled: true,
+                        authRequired: true,
+                        id: "lessonPlans",
+                        title: "Lesson Plans"
+                    };
+                }
+                if(!updatedInfo.details.pages.lessonPlans.list) {
+                    updatedInfo.details.pages.lessonPlans.list = [{category: "Lesson Plans"}];
+                }
+                updatedInfo.details.pages.lessonPlans.list[0].list = data.lessonPlans;
+
+                updatedInfo.basic.developer.name = data.developer.name;
+                updatedInfo.basic.developer.description = data.developer.description;
+
+                updatedInfo.basic.developer.logo.small =
+                    updatedInfo.basic.developer.logo.large = data.developer.logo;
+
+                updatedInfo.basic.banners.product =
+                    updatedInfo.basic.banners.reports = data.images.banner;
+
+                updatedInfo.basic.card.small =
+                    updatedInfo.basic.card.large = data.images.card;
+
+                updatedInfo.basic.thumbnail.small =
+                    updatedInfo.basic.thumbnail.large = data.images.thumbnail;
+
+                updatedInfo.details.pages.product.slideshow = data.slideshow;
             };
 
-            $scope.JSONEditorOptions = {
+            $scope.editorOptions = {
                 required_by_default: true,
                 disable_collapse: true,
                 disable_edit_json: true,
                 upload: function(type, file, cbs) {
                     var formData = new FormData();
-                    // TODO: check tabName/type and try to match advanced editor
-                    formData.append($scope.tabName + '.' + type.split('.').slice(1).join('.'), file, file.name);
+                    formData.append(type, file, file.name);
 
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
