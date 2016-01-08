@@ -113,11 +113,8 @@
 
                   <div ng-if="isSingleLinkType(button)"
                        ng-switch="button.links[0].type">
-                    <!-- temporarily hardcoded for initial launch -->
-                    <div ng-switch-when="ios-appstore"
-                         class="gl-game-app-store-download"
-                         ng-click="goToLink(button.links[0].link, button.links[0].target)">
-                    </div>
+                    <!-- app store links now use gameDetails.applink instead of gameDetails.buttons, see below -->
+                    <div ng-switch-when="ios-appstore"></div>
                     <button ng-switch-when="play"
                             type="button"
                             class="btn gl-btn--blue gl-games-sidebar-btn"
@@ -130,6 +127,10 @@
                             ng-bind="button.name">Play</button>
                   </div>
                 </div>
+              </div>
+              <div ng-if="gameDetails.applink"
+                   class="gl-game-app-store-download"
+                   ng-click="goToLink(gameDetails.applink, '_blank')">
               </div>
               <div ng-if="isAuthenticated()">
                 <button ng-if="!hasLicense() && !(gameDetails.price==='Free')" type="button"

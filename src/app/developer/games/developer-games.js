@@ -43,12 +43,12 @@ angular.module('developer.games', [
                 }
         })
 
-        .state('root.developerGames.editor', {
-            url: '/:gameId/editor',
+        .state('root.developerGames.editor-old', {
+            url: '/:gameId/editor/old',
             views: {
                 'main@': {
-                    templateUrl: 'developer/games/developer-game-editor.html',
-                    controller: 'DevGameEditorCtrl'
+                    templateUrl: 'developer/games/developer-game-editor-old.html',
+                    controller: 'DevGameOldEditorCtrl'
                 }
             },
             resolve: {
@@ -61,10 +61,29 @@ angular.module('developer.games', [
             },
             data: {
                 authorizedRoles: ['admin', 'developer'],
-                pageTitle: 'Game Editor'
+                pageTitle: 'Game Editor (Old)'
             }
         })
 
+
+        .state('root.developerGames.editor', {
+            url: '/:gameId/editor',
+            views: {
+                'main@': {
+                    templateUrl: 'developer/games/developer-game-editor-new.html',
+                    controller: 'DevGameEditorCtrl'
+                }
+            },
+            resolve: {
+                gameInfo: function ($stateParams, GamesService) {
+                    return GamesService.getDeveloperGameInfo($stateParams.gameId);
+                }
+            },
+            data: {
+                authorizedRoles: ['admin', 'developer'],
+                pageTitle: 'Game Editor'
+            }
+        })
 
 
         .state('root.developerGames.advanced-editor', {
@@ -107,10 +126,9 @@ angular.module('developer.games', [
             },
             data: {
                 authorizedRoles: ['admin', 'developer'],
-                pageTitle: 'Advanced Game Editor'
+                pageTitle: 'Raw JSON Editor'
             }
         })
-
 
         .state('root.developerGames.sowo-editor', {
             url: '/:gameId/sowo-editor',
@@ -164,31 +182,7 @@ angular.module('developer.games', [
                 pageTitle: 'Game Detail'
             }
         })
-        .state('root.developerGames.detail.product', {
-            url: '',
-            templateUrl: 'developer/games/developer-game-detail-product.html'
-        })
-        .state('root.developerGames.detail.standards', {
-            url: '/standards',
-            templateUrl: 'developer/games/developer-game-detail-standards.html'
-        })
-        .state('root.developerGames.detail.research', {
-            url: '/research',
-            templateUrl: 'developer/games/developer-game-detail-research.html'
-        })
-        .state('root.developerGames.detail.check', {
-            url: '/check',
-            templateUrl: 'developer/games/developer-game-detail-check-spec.html'
-        })
-        .state('root.developerGames.detail.reviews', {
-            url: '/reviews',
-            templateUrl: 'developer/games/developer-game-detail-reviews.html'
-        })
-        .state('root.developerGames.detail.lessonPlans', {
-            url: '/lesson-plans',
-            templateUrl: 'developer/games/developer-game-detail-lesson-plans.html',
-            data: {authorizedRoles: ['instructor', 'developer', 'admin']}
-        })
+
         .state('modal-lg.developer-edit', {
             url: '/games/:gameId/developer',
             data: {
@@ -362,32 +356,7 @@ angular.module('developer.games', [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    .controller('DevGameEditorCtrl',
+    .controller('DevGameOldEditorCtrl',
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService) {
 
         var max_shouts = 15;
@@ -632,26 +601,297 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
 
 
+    .controller('DevGameEditorCtrl',
+        function ($scope, $state, $stateParams, myGames, gameInfo, GamesService, API_BASE) {
+            $scope.gameId = $stateParams.gameId;
+            $scope.fullData = gameInfo;
+
+            $scope.schema = {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "id": "http://developer.playfully.org/api/v2/dash/developer/info/schema-frontend",
+                "title": "Game ID # "+$scope.gameId,
+                "type": "object",
+                "format": "grid",
+                "definitions": {
+                    "image_url": {
+                        "type": "string",
+                        "format": "url",
+                        "options": {
+                            "upload": true
+                        },
+                        "links": [
+                            {
+                                "href": "{{self}}",
+                                "mediaType": "image"
+                            }
+                        ]
+                    }
+                },
+                "properties": {
+                    "name": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Name",
+                        "properties": {
+                            "longName": {
+                                "type": "string",
+                                "title": "Full Game Name"
+                            },
+                            "shortName": {
+                                "type": "string",
+                                "title": "Short Game Name"
+                            }
+                        }
+                    },
+                    "basics": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Basics",
+                        "properties": {
+                            "platform": {
+                                "type": "string",
+                                "title": "Platform",
+                                "enum": ["iPad", "Browser", "PC/Mac"],
+                                "options": {
+                                    "grid_columns": 2
+                                }
+                            },
+                            "applink": {
+                                "type": "string",
+                                "title": "App Link",
+                                "format": "url",
+                                "options": {
+                                    "grid_columns": 4
+                                }
+                            },
+                            "subject": {
+                                "type": "string",
+                                "title": "Subject",
+                                "options": {
+                                    "grid_columns": 4
+                                }
+                            },
+                            "gradeLevel": {
+                                "type": "string",
+                                "title": "Grade Level",
+                                "description": "#-# format",
+                                "options": {
+                                    "grid_columns": 2
+                                }
+                            }
+                        }
+                    },
+                    "details": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Details",
+                        "properties": {
+                            "shortDescription": {
+                                "type": "string",
+                                "title": "Short Description",
+                                "format": "textarea",
+                                "options": {
+                                    "grid_columns": 4,
+                                    "input_height": "150px"
+                                }
+                            },
+                            "longDescription": {
+                                "type": "string",
+                                "title": "Long Description",
+                                "format": "textarea",
+                                "options": {
+                                    "grid_columns": 8,
+                                    "input_height": "150px"
+                                }
+                            },
+                            "curriculum": {
+                                "type": "string",
+                                "title": "How the Game fits the Curriculum",
+                                "description": "Appears as bullet points, one per line",
+                                "format": "textarea",
+                                "options": {
+                                    "grid_columns": 6,
+                                    "input_height": "150px"
+                                }
+                            }
+                        }
+                    },
+                    "resources": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Resources",
+                        "properties": {
+                            "video": {
+                                "type": "string",
+                                "title": "Link to Video",
+                                "format": "url"
+                            },
+                            "brochure": {
+                                "type": "string",
+                                "title": "Link to Brochure",
+                                "format": "url"
+                            }
+                        }
+                    },
+                    "developer": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Developer Info",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "title": "Developer Name",
+                                "options": {
+                                    "grid_columns": 3
+                                }
+                            },
+                            "logo": {
+                                "$ref": "#/definitions/image_url",
+                                "title": "Logo 60x60",
+                                "options": {
+                                    "grid_columns": 3
+                                }
+                            },
+                            "description": {
+                                "type": "string",
+                                "title": "Developer Description",
+                                "format": "textarea",
+                                "options": {
+                                    "grid_columns": 6,
+                                    "input_height": "150px"
+                                }
+                            }
+                        }
+                    },
+                    "images": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Game Images",
+                        "properties": {
+                            "thumbnail": {
+                                "$ref": "#/definitions/image_url",
+                                "title": "Thumbnail 150x120",
+                                "options": {
+                                    "grid_columns": 4
+                                }
+                            },
+                            "card": {
+                                "$ref": "#/definitions/image_url",
+                                "title": "Card 300x240",
+                                "options": {
+                                    "grid_columns": 8
+                                }
+                            },
+                            "banner": {
+                                "$ref": "#/definitions/image_url",
+                                "title": "Banner 940x300",
+                                "options": {
+                                    "grid_columns": 12
+                                }
+                            }
+                        }
+                    },
+                    "slideshow": {
+                        "type": "array",
+                        "title": "Product Slideshow",
+                        "description": "480x360",
+                        "format": "table",
+                        "items": {
+                            "type": "object",
+                            "title": "Slide",
+                            "properties": {
+                                "url": {
+                                    "$ref": "#/definitions/image_url"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            console.log("schema", $scope.schema);
+
+            $scope.data = {
+                "name": {
+                    "longName": gameInfo.basic.longName,
+                    "shortName": gameInfo.basic.shortName
+                },
+                "basics": {
+                    "platform": gameInfo.basic.platform.type,
+                    "subject": gameInfo.basic.subject,
+                    "gradeLevel": gameInfo.basic.grades,
+                    "applink": gameInfo.details.applink
+                },
+                "details": {
+                    "shortDescription": gameInfo.basic.description,
+                    "longDescription": gameInfo.details.pages.product.about,
+                    "curriculum": gameInfo.details.pages.product.curriculum.join("\n")
+                },
+                "resources": {
+                    "video": gameInfo.details.pages.product.video,
+                    "brochure": gameInfo.details.pages.product.brochure
+                },
+                "developer": {
+                    "name": gameInfo.basic.developer.name,
+                    "description": gameInfo.basic.developer.description,
+                    "logo": gameInfo.basic.developer.logo.small
+                },
+                "images": {
+                    "banner": gameInfo.basic.banners.product,
+                    "card": gameInfo.basic.card.small,
+                    "thumbnail": gameInfo.basic.thumbnail.small
+                },
+                "slideshow": gameInfo.details.pages.product.slideshow
+            };
 
 
 
 
 
+            $scope.saveInfo = function() {
+                //return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
+            };
 
+            $scope.onChange = function(data) {
 
+                console.log("onChange", JSON.stringify(data, null, 2));
+                $scope.data = data;
+            };
 
+            $scope.JSONEditorOptions = {
+                required_by_default: true,
+                disable_collapse: true,
+                disable_edit_json: true,
+                upload: function(type, file, cbs) {
+                    var formData = new FormData();
+                    // TODO: check tabName/type and try to match advanced editor
+                    formData.append($scope.tabName + '.' + type.split('.').slice(1).join('.'), file, file.name);
 
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
+                    xhr.upload.onprogress = function(evt) {
+                        var percentComplete = (evt.loaded / evt.total)*100;
+                        cbs.updateProgress(percentComplete);
+                    };
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            try {
+                                var response = JSON.parse(xhr.response);
+                                cbs.success(response.path);
+                            } catch(err) {
+                                cbs.failure('Upload failed');
+                                console.error(status, xhr.response);
+                            }
+                        } else {
+                            cbs.failure('Upload failed');
+                            console.error(status, xhr.response);
+                        }
+                    };
+                    xhr.send(formData);
+                }
+            };
 
-
-
-
-
-
-
-
-
-
-
+        })
 
 
 
