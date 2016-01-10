@@ -84,6 +84,8 @@ module.exports = {
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
       'vendor/angular-animate/angular-animate.min.js',
       'vendor/json-editor/dist/jsoneditor.js',
+      'vendor/marked/lib/marked.js',
+      'vendor/angular-marked/dist/angular-marked.js',
       'vendor/angular-ui-ace/ui-ace.js',
       'vendor/angular-json-editor/dist/angular-json-editor.js',
       'vendor/d3/d3.js',

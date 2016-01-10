@@ -1,6 +1,7 @@
 angular.module( 'playfully.games', [
   'ngOrderObjectBy',
   'ui.router',
+  'hc.marked',
   'games'
 ], function($compileProvider){
   // allow custom url

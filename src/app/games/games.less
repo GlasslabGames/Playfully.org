@@ -100,7 +100,7 @@
     justify-content: center;
     align-items: center;
     border-top: 1px solid #DDDDDD;
-    padding: 10px 0px 10px 0px;
+    padding: 22px 0;
     button {
       height: 36px;
       margin-left: 34px;
@@ -240,10 +240,30 @@
   margin-left: 25px;
 }
 
-.gl-standards-category {
+.gl-standards-category h5 {
   font-weight: bold;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.gl-standards-category-group ul,
+.gl-standards-category-group ol {
+  list-style: none;
+  padding: 0 10px;
+}
+.gl-standards-category-group li {
+  margin: 0 14px;
+}
+.gl-standards-category-group li:before {
+  content: "\2B24";
+  font-size: 9px;
+  position: relative;
+  top: -2px;
+  left: -9px;
+  color: @grey5;
+}
+
+.gl-standards-category-group-list {
+  margin: 0 0 10px;
 }
 
 .gl-standards-category-circle {
@@ -375,7 +395,7 @@
   width: 175px;
   height: 62px;
   background-repeat: no-repeat;
-  background-image: url("../assets/app-store-button.png");
+  background-image: url("/assets/app-store-button.png");
 }
 
 .gl-game-app-store-download:hover {

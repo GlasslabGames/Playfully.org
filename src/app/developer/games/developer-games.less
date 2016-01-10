@@ -119,18 +119,13 @@
 }
 
 .gl-dev-editor .table-bordered,
-//.gl-dev-editor .table-bordered > thead > tr > td,
-.gl-dev-editor .table-bordered > tbody > tr > td,
-.gl-dev-editor .table-bordered > tfoot > tr > td {
+.gl-dev-editor .table-bordered > thead > tr > th,
+.gl-dev-editor .table-bordered > tbody > tr > td {
   border: none;
 }
 
-.gl-dev-editor .table-bordered > tbody > tr {
+.gl-dev-editor .table-bordered tbody tr {
   border: 1px #BDD6D6 solid;
-}
-
-.gl-dev-editor .table-bordered > thead > tr > th {
-  display: none;
 }
 
 .gl-dev-editor .table-bordered > tbody > tr > td > .form-group > label {
@@ -141,11 +136,29 @@
   max-height: 360px;
 }
 
-.gl-dev-editor .well-sm .well-sm .well-sm {
-  //padding: 0;
-
+.gl-dev-editor div[data-schemapath="root.standards"] th {
+  display: none;
 }
 
-.gl-dev-editor .well-sm textarea {
-  //min-height: 120px;
+.gl-dev-editor div[data-schemapath="root.standards"] td {
+  float: left;
+}
+
+.gl-dev-editor div[data-schemapath="root.standards"] td:last-of-type {
+  float: none;
+  width: 129px;
+}
+
+.gl-dev-editor .btn-group > .btn {
+  border-color: #EAF3DE;
+  background-color: #4788C1;
+  color: white;
+}
+
+.gl-dev-editor tr:last-of-type .btn-group > .btn:nth-of-type(2) {
+  border-radius: 0 5px 5px 0;
+}
+
+.gl-dev-editor tr:first-of-type:last-of-type .btn-group > .btn {
+  border-radius: 5px;
 }

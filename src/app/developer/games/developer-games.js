@@ -733,6 +733,55 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             }
                         }
                     },
+                    "standards": {
+                        "type": "array",
+                        "format": "table",
+                        "title": "Standards Alignment",
+                        "items": {
+                            "type": "object",
+                            "title": "Entry",
+                            "format": "grid",
+                            "headerTemplate": " ",
+                            "properties": {
+                                "standard": {
+                                    "type": "string",
+                                    "description": "Standard",
+                                    "enum": ["CCSS", "TEKS"],
+                                    "options": {"input_width": "15%"}
+                                },
+                                "category": {
+                                    "type": "string",
+                                    "description": "Category",
+                                    "options": {"input_width": "25%"}
+                                },
+                                "group": {
+                                    "type": "string",
+                                    "description": "Group",
+                                    "options": {"input_width": "30%"}
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "Name",
+                                    "options": {"input_width": "40%"}
+                                },
+                                "link": {
+                                    "type": "string",
+                                    "description": "Link",
+                                    "format": "url",
+                                    "options": {"input_width": "60%"}
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "Description - Markdown supported",
+                                    "format": "textarea",
+                                    "options": {"input_width": "100%"}
+                                }
+                            }
+                        },
+                        "options": {
+                         //   "grid_columns": 12
+                        }
+                    },
                     "lessonPlans": {
                         "type": "array",
                         "format": "table",
@@ -743,12 +792,14 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             "properties": {
                                 "name": {
                                     "type": "string",
+                                    "title": "Title",
                                     "options": {
                                         "input_width": "310px"
                                     }
                                 },
                                 "link": {
                                     "type": "string",
+                                    "title": "Link",
                                     "format": "url",
                                     "options": {
                                         "input_width": "500px"
@@ -790,6 +841,28 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             }
                         }
                     },
+                    "social": {
+                        "type": "object",
+                        "format": "grid",
+                        "title": "Social Media",
+                        "properties": {
+                            "facebook": {
+                                "type": "string",
+                                "title": "Facebook",
+                                "format": "url"
+                            },
+                            "twitter": {
+                                "type": "string",
+                                "title": "Twitter",
+                                "format": "url"
+                            },
+                            "google": {
+                                "type": "string",
+                                "title": "Google+",
+                                "format": "url"
+                            }
+                        }
+                    },
                     "images": {
                         "type": "object",
                         "format": "grid",
@@ -821,14 +894,14 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "slideshow": {
                         "type": "array",
                         "title": "Product Slideshow",
-                        "description": "480x360",
                         "format": "table",
                         "items": {
                             "type": "object",
                             "title": "Slide",
                             "properties": {
                                 "url": {
-                                    "$ref": "#/definitions/image_url"
+                                    "$ref": "#/definitions/image_url",
+                                    "title": "Slides 480x360"
                                 }
                             }
                         },
@@ -869,6 +942,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "description": gameInfo.basic.developer.description,
                     "logo": gameInfo.basic.developer.logo.small
                 },
+                "social": gameInfo.details.social,
                 "images": {
                     "banner": gameInfo.basic.banners.product,
                     "card": gameInfo.basic.card.small,
@@ -877,6 +951,28 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 "slideshow": gameInfo.details.pages.product.slideshow
             };
 
+            if(gameInfo.details.pages.standards) {
+                $scope.editorData.standards = [];
+                var standard, section, groupItem, listItem;
+                ["CCSS", "TEKS"].forEach (function(standard) {
+                    _.forEach(gameInfo.details.pages.standards[standard], function(section) {
+                        //section.category;
+                        section.groups.forEach(function(groupItem) {
+                            //groupItem.name;
+                            groupItem.list.forEach(function(listItem) {
+                                $scope.editorData.standards.push({
+                                    standard: standard,
+                                    category: section.category,
+                                    group: groupItem.name,
+                                    name: listItem.name,
+                                    link: listItem.link,
+                                    description: listItem.description
+                                });
+                            });
+                        });
+                    });
+                });
+            }
 
             $scope.saveInfo = function() {
                 return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
@@ -884,7 +980,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
             $scope.onChange = function(data) {
 
-                console.log("onChange", JSON.stringify(data, null, 2));
+                //console.log("onChange", JSON.stringify(data, null, 2));
                 $scope.editorData = data;
 
                 var updatedInfo = $scope.fullData;
@@ -904,32 +1000,104 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 updatedInfo.basic.grades = data.basics.gradeLevel;
                 updatedInfo.details.applink = data.basics.applink;
 
-                updatedInfo.basic.description = data.details.shortDescription;
+                updatedInfo.basic.description =
+                    updatedInfo.basic.shortDescription = data.details.shortDescription;
+
                 updatedInfo.details.pages.product.about = data.details.longDescription;
                 updatedInfo.details.pages.product.curriculum = data.details.curriculum.split("\n");
 
                 updatedInfo.details.pages.product.video = data.resources.video;
                 updatedInfo.details.pages.product.brochure = data.resources.brochure;
 
+                if(!updatedInfo.details.pages.standards) {
+                    updatedInfo.details.pages.standards = {
+                        order: 2,
+                        authRequired: false,
+                        id: "standards",
+                        title: "Standards Alignment"
+                    };
+                }
+                if(data.standards) {
+                    var groups = {};
+                    var categories = {};
+                    var standards = {};
+
+                    _.forEach(data.standards, function(item) {
+                        //item.standard
+                        if(!groups[item.group]) {
+                            groups[item.group] = [];
+                        }
+                        groups[item.group].push({
+                            name: item.name,
+                            link: item.link,
+                            description: item.description
+                        });
+
+                        if(!categories[item.category]) {
+                            categories[item.category] = [];
+                        }
+                        if(categories[item.category].indexOf(item.group) === -1) {
+                            categories[item.category].push(item.group);
+                        }
+
+                        if(!standards[item.standard]) {
+                            standards[item.standard] = [];
+                        }
+                        if(standards[item.standard].indexOf(item.category) === -1) {
+                            standards[item.standard].push(item.category);
+                        }
+                    });
+
+                    _.forEach(standards, function(_categories, standard) {
+                        updatedInfo.details.pages.standards[standard] = [];
+                        _.forEach(_categories, function(category) {
+                            var _category = {
+                                category: category,
+                                groups: []
+                            };
+                            _.forEach(categories[category], function(group){
+                                //console.log(standard, category, group, list);
+                                var _group = {};
+                                if(group) {
+                                    _group.name = group;
+                                }
+                                _group.list = groups[group];
+                                _category.groups.push(_group);
+                            });
+                            updatedInfo.details.pages.standards[standard].push(_category);
+                        });
+                    });
+
+                    updatedInfo.details.pages.standards.enabled = true;
+                } else {
+                    updatedInfo.details.pages.standards.enabled = false;
+                }
+
                 if(!updatedInfo.details.pages.lessonPlans) {
                     updatedInfo.details.pages.lessonPlans = {
                         order: 3,
-                        enabled: true,
                         authRequired: true,
                         id: "lessonPlans",
                         title: "Lesson Plans"
                     };
                 }
-                if(!updatedInfo.details.pages.lessonPlans.list) {
-                    updatedInfo.details.pages.lessonPlans.list = [{category: "Lesson Plans"}];
+                if(data.lessonPlans) {
+                    if(!updatedInfo.details.pages.lessonPlans.list) {
+                        updatedInfo.details.pages.lessonPlans.list = [{category: "Lesson Plans"}];
+                    }
+                    updatedInfo.details.pages.lessonPlans.list[0].list = data.lessonPlans;
+                    updatedInfo.details.pages.lessonPlans.enabled = true;
+                } else {
+                    updatedInfo.details.pages.lessonPlans.enabled = false;
                 }
-                updatedInfo.details.pages.lessonPlans.list[0].list = data.lessonPlans;
 
                 updatedInfo.basic.developer.name = data.developer.name;
                 updatedInfo.basic.developer.description = data.developer.description;
 
                 updatedInfo.basic.developer.logo.small =
                     updatedInfo.basic.developer.logo.large = data.developer.logo;
+
+                updatedInfo.details.social = data.social;
 
                 updatedInfo.basic.banners.product =
                     updatedInfo.basic.banners.reports = data.images.banner;
