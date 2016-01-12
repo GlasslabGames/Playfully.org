@@ -652,13 +652,12 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "mediaType": "image"
                             }
                         ]
-                    },
+                    }
                 }
             };
 
             var sections = {
                 "name": {
-                    "propertyOrder": 1,
                     "type": "object",
                     "format": "grid",
                     "title": "Name",
@@ -674,7 +673,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "basics": {
-                    "propertyOrder": 10,
                     "type": "object",
                     "format": "grid",
                     "title": "Basics",
@@ -705,7 +703,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "platform_ipad": {
-                    "propertyOrder": 20,
                     "type": "object",
                     "properties": {
                         "applink": {
@@ -716,7 +713,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "platform_browser": {
-                    "propertyOrder": 20,
                     "type": "object",
                     "format": "grid",
                     "properties": {
@@ -744,7 +740,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "platform_client": {
-                    "propertyOrder": 20,
                     "type": "object",
                     "properties": {
 
@@ -855,7 +850,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "standards": {
-                    "propertyOrder": 10000,
                     "type": "array",
                     "format": "table",
                     "title": "Standards Alignment",
@@ -905,7 +899,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "lessonPlans": {
-                    "propertyOrder": 20000,
                     "type": "array",
                     "format": "table",
                     "title": "Lesson Plans",
@@ -935,7 +928,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "images": {
-                    "propertyOrder": 50000,
                     "type": "object",
                     "format": "grid",
                     "title": "Game Images",
@@ -964,7 +956,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 "slideshow": {
-                    "propertyOrder": 100000,
                     "type": "array",
                     "title": "Product Slideshow",
                     "format": "table",
