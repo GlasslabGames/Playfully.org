@@ -1138,7 +1138,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.applink = data.platform_ipad.applink;
                 }
 
-                var platformIconBase = "/assets/platform_" + $scope.platform;
+                var platformIconBase = "/assets/platform-" + $scope.platform;
                 updatedInfo.basic.platform.icon.small = platformIconBase + ".png";
                 updatedInfo.basic.platform.icon.large = platformIconBase + "@2x.png";
 
@@ -1172,11 +1172,11 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         if(!groups[item.group]) {
                             groups[item.group] = [];
                         }
-                        groups[item.group].push({
+                        groups[item.group].push(_.pick({
                             name: item.name,
                             link: item.link,
                             description: item.description
-                        });
+                        }, _.identity));
 
                         if(!categories[item.category]) {
                             categories[item.category] = [];
@@ -1225,13 +1225,18 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         if(!lessonPlansCategories[item.category]) {
                             lessonPlansCategories[item.category] = [];
                         }
-                        lessonPlansCategories[item.category].push({
+                        lessonPlansCategories[item.category].push(_.pick({
                             name: item.name,
                             link: item.link,
                             standard: item.standard,
                             description: item.description
-                        });
+                        }, _.identity));
                     });
+
+                    updatedInfo.details.pages.lessonPlans.title = "Lesson Plans";
+                    if (lessonPlansCategories["Videos"]) {
+                        updatedInfo.details.pages.lessonPlans.title += " & Videos";
+                    }
 
                     updatedInfo.details.pages.lessonPlans.list = [];
                     _.forEach(lessonPlansCategories, function(items, category) {
@@ -1240,25 +1245,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             list: items
                         });
                     });
-                    
-                    updatedInfo.details.pages.lessonPlans.enabled = true;
-                } else {
-                    updatedInfo.details.pages.lessonPlans.enabled = false;
-                }
 
-                if(!updatedInfo.details.pages.lessonPlans) {
-                    updatedInfo.details.pages.lessonPlans = {
-                        order: 3,
-                        authRequired: true,
-                        id: "lessonPlans",
-                        title: "Lesson Plans"
-                    };
-                }
-                if(data.lessonPlans) {
-                    if(!updatedInfo.details.pages.lessonPlans.list) {
-                        updatedInfo.details.pages.lessonPlans.list = [{category: "Lesson Plans"}];
-                    }
-                    updatedInfo.details.pages.lessonPlans.list[0].list = data.lessonPlans;
                     updatedInfo.details.pages.lessonPlans.enabled = true;
                 } else {
                     updatedInfo.details.pages.lessonPlans.enabled = false;
@@ -1293,7 +1280,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
     function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, API_BASE) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
-        $scope.fullDataAsStr = JSON.stringify(gameInfo, null, 2);
+        $scope.fullDataAsStr = JSON.stringify(gameInfo, null, 4);
         $scope.fullSchema = infoSchema;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
         if (gameInfo["missions"]) {

@@ -2,8 +2,6 @@
   <div class="row">
     <div class="col-md-12">
 
-      <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
-
       <div class="gl-dev-editor">
         <h3>Game ID # {{gameId}}</h3>
 
@@ -11,14 +9,26 @@
              ng-show="section.name.indexOf('platform_') === -1 || section.name === 'platform_'+platform"
              class="gl-dev-editor-section gl-dev-editor-section-{{section.name}}">
 
+          <div ng-show="section.name.indexOf('platform_') === -1" class="gl-dev-editor-btn-group-save">
+            <button class="btn btn-default" type="button" ng-click="saveInfo()">
+              <i class="fa fa-save"></i> Save
+            </button>
+          </div>
+
           <json-editor schema="section.schema" startval="editorData[section.name]"
                        on-change="onChange($editorValue, section.name)" extra-options="section.options"></json-editor>
 
         </div>
 
-      </div>
+        <div class="gl-dev-editor-section">
+          <div class="gl-dev-editor-btn-group-save">
+            <button class="btn btn-default" type="button" ng-click="saveInfo()">
+              <i class="fa fa-save"></i> Save
+            </button>
+          </div>
+        </div>
 
-      <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
+      </div>
 
     </div>
   </div>

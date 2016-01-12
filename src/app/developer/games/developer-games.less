@@ -83,6 +83,19 @@
     padding: 10px 10px 0;
     background-color: #EAF3DE;
     margin: 7px 0;
+    min-height: 46px;
+
+    .gl-dev-editor-btn-group-save {
+      float: right;
+      position: relative;
+      top: -3px;
+      z-index: 100;
+      .btn {
+        border: none;
+        background-color: #4788C1;
+        color: white;
+      }
+    }
 
     .well {
       border: 0;
@@ -117,12 +130,6 @@
 
     td img {
       max-height: 360px;
-    }
-
-    .btn {
-      border-color: #EAF3DE;
-      background-color: #4788C1;
-      color: white;
     }
 
     tr:last-of-type .btn-group > .btn:nth-of-type(2) {
