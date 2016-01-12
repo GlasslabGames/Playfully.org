@@ -142,17 +142,19 @@
       display: none;
     }
   }
-  .gl-dev-editor-section-standards {
+  .gl-dev-editor-section-standards,
+  .gl-dev-editor-section-lessonPlans {
     th {
       display: none;
     }
 
-    td {
+    td:not(:last-of-type) {
       float: left;
+      padding-bottom: 0;
     }
 
     td:last-of-type {
-      float: none;
+      //float: none;
       width: 129px;
     }
   }

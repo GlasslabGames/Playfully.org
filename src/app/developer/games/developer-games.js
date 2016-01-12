@@ -912,19 +912,41 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         "type": "object",
                         "title": "Link",
                         "properties": {
+                            "category": {
+                                "type": "string",
+                                "description": "Category",
+                                "options": {
+                                    "input_width": "130px"
+                                }
+                            },
                             "name": {
                                 "type": "string",
-                                "title": "Title",
+                                "description": "Title",
                                 "options": {
-                                    "input_width": "310px"
+                                    "input_width": "200px"
                                 }
                             },
                             "link": {
                                 "type": "string",
-                                "title": "Link",
+                                "description": "Link",
                                 "format": "url",
                                 "options": {
-                                    "input_width": "500px"
+                                    "input_width": "400px"
+                                }
+                            },
+                            "standard": {
+                                "type": "string",
+                                "description": "Standard",
+                                "options": {
+                                    "input_width": "80px"
+                                }
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description",
+                                "format": "textarea",
+                                "options": {
+                                    "input_width": "100%"
                                 }
                             }
                         }
@@ -1003,7 +1025,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "video": gameInfo.details.pages.product.video,
                     "brochure": gameInfo.details.pages.product.brochure
                 },
-                "lessonPlans": gameInfo.details.pages.lessonPlans.list[0].list,
                 "developer": {
                     "name": gameInfo.basic.developer.name,
                     "description": gameInfo.basic.developer.description,
@@ -1041,15 +1062,15 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 };
             }
 
-            if(gameInfo.details.pages.standards) {
+            if (gameInfo.details.pages.standards) {
                 baseData.standards = [];
                 var standard, section, groupItem, listItem;
                 ["CCSS", "TEKS"].forEach (function(standard) {
                     _.forEach(gameInfo.details.pages.standards[standard], function(section) {
                         //section.category;
-                        section.groups.forEach(function(groupItem) {
+                        _.forEach(section.groups, function(groupItem) {
                             //groupItem.name;
-                            groupItem.list.forEach(function(listItem) {
+                            _.forEach(groupItem.list, function(listItem) {
                                 baseData.standards.push({
                                     standard: standard,
                                     category: section.category,
@@ -1059,6 +1080,22 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                     description: listItem.description
                                 });
                             });
+                        });
+                    });
+                });
+            }
+
+            if (gameInfo.details.pages.lessonPlans.list) {
+                baseData.lessonPlans = [];
+                _.forEach(gameInfo.details.pages.lessonPlans.list, function(section) {
+                    //section.category
+                    _.forEach(section.list, function(listItem) {
+                        baseData.lessonPlans.push({
+                            category: section.category,
+                            name: listItem.name,
+                            link: listItem.link,
+                            standard: listItem.standard,
+                            description: listItem.description
                         });
                     });
                 });
@@ -1179,6 +1216,34 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.pages.standards.enabled = true;
                 } else {
                     updatedInfo.details.pages.standards.enabled = false;
+                }
+
+                if(data.lessonPlans) {
+                    var lessonPlansCategories = {};
+
+                    _.forEach(data.lessonPlans, function(item) {
+                        if(!lessonPlansCategories[item.category]) {
+                            lessonPlansCategories[item.category] = [];
+                        }
+                        lessonPlansCategories[item.category].push({
+                            name: item.name,
+                            link: item.link,
+                            standard: item.standard,
+                            description: item.description
+                        });
+                    });
+
+                    updatedInfo.details.pages.lessonPlans.list = [];
+                    _.forEach(lessonPlansCategories, function(items, category) {
+                        updatedInfo.details.pages.lessonPlans.list.push({
+                            category: category,
+                            list: items
+                        });
+                    });
+                    
+                    updatedInfo.details.pages.lessonPlans.enabled = true;
+                } else {
+                    updatedInfo.details.pages.lessonPlans.enabled = false;
                 }
 
                 if(!updatedInfo.details.pages.lessonPlans) {
