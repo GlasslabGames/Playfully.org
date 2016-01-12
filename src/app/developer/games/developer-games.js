@@ -1014,10 +1014,10 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 $scope.platform = "browser";
                 baseData.basics.platform = "Browser";
                 baseData.platform_browser = {
-                    embed: gameInfo.basic.play.page.embedSecure || gameInfo.basic.play.page.embed,
-                    format: gameInfo.basic.play.page.format,
-                    width: gameInfo.basic.play.page.size.width,
-                    height: gameInfo.basic.play.page.size.height
+                    embed: _.get(gameInfo.basic, 'play.page.embedSecure') || _.get(gameInfo.basic, 'play.page.embed'),
+                    format: _.get(gameInfo.basic, 'play.page.format'),
+                    width: _.get(gameInfo.basic, 'play.page.size.width'),
+                    height: _.get(gameInfo.basic, 'play.page.size.height')
                 };
             } else {
                 $scope.platform = "ipad";
