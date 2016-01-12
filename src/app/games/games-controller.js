@@ -790,7 +790,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }
     else if( $scope.gamePlayInfo.format == "html" ) {
       setTimeout( function() {
-        var embed = $location.protocol() == 'https' ? $scope.gamePlayInfo.embedSecure : $scope.gamePlayInfo.embed;
+        var embed = $scope.gamePlayInfo.embedSecure ? $scope.gamePlayInfo.embedSecure : $scope.gamePlayInfo.embed;
         if (ENV.game_sdkURI) {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
         }
