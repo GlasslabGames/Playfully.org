@@ -743,11 +743,11 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         }
                     }
                 },
-                {
-                    "name": "platform_client",
-                    "type": "object",
-                    "properties": {}
-                },
+                //{
+                //    "name": "platform_client",
+                //    "type": "object",
+                //    "properties": {}
+                //},
                 {
                     "name": "developer",
                     "type": "object",
@@ -1169,20 +1169,22 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
                     _.forEach(data.standards, function(item) {
                         //item.standard
-                        if(!groups[item.group]) {
-                            groups[item.group] = [];
+                        var groupKey = [item.standard, "_"+item.category, "_"+item.group].join(".");
+                        if(!_.has(groups, groupKey)) {
+                            _.set(groups, groupKey, []);
                         }
-                        groups[item.group].push(_.pick({
+                        _.get(groups, groupKey).push(_.pick({
                             name: item.name,
                             link: item.link,
                             description: item.description
                         }, _.identity));
 
-                        if(!categories[item.category]) {
-                            categories[item.category] = [];
+                        var categoryKey = [item.standard, "_"+item.category].join(".");
+                        if(!_.has(categories, categoryKey)) {
+                            _.set(categories, categoryKey, []);
                         }
-                        if(categories[item.category].indexOf(item.group) === -1) {
-                            categories[item.category].push(item.group);
+                        if(_.get(categories, categoryKey).indexOf(item.group) === -1) {
+                            _.get(categories, categoryKey).push(item.group);
                         }
 
                         if(!standards[item.standard]) {
@@ -1200,13 +1202,13 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 category: category,
                                 groups: []
                             };
-                            _.forEach(categories[category], function(group){
+                            _.forEach(categories[standard]["_"+category], function(group){
                                 //console.log(standard, category, group, list);
                                 var _group = {};
                                 if(group) {
                                     _group.name = group;
                                 }
-                                _group.list = groups[group];
+                                _group.list = groups[standard]["_"+category]["_"+group];
                                 _category.groups.push(_group);
                             });
                             updatedInfo.details.pages.standards[standard].push(_category);
