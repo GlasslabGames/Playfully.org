@@ -2,7 +2,7 @@
     'use strict';
 
 
-    angular.module('gl-angular-json-editor', []).provider('JSONEditor', function () {
+    angular.module('gl-json-editor', []).provider('JSONEditor', function () {
         var configuration = {
             defaults: {
                 options: {
@@ -66,7 +66,7 @@
                     controller = $controller(controllerName, controllerScope);
                 } catch (e) {
                     // Any exceptions thrown will probably be because the controller specified does not exist
-                    throw new Error('angular-json-editor: buttons-controller attribute must be a valid controller.');
+                    throw new Error('gl-json-editor: buttons-controller attribute must be a valid controller.');
                 }
             }],
             link: function (scope, element, attrs, controller, transclude) {
@@ -76,7 +76,7 @@
                 scope.isValid = false;
 
                 if (!angular.isString(attrs.schema)) {
-                    throw new Error('angular-json-editor: schema attribute has to be defined.');
+                    throw new Error('gl-json-editor: schema attribute has to be defined.');
                 }
                 if (angular.isObject(scope.schema)) {
                     schemaPromise = $q.when(scope.schema);
@@ -93,7 +93,7 @@
                     var schema = result[0].data || result[0],
                         startVal = result[1].data || result[1];
                     if (schema === null) {
-                        throw new Error('angular-json-editor: could not resolve schema data.');
+                        throw new Error('gl-json-editor: could not resolve schema data.');
                     }
 
                     function restart() {

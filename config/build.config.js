@@ -87,7 +87,6 @@ module.exports = {
       'vendor/marked/lib/marked.js',
       'vendor/angular-marked/dist/angular-marked.js',
       'vendor/angular-ui-ace/ui-ace.js',
-      'vendor/angular-json-editor/dist/angular-json-editor.js',
       'vendor/d3/d3.js',
       'vendor/nvd3/build/nv.d3.js',
       'vendor/angular-nvd3/dist/angular-nvd3.js'

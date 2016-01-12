@@ -66,99 +66,91 @@
 
 .ace_editor { height: 600px; }
 
-.gl-dev-editor { // so the 940px banner can fit inside
-  width: 976px;
-  margin-left: -18px;
-}
-
-.gl-dev-editor h3 {
-  border-radius: 5px 5px 0 0;
-  background-color: #CFE6BA;
-  color: white;
-  padding: 10px 10px 0;
-  margin-bottom: 0;
-}
-
-.gl-dev-editor .well-sm {
-  background-color: #CFE6BA;
-  border: 0;
-  border-radius: 0 0 5px 5px;
-  box-shadow: none;
-}
-
-.gl-dev-editor .well-sm .well-sm {
-  background-color: #EAF3DE;
-}
-
-.gl-dev-editor .well-sm h3 {
-  border-radius: 5px 5px 0 0;
-  background-color: #EAF3DE;
-  color: #357CBE;
-  font-family: 'Bitter', serif;
+.gl-dev-editor {
+  margin: 20px -20px; // so the full width banner can fit inside
   padding: 10px;
-  margin-top: 0;
-  margin-bottom: 0;
-}
 
-.gl-dev-editor .well-sm p {
-  background-color: #EAF3DE;
-  padding: 0 10px;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-weight: bold;
-}
-
-
-.gl-dev-editor .well-sm .well-sm p {
-  padding: 0;
-  font-weight: normal;
-}
-
-.gl-dev-editor .row > div > div {
-  margin-bottom: 15px;
-}
-
-.gl-dev-editor .table-bordered,
-.gl-dev-editor .table-bordered > thead > tr > th,
-.gl-dev-editor .table-bordered > tbody > tr > td {
-  border: none;
-}
-
-.gl-dev-editor .table-bordered tbody tr {
-  border: 1px #BDD6D6 solid;
-}
-
-.gl-dev-editor .table-bordered > tbody > tr > td > .form-group > label {
-  display: none;
-}
-
-.gl-dev-editor td img {
-  max-height: 360px;
-}
-
-.gl-dev-editor div[data-schemapath="root.standards"] th {
-  display: none;
-}
-
-.gl-dev-editor div[data-schemapath="root.standards"] td {
-  float: left;
-}
-
-.gl-dev-editor div[data-schemapath="root.standards"] td:last-of-type {
-  float: none;
-  width: 129px;
-}
-
-.gl-dev-editor .btn-group > .btn {
-  border-color: #EAF3DE;
-  background-color: #4788C1;
-  color: white;
-}
-
-.gl-dev-editor tr:last-of-type .btn-group > .btn:nth-of-type(2) {
-  border-radius: 0 5px 5px 0;
-}
-
-.gl-dev-editor tr:first-of-type:last-of-type .btn-group > .btn {
+  background-color: #CFE6BA;
   border-radius: 5px;
+
+  h3 {
+    color: white;
+    margin: 0 0 10px;
+  }
+
+  .gl-dev-editor-section {
+    border-radius: 5px;
+    padding: 10px 10px 0;
+    background-color: #EAF3DE;
+    margin: 7px 0;
+
+    .well {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+      background: none;
+    }
+
+    h3 {
+      color: #357CBE;
+      font-family: 'Bitter', serif;
+    }
+
+    table,
+    table > thead > tr > th,
+    table > tbody > tr > td {
+      border: none;
+    }
+
+    table tbody tr {
+      border: 1px #BDD6D6 solid;
+    }
+
+    table > tbody > tr > td > .form-group > label {
+      display: none;
+    }
+
+    td img {
+      max-height: 360px;
+    }
+
+    .btn {
+      border-color: #EAF3DE;
+      background-color: #4788C1;
+      color: white;
+    }
+
+    tr:last-of-type .btn-group > .btn:nth-of-type(2) {
+      border-radius: 0 5px 5px 0;
+    }
+
+    tr:first-of-type:last-of-type .btn-group > .btn {
+      border-radius: 5px;
+    }
+  }
+
+  .gl-dev-editor-section-platform_ipad,
+  .gl-dev-editor-section-platform_client,
+  .gl-dev-editor-section-platform_browser {
+    margin-top: -20px;
+    h3 {
+      display: none;
+    }
+  }
+  .gl-dev-editor-section-standards {
+    th {
+      display: none;
+    }
+
+    td {
+      float: left;
+    }
+
+    td:last-of-type {
+      float: none;
+      width: 129px;
+    }
+  }
+
 }

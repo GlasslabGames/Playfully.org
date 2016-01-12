@@ -1,7 +1,7 @@
 angular.module('developer.games', [
     'gl-editable-text',
     'gl-editable-text-popover',
-    'gl-angular-json-editor',
+    'gl-json-editor',
     'ui.ace'
 ])
 
@@ -606,12 +606,39 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             $scope.gameId = $stateParams.gameId;
             $scope.fullData = gameInfo;
 
-            $scope.editorSchema = {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "id": "http://developer.playfully.org/api/v2/dash/developer/info/schema-frontend",
-                "title": "Game ID # "+$scope.gameId,
-                "type": "object",
-                "format": "grid",
+            var baseOptions = {
+                required_by_default: true,
+                disable_collapse: true,
+                disable_edit_json: true,
+                upload: function(type, file, cbs) {
+                    var formData = new FormData();
+                    formData.append(type, file, file.name);
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
+                    xhr.upload.onprogress = function(evt) {
+                        var percentComplete = (evt.loaded / evt.total)*100;
+                        cbs.updateProgress(percentComplete);
+                    };
+                    xhr.onload = function() {
+                        if (xhr.status === 200) {
+                            try {
+                                var response = JSON.parse(xhr.response);
+                                cbs.success(response.path);
+                            } catch(err) {
+                                cbs.failure('Upload failed');
+                                console.error(status, xhr.response);
+                            }
+                        } else {
+                            cbs.failure('Upload failed');
+                            console.error(status, xhr.response);
+                        }
+                    };
+                    xhr.send(formData);
+                }
+            };
+
+            var baseSchema = {
                 "definitions": {
                     "image_url": {
                         "type": "string",
@@ -625,307 +652,354 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "mediaType": "image"
                             }
                         ]
+                    },
+                }
+            };
+
+            var sections = {
+                "name": {
+                    "propertyOrder": 1,
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Name",
+                    "properties": {
+                        "longName": {
+                            "type": "string",
+                            "title": "Full Game Name"
+                        },
+                        "shortName": {
+                            "type": "string",
+                            "title": "Short Game Name"
+                        }
                     }
                 },
-                "properties": {
-                    "name": {
-                        "type": "object",
-                        "format": "grid",
-                        "title": "Name",
-                        "properties": {
-                            "longName": {
-                                "type": "string",
-                                "title": "Full Game Name"
-                            },
-                            "shortName": {
-                                "type": "string",
-                                "title": "Short Game Name"
-                            }
-                        }
-                    },
-                    "basics": {
-                        "type": "object",
-                        "format": "grid",
-                        "title": "Basics",
-                        "properties": {
-                            "platform": {
-                                "type": "string",
-                                "title": "Platform",
-                                "enum": ["iPad", "Browser", "PC/Mac"],
-                                "options": {
-                                    "grid_columns": 2
-                                }
-                            },
-                            "applink": {
-                                "type": "string",
-                                "title": "iPad App Link",
-                                "format": "url",
-                                "options": {
-                                    "grid_columns": 4
-                                }
-                            },
-                            "subject": {
-                                "type": "string",
-                                "title": "Subject",
-                                "options": {
-                                    "grid_columns": 4
-                                }
-                            },
-                            "gradeLevel": {
-                                "type": "string",
-                                "title": "Grade Level",
-                                "description": "#-# format",
-                                "options": {
-                                    "grid_columns": 2
-                                }
-                            }
-                        }
-                    },
-                    "details": {
-                        "type": "object",
-                        "format": "grid",
-                        "title": "Details",
-                        "properties": {
-                            "shortDescription": {
-                                "type": "string",
-                                "title": "Short Description",
-                                "format": "textarea",
-                                "options": {
-                                    "grid_columns": 4,
-                                    "input_height": "150px"
-                                }
-                            },
-                            "longDescription": {
-                                "type": "string",
-                                "title": "Long Description",
-                                "format": "textarea",
-                                "options": {
-                                    "grid_columns": 8,
-                                    "input_height": "150px"
-                                }
-                            },
-                            "curriculum": {
-                                "type": "string",
-                                "title": "How the Game fits the Curriculum",
-                                "description": "Appears as bullet points, one per line",
-                                "format": "textarea",
-                                "options": {
-                                    "grid_columns": 6,
-                                    "input_height": "150px"
-                                }
-                            }
-                        }
-                    },
-                    "resources": {
-                        "type": "object",
-                        "format": "grid",
-                        "title": "Resources",
-                        "properties": {
-                            "video": {
-                                "type": "string",
-                                "title": "Link to Video",
-                                "format": "url"
-                            },
-                            "brochure": {
-                                "type": "string",
-                                "title": "Link to Brochure",
-                                "format": "url"
-                            }
-                        }
-                    },
-                    "standards": {
-                        "type": "array",
-                        "format": "table",
-                        "title": "Standards Alignment",
-                        "items": {
-                            "type": "object",
-                            "title": "Entry",
-                            "format": "grid",
-                            "headerTemplate": " ",
-                            "properties": {
-                                "standard": {
-                                    "type": "string",
-                                    "description": "Standard",
-                                    "enum": ["CCSS", "TEKS"],
-                                    "options": {"input_width": "15%"}
-                                },
-                                "category": {
-                                    "type": "string",
-                                    "description": "Category",
-                                    "options": {"input_width": "25%"}
-                                },
-                                "group": {
-                                    "type": "string",
-                                    "description": "Group",
-                                    "options": {"input_width": "30%"}
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "description": "Name",
-                                    "options": {"input_width": "40%"}
-                                },
-                                "link": {
-                                    "type": "string",
-                                    "description": "Link",
-                                    "format": "url",
-                                    "options": {"input_width": "60%"}
-                                },
-                                "description": {
-                                    "type": "string",
-                                    "description": "Description - Markdown supported",
-                                    "format": "textarea",
-                                    "options": {"input_width": "100%"}
-                                }
+                "basics": {
+                    "propertyOrder": 10,
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Basics",
+                    "properties": {
+                        "platform": {
+                            "type": "string",
+                            "title": "Platform",
+                            "enum": ["iPad", "Browser", "PC/Mac"],
+                            "options": {
+                                "grid_columns": 2
                             }
                         },
-                        "options": {
-                         //   "grid_columns": 12
-                        }
-                    },
-                    "lessonPlans": {
-                        "type": "array",
-                        "format": "table",
-                        "title": "Lesson Plans",
-                        "items": {
-                            "type": "object",
-                            "title": "Link",
-                            "properties": {
-                                "name": {
-                                    "type": "string",
-                                    "title": "Title",
-                                    "options": {
-                                        "input_width": "310px"
-                                    }
-                                },
-                                "link": {
-                                    "type": "string",
-                                    "title": "Link",
-                                    "format": "url",
-                                    "options": {
-                                        "input_width": "500px"
-                                    }
-                                }
+                        "subject": {
+                            "type": "string",
+                            "title": "Subject",
+                            "options": {
+                                "grid_columns": 4
                             }
                         },
-                        "options": {
-                            "grid_columns": 12
+                        "gradeLevel": {
+                            "type": "string",
+                            "title": "Grade Level",
+                            //"description": "#-# format",
+                            "options": {
+                                "grid_columns": 2
+                            }
                         }
-                    },
-                    "developer": {
+                    }
+                },
+                "platform_ipad": {
+                    "propertyOrder": 20,
+                    "type": "object",
+                    "properties": {
+                        "applink": {
+                            "type": "string",
+                            "title": "App Store Download Link",
+                            "format": "url"
+                        }
+                    }
+                },
+                "platform_browser": {
+                    "propertyOrder": 20,
+                    "type": "object",
+                    "format": "grid",
+                    "properties": {
+                        "embed": {
+                            "type": "string",
+                            "title": "Embed URL",
+                            "format": "url",
+                            "options": {"grid_columns": 4}
+                        },
+                        "format": {
+                            "type": "string",
+                            "title": "Format",
+                            "enum": ["html", "swf"]
+                        },
+                        "width": {
+                            "type": "integer",
+                            "title": "Width",
+                            "options": {"grid_columns": 1}
+                        },
+                        "height": {
+                            "type": "integer",
+                            "title": "Height",
+                            "options": {"grid_columns": 1}
+                        }
+                    }
+                },
+                "platform_client": {
+                    "propertyOrder": 20,
+                    "type": "object",
+                    "properties": {
+
+                    }
+                },
+                "developer": {
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Developer Info",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Developer Name",
+                            "options": {
+                                "grid_columns": 3
+                            }
+                        },
+                        "logo": {
+                            "$ref": "#/definitions/image_url",
+                            "title": "Logo 60x60",
+                            "options": {
+                                "grid_columns": 3
+                            }
+                        },
+                        "description": {
+                            "type": "string",
+                            "title": "Developer Description",
+                            "format": "textarea",
+                            "options": {
+                                "grid_columns": 6,
+                                "input_height": "150px"
+                            }
+                        }
+                    }
+                },
+                "social": {
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Social Media",
+                    "properties": {
+                        "facebook": {
+                            "type": "string",
+                            "title": "Facebook",
+                            "format": "url"
+                        },
+                        "twitter": {
+                            "type": "string",
+                            "title": "Twitter",
+                            "format": "url"
+                        },
+                        "google": {
+                            "type": "string",
+                            "title": "Google+",
+                            "format": "url"
+                        }
+                    }
+                },
+                "details": {
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Details",
+                    "properties": {
+                        "shortDescription": {
+                            "type": "string",
+                            "title": "Short Description",
+                            "format": "textarea",
+                            "options": {
+                                "grid_columns": 4,
+                                "input_height": "150px"
+                            }
+                        },
+                        "longDescription": {
+                            "type": "string",
+                            "title": "Long Description",
+                            "format": "textarea",
+                            "options": {
+                                "grid_columns": 8,
+                                "input_height": "150px"
+                            }
+                        },
+                        "curriculum": {
+                            "type": "string",
+                            "title": "How the Game fits the Curriculum",
+                            "description": "Appears as bullet points, one per line",
+                            "format": "textarea",
+                            "options": {
+                                "grid_columns": 6,
+                                "input_height": "150px"
+                            }
+                        }
+                    }
+                },
+                "resources": {
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Resources",
+                    "properties": {
+                        "video": {
+                            "type": "string",
+                            "title": "Link to Video",
+                            "format": "url"
+                        },
+                        "brochure": {
+                            "type": "string",
+                            "title": "Link to Brochure",
+                            "format": "url"
+                        }
+                    }
+                },
+                "standards": {
+                    "propertyOrder": 10000,
+                    "type": "array",
+                    "format": "table",
+                    "title": "Standards Alignment",
+                    "items": {
                         "type": "object",
+                        "title": "Entry",
                         "format": "grid",
-                        "title": "Developer Info",
+                        "headerTemplate": " ",
                         "properties": {
+                            "standard": {
+                                "type": "string",
+                                "description": "Standard",
+                                "enum": ["CCSS", "TEKS"],
+                                "options": {"input_width": "15%"}
+                            },
+                            "category": {
+                                "type": "string",
+                                "description": "Category",
+                                "options": {"input_width": "25%"}
+                            },
+                            "group": {
+                                "type": "string",
+                                "description": "Group",
+                                "options": {"input_width": "30%"}
+                            },
                             "name": {
                                 "type": "string",
-                                "title": "Developer Name",
-                                "options": {
-                                    "grid_columns": 3
-                                }
+                                "description": "Name",
+                                "options": {"input_width": "40%"}
                             },
-                            "logo": {
-                                "$ref": "#/definitions/image_url",
-                                "title": "Logo 60x60",
-                                "options": {
-                                    "grid_columns": 3
-                                }
+                            "link": {
+                                "type": "string",
+                                "description": "Link",
+                                "format": "url",
+                                "options": {"input_width": "60%"}
                             },
                             "description": {
                                 "type": "string",
-                                "title": "Developer Description",
+                                "description": "Description - <a href='https://help.github.com/articles/markdown-basics/' target='_blank'>Markdown</a> supported",
                                 "format": "textarea",
-                                "options": {
-                                    "grid_columns": 6,
-                                    "input_height": "150px"
-                                }
+                                "options": {"input_width": "100%"}
                             }
                         }
                     },
-                    "social": {
+                    "options": {
+                        //   "grid_columns": 12
+                    }
+                },
+                "lessonPlans": {
+                    "propertyOrder": 20000,
+                    "type": "array",
+                    "format": "table",
+                    "title": "Lesson Plans",
+                    "items": {
                         "type": "object",
-                        "format": "grid",
-                        "title": "Social Media",
+                        "title": "Link",
                         "properties": {
-                            "facebook": {
+                            "name": {
                                 "type": "string",
-                                "title": "Facebook",
-                                "format": "url"
-                            },
-                            "twitter": {
-                                "type": "string",
-                                "title": "Twitter",
-                                "format": "url"
-                            },
-                            "google": {
-                                "type": "string",
-                                "title": "Google+",
-                                "format": "url"
-                            }
-                        }
-                    },
-                    "images": {
-                        "type": "object",
-                        "format": "grid",
-                        "title": "Game Images",
-                        "properties": {
-                            "thumbnail": {
-                                "$ref": "#/definitions/image_url",
-                                "title": "Thumbnail 150x120",
+                                "title": "Title",
                                 "options": {
-                                    "grid_columns": 4
+                                    "input_width": "310px"
                                 }
                             },
-                            "card": {
-                                "$ref": "#/definitions/image_url",
-                                "title": "Card 300x240",
+                            "link": {
+                                "type": "string",
+                                "title": "Link",
+                                "format": "url",
                                 "options": {
-                                    "grid_columns": 8
-                                }
-                            },
-                            "banner": {
-                                "$ref": "#/definitions/image_url",
-                                "title": "Banner 940x300",
-                                "options": {
-                                    "grid_columns": 12
+                                    "input_width": "500px"
                                 }
                             }
                         }
                     },
-                    "slideshow": {
-                        "type": "array",
-                        "title": "Product Slideshow",
-                        "format": "table",
-                        "items": {
-                            "type": "object",
-                            "title": "Slide",
-                            "properties": {
-                                "url": {
-                                    "$ref": "#/definitions/image_url",
-                                    "title": "Slides 480x360"
-                                }
+                    "options": {
+                        "grid_columns": 12
+                    }
+                },
+                "images": {
+                    "propertyOrder": 50000,
+                    "type": "object",
+                    "format": "grid",
+                    "title": "Game Images",
+                    "properties": {
+                        "thumbnail": {
+                            "$ref": "#/definitions/image_url",
+                            "title": "Thumbnail 150x120",
+                            "options": {
+                                "grid_columns": 4
                             }
                         },
-                        "options": {
-                            "grid_columns": 12
+                        "card": {
+                            "$ref": "#/definitions/image_url",
+                            "title": "Card 300x240",
+                            "options": {
+                                "grid_columns": 8
+                            }
+                        },
+                        "banner": {
+                            "$ref": "#/definitions/image_url",
+                            "title": "Banner 940x300",
+                            "options": {
+                                "grid_columns": 12
+                            }
                         }
+                    }
+                },
+                "slideshow": {
+                    "propertyOrder": 100000,
+                    "type": "array",
+                    "title": "Product Slideshow",
+                    "format": "table",
+                    "items": {
+                        "type": "object",
+                        "title": "Slide",
+                        "properties": {
+                            "url": {
+                                "$ref": "#/definitions/image_url",
+                                "title": "Slides 480x360"
+                            }
+                        }
+                    },
+                    "options": {
+                        "grid_columns": 12
                     }
                 }
             };
 
-            $scope.editorData = {
+            $scope.sections = _.reduce(sections, function(target, sectionSchema, sectionName) {
+                target[sectionName] = {
+                    options: _.defaults({}, baseOptions),
+                    schema: _.defaults({}, sectionSchema, baseSchema)
+                };
+                return target;
+            }, {});
+
+            var baseData = {
                 "name": {
                     "longName": gameInfo.basic.longName,
                     "shortName": gameInfo.basic.shortName
                 },
                 "basics": {
-                    "platform": (function(p){
-                        if (p.match(/pc.*mac/i)) { return "PC/Mac";  }
-                        if (p.match(/browser/i)) { return "Browser"; }
-                        if (p.match(/ipad/i)   ) { return "iPad";    }
-                    })(gameInfo.basic.platform.type),
                     "subject": gameInfo.basic.subject,
                     "gradeLevel": gameInfo.basic.grades,
-                    "applink": gameInfo.details.applink
                 },
                 "details": {
                     "shortDescription": gameInfo.basic.description,
@@ -951,8 +1025,31 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 "slideshow": gameInfo.details.pages.product.slideshow
             };
 
+            if (gameInfo.basic.platform.type.match(/pc.*mac/i)) {
+                $scope.platform = "client";
+                baseData.basics.platform = "PC/Mac";
+                baseData.platform_client = {
+
+                };
+            } else if (gameInfo.basic.platform.type.match(/browser/i)) {
+                $scope.platform = "browser";
+                baseData.basics.platform = "Browser";
+                baseData.platform_browser = {
+                    embed: gameInfo.basic.play.page.embedSecure || gameInfo.basic.play.page.embed,
+                    format: gameInfo.basic.play.page.format,
+                    width: gameInfo.basic.play.page.size.width,
+                    height: gameInfo.basic.play.page.size.height
+                };
+            } else {
+                $scope.platform = "ipad";
+                baseData.basics.platform = "iPad";
+                baseData.platform_ipad = {
+                    applink: gameInfo.details.applink
+                };
+            }
+
             if(gameInfo.details.pages.standards) {
-                $scope.editorData.standards = [];
+                baseData.standards = [];
                 var standard, section, groupItem, listItem;
                 ["CCSS", "TEKS"].forEach (function(standard) {
                     _.forEach(gameInfo.details.pages.standards[standard], function(section) {
@@ -960,7 +1057,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         section.groups.forEach(function(groupItem) {
                             //groupItem.name;
                             groupItem.list.forEach(function(listItem) {
-                                $scope.editorData.standards.push({
+                                baseData.standards.push({
                                     standard: standard,
                                     category: section.category,
                                     group: groupItem.name,
@@ -978,27 +1075,45 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
             };
 
-            $scope.onChange = function(data) {
+            $scope.editorData = baseData;
 
+            $scope.onChange = function(sectionData, section) {
                 //console.log("onChange", JSON.stringify(data, null, 2));
-                $scope.editorData = data;
+                $scope.editorData[section] = sectionData;
+
+                var data = $scope.editorData;
 
                 var updatedInfo = $scope.fullData;
                 updatedInfo.basic.longName = data.name.longName;
                 updatedInfo.basic.shortName = data.name.shortName;
                 updatedInfo.basic.platform.type = data.basics.platform;
 
-                var platformIconBase = (function(p){
-                        if (p.match(/pc.*mac/i)) { return "/assets/platform-client";  }
-                        if (p.match(/browser/i)) { return "/assets/platform-browser"; }
-                        if (p.match(/ipad/i)   ) { return "/assets/platform-ipad";    }
-                    })(data.basics.platform);
+                if (data.basics.platform.match(/pc.*mac/i)) {
+                    $scope.platform = "client";
+                } else if (data.basics.platform.match(/browser/i)) {
+                    $scope.platform = "browser";
+                    updatedInfo.basic.play = {
+                        type: "page",
+                        page: {
+                            embed: data.platform_browser.embed,
+                            format: data.platform_browser.format,
+                            size: {
+                                width: data.platform_browser.width,
+                                height: data.platform_browser.height
+                            }
+                        }
+                    };
+                } else {
+                    $scope.platform = "ipad";
+                    updatedInfo.details.applink = data.platform_ipad.applink;
+                }
+
+                var platformIconBase = "/assets/platform_" + $scope.platform;
                 updatedInfo.basic.platform.icon.small = platformIconBase + ".png";
                 updatedInfo.basic.platform.icon.large = platformIconBase + "@2x.png";
 
                 updatedInfo.basic.subject = data.basics.subject;
                 updatedInfo.basic.grades = data.basics.gradeLevel;
-                updatedInfo.details.applink = data.basics.applink;
 
                 updatedInfo.basic.description =
                     updatedInfo.basic.shortDescription = data.details.shortDescription;
@@ -1111,38 +1226,6 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 updatedInfo.details.pages.product.slideshow = data.slideshow;
             };
 
-            $scope.editorOptions = {
-                required_by_default: true,
-                disable_collapse: true,
-                disable_edit_json: true,
-                upload: function(type, file, cbs) {
-                    var formData = new FormData();
-                    formData.append(type, file, file.name);
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
-                    xhr.upload.onprogress = function(evt) {
-                        var percentComplete = (evt.loaded / evt.total)*100;
-                        cbs.updateProgress(percentComplete);
-                    };
-                    xhr.onload = function() {
-                        if (xhr.status === 200) {
-                            try {
-                                var response = JSON.parse(xhr.response);
-                                cbs.success(response.path);
-                            } catch(err) {
-                                cbs.failure('Upload failed');
-                                console.error(status, xhr.response);
-                            }
-                        } else {
-                            cbs.failure('Upload failed');
-                            console.error(status, xhr.response);
-                        }
-                    };
-                    xhr.send(formData);
-                }
-            };
-
         })
 
 
@@ -1163,7 +1246,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
         };
 
         $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
-            target[tab] = _.extend({}, $scope.fullSchema, {$ref: "#/definitions/" + tab});
+            target[tab] = _.defaults({$ref: "#/definitions/" + tab}, $scope.fullSchema);
             return target;
         }, {});
 

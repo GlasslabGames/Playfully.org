@@ -5,8 +5,16 @@
       <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
 
       <div class="gl-dev-editor">
-        <json-editor schema="editorSchema" startval="editorData"
-                     on-change="onChange($editorValue)" extra-options="editorOptions"></json-editor>
+        <h3>GAME ID # {{gameId}}</h3>
+
+        <div ng-repeat="(sectionName, section) in sections" class="gl-dev-editor-section gl-dev-editor-section-{{sectionName}}"
+             ng-show="sectionName.indexOf('platform_') === -1 || sectionName === 'platform_'+platform">
+
+          <json-editor schema="section.schema" startval="editorData[sectionName]"
+                       on-change="onChange($editorValue, sectionName)" extra-options="section.options"></json-editor>
+
+        </div>
+
       </div>
 
       <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button>
