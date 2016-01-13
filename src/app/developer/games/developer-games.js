@@ -309,8 +309,9 @@ angular.module('developer.games', [
                     };
                 }
             }).result.then(function (result) {
-                $state.reload();
-                $state.go('root.developerGames.editor', {gameId: result});
+                $state.go("root.developerGames.editor", {gameId: result},
+                    {reload: true, inherit: false, notify: true}
+                );
             }, function (reason) {//This will be triggered on dismiss/Esc/backdrop click
                 $state.reload();
             });
