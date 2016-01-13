@@ -9,7 +9,7 @@
     <div class="modal-body" ng-show="!request.isRegCompleted">
         <alert ng-repeat="error in request.errors" ng-show="request.errors.length" type="danger">{{ error }}</alert>
 
-        <form name="request" novalidate class="reg-form"
+        <form novalidate class="reg-form"
               ng-submit="createGame(request)">
 
             <div class="gl-input-group">
