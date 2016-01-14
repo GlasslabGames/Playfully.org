@@ -616,7 +616,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     formData.append(type, file, file.name);
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/image', true);
+                    xhr.open('POST', API_BASE + '/dash/developer/info/game/'+$scope.gameId+'/upload', true);
                     xhr.upload.onprogress = function(evt) {
                         var percentComplete = (evt.loaded / evt.total)*100;
                         cbs.updateProgress(percentComplete);
@@ -933,7 +933,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "format": "url",
                                 "options": {
                                     "input_width": "400px"
-                                }
+                                    }
                             },
                             "standard": {
                                 "type": "string",
