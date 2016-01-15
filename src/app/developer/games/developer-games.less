@@ -150,7 +150,8 @@
     }
   }
   .gl-dev-editor-section-standards,
-  .gl-dev-editor-section-lessonPlans {
+  .gl-dev-editor-section-lessonPlans,
+  .gl-dev-editor-section-lessonVideos {
     th {
       display: none;
     }
@@ -158,6 +159,9 @@
     td:not(:last-of-type) {
       float: left;
       padding-bottom: 0;
+      .form-group ~ div > * {
+        margin-top: -15px;
+      }
     }
 
     td:last-of-type {

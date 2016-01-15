@@ -608,6 +608,9 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             $scope.fullData = gameInfo;
 
             var baseOptions = {
+                template: {compile: function(template) {
+                    return _.template(template, {interpolate: /{{([\s\S]+?)}}/g});
+                }},
                 required_by_default: true,
                 disable_collapse: true,
                 disable_edit_json: true,
@@ -911,7 +914,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "title": "Lesson Plans",
                     "items": {
                         "type": "object",
-                        "title": "Link",
+                        "title": "File",
                         "properties": {
                             "category": {
                                 "type": "string",
@@ -929,11 +932,17 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             },
                             "link": {
                                 "type": "string",
-                                "description": "Link",
+                                "description": "PDF",
                                 "format": "url",
                                 "options": {
-                                    "input_width": "400px"
+                                    "input_width": "400px",
+                                    "upload": true
+                                },
+                                "links": [
+                                    {
+                                        "href": "{{self}}"
                                     }
+                                ]
                             },
                             "standard": {
                                 "type": "string",
@@ -948,6 +957,33 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "format": "textarea",
                                 "options": {
                                     "input_width": "100%"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "lessonVideos",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Lesson Videos",
+                    "items": {
+                        "type": "object",
+                        "title": "Link",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Title",
+                                "options": {
+                                    "input_width": "310px"
+                                }
+                            },
+                            "link": {
+                                "type": "string",
+                                "description": "Link",
+                                "format": "url",
+                                "options": {
+                                    "input_width": "500px"
                                 }
                             }
                         }
@@ -1003,7 +1039,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             $scope.sections = _.map(sections, function(section) {
                 return {
                     name: section.name,
-                    options: _.defaults({}, baseOptions),
+                    options: _.defaults({name: section.name}, baseOptions),
                     schema: _.defaults({}, section, baseSchema)
                 };
             });
@@ -1088,16 +1124,25 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
             if (gameInfo.details.pages.lessonPlans.list) {
                 baseData.lessonPlans = [];
+                baseData.lessonVideos = [];
                 _.forEach(gameInfo.details.pages.lessonPlans.list, function(section) {
                     //section.category
                     _.forEach(section.list, function(listItem) {
-                        baseData.lessonPlans.push({
-                            category: section.category,
+                        var data = _.pick({
                             name: listItem.name,
                             link: listItem.link,
                             standard: listItem.standard,
                             description: listItem.description
-                        });
+                        }, _.identity);
+
+                        if (!_.isEmpty(data)) {
+                            if (section.category === "Videos") {
+                                baseData.lessonVideos.push(data);
+                            } else {
+                                data.category = section.category;
+                                baseData.lessonPlans.push(data);
+                            }
+                        }
                     });
                 });
             }
@@ -1163,7 +1208,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         title: "Standards Alignment"
                     };
                 }
-                if(data.standards) {
+                if(!_.isEmpty(data.standards)) {
                     var groups = {};
                     var categories = {};
                     var standards = {};
@@ -1221,9 +1266,12 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.pages.standards.enabled = false;
                 }
 
-                if(data.lessonPlans) {
-                    var lessonPlansCategories = {};
+                updatedInfo.details.pages.lessonPlans.title = "Lesson Plans";
+                updatedInfo.details.pages.lessonPlans.enabled = false;
+                updatedInfo.details.pages.lessonPlans.list = [];
+                var lessonPlansCategories = {};
 
+                if(!_.isEmpty(data.lessonPlans)){
                     _.forEach(data.lessonPlans, function(item) {
                         if(!lessonPlansCategories[item.category]) {
                             lessonPlansCategories[item.category] = [];
@@ -1235,23 +1283,22 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             description: item.description
                         }, _.identity));
                     });
-
-                    updatedInfo.details.pages.lessonPlans.title = "Lesson Plans";
-                    if (lessonPlansCategories["Videos"]) {
-                        updatedInfo.details.pages.lessonPlans.title += " & Videos";
-                    }
-
-                    updatedInfo.details.pages.lessonPlans.list = [];
-                    _.forEach(lessonPlansCategories, function(items, category) {
-                        updatedInfo.details.pages.lessonPlans.list.push({
-                            category: category,
-                            list: items
-                        });
+                }
+                _.forEach(lessonPlansCategories, function(items, category) {
+                    updatedInfo.details.pages.lessonPlans.list.push({
+                        category: category,
+                        list: items
                     });
-
                     updatedInfo.details.pages.lessonPlans.enabled = true;
-                } else {
-                    updatedInfo.details.pages.lessonPlans.enabled = false;
+                });
+
+                if(!_.isEmpty(data.lessonVideos)) {
+                    updatedInfo.details.pages.lessonPlans.list.push({
+                        category: "Videos",
+                        list: data.lessonVideos
+                    });
+                    updatedInfo.details.pages.lessonPlans.enabled = true;
+                    updatedInfo.details.pages.lessonPlans.title = "Lesson Plans & Videos";
                 }
 
                 updatedInfo.basic.developer.name = data.developer.name;
