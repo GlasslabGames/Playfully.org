@@ -956,7 +956,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "description": "Description",
                                 "format": "textarea",
                                 "options": {
-                                    "input_width": "100%"
+                                    "input_width": "810px"
                                 }
                             }
                         }
@@ -984,6 +984,81 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 "format": "url",
                                 "options": {
                                     "input_width": "500px"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "research",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Research",
+                    "items": {
+                        "type": "object",
+                        "title": "Research",
+                        "properties": {
+                            "category": {
+                                "type": "string",
+                                "description": "Category",
+                                "options": {
+                                    "input_width": "130px"
+                                }
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Title",
+                                "options": {
+                                    "input_width": "200px"
+                                }
+                            },
+                            "link": {
+                                "type": "string",
+                                "description": "PDF",
+                                "format": "url",
+                                "options": {
+                                    "input_width": "480px",
+                                    "upload": true
+                                },
+                                "links": [
+                                    {
+                                        "href": "{{self}}"
+                                    }
+                                ]
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description",
+                                "format": "textarea",
+                                "options": {
+                                    "input_width": "810px"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "reviews",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Reviews",
+                    "items": {
+                        "type": "object",
+                        "title": "Review",
+                        "properties": {
+                            "reviewer": {
+                                "type": "string",
+                                "description": "Reviewer",
+                                "options": {
+                                    "input_width": "310px"
+                                }
+                            },
+                            "review": {
+                                "type": "string",
+                                "description": "Review",
+                                "format": "textarea",
+                                "options": {
+                                    "input_width": "810px"
                                 }
                             }
                         }
@@ -1122,7 +1197,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 });
             }
 
-            if (gameInfo.details.pages.lessonPlans.list) {
+            if (gameInfo.details.pages.lessonPlans) {
                 baseData.lessonPlans = [];
                 baseData.lessonVideos = [];
                 _.forEach(gameInfo.details.pages.lessonPlans.list, function(section) {
@@ -1146,6 +1221,31 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     });
                 });
             }
+
+            if (gameInfo.details.pages.research) {
+                baseData.research = [];
+                _.forEach(gameInfo.details.pages.research.list, function(section) {
+                    //section.category
+                    _.forEach(section.list, function(listItem) {
+                        var data = _.pick({
+                            name: listItem.name,
+                            link: listItem.link,
+                            description: listItem.description
+                        }, _.identity);
+
+                        if (!_.isEmpty(data)) {
+                            data.category = section.category;
+                            baseData.research.push(data);
+                        }
+                    });
+                });
+            }
+
+            if (gameInfo.details.pages.reviews) {
+                baseData.reviews = gameInfo.details.pages.reviews.list;
+            }
+
+
 
             $scope.saveInfo = function() {
                 return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
@@ -1200,7 +1300,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 updatedInfo.details.pages.product.video = data.resources.video;
                 updatedInfo.details.pages.product.brochure = data.resources.brochure;
 
-                if(!updatedInfo.details.pages.standards) {
+
+                if (!updatedInfo.details.pages.standards) {
                     updatedInfo.details.pages.standards = {
                         order: 2,
                         authRequired: false,
@@ -1208,7 +1309,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         title: "Standards Alignment"
                     };
                 }
-                if(!_.isEmpty(data.standards)) {
+                if (!_.isEmpty(data.standards)) {
                     var groups = {};
                     var categories = {};
                     var standards = {};
@@ -1266,12 +1367,13 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.pages.standards.enabled = false;
                 }
 
+
+
                 updatedInfo.details.pages.lessonPlans.title = "Lesson Plans";
                 updatedInfo.details.pages.lessonPlans.enabled = false;
                 updatedInfo.details.pages.lessonPlans.list = [];
                 var lessonPlansCategories = {};
-
-                if(!_.isEmpty(data.lessonPlans)){
+                if (!_.isEmpty(data.lessonPlans)) {
                     _.forEach(data.lessonPlans, function(item) {
                         if(!lessonPlansCategories[item.category]) {
                             lessonPlansCategories[item.category] = [];
@@ -1292,13 +1394,50 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.pages.lessonPlans.enabled = true;
                 });
 
-                if(!_.isEmpty(data.lessonVideos)) {
+                if (!_.isEmpty(data.lessonVideos)) {
                     updatedInfo.details.pages.lessonPlans.list.push({
                         category: "Videos",
                         list: data.lessonVideos
                     });
                     updatedInfo.details.pages.lessonPlans.enabled = true;
                     updatedInfo.details.pages.lessonPlans.title = "Lesson Plans & Videos";
+                }
+
+
+                updatedInfo.details.pages.research.enabled = false;
+                updatedInfo.details.pages.research.list = [];
+                var researchCategories = {};
+                if (!_.isEmpty(data.research)) {
+                    _.forEach(data.research, function(item) {
+                        if(!researchCategories[item.category]) {
+                            researchCategories[item.category] = [];
+                        }
+                        researchCategories[item.category].push(_.pick({
+                            name: item.name,
+                            link: item.link,
+                            description: item.description
+                        }, _.identity));
+                    });
+                }
+                _.forEach(researchCategories, function(items, category) {
+                    updatedInfo.details.pages.research.list.push({
+                        category: category,
+                        list: items
+                    });
+                    updatedInfo.details.pages.research.enabled = true;
+                });
+
+
+                updatedInfo.details.pages.reviews = {
+                    "order": 5,
+                    "enabled": false,
+                    "id": "reviews",
+                    "title": "Reviews",
+                    "list": []
+                };
+                if (!_.isEmpty(data.reviews)) {
+                    updatedInfo.details.pages.reviews.list = data.reviews;
+                    updatedInfo.details.pages.reviews.enabled = true;
                 }
 
                 updatedInfo.basic.developer.name = data.developer.name;
