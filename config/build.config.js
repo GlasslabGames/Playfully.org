@@ -82,11 +82,11 @@ module.exports = {
       'vendor/lodash/lodash.min.js',
       'vendor/angular-local-storage/dist/angular-local-storage.min.js',
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
-      'vendor/angular-animate/angular-animate.min.js',
       'vendor/json-editor/dist/jsoneditor.js',
       'vendor/marked/lib/marked.js',
       'vendor/angular-marked/dist/angular-marked.js',
       'vendor/angular-ui-ace/ui-ace.js',
+      'vendor/ngSticky/lib/sticky.js',
       'vendor/d3/d3.js',
       'vendor/nvd3/build/nv.d3.js',
       'vendor/angular-nvd3/dist/angular-nvd3.js'

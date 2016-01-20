@@ -66,8 +66,52 @@
 
 .ace_editor { height: 600px; }
 
+
+.gl-dev-editor-wrapper {
+  margin: 0 -20px;  // so the full width banner images can fit in editor
+}
+
+.gl-dev-editor-sticky {
+  .gl-dev-editor-sticky-btn-group {
+    float: right;
+    margin: 0;
+    padding: 6px 8px;
+    margin-right: 2px;
+    border-radius: 0 5px 0 5px;
+    background-color: #CFE6BA;
+    overflow: hidden;
+
+    .btn {
+      border-color: white;
+      background-color: #4788C1;
+      color: white;
+    }
+
+    .status {
+      display: inline-block;
+      white-space: nowrap;
+
+      -webkit-transition: max-width 1s ;
+      -moz-transition: max-width 1s ;
+      -o-transition: max-width 1s ;
+      -ms-transition: max-width 1s ;
+
+      max-width: 0;
+
+      &:after, &.success:before {
+        content: "\00a0\00a0";
+      }
+
+      &.on {
+        max-width: 800px;
+      }
+    }
+  }
+}
+
+
 .gl-dev-editor {
-  margin: 20px -20px; // so the full width banner can fit inside
+  margin: 20px 0;
   padding: 10px;
 
   background-color: #CFE6BA;
@@ -84,18 +128,6 @@
     background-color: #EAF3DE;
     margin: 7px 0;
     min-height: 46px;
-
-    .gl-dev-editor-btn-group-save {
-      float: right;
-      position: relative;
-      top: -3px;
-      z-index: 100;
-      .btn {
-        border: none;
-        background-color: #4788C1;
-        color: white;
-      }
-    }
 
     .well {
       border: 0;

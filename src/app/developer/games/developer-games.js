@@ -2,6 +2,7 @@ angular.module('developer.games', [
     'gl-editable-text',
     'gl-editable-text-popover',
     'gl-json-editor',
+    'sticky',
     'ui.ace'
 ])
 
@@ -603,7 +604,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
 
     .controller('DevGameEditorCtrl',
-        function ($scope, $state, $stateParams, myGames, gameInfo, GamesService, API_BASE) {
+        function ($scope, $state, $stateParams, myGames, gameInfo, GamesService, API_BASE, $timeout) {
             $scope.gameId = $stateParams.gameId;
             $scope.fullData = gameInfo;
 
@@ -1245,10 +1246,37 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 baseData.reviews = gameInfo.details.pages.reviews.list;
             }
 
-
+            $scope.request = {
+                enabled: false,
+                success: false,
+                errors: [],
+                isSubmitting: false,
+                timer: null
+            };
 
             $scope.saveInfo = function() {
-                return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
+                $scope.request.enabled = false;
+                $scope.request.success = false;
+                $scope.request.isSubmitting = true;
+                $scope.request.errors = [];
+                $timeout.cancel($scope.request.timer);
+
+                GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true)
+                    .then(function(response) {
+
+                        //alert(JSON.stringify(response, null, 2));
+                        $scope.request.isSubmitting = false;
+                        if (response.update === "complete") {
+                            $scope.request.success = true;
+                            $scope.request.timer = $timeout(function(){
+                                $scope.request.success = false;
+                            }, 3000);
+                        }
+
+                        if (_.has(response, "data.error")) {
+                            $scope.request.errors.push( response.data.error );
+                        }
+                    });
             };
 
             $scope.editorData = baseData;
@@ -1256,6 +1284,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             $scope.onChange = function(sectionData, section) {
                 //console.log("onChange", JSON.stringify(data, null, 2));
                 $scope.editorData[section] = sectionData;
+                $scope.request.enabled = true;
+                $scope.request.success = false;
 
                 var data = $scope.editorData;
 
