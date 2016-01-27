@@ -661,7 +661,110 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
             };
 
-            var sections = [
+            $scope.tabs = [{name: "Game"}, {name: "SOWO"}];
+
+            var tabSections = {};
+            tabSections["SOWO"] = [
+                {
+                    "name": "sowo",
+                    "type": "object",
+                    "format": "grid",
+                    "title": "SOWO Report",
+                    "properties": {
+                        "skinny": {
+                            "$ref": "#/definitions/image_url",
+                            "title": "Report Banner 940x110",
+                            "options": {
+                                "grid_columns": 12
+                            }
+                        },
+                        "trigger": {
+                            "type": "string",
+                            "title": "Assessment Trigger",
+                            "enum": ["endSession", "activity"]
+                        },
+                        "dataProcessScope": {
+                            "type": "string",
+                            "title": "Data Process Scope",
+                            "enum": ["gameSession", "all"]
+                        }
+                    }
+                },
+                {
+                    "name": "shoutouts",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Shout Outs",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "ID",
+                                "options": {"input_width": "210px"}
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Title",
+                                "options": {"input_width": "600px"}
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "watchouts",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Watch Outs",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "ID",
+                                "options": {"input_width": "210px"}
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Title",
+                                "options": {"input_width": "600px"}
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            },
+                            "whatNowIntro": {
+                                "type": "string",
+                                "description": "What Now? - Intro",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            },
+                            "whatNowActionPoints": {
+                                "type": "string",
+                                "description": "What Now? - Action Points (Appears as bullet points, one per line)",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            },
+                            "whatNowSummary": {
+                                "type": "string",
+                                "description": "What Now? - Summary",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            }
+                        }
+                    }
+                }
+            ];
+
+            tabSections["Game"] = [
                 {
                     "name": "name",
                     "type": "object",
@@ -1112,13 +1215,17 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
             ];
 
-            $scope.sections = _.map(sections, function(section) {
-                return {
-                    name: section.name,
-                    options: _.defaults({name: section.name}, baseOptions),
-                    schema: _.defaults({}, section, baseSchema)
-                };
+            $scope.sections = _.mapValues(tabSections, function(sections) {
+                return _.map(sections, function (section) {
+                    return {
+                        name: section.name,
+                        options: _.defaults({name: section.name}, baseOptions),
+                        schema: _.defaults({}, section, baseSchema)
+                    };
+                });
             });
+
+            /* POPULATE EDITOR DATA */
 
             var baseData = {
                 "name": {
@@ -1131,12 +1238,12 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 },
                 "details": {
                     "shortDescription": gameInfo.basic.description,
-                    "longDescription": gameInfo.details.pages.product.about,
-                    "curriculum": [].concat(gameInfo.details.pages.product.curriculum).join("\n")
+                    "longDescription": _.get(gameInfo, "details.pages.product.about"),
+                    "curriculum": [].concat(_.get(gameInfo, "details.pages.product.curriculum", [])).join("\n")
                 },
                 "resources": {
-                    "video": gameInfo.details.pages.product.video,
-                    "brochure": gameInfo.details.pages.product.brochure
+                    "video": _.get(gameInfo, "details.pages.product.video"),
+                    "brochure": _.get(gameInfo, "details.pages.product.brochure")
                 },
                 "developer": {
                     "name": gameInfo.basic.developer.name,
@@ -1149,7 +1256,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "card": gameInfo.basic.card.small,
                     "thumbnail": gameInfo.basic.thumbnail.small
                 },
-                "slideshow": gameInfo.details.pages.product.slideshow
+                "slideshow": _.get(gameInfo, "details.pages.product.slideshow")
             };
 
             if (gameInfo.basic.platform.type.match(/pc.*mac/i)) {
@@ -1246,12 +1353,52 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 baseData.reviews = gameInfo.details.pages.reviews.list;
             }
 
+            var reports = _.get(gameInfo, "reports.list", []);
+            var sowoReport = _.find(reports, {id: "sowo"});
+            if (sowoReport) {
+                var groups = _.get(sowoReport, "table.groups", []);
+                var shoutouts = _.find(groups, {id: "so"});
+                var watchouts = _.find(groups, {id: "wo"});
+
+                baseData.shoutouts = [];
+                _.forEach(_.get(shoutouts, "headers"), function(shoutout) {
+                    baseData.shoutouts.push({
+                        id: shoutout.id,
+                        title: shoutout.title,
+                        description: shoutout.description
+                    });
+                });
+
+                baseData.watchouts = [];
+                _.forEach(_.get(watchouts, "headers"), function(watchout) {
+                    baseData.watchouts.push({
+                        id: watchout.id,
+                        title: watchout.title,
+                        description: watchout.description,
+                        whatNowIntro: _.get(watchout, "whatNow.intro"),
+                        whatNowActionPoints: _.get(watchout, "whatNow.actionPoints", []).join("\n"),
+                        whatNowSummary: _.get(watchout, "whatNow.summary")
+                    });
+                });
+
+                baseData.sowo = {};
+                baseData.sowo.skinny = _.get(sowoReport, "header.skinny");
+
+                var sowoAssessment = _.find(gameInfo.assessment, {id: "sowo"});
+
+                baseData.sowo.trigger = _.get(sowoAssessment, "trigger");
+                baseData.sowo.dataProcessScope = _.get(sowoAssessment, "dataProcessScope");
+            }
+
+            /* END POPULATE EDITOR DATA */
+
             $scope.request = {
                 enabled: false,
                 success: false,
                 errors: [],
                 isSubmitting: false,
-                timer: null
+                timer: null,
+                statusFadeTimer: null
             };
 
             $scope.saveInfo = function() {
@@ -1259,29 +1406,40 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 $scope.request.success = false;
                 $scope.request.isSubmitting = true;
                 $scope.request.errors = [];
-                $timeout.cancel($scope.request.timer);
+                $timeout.cancel($scope.request.statusFadeTimer);
 
-                GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true)
-                    .then(function(response) {
+                $scope.request.timer = $timeout(function() {
 
-                        //alert(JSON.stringify(response, null, 2));
-                        $scope.request.isSubmitting = false;
-                        if (response.update === "complete") {
-                            $scope.request.success = true;
-                            $scope.request.timer = $timeout(function(){
-                                $scope.request.success = false;
-                            }, 3000);
-                        }
+                    GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true)
+                        .then(function(response) {
 
-                        if (_.has(response, "data.error")) {
-                            $scope.request.errors.push( response.data.error );
-                        }
-                    });
+                            //alert(JSON.stringify(response, null, 2));
+                            $scope.request.isSubmitting = false;
+                            if (response.update === "complete") {
+                                $scope.request.success = true;
+                                $scope.request.statusFadeTimer = $timeout(function(){
+                                    $scope.request.success = false;
+                                }, 3000);
+                            }
+
+                            if (_.has(response, "data.error")) {
+                                $scope.request.errors.push( response.data.error );
+                            }
+                        })
+                        .done(function() {
+                            $timeout.cancel($scope.request.timer);
+                        });
+
+                }, 1000);
+
             };
 
             $scope.editorData = baseData;
 
             $scope.onChange = function(sectionData, section) {
+
+                /* EDITOR ONCHANGE */
+
                 //console.log("onChange", JSON.stringify(data, null, 2));
                 $scope.editorData[section] = sectionData;
                 $scope.request.enabled = true;
@@ -1302,6 +1460,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                         type: "page",
                         page: {
                             embed: data.platform_browser.embed,
+                            embedSecure: data.platform_browser.embed,
                             format: data.platform_browser.format,
                             size: {
                                 width: data.platform_browser.width,
@@ -1324,11 +1483,11 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 updatedInfo.basic.description =
                     updatedInfo.basic.shortDescription = data.details.shortDescription;
 
-                updatedInfo.details.pages.product.about = data.details.longDescription;
-                updatedInfo.details.pages.product.curriculum = data.details.curriculum.split("\n");
+                _.set(updatedInfo, "details.pages.product.about", data.details.longDescription);
+                _.set(updatedInfo, "details.pages.product.curriculum", _.compact(data.details.curriculum.split("\n")));
 
-                updatedInfo.details.pages.product.video = data.resources.video;
-                updatedInfo.details.pages.product.brochure = data.resources.brochure;
+                _.set(updatedInfo, "details.pages.product.video", data.resources.video);
+                _.set(updatedInfo, "details.pages.product.brochure", data.resources.brochure);
 
 
                 if (!updatedInfo.details.pages.standards) {
@@ -1398,10 +1557,9 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
 
 
-
-                updatedInfo.details.pages.lessonPlans.title = "Lesson Plans";
-                updatedInfo.details.pages.lessonPlans.enabled = false;
-                updatedInfo.details.pages.lessonPlans.list = [];
+                _.set(updatedInfo, "details.pages.lessonPlans.title", "Lesson Plans");
+                _.set(updatedInfo, "details.pages.lessonPlans.enabled", false);
+                _.set(updatedInfo, "details.pages.lessonPlans.list", []);
                 var lessonPlansCategories = {};
                 if (!_.isEmpty(data.lessonPlans)) {
                     _.forEach(data.lessonPlans, function(item) {
@@ -1434,8 +1592,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
 
 
-                updatedInfo.details.pages.research.enabled = false;
-                updatedInfo.details.pages.research.list = [];
+                _.set(updatedInfo, "details.pages.research.enabled", false);
+                _.set(updatedInfo, "details.pages.research.list", []);
                 var researchCategories = {};
                 if (!_.isEmpty(data.research)) {
                     _.forEach(data.research, function(item) {
@@ -1488,6 +1646,126 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.basic.thumbnail.large = data.images.thumbnail;
 
                 updatedInfo.details.pages.product.slideshow = data.slideshow;
+
+
+                var assessments = _.get(updatedInfo, "assessment", []);
+                var reports = _.get(updatedInfo, "reports.list", []);
+
+                if (_.isEmpty(data.shoutouts) && _.isEmpty(data.watchouts)) {
+
+                    _.remove(assessments, {id: "sowo"});
+                    _.remove(reports, {id: "sowo"});
+
+                } else {
+                    var sowoAssessment = _.find(assessments, {id: "sowo"});
+                    if (!sowoAssessment) {
+                        sowoAssessment = {
+                            id: "sowo",
+                            enabled: true,
+                            engine: "javascript",
+                        };
+                        assessments.push(sowoAssessment);
+                    }
+
+                    sowoAssessment.dataProcessScope = data.sowo.dataProcessScope;
+                    sowoAssessment.trigger = data.sowo.trigger;
+                    sowoAssessment.rules = {};
+
+                    var sowoReport = _.find(reports, {id: "sowo"});
+                    if (!sowoReport) {
+                        sowoReport = {
+                            id: "sowo",
+                            assessmentId: "sowo",
+                            enabled: true,
+                            name: "Shout Out and Watch Out Report",
+                            header: {
+                                text: "Shout Out and Watch Out Report",
+                            },
+                            description: "This report provides a snapshot of how students are doing right now. Celebrate your students' success (Shout Out!) and intervene with those students in need of help (Watch Out!).",
+                            table: {
+                                labels: [],
+                                groups: []
+                            }
+                        };
+                        reports.push(sowoReport);
+                    }
+
+                    _.set(sowoReport, "header.image", data.sowo.skinny);
+                    _.set(sowoReport, "header.skinny", data.sowo.skinny);
+                    _.set(sowoReport, "header.large", data.sowo.skinny);
+
+                    var sowoGroups = _.get(sowoReport, "table.groups", []);
+
+                    if (_.isEmpty(data.shoutouts)) {
+                        _.remove(sowoGroups, {id: "so"});
+                    } else {
+                        var shoutouts = _.find(sowoGroups, {id: "so"});
+                        if (!shoutouts) {
+                            shoutouts = {
+                                id: "so",
+                                title: "Shout Out!"
+                            };
+                            sowoGroups.unshift(shoutouts);
+                        }
+                        shoutouts.headers = [];
+                        _.forEach(data.shoutouts, function(shoutout) {
+                            shoutouts.headers.push(_.pick({
+                                id: shoutout.id,
+                                title: shoutout.title,
+                                description: shoutout.description
+                            }, _.identity));
+
+                            sowoAssessment.rules[shoutout.id] = _.pick({
+                                name: shoutout.title,
+                                description: shoutout.description
+                            }, _.identity);
+                        });
+                    }
+
+                    if (_.isEmpty(data.watchouts)) {
+                        _.remove(sowoGroups, {id: "wo"});
+                    } else {
+                        var watchouts = _.find(sowoGroups, {id: "wo"});
+                        if (!watchouts) {
+                            watchouts = {
+                                id: "wo",
+                                title: "Watch Out!"
+                            };
+                            sowoGroups.push(watchouts);
+                        }
+                        watchouts.headers = [];
+                        _.forEach(data.watchouts, function(watchout) {
+                            watchouts.headers.push(_.pick({
+                                id: watchout.id,
+                                title: watchout.title,
+                                description: watchout.description,
+                                whatNow: _.merge(
+                                    _.pick({
+                                        intro: watchout.whatNowIntro,
+                                        summary: watchout.whatNowSummary
+                                    }, _.identity),
+                                    _.omit({
+                                        actionPoints: _.compact(watchout.whatNowActionPoints.split("\n"))
+                                    }, _.isEmpty)
+                                )
+                            }, _.identity));
+
+                            sowoAssessment.rules[watchout.id] = _.pick({
+                                name: watchout.title,
+                                description: watchout.description
+                            }, _.identity);
+                        });
+                    }
+
+                    _.set(sowoReport, "table.groups", sowoGroups);
+                }
+
+                _.set(updatedInfo, "reports.list", reports);
+                _.set(updatedInfo, "assessment", assessments);
+
+
+                /* END EDITOR ONCHANGE */
+
             };
 
         })

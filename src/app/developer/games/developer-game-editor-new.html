@@ -1,38 +1,47 @@
-<div class="container gl-margin--Txxs gl-margin--Bxxl">
+<div class="container gl-margin--Txxl gl-margin--Bxxl">
   <div class="row">
     <div class="col-md-12">
       <div class="gl-dev-editor-wrapper">
-        <div class="gl-dev-editor-sticky" sticky>
+        <tabset>
 
-          <div class="gl-dev-editor-sticky-btn-group">
+          <tab ng-repeat="tab in tabs" ng-hide="tabs.length <= 1">
+            <tab-heading >{{tab.name}}</tab-heading>
 
-            <span class="status on" ng-repeat="error in request.errors">
-              <i class="fa fa-exclamation-triangle gl-text-red"></i> {{error}}</span><!--
+            <div class="gl-dev-editor-sticky" sticky>
+              <div class="gl-dev-editor-sticky-btn-group">
 
-         --><button class="btn btn-default" type="button" ng-click="saveInfo()" ng-disabled="request.isSubmitting">
-              <span ng-hide="request.isSubmitting"> <i class="fa fa-save"></i> Save</span>
-              <span ng-show="request.isSubmitting"> Saving...</span>
-            </button><!--
+                <span class="status on" ng-repeat="error in request.errors">
+                  <i class="fa fa-exclamation-triangle gl-text-red"></i> {{error}}
+                </span><!-- no whitespace
 
-         --><span class="status success" ng-class="{'on': request.success}">
-              <i class="fa fa-check"></i> Saved</span>
+             --><button class="btn btn-default" type="button" ng-click="saveInfo()" ng-disabled="request.isSubmitting">
+                  <span ng-hide="request.isSubmitting"> <i class="fa fa-save"></i> Save</span>
+                  <span ng-show="request.isSubmitting"> Saving...</span>
+                </button><!-- no whitespace
 
-          </div>
+             --><span class="status success" ng-class="{'on': request.success}">
+                  <i class="fa fa-check"></i> Saved
+                </span>
 
-        </div>
-        <div class="gl-dev-editor">
-          <h3>Game ID # {{gameId}}</h3>
+              </div>
+            </div>
 
-          <div ng-repeat="section in sections"
-               ng-show="section.name.indexOf('platform_') === -1 || section.name === 'platform_'+platform"
-               class="gl-dev-editor-section gl-dev-editor-section-{{section.name}}">
+            <div class="gl-dev-editor">
+              <h3>Game ID # {{gameId}}</h3>
 
-            <json-editor schema="section.schema" startval="editorData[section.name]"
-                         on-change="onChange($editorValue, section.name)" extra-options="section.options"></json-editor>
+              <div ng-repeat="section in sections[tab.name]"
+                   ng-show="section.name.indexOf('platform_') === -1 || section.name === 'platform_'+platform"
+                   class="gl-dev-editor-section gl-dev-editor-section-{{section.name}}">
 
-          </div>
+                <json-editor schema="section.schema" startval="editorData[section.name]"
+                             on-change="onChange($editorValue, section.name)"
+                             extra-options="section.options"></json-editor>
 
-        </div>
+              </div>
+            </div>
+
+          </tab>
+        </tabset>
       </div>
     </div>
   </div>
