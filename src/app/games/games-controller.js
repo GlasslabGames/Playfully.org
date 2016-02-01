@@ -287,7 +287,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
 .controller('GameCatalogCtrl',
     function($scope, $rootScope, $window, $timeout, $stateParams, $log, allGamesInfo, gamesAvailableForLicense, currentPlan, $state, CHECKLIST, UserService) {
       $scope.allGamesInfo = _.reject(allGamesInfo, function (game) {
-        return game.price === 'TBD' || game.gameId === 'TEST' || game.gameId === 'GEM';
+        return game.price === 'TBD' || game.gameId === 'TEST';
       });
 
     // $scope.agi = allGamesInfo;

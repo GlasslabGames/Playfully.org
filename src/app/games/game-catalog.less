@@ -1,29 +1,25 @@
 .gl-game-catalog-carousel-container {
-  position: relative;
-  width: 986px;
-  left: -17px;
-  display: table;
   .carousel-control {
     opacity: 0;
   }
 }
 
 .gl-games-carousel--full {
-  width: 850px;
+  width: auto;
   height: auto;
+  margin-bottom: 38px;
 }
 
 .gl-game-catalog-featured-game {
-    text-align: center
+  text-align: center
 }
 
 .gl-game-catalog-banner {
-  height: 174px !important;
-  min-width: 546px !important;
+  width: 100%;
 }
 
 .gl-game-catalog-banner:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .gl-game-catalog-games-container {
@@ -32,80 +28,53 @@
 }
 
 .gl-new-game-catalog-games-container {
-  position: relative;
-  width: 986px;
-  display: table;
-  left: -17px;
-}
-
-.gl-game-catalog-carousel-row {
-    display: table-row;
-}
-
-.gl-game-catalog-advert-cell {
-    display: table-cell;
-    min-width:150px;
-}
-
-.gl-game-catalog-carousel-cell {
-    display: table-cell;
-}
-
-.gl-game-catalog-carousel-game-table {
-    display: table;
+  margin-right: -10px;
 }
 
 .gl-game-catalog-carousel-game-row {
-    position: relative;
-    display: table-row;
+  background-color: white;
+  height: 210px;
 }
 
 .gl-game-catalog-carousel-card-cell {
-    display: table-cell;
+  display: table-cell;
 }
 
 .gl-game-catalog-carousel-info-cell {
-    position: relative;
-    display: table-cell;
-    padding: 2px 2px 2px 8px;
-    width: 300px;
-    vertical-align: top;
-    text-align: left;
+  display: table-cell;
+  width: 282px;
+  padding: 8px 15px 0;
+  vertical-align: top;
+  text-align: left;
 }
 
 .gl-new-game-catalog-all-row {
-    display: table-row;
+  .make-row();
 }
 
 .gl-new-game-catalog-controls-cell {
-    display: table-cell;
-    padding: 0px 12px 0px 0px;
+  .make-md-column(2);
+  padding-right: 0;
+}
+
+.gl-new-game-catalog-skills-header-red,
+.gl-new-game-catalog-skills-header-green,
+.gl-new-game-catalog-skills-header-blue {
+  text-align: center;
+  margin: 6px 0;
 }
 
 .gl-new-game-catalog-skills-header-red {
-  color: red;
-  font-size: 12px;
-  margin-bottom: 3px;
-  font-weight: 500;
-  text-align: center;
+  color: @academicSkills;
 }
 
 .gl-new-game-catalog-skills-header-green {
-  color: green;
-  font-size: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-weight: 500;
-  text-align: center;
+  color: @21stCenturySkills;
 }
 
 .gl-new-game-catalog-skills-header-blue {
-  color: blue;
-  font-size: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-weight: 500;
-  text-align: center;
+  color: @21stCenturyReadiness;
+  font-size: 85%;
 }
 
 .gl-new-game-catalog-category-header {
@@ -116,103 +85,100 @@
   text-align: center;
 }
 
-.gl-new-game-catalog-skills-box {
-  font-size: 10px;
-  background-color: #eeeeee;
-  padding: 4px 8px 4px 8px;
-  margin-top: 10px;
+.gl-new-game-catalog-skills-box,
+.gl-new-game-catalog-allgames-box {
+  font-size: 11px;
+  color: @grey3;
+  background-color: @grey7;
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  border-radius: 5px;
+
+  label {
+    font-weight: normal;
+  }
 }
 
 .gl-new-game-catalog-grades-column {
   width: 70px;
 }
 
-.gl-new-game-catalog-allgames-box {
-  font-size: 10px;
-  background-color: #eeeeee;
-  padding: 4px 8px 4px 8px;
-  margin-bottom: 6px;
-}
-
 .gl-new-game-catalog-games-cell {
-  display: table-cell;
+  .make-md-column(10);
 }
 
 .gl-new-game-catalog-games-section {
-  width: 830px;
-  height: 660px;
-  overflow-y:scroll;
+  //width: 830px;
+  //height: 660px;
+
+  background-color: @grey7;
+  border-radius: 5px;
+  overflow-y: scroll;
 }
 
 .gl-new-game-catalog-games-section-header {
-    font-size: 24px;
-}
-
-.gl-new-game-catalog-games-table-outer {
-    width: 830px;
-    display: table;
-    background-color: #dddddd;
-    border-collapse: separate;
-    border-spacing: 3px;
+  font-size: 24px;
 }
 
 .gl-new-game-catalog-games-row-outer {
-    display: table-row;
-}
 
-.gl-new-game-catalog-games-cell-outer {
-    display: table-row;
+  margin: 7px;
+  padding: 4px;
+  background-color: white;
+  border: 1px solid @grey6;
 }
 
 .gl-new-game-catalog-games-table-inner {
-    width: 818px;
-    display: table;
-    border: 1px solid #888888;
-    background-color: #ffffff;
+  position: relative;
+  width: 100%;
+  height: 105px;
+  display: table;
 }
 
 .gl-new-game-catalog-games-row-inner {
-    position: relative;
-    display: table-row;
+  position: relative;
+  display: table-row;
 }
 
 .gl-new-game-catalog-games-box-cell {
-    position: relative;
-    display: table-cell;
-    width:362px;
-    padding: 2px;
-    vertical-align: top;
+  position: relative;
+  display: table-cell;
+  width: 339px;
+  padding-right: 10px;
+  vertical-align: top;
 }
 
 .gl-new-game-catalog-games-box-info-cell {
-    position: relative;
-    display: table-cell;
-    padding: 2px;
+  position: relative;
+  display: table-cell;
+  //padding: 2px;
 }
 
 .gl-new-game-catalog-game-grades {
-    font-size: 14px;
-    font-weight: 500;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .gl-new-game-catalog-game-developer {
-    position: absolute;
-    left: 0px;
-    bottom: 3px;
-    font-size: 14px;
+  position: absolute;
+  left: 0px;
+  bottom: 3px;
+  font-size: 14px;
 }
 
 .gl-new-game-catalog-game-platform {
-    position: absolute;
-    right: 3px;
-    bottom: 3px;
-    font-size: 14px;
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  font-size: 14px;
 }
 
 .gl-new-game-catalog-game-skill-icon {
-    position: absolute;
-    right: 3px;
-    top: 3px;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  border: 1px solid @grey6;
+  padding: 2px;
 }
 
 .gl-game-catalog-games-section {
@@ -228,7 +194,7 @@
   border: 1px solid #dddddd;
 }
 
-.gl-game-catalog-game-box:hover  {
+.gl-game-catalog-game-box:hover {
   cursor: pointer;
 }
 
@@ -238,6 +204,7 @@
 
 .gl-game-catalog-game-card {
   max-width: 100%;
+  min-height: 35%;
   height: auto;
 }
 
@@ -249,19 +216,18 @@
 
 .gl-game-catalog-game-description {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  top: -9px;
+  bottom: -9px;
+  right: -9px;
+  left: -9px;
   color: white;
   padding: 20px;
   background-color: rgba(17, 23, 39, 0.90);
+  border: 5px solid @grey7;
   overflow: hidden;
   text-overflow: ellipsis;
   button {
-    position: absolute;
-    left: 33%;
-    bottom: 20px;
+    float: right;
   }
 }
 
@@ -293,24 +259,15 @@
 }
 
 .gl-game-catalog-game-title-red {
-  color: red;
-  font-size: 17px;
-  margin-bottom: 3px;
-  font-weight: 500;
+  color: @academicSkills;
 }
 
 .gl-game-catalog-game-title-blue {
-  color: blue;
-  font-size: 17px;
-  margin-bottom: 3px;
-  font-weight: 500;
+  color: @21stCenturyReadiness;
 }
 
 .gl-game-catalog-game-title-green {
-  color: green;
-  font-size: 17px;
-  margin-bottom: 3px;
-  font-weight: 500;
+  color: @21stCenturySkills;
 }
 
 .gl-game-catalog-developer-logo {
