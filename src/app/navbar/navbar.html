@@ -3,12 +3,16 @@
     <!-- logo links to different place depending on login status -->
     <div class="gl-navbar-logo"
       ui-sref-active="active"
-      ng-if="isAuthenticatedButNot('student')"
+      ng-if="isAuthenticatedButNot('student') && isAuthenticatedButNot('admin')"
       ui-sref="root.instructorDashboard.default"></div>
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="isAuthorized('student')"
       ui-sref="root.studentDashboard"></div>
+    <div class="gl-navbar-logo"
+      ui-sref-active="active"
+      ng-if="isAuthorized('admin')"
+      ui-sref="admin.one-page"></div>
     <div class="gl-navbar-logo"
       ui-sref-active="active"
       ng-if="!isAuthenticatedButNot('guest')"
