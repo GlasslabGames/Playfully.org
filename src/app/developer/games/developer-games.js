@@ -1413,7 +1413,9 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             }
 
             if (gameInfo.details.pages.reviews) {
-                baseData.reviews = gameInfo.details.pages.reviews.list;
+                baseData.reviews = gameInfo.details.pages.reviews.list.filter(function(review) {
+                    return review && (review.review || review.reviewer);
+                });
             }
 
             var reports = _.get(gameInfo, "reports.list", []);
@@ -1680,9 +1682,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     updatedInfo.details.pages.research.enabled = true;
                 });
 
-
                 updatedInfo.details.pages.reviews = {
-                    "order": 5,
+                    "order": _.get(updatedInfo, "details.pages.reviews.order", 5),
                     "enabled": false,
                     "id": "reviews",
                     "title": "Reviews",
@@ -1699,7 +1700,11 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 updatedInfo.basic.developer.logo.small =
                     updatedInfo.basic.developer.logo.large = data.developer.logo;
 
-                updatedInfo.details.social = data.social;
+                updatedInfo.details.social = _.pick({
+                    facebook: data.social.facebook,
+                    twitter: data.social.twitter,
+                    google: data.social.google
+                }, _.identity);
 
                 updatedInfo.basic.banners.product =
                     updatedInfo.basic.banners.reports = data.images.banner;
