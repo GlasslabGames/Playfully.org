@@ -947,6 +947,68 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     }
                 },
                 {
+                    "name": "skills",
+                    "type": "object",
+                    "title": "Skills",
+                    "properties": {
+                        "primary": {
+                            "type": "string",
+                            "title": "Primary Skill (exact spelling)"
+                        },
+                        "secondary": {
+                            "type": "string",
+                            "title": "Secondary Skill (optional, exact spelling)"
+                        },
+                        "academicSkills": {
+                            "type": "array",
+                            "title": "Academic Skills (max two)",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "English Language Arts",
+                                    "Mathematics",
+                                    "Social Studies",
+                                    "Science",
+                                    "Foreign Language",
+                                    "Arts",
+                                    "Health and Phys Ed"
+                                ]
+                            }
+                        },
+                        "_21stCenturySkills": {
+                            "type": "array",
+                            "title": "21st Century Skills (max two)",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "Collaboration",
+                                    "Problem Solving",
+                                    "System Thinking",
+                                    "Creativity",
+                                    "Communication"
+                                ]
+                            }
+                        },
+                        "_21stCenturyReadiness": {
+                            "type": "array",
+                            "title": "21st Century Readiness (max two)",
+                            "uniqueItems": true,
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "Financial Literacy",
+                                    "Life Skills",
+                                    "Career Skills",
+                                    "Technology",
+                                    "Leadership"
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
                     "name": "resources",
                     "type": "object",
                     "format": "grid",
@@ -1241,6 +1303,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "longDescription": _.get(gameInfo, "details.pages.product.about"),
                     "curriculum": [].concat(_.get(gameInfo, "details.pages.product.curriculum", [])).join("\n")
                 },
+                "skills": gameInfo.basic.skills,
                 "resources": {
                     "video": _.get(gameInfo, "details.pages.product.video"),
                     "brochure": _.get(gameInfo, "details.pages.product.brochure")
@@ -1485,6 +1548,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
                 _.set(updatedInfo, "details.pages.product.about", data.details.longDescription);
                 _.set(updatedInfo, "details.pages.product.curriculum", _.compact(data.details.curriculum.split("\n")));
+
+                _.set(updatedInfo, "basic.skills", data.skills);
 
                 _.set(updatedInfo, "details.pages.product.video", data.resources.video);
                 _.set(updatedInfo, "details.pages.product.brochure", data.resources.brochure);
