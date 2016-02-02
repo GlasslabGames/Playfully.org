@@ -63,7 +63,7 @@
                         <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="_21stCenturyReadinessChange()" /> {{skill.name}}</label>
                     </div>
                 </div>
-                <div class="gl-new-game-catalog-category-header">
+                <div class="headline-6--serif gl-new-game-catalog-category-header">
                     Grade Level
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
@@ -76,7 +76,7 @@
                     <td><label><input type="checkbox" ng-model="gradeLevels[5].state" ng-checked="gradeLevels[5].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[5].name}}</label></td></tr>
                     </table>
                 </div>
-                <div class="gl-new-game-catalog-category-header">
+                <div class="headline-6--serif gl-new-game-catalog-category-header">
                     Platform
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
@@ -125,7 +125,7 @@
                                         Grades {{game.grades}}
                                     </span>
                                     <span class="gl-new-game-catalog-game-developer">
-                                        Developer {{game.developer.name}}
+                                        {{game.developer.name}}
                                     </span>
                                     <span class="gl-new-game-catalog-game-platform">
                                         {{game.platform.type}}
@@ -140,7 +140,8 @@
                             <div class="gl-game-catalog-game-description" ng-show="game.hover">
                                 <button ng-if="game.price!=='Coming Soon'" class="btn gl-btn--blue">Learn More</button>
                                 <p>
-                                    {{game.description ? truncateText(game.description,350) : ""}}
+                                    <!--{{game.description ? truncateText(game.description,350) : ""}}-->
+                                    {{game.description}}
                                 </p>
 
                             </div>
