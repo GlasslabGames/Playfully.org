@@ -949,20 +949,14 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 {
                     "name": "skills",
                     "type": "object",
+                    "format": "grid",
                     "title": "Skills",
                     "properties": {
-                        "primary": {
-                            "type": "string",
-                            "title": "Primary Skill (exact spelling)"
-                        },
-                        "secondary": {
-                            "type": "string",
-                            "title": "Secondary Skill (optional, exact spelling)"
-                        },
                         "academicSkills": {
                             "type": "array",
                             "title": "Academic Skills (max two)",
                             "uniqueItems": true,
+                            "maxItems": 2,
                             "items": {
                                 "type": "string",
                                 "enum": [
@@ -974,12 +968,14 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                     "Arts",
                                     "Health and Phys Ed"
                                 ]
-                            }
+                            },
+                            "options": {"grid_columns": 12}
                         },
                         "_21stCenturySkills": {
                             "type": "array",
                             "title": "21st Century Skills (max two)",
                             "uniqueItems": true,
+                            "maxItems": 2,
                             "items": {
                                 "type": "string",
                                 "enum": [
@@ -989,12 +985,14 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                     "Creativity",
                                     "Communication"
                                 ]
-                            }
+                            },
+                            "options": {"grid_columns": 12}
                         },
                         "_21stCenturyReadiness": {
                             "type": "array",
                             "title": "21st Century Readiness (max two)",
                             "uniqueItems": true,
+                            "maxItems": 2,
                             "items": {
                                 "type": "string",
                                 "enum": [
@@ -1004,7 +1002,43 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                     "Technology",
                                     "Leadership"
                                 ]
-                            }
+                            },
+                            "options": {"grid_columns": 12}
+                        },
+                        "primary": {
+                            "type": "string",
+                            "title": "Primary Skill",
+                            "watch": {
+                                "academicSkills": "academicSkills",
+                                "_21stCenturySkills": "_21stCenturySkills",
+                                "_21stCenturyReadiness": "_21stCenturyReadiness"
+                            },
+                            "enumSource": [
+                                {"source": "academicSkills"},
+                                {"source": "_21stCenturySkills"},
+                                {"source": "_21stCenturyReadiness"}
+                            ],
+                            "options": {"grid_columns": 6}
+                        },
+                        "secondary": {
+                            "type": "string",
+                            "title": "Secondary Skill (optional)",
+                            "watch": {
+                                "academicSkills": "academicSkills",
+                                "_21stCenturySkills": "_21stCenturySkills",
+                                "_21stCenturyReadiness": "_21stCenturyReadiness"
+                            },
+                            "enumSource": [
+                                {
+                                    "source": [{"value": "", "title": "None"}],
+                                    "title": "{{item.title}}",
+                                    "value": "{{item.value}}"
+                                },
+                                {"source": "academicSkills"},
+                                {"source": "_21stCenturySkills"},
+                                {"source": "_21stCenturyReadiness"}
+                            ],
+                            "options": {"grid_columns": 6}
                         }
                     }
                 },
