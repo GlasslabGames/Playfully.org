@@ -334,18 +334,19 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         { name: "11-12", state: 0, mask: 0x1800 }
       ];
       $scope.platformList = [
-        { name: "PC/Mac", state: 0, event: "pcMac" },
-        { name: "iOS", state: 0, event: "iPad" },
-        { name: "Android", state: 0, event: "android", disable: 1 },
-        { name: "Browser", state: 0, event: "chromebook" }
+        { name: "PC/Mac", state: 0, mask: 0x0001, event: "pcMac" },
+        { name: "iOS", state: 0, mask: 0x0002, event: "iPad" },
+        { name: "Android", state: 0, mask: 0x0004, event: "android", disable: 1 },
+        { name: "Browser", state: 0, mask: 0x0008, event: "chromebook" }
       ];
       $scope.platformListMap = { "PC/Mac": 0, "iOS": 1, "Andriod": 2, "Browser": 3 };
       
-      $scope.allGames = 1;
+      $scope.allGames = true;
       $scope.selectedAcademicSkillsMask = 0;
       $scope.selected21stCenturySkillsMask = 0;
       $scope.selected21stCenturyReadinessMask = 0;
       $scope.selectedGradeMask = 0;
+      $scope.selectedPlatformMask = 0;
       
       $scope.gradesPreMask = [ 0x0000, 0x0001, 0x0003, 0x0007, 0x000f, 0x001f, 0x003f, 0x007f,
         0x00ff, 0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff ];
@@ -358,6 +359,19 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         }
         limits[1] = parseInt(limits[1], 10);
         return $scope.gradesPreMask[limits[1] + 1]  - $scope.gradesPreMask[limits[0]];
+      };
+
+      $scope.platformToMask = function(p) {
+        if (p === 'PC/Mac') {
+            return $scope.platformList[$scope.platformListMap["PC/Mac"]].mask;
+        }
+        if (p.indexOf('Browser') !== -1) {
+            return $scope.platformList[$scope.platformListMap["Browser"]].mask
+                | $scope.platformList[$scope.platformListMap["PC/Mac"]].mask;
+        }
+        if (p === 'iPad') {
+            return $scope.platformList[$scope.platformListMap["iOS"]].mask;
+        }
       };
 
       $scope.skillsToMask = function(assigned, known) {
@@ -421,9 +435,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       $scope.allGamesInfo.forEach(function(game) {
         $scope.allGamesFilterData[game.shortName] = {
             gradesMask: $scope.gradesToMask(game.grades),
-            academicSkillMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills.academicSkills, $scope.academicSkills) : 0x7fff),
-            _21stCenturySkillsMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturySkills, $scope._21stCenturySkills) : 0x7fff),
-            _21stCenturyReadinessMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturyReadiness, $scope._21stCenturyReadiness) : 0x7fff),
+            platformMask: $scope.platformToMask(game.platform.type),
+            academicSkillMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills.academicSkills, $scope.academicSkills) : 0),
+            _21stCenturySkillsMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturySkills, $scope._21stCenturySkills) : 0),
+            _21stCenturyReadinessMask: (game.skills !== undefined ? $scope.skillsToMask(game.skills._21stCenturyReadiness, $scope._21stCenturyReadiness) : 0),
             titleColorSelector: $scope.makeTitleColorSelector(game.skills),
             skillIconName: $scope.makeSkillIconName(game.skills)
         };
@@ -465,58 +480,6 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       $scope.gameSkillIcon = function(game) {
         return $scope.allGamesFilterData[game.shortName].skillIconName;
       };
-      
-      $scope.academicSkillsChangeDelayed = function() {
-        $scope.selectedAcademicSkillsMask = 0;
-        for (var i=0;i<$scope.academicSkills.length;i++) {
-            if ($scope.academicSkills[i].state) {
-                $scope.selectedAcademicSkillsMask |= $scope.academicSkills[i].mask;
-            }
-        }
-      };
-
-      $scope.academicSkillsChange = function() {
-        $timeout($scope.academicSkillsChangeDelayed, 20);
-      };
-
-      $scope._21stCenturySkillChangeDelayed = function() {
-        $scope.selected21stCenturySkillsMask = 0;
-        for (var i=0;i<$scope._21stCenturySkills.length;i++) {
-            if ($scope._21stCenturySkills[i].state) {
-                $scope.selected21stCenturySkillsMask |= $scope._21stCenturySkills[i].mask;
-            }
-        }
-      };
-
-      $scope._21stCenturySkillChange = function() {
-        $timeout($scope._21stCenturySkillChangeDelayed, 20);
-      };
-
-      $scope._21stCenturyReadinessChangeDelayed = function() {
-        $scope.selected21stCenturyReadinessMask = 0;
-        for (var i=0;i<$scope._21stCenturyReadiness.length;i++) {
-            if ($scope._21stCenturyReadiness[i].state) {
-                $scope.selected21stCenturyReadinessMask |= $scope._21stCenturyReadiness[i].mask;
-            }
-        }
-      };
-
-      $scope._21stCenturyReadinessChange = function() {
-        $timeout($scope._21stCenturyReadinessChangeDelayed, 20);
-      };
-
-      $scope.gradeLevelsChangeDelayed = function() {
-        $scope.selectedGradeMask = 0;
-        for (var i=0;i<$scope.gradeLevels.length;i++) {
-            if ($scope.gradeLevels[i].state) {
-                $scope.selectedGradeMask |= $scope.gradeLevels[i].mask;
-            }
-        }
-      };
-      
-      $scope.gradeLevelsChange = function() {
-        $timeout($scope.gradeLevelsChangeDelayed, 20);
-      };
 
       $scope.goToGameDetail = function(price,gameId) {
         if (price!=='Coming Soon') {
@@ -532,57 +495,107 @@ $stateProvider.state( 'modal.game-user-mismatch', {
           return text;
         }
       };
-      
-      $scope.gameFilter = function() {
-         return function(game) {
-            if ($scope.allGames) {
-                return true;
-            }
-            
-            if (game.platform.type === 'PC & Mac') {
-                if (!$scope.platformList[$scope.platformListMap["PC/Mac"]].state && !$scope.platformList[$scope.platformListMap["Browser"]].state) {
-                    return false;
-                }
-            }
-            if (game.platform.type.indexOf('Browser') !== -1) {
-                if (!$scope.platformList[$scope.platformListMap["Browser"]].state) {
-                    return false;
-                }
-            }
-            if (game.platform.type === 'iPad') {
-                if (!$scope.platformList[$scope.platformListMap["iOS"]].state) {
-                    return false;
-                }
-            }
-            
-            var mask = $scope.allGamesFilterData[game.shortName].gradesMask;
-            if (($scope.selectedGradeMask & mask) === 0) {
-                return false;
-            }
 
-            var any = false;
-            mask = $scope.allGamesFilterData[game.shortName].academicSkillMask;
-            if (($scope.selectedAcademicSkillsMask & mask) !== 0) {
-                any = true;
+      $scope.allGamesClicked = function () {
+        if ($scope.allGames) {
+            $scope.selectedAcademicSkillsMask = 0;
+            $scope.selected21stCenturySkillsMask = 0;
+            $scope.selected21stCenturyReadinessMask = 0;
+            $scope.selectedGradeMask = 0;
+            $scope.selectedPlatformMask = 0;
+
+            for (i = 0; i < $scope.academicSkills.length; i++) {
+                $scope.academicSkills[i].state = false;
             }
-            if (!any) {
-                mask = $scope.allGamesFilterData[game.shortName]._21stCenturySkillsMask;
-                if (($scope.selected21stCenturySkillsMask & mask) !== 0) {
-                    any = true;
+            for (i = 0; i < $scope._21stCenturySkills.length; i++) {
+                $scope._21stCenturySkills[i].state = false;
+            }
+            for (i = 0; i < $scope._21stCenturyReadiness.length; i++) {
+                $scope._21stCenturyReadiness[i].state = false;
+            }
+            for (i = 0; i < $scope.gradeLevels.length; i++) {
+                $scope.gradeLevels[i].state = false;
+            }
+            for (i = 0; i < $scope.platformList.length; i++) {
+                $scope.platformList[i].state = false;
+            }
+        } else {
+            $scope.allGames = true;
+        }
+      };
+
+      $scope.onCatalogFilterChange = function (item) {
+        if (item && item.event && item.state) {
+            $scope.analyticEvent(item.event, item.state);
+        }
+
+        // timeout needed to allow manipulating $scope.allGames
+        $timeout(function () {
+            var i, anyChecked = false;
+            $scope.selectedAcademicSkillsMask = 0;
+            $scope.selected21stCenturySkillsMask = 0;
+            $scope.selected21stCenturyReadinessMask = 0;
+            $scope.selectedGradeMask = 0;
+            $scope.selectedPlatformMask = 0;
+
+            for (i = 0; i < $scope.academicSkills.length; i++) {
+                if ($scope.academicSkills[i].state) {
+                    $scope.selectedAcademicSkillsMask |= $scope.academicSkills[i].mask;
+                    anyChecked = true;
                 }
             }
-            if (!any) {
-                mask = $scope.allGamesFilterData[game.shortName]._21stCenturyReadinessMask;
-                if (($scope.selected21stCenturyReadinessMask & mask) !== 0) {
-                    any = true;
+            for (i = 0; i < $scope._21stCenturySkills.length; i++) {
+                if ($scope._21stCenturySkills[i].state) {
+                    $scope.selected21stCenturySkillsMask |= $scope._21stCenturySkills[i].mask;
+                    anyChecked = true;
                 }
             }
-            if (!any) {
+            for (i = 0; i < $scope._21stCenturyReadiness.length; i++) {
+                if ($scope._21stCenturyReadiness[i].state) {
+                    $scope.selected21stCenturyReadinessMask |= $scope._21stCenturyReadiness[i].mask;
+                    anyChecked = true;
+                }
+            }
+            for (i = 0; i < $scope.gradeLevels.length; i++) {
+                if ($scope.gradeLevels[i].state) {
+                    $scope.selectedGradeMask |= $scope.gradeLevels[i].mask;
+                    anyChecked = true;
+                }
+            }
+            for (i = 0; i < $scope.platformList.length; i++) {
+                if ($scope.platformList[i].state) {
+                    $scope.selectedPlatformMask |= $scope.platformList[i].mask;
+                    anyChecked = true;
+                }
+            }
+            $scope.allGames = !anyChecked;
+        }, 0);
+      };
+
+      $scope.gameFilter = function () {
+        return function (game) {
+            var mask = $scope.allGamesFilterData[game.shortName].gradesMask;
+            if ($scope.selectedGradeMask && ($scope.selectedGradeMask & mask) === 0) {
                 return false;
             }
-            
+            mask = $scope.allGamesFilterData[game.shortName].platformMask;
+            if ($scope.selectedPlatformMask && ($scope.selectedPlatformMask & mask) === 0) {
+                return false;
+            }
+            mask = $scope.allGamesFilterData[game.shortName].academicSkillMask;
+            if ($scope.selectedAcademicSkillsMask && ($scope.selectedAcademicSkillsMask & mask) === 0) {
+                return false;
+            }
+            mask = $scope.allGamesFilterData[game.shortName]._21stCenturySkillsMask;
+            if ($scope.selected21stCenturySkillsMask && ($scope.selected21stCenturySkillsMask & mask) === 0) {
+                return false;
+            }
+            mask = $scope.allGamesFilterData[game.shortName]._21stCenturyReadinessMask;
+            if ($scope.selected21stCenturyReadinessMask && ($scope.selected21stCenturyReadinessMask & mask) === 0) {
+                return false;
+            }
             return true;
-         };
+        };
       };
       
       $scope.analyticEvent = function(value, oldState) {

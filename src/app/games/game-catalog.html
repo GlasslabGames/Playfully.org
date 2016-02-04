@@ -12,7 +12,6 @@
                              ui-sref="root.games.detail.product({gameId:game.gameId})" />
                     </div>
                     <div class="gl-game-catalog-carousel-info-cell">
-                        <!--<span ng-class="{red:'gl-game-catalog-game-title-red', green:'gl-game-catalog-game-title-green', blue:'gl-game-catalog-game-title-blue'}[gameTitleColorSelctor(game)]">-->
                         <p class="headline-4--serif" ng-class="'gl-game-catalog-game-title-'+gameTitleColorSelctor(game)">
                             {{game.shortName}}
                         </p>
@@ -37,14 +36,14 @@
         <div class="gl-new-game-catalog-all-row">
             <div class="gl-new-game-catalog-controls-cell">
                 <div class="gl-new-game-catalog-allgames-box">
-                    <label><input type="checkbox" ng-model="allGames" ng-checked="allGames" /> All Games</label>
+                    <label><input type="checkbox" ng-model="allGames" ng-checked="allGames" ng-click="allGamesClicked()" /> All Games</label>
                 </div>
                 <div class="headline-6--serif gl-new-game-catalog-skills-header-red">
                     Academic Skills
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
                     <div ng-repeat="skill in academicSkills">
-                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="academicSkillsChange()" /> {{skill.name}}</label>
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="onCatalogFilterChange()" /> {{skill.name}}</label>
                     </div>
                 </div>
                 <div class="headline-6--serif gl-new-game-catalog-skills-header-green">
@@ -52,7 +51,7 @@
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
                     <div ng-repeat="skill in _21stCenturySkills">
-                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="_21stCenturySkillChange()" /> {{skill.name}}</label>
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="onCatalogFilterChange()" /> {{skill.name}}</label>
                     </div>
                 </div>
                 <div class="headline-6--serif gl-new-game-catalog-skills-header-blue">
@@ -60,7 +59,7 @@
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
                     <div ng-repeat="skill in _21stCenturyReadiness">
-                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="_21stCenturyReadinessChange()" /> {{skill.name}}</label>
+                        <label><input type="checkbox" ng-model="skill.state" ng-checked="skill.state" ng-click="onCatalogFilterChange()" /> {{skill.name}}</label>
                     </div>
                 </div>
                 <div class="headline-6--serif gl-new-game-catalog-category-header">
@@ -68,12 +67,12 @@
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
                     <table>
-                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[0].state" ng-checked="gradeLevels[0].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[0].name}}</label></td>
-                    <td><label><input type="checkbox" ng-model="gradeLevels[3].state" ng-checked="gradeLevels[3].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[3].name}}</label></td></tr>
-                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[1].state" ng-checked="gradeLevels[1].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[1].name}}</label></td>
-                    <td><label><input type="checkbox" ng-model="gradeLevels[4].state" ng-checked="gradeLevels[4].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[4].name}}</label></td></tr>
-                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[2].state" ng-checked="gradeLevels[2].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[2].name}}</label></td>
-                    <td><label><input type="checkbox" ng-model="gradeLevels[5].state" ng-checked="gradeLevels[5].state" ng-click="gradeLevelsChange()" /> {{gradeLevels[5].name}}</label></td></tr>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[0].state" ng-checked="gradeLevels[0].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[0].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[3].state" ng-checked="gradeLevels[3].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[3].name}}</label></td></tr>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[1].state" ng-checked="gradeLevels[1].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[1].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[4].state" ng-checked="gradeLevels[4].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[4].name}}</label></td></tr>
+                    <tr><td class="gl-new-game-catalog-grades-column"><label><input type="checkbox" ng-model="gradeLevels[2].state" ng-checked="gradeLevels[2].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[2].name}}</label></td>
+                    <td><label><input type="checkbox" ng-model="gradeLevels[5].state" ng-checked="gradeLevels[5].state" ng-click="onCatalogFilterChange()" /> {{gradeLevels[5].name}}</label></td></tr>
                     </table>
                 </div>
                 <div class="headline-6--serif gl-new-game-catalog-category-header">
@@ -81,7 +80,7 @@
                 </div>
                 <div class="gl-new-game-catalog-skills-box">
                     <div ng-repeat="platform in platformList">
-                        <label><input type="checkbox" ng-model="platform.state" ng-checked="platform.state" ng-disabled="platform.disable" ng-click="analyticEvent(platform.event, platform.state)" /> {{platform.name}}</label>
+                        <label><input type="checkbox" ng-model="platform.state" ng-checked="platform.state" ng-disabled="platform.disable" ng-click="onCatalogFilterChange(platform)" /> {{platform.name}}</label>
                     </div>
                 </div>
             </div>
@@ -114,10 +113,6 @@
                                     </div>
                                 </div>
                                 <div class="gl-new-game-catalog-games-box-info-cell">
-                                    <!--<span class="ng-class="{red:'gl-game-catalog-game-title-red', green:'gl-game-catalog-game-title-green', blue:'gl-game-catalog-game-title-blue'}[gameTitleColorSelctor(game)]">-->
-                                        <!--{{game.shortName}}-->
-                                        <!-- <span class="gl-text-end-fade"></span> -->
-                                    <!--</span>-->
                                     <div class="headline-4--serif" ng-class="'gl-game-catalog-game-title-'+gameTitleColorSelctor(game)">
                                         {{game.shortName}}
                                     </div>
