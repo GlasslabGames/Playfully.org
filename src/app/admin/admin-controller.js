@@ -401,13 +401,13 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                 }
             }
 
-            // if(3 < data.length) {
-            //     if("string" == typeof(data[3])) {
-            //         $scope.rdeTextArea4 = '' + data[3];
-            //     }else{
-            //         $scope.rdeTextArea4 = ' sorry -- no data ';
-            //     }
-            // }
+            if (3 < data.length) {
+                if ("string" == typeof(data[3])) {
+                    $scope.rdeTextArea4 = '' + data[3];
+                } else {
+                    $scope.rdeTextArea4 = ' sorry -- no data ';
+                }
+            }
 
         });
     };
