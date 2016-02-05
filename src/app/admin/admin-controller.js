@@ -405,7 +405,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                 if ("string" == typeof(data[3])) {
                     $scope.rdeTextArea4 = '' + data[3];
                 } else {
-                    $scope.rdeTextArea4 = ' sorry -- no data ';
+                    $scope.rdeTextArea4 = JSON.stringify(data[3], null, 2);
                 }
             }
 
