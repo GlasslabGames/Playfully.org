@@ -3,7 +3,8 @@ angular.module('developer.games', [
     'gl-editable-text-popover',
     'gl-json-editor',
     'sticky',
-    'ui.ace'
+    'ui.ace',
+    'diff-match-patch'
 ])
 
 .config(function ($stateProvider, JSONEditorProvider) {
@@ -123,6 +124,9 @@ angular.module('developer.games', [
                 },
                 infoSchema: function(GamesService) {
                     return GamesService.getDeveloperGamesInfoSchema();
+                },
+                submissionTarget: function (GamesService) {
+                    return GamesService.getSubmissionTarget();
                 }
             },
             data: {
@@ -1525,7 +1529,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                                 $scope.request.errors.push( response.data.error );
                             }
                         })
-                        .done(function() {
+                        .then(function() {
                             $timeout.cancel($scope.request.timer);
                         });
 
@@ -1878,17 +1882,22 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
 
     .controller('DevGameAdvancedEditorCtrl',
-    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, API_BASE) {
+    function ($scope, $state, $stateParams, myGames, gameInfo, infoSchema, GamesService, API_BASE, submissionTarget, $http) {
         $scope.gameId = $stateParams.gameId;
         $scope.fullData = gameInfo;
         $scope.fullDataAsStr = JSON.stringify(gameInfo, null, 4);
+        $scope.originalDataAsStr = $scope.fullDataAsStr;
         $scope.fullSchema = infoSchema;
+        $scope.submissionTarget = submissionTarget;
         $scope.tabs = ["basic", "details", "assessment", "reports"];
         if (gameInfo["missions"]) {
             $scope.tabs.push("missions");
         }
         $scope.saveInfo = function() {
-            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true);
+            return GamesService.updateDeveloperGameInfo($scope.gameId, $scope.fullData, true)
+                .then(function() {
+                    $scope.originalDataAsStr = $scope.fullDataAsStr;
+                });
         };
 
         $scope.tabSchema = _.reduce($scope.tabs, function(target, tab) {
@@ -1940,6 +1949,15 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             } catch(err) {
 
             }
+        };
+
+        $scope.pullInfo = function() {
+            GamesService.pullGameInfoFromUrl($scope.gameId)
+                .then(function(info) {
+                    $scope.fullData = info;
+                    $scope.fullDataAsStr = JSON.stringify($scope.fullData, null, 4);
+                });
+
         };
     })
 

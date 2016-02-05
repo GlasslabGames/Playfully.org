@@ -300,6 +300,9 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             },
             gamesRejected: function (GamesService) {
                 return GamesService.getAllDeveloperGamesRejected();
+            },
+            submissionTarget: function (GamesService) {
+                return GamesService.getSubmissionTarget();
             }
         },
         views: {
@@ -1096,17 +1099,14 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGamesEditCtrl', function ($scope, $state, UserService, GamesService, allGamesInfo, gamesAvailable, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGamesEditCtrl', function ($scope, $state, UserService, GamesService, allGamesInfo, gamesAvailable, submissionTarget, gamesApproved, gamesAwaitingApproval, gamesRejected) {
 
     $scope.showTab = 0;
-    // if ($state.includes('admin.game-approval.pending')) {
-    //     $scope.showTab = 1;
-    // } else if ($state.includes('admin.game-approval.rejected')) {
-    //     $scope.showTab = 2;
-    // }
 
     $scope.usersxx = gamesAvailable;
     $scope.allgames = allGamesInfo;
+
+    $scope.submissionTarget = submissionTarget;
 
     $scope.predicateList = 'gameId';
     $scope.reverseList = false;
@@ -1124,42 +1124,20 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             value.myKey = key;
             value.company = (value.organization !== undefined ? value.organization.organization : "");
         });
-/*
-    } else if ($scope.showTab === 1) {
-        $scope.games = gamesAwaitingApproval;
-        angular.forEach( $scope.games, function( value, key ) {
-            value.myKey = key;
-            value.company = (value.organization !== undefined ? value.organization.organization : "");
-            value.longName = value.basic.longName;
-        });
-    } else if ($scope.showTab === 2) {
-        $scope.games = gamesRejected;
-        angular.forEach( $scope.games, function( value, key ) {
-            value.myKey = key;
-            value.company = (value.organization !== undefined ? value.organization.organization : "");
-            value.longName = value.basic.longName;
-        });
-*/
     }
-    $scope.go = function(gameId) {
-        console.log('go(gameID) ... gameId =', gameId);
-        // $state.go("admin.admin-games-edit");
-        $state.go("root.developerGames.editor", {gameId: gameId});
-        // developer/games/AA-1/editor
-    };
-/*
-    $scope.approveGame = function(game) {
-        GamesService.approveGame(game.gameId)
-        .then(function(response) {
-            // always on objct
-            delete $scope.games[game.myKey];
-        }, function(err){
-            $log.error("check game access:", err);
-            $window.alert(err);
-        });
-    };
-*/
 
+
+
+    $scope.approveGame = function(gameId) {
+        GamesService.approveGame(gameId)
+            .then(function(response) {
+                // always on objct
+                //delete $scope.games[game.myKey];
+            }, function(err){
+                $log.error("check game access:", err);
+                $window.alert(err);
+            });
+    };
 })
 
 

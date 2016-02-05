@@ -277,6 +277,37 @@ angular.module('games', [
           });
     },
 
+    getSubmissionTarget: function() {
+      return $http.get(API_BASE + '/admin/games-submission-target')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          })
+          .then(function(result) {
+              console.log(result);
+              var url = document.createElement("a");
+              url.href = result.url;
+              return url.hostname;
+          })
+          .then(null, function() {
+              return "";
+          });
+    },
+
+    pullGameInfoFromUrl: function(gameId) {
+      return $http.get(API_BASE + '/dash/game/'+gameId+'/from-submission-target')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
     approveGame: function(gameId) {
       return $http.post(API_BASE + '/dash/game/'+gameId+'/approve');
     },
