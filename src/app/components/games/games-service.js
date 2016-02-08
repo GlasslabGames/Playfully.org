@@ -218,8 +218,8 @@ angular.module('games', [
     },
 
 
-    updateDeveloperGameInfo: function(gameId,data) {
-      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data)})
+    updateDeveloperGameInfo: function(gameId,data,overwrite) {
+      return $http.post(API_BASE + '/dash/developer/info/game/' + gameId, {jsonStr: JSON.stringify(data), overwrite: (overwrite ? 1 : 0) })
           .then(function(response) {
             $log.debug(response);
             return response.data;
@@ -268,6 +268,37 @@ angular.module('games', [
 
     getAllDeveloperGamesRejected: function() {
       return $http.get(API_BASE + '/dash/games/rejected')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    getSubmissionTarget: function() {
+      return $http.get(API_BASE + '/admin/games-submission-target')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          })
+          .then(function(result) {
+              console.log(result);
+              var url = document.createElement("a");
+              url.href = result.url;
+              return url.hostname;
+          })
+          .then(null, function() {
+              return "";
+          });
+    },
+
+    pullGameInfoFromUrl: function(gameId) {
+      return $http.get(API_BASE + '/dash/game/'+gameId+'/from-submission-target')
           .then(function(response) {
               $log.debug(response);
               return response.data;

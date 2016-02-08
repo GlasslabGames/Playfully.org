@@ -1,4 +1,5 @@
 angular.module('playfully.developer', [
     'developer.games',
-    'developer.tools'
+    'developer.tools',
+    'developer.reports'
 ]);

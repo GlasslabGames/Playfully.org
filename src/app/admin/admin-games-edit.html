@@ -3,22 +3,37 @@
 	<div class="container">
 		<h2 class="text-muted">Admin Games Edit</h2>
 		<div class="gl-hooga">
-			<table>
-<tr>
-<th class="admin-da-date-header"><a href="" ng-click="orderList('gameId')">Game ID</a><span class="admin-da-sortorder" ng-show="predicateList === 'gameId'" ng-class="{reverse:reverseList}"></span></th>
-<th class="admin-da-name-header"><a href="" ng-click="orderList('longName')">Game Name</a><span class="admin-da-sortorder" ng-show="predicateList === 'longName'" ng-class="{reverse:reverseList}"></span></th>
-
-<th class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th>
-</tr>
-
-<tr ng-repeat="game in games | orderBy:predicateList:reverseList" ng-click="go(game.gameId)">
-
-<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.gameId}}</td>
-
-<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.shortName}}</td>
-
-<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
-</tr>
+			<table class="table table-striped">
+        <thead>
+          <tr>
+            <th><a href="" ng-click="orderList('gameId')">Game ID</a><span
+              class="admin-da-sortorder" ng-show="predicateList === 'gameId'" ng-class="{reverse:reverseList}"></span>
+            </th>
+            <th><a href="" ng-click="orderList('longName')">Game Name</a><span
+              class="admin-da-sortorder" ng-show="predicateList === 'longName'" ng-class="{reverse:reverseList}"></span>
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="game in games | orderBy:predicateList:reverseList">
+            <td>{{game.gameId}}</td>
+            <td>{{game.shortName}}</td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-default" ui-sref="root.developerGames.editor({gameId:game.gameId})">Edit</button>
+                <!--<button class="btn btn-default" ui-sref="root.developerGames.advanced-editor({gameId:game.gameId})">Adv. Editor</button>-->
+                <button class="btn btn-default" ui-sref="root.developerGames.raw-editor({gameId:game.gameId})">Raw JSON</button>
+              </div>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button class="btn btn-default" ng-click="approveGame(game.gameId)" ng-if="submissionTarget">Push to {{submissionTarget}}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
 			</table>
 			<br><br>
 		</div>

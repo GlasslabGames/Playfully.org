@@ -1,23 +1,223 @@
 .gl-game-catalog-carousel-container {
-  width: 1000px;
   .carousel-control {
     opacity: 0;
   }
 }
 
+.gl-games-carousel--full {
+  width: auto;
+  height: auto;
+  margin-bottom: 38px;
+}
+
+.gl-game-catalog-featured-game {
+  text-align: center
+}
+
 .gl-game-catalog-banner {
-  height: 293px !important;
-  min-width: 940px !important;
+  width: 100%;
 }
 
 .gl-game-catalog-banner:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
-
 
 .gl-game-catalog-games-container {
   position: relative;
   left: -17px;
+}
+
+.gl-new-game-catalog-games-container {
+  margin-right: -10px;
+}
+
+.gl-game-catalog-carousel-game-row {
+  background-color: white;
+  height: 210px;
+}
+
+.gl-game-catalog-carousel-card-cell {
+  display: table-cell;
+}
+
+.gl-game-catalog-carousel-info-cell {
+  display: table-cell;
+  width: 282px;
+  padding: 8px 15px 0;
+  vertical-align: top;
+  text-align: left;
+}
+
+.gl-new-game-catalog-all-row {
+  .make-row();
+}
+
+.gl-new-game-catalog-controls-cell {
+  .make-md-column(2);
+  padding-right: 0;
+}
+
+.gl-new-game-catalog-skills-header-red,
+.gl-new-game-catalog-skills-header-green,
+.gl-new-game-catalog-skills-header-blue {
+  text-align: center;
+  margin: 6px 0;
+}
+
+.gl-new-game-catalog-skills-header-red {
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @academicSkills;
+  }
+}
+
+.gl-new-game-catalog-skills-header-green {
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @21stCenturySkills;
+  }
+}
+
+.gl-new-game-catalog-skills-header-blue {
+  font-size: 85%;
+
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @21stCenturyReadiness;
+  }
+}
+
+.gl-new-game-catalog-category-header {
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.gl-new-game-catalog-skills-box,
+.gl-new-game-catalog-allgames-box {
+  font-size: 11px;
+  color: @grey3;
+  background-color: @grey7;
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  border-radius: 5px;
+
+  label {
+    font-weight: normal;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* IE/Edge */
+    user-select: none;           /* non-prefixed version */
+
+    span:before {
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-style: normal;
+      text-decoration: inherit;
+      margin-left: -17px;
+      padding-right: 5px;
+      font-size: 20px;
+      line-height: 20px;
+      position: relative;
+      top: 3px;
+      content: "\f0c8"; // fa-square
+    }
+
+    :checked + span:before {
+      content: "\f14a"; // fa-check-square
+      //content: "\f046"; // fa-check-square-o
+    }
+  }
+
+  input {
+    opacity: 0;
+  }
+}
+
+.gl-new-game-catalog-grades-column {
+  width: 70px;
+}
+
+.gl-new-game-catalog-games-cell {
+  .make-md-column(10);
+}
+
+.gl-new-game-catalog-games-section {
+  //width: 830px;
+  //height: 660px;
+
+  background-color: @grey7;
+  border-radius: 5px;
+  overflow-y: scroll;
+}
+
+.gl-new-game-catalog-games-section-header {
+  font-size: 24px;
+}
+
+.gl-new-game-catalog-games-row-outer {
+
+  margin: 7px;
+  padding: 4px;
+  background-color: white;
+  border: 1px solid @grey6;
+  border-radius: 2px;
+}
+
+.gl-new-game-catalog-games-table-inner {
+  position: relative;
+  width: 100%;
+  height: 105px;
+  display: table;
+}
+
+.gl-new-game-catalog-games-row-inner {
+  position: relative;
+  display: table-row;
+}
+
+.gl-new-game-catalog-games-box-cell {
+  position: relative;
+  display: table-cell;
+  width: 339px;
+  padding-right: 10px;
+  vertical-align: top;
+}
+
+.gl-new-game-catalog-games-box-info-cell {
+  position: relative;
+  display: table-cell;
+  //padding: 2px;
+}
+
+.gl-new-game-catalog-game-grades {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.gl-new-game-catalog-game-developer {
+  position: absolute;
+  left: 0px;
+  bottom: 3px;
+  font-size: 14px;
+}
+
+.gl-new-game-catalog-game-platform {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  font-size: 14px;
+}
+
+.gl-new-game-catalog-game-skill-icon {
+  position: absolute;
+  right: -5px;
+  top: -4px;
+  border: 1px solid @grey6;
+  border-width: 0 0 1px 1px;
+  border-radius: 0 2px;
+  padding: 2px;
 }
 
 .gl-game-catalog-games-section {
@@ -33,7 +233,7 @@
   border: 1px solid #dddddd;
 }
 
-.gl-game-catalog-game-box:hover  {
+.gl-game-catalog-game-box:hover {
   cursor: pointer;
 }
 
@@ -43,6 +243,7 @@
 
 .gl-game-catalog-game-card {
   max-width: 100%;
+  min-height: 35%;
   height: auto;
 }
 
@@ -54,19 +255,20 @@
 
 .gl-game-catalog-game-description {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  top: -8px;
+  bottom: -8px;
+  right: -8px;
+  left: -8px;
   color: white;
   padding: 20px;
   background-color: rgba(17, 23, 39, 0.90);
+  border: 3px solid @grey7;
+  border-radius: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   button {
-    position: absolute;
-    left: 33%;
-    bottom: 20px;
+    float: right;
+    margin-left: 15px;
   }
 }
 
@@ -95,6 +297,18 @@
   font-size: 17px;
   margin-bottom: 3px;
   font-weight: 500;
+}
+
+.gl-game-catalog-game-title-red {
+  color: @academicSkills;
+}
+
+.gl-game-catalog-game-title-blue {
+  color: @21stCenturyReadiness;
+}
+
+.gl-game-catalog-game-title-green {
+  color: @21stCenturySkills;
 }
 
 .gl-game-catalog-developer-logo {

@@ -165,6 +165,14 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             authorizedRoles: ['admin']
         }
     })
+    .state('admin.monitor', {
+        url: '/monitor',
+        templateUrl: 'admin/admin-monitor.html',
+        controller: 'AdminMonitorCtrl',
+        data: {
+            authorizedRoles: ['admin']
+        }
+    })
     .state('modal.developer-email-reason-modal', {
         url: '/admin/developer-email-reason',
         data: {
@@ -292,6 +300,9 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             },
             gamesRejected: function (GamesService) {
                 return GamesService.getAllDeveloperGamesRejected();
+            },
+            submissionTarget: function (GamesService) {
+                return GamesService.getSubmissionTarget();
             }
         },
         views: {
@@ -390,13 +401,13 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                 }
             }
 
-            // if(3 < data.length) {
-            //     if("string" == typeof(data[3])) {
-            //         $scope.rdeTextArea4 = '' + data[3];
-            //     }else{
-            //         $scope.rdeTextArea4 = ' sorry -- no data ';
-            //     }
-            // }
+            if (3 < data.length) {
+                if ("string" == typeof(data[3])) {
+                    $scope.rdeTextArea4 = '' + data[3];
+                } else {
+                    $scope.rdeTextArea4 = JSON.stringify(data[3], null, 2);
+                }
+            }
 
         });
     };
@@ -954,7 +965,8 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                             $scope.canAddYear = !isTrial;
 
                             angular.forEach( $scope.packages.seats, function(seat) {
-                                if (seat.studentSeats > students && seat.educatorSeats > educators) {                               if (seat.size == "Custom") {
+                                if (isTrial || (seat.studentSeats > students && seat.educatorSeats > educators)) {
+                                    if (seat.size == "Custom") {
                                         $scope.seatOptions.push({ id: seat.seatId, title: "Custom (" +  seat.studentSeats + " students, " + seat.educatorSeats + " educators)"});
                                     } else if (seat.seatId == "group") {
                                         standardSeatOptions.push({ id: "group", title: "Group (10 students, 1 educator)"});
@@ -1037,12 +1049,13 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
         if (changed) {
             if (!$scope.hasInstitution && $scope.userInfo.isTrial) {
-                if (planInfo.type === 'trail' || planInfo.seats === 'trial') {
-                    $scope.changeErrorMsg = "Subscribing requires selecting plan and seats!";
+                if (planInfo.type === 'trial' || planInfo.seats === 'trial') {
+                    $scope.changeErrorMsg = "Upgrading from trial requires selecting plan and seats!";
                     return;
                 }
+            
                 if (schoolInfo.name === '' || schoolInfo.address === '' || schoolInfo.city === '' ||                schoolInfo.state === '' || schoolInfo.zipCode === '') {
-                    $scope.changeErrorMsg = "Subscribing requires entering institution information!";
+                    $scope.changeErrorMsg = "Upgrading from trial requires entering institution information!";
                     return;
                 }
             }
@@ -1086,17 +1099,14 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGamesEditCtrl', function ($scope, $state, $timeout, UserService, GamesService, allGamesInfo, gamesAvailable, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGamesEditCtrl', function ($scope, $state, UserService, GamesService, allGamesInfo, gamesAvailable, submissionTarget, gamesApproved, gamesAwaitingApproval, gamesRejected) {
 
     $scope.showTab = 0;
-    // if ($state.includes('admin.game-approval.pending')) {
-    //     $scope.showTab = 1;
-    // } else if ($state.includes('admin.game-approval.rejected')) {
-    //     $scope.showTab = 2;
-    // }
 
     $scope.usersxx = gamesAvailable;
     $scope.allgames = allGamesInfo;
+
+    $scope.submissionTarget = submissionTarget;
 
     $scope.predicateList = 'gameId';
     $scope.reverseList = false;
@@ -1114,48 +1124,26 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             value.myKey = key;
             value.company = (value.organization !== undefined ? value.organization.organization : "");
         });
-/*
-    } else if ($scope.showTab === 1) {
-        $scope.games = gamesAwaitingApproval;
-        angular.forEach( $scope.games, function( value, key ) {
-            value.myKey = key;
-            value.company = (value.organization !== undefined ? value.organization.organization : "");
-            value.longName = value.basic.longName;
-        });
-    } else if ($scope.showTab === 2) {
-        $scope.games = gamesRejected;
-        angular.forEach( $scope.games, function( value, key ) {
-            value.myKey = key;
-            value.company = (value.organization !== undefined ? value.organization.organization : "");
-            value.longName = value.basic.longName;
-        });
-*/
     }
-    $scope.go = function(gameId) {
-        console.log('go(gameID) ... gameId =', gameId);
-        // $state.go("admin.admin-games-edit");
-        $state.go("root.developerGames.editor", {gameId: gameId});
-        // developer/games/AA-1/editor
-    };
-/*
-    $scope.approveGame = function(game) {
-        GamesService.approveGame(game.gameId)
-        .then(function(response) {
-            // always on objct
-            delete $scope.games[game.myKey];
-        }, function(err){
-            $log.error("check game access:", err);
-            $window.alert(err);
-        });
-    };
-*/
 
+
+
+    $scope.approveGame = function(gameId) {
+        GamesService.approveGame(gameId)
+            .then(function(response) {
+                // always on objct
+                //delete $scope.games[game.myKey];
+            }, function(err){
+                $log.error("check game access:", err);
+                $window.alert(err);
+            });
+    };
 })
 
 
 
 
-.controller('AdminGameApprovalCtrl', function ($scope, $state, $timeout, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
@@ -1215,4 +1203,58 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         $state.go("modal.developer-email-reason-modal");
     };
 
+})
+
+.controller('AdminMonitorCtrl', function ($scope, $state, $interval, DataService, ENV) {
+    $scope.loaded = false;
+
+    $scope.monitorReport = function() {
+        DataService.monitorReport()
+        .then(function(response) {
+            $scope.report = response;
+            $scope.loaded = true;
+            $scope.lastReportDate = moment().format("YYYY-MM-DD HH:mm:ss");
+        });
+    };
+
+    $scope.myInterval = $interval(function () {
+        $scope.monitorReport();
+    }, ENV.monitorRateMillis ? ENV.monitorRateMillis : 300000);
+
+    $scope.$on("$destroy", function(){
+        $interval.cancel($scope.myInterval);
+    });
+
+    $scope.monitorReport(); // prime it
+    
+    $scope.fetchData = function() {
+        DataService.runMonitor()
+        .then(function(response) {
+            $scope.monitorReport();
+        });
+    };
+    
+    $scope.upText = function(data) {
+        return data ? "UP" : "DOWN";
+    };
+
+    $scope.infoText = function(data) {
+        return data ? "OK" : "MISSING";
+    };
+
+    $scope.cpuUsageText = function(data) {
+        return data.toFixed(2);
+    };
+
+    $scope.jobCountText = function(missing, count) {
+        return missing ? "MISSING" : count;
+    };
+    
+    $scope.leakText = function(leak, msg) {
+        return leak ? msg : "None";
+    };
+    
+    $scope.nodeText = function(data) {
+        return data === 'healthy' ? 'Healthy' : 'ERROR: ' + data;
+    };
 });

@@ -61,6 +61,7 @@ module.exports = {
     js: [
       'vendor/jquery/dist/jquery.min.js',
       'vendor/ace-builds/src-min-noconflict/ace.js',
+      'vendor/ace-builds/src-min-noconflict/ext-searchbox.js',
       'vendor/angular/angular.js',
       'vendor/angular-cookie/angular-cookie.min.js',
       'vendor/angular-sanitize/angular-sanitize.min.js',
@@ -79,14 +80,22 @@ module.exports = {
       'vendor/angular-order-object-by/src/ng-order-object-by.js',
       'vendor/sticky-ng/js/stickyNg.js',
       'vendor/sticky-ng/js/jquery.stickytableheaders.js',
-      'vendor/lodash/dist/lodash.min.js',
+      'vendor/lodash/lodash.min.js',
       'vendor/angular-local-storage/dist/angular-local-storage.min.js',
       'vendor/angular-progress-arc/angular-progress-arc.min.js',
-      'vendor/angular-animate/angular-animate.min.js',
       'vendor/json-editor/dist/jsoneditor.js',
-      'vendor/angular-ui-ace/ui-ace.js'
+      'vendor/marked/lib/marked.js',
+      'vendor/angular-marked/dist/angular-marked.js',
+      'vendor/angular-ui-ace/ui-ace.js',
+      'vendor/google-diff-match-patch/diff_match_patch.js',
+      'vendor/angular-diff-match-patch/angular-diff-match-patch.js',
+      'vendor/ngSticky/lib/sticky.js',
+      'vendor/d3/d3.js',
+      'vendor/nvd3/build/nv.d3.js',
+      'vendor/angular-nvd3/dist/angular-nvd3.js'
     ],
     css: [
+		'vendor/nvd3/build/nv.d3.css'
       //'vendor/bootstrap/dist/css/bootstrap.min.css',
       //'vendor/bootstrap/dist/css/bootstrap-theme.min.css'
     ],

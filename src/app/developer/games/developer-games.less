@@ -65,3 +65,152 @@
 }
 
 .ace_editor { height: 600px; }
+
+.ins {background-color: @aquaBlue;}
+
+.del {background-color: @pink; text-decoration: line-through;}
+
+
+.gl-dev-editor-wrapper {
+  margin: 0 -20px;  // so the full width banner images can fit in editor
+}
+
+.gl-dev-editor-sticky {
+  min-width: 980px;
+  max-width: 980px;
+
+  .gl-dev-editor-sticky-btn-group {
+    float: right;
+    margin: 0;
+    padding: 6px 8px;
+    margin-right: 2px;
+    border-radius: 0 5px 0 5px;
+    background-color: #CFE6BA;
+    overflow: hidden;
+
+    .btn {
+      border-color: white;
+      background-color: #4788C1;
+      color: white;
+    }
+
+    .status {
+      display: inline-block;
+      white-space: nowrap;
+
+      -webkit-transition: max-width 1s ;
+      -moz-transition: max-width 1s ;
+      -o-transition: max-width 1s ;
+      -ms-transition: max-width 1s ;
+
+      max-width: 0;
+
+      &:after, &.success:before {
+        content: "\00a0\00a0";
+      }
+
+      &.on {
+        max-width: 800px;
+      }
+    }
+  }
+}
+
+
+.gl-dev-editor {
+  margin: 20px 0;
+  padding: 10px;
+
+  background-color: #CFE6BA;
+  border-radius: 5px;
+
+  h3 {
+    color: white;
+    margin: 0 0 10px;
+  }
+
+  .gl-dev-editor-section {
+    border-radius: 5px;
+    padding: 10px 10px 0;
+    background-color: #EAF3DE;
+    margin: 0 0 7px;
+    min-height: 46px;
+
+    .well {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+      background: none;
+    }
+
+    .well > .btn-group, .form-group ~ div > * {
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      color: #357CBE;
+      font-family: 'Bitter', serif;
+    }
+
+    table,
+    table > thead > tr > th,
+    table > tbody > tr > td {
+      border: none;
+    }
+
+    table tbody tr {
+      border: 1px #BDD6D6 solid;
+    }
+
+    table > tbody > tr > td > .form-group > label {
+      display: none;
+    }
+
+    td img {
+      max-height: 360px;
+    }
+
+    tr:last-of-type .btn-group > .btn:nth-of-type(2) {
+      border-radius: 0 5px 5px 0;
+    }
+
+    tr:first-of-type:last-of-type .btn-group > .btn {
+      border-radius: 5px;
+    }
+  }
+
+  .gl-dev-editor-section-platform_ipad,
+  .gl-dev-editor-section-platform_client,
+  .gl-dev-editor-section-platform_browser {
+    margin-top: -20px;
+    h3 {
+      display: none;
+    }
+  }
+  .gl-dev-editor-section-standards,
+  .gl-dev-editor-section-lessonPlans,
+  .gl-dev-editor-section-lessonVideos,
+  .gl-dev-editor-section-research,
+  .gl-dev-editor-section-reviews,
+  .gl-dev-editor-section-shoutouts,
+  .gl-dev-editor-section-watchouts {
+    th {
+      display: none;
+    }
+
+    td:not(:last-of-type) {
+      float: left;
+      padding-bottom: 0;
+      .form-group ~ div > * {
+        margin-top: -15px;
+      }
+    }
+
+    td:last-of-type {
+      //float: none;
+      width: 129px;
+    }
+  }
+
+}

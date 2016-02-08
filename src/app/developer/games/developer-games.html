@@ -26,7 +26,7 @@
                                 <p>
                                     {{game.description ? truncateText(game.description,350) : ""}}
                                 </p>
-                                <button class="btn gl-btn--blue">Edit Game Details</button>
+                                <button class="btn gl-btn--blue" ng-click="goToGameDetail(game.gameId,game.release)">Edit Game Details</button>
                             </div>
                         </div>
                         <div class="gl-game-catalog-game-box-info">

@@ -1,5 +1,18 @@
 body {
   background-color: @grey8;
+
+  .table-striped > tbody {
+    & > tr:nth-child(odd) {
+      & > td, & > th {
+        background-color: @alternatingRowsOdd;
+      }
+    }
+    & > tr:nth-child(even) {
+      & > td, & > th {
+        background-color: @alternatingRowsEven;
+      }
+    }
+  }
 }
 
 .gl-home-lead-container {

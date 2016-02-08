@@ -1,0 +1,59 @@
+<p>
+
+<div class="container gl-container gl-margin--B40">
+    <div class="gl-game-catalog-games-container">
+        <div ng-repeat="section in sections">
+            <h3 class="headline-4--serif gl-margin--B40 gl-game-catalog-section-title">{{section.name}}</h3>
+            <div class="gl-game-catalog-games-section" ng-if="section.games.length">
+                <div class="col-md-4" ng-repeat="game in section.games | orderBy: 'releaseDate':true">
+                    <div class="gl-game-catalog-game-box gl-margin--Bl"
+                         ng-init="game.hover=false"
+                         ng-mouseover="game.hover=true"
+                         ng-mouseleave="game.hover=false"
+                         ng-class="{'no-hover':game.release!=='live'}"
+                         >
+                        <div class="gl-game-catalog-game-card-wrapper">
+                            <div class="gl-game-catalog-developer-logo">
+                                <img ng-src="{{game.developer.logo.small}}" width="60" height="60">
+                            </div>
+                            <img ng-src="{{game.card.small}}" class="gl-game-catalog-game-card">
+
+                            <div class="gl-dev-catalog-game-description" ng-show="game.release==='live'&&game.hover">
+                                <p>
+                                    {{game.description ? truncateText(game.description,350) : ""}}
+                                </p>
+                                <button class="btn gl-btn--blue" ng-click="viewGameReports(game.gameId)">View Game Reports</button>
+                            </div>
+                        </div>
+                        <div class="gl-game-catalog-game-box-info">
+                                <span class="gl-game-catalog-game-title">
+                                    {{game.shortName}}
+                                    <span class="gl-text-end-fade"></span>
+                                </span>
+                            <ul>
+                                <li>Subject: {{game.subject}}
+                                </li>
+                                <li>Grade: {{game.grades}}</li>
+                                <li>Developed by {{game.developer.name}}
+                                </li>
+                            </ul>
+                            <button ng-click="viewGameReports(game.gameId)">View Reports</button>
+                        </div>
+                        <div class="gl-game-catalog-platform-triangle">
+                            <img ng-src="{{game.platform.icon.small}}"
+                                 class="gl-game-catalog-platform-icon">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!section.games.length">
+                <div class="col-md-4" style="color: lightgrey">
+                    <div class="gl-margin--B40">No Games</div>
+                </div>
+            </div>
+            <hr class="gl-game-report-divider" ng-hide="section.release === 'incomplete'">
+        </div>
+    </div>
+</div>
+
+</p>

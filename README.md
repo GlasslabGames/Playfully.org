@@ -25,6 +25,16 @@ Make sure you have Node.js installed.
    (Note: this will run non-stop, as it is monitoring.)
 
 
+OSX Reboot
+----------
+1. Not sure if shell environment is properly restored on reboot, so:
+		. ~/.nvm/nvm.sh
+2. cd Playfully.org
+3. sudo npm -g install grunt-cli karma bower
+4. sudo npm install
+5. bower install
+6. grunt watch
+
 End-to-end testing
 ------------------
 

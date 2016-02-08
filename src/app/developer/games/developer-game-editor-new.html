@@ -1,0 +1,48 @@
+<div class="container gl-margin--Txxl gl-margin--Bxxl">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="gl-dev-editor-wrapper">
+        <tabset>
+
+          <tab ng-repeat="tab in tabs" ng-hide="tabs.length <= 1">
+            <tab-heading >{{tab.name}}</tab-heading>
+
+            <div class="gl-dev-editor-sticky" sticky>
+              <div class="gl-dev-editor-sticky-btn-group">
+
+                <span class="status on" ng-repeat="error in request.errors">
+                  <i class="fa fa-exclamation-triangle gl-text-red"></i> {{error}}
+                </span><!-- no whitespace
+
+             --><button class="btn btn-default" type="button" ng-click="saveInfo()" ng-disabled="request.isSubmitting">
+                  <span ng-hide="request.isSubmitting"> <i class="fa fa-save"></i> Save</span>
+                  <span ng-show="request.isSubmitting"> Saving...</span>
+                </button><!-- no whitespace
+
+             --><span class="status success" ng-class="{'on': request.success}">
+                  <i class="fa fa-check"></i> Saved
+                </span>
+
+              </div>
+            </div>
+
+            <div class="gl-dev-editor">
+              <h3>Game ID # {{gameId}}</h3>
+
+              <div ng-repeat="section in sections[tab.name]"
+                   ng-show="section.name.indexOf('platform_') === -1 || section.name === 'platform_'+platform"
+                   class="gl-dev-editor-section gl-dev-editor-section-{{section.name}}">
+
+                <json-editor schema="section.schema" startval="editorData[section.name]"
+                             on-change="onChange($editorValue, section.name)"
+                             extra-options="section.options"></json-editor>
+
+              </div>
+            </div>
+
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

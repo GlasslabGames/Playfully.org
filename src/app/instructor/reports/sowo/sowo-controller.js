@@ -35,6 +35,7 @@ angular.module( 'instructor.reports')
 
     $scope.whatNow = {};
     $scope.whatNow.isCollapsed = false;
+    $scope.whatNow.enabled = false;
 
 
 
@@ -133,6 +134,7 @@ angular.module( 'instructor.reports')
       $scope.reportInfo.totalCount = $scope.reportInfo.headers.length;
 
       // Select default whatNow
+      $scope.whatNow.enabled = _.find($scope.reportInfo.headers, function(h) {return !_.isEmpty(h.whatNow);});
       $scope.selectWhatNow($scope.reportInfo.activeHeaders[0]);
 
     };

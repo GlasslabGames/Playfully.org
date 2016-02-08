@@ -1,0 +1,149 @@
+<h2 class="text-muted">Monitor Status Dashboard</h2>
+</br >
+<div ng-show="loaded">
+<div>
+    <span style="font-weight:bold">Last Report:</span> {{lastReportDate}} <button ng-click="fetchData()">Refresh</button> <span style="font-size:small">Note: Refesh may supply low values for some checks</span>
+</div>
+<div ng-show="report.external !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr ng-repeat="(host, data) in report.external">
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">External</span><br />{{host}}</td>
+            <td ng-class="{'gl-admin-monitor-up-good': data.up, 'gl-admin-monitor-up-alert': !data.up}">
+                {{upText(data.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-moninfo-good': data.monitor_info, 'gl-admin-monitor-moninfo-alert': !data.monitor_info}">
+                Info<br />{{infoText(data.monitor_info)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-cpu-good': !data.excess_cpu_usage, 'gl-admin-monitor-cpu-alert': data.excess_cpu_usage}">
+                CPU Usage<br />{{cpuUsageText(data.cpu_usage)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-errors-good': !data.excess_errors, 'gl-admin-monitor-errors-alert': data.excess_errors}">
+                Error Delta<br />{{data.errors_delta}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-leak-good': !data.leak, 'gl-admin-monitor-leak-alert': data.leak}">
+                Leak<br />{{leakText(data.leak,data.leak_message)}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.internal !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr ng-repeat="(host, data) in report.internal">
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">Internal</span><br />{{host}}</td>
+            <td ng-class="{'gl-admin-monitor-up-good': data.up, 'gl-admin-monitor-up-alert': !data.up}">
+                {{upText(data.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-moninfo-good': data.monitor_info, 'gl-admin-monitor-moninfo-alert': !data.monitor_info}">
+                Info<br />{{infoText(data.monitor_info)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-cpu-good': !data.excess_cpu_usage, 'gl-admin-monitor-cpu-alert': data.excess_cpu_usage}">
+                CPU Usage<br />{{cpuUsageText(data.cpu_usage)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-errors-good': !data.excess_errors, 'gl-admin-monitor-errors-alert': data.excess_errors}">
+                Error Delta<br />{{data.errors_delta}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-leak-good': !data.leak, 'gl-admin-monitor-leak-alert': data.leak}">
+                Leak<br />{{leakText(data.leak,data.leak_message)}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.archiver !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr ng-repeat="(host, data) in report.archiver">
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">Archiver</span><br />{{host}}</td>
+            <td ng-class="{'gl-admin-monitor-up-good': data.up, 'gl-admin-monitor-up-alert': !data.up}">
+                {{upText(data.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-moninfo-good': data.monitor_info, 'gl-admin-monitor-moninfo-alert': !data.monitor_info}">
+                Info<br />{{infoText(data.monitor_info)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-cpu-good': !data.excess_cpu_usage, 'gl-admin-monitor-cpu-alert': data.excess_cpu_usage}">
+                CPU Usage<br />{{cpuUsageText(data.cpu_usage)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-errors-good': !data.excess_errors, 'gl-admin-monitor-errors-alert': data.excess_errors}">
+                Error Delta<br />{{data.errors_delta}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-leak-good': !data.leak, 'gl-admin-monitor-leak-alert': data.leak}">
+                Leak<br />{{leakText(data.leak,data.leak_message)}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.assessment !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr ng-repeat="(host, data) in report.assessment">
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">Assessment</span><br />{{host}}</td>
+            <td ng-class="{'gl-admin-monitor-up-good': data.up, 'gl-admin-monitor-up-alert': !data.up}">
+                {{upText(data.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="data.up" ng-class="{'gl-admin-monitor-job-good': !data.job_count_missing, 'gl-admin-monitor-job-alert': data.job_count_missing}">
+                Job Count<br />{{jobCountText(data.job_count_missing, data.job_count ? data.job_count : 0)}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.logger !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr ng-repeat="(host, data) in report.logger">
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">Logger</span><br />{{host}}</td>
+            <td ng-class="{'gl-admin-monitor-up-good': data.up, 'gl-admin-monitor-up-alert': !data.up}">
+                {{upText(data.up)}}
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.couchbase !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr>
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">Couchbase</span></td>
+            <td ng-class="{'gl-admin-monitor-up-good': report.couchbase.up, 'gl-admin-monitor-up-alert': !report.couchbase.up}">
+                {{upText(report.couchbase.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="report.couchbase.up" ng-class="{'gl-admin-monitor-buckets-good': report.couchbase.buckets === 'ok', 'gl-admin-monitor-buckets-alert': report.couchbase.buckets !== 'ok'}">
+                Buckets<br />{{report.couchbase.buckets === 'ok' ? 'OK' : 'NO INFO'}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="report.couchbase.up" ><table>
+                <tr ng-repeat="(host, data) in report.couchbase.nodes">
+                    <td ng-class="{'gl-admin-monitor-node-good': data === 'healthy', 'gl-admin-monitor-node-alert': data !== 'healthy'}">
+                        Node {{host}}: {{nodeText(data)}}
+                    </td>
+                </tr>
+            </table></td>
+        </tr>
+    </table>
+</div>
+<div ng-show="report.mysql !== undefined">
+    <table class="gl-admin-monitor-table">
+        <tr>
+            <td class="gl-admin-monitor-system"><span class="gl-admin-monitor-server">MySQL</span></td>
+            <td ng-class="{'gl-admin-monitor-up-good': report.mysql.up, 'gl-admin-monitor-up-alert': !report.mysql.up}">
+                {{upText(report.mysql.up)}}
+            </td>
+            <td class="gl-admin-monitor-spacer">&nbsp;</td>
+            <td ng-show="report.mysql.up" ng-class="{'gl-admin-monitor-aborted-good': report.mysql.aborted_connects === 'ok', 'gl-admin-monitor-aborted-alert': report.mysql.aborted_connects !== 'ok'}">
+                Aborted Connects<br />{{report.mysql.aborted_connects_delta}}
+            </td>
+        </tr>
+    </table>
+</div>
+</div>
+
+
+
+

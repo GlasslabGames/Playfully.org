@@ -1,12 +1,23 @@
 <div class="container gl-margin--Txxl">
   <div class="row">
-    <div class="col-md-12">
-      <h1>{{gameId}} <button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></h1>
+    <p class="col-md-12">
+      <h1>{{gameId}}</h1>
 
       <tabset>
         <tab>
-          <tab-heading><code>raw json</code></tab-heading>
-          <div ui-ace="{mode:json,useWrapMode:true,onLoad:aceLoaded,onChange:aceChanged}" ng-model="fullDataAsStr"></div>
+          <tab-heading><code>edit</code></tab-heading>
+          <div class="gl-margin--Tm">
+            <p><button class="btn btn-default" type="button" ng-click="pullInfo()" ng-if="submissionTarget">Pull from {{submissionTarget}}</button></p>
+            <div ui-ace="{mode:json,useWrapMode:true,onLoad:aceLoaded,onChange:aceChanged}" ng-model="fullDataAsStr"></div>
+          </div>
+        </tab>
+        <tab>
+          <tab-heading><code>diff/save</code></tab-heading>
+          <div class="gl-margin--Tm">
+            <p><button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></p>
+            <pre class="textdiff" line-diff left-obj="originalDataAsStr" right-obj="fullDataAsStr"></pre>
+            <p><button class="btn btn-default" type="button" ng-click="saveInfo()">Save</button></p>
+          </div>
         </tab>
       </tabset>
 
