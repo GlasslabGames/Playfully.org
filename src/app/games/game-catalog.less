@@ -65,16 +65,23 @@
 }
 
 .gl-new-game-catalog-skills-header-red {
-  color: @academicSkills;
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @academicSkills;
+  }
 }
 
 .gl-new-game-catalog-skills-header-green {
-  color: @21stCenturySkills;
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @21stCenturySkills;
+  }
 }
 
 .gl-new-game-catalog-skills-header-blue {
-  color: @21stCenturyReadiness;
   font-size: 85%;
+
+  &, & + .gl-new-game-catalog-skills-box :checked + span {
+    color: @21stCenturyReadiness;
+  }
 }
 
 .gl-new-game-catalog-category-header {
@@ -102,6 +109,29 @@
     -moz-user-select: none;      /* Firefox */
     -ms-user-select: none;       /* IE/Edge */
     user-select: none;           /* non-prefixed version */
+
+    span:before {
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-style: normal;
+      text-decoration: inherit;
+      margin-left: -17px;
+      padding-right: 5px;
+      font-size: 20px;
+      line-height: 20px;
+      position: relative;
+      top: 3px;
+      content: "\f0c8"; // fa-square
+    }
+
+    :checked + span:before {
+      content: "\f14a"; // fa-check-square
+      //content: "\f046"; // fa-check-square-o
+    }
+  }
+
+  input {
+    opacity: 0;
   }
 }
 
