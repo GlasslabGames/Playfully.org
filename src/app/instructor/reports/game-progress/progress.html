@@ -1,0 +1,98 @@
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
+
+  <div class="report-body gl-pad-Al">
+    <h1 class="headline-2 text-center gl-margin--Tl"
+        ng-bind="reports.selected.header.text"></h1>
+
+    <p class="text-center" ng-bind="reports.selected.description"></p>
+
+    <hr/>
+
+    <div class="row">
+      <div class="col-md-7">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Time Spent on Each Feature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="student in courses.selected.users">
+              <td class="gl-report-progress-table-student-name">{{ student.firstName }} {{ student.lastName }}</td>
+              <td width="1%">
+              <!--<pre>{{student.results}}</pre>-->
+                <div class="gl-report-progress-time-container">
+                  <div ng-hide="student.results.events.length" class="gl-report-progress-time-container-empty">No data yet</div>
+                  <div ng-repeat="event in student.results.events"
+                       ng-style="{
+                         width: (100*event.duration/student.results.totalTime)+'%',
+                         background: event.color
+                       }"
+                       ng-attr-title="{{event.title}}: {{event.durationString}}"
+                       class="gl-report-progress-time-block"></div>
+
+
+                </div>
+                <!--<pre>{{student.results.events | json}}</pre>-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div ng-hide="isGameDisabled || courses.selected.users" class="text-center gl-pad-Vxxl">
+          No students are currently enrolled in this class. As students begin to play the game and earn comps, you
+          will see them here.
+        </div>
+
+        <div ng-if="isGameDisabled" class="text-center gl-pad-Vxxl">
+          <img src="/assets/disabled-premium-game.png">
+          <h5>This Premium Game is disabled.</h5>
+          <h5>To view student data, please visit the <a ui-sref="root.courses">Class Manager</a> to enable Premium Games</h5>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <p class="text-center headline-5--bold">Total Gameplay Time:</p>
+        <p class="text-center headline-4">{{totalGameplayTime}}</p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th colspan="2" class="text-center">% Time Spent</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="hook in reportInfo.hooks">
+              <td>
+                <i ng-style="{background: hook.color}"
+                   class="gl-report-progress-legend-color"></i> {{hook.title}}
+              </td>
+              <td>{{hook.gameplayTime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="gl-report-progress-description">
+      <h3 class="headline-4--serif">
+        Gameplay Features
+      </h3>
+      <div ng-repeat="hook in reportInfo.hooks" class="row">
+        <div class="col-md-7 headline-5--bold">{{hook.title}}
+          <i ng-style="{background: hook.color}"
+             class="gl-report-progress-legend-color"></i></div>
+        <div class="col-md-5 headline-5--bold">Standards Alignment: {{hook.standard}}</div>
+        <div class="col-md-12">
+          <b class="headline-5--bold">Description:</b> {{hook.description}}
+        </div>
+        <hr/>
+      </div>
+    </div>
+
+
+  </div>
+</div>

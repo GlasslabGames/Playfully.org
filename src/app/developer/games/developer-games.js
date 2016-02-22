@@ -665,9 +665,106 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 }
             };
 
-            $scope.tabs = [{name: "Game"}, {name: "SOWO"}];
+            $scope.tabs = [
+                {id: "Game"},
+                {id: "SOWO", title: "SOWO Report"},
+                {id: "Progress", title: "Game Progress Report"}
+            ];
 
             var tabSections = {};
+            tabSections["Progress"] = [
+                {
+                    "name": "progress",
+                    "type": "array",
+                    "format": "table",
+                    "title": "Telemetry Hooks",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "ID",
+                                "options": {"input_width": "210px"}
+                            },
+                            "color": {
+                                "type": "string",
+                                "description": "Color",
+                                "format": "color",
+                                "default": "#ffffff",
+                                "options": {"input_width": "100px"}
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Title",
+                                "options": {"input_width": "400px"}
+                            },
+                            "standard": {
+                                "type": "string",
+                                "description": "Standard",
+                                "options": {"input_width": "100px"}
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description",
+                                "format": "textarea",
+                                "options": {"input_width": "810px"}
+                            }
+                        }
+                    }
+                }
+            ];
+
+            $scope.progressExampleDataHooks = [
+                {id: "hook1", title: "Telemetry hook 1", color: "#EE1E77", gameplayTime: 0 },
+                {id: "hook2", title: "Telemetry hook 2", color: "#8CC34B", gameplayTime: 0 },
+                {id: "hook3", title: "Telemetry hook 3", color: "#FDDD16", gameplayTime: 0 },
+                {id: "hook4", title: "Telemetry hook 4", color: "#E8E8E9", gameplayTime: 0 }
+            ];
+
+            var progressExampleResults = {
+                totalTime: 0,
+                events: [
+                    {type: "hook1", duration: 30000},
+                    {type: "hook2", duration: 130000},
+                    {type: "hook3", duration: 40000},
+                    {type: "hook2", duration: 5000},
+                    {type: "hook3", duration: 15000},
+                    {type: "hook2", duration: 40000},
+                    {type: "hook4", duration: 5000},
+                    {type: "hook1", duration: 50000},
+                    {type: "hook4", duration: 50000},
+                    {type: "hook2", duration: 10000},
+                    {type: "hook3", duration: 90000},
+                    {type: "hook1", duration: 20000},
+                    {type: "hook3", duration: 180000},
+                    {type: "hook4", duration: 20000},
+                    {type: "hook1", duration: 30000}
+                ]
+            };
+
+            $scope.progressExampleDataStudents = [
+                {
+                    firstName: "Student",
+                    lastName: "Name #1",
+                    results: progressExampleResults
+                }
+            ];
+
+            _.each(progressExampleResults.events, function(event) {
+                var hook = _.find($scope.progressExampleDataHooks, {id: event.type});
+                event.title = hook.title;
+                event.color = hook.color;
+                event.durationString = moment.duration(event.duration).humanize();
+
+                hook.gameplayTime += event.duration;
+
+                progressExampleResults.totalTime += event.duration;
+            });
+
+            _.each($scope.progressExampleDataHooks, function(hook) {
+                hook.gameplayTime = Math.round(100 * hook.gameplayTime / progressExampleResults.totalTime) + "%";
+            });
+
             tabSections["SOWO"] = [
                 {
                     "name": "sowo",
@@ -1457,6 +1554,21 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
             }
 
             var reports = _.get(gameInfo, "reports.list", []);
+
+            var progressReport = _.find(reports, {id: "progress"});
+            if (progressReport) {
+                baseData.progress = [];
+                _.forEach(_.get(progressReport, "hooks"), function(hook) {
+                    baseData.progress.push({
+                        id: hook.id,
+                        title: hook.title,
+                        color: hook.color,
+                        standard: hook.standard,
+                        description: hook.description
+                    });
+                });
+            }
+
             var sowoReport = _.find(reports, {id: "sowo"});
             if (sowoReport) {
                 var groups = _.get(sowoReport, "table.groups", []);
@@ -1758,6 +1870,57 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
                 var assessments = _.get(updatedInfo, "assessment", []);
                 var reports = _.get(updatedInfo, "reports.list", []);
+
+                if (_.isEmpty(data.progress)) {
+
+                    _.remove(assessments, {id: "progress"});
+                    _.remove(reports, {id: "progress"});
+
+                } else {
+                    var progressAssessment = _.find(assessments, {id: "progress"});
+                    if (!progressAssessment) {
+                        progressAssessment = {
+                            id: "progress",
+                            enabled: true,
+                            engine: "game-progress",
+                            dataProcessScope: "all",
+                            trigger: "activity"
+                        };
+                        assessments.push(progressAssessment);
+                    }
+                    progressAssessment.hooks = {};
+
+                    var progressReport = _.find(reports, {id: "progress"});
+                    if (!progressReport) {
+                        progressReport = {
+                            id: "progress",
+                            assessmentId: "progress",
+                            enabled: true,
+                            name: "Game Progress Report",
+                            header: {
+                                text: "Game Progress Report",
+                            },
+                            description: "The game progress report is designed to show how much time players spend in particular units in a visualized manner."
+                        };
+                        reports.push(progressReport);
+                    }
+                    progressReport.hooks = [];
+
+                    _.forEach(data.progress, function(progress) {
+                        progressReport.hooks.push(_.pick({
+                            id: progress.id,
+                            title: progress.title,
+                            color: progress.color,
+                            standard: progress.standard,
+                            description: progress.description,
+                        }, _.identity));
+
+                        progressAssessment.hooks[progress.id] = _.pick({
+                            name: progress.title,
+                            description: progress.description
+                        }, _.identity);
+                    });
+                }
 
                 if (_.isEmpty(data.shoutouts) && _.isEmpty(data.watchouts)) {
 

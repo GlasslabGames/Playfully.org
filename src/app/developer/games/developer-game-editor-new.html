@@ -4,8 +4,8 @@
       <div class="gl-dev-editor-wrapper">
         <tabset>
 
-          <tab ng-repeat="tab in tabs" ng-hide="tabs.length <= 1">
-            <tab-heading >{{tab.name}}</tab-heading>
+          <tab ng-repeat="tab in tabs" ng-hide="tabs.length <= 1 || !tab.id">
+            <tab-heading>{{tab.title || tab.id}}</tab-heading>
 
             <div class="gl-dev-editor-sticky" sticky>
               <div class="gl-dev-editor-sticky-btn-group">
@@ -29,7 +29,80 @@
             <div class="gl-dev-editor">
               <h3>Game ID # {{gameId}}</h3>
 
-              <div ng-repeat="section in sections[tab.name]"
+
+              <div ng-if="tab.id === 'Progress'"
+                   class="gl-dev-editor-section-example">
+                <h3>Example Display</h3>
+
+                <div class="row">
+                  <div class="col-md-7">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th>Student Name</th>
+                        <th>Time Spent on Each Feature</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="student in progressExampleDataStudents">
+                        <td class="gl-report-progress-table-student-name">{{ student.firstName }} {{ student.lastName }}</td>
+                        <td width="1%">
+                          <div class="gl-report-progress-time-container">
+                            <div ng-hide="student.results.events.length" class="gl-report-progress-time-container-empty">No data yet</div>
+                            <div ng-repeat="event in student.results.events"
+                                 ng-style="{
+                                             width: (100*event.duration/student.results.totalTime)+'%',
+                                             background: event.color
+                                           }"
+                                 ng-attr-title="{{event.title}}: {{event.durationString}}"
+                                 class="gl-report-progress-time-block"></div>
+
+
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-md-5">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th colspan="2" class="text-center">% Time Spent</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="hook in progressExampleDataHooks">
+                        <td>
+                          <i ng-style="{background: hook.color}"
+                             class="gl-report-progress-legend-color"></i> {{hook.title}}
+                        </td>
+                        <td>{{hook.gameplayTime}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <h3>Example Telemetry Data</h3>
+
+<pre>{
+  Basetype: "Unit_Start",
+  Subcategory: "hook_id",
+  Name: "3",
+  Current_unitID_main: "game 3"
+}</pre>
+
+                <p>Basetype is <code>Unit_Start</code> or <code>Unit_End</code>.
+                  Subcategory corresponds to the <code>ID</code> of the individual hooks.</p>
+
+
+
+              </div>
+
+
+              <div ng-repeat="section in sections[tab.id]"
                    ng-show="section.name.indexOf('platform_') === -1 || section.name === 'platform_'+platform"
                    class="gl-dev-editor-section gl-dev-editor-section-{{section.name}}">
 

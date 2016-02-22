@@ -119,7 +119,7 @@
 
 .gl-dev-editor {
   margin: 20px 0;
-  padding: 10px;
+  padding: 10px 10px 2px;
 
   background-color: #CFE6BA;
   border-radius: 5px;
@@ -129,7 +129,8 @@
     margin: 0 0 10px;
   }
 
-  .gl-dev-editor-section {
+  .gl-dev-editor-section,
+  .gl-dev-editor-section-example {
     border-radius: 5px;
     padding: 10px 10px 0;
     background-color: #EAF3DE;
@@ -152,7 +153,14 @@
       color: #357CBE;
       font-family: 'Bitter', serif;
     }
+  }
 
+  .gl-dev-editor-section-example {
+    padding-bottom: 5px;
+    background-color: white;
+  }
+
+  .gl-dev-editor-section {
     table,
     table > thead > tr > th,
     table > tbody > tr > td {
@@ -188,13 +196,8 @@
       display: none;
     }
   }
-  .gl-dev-editor-section-standards,
-  .gl-dev-editor-section-lessonPlans,
-  .gl-dev-editor-section-lessonVideos,
-  .gl-dev-editor-section-research,
-  .gl-dev-editor-section-reviews,
-  .gl-dev-editor-section-shoutouts,
-  .gl-dev-editor-section-watchouts {
+
+  .gl-dev-editor-section {
     th {
       display: none;
     }

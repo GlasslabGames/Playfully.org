@@ -93,7 +93,37 @@ angular.module( 'instructor.reports', [
     template: '<div ui-view></div>',
     controller: 'ReportsDetailCtrl'
   })
-
+    .state('root.reports.details.progress', {
+        url: '/progress/game/:gameId/course/:courseId?skillsId&stdntIds',
+        templateUrl: 'instructor/reports/game-progress/progress.html',
+        controller: 'ProgressCtrl',
+        parameters: ['gameId','courseId'],
+        resolve: {
+          defaultCourse: function ($stateParams, coursesInfo) {
+              return coursesInfo[$stateParams.courseId];
+          },
+          myGames: function (defaultCourse) {
+              return defaultCourse.games;
+          },
+          defaultGame: function (defaultCourse, myGames, $stateParams) {
+              var defaultGame = myGames[0];
+              defaultGame = _.findWhere(myGames, { 'id': $stateParams.gameId });
+              return defaultGame;
+          },
+          gameReports: function (defaultGame) {
+              // set game report for default game
+              var reports = {};
+              if (defaultGame) {
+                  return defaultGame.reports;
+              }
+              return reports;
+          },
+          usersData: function (ReportsService,$stateParams) {
+              var reportId = 'progress';
+              return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+          }
+        }
+    })
     .state('root.reports.details.sowo', {
         url: '/sowo/game/:gameId/course/:courseId?skillsId&stdntIds',
         templateUrl: 'instructor/reports/sowo/sowo.html',
