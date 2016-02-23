@@ -680,6 +680,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "title": "Telemetry Hooks",
                     "items": {
                         "type": "object",
+                        "title": "Hook",
                         "properties": {
                             "id": {
                                 "type": "string",
@@ -798,6 +799,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "title": "Shout Outs",
                     "items": {
                         "type": "object",
+                        "title": "Shout Out",
                         "properties": {
                             "id": {
                                 "type": "string",
@@ -825,6 +827,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     "title": "Watch Outs",
                     "items": {
                         "type": "object",
+                        "title": "Watch Out",
                         "properties": {
                             "id": {
                                 "type": "string",
@@ -907,6 +910,21 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                             "type": "string",
                             "title": "Grade Level",
                             //"description": "#-# format",
+                            "options": {
+                                "grid_columns": 2
+                            }
+                        },
+                        "visible": {
+                            "type": "boolean",
+                            "title": "Visible",
+                            "options": {
+                                "grid_columns": 2
+                            }
+                        },
+                        "price": {
+                            "type": "string",
+                            "title": "Price",
+                            "enum": ["Free", "Premium", "Coming Soon", "TBD"],
                             "options": {
                                 "grid_columns": 2
                             }
@@ -1432,6 +1450,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                 "basics": {
                     "subject": gameInfo.basic.subject,
                     "gradeLevel": gameInfo.basic.grades,
+                    "visible": gameInfo.basic.visible,
+                    "price": gameInfo.basic.price
                 },
                 "details": {
                     "shortDescription": gameInfo.basic.description,
@@ -1669,8 +1689,10 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
                 if (data.basics.platform.match(/pc.*mac/i)) {
                     $scope.platform = "client";
+                    updatedInfo.basic.packages = "PC/Mac Games";
                 } else if (data.basics.platform.match(/browser/i)) {
                     $scope.platform = "browser";
+                    updatedInfo.basic.packages = "Chromebook/Web Games";
                     updatedInfo.basic.play = {
                         type: "page",
                         page: {
@@ -1685,6 +1707,7 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
                     };
                 } else {
                     $scope.platform = "ipad";
+                    updatedInfo.basic.packages = "iPad Games";
                     updatedInfo.details.applink = data.platform_ipad.applink;
                 }
 
@@ -1694,6 +1717,8 @@ xx8 {{giFull.reports.list[0].description}}<br><br>
 
                 updatedInfo.basic.subject = data.basics.subject;
                 updatedInfo.basic.grades = data.basics.gradeLevel;
+                updatedInfo.basic.visible = data.basics.visible;
+                updatedInfo.basic.price = data.basics.price;
 
                 updatedInfo.basic.description =
                     updatedInfo.basic.shortDescription = data.details.shortDescription;
