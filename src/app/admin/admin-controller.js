@@ -941,8 +941,8 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             if ( ! _.isEmpty(data) ) {
                 $scope.role = data.role;
                 $scope.userInfo = data;
-                $scope.expirationDate = new Date(data.expirationDate).toJSON();
-                $scope.newExpirationDate = new Date(data.expirationDate).toJSON();
+                $scope.expirationDate = new Date(data.expirationDate).toLocaleString();
+                $scope.newExpirationDate = new Date(data.expirationDate).toLocaleString();
                 $scope.lookupErrorMsg = null;
                 $scope.changeErrorMsg = null;
                 if (data.role === 'instructor' && data.licenseStatus === 'active') {
