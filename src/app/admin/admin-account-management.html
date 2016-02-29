@@ -74,6 +74,10 @@
             <div ng-show="canAddYear">
             <input type="checkbox" ng-model="yearAdded"> Add Year
             </div>
+            <div ng-hide="yearAdded">
+            Plan expiration: <input ng-model="newExpirationDate" size="40">
+            </div>
+            <br />
             Institution (required to convert from trial)
             <br />
             Name: <input type="text" id="inst_name" size="40" ng-model="institutionInfo.name" />

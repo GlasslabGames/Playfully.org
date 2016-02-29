@@ -941,7 +941,8 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             if ( ! _.isEmpty(data) ) {
                 $scope.role = data.role;
                 $scope.userInfo = data;
-                $scope.expirationDate = (new Date(data.expirationDate)).toLocaleDateString();
+                $scope.expirationDate = new Date(data.expirationDate).toJSON();
+                $scope.newExpirationDate = new Date(data.expirationDate).toJSON();
                 $scope.lookupErrorMsg = null;
                 $scope.changeErrorMsg = null;
                 if (data.role === 'instructor' && data.licenseStatus === 'active') {
@@ -958,7 +959,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                             $scope.seatOptions = [];
 
                             var standardSeatOptions = [{ id: "noChange", title: "[No change]"}];
-                            var isTrial = (response.packageDetails.planId == 'trial');
+                            var isTrial = (response.packageDetails.planId === 'trial' || response.packageDetails.planId === 'trialLegacy' );
                             var students = response.packageDetails.studentSeats;
                             var educators = response.packageDetails.educatorSeats;
 
@@ -1007,6 +1008,9 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         if ($scope.yearAdded) {
             changed = true;
             planInfo.yearAdded = true;
+        } else if ($scope.newExpirationDate != $scope.expirationDate) {
+            changed = true;
+            planInfo.expDate = new Date($scope.newExpirationDate);
         }
         if ($scope.planSetting !== 'noChange') {
             changed = true;
