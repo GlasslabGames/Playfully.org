@@ -48,7 +48,7 @@
 
                         <!-- Show upgrade pricing details if the current plan isn't selected. -->
                         <div ng-show="(isTrial() || (status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name || yearAdded))">
-                            <div class="gl-manager-side-panel-section" ng-show="status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name">
+                            <div class="gl-manager-side-panel-section" ng-show="isTrial() || status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name">
                                 <div class="gl-upgrade-total-row">
                                     <span class="row-left">Current Plan:</span>
                                     <span class="row-right gl-text-sea-green" ng-if="!isTrial()">

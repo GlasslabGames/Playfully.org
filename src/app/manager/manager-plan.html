@@ -25,7 +25,7 @@
                         <h4 class="headline-4">Expiration Date:</h4>
                         <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
                         <p> {{plan.expirationDate}}</p>
-                        <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser && canUpgrade">
+                        <div ng-if="isLicenseOwner() && !isPurchaseOrder() && canUpgrade">
                             <button ng-if="isTrial()" type="button"
                                     ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">
                                 Go Premium
