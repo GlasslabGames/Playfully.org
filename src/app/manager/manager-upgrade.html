@@ -35,37 +35,20 @@
                         <div class="gl-manager-side-panel-section">
                             <h4 class="headline-4">Expiration Date:</h4>
                             <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
-                            <p ng-show="yearAdded"><h4 ng-show="yearAdded" class="headline-4">{{extendedOneYearDate}}</h4></p>
-                            <p ng-hide="yearAdded">{{plan.expirationDate}}</p>
-                            <input ng-show="false" class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+
+
+                            <input ng-show="!isTrial()" class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
                                    ng-click="addOneYear()"
                                    value="{{yearAdded ? 'Added' : 'Add Year'}}">
                             </input>
+
+                            <p ng-show="yearAdded" class="headline-5--bold">{{extendedOneYearDate}}</p>
+                            <p ng-hide="yearAdded" class="headline-5">{{plan.expirationDate}}</p>
                         </div>
 
                         <!-- Show upgrade pricing details if the current plan isn't selected. -->
                         <div ng-show="(isTrial() || (status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name || yearAdded))">
-                            <div ng-if="!promoCode.existing" class="gl-manager-side-panel-section">
-                                <div class="gl-manager-promo-code-box">
-                                    <form class="reg-form form-inline">
-                                            <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
-                                                   placeholder="Promo Code" ng-disabled="requestPromo.success">
-                                        <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
-                                               ng-click="applyPromoCode(promoCode.code)"
-                                               value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
-                                        </input>
-                                        <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
-                                               ng-show="requestPromo.successes.length" type="success"><span
-                                                class="fa fa-check-circle"></span> {{ success }}
-                                        </alert>
-                                        <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
-                                               ng-show="requestPromo.errors.length" type="danger"><span
-                                                class="fa fa-times-circle"></span> {{ error }}
-                                        </alert>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="gl-manager-side-panel-section">
+                            <div class="gl-manager-side-panel-section" ng-show="status.studentSeats!==originalPackage.studentSeats || status.packageName!==originalPackage.name">
                                 <div class="gl-upgrade-total-row">
                                     <span class="row-left">Current Plan:</span>
                                     <span class="row-right gl-text-sea-green" ng-if="!isTrial()">
@@ -85,30 +68,54 @@
                                     <span class="row-right">-${{formattedPromoDiscount}}</span>
                                 </div>
                             </div>
-                            <div class="gl-manager-side-panel-section">
-                                <div class="gl-upgrade-total-row" ng-hide="isTrial()">
+                            <div class="gl-manager-side-panel-section" ng-show="isTrial()">
+                                <div class="gl-upgrade-total-row">
+                                    <span class="row-left">Subtotal:</span>
+                                    <span class="row-right">
+                                        {{calculateDiscountedTotal(status.packageName,status.studentSeats, 'new')}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gl-manager-side-panel-section" ng-hide="isTrial() || status.proratedTotal === 0">
+                                <div class="gl-upgrade-total-row">
                                     <span class="row-left">After prorating:</span>
                                 </div>
                                 <div class="gl-upgrade-total-row">
                                     <span class="row-left">Subtotal:</span>
                                     <span class="row-right">
-                                        {{
-                                            isTrial() ?
-                                            calculateDiscountedTotal(status.packageName,status.studentSeats, 'new') :
-                                            calculateProrated(status.packageName,status.studentSeats,originalPackage.name,originalPackage.studentSeats);
-                                        }}
+                                        {{calculateProrated(status.packageName,status.studentSeats,originalPackage.name,originalPackage.studentSeats)}}
                                     </span>
                                 </div>
-                                <div class="gl-manager-learn-prorate gl-clickable" ui-sref="modal-lg.prorating-information" ng-if="!isTrial()">
+                                <div class="gl-manager-learn-prorate gl-clickable" ui-sref="modal-lg.prorating-information">
                                     Questions about prorating?
                                 </div>
-                                <div ng-show="yearAdded" class="gl-extra-year-total-row">
+                            </div>
+                            <div class="gl-manager-side-panel-section" ng-show="yearAdded" >
+                                <div class="gl-extra-year-total-row">
                                     <span class="row-left">Extra year:</span>
                                     <span class="row-right">
-                                        {{
-                                            '$' + calculateDiscountedTotal(status.packageName,status.studentSeats, 'new');
-                                        }}
+                                        ${{calculateDiscountedTotal(status.packageName,status.studentSeats, 'new')}}
                                     </span>
+                                </div>
+                            </div>
+                            <div ng-if="!promoCode.existing" class="gl-manager-side-panel-section">
+                                <div class="gl-manager-promo-code-box">
+                                    <form class="reg-form form-inline">
+                                        <input class="form-control gl-inline gl-promo-code" size="13" ng-model="promoCode.code"
+                                               placeholder="Promo Code" ng-disabled="requestPromo.success">
+                                        <input class="btn gl-btn--black gl-inline gl-inline float--r" size="10"
+                                               ng-click="applyPromoCode(promoCode.code)"
+                                               value="{{requestPromo.success ? 'Applied' : (requestPromo.isSubmitting ? 'Applying...' : 'Apply') }}">
+                                        </input>
+                                        <alert class="gl-margin--Tl" ng-repeat="success in requestPromo.successes"
+                                               ng-show="requestPromo.successes.length" type="success"><span
+                                          class="fa fa-check-circle"></span> {{ success }}
+                                        </alert>
+                                        <alert class="gl-margin--Tl" ng-repeat="error in requestPromo.errors"
+                                               ng-show="requestPromo.errors.length" type="danger"><span
+                                          class="fa fa-times-circle"></span> {{ error }}
+                                        </alert>
+                                    </form>
                                 </div>
                             </div>
                             <div class="gl-manager-side-panel-section">

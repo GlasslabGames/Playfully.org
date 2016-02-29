@@ -62,7 +62,7 @@ angular.module('playfully.manager', [ 'env-config' ])
             }
         })
         .state('root.manager.upgrade', {
-            url: '/upgrade',
+            url: '/upgrade?:addYear',
             resolve: {
                 plan: function (LicenseService) {
                     return LicenseService.getCurrentPlan();
@@ -483,7 +483,7 @@ angular.module('playfully.manager', [ 'env-config' ])
             percent_off: 0,
             existing: false
         };
-        $scope.yearAdded = false;
+        $scope.yearAdded = !!$stateParams.addYear;
         $scope.requestPromo = {
             success: false,
             errors: [],

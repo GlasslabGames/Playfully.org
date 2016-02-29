@@ -25,6 +25,17 @@
                         <h4 class="headline-4">Expiration Date:</h4>
                         <p>Your {{isTrial() ? 'trial' : 'subscription' }} will end on:</p>
                         <p> {{plan.expirationDate}}</p>
+                        <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser && canUpgrade">
+                            <button ng-if="isTrial()" type="button"
+                                    ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl">
+                                Go Premium
+                            </button>
+                            <button ng-if="!isTrial()" type="button"
+                                    ui-sref="root.manager.upgrade({addYear:1})"
+                                    class="btn gl-btn--black gl-margin--Tl">
+                                Renew Subscription
+                            </button>
+                        </div>
                     </div>
                     <!--<div class="gl-manager-side-panel-section" ng-if="isLicenseOwner() && !isTrial() && !isPurchaseOrder()">
                         <h4 class="headline-4">Auto-Renewal</h4>
@@ -38,20 +49,19 @@
                         <p ng-show="!plan.autoRenew">Your subscription will cancel on:</p>
                         <p>{{plan.expirationDate}}</p>
                     </div>-->
-                    <div ng-if="isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser" class="gl-manager-side-panel-section">
+                    <div ng-if="!isTrial() && isLicenseOwner() && !isPurchaseOrder() && !isLegacyUser" class="gl-manager-side-panel-section">
                         Need more seats? Switch plans?
                         <button ng-if="canUpgrade" type="button"
                                 ui-sref="root.manager.upgrade" class="btn gl-btn--black gl-margin--Tl" >
-                            {{isTrial()? 'Go Premium' :
-                            'Update Package'}}</button>
+                            Upgrade Package
+                        </button>
                         <button ng-if="!canUpgrade" type="button"
                                 class="btn gl-btn--black--disabled gl-margin--Tl"
                                 popover-title="Upgrade Limit Exceeded"
                                 popover="You can upgrade again on {{nextUpgrade}}"
                                 popover-trigger="mouseenter" popover-placement="bottom">
-                                Update Package
+                                Upgrade Package
                         </button>
-
                     </div>
                 </div>
             </div>
