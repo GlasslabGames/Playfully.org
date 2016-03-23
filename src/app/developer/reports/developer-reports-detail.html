@@ -5,59 +5,63 @@
 
   <hr/>
 
-  <nvd3 options="options_unit_progress" data="data_unit_progress"></nvd3>
+  <div ng-show="hasUnitsData">
+    <nvd3 options="options_unit_progress" data="data_unit_progress"></nvd3>
 
-  <hr/>
+    <hr/>
 
-  <h3>Time Spent in Unit</h3>
+    <h3>Time Spent in Unit</h3>
 
-  <table class="table">
-    <tr>
-      <th>Unit Name</th>
-      <th>Average Time Spent in Unit</th>
-      <th>Median Time Spent in Unit</th>
-    </tr>
-    <tr ng-repeat="(unitName, data) in unitsData">
-      <td>{{unitName}}</td>
-      <td>{{data.avgTimeStr}}</td>
-      <td>{{data.medianTimeStr}}</td>
-    </tr>
-  </table>
+    <table class="table">
+      <tr>
+        <th>Unit Name</th>
+        <th>Average Time Spent in Unit</th>
+        <th>Median Time Spent in Unit</th>
+      </tr>
+      <tr ng-repeat="(unitName, data) in unitsData">
+        <td>{{unitName}}</td>
+        <td>{{data.avgTimeStr}}</td>
+        <td>{{data.medianTimeStr}}</td>
+      </tr>
+    </table>
 
-  <hr/>
+    <hr/>
 
-  <h3>Unit Success Rate</h3>
+    <h3>Unit Success Rate</h3>
 
-  <table class="table">
-    <tr>
-      <th>Unit Name</th>
-      <th>Unit Starts</th>
-      <th>Successful Unit Completions</th>
-      <th>Success Percentage</th>
-    </tr>
-    <tr ng-repeat="(unitName, data) in unitsData">
-      <td>{{unitName}}</td>
-      <td>{{data.start}}</td>
-      <td>{{data.success}}</td>
-      <td>{{data.successPercentage}}</td>
-    </tr>
-  </table>
+    <table class="table">
+      <tr>
+        <th>Unit Name</th>
+        <th>Unit Starts</th>
+        <th>Successful Unit Completions</th>
+        <th>Success Percentage</th>
+      </tr>
+      <tr ng-repeat="(unitName, data) in unitsData">
+        <td>{{unitName}}</td>
+        <td>{{data.start}}</td>
+        <td>{{data.success}}</td>
+        <td>{{data.successPercentage}}</td>
+      </tr>
+    </table>
 
-  <hr/>
+    <hr/>
 
-  <h3>Last Unit Completed</h3>
+    <h3>Last Unit Completed</h3>
 
-  <table class="table">
-    <tr>
-      <th>Unit Name</th>
-      <th>Number of Players With Unit as Last Played</th>
-    </tr>
-    <tr ng-repeat="(unitName, data) in unitsData">
-      <td>{{unitName}}</td>
-      <td>{{data.playerLastStart}}</td>
-    </tr>
-  </table>
+    <table class="table">
+      <tr>
+        <th>Unit Name</th>
+        <th>Number of Players With Unit as Last Played</th>
+      </tr>
+      <tr ng-repeat="(unitName, data) in unitsData">
+        <td>{{unitName}}</td>
+        <td>{{data.playerLastStart}}</td>
+      </tr>
+    </table>
 
-  <hr/>
+  </div>
+  <div ng-hide="hasUnitsData">
+    No Units Progress Data availble.
+  </div>
 
 </div>
