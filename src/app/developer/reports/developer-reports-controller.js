@@ -105,8 +105,10 @@ angular.module('developer.reports', ['nvd3'])
 
     $scope.unitsData = reportsData.units;
 
+    $scope.hasUnitsData = !_.isEmpty(reportsData.units);
+
     var dau_values = [];
-    var max_dau = 0;
+    var max_dau = 10;
     var dau_ticks = 5;
     for (var i = -31; i < 0; i++) {
         var date = moment().add({days:i}).format("YYYY-MM-DD");
@@ -127,6 +129,7 @@ angular.module('developer.reports', ['nvd3'])
     $scope.options_dau = {
         chart: {
             type: 'lineChart',
+            forceY: [0, Math.ceil(max_dau/10)*10],
             height: 450,
             margin : {
                 top: 20,
