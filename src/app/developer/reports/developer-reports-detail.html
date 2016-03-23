@@ -1,16 +1,63 @@
-<p>
-    <h2 style="text-align:center">Reports for {{fullData.basic.shortName}}</h2>
-    <br>
+<div class="container gl-container gl-margin--B40">
+  <h2 style="text-align:center">Reports for {{fullData.basic.shortName}}</h2>
 
-	<div class="container gl-container" style="text-align:center">
-	    <button class="btn btn-primary" ng-click="setReport( 'dauu' )">Daily Active Unique Users</button>
-	    <button class="btn btn-primary" ng-click="setReport( 'up' )">Unit Progress</button>
-	    <button class="btn btn-primary" ng-click="setReport( 'tsiu' )">Time Spent in Unit</button>
-	    <button class="btn btn-primary" ng-click="setReport( 'sfiu' )">Sucess/Fail in Unit</button>
-	    <button class="btn btn-primary" ng-click="setReport( 'luc' )">Last Unit Completed</button>
-	</div>
+  <nvd3 options="options_dau" data="data_dau"></nvd3>
 
-    <div>
-		<nvd3 options="options" data="data"></nvd3>
-	</div>
-</p>
+  <hr/>
+
+  <nvd3 options="options_unit_progress" data="data_unit_progress"></nvd3>
+
+  <hr/>
+
+  <h3>Time Spent in Unit</h3>
+
+  <table class="table">
+    <tr>
+      <th>Unit Name</th>
+      <th>Average Time Spent in Unit</th>
+      <th>Median Time Spent in Unit</th>
+    </tr>
+    <tr ng-repeat="(unitName, data) in unitsData">
+      <td>{{unitName}}</td>
+      <td>{{data.avgTimeStr}}</td>
+      <td>{{data.medianTimeStr}}</td>
+    </tr>
+  </table>
+
+  <hr/>
+
+  <h3>Unit Success Rate</h3>
+
+  <table class="table">
+    <tr>
+      <th>Unit Name</th>
+      <th>Unit Starts</th>
+      <th>Successful Unit Completions</th>
+      <th>Success Percentage</th>
+    </tr>
+    <tr ng-repeat="(unitName, data) in unitsData">
+      <td>{{unitName}}</td>
+      <td>{{data.start}}</td>
+      <td>{{data.success}}</td>
+      <td>{{data.successPercentage}}</td>
+    </tr>
+  </table>
+
+  <hr/>
+
+  <h3>Last Unit Completed</h3>
+
+  <table class="table">
+    <tr>
+      <th>Unit Name</th>
+      <th>Number of Players With Unit as Last Played</th>
+    </tr>
+    <tr ng-repeat="(unitName, data) in unitsData">
+      <td>{{unitName}}</td>
+      <td>{{data.playerLastStart}}</td>
+    </tr>
+  </table>
+
+  <hr/>
+
+</div>

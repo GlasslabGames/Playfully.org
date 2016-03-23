@@ -43,10 +43,25 @@ angular.module('developer.reports', ['nvd3'])
             },
             infoSchema: function(GamesService) {
                 return GamesService.getDeveloperGamesInfoSchema();
+            },
+            reportsData: function ($stateParams, $http) {
+                var url = "/api/v2/research/game/"+$stateParams.gameId+"/dev-game-report";
+
+                return $http({
+                    method: 'GET',
+                    url: url,
+                    params: {}
+                }).then(function (response) {
+                    //console.log("dev-game-report", response);
+                    return response.data;
+                }, function (err) {
+                    console.error("dev-game-report:", err);
+                    return {};
+                });
             }
     	},
     	data: {
-    		authorizedRoles: ['developer']
+    		authorizedRoles: ['admin', 'developer']
     	}
     });
 })
@@ -84,15 +99,32 @@ angular.module('developer.reports', ['nvd3'])
         }
     };
 })
-.controller('DeveloperDetailsCtrl', function ($scope, $stateParams, $http, $window, $state, $sce, ResearchService, gameInfo, infoSchema) {
+.controller('DeveloperDetailsCtrl', function ($scope, $stateParams, $http, $window, $state, $sce, ResearchService, gameInfo, infoSchema, reportsData, moment) {
     $scope.gameId = $stateParams.gameId;
     $scope.fullData = gameInfo;
 
-    $scope.options = {};
-    $scope.data = {};
+    $scope.unitsData = reportsData.units;
+
+    var dau_values = [];
+    var max_dau = 0;
+    var dau_ticks = 5;
+    for (var i = -31; i < 0; i++) {
+        var date = moment().add({days:i}).format("YYYY-MM-DD");
+        if(reportsData.DAU[date] && reportsData.DAU[date] > max_dau) {
+            max_dau = reportsData.DAU[date];
+        }
+        dau_values.push({x: i, y: reportsData.DAU[date] || 0});
+    }
+    if (max_dau < dau_ticks) {
+        dau_ticks = Math.round(max_dau / 2) + 1;
+    }
+    $scope.data_dau = [{
+        values: dau_values,
+        key: 'Active Unique Users'
+    }];
 
 
-    var options_dauu = {
+    $scope.options_dau = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -105,60 +137,63 @@ angular.module('developer.reports', ['nvd3'])
             x: function(d){ return d.x; },
             y: function(d){ return d.y; },
             useInteractiveGuideline: true,
-            dispatch: {
-                stateChange: function(e){ console.log("stateChange"); },
-                changeState: function(e){ console.log("changeState"); },
-                tooltipShow: function(e){ console.log("tooltipShow"); },
-                tooltipHide: function(e){ console.log("tooltipHide"); }
-            },
             xAxis: {
                 axisLabel: 'Date',
                 tickFormat: function(d){
-                	if ( d === 0 ) {
-                		return "today";
-                	}
-                	else {
-						var date = new Date(Date.now());
-						date.setDate(date.getDate()+d);
-						var options = { month: 'short', day: '2-digit' };
-                        return (date.toLocaleDateString( 'en-US', options ));
-                    }
+                    var date = new Date();
+                    date.setDate(date.getDate()+d);
+                    var options = { month: 'short', day: '2-digit' };
+                    return (date.toLocaleDateString( 'en-US', options ));
                 }
             },
             yAxis: {
                 axisLabel: 'Daily Active Unique Users',
                 tickFormat: function(d){
-                    return d3.format('f')(d*100.0);
+                    return d3.format('d')(d);
                 },
+                ticks: 5,
                 axisLabelDistance: -10
-            },
-            callback: function(chart){
-                //console.log("!!! lineChart callback !!!");
             }
         },
         title: {
             enable: true,
             text: 'Daily Active Unique Users'
-        },
-        subtitle: {
-            enable: false,
-            text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-            css: {
-                'text-align': 'center',
-                'margin': '10px 13px 0px 7px'
-            }
-        },
-        caption: {
-            enable: false,
-            html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-            css: {
-                'text-align': 'justify',
-                'margin': '10px 13px 0px 7px'
-            }
         }
     };
 
-    var options_up = {
+    $scope.data_unit_progress = [];
+    var unit_progress_keys = ["start", "completed", "success", "fail"];
+    var unit_progress_key_labels = {
+        start: "Units Started",
+        completed: "Units Completed",
+        success: "Units Completed Successfully",
+        fail: "Units Completed Unsuccessfully"
+    };
+    var unit_progress_key_data = {};
+    _.forEach(reportsData.units, function(unit, unitName) {
+        _.forEach(unit_progress_keys, function(key) {
+            if (!unit_progress_key_data[key]) {
+                unit_progress_key_data[key] = [];
+            }
+            unit_progress_key_data[key].push({
+                label: unitName,
+                value: unit[key]
+            });
+        });
+
+        unit.avgTimeStr = moment.duration(unit.avgTime).humanize();
+        unit.medianTimeStr = moment.duration(unit.medianTime).humanize();
+        unit.successPercentage = Math.round(100 * (unit.start ? unit.success/unit.start : 0)) + "%";
+    });
+    _.forEach(unit_progress_keys, function(key) {
+        $scope.data_unit_progress.push({
+            key: unit_progress_key_labels[key],
+            values: unit_progress_key_data[key]
+        });
+    });
+
+
+    $scope.options_unit_progress = {
         chart: {
             type: 'multiBarChart',
             height: 450,
@@ -168,391 +203,21 @@ angular.module('developer.reports', ['nvd3'])
                 bottom: 40,
                 left: 55
             },
-            x: function(d){ return d.x; },
-            y: function(d){ return d.y; },
-            useInteractiveGuideline: true,
-            dispatch: {
-                stateChange: function(e){ console.log("stateChange"); },
-                changeState: function(e){ console.log("changeState"); },
-                tooltipShow: function(e){ console.log("tooltipShow"); },
-                tooltipHide: function(e){ console.log("tooltipHide"); }
-            },
-			clipEdge: true,
-            duration: 500,
-            stacked: false,
+            x: function(d){ return d.label; },
+            y: function(d){ return d.value; },
             xAxis: {
-                axisLabel: 'Date',
-                tickFormat: function(d){
-                	if ( d === 0 ) {
-                		return "today";
-                	}
-                	else {
-						var date = new Date(Date.now());
-						date.setDate(date.getDate()+d);
-						var options = { month: 'short', day: '2-digit' };
-                        return (date.toLocaleDateString( 'en-US', options ));
-                    }
-                }
+                axisLabel: 'Units'
             },
             yAxis: {
-                axisLabel: 'Unit Progress',
                 tickFormat: function(d){
-                    return d3.format('f')(d*100.0);
-                },
-                axisLabelDistance: -10
-            },
-            callback: function(chart){
-                //console.log("!!! lineChart callback !!!");
+                    return d3.format('d')(d);
+                }
             }
         },
         title: {
             enable: true,
             text: 'Unit Progress'
-        },
-        subtitle: {
-            enable: false,
-            text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-            css: {
-                'text-align': 'center',
-                'margin': '10px 13px 0px 7px'
-            }
-        },
-        caption: {
-            enable: false,
-            html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-            css: {
-                'text-align': 'justify',
-                'margin': '10px 13px 0px 7px'
-            }
         }
     };
 
-    var options_tsiu = {
-        chart: {
-            type: 'lineChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 40,
-                left: 55
-            },
-            x: function(d){ return d.x; },
-            y: function(d){ return d.y; },
-            useInteractiveGuideline: true,
-            dispatch: {
-                stateChange: function(e){ console.log("stateChange"); },
-                changeState: function(e){ console.log("changeState"); },
-                tooltipShow: function(e){ console.log("tooltipShow"); },
-                tooltipHide: function(e){ console.log("tooltipHide"); }
-            },
-            xAxis: {
-                axisLabel: 'Date',
-                tickFormat: function(d){
-                	if ( d === 0 ) {
-                		return "today";
-                	}
-                	else {
-						var date = new Date(Date.now());
-						date.setDate(date.getDate()+d);
-						var options = { month: 'short', day: '2-digit' };
-                        return (date.toLocaleDateString( 'en-US', options ));
-                    }
-                }
-            },
-            yAxis: {
-                axisLabel: 'Time Spent in Unit',
-                tickFormat: function(d){
-                    return d3.format('f')(d*100.0);
-                },
-                axisLabelDistance: -10
-            },
-            callback: function(chart){
-                //console.log("!!! lineChart callback !!!");
-            }
-        },
-        title: {
-            enable: true,
-            text: 'Time Spent in Unit'
-        },
-        subtitle: {
-            enable: false,
-            text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-            css: {
-                'text-align': 'center',
-                'margin': '10px 13px 0px 7px'
-            }
-        },
-        caption: {
-            enable: false,
-            html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-            css: {
-                'text-align': 'justify',
-                'margin': '10px 13px 0px 7px'
-            }
-        }
-    };
-
-    var options_sfiu = {
-        chart: {
-            type: 'lineChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 40,
-                left: 55
-            },
-            x: function(d){ return d.x; },
-            y: function(d){ return d.y; },
-            useInteractiveGuideline: true,
-            dispatch: {
-                stateChange: function(e){ console.log("stateChange"); },
-                changeState: function(e){ console.log("changeState"); },
-                tooltipShow: function(e){ console.log("tooltipShow"); },
-                tooltipHide: function(e){ console.log("tooltipHide"); }
-            },
-            xAxis: {
-                axisLabel: 'Date',
-                tickFormat: function(d){
-                	if ( d === 0 ) {
-                		return "today";
-                	}
-                	else {
-						var date = new Date(Date.now());
-						date.setDate(date.getDate()+d);
-						var options = { month: 'short', day: '2-digit' };
-                        return (date.toLocaleDateString( 'en-US', options ));
-                    }
-                }
-            },
-            yAxis: {
-                axisLabel: 'Success/Fail in Unit',
-                tickFormat: function(d){
-                    return d3.format('f')(d*100.0);
-                },
-                axisLabelDistance: -10
-            },
-            callback: function(chart){
-                //console.log("!!! lineChart callback !!!");
-            }
-        },
-        title: {
-            enable: true,
-            text: 'Success/Fail in Unit'
-        },
-        subtitle: {
-            enable: false,
-            text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-            css: {
-                'text-align': 'center',
-                'margin': '10px 13px 0px 7px'
-            }
-        },
-        caption: {
-            enable: false,
-            html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-            css: {
-                'text-align': 'justify',
-                'margin': '10px 13px 0px 7px'
-            }
-        }
-    };
-
-    var options_luc = {
-        chart: {
-            type: 'lineChart',
-            height: 450,
-            margin : {
-                top: 20,
-                right: 20,
-                bottom: 40,
-                left: 55
-            },
-            x: function(d){ return d.x; },
-            y: function(d){ return d.y; },
-            useInteractiveGuideline: true,
-            dispatch: {
-                stateChange: function(e){ console.log("stateChange"); },
-                changeState: function(e){ console.log("changeState"); },
-                tooltipShow: function(e){ console.log("tooltipShow"); },
-                tooltipHide: function(e){ console.log("tooltipHide"); }
-            },
-            xAxis: {
-                axisLabel: 'Date',
-                tickFormat: function(d){
-                	if ( d === 0 ) {
-                		return "today";
-                	}
-                	else {
-						var date = new Date(Date.now());
-						date.setDate(date.getDate()+d);
-						var options = { month: 'short', day: '2-digit' };
-                        return (date.toLocaleDateString( 'en-US', options ));
-                    }
-                }
-            },
-            yAxis: {
-                axisLabel: 'Last Unit Completed',
-                tickFormat: function(d){
-                    return d3.format('f')(d*100.0);
-                },
-                axisLabelDistance: -10
-            },
-            callback: function(chart){
-                //console.log("!!! lineChart callback !!!");
-            }
-        },
-        title: {
-            enable: true,
-            text: 'Last Unit Completed'
-        },
-        subtitle: {
-            enable: false,
-            text: 'Subtitle for simple line chart. Lorem ipsum dolor sit amet, at eam blandit sadipscing, vim adhuc sanctus disputando ex, cu usu affert alienum urbanitas.',
-            css: {
-                'text-align': 'center',
-                'margin': '10px 13px 0px 7px'
-            }
-        },
-        caption: {
-            enable: false,
-            html: '<b>Figure 1.</b> Lorem ipsum dolor sit amet, at eam blandit sadipscing, <span style="text-decoration: underline;">vim adhuc sanctus disputando ex</span>, cu usu affert alienum urbanitas. <i>Cum in purto erat, mea ne nominavi persecuti reformidans.</i> Docendi blandit abhorreant ea has, minim tantas alterum pro eu. <span style="color: darkred;">Exerci graeci ad vix, elit tacimates ea duo</span>. Id mel eruditi fuisset. Stet vidit patrioque in pro, eum ex veri verterem abhorreant, id unum oportere intellegam nec<sup>[1, <a href="https://github.com/krispo/angular-nvd3" target="_blank">2</a>, 3]</sup>.',
-            css: {
-                'text-align': 'justify',
-                'margin': '10px 13px 0px 7px'
-            }
-        }
-    };
-
-    /*Random Data Generator */
-    function data_dauu() {
-        var sin = [];
-
-        //Data is represented as an array of {x,y} pairs.
-        for (var i = -31; i <= 0; i++) {
-            sin.push({x: i, y: Math.random() * 90 });
-        }
-
-        //Line chart data should be sent as an array of series objects.
-        return [
-            {
-                values: sin,
-                key: 'Active Unique Users',
-                color: '#7777ff',
-                area: true      //area - set to true if you want this line to turn into a filled area chart.
-            }
-        ];
-    }
-
-    function data_up() {
-        /* Inspired by Lee Byron's test data generator. */
-        function stream_layers(n, m, o) {
-            if (arguments.length < 3) {
-            	o = 0;
-            }
-            function bump(a) {
-                var x = 1 / (0.1 + Math.random()),
-                    y = 2 * Math.random() - 0.5,
-                    z = 10 / (0.1 + Math.random());
-                for (var i = 0; i < m; i++) {
-                    var w = (i / m - y) * z;
-                    a[i] += x * Math.exp(-w * w);
-                }
-            }
-            return d3.range(n).map(function() {
-                var a = [], i;
-
-                for (i = 0; i < m; i++) {
-                	a[i] = o + o * Math.random();
-                }
-
-                for (i = 0; i < 5; i++) {
-                	bump(a);
-                }
-
-                return a.map(stream_index);
-            });
-        }
-
-        /* Another layer generator using gamma distributions. */
-        function stream_waves(n, m) {
-            return d3.range(n).map(function(i) {
-                return d3.range(m).map(function(j) {
-                    var x = 20 * j / m - i / 3;
-                    return 2 * x * Math.exp(-0.5 * x);
-                }).map(stream_index);
-            });
-        }
-
-        function stream_index(d, i) {
-            return {x: i - 30, y: Math.max(0, d)};
-        }
-
-        return stream_layers(4,31,0.1).map(function(data, i) {
-        	var ret = {
-        		key: '',
-        		values: data
-        	};
-
-        	switch ( i ) {
-        		case 0:
-        			ret.key = 'Units Started';
-        			break;
-
-        		case 1:
-        			ret.key = 'Units Completed';
-    	    		break;
-
-        		case 2:
-        			ret.key = 'Units Sucess';
-	        		break;
-
-        		case 3:
-        			ret.key = 'Units Fail';
-	        		break;
-        	}
-
-            return ret;
-        });
-    }
-
-    function data_tsiu() {
-    	return data_dauu();
-    }
-
-    function data_sfiu() {
-    	return data_dauu();
-    }
-
-    function data_luc() {
-    	return data_dauu();
-    }
-
-    $scope.setReport = function( type ) {
-    	switch ( type ) {
-    		case 'dauu':
-    			$scope.options = options_dauu;
-    			$scope.data = data_dauu();
-	    		break;
-    		case 'up':
-    			$scope.options = options_up;
-    			$scope.data = data_up();
-	    		break;
-    		case 'tsiu':
-    			$scope.options = options_tsiu;
-    			$scope.data = data_tsiu();
-	    		break;
-    		case 'sfiu':
-    			$scope.options = options_sfiu;
-    			$scope.data = data_sfiu();
-	    		break;
-    		case 'luc':
-    			$scope.options = options_luc;
-    			$scope.data = data_luc();
-	    		break;
-    	}
-    };
-
-    $scope.setReport( 'dauu' );
 });
