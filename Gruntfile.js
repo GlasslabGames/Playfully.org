@@ -269,6 +269,14 @@ module.exports = function ( grunt ) {
         ],
         dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
       },
+      compile_css: {
+        src: [
+          '<%= compile_dir %>/src/**/*.css',
+          '<%= vendor_files.css %>',
+          '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+        ],
+        dest: '<%= compile_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+      },
       /**
        * The `compile_js` target is the concatenation of our application source
        * code and all specified vendor source code into a single file.
@@ -691,7 +699,7 @@ module.exports = function ( grunt ) {
    */
   // disable until fix compile
   grunt.registerTask( 'compile', [
-    'build', 'ngAnnotate', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'concat:compile_js', 'uglify',
+    'build', 'ngAnnotate', 'less:compile', 'copy:crossdomain', 'copy:compile_favicon', 'copy:compile_assets', 'copy:compile_glasslabsdk', 'concat:compile_js', 'concat:compile_css', 'uglify',
     'index:compile', 'createDistVersionFile', 'ngconstant:production'
   ]);
 
