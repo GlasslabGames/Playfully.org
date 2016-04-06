@@ -31,6 +31,7 @@ angular.module( 'playfully', [
   'playfully.research',
   'playfully.navbar',
   'playfully.home',
+  'playfully.error',
   'playfully.games',
   'playfully.instructor',
   'playfully.student',
@@ -314,6 +315,18 @@ angular.module( 'playfully', [
     };
 })
 
+.factory('myHttpErrorInterceptor', function ($q, $rootScope, AUTH_EVENTS) {
+    return {
+        responseError: function (response) {
+            if (response.status === 500) {
+                $rootScope.currentError = response.data.error;
+                $rootScope.$broadcast('serverError');
+            }
+            return $q.reject(response);
+        }
+    };
+})
+
 .config(function($httpProvider) {
   //initialize get if not there
   if (!$httpProvider.defaults.headers.get) {
@@ -326,6 +339,7 @@ angular.module( 'playfully', [
   $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
   
   $httpProvider.interceptors.push('myHttpInterceptor');
+  $httpProvider.interceptors.push('myHttpErrorInterceptor');
 
 })
 
@@ -642,6 +656,10 @@ angular.module( 'playfully', [
 
     $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
       $state.go('root.home.default');
+    });
+
+    $scope.$on('serverError', function (event, error) {
+        $state.go('serverError');
     });
 
     $scope.truncateUsername = function (username) {
