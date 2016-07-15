@@ -146,7 +146,8 @@ angular.module('license', [])
             this.licenseExpirationDate = function() {
                 if( $rootScope.currentUser &&
                     this.hasLicense() ) {
-                    return moment( $rootScope.currentUser.expirationDate ).diff( moment(), 'days' );
+                    var daysLeft =  moment( $rootScope.currentUser.expirationDate ).diff( moment(), 'days' );
+                    return (daysLeft > 0 ? daysLeft : 0);
                     //return $rootScope.currentUser.expirationDate;
                 }
                 else {
