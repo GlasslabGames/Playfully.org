@@ -1103,7 +1103,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGamesEditCtrl', function ($scope, $state, UserService, GamesService, allGamesInfo, gamesAvailable, submissionTarget, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGamesEditCtrl', function ($scope, $state, $log, $window, UserService, GamesService, allGamesInfo, gamesAvailable, submissionTarget, gamesApproved, gamesAwaitingApproval, gamesRejected) {
 
     $scope.showTab = 0;
 
@@ -1147,7 +1147,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 
 
 
-.controller('AdminGameApprovalCtrl', function ($scope, $state, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
+.controller('AdminGameApprovalCtrl', function ($scope, $state, $log, $window, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
     if ($state.includes('admin.game-approval.pending')) {
         $scope.showTab = 1;
