@@ -3,111 +3,111 @@
 </article>
 
 <div class="gl-reports-standard-labels">
-      <div class="gl-reports-standard-labels-box" ng-repeat="progressType in progressTypes">
-          <div class="gl-reports-standard-labels-icon">
+    <div class="gl-reports-standard-labels-box" ng-repeat="progressType in progressTypes">
+        <div class="gl-reports-standard-labels-icon">
             <div ng-class="getLabelInfo(progressType,'class')"
                  class="gl-standards-rating gl-standards-rating--small"></div>
-          </div>
-            <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
-      </div>
+        </div>
+        <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
+    </div>
 
 </div>
 <hr/>
 
 <div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
-  <div ng-include src="'instructor/reports/_students.html'"></div>
+    <div ng-include src="'instructor/reports/_students.html'"></div>
 
-  <div class="report-body report-body--wide gl-pad-Al">
-    <div class="fa fa-question-circle gl-standards-question gl-clickable"
-         ng-click="setReport(reports.selected); setStandardDict(reports.standardsDict)"
-         ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
-    <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
+    <div class="report-body report-body--wide gl-pad-Al">
+        <div class="fa fa-question-circle gl-standards-question gl-clickable"
+             ng-click="setReport(reports.selected); setStandardDict(reports.standardsDict)"
+             ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
+        <h1 class="headline-2 text-center gl-margin--Tl">Standards Report</h1>
 
-    <p class="text-center" ng-bind="reports.selected.description">
-    </p>
+        <p class="text-center" ng-bind="reports.selected.description">
+        </p>
 
-    <div class="container-fluid">
-      <div class="row gl-report-standards-header">
-        <div class="col-md-3 gl-pad--Tm">
-          <strong>Name</strong>
-        </div>
-        <div class="col-md-9 gl-report-sep standards-data-scroll gl-report-standards-header" id="standards-header">
-            <div class="gl-reports-standards-header-container">
-                <div class="gl-report-standards-table text-center" ng-repeat="group in reports.selected.table.groups">
-                    <div class="gl-report-standards-header-title ">{{group.name}}</div>
-                    <div class="gl-report-standards-header-subsection" ng-repeat="subject in group.subjects">
-                        <div class="gl-report-standards-header-subsection-title">
-                            {{subject.name}}
-                        </div>
-                        <div ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item gl-clickable"
-                             ng-repeat="standard in subject.standards">
-                            <div><b>{{standard.title}}</b></div>
-                            <div ng-show="state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item-description">{{standard.description}}</div>
+        <div class="container-fluid">
+            <div class="row gl-report-standards-header">
+                <div class="col-md-3 gl-pad--Tm">
+                    <strong>Name</strong>
+                </div>
+                <div class="col-md-9 gl-report-sep standards-data-scroll gl-report-standards-header" id="standards-header">
+                    <div class="gl-reports-standards-header-container">
+                        <div class="gl-report-standards-table text-center" ng-repeat="group in reports.selected.table.groups">
+                            <div class="gl-report-standards-header-title ">{{group.name}}</div>
+                            <div class="gl-report-standards-header-subsection" ng-repeat="subject in group.subjects">
+                                <div class="gl-report-standards-header-subsection-title">
+                                    {{subject.name}}
+                                </div>
+                                <div ng-click="state.showStandardsDescriptions = !state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item gl-clickable"
+                                     ng-repeat="standard in subject.standards">
+                                    <div><b>{{standard.title}}</b></div>
+                                    <div ng-show="state.showStandardsDescriptions" class="gl-report-standards-header-subsection-item-description">{{standard.description}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-md-12 gl-report-sep--blue"></div>
-      </div>
-      <div class="row" ng-hide="isGameDisabled || courses.selected.users.length < 0 || noUserData">
-        <div class="col-md-3 gl-pad--An" >
-          <table width="100%">
-            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
-              <td class="gl-report-item-cell">
-                <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
-          <table>
-            <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
-                <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
-                    <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
-                         ng-click="setStandard(standard.id)"
-                         ui-sref="modal-xlg.standardsInfo({
+            <div class="row">
+                <div class="col-md-12 gl-report-sep--blue"></div>
+            </div>
+            <div class="row" ng-hide="isGameDisabled || courses.selected.users.length < 0 || noUserData">
+                <div class="col-md-3 gl-pad--An">
+                    <table width="100%">
+                        <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
+                            <td class="gl-report-item-cell">
+                                <div class="gl-pad-Hm">{{student.firstName }} {{student.lastName}}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-9 gl-pad--An gl-report-sep standards-data-scroll" id="standards-body">
+                    <table>
+                        <tr class="gl-table-stripe" ng-repeat="student in courses.selected.users" ng-show="student.isSelected">
+                            <td ng-repeat="standard in reports.standardsList" class="gl-report-standards-item gl-report-item-cell">
+                                <div ng-class="getLabelInfo(student.results[standard.id],'class') + ' gl-standards-rating'"
+                                     ng-click="setStandard(standard.id)"
+                                     ui-sref="modal-xlg.standardsInfo({
                              gameId: games.selectedGameId,
                              progress: student.results[standard.id],
                              type: getLabelInfo(student.results[standard.id],'text')
                          })">
-                    </div>
-                </td>
-            </tr>
-          </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="gl-report-standards-table-bottom" ng-hide="isGameDisabled || courses.selected.users.length > 0">
+                <div class="text-center gl-pad-Vxxl">
+                    No students are currently enrolled in this class.
+                </div>
+            </div>
+            <div class="gl-report-standards-table-bottom" ng-if="!isGameDisabled && (courses.selected.users.length > 0 && noUserData)">
+                <div class="text-center gl-pad-Vxxl">
+                    <img src="/assets/blinky-empty.png">
+                    <h5>No student data yet. As students begin to play, you will see their progress here.</h5>
+                </div>
+            </div>
+            <div class="gl-report-standards-table-bottom" ng-if="isGameDisabled">
+                <div class="text-center gl-pad-Vxxl">
+                    <img src="/assets/disabled-premium-game.png">
+                    <h5>This Premium Game is disabled.</h5>
+                    <h5>To view student data, please visit the <a ui-sref="root.courses">Class Manager</a> to
+                        enable Premium Games</h5>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="gl-report-standards-table-bottom" ng-hide="isGameDisabled || courses.selected.users.length > 0">
-              <div class="text-center gl-pad-Vxxl">
-                  No students are currently enrolled in this class.
-              </div>
-      </div>
-      <div class="gl-report-standards-table-bottom" ng-if="!isGameDisabled && (courses.selected.users.length > 0 && noUserData)">
-              <div class="text-center gl-pad-Vxxl">
-                  <img src="/assets/blinky-empty.png">
-                  <h5>No student data yet. As students begin to play, you will see their progress here.</h5>
-              </div>
-      </div>
-      <div class="gl-report-standards-table-bottom" ng-if="isGameDisabled">
-              <div class="text-center gl-pad-Vxxl">
-                  <img src="/assets/disabled-premium-game.png">
-                  <h5>This Premium Game is disabled.</h5>
-                  <h5>To view student data, please visit the <a ui-sref="root.courses">Class Manager</a> to
-                      enable Premium Games</h5>
-              </div>
-      </div>
     </div>
-  </div>
-  <script type="text/javascript">
-    $('#standards-header').on('scroll', function () {
-      $('#standards-body').scrollLeft($(this).scrollLeft());
-    });
+    <script type="text/javascript">
+        $('#standards-header').on('scroll', function () {
+            $('#standards-body').scrollLeft($(this).scrollLeft());
+        });
 
-    $('#standards-body').on('scroll', function () {
-      $('#standards-header').scrollLeft($(this).scrollLeft());
-    });
-  </script>
+        $('#standards-body').on('scroll', function () {
+            $('#standards-header').scrollLeft($(this).scrollLeft());
+        });
+    </script>
 </div>
