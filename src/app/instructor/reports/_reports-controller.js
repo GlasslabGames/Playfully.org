@@ -263,6 +263,35 @@ angular.module( 'instructor.reports', [
                     }
                 }
             })
+            .state('root.reports.details.drk12_b', {
+                url: '/drk12_b/game/:gameId/course/:courseId?skillsId&stdntIds',
+                templateUrl: 'instructor/reports/drk12_b/drk12_b.html',
+                controller: 'Drk12_bCtrl',
+                parameters: ['gameId','courseId'],
+                resolve: {
+                    defaultCourse: function ($stateParams, coursesInfo) {
+                        return coursesInfo[$stateParams.courseId];
+                    },
+                    myGames: function (defaultCourse) {
+                        return defaultCourse.games;
+                    },
+                    defaultGame: function (defaultCourse, myGames, $stateParams) {
+                        return _.findWhere(myGames, { 'id': $stateParams.gameId }) || myGames[0];
+                    },
+                    gameReports: function (defaultGame) {
+                        // set game report for default game
+                        var reports = {};
+                        if (defaultGame) {
+                            return defaultGame.reports;
+                        }
+                        return reports;
+                    },
+                    usersData: function (ReportsService,$stateParams) {
+                        var reportId = 'drk12_b';
+                        return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                    }
+                }
+            })
             .state('root.reports.details.standards', {
                 url: '/standards/game/:gameId/course/:courseId?skillsId&stdntIds',
                 templateUrl: 'instructor/reports/standards/standards.html',
