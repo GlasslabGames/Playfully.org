@@ -14,14 +14,14 @@
                 <h2>Class Progress</h2>
                 <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
                 <h2>Current Class Skill Level</h2>
-                <article class="legend-header gl-report-drk12_b-legend-header">
+                <article class="legend-header">
                     <p class="legend-header"><span>Competency Levels</span></p>
                 </article>
                 <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
                     <div class="gl-reports-drk12_b-labels-icon">
                         <div ng-class="getLabelInfo(progressType,'class')" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
                     </div>
-                    <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
+                    <div class="gl-reports-drk12_b-labels-text">{{getLabelInfo(progressType,'title')}}</div>
                 </div>
                 <hr/>
                 <div class="gl-reports-drk12_b-labels-box">
@@ -50,14 +50,14 @@
                 </div>
             </tab>
             <tab heading="Student View">
-                <article class="legend-header gl-report-drk12_b-legend-header">
+                <article class="legend-header">
                     <p class="legend-header"><span>Competency Levels</span></p>
                 </article>
                 <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
                     <div class="gl-reports-drk12_b-labels-icon">
                         <div ng-class="getLabelInfo(progressType,'class')" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
                     </div>
-                    <div class="gl-reports-standard-labels-text">{{getLabelInfo(progressType,'title')}}</div>
+                    <div class="gl-reports-drk12_b-labels-text">{{getLabelInfo(progressType,'title')}}</div>
                 </div>
                 <hr/>
             </tab>
