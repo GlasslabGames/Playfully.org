@@ -286,7 +286,7 @@ angular.module( 'instructor.reports', [
                         }
                         return reports;
                     },
-                    usersData: function (ReportsService,$stateParams) {
+                    usersData: function (ReportsService, $stateParams) {
                         var reportId = 'drk12_b';
                         return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
                     }

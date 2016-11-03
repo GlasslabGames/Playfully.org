@@ -27,14 +27,9 @@ angular.module('reports.const', []).constant('REPORT_CONSTANTS', {
         "Partial": {class:'gl-standards-rating--tracking', text: 'tracking', title: 'Tracking toward standard completion'},
         "Not-Started": {class:'gl-standards-rating--notstarted', text: 'notstarted', title: 'Not started'},
         "In-Progress": {class:'gl-standards-rating--nodata', text: 'nodata', title: 'In progress'},
-        "Watchout": {class: 'gl-standards-rating--watchout', title: 'Needs support', text: 'watchout'},
-        //drk12_b
-        "Advancing": {class:'gl-drk12_b-rating--advancing', text:'advancing', title: 'Advancing'},
-        "Need-Support": {class:'gl-drk12_b-rating--support', text:'support', title: 'Need Support'},
-        "Not-yet-attempted": {class:'gl-drk12_b-rating--nodata', text:'nodata', title: 'Not yet attempted / Not enough data'}
+        "Watchout": {class: 'gl-standards-rating--watchout', title: 'Needs support', text: 'watchout'}
     },
     "standardsLegendOrder": ['Not-Started', 'In-Progress', 'Partial', 'Full', 'Watchout'],
-    "drk12_bLegendOrder": ['Advancing', 'Need-Support', 'Not-yet-attempted'],
 
     // Order of reports dropdown and default report
     orderOfReports: {

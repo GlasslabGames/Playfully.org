@@ -3,24 +3,16 @@ angular.module( 'instructor.reports')
         $stateProvider.state('modal-xlg.drk12_bInfo', {
             url: '/reports/details/drk12_b/game/:gameId?:type?:progress?:defaultStandard',
             data:{
-                pageTitle: 'drk12_b Report'
+                pageTitle: 'Progress Report'
             },
             views: {
                 'modal@': {
                     templateUrl: function($stateParams, REPORT_CONSTANTS) {
                         return 'instructor/reports/drk12_b/_modal-' + $stateParams.type + '.html';
                     },
-                    controller: function($scope, $log, $stateParams, drk12_bStore, REPORT_CONSTANTS) {
-                        $scope.progressTypes = REPORT_CONSTANTS.drk12_bLegendOrder;
+                    controller: function($scope, $log, $stateParams, drk12_bStore) {
                         $scope.standardObj = {};
                         $scope.standardObj.selected = null;
-                        $scope.getLabelInfo = function(label,type) {
-                            if (label && type) {
-                                return REPORT_CONSTANTS.legend[label][type];
-                            } else {
-                                return label;
-                            }
-                        };
                         if ($stateParams.defaultStandard){
                             $scope.standardObj.selected = $stateParams.defaultStandard;
                         }
@@ -86,16 +78,21 @@ angular.module( 'instructor.reports')
 
         // Report
         var reportId = 'drk12_b';
+        //$scope.students = $scope.courses.selected.users; // TODO: Add this back
+        $scope.students = [];
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-        // students in course grouped by columns and rows
-        var studentsToSort = [];
+        $scope.progressTypes = {
+            "Advancing": {class:'Advancing', title: 'Advancing'},
+            "Need-Support": {class:'NeedSupport', title: 'Need Support'},
+            "Not-yet-attempted": {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
+        };
 
         /////////////////////////////////////////// Fake data ////////////////////////////////
 
-        var mockData = {
+        usersData = {
             "gameId": "AA-1",
             "assessmentId": "drk12_b",
             "timestamp": 123412341234,
@@ -222,6 +219,12 @@ angular.module( 'instructor.reports')
                 {
                     "userId": 1,
                     "currentMission": 12,
+                    "currentProgress": {
+                        "connectingEvidence": "Advancing",
+                        "supportingClaims": "NeedSupport",
+                        "criticalQuestions": "Advancing",
+                        "usingBacking": "NotAttempted"
+                    },
                     "missions": [
                         {
                             "mission":3,
@@ -464,94 +467,48 @@ angular.module( 'instructor.reports')
                 firstName: "first" + k,
                 lastName: "last" + k,
                 id: k,
-                isSelected: false,
-                results: []
+                isSelected: false
             };
-            for (var l = 1; l <= 22; l++) {
-                var missionObject = {
-                    missionNumber: l
-                };
 
-                var gradeRandomizer = Math.random();
-
-                if(gradeRandomizer >= 0.33) {
-                    missionObject.grade = "Pass";
-                } else if (gradeRandomizer >= 0.66) {
-                    missionObject.grae = "Incomplete";
-                } else {
-                    missionObject.grade = "noData";
-                }
-                studentObject.results.push(missionObject);
-            }
-
-            studentsToSort.push(studentObject);
+            $scope.students.push(studentObject);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////
 
+        $scope.reportData = usersData;
+
         $scope.getFirstCriteriaLevel = function() {
-            return mockData.courseSkills.connectingEvidence.level;
+            return usersData.courseSkills.connectingEvidence.level;
         };
 
         $scope.getSecondCriteriaLevel = function() {
-            return mockData.courseSkills.supportingClaims.level;
+            return usersData.courseSkills.supportingClaims.level;
         };
 
         $scope.getThirdCriteriaLevel = function() {
-            return mockData.courseSkills.criticalQuestions.level;
+            return usersData.courseSkills.criticalQuestions.level;
         };
 
         $scope.getForthCriteriaLevel = function() {
-            return mockData.courseSkills.usingBacking.level;
+            return usersData.courseSkills.usingBacking.level;
         };
 
 
         //$scope.courses.selected.users.forEach(function(student) { studentsToSort.push(student); }); // TODO: Add this back
-        studentsToSort.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
-
-        var maxRows = 15;
-        var visibleColumns = 7;
-        var columns = Math.floor((studentsToSort.length + maxRows - 1) / maxRows);
-        var rows = studentsToSort.length > maxRows ? maxRows : studentsToSort.length;
-        var students = [];
-
-        for (var i=0;i<rows;i++) {
-            var row = [];
-            for (var j=0;j<columns;j++) {
-                if (i + maxRows * j < studentsToSort.length) {
-                    var student = studentsToSort[i + maxRows * j];
-                    student.isSelected = true; // set to initially visible
-                    row.push(student);
-                } else {
-                    row.push(null);
-                }
-            }
-            students.push(row);
-        }
-
-        $scope.students = students;
-        $scope.studentAreaWidth = 80 + 120 * Math.min(visibleColumns, columns);
-
-        // Games
-        $scope.games.selectedGameId = defaultGame.gameId;
-
-        // Get the default standard from the user
-        $scope.defaultStandards = "CCSS";
+        $scope.students.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
 
         ///// Setup options /////
 
         // Games
-        $scope.games.options = {};
-        angular.forEach(myGames, function(game) {
+        $scope.games.options = {}; //TODO: This appears to be report agnostic. Why is it placed in each report?
+        angular.forEach(myGames, function(game) { //TODO: This appears to be report agnostic. Why is it placed in each report?
             $scope.games.options[''+game.gameId] = game;
         });
 
         // Reports
-        $scope.reports.options = [];
-        $scope.reports.standardsList = [];
-        $scope.reports.standardsDict = {};
+        $scope.reports.options = [];  // TODO: This appears to be report agnostic. Why is it placed in each report?
 
-        angular.forEach(gameReports.list, function(report) {
+        angular.forEach(gameReports.list, function(report) { // TODO: This appears to be report agnostic. Why is it placed in each report?
             if(report.enabled) {
                 $scope.reports.options.push( angular.copy(report) );
                 // select report that matches this state
@@ -561,13 +518,9 @@ angular.module( 'instructor.reports')
             }
         });
 
-        // Check if game is premium and disabled
-        if (defaultGame.price === 'Premium' && !defaultGame.assigned) {
-            $scope.isGameDisabled = true;
-        }
         // Check if selected game has selected report
 
-        if (!ReportsService.isValidReport(reportId,$scope.reports.options))  {
+        if (!ReportsService.isValidReport(reportId,$scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
             $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId
@@ -577,25 +530,9 @@ angular.module( 'instructor.reports')
 
         // Set parent scope developer info
 
-        if (gameReports.hasOwnProperty('developer')) {
+        if (gameReports.hasOwnProperty('developer')) { // TODO: This appears to be report agnostic. Why is it placed in each report?
             $scope.developer.logo = gameReports.developer.logo;
         }
-
-        $scope.state = {
-            showStandardsDescriptions: true
-        };
-
-        $scope.progressTypes = REPORT_CONSTANTS.drk12_bLegendOrder;
-
-        $scope.getLabelInfo = function(label,type) {
-            if (label && type) {
-                return REPORT_CONSTANTS.legend[label][type];
-            }
-            //else if (type === 'text') { // TODO: Not sure the point of this yet.
-            //    // if student has no data
-            //    return "notstarted";
-            //}
-        };
 
         /*
         Currently this is initialized when the page element is rendered.
@@ -625,8 +562,8 @@ angular.module( 'instructor.reports')
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            x.domain(mockData.courseProgress.map(function(d) { return d.mission; }));
-            y.domain([0, d3.max(mockData.courseProgress, function(d) { return d.studentCount; })]);
+            x.domain(usersData.courseProgress.map(function(d) { return d.mission; }));
+            y.domain([0, d3.max(usersData.courseProgress, function(d) { return d.studentCount; })]);
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -644,7 +581,7 @@ angular.module( 'instructor.reports')
                 .text("# of students");
 
             svg.selectAll(".bar")
-                .data(mockData.courseProgress)
+                .data(usersData.courseProgress)
                 .enter()
                 .append("rect")
                 .attr("class", "bar")
@@ -654,7 +591,7 @@ angular.module( 'instructor.reports')
                 .attr("height", function(d) { return height - y(d.studentCount); });
 
             svg.selectAll("text.bar")
-                .data(mockData.courseProgress)
+                .data(usersData.courseProgress)
                 .enter().append("text")
                 .attr("class", "bar")
                 .attr("text-anchor", "middle")
@@ -670,69 +607,29 @@ angular.module( 'instructor.reports')
                     return;
                 } else {
                     // Populate students in course with report data
-                    var students = $scope.courses.selected.users;
-                    angular.forEach(students, function (student) {
-                        var userReportData = _findUserByUserId(student.id, usersReportData) || {};
-                        student.results = userReportData.results;
-                        student.timestamp = angular.copy(userReportData.timestamp);
+                    angular.forEach($scope.students, function (student) {
+                        var userReportData = _findUserByUserId(student.id, usersReportData.students) || {};
+                        student.results = userReportData;
                     });
                 }
             }
         };
 
-        /*
-         // populate with test data
-         var _populateStudentLearningData = function(usersReportData) {
-         var students = $scope.courses.selected.users;
-         angular.forEach(students, function (student) {
-         student.results = { };
-         student.results['6.RP.A.1'] = 'Partial';
-         student.results['6.RP.A.2'] = 'Partial';
-         student.results['6.RP.A.3'] = 'Partial';
-         student.results['6.RP.A.3.A'] = 'Partial';
-         student.timestamp = new Date();
-         });
-         };
-         */
-
-        var _findUserByUserId = function (userId, users) {
+        var _findUserByUserId = function (userId, reportData) {
             var found;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].userId == userId) {
-                    found = users[i];
+            for (var i = 0; i < reportData.length; i++) {
+                if (reportData[i].userId == userId) {
+                    found = reportData[i];
+                    return found;
                 }
             }
-            return found || null;
+            return null;
         };
 
-        var _initStandards = function () {
-            // create list of standards
-            //angular.forEach($scope.reports.selected.table.groups, function(group) {
-            angular.forEach($scope.reports.options[3].table.groups, function(group) { // TODO: Remove. Using standards stuff as a stand-in
-                angular.forEach(group.subjects, function(subject) {
-                    angular.forEach(subject.standards, function(standard) {
-                        // to help generate student data for report table
-                        $scope.reports.standardsList.push(standard);
-                        // to help easily access standard info in legend modal
-                        $scope.reports.standardsDict[standard.id] = standard;
-                    });
-                });
-            });
-            // for displaying legend information
-            $scope.defaultStandard = $scope.reports.standardsList[0];
-        };
-        // To pass data to modal
-        $scope.setStandard = function (standardId) {
-            drk12_bStore.setStandard($scope.reports.standardsDict[standardId]);
-        };
-        $scope.setReport = function (report) {
+        $scope.setReport = function (report) { // TODO: Do we need this?
             drk12_bStore.setReport(report);
         };
-        $scope.setStandardDict = function (dictionary) {
-            drk12_bStore.setStandardDict(dictionary);
-        };
-        // set headers for standards table
-        _initStandards();
-        // populate student data with standards descriptions
+
+        // populate student objects with report data
         _populateStudentLearningData(usersData);
     });

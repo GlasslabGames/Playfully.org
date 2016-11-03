@@ -3,25 +3,108 @@
 
     <div class="report-body report-body--wide gl-pad-Al" style="min-height: 623px">
         <div class="fa fa-question-circle gl-drk12_b-question gl-clickable"
-             ng-click="setReport(reports.selected); setStandardDict(reports.standardsDict)"
+             ng-click="setReport(reports.selected)"
              ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
         <h1 class="headline-2 text-center gl-margin--Tl">Progress Report</h1>
 
         <p class="text-center" ng-bind="reports.selected.description"></p>
 
         <tabset justified="true">
-            <tab heading="Class View">
-                <h2>Class Progress</h2>
-                <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
-                <h2>Current Class Skill Level</h2>
+            <tab heading="Student View">
                 <article class="legend-header">
                     <p class="legend-header"><span>Competency Levels</span></p>
                 </article>
                 <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
                     <div class="gl-reports-drk12_b-labels-icon">
-                        <div ng-class="getLabelInfo(progressType,'class')" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
+                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
                     </div>
-                    <div class="gl-reports-drk12_b-labels-text">{{getLabelInfo(progressType,'title')}}</div>
+                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
+                </div>
+                <hr/>
+                <!-- TODO: Should this be responsive-->
+                <table class="gl-reports-drk12_b-default-text">
+                    <tr>
+                        <td class="bold">Select Competency Skills</td>
+                        <td>
+                            <label for="connectingEvidence">
+                                <input id="connectingEvidence" type="checkbox"/>
+                                <span>Connecting Evidence to Argument Schemes</span>
+                            </label>
+                        </td>
+                        <td>
+                            <lable for="supportingClaims">
+                                <input id="supportingClaims" type="checkbox" />
+                                <span>Supporting Claims with Evidence</span>
+                            </lable>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <lable for="criticalQuestions">
+                                <input id="criticalQuestions" type="checkbox" />
+                                <span>Using Critical Questions</span>
+                            </lable>
+                        </td>
+                        <td>
+                            <lable for="usingBacking">
+                                <input id="usingBacking" type="checkbox" />
+                                <span>Using Backing</span>
+                            </lable>
+                        </td>
+                    </tr>
+                </table>
+                <table class="gl-reports-drk12_b-default-text table gl-reports-table" ng-class="{'gl-reports-table--ie': isIE}">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Name</th>
+                            <th rowspan="2">Current Mission</th>
+                            <th colspan="4">Progress for Most Recent Level</th>
+                        </tr>
+                        <tr>
+                            <!-- first th is covered by previous row -->
+                            <!-- second th is covered by previous row -->
+                            <th>Connecting Evidence to Argument Schemes</th>
+                            <th>Supporting Claims with Evidence</th>
+                            <th>Using Critical Questions</th>
+                            <th>Using Backing</th>
+                        </tr>
+                        <tr>
+                            <th colspan="6" class="gl-reports-divider--blue"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in students" class="gl-reports-table-row">
+                            <td>{{student.firstName}} {{student.lastName}}</td>
+                            <td>{{student.results.currentMission}} / {{reportData.totalMissions}}</td>
+                            <td>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.connectingEvidence"></div>
+                            </td>
+                            <td>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.supportingClaims"></div>
+                            </td>
+                            <td>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.criticalQuestions"></div>
+                            </td>
+                            <td>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.usingBacking"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tab>
+            <tab heading="Class View">
+                <h3>Class Progress</h3>
+                <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
+                <h3>Current Class Skill Level</h3>
+                <article class="legend-header">
+                    <p class="legend-header"><span>Competency Levels</span></p>
+                </article>
+                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
+                    <div class="gl-reports-drk12_b-labels-icon">
+                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
                 </div>
                 <hr/>
                 <div class="gl-reports-drk12_b-labels-box">
@@ -49,18 +132,7 @@
                     <div class="gl-reports-drk12_b-labels-text--large">Using Backing</div>
                 </div>
             </tab>
-            <tab heading="Student View">
-                <article class="legend-header">
-                    <p class="legend-header"><span>Competency Levels</span></p>
-                </article>
-                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
-                    <div class="gl-reports-drk12_b-labels-icon">
-                        <div ng-class="getLabelInfo(progressType,'class')" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text">{{getLabelInfo(progressType,'title')}}</div>
-                </div>
-                <hr/>
-            </tab>
+
         </tabset>
     </div>
     <script type="text/javascript">

@@ -1,30 +1,24 @@
-/* drk12_b */
+///////////////////////////////////////////////// Shared //////////////////////////////////////////
 
 .gl-drk12_b-rating {
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   .border-radius(56px);
   margin-left: auto;
   margin-right: auto;
   .box-shadow(0px 0px 8px 0px rgba(0, 0, 0, .5));
-  border: 6px solid white;
-}
-
-.gl-drk12_b-rating:hover {
-  cursor: pointer;
-}
-
-.gl-drk12_b-rating--small {
-  width: 28px;
-  height: 28px;
-  border: 3px solid white;
-}
-
-.gl-drk12_b-rating--large {
-  width: 150px;
-  height: 150px;
-  border-radius: 80px;
-  border: 15px solid white;
+  border: 5px solid white;
+  &.gl-drk12_b-rating--large {
+    width: 150px;
+    height: 150px;
+    border-radius: 80px;
+    border: 15px solid white;
+  }
+  &.gl-drk12_b-rating--small {
+    width: 28px;
+    height: 28px;
+    border: 3px solid white;
+  }
   &.Advancing {
     background: #22b473;
   }
@@ -37,19 +31,12 @@
   &.NotAvailable {
     background: white;
   }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-.gl-drk12_b-rating--nodata {
-  background: #cccbcb;
-}
-
-.gl-drk12_b-rating--advancing {
-  background: #22b473;
-}
-
-.gl-drk12_b-rating--support {
-  background: #fdd367;
-}
+///////////////////////////////////////////////// Class View //////////////////////////////////////
 
 .gl-drk12_b-question {
   float: right;
@@ -81,4 +68,20 @@
 .gl-reports-drk12_b-labels-text--large {
   max-width: 155px;
   vertical-align: middle;
+}
+
+///////////////////////////////////////////////// Student View ////////////////////////////////////
+
+.gl-reports-drk12_b-default-text {
+  font-family: "Helvetica";
+  font-size: 14px;
+  .bold {
+    font-weight: bold;
+  }
+  .small {
+    font-size: 12px;
+  }
+  label {
+    font-weight: 300;
+  }
 }
