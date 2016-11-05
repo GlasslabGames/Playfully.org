@@ -147,8 +147,49 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             controller: 'AdminDeveloperApprovalCtrl'
           }
         },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
         data: {
             pageTitle: 'Developers Approved',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.developer-approval.revoked', {
+        url: '/revoked',
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-developer-approval.html',
+                controller: 'AdminDeveloperApprovalCtrl'
+            }
+        },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
+        data: {
+            pageTitle: 'Developers Revoked',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.developer-approval.sent', {
+        url: '/sent',
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-developer-approval.html',
+                controller: 'AdminDeveloperApprovalCtrl'
+            }
+        },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
+        data: {
+            pageTitle: 'Unverified Developers',
             authorizedRoles: ['admin']
         }
     })
@@ -846,9 +887,26 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.showTab = 0;
     if ($state.includes('admin.developer-approval.approved')) {
         $scope.showTab = 1;
+    } else if ($state.includes('admin.developer-approval.revoked')) {
+        $scope.showTab = 2;
+    } else if ($state.includes('admin.developer-approval.sent')) {
+        $scope.showTab = 3;
     }
 
-	$scope.developers = $scope.showTab === 1 ? developers.approved : developers.pending;
+    switch ($scope.showTab) {
+        case 0:
+            $scope.developers = developers.pending;
+            break;
+        case 1:
+            $scope.developers = developers.approved;
+            break;
+        case 2:
+            $scope.developers = developers.revoked;
+            break;
+        case 3:
+            $scope.developers = developers.pendingVerification;
+            break;
+    }
 
 	$scope.predicateList = 'date';
     $scope.reverseList = false;
@@ -907,6 +965,24 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 				$window.alert(response.message);
 			});
 		  }
+        }
+    };
+
+    $scope.resendDeveloperVerification = function(developer) {
+        var i;
+        for(i = $scope.developers.length; i--;) {
+            if($scope.developers[i] === developer) {
+                break;
+            }
+        }
+        if (i >= 0 && typeof($scope.developers[i].resent) === "undefined") {
+            UserService.alterDeveloperStatus(developer.id, "resent")
+                .then(function(response) {
+                        $scope.developers[i].resent = true;
+                    }.bind(this),
+                    function (response) {
+                        $window.alert(response.message);
+                    });
         }
     };
     

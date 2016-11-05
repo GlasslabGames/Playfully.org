@@ -15,6 +15,14 @@
             ng-class="{'active': showTab == 1}">
             <a href ui-sref="admin.developer-approval.approved">Approved</a>
         </li>
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 2}">
+            <a href ui-sref="admin.developer-approval.revoked">Revoked</a>
+        </li>
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 3}">
+            <a href ui-sref="admin.developer-approval.sent">Pending Verification</a>
+        </li>
     </ul>
 </div>
 
@@ -33,8 +41,11 @@
     <span class="fa fa-question-circle" popover-placement="bottom" popover-trigger="mouseenter" popover-html-unsafe="{{organizationInfo(developer)}}"></span>&nbsp;{{developer.organization}}</td>
 <td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'"><a href='' ng-click='emailDeveloper(developer)'>{{developer.email}}</a></td>
 <td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
-<button ng-if="showTab == 0" ng-click="approveDeveloper(developer)">Approve</button>
-<button ng-if="showTab == 1" ng-click="revokeDeveloper(developer)">Revoke</button></td>
+<button ng-if="showTab == 0 || showTab == 2" ng-click="approveDeveloper(developer)">Approve</button></td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-if="showTab == 0 || showTab == 1 || showTab == 3" ng-click="revokeDeveloper(developer)">Revoke</button></td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-if="showTab == 3 && !developer.resent" ng-click="resendDeveloperVerification(developer)">Resend</button></td>
 </tr></table>
 
   </div>
