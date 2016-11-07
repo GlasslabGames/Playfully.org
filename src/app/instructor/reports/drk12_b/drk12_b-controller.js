@@ -1,7 +1,7 @@
 angular.module( 'instructor.reports')
     .config(function ( $stateProvider, USER_ROLES) {
         $stateProvider.state('modal-xlg.drk12_bInfo', {
-            url: '/reports/details/drk12_b/game/:gameId?:type?:progress?:defaultStandard',
+            url: '/reports/details/drk12_b/game/:type/?:studentId',
             data:{
                 pageTitle: 'Progress Report'
             },
@@ -11,66 +11,40 @@ angular.module( 'instructor.reports')
                         return 'instructor/reports/drk12_b/_modal-' + $stateParams.type + '.html';
                     },
                     controller: function($scope, $log, $stateParams, drk12_bStore) {
-                        $scope.standardObj = {};
-                        $scope.standardObj.selected = null;
-                        if ($stateParams.defaultStandard){
-                            $scope.standardObj.selected = $stateParams.defaultStandard;
+                        // TODO: Make sure page will work through refresh.
+                        var currentStudent = drk12_bStore.getCurrentStudent();
+                        if (currentStudent) {
+                            $scope.student = currentStudent;
                         }
-                        var standard = angular.copy(drk12_bStore.getStandard());
-                        if (standard) {
-                            $scope.progressText = standard.progress[$stateParams.progress];
-                        } else {
-                            // Do nothing on purpose
-                        }
-                        var report = angular.copy(drk12_bStore.getReport());
-                        if (report) {
-                            $scope.report = report;
-                        }
-                        var standardDictionary = angular.copy(drk12_bStore.getStandardDict());
-                        if (standardDictionary) {
-                            $scope.standardDictionary = standardDictionary;
-                        }
+
+                        $scope.skills = drk12_bStore.getSkills();
                     }
                 }
             }
         });
     })
     .service('drk12_bStore', function() {
-        var _standard = null;
-        var _report = null;
-        var _dictionary = null;
-        this.setStandard = function(standard) {
-            if (standard) {
-                _standard = standard;
+        var currentStudent;
+        var skills;
+
+        this.setCurrentStudent = function(currentStudent) {
+            if (currentStudent) {
+                this.currentStudent = currentStudent;
             }
         };
-        this.getStandard = function () {
-            var standardCopy = angular.copy(_standard);
-            // reset after retrieval
-            _standard = null;
-            return standardCopy;
+        // Make sure this is pass-by-value
+        this.getCurrentStudent = function() {
+            return angular.copy(this.currentStudent);
         };
-        this.setReport = function (report) {
-            if (report) {
-                _report = report;
+
+        this.setSkills = function(skills) {
+            if (!this.skills) {
+                this.skills = skills;
             }
         };
-        this.getReport = function () {
-            var reportCopy = angular.copy(_report);
-            // reset after retrieval
-            _report = null;
-            return reportCopy;
-        };
-        this.setStandardDict = function (dictionary) {
-            if (dictionary) {
-                _dictionary = dictionary;
-            }
-        };
-        this.getStandardDict = function () {
-            var dictionaryCopy = angular.copy(_dictionary);
-            // reset after retrieval
-            _dictionary = null;
-            return dictionaryCopy;
+
+        this.getSkills = function() {
+            return this.skills;
         };
     })
     .controller('Drk12_bCtrl', function($scope, $state, $stateParams, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
@@ -83,6 +57,8 @@ angular.module( 'instructor.reports')
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+
+        /////////////////////////////////////////// Static Report data ////////////////////////////
 
         $scope.progressTypes = {
             "Advancing": {class:'Advancing', title: 'Advancing'},
@@ -218,14 +194,104 @@ angular.module( 'instructor.reports')
             "students": [
                 {
                     "userId": 1,
-                    "currentMission": 12,
                     "currentProgress": {
-                        "connectingEvidence": "Advancing",
-                        "supportingClaims": "NeedSupport",
-                        "criticalQuestions": "Advancing",
-                        "usingBacking": "NotAttempted"
+                        "mission": 12,
+                        "connectingEvidence": {
+                            "level": "Advancing",
+                            "score": {
+                                "correct": 2,
+                                "attempts": 4
+                            }
+                        },
+                        "supportingClaims": {
+                            "level": "NeedSupport",
+                            "score": {
+                                "correct": 1,
+                                "attempts": 4
+                            }
+                        },
+                        "criticalQuestions": {
+                            "level": "Advancing",
+                            "score": {
+                                "correct": 1,
+                                "attempts": 2
+                            }
+                        },
+                        "usingBacking": {
+                            "level": "NotAttempted",
+                            "score": {
+                                "correct": 0,
+                                "attempts": 0
+                            }
+                        }
                     },
                     "missions": [
+                        {
+                            "mission":1,
+                            "skillLevel": {
+                                "connectingEvidence": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "supportingClaims": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "criticalQuestions": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "usingBacking": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "mission":2,
+                            "skillLevel": {
+                                "connectingEvidence": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "supportingClaims": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "criticalQuestions": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "usingBacking": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                }
+                            }
+                        },
                         {
                             "mission":3,
                             "skillLevel": {
@@ -237,14 +303,47 @@ angular.module( 'instructor.reports')
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "usingBacking": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "mission":4,
+                            "skillLevel": {
+                                "connectingEvidence": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "supportingClaims": {
+                                    "level": "NotAvailable",
+                                    "score": {
+                                        "correct": 0,
+                                        "attempts": 0
+                                    }
+                                },
+                                "criticalQuestions": {
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -270,14 +369,14 @@ angular.module( 'instructor.reports')
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "Advancing",
                                     "score": {
-                                        "correct": 1,
+                                        "correct": 3,
                                         "attempts": 4
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -310,7 +409,7 @@ angular.module( 'instructor.reports')
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -329,14 +428,14 @@ angular.module( 'instructor.reports')
                             "mission":7,
                             "skillLevel": {
                                 "connectingEvidence": {
-                                    "level": "Advancing",
+                                    "level": "NotAttempted",
                                     "score": {
-                                        "correct": 3,
-                                        "attempts": 4
+                                        "correct": 0,
+                                        "attempts": 0
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -369,14 +468,14 @@ angular.module( 'instructor.reports')
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -395,21 +494,21 @@ angular.module( 'instructor.reports')
                             "mission":9,
                             "skillLevel": {
                                 "connectingEvidence": {
-                                    "level": "Advancing",
+                                    "level": "NeedSupport",
                                     "score": {
                                         "correct": 2,
-                                        "attempts": 2
+                                        "attempts": 5
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -435,14 +534,14 @@ angular.module( 'instructor.reports')
                                     }
                                 },
                                 "supportingClaims": {
-                                    "level": "NeedSupport",
+                                    "level": "NotAttempted",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
                                     }
                                 },
                                 "criticalQuestions": {
-                                    "level": "NotAttempted",
+                                    "level": "NotAvailable",
                                     "score": {
                                         "correct": 0,
                                         "attempts": 0
@@ -493,17 +592,18 @@ angular.module( 'instructor.reports')
             return usersData.courseSkills.usingBacking.level;
         };
 
-
-        //$scope.courses.selected.users.forEach(function(student) { studentsToSort.push(student); }); // TODO: Add this back
         $scope.students.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
 
         ///// Setup options /////
 
         // Games
-        $scope.games.options = {}; //TODO: This appears to be report agnostic. Why is it placed in each report?
-        angular.forEach(myGames, function(game) { //TODO: This appears to be report agnostic. Why is it placed in each report?
+        $scope.games.options = {}; // TODO: This appears to be report agnostic. Why is it placed in each report?
+        angular.forEach(myGames, function(game) { // TODO: This appears to be report agnostic. Why is it placed in each report?
             $scope.games.options[''+game.gameId] = game;
         });
+
+        $scope.games.selectedGameId = defaultGame.gameId; // TODO: This appears to be report agnostic. Why is it placed in each report?
+
 
         // Reports
         $scope.reports.options = [];  // TODO: This appears to be report agnostic. Why is it placed in each report?
@@ -514,6 +614,7 @@ angular.module( 'instructor.reports')
                 // select report that matches this state
                 if (reportId === report.id) {
                     $scope.reports.selected = report;
+                    drk12_bStore.setSkills($scope.reports.selected.skills);
                 }
             }
         });
@@ -607,9 +708,73 @@ angular.module( 'instructor.reports')
                     return;
                 } else {
                     // Populate students in course with report data
+
                     angular.forEach($scope.students, function (student) {
-                        var userReportData = _findUserByUserId(student.id, usersReportData.students) || {};
-                        student.results = userReportData;
+                        student.results = _findUserByUserId(student.id, usersReportData.students) || {};
+                        if (student.results.missions) {
+                            student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
+
+                            student.results.missions[student.results.missions.length-1].current = true;
+                            student.results.missions.forEach(function(mission) {
+                                var totalCorrect =
+                                    mission.skillLevel.connectingEvidence.score.correct +
+                                    mission.skillLevel.supportingClaims.score.correct +
+                                    mission.skillLevel.criticalQuestions.score.correct +
+                                    mission.skillLevel.usingBacking.score.correct;
+                                var totalAttempts =
+                                    mission.skillLevel.connectingEvidence.score.attempts +
+                                    mission.skillLevel.supportingClaims.score.attempts +
+                                    mission.skillLevel.criticalQuestions.score.attempts +
+                                    mission.skillLevel.usingBacking.score.attempts;
+                                mission.totalCorrect = totalCorrect;
+                                mission.totalAttempts = totalAttempts;
+                            });
+
+                            // Pad the results with blank missions where there's not enough data
+                            for (var i = student.results.missions.length; i < usersData.totalMissions; i++) {
+                                var paddingObject = {
+                                    "mission": i,
+                                    "paddingObject": true,
+                                    "skillLevel": {
+                                        "connectingEvidence": {
+                                            "level": "",
+                                            "score": {
+                                                "correct": 0,
+                                                "attempts": 0
+                                            }
+                                        },
+                                        "supportingClaims": {
+                                            "level": "",
+                                            "score": {
+                                                "correct": 0,
+                                                "attempts": 0
+                                            }
+                                        },
+                                        "criticalQuestions": {
+                                            "level": "",
+                                            "score": {
+                                                "correct": 0,
+                                                "attempts": 0
+                                            }
+                                        },
+                                        "usingBacking": {
+                                            "level": "",
+                                            "score": {
+                                                "correct": 0,
+                                                "attempts": 0
+                                            }
+                                        }
+                                    }
+                                };
+
+                                var skills = drk12_bStore.getSkills();
+                                paddingObject.skillLevel.connectingEvidence.level = skills.connectingEvidence.missions.indexOf(i) != -1 ? "NotAttempted" : "NotAvailable";
+                                paddingObject.skillLevel.supportingClaims.level = skills.supportingClaims.missions.indexOf(i) != -1 ? "NotAttempted" : "NotAvailable";
+                                paddingObject.skillLevel.criticalQuestions.level = skills.criticalQuestions.missions.indexOf(i) != -1 ?  "NotAttempted" : "NotAvailable";
+                                paddingObject.skillLevel.usingBacking.level = skills.usingBacking.missions.indexOf(i) != -1 ? "NotAttempted" : "NotAvailable";
+                                student.results.missions.push(paddingObject);
+                            }
+                        }
                     });
                 }
             }
@@ -626,8 +791,8 @@ angular.module( 'instructor.reports')
             return null;
         };
 
-        $scope.setReport = function (report) { // TODO: Do we need this?
-            drk12_bStore.setReport(report);
+        $scope.setCurrentStudent = function (student) {
+            drk12_bStore.setCurrentStudent(student);
         };
 
         // populate student objects with report data

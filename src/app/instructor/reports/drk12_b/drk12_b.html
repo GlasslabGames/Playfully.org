@@ -3,8 +3,7 @@
 
     <div class="report-body report-body--wide gl-pad-Al" style="min-height: 623px">
         <div class="fa fa-question-circle gl-drk12_b-question gl-clickable"
-             ng-click="setReport(reports.selected)"
-             ui-sref="modal-xlg.standardsInfo({gameId:games.selectedGame, type:'all', defaultStandard: defaultStandard.id})"></div>
+             ui-sref="modal-xlg.drk12_bInfo({type:'info'})"></div>
         <h1 class="headline-2 text-center gl-margin--Tl">Progress Report</h1>
 
         <p class="text-center" ng-bind="reports.selected.description"></p>
@@ -75,19 +74,26 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="student in students" class="gl-reports-table-row">
-                            <td>{{student.firstName}} {{student.lastName}}</td>
-                            <td>{{student.results.currentMission}} / {{reportData.totalMissions}}</td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.connectingEvidence"></div>
+                                {{student.firstName}} {{student.lastName}}
+                                <div class="gl-clickable"
+                                     ng-click="setCurrentStudent(student)"
+                                     ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})">
+                                    Performance Over Time
+                                </div>
+                            </td>
+                            <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
+                            <td>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.connectingEvidence.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.supportingClaims"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.supportingClaims.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.criticalQuestions"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.criticalQuestions.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.usingBacking"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.usingBacking.level"></div>
                             </td>
                         </tr>
                     </tbody>

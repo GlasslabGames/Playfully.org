@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    <h3 class="modal-title">Performance Over Time: {{student.firstName}} {{student.lastName}}</h3>
+</div>
+
+<div class="modal-body gl-pad--Hn gl-pad--Txs">
+    <table class="gl-reports-drk12_b-default-text table gl-reports-table" ng-class="{'gl-reports-table--ie': isIE}">
+        <thead>
+            <tr>
+                <th class="bold">Mission</th>
+                <th ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                    <div ng-if="mission.current">(current)</div>
+                    Mission {{mission.mission}}
+                </th>
+            </tr>
+            <tr>
+                <th colspan="{{student.results.missions.length + 1}}" class="gl-reports-divider--blue"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="gl-reports-table-row">
+                <td>{{skills.connectingEvidence.name}}</td>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.connectingEvidence.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.connectingEvidence.level"></div>
+                </td>
+            </tr>
+            <tr class="gl-reports-table-row">
+                <td>{{skills.supportingClaims.name}}</td>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.supportingClaims.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.supportingClaims.level"></div>
+                </td>
+            </tr>
+            <tr class="gl-reports-table-row">
+                <td>{{skills.criticalQuestions.name}}</td>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.criticalQuestions.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.criticalQuestions.level"></div>
+                </td>
+            </tr>
+            <tr class="gl-reports-table-row">
+                <td>{{skills.usingBacking.name}}</td>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.usingBacking.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.usingBacking.level"></div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="{{student.results.missions.length + 1}}" class="gl-reports-divider--blue"></td>
+            </tr>
+            <tr>
+                <td class="bold">
+                    <div>Correct</div>
+                    <div>Total Attempts</div>
+                </td>
+                <td ng-repeat="mission in student.results.missions">
+                    <div>{{mission.totalCorrect}}</div>
+                    <div>{{mission.totalAttempts}}</div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
