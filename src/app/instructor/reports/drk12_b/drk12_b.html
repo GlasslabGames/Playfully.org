@@ -63,32 +63,11 @@
                 <table class="gl-reports-drk12_b-default-text">
                     <tr>
                         <td class="bold">Select Competency Skills</td>
-                        <td>
-                            <label for="connectingEvidence">
-                                <input id="connectingEvidence" type="checkbox"/>
-                                <span>Connecting Evidence to Argument Schemes</span>
+                        <td ng-repeat="(key, value) in skillsForDisplay">
+                            <label for="{{key}}">
+                                <input id="{{key}}" type="checkbox" checked="{{value.checked}}"/>
+                                <span>{{value.name}}</span>
                             </label>
-                        </td>
-                        <td>
-                            <lable for="supportingClaims">
-                                <input id="supportingClaims" type="checkbox" />
-                                <span>Supporting Claims with Evidence</span>
-                            </lable>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <lable for="criticalQuestions">
-                                <input id="criticalQuestions" type="checkbox" />
-                                <span>Using Critical Questions</span>
-                            </lable>
-                        </td>
-                        <td>
-                            <lable for="usingBacking">
-                                <input id="usingBacking" type="checkbox" />
-                                <span>Using Backing</span>
-                            </lable>
                         </td>
                     </tr>
                 </table>

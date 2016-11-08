@@ -624,6 +624,11 @@ angular.module( 'instructor.reports')
             }
         });
 
+        $scope.skillsForDisplay = $scope.reports.selected.skills;
+        $.each($scope.skillsForDisplay, function(index, skill) {
+            skill.checked = true;
+        });
+
         // Check if selected game has selected report
 
         if (!ReportsService.isValidReport(reportId,$scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
