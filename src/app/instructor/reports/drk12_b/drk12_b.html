@@ -75,25 +75,25 @@
                     <tbody>
                         <tr ng-repeat="student in students" class="gl-reports-table-row">
                             <td>
-                                {{student.firstName}} {{student.lastName}}
+                                {{student[0].firstName}} {{student[0].lastName}}
                                 <div class="gl-clickable"
-                                     ng-click="setCurrentStudent(student)"
+                                     ng-click="setCurrentStudent(student[0])"
                                      ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})">
                                     Performance Over Time
                                 </div>
                             </td>
-                            <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
+                            <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.connectingEvidence.level"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.supportingClaims.level"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.criticalQuestions.level"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
                             </td>
                             <td>
-                                <div class="gl-drk12_b-rating" ng-class="student.results.currentProgress.usingBacking.level"></div>
+                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
                             </td>
                         </tr>
                     </tbody>

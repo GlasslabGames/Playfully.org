@@ -52,8 +52,8 @@ angular.module( 'instructor.reports')
 
         // Report
         var reportId = 'drk12_b';
-        //$scope.students = $scope.courses.selected.users; // TODO: Add this back
-        $scope.students = [];
+        //var initialStudents = $scope.courses.selected.users; // TODO: Add this back
+        var initialStudents = [];
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
@@ -569,7 +569,7 @@ angular.module( 'instructor.reports')
                 isSelected: false
             };
 
-            $scope.students.push(studentObject);
+            initialStudents.push(studentObject);
         }
 
         ////////////////////////////////////////////////////////////////////////////////////
@@ -592,7 +592,12 @@ angular.module( 'instructor.reports')
             return usersData.courseSkills.usingBacking.level;
         };
 
-        $scope.students.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
+        initialStudents.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
+        // Due to _students.html requiring an array within an array for displaying students, this data structure is perverse.
+        $scope.students = [];
+        initialStudents.forEach(function(student) {
+            $scope.students.push([student]);
+        });
 
         ///// Setup options /////
 
@@ -709,7 +714,8 @@ angular.module( 'instructor.reports')
                 } else {
                     // Populate students in course with report data
 
-                    angular.forEach($scope.students, function (student) {
+                    angular.forEach($scope.students, function (studentWrappedInArray) {
+                        var student = studentWrappedInArray[0];
                         student.results = _findUserByUserId(student.id, usersReportData.students) || {};
                         if (student.results.missions) {
                             student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
