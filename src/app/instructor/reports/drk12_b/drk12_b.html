@@ -9,6 +9,45 @@
         <p class="text-center" ng-bind="reports.selected.description"></p>
 
         <tabset justified="true">
+            <tab heading="Class View">
+                <h3>Class Progress</h3>
+                <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
+                <h3>Current Class Skill Level</h3>
+                <article class="legend-header">
+                    <p class="legend-header"><span>Competency Levels</span></p>
+                </article>
+                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
+                    <div class="gl-reports-drk12_b-labels-icon">
+                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
+                </div>
+                <hr/>
+                <div class="gl-reports-drk12_b-labels-box">
+                    <div class="gl-reports-drk12_b-labels-icon--large">
+                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getFirstCriteriaLevel()"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text--large">Connecting Evidence to Argument Schemes</div>
+                </div>
+                <div class="gl-reports-drk12_b-labels-box">
+                    <div class="gl-reports-drk12_b-labels-icon--large">
+                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getSecondCriteriaLevel()"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text--large">Supporting Claims with Evidence</div>
+                </div>
+                <div class="gl-reports-drk12_b-labels-box">
+                    <div class="gl-reports-drk12_b-labels-icon--large">
+                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getThirdCriteriaLevel()"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text--large">Using Critical Questions</div>
+                </div>
+                <div class="gl-reports-drk12_b-labels-box">
+                    <div class="gl-reports-drk12_b-labels-icon--large">
+                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getForthCriteriaLevel()"></div>
+                    </div>
+                    <div class="gl-reports-drk12_b-labels-text--large">Using Backing</div>
+                </div>
+            </tab>
             <tab heading="Student View">
                 <article class="legend-header">
                     <p class="legend-header"><span>Competency Levels</span></p>
@@ -99,46 +138,6 @@
                     </tbody>
                 </table>
             </tab>
-            <tab heading="Class View">
-                <h3>Class Progress</h3>
-                <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
-                <h3>Current Class Skill Level</h3>
-                <article class="legend-header">
-                    <p class="legend-header"><span>Competency Levels</span></p>
-                </article>
-                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
-                    <div class="gl-reports-drk12_b-labels-icon">
-                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
-                </div>
-                <hr/>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getFirstCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Connecting Evidence to Argument Schemes</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getSecondCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Supporting Claims with Evidence</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getThirdCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Using Critical Questions</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getForthCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Using Backing</div>
-                </div>
-            </tab>
-
         </tabset>
     </div>
     <script type="text/javascript">
