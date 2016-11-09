@@ -566,7 +566,7 @@ angular.module( 'instructor.reports')
                 firstName: "first" + k,
                 lastName: "last" + k,
                 id: k,
-                isSelected: false
+                isSelected: true
             };
 
             initialStudents.push(studentObject);
