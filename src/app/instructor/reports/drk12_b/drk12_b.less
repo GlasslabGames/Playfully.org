@@ -1,82 +1,250 @@
-.gl-drk12_b-rating {
-  width: 50px;
-  height: 50px;
-  .border-radius(56px);
+// Container (Layout)
+
+.gl-drk12_b-l-container {
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  .box-shadow(0px 0px 8px 0px rgba(0, 0, 0, .5));
-  border: 5px solid white;
-  &.gl-drk12_b-rating--large {
-    width: 150px;
-    height: 150px;
-    border-radius: 80px;
-    border: 15px solid white;
-  }
-  &.gl-drk12_b-rating--small {
-    width: 28px;
-    height: 28px;
-    border: 3px solid white;
-  }
-  &.Advancing {
-    background: #22b473;
-  }
-  &.NeedSupport {
-    background: #fdd367;
-  }
-  &.NotAttempted {
-    background: #cccbcb;
-  }
-  &:hover {
-    cursor: pointer;
-  }
+  padding-bottom: 60px;
+  padding-top: 20px;
 }
 
-.gl-drk12_b-question {
-  float: right;
-  color: @yellow;
-  font-size: 32px;
+// Progress Icons (Layout)
+
+.gl-drk12_b-l-progressicons {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
 }
 
-.gl-reports-drk12_b-labels-icon {
-  display: table-cell;
-  width: 110px;
-  margin-right: 20px;
+// Headings
+
+.gl-drk12_b-heading {
+  color: #555;
+  font-family: 'Bitter', sans-serif;
+  font-size: 28px;
+  margin: 0;
+  text-align: center;
 }
 
-.gl-reports-drk12_b-labels-icon--large {
-  display: table-cell;
-  width: 210px;
-  margin-right: 20px;
+.gl-drk12_b-heading-secondary {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.gl-reports-drk12_b-labels-box {
-  display: inline-block;
-}
-
-.gl-reports-drk12_b-labels-text {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.gl-reports-drk12_b-labels-text--large {
-  max-width: 155px;
-  vertical-align: middle;
-}
-
-.gl-reports-drk12_b-default-text {
-  font-family: "Helvetica";
+.gl-drk12_b-heading-tertiary {
+  align-items: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  .bold {
-    font-weight: bold;
-  }
-  .small {
-    font-size: 12px;
-  }
-  label {
-    font-weight: 300;
-  }
+  font-weight: normal;
+  display: flex;
+  white-space: nowrap;
 }
 
-.gl-reports-table th .half-opacity, .gl-reports-table tr .half-opacity {
-  opacity: 0.5;
+.gl-drk12_b-heading-tertiary::after,
+.gl-drk12_b-heading-tertiary::before {
+  background-color: #eee;
+  content: '';
+  display: block;
+  flex: 1 1 100%;
+  height: 1px;
+}
+
+.gl-drk12_b-heading-tertiary::after {
+  margin-left: 10px;
+}
+
+.gl-drk12_b-heading-tertiary::before {
+  margin-right: 10px;
+}
+
+// Help Icon
+
+.gl-drk12_b-help {
+  appearance: none;
+  background: none;
+  border: 0;
+  color: #fdd367;
+  font-size: 36px;
+  line-height: 1;
+  padding: 0;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+// Generic Text Area
+
+.gl-drk12_b-text {
+  color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 700px;
+}
+
+// Tab (Overrides)
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li > a {
+  color: #ccc;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 0;
+  border-radius: 0;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:first-child > a {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:last-child > a {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a,
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a:hover {
+  color: #fff;
+  cursor: pointer;
+  background-color: #67cada;
+  border: 0;
+}
+
+// Progress Icons
+
+.gl-drk12_b-progressicon {
+  align-items: center;
+  display: flex;
+}
+
+.gl-drk12_b-progressicon::before {
+  border: 4px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 0 4px 0 rgba(0,0,0, .5);
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  flex: 0 0 40px;
+  height: 40px;
+  margin-right: 20px;
+  width: 40px;
+}
+
+.gl-drk12_b-progressicon.Advancing::before {
+  background-color: #22b473;
+}
+
+.gl-drk12_b-progressicon.NeedSupport::before {
+  background-color: #Fdd367;
+}
+
+.gl-drk12_b-progressicon.NotAttempted::before {
+  background-color: #f0f0f0;
+}
+
+// Progress Icons (Large)
+
+.gl-drk12_b-progressicon-large {
+  align-items: center;
+  flex-direction: column;
+  max-width: 150px;
+  text-align: center;
+}
+
+.gl-drk12_b-progressicon-large::before {
+  border-width: 15px;
+  flex-basis: 150px;
+  height: 150px;
+  margin-bottom: 40px;
+  margin-right: 0;
+  width: 150px;
+}
+
+// Progress Icons (Table)
+
+.gl-drk12_b-progressicon-table {
+  height: 50px;
+  width: 50px;
+}
+
+.gl-drk12_b-progressicon-table::before {
+  flex-basis: 500px;
+  height: 50px;
+  margin-right: 0;
+  width: 50px;
+}
+
+// Competency Skills
+
+.gl-drk12_b-competencyskills {
+  align-items: flex-start;
+  display: flex;
+}
+
+.gl-drk12_b-competencyskills .gl-drk12_b-competencyskills-x-heading {
+  flex: 1 1 auto;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  margin: 0 20px 0 0;
+  white-space: nowrap;
+}
+
+.gl-drk12_b-competencyskills ul {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.gl-drk12_b-competencyskills li {
+  box-sizing: border-box;
+  flex: 1 1 50%;
+  list-style: none;
+  padding-right: 5px;
+}
+
+.gl-drk12_b-competencyskills li:nth-child(1),
+.gl-drk12_b-competencyskills li:nth-child(2) {
+  margin-bottom: 10px;
+}
+
+.gl-drk12_b-competencyskills label {
+  align-items: flex-start;
+  display: flex;
+  font-weight: normal;
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+.gl-drk12_b-competencyskills input {
+  display: block;
+  margin-right: 10px;
+  margin-top: 0;
+}
+
+// Table (Override of .gl-reports-table)
+
+.gl-drk12_b-table .gl-drk12_b-table-x-header th,
+.gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th {
+  vertical-align: middle !important; // Had to :( it was used elsewhere
+  text-align: center;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-header th:first-child {
+  width: 165px;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-header th:nth-child(2) {
+  width: 80px;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-header th:last-child {
+  width: 545px;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th {
+  width: 136px;
 }

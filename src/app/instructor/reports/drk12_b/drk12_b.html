@@ -2,145 +2,123 @@
     <div ng-include src="'instructor/reports/_students.html'"></div>
 
     <div class="report-body report-body--wide gl-pad-Al" style="min-height: 623px">
-        <div class="fa fa-question-circle gl-drk12_b-question gl-clickable"
-             ui-sref="modal-xlg.drk12_bInfo({type:'info'})"></div>
-        <h1 class="headline-2 text-center gl-margin--Tl">Progress Report</h1>
 
-        <p class="text-center" ng-bind="reports.selected.description"></p>
+        <div class="gl-drk12_b-l-container">
 
-        <tabset justified="true">
-            <tab heading="Class View">
-                <h3>Class Progress</h3>
-                <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
-                <h3>Current Class Skill Level</h3>
-                <article class="legend-header">
-                    <p class="legend-header"><span>Competency Levels</span></p>
-                </article>
-                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
-                    <div class="gl-reports-drk12_b-labels-icon">
-                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
+            <button class="fa fa-question-circle gl-drk12_b-help"
+                    ui-sref="modal-xlg.drk12_bInfo({type:'info'})"
+                    type="button"></button>
+            <h1 class="gl-drk12_b-heading">Progress Report</h1>
+
+            <p class="gl-drk12_b-text" ng-bind="reports.selected.description"></p>
+
+            <tabset class="gl-drk12_b-tabs" justified="true">
+                <tab heading="Class View">
+                    <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Class Progress</h3>
+                    <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
+                    <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Current Class Skill Level</h3>
+                    <h4 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h4>
+                    <ul class="gl-drk12_b-l-progressicons">
+                        <li class="gl-drk12_b-progressicon" ng-class="progressType.class" ng-repeat="progressType in progressTypes">{{progressType.title}}</li>
+                    </ul>
+                    <hr/>
+                    <ul class="gl-drk12_b-l-progressicons">
+                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getFirstCriteriaLevel()">Connecting Evidence to Argument Schemes</li>
+                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSecondCriteriaLevel()">Supporting Claims with Evidence</li>
+                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getThirdCriteriaLevel()">Using Critical Questions</li>
+                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getForthCriteriaLevel()">Using Backing</li>
+                    </ul>
+                </tab>
+                <tab heading="Student View">
+                    <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h3>
+                    <ul class="gl-drk12_b-l-progressicons">
+                        <li ng-repeat="progressType in progressTypes" class="gl-drk12_b-progressicon" ng-class="progressType.class">{{progressType.title}}</li>
+                    </ul>
+                    <hr/>
+                    <!-- TODO: Should this be responsive-->
+                    <div class="gl-drk12_b-competencyskills">
+                        <h3 class="gl-drk12_b-competencyskills-x-heading">Select Competency Skills</h3>
+                        <ul>
+                            <li ng-repeat="(key, value) in skillsForDisplay">
+                                <label>
+                                    <input id="{{key}}" type="checkbox" checked="{{value.checked}}"/>
+                                    {{value.name}}
+                                </label>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
-                </div>
-                <hr/>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getFirstCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Connecting Evidence to Argument Schemes</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getSecondCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Supporting Claims with Evidence</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getThirdCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Using Critical Questions</div>
-                </div>
-                <div class="gl-reports-drk12_b-labels-box">
-                    <div class="gl-reports-drk12_b-labels-icon--large">
-                        <div class="gl-drk12_b-rating gl-drk12_b-rating--large" ng-class="getForthCriteriaLevel()"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text--large">Using Backing</div>
-                </div>
-            </tab>
-            <tab heading="Student View">
-                <article class="legend-header">
-                    <p class="legend-header"><span>Competency Levels</span></p>
-                </article>
-                <div class="gl-reports-drk12_b-labels-box" ng-repeat="progressType in progressTypes">
-                    <div class="gl-reports-drk12_b-labels-icon">
-                        <div ng-class="progressType.class" class="gl-drk12_b-rating gl-drk12_b-rating--small"></div>
-                    </div>
-                    <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
-                </div>
-                <hr/>
-                <table class="gl-reports-drk12_b-default-text">
-                    <tr>
-                        <td class="bold">Select Competency Skills</td>
-                        <td ng-repeat="(key, value) in skillsForDisplay">
-                            <label for="{{key}}">
-                                <input id="{{key}}" type="checkbox" checked="{{value.checked}}"/>
-                                <span>{{value.name}}</span>
-                            </label>
-                        </td>
-                    </tr>
-                </table>
-                <table class="gl-reports-drk12_b-default-text table gl-reports-table" ng-class="{'gl-reports-table--ie': isIE}">
-                    <thead>
-                        <tr>
-                            <th rowspan="2">
-                                {{columns.headers[0].title}}
-                                <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[0].value)"></i>
-                            </th>
-                            <th rowspan="2">
-                                {{columns.headers[1].title}}
-                                <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[1].value)"></i>
-                            </th>
-                            <th colspan="4">Progress for Most Recent Level</th>
-                        </tr>
-                        <tr>
-                            <!-- first th is covered by previous row -->
-                            <!-- second th is covered by previous row -->
-                            <th>
-                                {{columns.headers[2].title}}
-                                <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[2].value)"></i>
-                            </th>
-                            <th>
-                                {{columns.headers[3].title}}
-                                <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[3].value)"></i>
-                            </th>
-                            <th>
-                                {{columns.headers[4].title}}
-                                <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[4].value)"></i>
-                            </th>
-                            <th>
-                                {{columns.headers[5].title}}
-                                <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                   ng-click="sortSelected(columns.headers[5].value)"></i>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th colspan="6" class="gl-reports-divider--blue"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
-                            <td>
-                                {{student[0].firstName}} {{student[0].lastName}}
-                                <div class="gl-clickable"
-                                     ng-click="setCurrentStudent(student[0])"
-                                     ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})">
-                                    Performance Over Time
-                                </div>
-                            </td>
-                            <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
-                            <td>
-                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
-                            </td>
-                            <td>
-                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
-                            </td>
-                            <td>
-                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
-                            </td>
-                            <td>
-                                <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </tab>
-        </tabset>
+                    <table class="table gl-reports-table gl-drk12_b-table" ng-class="{'gl-reports-table--ie': isIE}">
+                        <thead>
+                            <tr class="gl-drk12_b-table-x-heading">
+                                <th rowspan="2">
+                                    {{columns.headers[0].title}}
+                                    <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[0].value)"></i>
+                                </th>
+                                <th rowspan="2">
+                                    {{columns.headers[1].title}}
+                                    <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[1].value)"></i>
+                                </th>
+                                <th colspan="4">Progress for Most Recent Level</th>
+                            </tr>
+                            <tr class="gl-drk12_b-table-x-headingsecondary">
+                                <!-- first th is covered by previous row -->
+                                <!-- second th is covered by previous row -->
+                                <th>
+                                    {{columns.headers[2].title}}
+                                    <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[2].value)"></i>
+                                </th>
+                                <th>
+                                    {{columns.headers[3].title}}
+                                    <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[3].value)"></i>
+                                </th>
+                                <th>
+                                    {{columns.headers[4].title}}
+                                    <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[4].value)"></i>
+                                </th>
+                                <th>
+                                    {{columns.headers[5].title}}
+                                    <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                       ng-click="sortSelected(columns.headers[5].value)"></i>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="6" class="gl-reports-divider--blue"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
+                                <td>
+                                    {{student[0].firstName}} {{student[0].lastName}}
+                                    <div class="gl-clickable"
+                                         ng-click="setCurrentStudent(student[0])"
+                                         ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})">
+                                        Performance Over Time
+                                    </div>
+                                </td>
+                                <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
+                                <td>
+                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
+                                </td>
+                                <td>
+                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
+                                </td>
+                                <td>
+                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
+                                </td>
+                                <td>
+                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tab>
+            </tabset>
+        </div>
     </div>
     <script type="text/javascript">
         $('#drk12_b-header').on('scroll', function () {
