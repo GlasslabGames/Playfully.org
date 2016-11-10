@@ -98,27 +98,28 @@
                         </thead>
                         <tbody>
                             <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
-                                <td>
-                                    {{student[0].firstName}} {{student[0].lastName}}
-                                    <button class="gl-clickable"
+                                <td class="gl-drk12_b-table-x-name">
+                                    <span>{{student[0].firstName}} {{student[0].lastName}}</span>
+                                    <button class="gl-drk12_b-performancetrigger gl-clickable"
                                          ng-click="setCurrentStudent(student[0])"
                                          ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})"
                                          type="button">
                                         Performance Over Time
+                                        <i class="fa fa-caret-right"></i>
                                     </button>
                                 </td>
                                 <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                                 <td>
-                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
+                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
                                 </td>
                                 <td>
-                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
+                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
                                 </td>
                                 <td>
-                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
+                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
                                 </td>
                                 <td>
-                                    <div class="gl-drk12_b-rating" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
+                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
                                 </td>
                             </tr>
                         </tbody>

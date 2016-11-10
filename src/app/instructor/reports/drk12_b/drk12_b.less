@@ -119,7 +119,7 @@
 }
 
 .gl-drk12_b-progressicon::before {
-  border: 4px solid #fff;
+  border: 5px solid #fff;
   border-radius: 100%;
   box-shadow: 0 0 4px 0 rgba(0,0,0, .5);
   box-sizing: border-box;
@@ -164,12 +164,13 @@
 // Progress Icons (Table)
 
 .gl-drk12_b-progressicon-table {
+  display: inline-block;
   height: 50px;
   width: 50px;
 }
 
 .gl-drk12_b-progressicon-table::before {
-  flex-basis: 500px;
+  flex-basis: 50px;
   height: 50px;
   margin-right: 0;
   width: 50px;
@@ -208,7 +209,7 @@
 
 .gl-drk12_b-competencyskills li:nth-child(1),
 .gl-drk12_b-competencyskills li:nth-child(2) {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .gl-drk12_b-competencyskills label {
@@ -265,6 +266,16 @@
   border-right-width: 1px;
 }
 
+.gl-drk12_b-table .gl-drk12_b-table-x-name {
+  padding: 0 10px 0 0;
+  text-align: left;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-name span {
+  display: block;
+  padding: 20px 0 20px 20px;
+}
+
 // Table Sort
 
 .gl-drk12_b-tablesort {
@@ -287,4 +298,23 @@
   color: #555;
   font-size: 12px;
   text-align: center;
+}
+
+// Performance Trigger
+
+.gl-drk12_b-performancetrigger {
+  appearance: none;
+  background-color: #999;
+  border: 0;
+  border-top-right-radius: 4px;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  outline: none;
+  padding: 5px;
+}
+
+.gl-drk12_b-performancetrigger:hover {
+  opacity: .5;
 }
