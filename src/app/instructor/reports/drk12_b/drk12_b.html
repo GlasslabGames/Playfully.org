@@ -59,7 +59,6 @@
                     <div class="gl-reports-drk12_b-labels-text">{{progressType.title}}</div>
                 </div>
                 <hr/>
-                <!-- TODO: Should this be responsive-->
                 <table class="gl-reports-drk12_b-default-text">
                     <tr>
                         <td class="bold">Select Competency Skills</td>
@@ -74,24 +73,48 @@
                 <table class="gl-reports-drk12_b-default-text table gl-reports-table" ng-class="{'gl-reports-table--ie': isIE}">
                     <thead>
                         <tr>
-                            <th rowspan="2">Name</th>
-                            <th rowspan="2">Current Mission</th>
+                            <th rowspan="2">
+                                {{columns.headers[0].title}}
+                                <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[0].value)"></i>
+                            </th>
+                            <th rowspan="2">
+                                {{columns.headers[1].title}}
+                                <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[1].value)"></i>
+                            </th>
                             <th colspan="4">Progress for Most Recent Level</th>
                         </tr>
                         <tr>
                             <!-- first th is covered by previous row -->
                             <!-- second th is covered by previous row -->
-                            <th>Connecting Evidence to Argument Schemes</th>
-                            <th>Supporting Claims with Evidence</th>
-                            <th>Using Critical Questions</th>
-                            <th>Using Backing</th>
+                            <th>
+                                {{columns.headers[2].title}}
+                                <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[2].value)"></i>
+                            </th>
+                            <th>
+                                {{columns.headers[3].title}}
+                                <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[3].value)"></i>
+                            </th>
+                            <th>
+                                {{columns.headers[4].title}}
+                                <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[4].value)"></i>
+                            </th>
+                            <th>
+                                {{columns.headers[5].title}}
+                                <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
+                                   ng-click="sortSelected(columns.headers[5].value)"></i>
+                            </th>
                         </tr>
                         <tr>
                             <th colspan="6" class="gl-reports-divider--blue"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="student in students" class="gl-reports-table-row">
+                        <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
                             <td>
                                 {{student[0].firstName}} {{student[0].lastName}}
                                 <div class="gl-clickable"

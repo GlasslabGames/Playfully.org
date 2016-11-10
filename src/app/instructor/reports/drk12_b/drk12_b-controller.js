@@ -61,9 +61,9 @@ angular.module( 'instructor.reports')
         /////////////////////////////////////////// Static Report data ////////////////////////////
 
         $scope.progressTypes = {
-            "Advancing": {class:'Advancing', title: 'Advancing'},
-            "Need-Support": {class:'NeedSupport', title: 'Need Support'},
-            "Not-yet-attempted": {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
+            advancing: {class:'Advancing', title: 'Advancing'},
+            needSupport: {class:'NeedSupport', title: 'Need Support'},
+            notYetAttempted: {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
         };
 
         /////////////////////////////////////////// Fake data ////////////////////////////////
@@ -800,6 +800,49 @@ angular.module( 'instructor.reports')
                 }
             }
             return null;
+        };
+
+        $scope.columns = {
+            headers: [
+                { title: "Name", value: "name"},
+                { title: "Current Mission", value: "currentMission"}
+            ],
+            current: "name",
+            reverseSort: false
+        };
+
+        $.each($scope.reports.selected.skills, function(skillKey) {
+            var skillHeader = {
+                title: $scope.reports.selected.skills[skillKey].name,
+                value: skillKey
+            };
+            $scope.columns.headers.push(skillHeader);
+        });
+
+        $scope.sortSelected = function (colName) {
+            if ($scope.columns.current === colName) {
+                $scope.columns.reverseSort = !$scope.columns.reverseSort;
+            } else {
+                $scope.columns.current = colName;
+            }
+        };
+
+        $scope.userSortFunction = function (colName) {
+            return function (userWrappedInArray) {
+                var user = userWrappedInArray[0];
+                if (colName === $scope.columns.headers[0].value) {
+                    return user.firstName;
+                }
+                if (colName === $scope.columns.headers[1].value) {
+                    return user.results.currentProgress.mission;
+                }
+
+                var columnSkill = user.results.currentProgress[$scope.columns.current];
+                var score = columnSkill.score.correct / columnSkill.score.attempts;
+                if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
+
+                return score;
+            };
         };
 
         $scope.setCurrentStudent = function (student) {
