@@ -35,14 +35,13 @@
                         <li ng-repeat="progressType in progressTypes" class="gl-drk12_b-progressicon" ng-class="progressType.class">{{progressType.title}}</li>
                     </ul>
                     <hr/>
-                    <!-- TODO: Should this be responsive-->
                     <div class="gl-drk12_b-competencyskills">
                         <h3 class="gl-drk12_b-competencyskills-x-heading">Select Competency Skills</h3>
                         <ul>
-                            <li ng-repeat="(key, value) in skillsForDisplay">
+                            <li ng-repeat="header in columns.headers" ng-if="$index > 1">
                                 <label>
-                                    <input id="{{key}}" type="checkbox" checked="{{value.checked}}"/>
-                                    {{value.name}}
+                                    <input type="checkbox" ng-model="header.checked"/>
+                                    {{header.title}}
                                 </label>
                             </li>
                         </ul>
@@ -62,33 +61,15 @@
                                         <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                     </button>
                                 </th>
-                                <th colspan="4">Progress for Most Recent Level</th>
+                                <th colspan="{{columnsChecked()}}">Progress for Most Recent Level</th>
                             </tr>
                             <tr class="gl-drk12_b-table-x-headersecondary">
                                 <!-- first th is covered by previous row -->
                                 <!-- second th is covered by previous row -->
-                                <th>
-                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[2].value)" type="button">
-                                        {{columns.headers[2].title}}
-                                        <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                    </button>
-                                </th>
-                                <th>
-                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[3].value)" type="button">
-                                        {{columns.headers[3].title}}
-                                        <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                    </button>
-                                </th>
-                                <th>
-                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[4].value)" type="button">
-                                        {{columns.headers[4].title}}
-                                        <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                    </button>
-                                </th>
-                                <th>
-                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[5].value)" type="button">
-                                        {{columns.headers[5].title}}
-                                        <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                <th ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
+                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button">
+                                        {{header.title}}
+                                        <i ng-class="columns.current===header.value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                     </button>
                                 </th>
                             </tr>
@@ -109,17 +90,8 @@
                                     </button>
                                 </td>
                                 <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
-                                <td>
-                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.connectingEvidence.level"></div>
-                                </td>
-                                <td>
-                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.supportingClaims.level"></div>
-                                </td>
-                                <td>
-                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.criticalQuestions.level"></div>
-                                </td>
-                                <td>
-                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.usingBacking.level"></div>
+                                <td ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
+                                    <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress[header.value].level"></div>
                                 </td>
                             </tr>
                         </tbody>

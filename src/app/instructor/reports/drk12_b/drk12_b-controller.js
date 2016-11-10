@@ -624,11 +624,6 @@ angular.module( 'instructor.reports')
             }
         });
 
-        $scope.skillsForDisplay = $scope.reports.selected.skills;
-        $.each($scope.skillsForDisplay, function(index, skill) {
-            skill.checked = true;
-        });
-
         // Check if selected game has selected report
 
         if (!ReportsService.isValidReport(reportId,$scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
@@ -814,10 +809,19 @@ angular.module( 'instructor.reports')
         $.each($scope.reports.selected.skills, function(skillKey) {
             var skillHeader = {
                 title: $scope.reports.selected.skills[skillKey].name,
-                value: skillKey
+                value: skillKey,
+                checked: true
             };
             $scope.columns.headers.push(skillHeader);
         });
+
+        $scope.columnsChecked = function() {
+            var headerCheckedCount = 0;
+            $scope.columns.headers.forEach(function(header) {
+                if(header.checked) { headerCheckedCount++; }
+            });
+            return headerCheckedCount;
+        };
 
         $scope.sortSelected = function (colName) {
             if ($scope.columns.current === colName) {
