@@ -227,10 +227,18 @@
 
 // Table (Override of .gl-reports-table)
 
+.gl-drk12_b-table {
+  text-align: center;
+}
+
+.gl-drk12_b-table th:last-child,
+.gl-drk12_b-table td:last-child {
+  border-left-width: 1px;
+}
+
 .gl-drk12_b-table .gl-drk12_b-table-x-header th,
 .gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th {
   vertical-align: middle !important; // Had to :( it was used elsewhere
-  text-align: center;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-header th:first-child {
@@ -242,9 +250,41 @@
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-header th:last-child {
+  border-left-width: 4px;
   width: 545px;
+  text-align: center;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th {
+  border-top-width: 4px;
   width: 136px;
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th:first-child {
+  border-left: 4px solid #fff;
+  border-right-width: 1px;
+}
+
+// Table Sort
+
+.gl-drk12_b-tablesort {
+  align-items: center;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: #333;
+  display: flex;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  justify-content: space-between;
+  outline: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.gl-drk12_b-tablesort-secondary {
+  color: #555;
+  font-size: 12px;
+  text-align: center;
 }

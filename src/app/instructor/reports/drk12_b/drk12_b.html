@@ -49,41 +49,47 @@
                     </div>
                     <table class="table gl-reports-table gl-drk12_b-table" ng-class="{'gl-reports-table--ie': isIE}">
                         <thead>
-                            <tr class="gl-drk12_b-table-x-heading">
+                            <tr class="gl-drk12_b-table-x-header">
                                 <th rowspan="2">
-                                    {{columns.headers[0].title}}
-                                    <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[0].value)"></i>
+                                    <button class="gl-drk12_b-tablesort" ng-click="sortSelected(columns.headers[0].value)" type="button">
+                                        {{columns.headers[0].title}}
+                                        <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                                 <th rowspan="2">
-                                    {{columns.headers[1].title}}
-                                    <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[1].value)"></i>
+                                    <button class="gl-drk12_b-tablesort" ng-click="sortSelected(columns.headers[1].value)" type="button">
+                                        {{columns.headers[1].title}}
+                                        <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                                 <th colspan="4">Progress for Most Recent Level</th>
                             </tr>
-                            <tr class="gl-drk12_b-table-x-headingsecondary">
+                            <tr class="gl-drk12_b-table-x-headersecondary">
                                 <!-- first th is covered by previous row -->
                                 <!-- second th is covered by previous row -->
                                 <th>
-                                    {{columns.headers[2].title}}
-                                    <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[2].value)"></i>
+                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[2].value)" type="button">
+                                        {{columns.headers[2].title}}
+                                        <i ng-class="columns.current===columns.headers[2].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                                 <th>
-                                    {{columns.headers[3].title}}
-                                    <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[3].value)"></i>
+                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[3].value)" type="button">
+                                        {{columns.headers[3].title}}
+                                        <i ng-class="columns.current===columns.headers[3].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                                 <th>
-                                    {{columns.headers[4].title}}
-                                    <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[4].value)"></i>
+                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[4].value)" type="button">
+                                        {{columns.headers[4].title}}
+                                        <i ng-class="columns.current===columns.headers[4].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                                 <th>
-                                    {{columns.headers[5].title}}
-                                    <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"
-                                       ng-click="sortSelected(columns.headers[5].value)"></i>
+                                    <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(columns.headers[5].value)" type="button">
+                                        {{columns.headers[5].title}}
+                                        <i ng-class="columns.current===columns.headers[5].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                    </button>
                                 </th>
                             </tr>
                             <tr>
@@ -94,11 +100,12 @@
                             <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
                                 <td>
                                     {{student[0].firstName}} {{student[0].lastName}}
-                                    <div class="gl-clickable"
+                                    <button class="gl-clickable"
                                          ng-click="setCurrentStudent(student[0])"
-                                         ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})">
+                                         ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})"
+                                         type="button">
                                         Performance Over Time
-                                    </div>
+                                    </button>
                                 </td>
                                 <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                                 <td>
