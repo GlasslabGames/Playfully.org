@@ -135,7 +135,7 @@
 
 // Help Icon
 
-.gl-drk12_b-help {
+.gl-drk12_b-helpicon {
   appearance: none;
   background: none;
   border: 0;
@@ -342,6 +342,53 @@
   padding-right: 0;
 }
 
+// Modal Header
+
+.gl-drk12_b-modalheader {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 30px 20px 0;
+}
+
+.gl-drk12_b-modalheader h1 {
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+.gl-drk12_b-modalheader button {
+  position: relative;
+}
+
+.gl-drk12_b-modalheader-help h1 {
+  color: #555;
+  flex: 1 1 100%;
+  font-family: 'Bitter', sans-serif;
+  font-size: 28px;
+  text-align: center;
+}
+
+// Help
+
+.gl-drk12_b-help {
+  padding: 10px 30px 40px;
+}
+
+.gl-drk12_b-help h2 {
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.gl-drk12_b-help p:not(:last-child) {
+  margin-bottom: 20px;
+}
+
 // Tab (Overrides of .nav-tabs)
 
 .gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li > a {
@@ -457,26 +504,4 @@
 
 .gl-drk12_b-table-modal tbody td:first-child {
   color: #555555;
-}
-
-// Modal Header (override of .modal-header)
-
-.gl-drk12_b-modalheader {
-  align-items: flex-start;
-  display: flex;
-  justify-content: space-between;
-  padding: 30px 30px 20px 0;
-}
-
-.gl-drk12_b-modalheader h1 {
-  color: #333;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 20px;
-  font-weight: bold;
-  margin: 0;
-  text-align: left;
-}
-
-.gl-drk12_b-modalheader button {
-  position: relative;
 }
