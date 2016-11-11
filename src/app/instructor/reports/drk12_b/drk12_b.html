@@ -8,26 +8,29 @@
             <button class="fa fa-question-circle gl-drk12_b-help"
                     ui-sref="modal-xlg.drk12_bInfo({type:'info'})"
                     type="button"></button>
+
             <h1 class="gl-drk12_b-heading">Progress Report</h1>
 
             <p class="gl-drk12_b-text" ng-bind="reports.selected.description"></p>
 
             <tabset class="gl-drk12_b-tabs" justified="true">
                 <tab heading="Class View" active="activeTab[0]" ng-click="selectTab(0)">
-                    <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Class Progress</h3>
-                    <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
-                    <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Current Class Skill Level</h3>
-                    <h4 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h4>
-                    <ul class="gl-drk12_b-l-progressicons">
-                        <li class="gl-drk12_b-progressicon" ng-class="progressType.class" ng-repeat="progressType in progressTypes">{{progressType.title}}</li>
-                    </ul>
-                    <hr/>
-                    <ul class="gl-drk12_b-l-progressicons">
-                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSkillClass(key)" ng-repeat="(key, skill) in reports.selected.skills"
-                                ng-click="goToStudentViewWithSkill(key)">
-                            {{skill.name}}
-                        </li>
-                    </ul>
+                    <div class="gl-drk12_b-l-containerclass">
+                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Class Progress</h3>
+                        <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
+                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Current Class Skill Level</h3>
+                        <h4 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h4>
+                        <ul class="gl-drk12_b-l-progressicons">
+                            <li class="gl-drk12_b-progressicon" ng-class="progressType.class" ng-repeat="progressType in progressTypes">{{progressType.title}}</li>
+                        </ul>
+                        <hr/>
+                        <ul class="gl-drk12_b-l-progressicons">
+                            <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSkillClass(key)" ng-repeat="(key, skill) in reports.selected.skills"
+                                    ng-click="goToStudentViewWithSkill(key)">
+                                {{skill.name}}
+                            </li>
+                        </ul>
+                    </div>
                 </tab>
                 <tab heading="Student View" active="activeTab[1]" ng-click="selectTab(1)">
                     <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h3>
