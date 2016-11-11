@@ -802,6 +802,7 @@ angular.module( 'instructor.reports')
         $.each($scope.reports.selected.skills, function(skillKey, skill) {
             var skillHeader = {
                 title: skill.name,
+                description: skill.description,
                 value: skillKey,
                 checked: true
             };

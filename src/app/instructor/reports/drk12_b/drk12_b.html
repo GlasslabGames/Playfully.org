@@ -27,7 +27,7 @@
                         <ul class="gl-drk12_b-l-progressicons">
                             <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSkillClass(key)" ng-repeat="(key, skill) in reports.selected.skills"
                                     ng-click="goToStudentViewWithSkill(key)">
-                                {{skill.name}}
+                                <span tooltip="{{skill.description}}" tooltip-placement="bottom">{{skill.name}}</span>
                             </li>
                         </ul>
                     </div>
@@ -71,7 +71,7 @@
                                     <!-- first th is covered by previous row -->
                                     <!-- second th is covered by previous row -->
                                     <th ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
-                                        <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button">
+                                        <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button" tooltip="{{header.description}}" tooltip-placement="bottom">
                                             {{header.title}}
                                             <i ng-class="columns.current===header.value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                         </button>
