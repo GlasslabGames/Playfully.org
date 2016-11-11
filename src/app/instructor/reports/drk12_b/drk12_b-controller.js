@@ -58,6 +58,11 @@ angular.module( 'instructor.reports')
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
+        $scope.activeTab = [];
+        $scope.selectTab = function(index) {
+            $scope.activeTab[index] = true;
+        };
+
         /////////////////////////////////////////// Static Report data ////////////////////////////
 
         $scope.progressTypes = {
@@ -576,20 +581,8 @@ angular.module( 'instructor.reports')
 
         $scope.reportData = usersData;
 
-        $scope.getFirstCriteriaLevel = function() {
-            return usersData.courseSkills.connectingEvidence.level;
-        };
-
-        $scope.getSecondCriteriaLevel = function() {
-            return usersData.courseSkills.supportingClaims.level;
-        };
-
-        $scope.getThirdCriteriaLevel = function() {
-            return usersData.courseSkills.criticalQuestions.level;
-        };
-
-        $scope.getForthCriteriaLevel = function() {
-            return usersData.courseSkills.usingBacking.level;
+        $scope.getSkillClass = function(skill) {
+            return usersData.courseSkills[skill].level;
         };
 
         initialStudents.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
@@ -806,16 +799,23 @@ angular.module( 'instructor.reports')
             reverseSort: false
         };
 
-        $.each($scope.reports.selected.skills, function(skillKey) {
+        $.each($scope.reports.selected.skills, function(skillKey, skill) {
             var skillHeader = {
-                title: $scope.reports.selected.skills[skillKey].name,
+                title: skill.name,
                 value: skillKey,
                 checked: true
             };
             $scope.columns.headers.push(skillHeader);
         });
 
-        $scope.columnsChecked = function() {
+        $scope.goToStudentViewWithSkill = function(skill) {
+            $.each($scope.columns.headers, function(index, header) {
+                header.checked = header.value == skill;
+            });
+            $scope.selectTab(1);
+        };
+
+        $scope.numberOfColumnsChecked = function() {
             var headerCheckedCount = 0;
             $scope.columns.headers.forEach(function(header) {
                 if(header.checked) { headerCheckedCount++; }

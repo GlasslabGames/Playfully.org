@@ -13,7 +13,7 @@
             <p class="gl-drk12_b-text" ng-bind="reports.selected.description"></p>
 
             <tabset class="gl-drk12_b-tabs" justified="true">
-                <tab heading="Class View">
+                <tab heading="Class View" active="activeTab[0]" ng-click="selectTab(0)">
                     <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Class Progress</h3>
                     <div id="drk12_bChart" ng-init="doDrawCourseStatusChart()">Chart Data</div> <!-- TODO: Redine this -->
                     <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Current Class Skill Level</h3>
@@ -23,13 +23,13 @@
                     </ul>
                     <hr/>
                     <ul class="gl-drk12_b-l-progressicons">
-                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getFirstCriteriaLevel()">Connecting Evidence to Argument Schemes</li>
-                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSecondCriteriaLevel()">Supporting Claims with Evidence</li>
-                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getThirdCriteriaLevel()">Using Critical Questions</li>
-                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getForthCriteriaLevel()">Using Backing</li>
+                        <li class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSkillClass(key)" ng-repeat="(key, skill) in reports.selected.skills"
+                                ng-click="goToStudentViewWithSkill(key)">
+                            {{skill.name}}
+                        </li>
                     </ul>
                 </tab>
-                <tab heading="Student View">
+                <tab heading="Student View" active="activeTab[1]" ng-click="selectTab(1)">
                     <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h3>
                     <ul class="gl-drk12_b-l-progressicons">
                         <li ng-repeat="progressType in progressTypes" class="gl-drk12_b-progressicon" ng-class="progressType.class">{{progressType.title}}</li>
@@ -61,7 +61,7 @@
                                         <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                     </button>
                                 </th>
-                                <th colspan="{{columnsChecked()}}">Progress for Most Recent Level</th>
+                                <th colspan="{{numberOfColumnsChecked()}}">Progress for Most Recent Level</th>
                             </tr>
                             <tr class="gl-drk12_b-table-x-headersecondary">
                                 <!-- first th is covered by previous row -->
