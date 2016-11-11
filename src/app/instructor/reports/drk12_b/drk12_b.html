@@ -78,7 +78,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort">
+                            <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort" ng-if="student[0].isSelected">
                                 <td class="gl-drk12_b-table-x-name">
                                     <span>{{student[0].firstName}} {{student[0].lastName}}</span>
                                     <button class="gl-drk12_b-performancetrigger gl-clickable"
