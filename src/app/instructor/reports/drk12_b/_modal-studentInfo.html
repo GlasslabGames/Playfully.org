@@ -1,16 +1,16 @@
-<div class="modal-header">
+<div class="gl-drk12_b-modalheader">
+    <h1>Performance Over Time: {{student.firstName}} {{student.lastName}}</h1>
     <button type="button" class="close" data-dismiss="modal" ng-click="$close()">
         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
     </button>
-    <h3 class="modal-title">Performance Over Time: {{student.firstName}} {{student.lastName}}</h3>
 </div>
 
-<div class="modal-body gl-pad--Hn gl-pad--Txs">
-    <table class="gl-reports-drk12_b-default-text table gl-reports-table" ng-class="{'gl-reports-table--ie': isIE}">
+<div class="gl-drk12_b-l-overflowhorizontal">
+    <table class="table gl-reports-table gl-drk12_b-table gl-drk12_b-table-modal" ng-class="{'gl-reports-table--ie': isIE}">
         <thead>
             <tr>
                 <th class="bold">Mission</th>
-                <th ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
+                <th ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
                     <div ng-if="mission.current">(current)</div>
                     Mission {{mission.mission}}
                 </th>
@@ -22,26 +22,26 @@
         <tbody>
             <tr class="gl-reports-table-row">
                 <td>{{skills.connectingEvidence.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.connectingEvidence.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.connectingEvidence.level"></div>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.connectingEvidence.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.connectingEvidence.level}}': true}"></div>
                 </td>
             </tr>
             <tr class="gl-reports-table-row">
                 <td>{{skills.supportingClaims.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.supportingClaims.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.supportingClaims.level"></div>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.supportingClaims.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.supportingClaims.level}}': true}"></div>
                 </td>
             </tr>
             <tr class="gl-reports-table-row">
                 <td>{{skills.criticalQuestions.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.criticalQuestions.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.criticalQuestions.level"></div>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.criticalQuestions.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.criticalQuestions.level}}': true}"></div>
                 </td>
             </tr>
             <tr class="gl-reports-table-row">
                 <td>{{skills.usingBacking.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'half-opacity': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.usingBacking.level != 'NotAvailable'" class="gl-drk12_b-rating" ng-class="mission.skillLevel.usingBacking.level"></div>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                    <div ng-if="mission.skillLevel.usingBacking.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.usingBacking.level}}': true}"></div>
                 </td>
             </tr>
         </tbody>
@@ -50,13 +50,17 @@
                 <td colspan="{{student.results.missions.length + 1}}" class="gl-reports-divider--blue"></td>
             </tr>
             <tr>
-                <td class="bold">
-                    <div>Correct</div>
-                    <div>Total Attempts</div>
+                <td>
+                    <span class="gl-drk12_b-fraction gl-drk12_b-fraction-legend">
+                        <span>Correct</span>
+                        <span>Total Attempts</span>
+                    </span>
                 </td>
-                <td ng-repeat="mission in student.results.missions">
-                    <div>{{mission.totalCorrect}}</div>
-                    <div>{{mission.totalAttempts}}</div>
+                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                    <span ng-if="! mission.paddingObject" class="gl-drk12_b-fraction">
+                        <span>{{mission.totalCorrect}}</span>
+                        <span>{{mission.totalAttempts}}</span>
+                    </span>
                 </td>
             </tr>
         </tfoot>

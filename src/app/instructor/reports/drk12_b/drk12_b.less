@@ -17,6 +17,14 @@
   padding: 0;
 }
 
+// Overflow Horizontal (Layout)
+
+.gl-drk12_b-l-overflowhorizontal {
+  overflow-x: auto;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
 // Headings
 
 .gl-drk12_b-heading {
@@ -83,34 +91,6 @@
   max-width: 700px;
 }
 
-// Tab (Overrides)
-
-.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li > a {
-  color: #ccc;
-  cursor: pointer;
-  background-color: #f0f0f0;
-  border: 0;
-  border-radius: 0;
-}
-
-.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:first-child > a {
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
-.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:last-child > a {
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a,
-.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a:hover {
-  color: #fff;
-  cursor: pointer;
-  background-color: #67cada;
-  border: 0;
-}
-
 // Progress Icons
 
 .gl-drk12_b-progressicon {
@@ -141,6 +121,10 @@
 
 .gl-drk12_b-progressicon.NotAttempted::before {
   background-color: #f0f0f0;
+}
+
+.gl-drk12_b-progressicon.NotAttempted.gl-drk12_b-progressicon-is-disabled::before {
+  background-color: #fff;
 }
 
 // Progress Icons (Large)
@@ -226,9 +210,104 @@
   margin-top: 0;
 }
 
+// Table Sort
+
+.gl-drk12_b-tablesort {
+  align-items: center;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: #333;
+  display: flex;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  justify-content: space-between;
+  outline: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.gl-drk12_b-tablesort-secondary {
+  color: #555;
+  font-size: 12px;
+  text-align: center;
+}
+
+// Performance Trigger
+
+.gl-drk12_b-performancetrigger {
+  appearance: none;
+  background-color: #999;
+  border: 0;
+  border-top-right-radius: 4px;
+  color: #fff;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  outline: none;
+  padding: 5px;
+}
+
+.gl-drk12_b-performancetrigger:hover {
+  opacity: .5;
+}
+
+// Fractions
+
+.gl-drk12_b-fraction {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.gl-drk12_b-fraction :last-child {
+  border-top: 1px solid #ccc;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.gl-drk12_b-fraction-legend {
+  font-weight: bold;
+}
+
+.gl-drk12_b-fraction-legend :last-child {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// Tab (Overrides of .nav-tabs)
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li > a {
+  color: #ccc;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 0;
+  border-radius: 0;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:first-child > a {
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li:last-child > a {
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a,
+.gl-drk12_b-tabs > ul.nav-tabs.nav-justified > li.active > a:hover {
+  color: #fff;
+  cursor: pointer;
+  background-color: #67cada;
+  border: 0;
+}
+
 // Table (Override of .gl-reports-table)
 
 .gl-drk12_b-table {
+  margin-bottom: 0;
   text-align: center;
 }
 
@@ -276,45 +355,61 @@
   padding: 20px 0 20px 20px;
 }
 
-// Table Sort
-
-.gl-drk12_b-tablesort {
-  align-items: center;
-  appearance: none;
-  background: none;
-  border: 0;
-  color: #333;
-  display: flex;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  justify-content: space-between;
-  outline: none;
-  padding: 0;
-  text-align: left;
-  width: 100%;
+.gl-drk12_b-table .gl-drk12_b-table-x-disabled {
+  opacity: .5;
 }
 
-.gl-drk12_b-tablesort-secondary {
-  color: #555;
-  font-size: 12px;
+.gl-drk12_b-table-modal {
+  table-layout: fixed;
+}
+
+.gl-drk12_b-table-modal th,
+.gl-drk12_b-table-modal td {
+  vertical-align: middle !important; // Had to :( it was used elsewhere
+}
+
+.gl-drk12_b-table-modal th:first-child,
+.gl-drk12_b-table-modal td:first-child {
+  width: 180px;
+  text-align: left;
+}
+
+.gl-drk12_b-table-modal th:not(:first-child),
+.gl-drk12_b-table-modal td:not(:first-child),
+.gl-drk12_b-table-modal tfoot td:last-child{
+  border-left: 0;
+  border-right: 0;
+  text-align: center;
+  width: 90px;
+}
+
+.gl-drk12_b-table-modal thead th:first-child {
+  font-weight: bold;
   text-align: center;
 }
 
-// Performance Trigger
-
-.gl-drk12_b-performancetrigger {
-  appearance: none;
-  background-color: #999;
-  border: 0;
-  border-top-right-radius: 4px;
-  color: #fff;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  font-weight: normal;
-  outline: none;
-  padding: 5px;
+.gl-drk12_b-table-modal tbody td:first-child {
+  color: #555555;
 }
 
-.gl-drk12_b-performancetrigger:hover {
-  opacity: .5;
+// Modal Header (override of .modal-header)
+
+.gl-drk12_b-modalheader {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 30px 20px 0;
+}
+
+.gl-drk12_b-modalheader h1 {
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}
+
+.gl-drk12_b-modalheader button {
+  position: relative;
 }
