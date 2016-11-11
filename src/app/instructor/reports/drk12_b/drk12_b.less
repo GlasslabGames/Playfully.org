@@ -308,6 +308,7 @@
 
 .gl-drk12_b-table {
   margin-bottom: 0;
+  table-layout: fixed;
   text-align: center;
 }
 
@@ -322,21 +323,25 @@
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-header th:first-child {
+  height: 115px;
   width: 165px;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-header th:nth-child(2) {
+  height: 115px;
   width: 80px;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-header th:last-child {
   border-left-width: 4px;
-  width: 545px;
+  height: 30px;
   text-align: center;
+  width: 100%;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-headersecondary th {
   border-top-width: 4px;
+  height: 80px;
   width: 136px;
 }
 
@@ -357,10 +362,6 @@
 
 .gl-drk12_b-table .gl-drk12_b-table-x-disabled {
   opacity: .5;
-}
-
-.gl-drk12_b-table-modal {
-  table-layout: fixed;
 }
 
 .gl-drk12_b-table-modal th,
