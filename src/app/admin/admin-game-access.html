@@ -1,0 +1,42 @@
+<div class="container gl-tabs gl-margin--T30">
+    <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 0}">
+            <a href ui-sref="admin.game-approval" ui-sref-opts="{ reload: true }">Approved Games</a>
+        </li>
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 1}">
+            <a href ui-sref="admin.game-approval.pending" ui-sref-opts="{ reload: true }">Pending Games</a>
+        </li>
+        <li class="gl-tab"
+            ng-class="{'active': showTab == 2}">
+            <a href ui-sref="admin.game-approval.rejected" ui-sref-opts="{ reload: true }">Rejected Games</a>
+        </li>
+    </ul>
+</div>
+
+<div class="gl-courses-container">
+  <div class="container">
+
+<table><tr><th class="admin-da-date-header"><a href="" ng-click="orderList('gameId')">Game Id</a><span class="admin-da-sortorder" ng-show="predicateList === 'gameId'" ng-class="{reverse:reverseList}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('longName')">Game Name</a><span class="admin-da-sortorder" ng-show="predicateList === 'longName'" ng-class="{reverse:reverseList}"></span></th>
+<th class="admin-da-name-header"><a href="" ng-click="orderList('company')">Developer</a><span class="admin-da-sortorder" ng-show="predicateList === 'company'" ng-class="{reverse:reverseList}"></span></th>
+<th class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th><th ng-if="showTab == 1" class="admin-da-button-header">&nbsp</th></tr>
+
+<tr ng-repeat="game in games | orderBy:predicateList:reverseList">
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.gameId}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.longName}}</td>
+<td ng-class="$even ? 'admin-da-name-even' : 'admin-da-name-odd'">{{game.company}}</td>
+<td ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-if="showTab != 0" ng-click="approveGame(game)">Approve</button>
+<button ng-if="showTab == 0" ng-click="rejectGame(game)">Remove</button></td>
+<td ng-if="showTab == 1" ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="needMoreInfo(game)">More Info</button></td>
+<td ng-if="showTab == 1" ng-class="$even ? 'admin-da-button-even' : 'admin-da-button-odd'">
+<button ng-click="rejectGame(game)">Reject</button></td>
+</tr>
+
+</table>
+
+  </div>
+</div>
