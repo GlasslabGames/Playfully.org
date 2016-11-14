@@ -60,6 +60,15 @@ angular.module( 'instructor.reports')
 
         $scope.activeTab = [];
         $scope.selectTab = function(index) {
+            // When going to the class tab reset the checkboxes on the student tab
+            if (index === 0) {
+                $scope.columns.headers.forEach(function(header) {
+                    if (!header.keepUnchecked) {
+                        header.checked = true;
+                    }
+                });
+            }
+
             $scope.activeTab[index] = true;
         };
 
@@ -792,8 +801,8 @@ angular.module( 'instructor.reports')
 
         $scope.columns = {
             headers: [
-                { title: "Name", value: "name"},
-                { title: "Current Mission", value: "currentMission"}
+                { title: "Name", value: "name", keepUnchecked: true },
+                { title: "Current Mission", value: "currentMission", keepUnchecked: true }
             ],
             current: "name",
             reverseSort: false
@@ -811,7 +820,9 @@ angular.module( 'instructor.reports')
 
         $scope.goToStudentViewWithSkill = function(skill) {
             $.each($scope.columns.headers, function(index, header) {
-                header.checked = header.value == skill;
+                if(!header.keepUnchecked) {
+                    header.checked = header.value == skill;
+                }
             });
             $scope.selectTab(1);
         };
