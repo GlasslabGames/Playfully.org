@@ -83,6 +83,19 @@
   padding: 0;
 }
 
+.gl-drk12_b-l-progressicons-large > * {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 150px;
+  text-align: center;
+}
+
+.gl-drk12_b-l-progressicons-large > * > button {
+  margin-bottom: 40px;
+}
+
 // Overflow Horizontal (Layout)
 
 .gl-drk12_b-l-overflowhorizontal {
@@ -161,7 +174,12 @@
 
 .gl-drk12_b-progressicon {
   align-items: center;
+  appearance: none;
+  background: none;
+  border: 0;
   display: flex;
+  outline: none;
+  padding: 0;
 }
 
 .gl-drk12_b-progressicon::before {
@@ -198,10 +216,12 @@
 // Progress Icons (Large)
 
 .gl-drk12_b-progressicon-large {
-  align-items: center;
-  flex-direction: column;
-  max-width: 150px;
+  color: transparent;
+  height: 150px;
+  margin: 0;
+  width: 150px;
   text-align: center;
+  user-select: none;
 }
 
 .gl-drk12_b-progressicon-large::before {
@@ -414,8 +434,8 @@
   padding: 10px;
   pointer-events: none;
   position: absolute;
-  top: calc(100% + 5px);
-  transform: translateX(-50%);
+  top: 100%;
+  transform: translateX(-50%) translateY(15px);
   transition: opacity .3s ease-out;
   width: 200px;
   z-index: 1000;
