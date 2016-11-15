@@ -101,7 +101,7 @@
                                     </td>
                                     <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                                     <td ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
-                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress[header.value].level"></div>
+                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.skillLevel[header.value].level"></div>
                                     </td>
                                 </tr>
                             </tbody>
