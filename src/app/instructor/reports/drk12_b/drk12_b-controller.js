@@ -147,7 +147,7 @@ angular.module( 'instructor.reports')
 
             //if ($scope.noUserData) { return; } // TODO: Re-implement this
 
-            var margin = {top: 20, right: 20, bottom: 20, left: 40},
+            var margin = {top: 20, right: 0, bottom: 40, left: 40},
                 width = 800 - margin.left - margin.right,
                 height = 200 - margin.top - margin.bottom;
 
@@ -178,11 +178,19 @@ angular.module( 'instructor.reports')
                 .attr("class", "y axis")
                 .call(yAxis)
                 .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
+                .attr("y", height / 2)
+                .attr("x", -10)
+                .attr("text-anchor", "middle")
+                .attr("transform", "rotate(-90 -10 " + height/2 + ")")
                 .text("# of students");
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .append("text")
+                .attr("y", height + margin.bottom)
+                .attr("x", width / 2)
+                .attr("text-anchor", "middle")
+                .text("Missions");
 
             svg.selectAll(".bar")
                 .data(usersData.courseProgress)
