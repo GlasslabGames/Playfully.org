@@ -249,6 +249,8 @@ angular.module( 'instructor.reports')
                                 mission.totalCorrect = totalCorrect;
                                 mission.totalAttempts = totalAttempts;
                             });
+                        } else {
+                            student.results = { currentProgress: { mission: 0, skillLevel: {} } };
                         }
                     });
                 }
@@ -320,9 +322,22 @@ angular.module( 'instructor.reports')
                     return user.results.currentProgress.mission;
                 }
 
-                var columnSkill = user.results.currentProgress[$scope.columns.current];
-                var score = columnSkill.score.correct / columnSkill.score.attempts;
-                if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
+                var score = 0;
+                if (!user.results.currentProgress ||
+                        !user.results.currentProgress.skillLevel ||
+                        !user.results.currentProgress.skillLevel[$scope.columns.current] ||
+                        !user.results.currentProgress.skillLevel[$scope.columns.current].level) {
+                    score = -2;
+                } else if (user.results.currentProgress.skillLevel[$scope.columns.current].level == "NotAvailable") {
+                    score = -2;
+                } else {
+                    var columnSkill = user.results.currentProgress.skillLevel[$scope.columns.current];
+
+                    if (columnSkill.score.attempts === 0) { score = 0; }
+                    else { score = columnSkill.score.correct / columnSkill.score.attempts; }
+
+                    if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
+                }
 
                 return score;
             };
@@ -330,6 +345,10 @@ angular.module( 'instructor.reports')
 
         $scope.setCurrentStudent = function (student) {
             drk12_bStore.setCurrentStudent(student);
+        };
+
+        $scope.shouldShowTableCellFromSkillLevel = function (skillLevel) {
+            return skillLevel !== undefined && skillLevel != null && skillLevel != "NotAvailable";
         };
 
         // populate student objects with report data
