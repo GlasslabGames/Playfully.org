@@ -277,6 +277,28 @@ angular.module('games', [
           });
     },
 
+    getAllDeveloperGameAccessRequestsAwaitingApproval: function() {
+      return $http.get(API_BASE + '/dash/games/awaiting-access-approval')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
+    getAllDeveloperGameAccessRequestsDenied: function() {
+      return $http.get(API_BASE + '/dash/games/denied-access')
+          .then(function(response) {
+              $log.debug(response);
+              return response.data;
+          }, function (response) {
+              $log.error(response);
+              return response;
+          });
+    },
+
     getSubmissionTarget: function() {
       return $http.get(API_BASE + '/admin/games-submission-target')
           .then(function(response) {
@@ -318,6 +340,14 @@ angular.module('games', [
 
     requestMoreInfoAboutGame: function(gameId, why) {
       return $http.post(API_BASE + '/dash/game/'+gameId+'/requestInfo', { reason: why });
+    },
+
+    approveGameAccessRequest: function(accessRequest) {
+      return $http.get(API_BASE + '/auth/developer/game/'+accessRequest.gameId+'/request/'+accessRequest.verifyCode+'/approve');
+    },
+
+    denyGameAccessRequest: function(accessRequest) {
+      return $http.get(API_BASE + '/auth/developer/game/'+accessRequest.gameId+'/request/'+accessRequest.userId+'/deny');
     },
 
     checkForGameAccess: function() {

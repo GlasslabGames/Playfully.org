@@ -147,8 +147,49 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             controller: 'AdminDeveloperApprovalCtrl'
           }
         },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
         data: {
             pageTitle: 'Developers Approved',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.developer-approval.revoked', {
+        url: '/revoked',
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-developer-approval.html',
+                controller: 'AdminDeveloperApprovalCtrl'
+            }
+        },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
+        data: {
+            pageTitle: 'Developers Revoked',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.developer-approval.sent', {
+        url: '/sent',
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-developer-approval.html',
+                controller: 'AdminDeveloperApprovalCtrl'
+            }
+        },
+        resolve: {
+            developers: function (UserService) {
+                return UserService.getAllDevelopers();
+            }
+        },
+        data: {
+            pageTitle: 'Unverified Developers',
             authorizedRoles: ['admin']
         }
     })
@@ -227,6 +268,48 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
                     };
                 }
             }
+        }
+    })
+    .state('admin.game-access', {
+        url: '/game-access',
+        resolve: {
+            gameAccessRequestsAwaitingApproval: function (GamesService) {
+                return GamesService.getAllDeveloperGameAccessRequestsAwaitingApproval();
+            },
+            gameAccessRequestsDenied: function (GamesService) {
+                return GamesService.getAllDeveloperGameAccessRequestsDenied();
+            }
+        },
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-game-access.html',
+                controller: 'AdminGameAccessCtrl'
+            }
+        },
+        data: {
+            pageTitle: 'Game Access',
+            authorizedRoles: ['admin']
+        }
+    })
+    .state('admin.game-access.denied', {
+        url: '/game-access/denied',
+        resolve: {
+            gameAccessRequestsAwaitingApproval: function (GamesService) {
+                return GamesService.getAllDeveloperGameAccessRequestsAwaitingApproval();
+            },
+            gameAccessRequestsDenied: function (GamesService) {
+                return GamesService.getAllDeveloperGameAccessRequestsDenied();
+            }
+        },
+        views: {
+            'main@': {
+                templateUrl: 'admin/admin-game-access.html',
+                controller: 'AdminGameAccessCtrl'
+            }
+        },
+        data: {
+            pageTitle: 'Denied Requests',
+            authorizedRoles: ['admin']
         }
     })
     .state('admin.game-approval', {
@@ -846,9 +929,26 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     $scope.showTab = 0;
     if ($state.includes('admin.developer-approval.approved')) {
         $scope.showTab = 1;
+    } else if ($state.includes('admin.developer-approval.revoked')) {
+        $scope.showTab = 2;
+    } else if ($state.includes('admin.developer-approval.sent')) {
+        $scope.showTab = 3;
     }
 
-	$scope.developers = $scope.showTab === 1 ? developers.approved : developers.pending;
+    switch ($scope.showTab) {
+        case 0:
+            $scope.developers = developers.pending;
+            break;
+        case 1:
+            $scope.developers = developers.approved;
+            break;
+        case 2:
+            $scope.developers = developers.revoked;
+            break;
+        case 3:
+            $scope.developers = developers.pendingVerification;
+            break;
+    }
 
 	$scope.predicateList = 'date';
     $scope.reverseList = false;
@@ -907,6 +1007,24 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 				$window.alert(response.message);
 			});
 		  }
+        }
+    };
+
+    $scope.resendDeveloperVerification = function(developer) {
+        var i;
+        for(i = $scope.developers.length; i--;) {
+            if($scope.developers[i] === developer) {
+                break;
+            }
+        }
+        if (i >= 0 && typeof($scope.developers[i].resent) === "undefined") {
+            UserService.alterDeveloperStatus(developer.id, "resent")
+                .then(function(response) {
+                        $scope.developers[i].resent = true;
+                    }.bind(this),
+                    function (response) {
+                        $window.alert(response.message);
+                    });
         }
     };
     
@@ -1130,8 +1248,6 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         });
     }
 
-
-
     $scope.approveGame = function(gameId) {
         GamesService.approveGame(gameId)
             .then(function(response) {
@@ -1145,7 +1261,59 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
 })
 
 
+.controller('AdminGameAccessCtrl', function ($scope, $state, $log, $window, UserService, GamesService, gameAccessRequestsAwaitingApproval, gameAccessRequestsDenied) {
+    $scope.showTab = 0;
+    if ($state.includes('admin.game-access.denied')) {
+        $scope.showTab = 1;
+    }
 
+    $scope.predicateList = 'gameId';
+    $scope.reverseList = false;
+    $scope.orderList = function(predicate) {
+        $scope.reverseList = ($scope.predicateList === predicate) ? !$scope.reverseList : false;
+        $scope.predicateList = predicate;
+    };
+
+    if ($scope.showTab === 0) {
+        $scope.accessRequests = gameAccessRequestsAwaitingApproval;
+    } else if ($scope.showTab === 1) {
+        $scope.accessRequests = gameAccessRequestsDenied;
+    }
+
+    // $scope.games must after any massaging must be an array of objects
+    // with fields "gameId", "userId", "devEmail", "gameName" and "verifyCode"
+    angular.forEach( $scope.accessRequests, function( value, key ) {
+        value.myKey = key;
+        value.userId = value.userId;
+        value.devEmail = value.devEmail;
+        value.gameId = value.gameId;
+        value.gameName = value.basic.longName;
+        value.verifyCode = value.verifyCode;
+    });
+
+    $scope.grantAccess = function(accessRequest) {
+        GamesService.approveGameAccessRequest(accessRequest)
+            .then(function(response) {
+                $scope.accessRequests.splice(accessRequest.myKey, 1);
+            }, function(err){
+                $log.error("check game access:", err);
+                $window.alert(err);
+            });
+    };
+
+    $scope.denyAccess = function(accessRequest) {
+        GamesService.denyGameAccessRequest(accessRequest)
+            .then(function(response) {
+                // always on object
+                $scope.accessRequests.splice(accessRequest.myKey, 1);
+            }, function(err){
+                $log.error("check game access:", err);
+                $window.alert(err);
+            });
+        //$state.go("modal.developer-email-reason-modal");
+    };
+
+})
 
 .controller('AdminGameApprovalCtrl', function ($scope, $state, $log, $window, UserService, GamesService, gamesApproved, gamesAwaitingApproval, gamesRejected) {
     $scope.showTab = 0;
