@@ -469,19 +469,30 @@
 
 // Chart
 
-.gl-drk12_b-chart rect.bar,
-.gl-drk12_b-chart text.bar {
-  fill: #67cada;
+.gl-drk12_b-chart {
+  svg {
+    overflow: visible;
+  }
+  path.domain {
+    fill: none;
+  }
+  g.y.axis g.tick {
+    display: none;
+  }
+  g.x.axis g.tick {
+    circle {
+      fill: rgb(200,200,200);
+    }
+  }
+  rect.bar, text.bar {
+    fill: #67cada;
+  }
+  .axis-bar {
+    fill: none;
+    stroke: rgb(200,200,200);
+    stroke-width: 2;
+  }
 }
-
-.gl-drk12_b-chart path.domain {
-  fill: #ccc;
-}
-
-.gl-drk12_b-chart g.y.axis g.tick {
-  display: none;
-}
-
 
 // Tab (Overrides of .nav-tabs)
 

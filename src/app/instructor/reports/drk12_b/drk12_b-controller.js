@@ -143,7 +143,7 @@ angular.module( 'instructor.reports')
         Heavily influenced by http://stackoverflow.com/a/24973235/969869
          */
         $scope.doDrawCourseStatusChart = function() {
-            var d3ContainerElem = d3.select("#drk12_bChart"); // TODO: probably want a better way of selecting the element
+            var d3ContainerElem = d3.select("#drk12_bChart");
 
             //if ($scope.noUserData) { return; } // TODO: Re-implement this
 
@@ -155,44 +155,23 @@ angular.module( 'instructor.reports')
 
             var y = d3.scale.linear().range([height, 0]);
 
-            var xAxis = d3.svg.axis().scale(x).orient("bottom");
-
-            var yAxis = d3.svg.axis().scale(y).orient("left");
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom");
 
             d3ContainerElem.selectAll("*").remove();
             var svg = d3ContainerElem.append("svg")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
+                .attr("height", height + margin.top + margin.bottom);
+
+            var chartGroup = svg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             x.domain(usersData.courseProgress.map(function(d) { return d.mission; }));
             y.domain([0, d3.max(usersData.courseProgress, function(d) { return d.studentCount; })]);
 
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text")
-                .attr("y", height / 2)
-                .attr("x", -10)
-                .attr("text-anchor", "middle")
-                .attr("transform", "rotate(-90 -10 " + height/2 + ")")
-                .text("# of students");
-
-            svg.append("g")
-                .attr("class", "x axis")
-                .append("text")
-                .attr("y", height + margin.bottom)
-                .attr("x", width / 2)
-                .attr("text-anchor", "middle")
-                .text("Missions");
-
-            svg.selectAll(".bar")
+            // Progress Bars
+            chartGroup.selectAll(".bar")
                 .data(usersData.courseProgress)
                 .enter()
                 .append("rect")
@@ -202,14 +181,46 @@ angular.module( 'instructor.reports')
                 .attr("y", function(d) { return y(d.studentCount); })
                 .attr("height", function(d) { return height - y(d.studentCount); });
 
-            svg.selectAll("text.bar")
+            // Progress Bar Labels
+            chartGroup.selectAll("text.bar")
                 .data(usersData.courseProgress)
                 .enter().append("text")
                 .attr("class", "bar")
                 .attr("text-anchor", "middle")
                 .attr("x", function(d) { return x(d.mission) + x.rangeBand()/2; })
                 .attr("y", function(d) { return y(d.studentCount) - 5; })
-                .text(function(d) { return d.studentCount; });
+                .text(function(d) { return d.studentCount === 0 ? "" : d.studentCount; });
+
+            chartGroup.append("path")
+                .attr("class", "axis-bar")
+                .attr("d", ["M", 0, 0, "v", height, "h", width].join(" "));
+
+            chartGroup.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            chartGroup.selectAll("g.x.axis g.tick")
+                .append("circle")
+                .attr("r", 5);
+
+            chartGroup.append("g")
+                .attr("class", "y axis")
+                .append("text")
+                    .attr("y", height / 2)
+                    .attr("x", -10)
+                    .attr("text-anchor", "middle")
+                    .attr("transform", "rotate(-90 -10 " + height/2 + ")")
+                    .text("# of students");
+
+            chartGroup.append("g")
+                .attr("class", "x axis")
+                .append("text")
+                    .attr("y", height + 9)
+                    .attr("x", -16)
+                    .attr("dy", ".71em")
+                    .attr("text-anchor", "middle")
+                    .text("Missions");
         };
 
         var _populateStudentLearningData = function(usersReportData) {
