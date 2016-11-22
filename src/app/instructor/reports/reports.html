@@ -28,7 +28,7 @@
                   ng-click="toggleDropdown($event, 'courses')"
                   ng-bind="courses.options[courses.selectedCourseId].title">
           </button>
-          <button type="button" class="btn gl-btn--blue dropdown-toggle">
+          <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event, 'courses')">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
           </button>
@@ -45,7 +45,7 @@
           <button type="button" class="btn btn-default gl-reports-dropdown--game"
                   ng-click="toggleDropdown($event, 'games')"
                   ng-bind="games.options[games.selectedGameId].shortName"></button>
-          <button type="button" class="btn gl-btn--blue dropdown-toggle">
+          <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event, 'games')">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
           </button>
@@ -65,7 +65,7 @@
           <button type="button" class="btn btn-default gl-reports-dropdown"
                   ng-click="toggleDropdown($event, 'reports')"
                   ng-bind="reports.selected.name"></button>
-          <button type="button" class="btn gl-btn--blue dropdown-toggle">
+          <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event, 'reports')">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
           </button>

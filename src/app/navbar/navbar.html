@@ -21,27 +21,19 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="!isAuthenticated()">
         <li ng-class="{'active': state.includes('root.games')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog"
-             data-ng-bind="'navbar.link.games' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog" data-ng-bind="'navbar.link.games' | translate"></a>
         </li>
 
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href="mailto:support@glasslabgames.org?subject=GlassLab%20Support"
-             data-ng-bind="'navbar.link.support' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href="mailto:support@glasslabgames.org?subject=GlassLab%20Support" data-ng-bind="'navbar.link.support' | translate"></a>
         </li>
 
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org"
-             data-ng-bind="'navbar.link.about' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org" data-ng-bind="'navbar.link.about' | translate"></a>
         </li>
 
         <li ui-sref-active="active">
-            <a class="ng-cloak gl-nav-link" href ui-sref="root.subscribe.packages"
-               data-ng-bind="'navbar.link.subscribe' | translate">
-            </a>
+            <a class="ng-cloak gl-nav-link" href ui-sref="root.subscribe.packages" data-ng-bind="'navbar.link.subscribe' | translate"></a>
         </li>
 <!--
         <li ui-sref-active="active">
@@ -51,9 +43,7 @@
         </li>
 -->
         <li ui-sref-active="active" ng-hide="true">
-          <a class="ng-cloak gl-nav-link" href ui-sref="redeem"
-            data-ng-bind="'navbar.link.redeem' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="redeem" data-ng-bind="'navbar.link.redeem' | translate"></a>
         </li>
 
         <li>
@@ -64,9 +54,7 @@
 
       <ul class="nav navbar-nav gl-nav gl-nav-student" ng-if="isAuthorized('student')">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.studentDashboard"
-            data-ng-bind="'navbar.link.dashboard' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.studentDashboard" data-ng-bind="'navbar.link.dashboard' | translate"></a>
         </li>
 
         <li class="gl-login-button">
@@ -77,45 +65,31 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthenticatedButNot('student') && isAuthenticatedButNot('developer')">
         <li ng-class="{'active': state.includes('root.instructorDashboard')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.instructorDashboard.default"
-            data-ng-bind="'navbar.link.dashboard' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.instructorDashboard.default" data-ng-bind="'navbar.link.dashboard' | translate"></a>
         </li>
 
         <li ng-class="{'active': state.includes('root.games')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog"
-             data-ng-bind="'navbar.link.games' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.games.catalog" data-ng-bind="'navbar.link.games' | translate"></a>
         </li>
 
         <li ng-class="{'active': state.includes('root.courses')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.courses"
-            data-ng-bind="'navbar.link.classes' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.courses" data-ng-bind="'navbar.link.classes' | translate"></a>
         </li>
 
         <li ng-class="{'active': state.includes('root.reports')}">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.reports.default"
-            data-ng-bind="'navbar.link.reports' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.reports.default" data-ng-bind="'navbar.link.reports' | translate"></a>
         </li>
 
         <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
-          <a class="ng-cloak gl-nav-link" href="mailto:support@glasslabgames.org?subject=GlassLab%20Support"
-            data-ng-bind="'navbar.link.support' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href="mailto:support@glasslabgames.org?subject=GlassLab%20Support" data-ng-bind="'navbar.link.support' | translate"></a>
         </li>
 
         <li ui-sref-active="active" ng-if="!isAuthorized('admin')">
-          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org"
-             data-ng-bind="'navbar.link.about' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" target="_blank" href="http://about.glasslabgames.org" data-ng-bind="'navbar.link.about' | translate"></a>
         </li>
 
         <li ui-sref-active="active" ng-if="isAuthorized('admin')">
-          <a class="ng-cloak gl-nav-link" href ui-sref="research.parser"
-            data-ng-bind="'navbar.link.research' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="research.parser" data-ng-bind="'navbar.link.research' | translate"></a>
         </li>
 
         <li class="gl-login-button">
@@ -126,19 +100,13 @@
 
       <ul class="nav navbar-nav gl-nav" ng-if="isAuthorized('developer')">
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerGames.default"
-             data-ng-bind="'navbar.link.developer.games' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerGames.default" data-ng-bind="'navbar.link.developer.games' | translate"></a>
         </li>
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerTools.parser"
-            data-ng-bind="'navbar.link.developer.tools' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerTools.parser" data-ng-bind="'navbar.link.developer.tools' | translate"></a>
         </li>
         <li ui-sref-active="active">
-          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerReports.default"
-            data-ng-bind="'navbar.link.developer.reports' | translate">
-          </a>
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.developerReports.default" data-ng-bind="'navbar.link.developer.reports' | translate"></a>
         </li>
         <li class="gl-login-button">
           <login-status type="modal"></login-status>

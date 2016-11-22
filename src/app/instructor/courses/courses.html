@@ -1,11 +1,9 @@
 <div class="container gl-tabs gl-margin--T30">
     <ul class="gl-tab-container _nav _nav-tabs" role="tablist">
-        <li class="gl-tab"
-            ng-class="{'active': !showArchived}">
+        <li class="gl-tab" ng-class="{'active': !showArchived}">
             <a href ui-sref="root.courses({courseStatus:''})">Active Classes</a>
         </li>
-        <li class="gl-tab"
-            ng-class="{'active': showArchived}">
+        <li class="gl-tab" ng-class="{'active': showArchived}">
             <a href ui-sref="root.courses.archived">Archived Classes</a>
         </li>
     </ul>
@@ -32,15 +30,12 @@
       </div>
     </div>
 
-    <div
-      class="gl-courses--blank text-center"
-      ng-show="state.includes('root.courses.archived') && courses.length == 0">
+    <div class="gl-courses--blank text-center" ng-show="state.includes('root.courses.archived') && courses.length == 0">
         None of your classes have been archived
     </div>
 
     <div ng-show="courses.length">
-      <div class="gl-course container-fluid"
-        ng-repeat="(courseKey,course) in courses">
+      <div class="gl-course container-fluid" ng-repeat="(courseKey,course) in courses">
         <div class="row gl-course-info">
           <div class="col-md-3 gl-course-desc">
             <h3 class="gl-course-title" ng-bind="course.title"></h3>
@@ -70,7 +65,7 @@
                 Reactivate This Class
               </button>
               <div ng-if="showCourseEdit(course)" class="btn-group" dropdown is-open="status.isopen">
-                <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-disabled="disabled">
+                <button type="button" class="btn gl-btn--blue dropdown-toggle" dropdown-toggle ng-disabled="disabled">
                   Edit <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -93,9 +88,7 @@
           </div>
           <div class="col-md-9 gl-course-games">
             <div>
-              <div class="gl-course-game text-center"
-                ng-repeat="game in course.games"
-                ng-show="gamesInfo[game.id].enabled">
+              <div class="gl-course-game text-center" ng-repeat="game in course.games" ng-show="gamesInfo[game.id].enabled">
                 <div>
                 <div class="gl-course-game-thumb" ng-style="{'background-image': 'url('+gamesInfo[game.id].thumbnail.small+')'}">
                         <div ng-show="!game.assigned"
@@ -104,37 +97,30 @@
                              ng-mouseover="game.hover=true"
                              ng-mouseleave="game.hover=false"
                              ng-class="game.hover ? 'gl-course-disabled-premium-game-overlay--flipped' : 'gl-course-disabled-premium-game-overlay' ">
-                             <p ng-show="!gamesInfo[game.id].availableForLicense && game.hover">
-                                 This game is not available in your current plan </p>
+                             <p ng-show="!gamesInfo[game.id].availableForLicense && game.hover">This game is not available in your current plan </p>
                              
-                             <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
-                                     ui-sref="root.subscribe.packages"
+                             <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover" ui-sref="root.subscribe.packages"
                                      class="btn gl-btn--small gl-btn--steelblue text-center">Upgrade</button>
                              <button ng-show="!gamesInfo[game.id].availableForLicense && game.hover"
                                      ui-sref="modal-lg.removeInvalidGame({id:course.id,gameId: game.id})"
                                      class="btn gl-btn--small gl-btn--red text-center">Remove</button>
-                            <p ng-show="gamesInfo[game.id].availableForLicense && game.hover">
-                                Premium Games have been disabled for this class </p>
+                            <p ng-show="gamesInfo[game.id].availableForLicense && game.hover">Premium Games have been disabled for this class </p>
                             <button ng-show="gamesInfo[game.id].availableForLicense && game.hover"
                                     ui-sref="modal-lg.enableAllPremiumGamesToCourse({id:course.id, premiumGamesAssigned: false})"
                                     class="btn gl-btn--green text-center">Enable</button>
                         </div>
-                        <div ng-show="!game.assigned && !game.hover && !showArchived"
-                             class="gl-course-disabled-premium-game">
+                        <div ng-show="!game.assigned && !game.hover && !showArchived" class="gl-course-disabled-premium-game">
                         </div>
 
-                      <div ng-show="gamesInfo[game.id].price == 'Premium' && !game.hover"
-                        class="gl-game-premium-ribbon">
+                      <div ng-show="gamesInfo[game.id].price == 'Premium' && !game.hover" class="gl-game-premium-ribbon">
                         <div class="gl-game-premium-ribbon-text">Premium</div>
                       </div>
                       <div ng-if="game.settings.hasOwnProperty('missionProgressLock')">
-                        <div class="gl-course-game-lock"
-                          ng-if="game.settings.missionProgressLock"
+                        <div class="gl-course-game-lock" ng-if="game.settings.missionProgressLock"
                           ui-sref="unlockMissions({courseId: course.id, gameId: game.id})">
 
                         </div>
-                        <div class="gl-course-game-lock gl-course-game-unlocked"
-                          ng-if="!game.settings.missionProgressLock"
+                        <div class="gl-course-game-lock gl-course-game-unlocked" ng-if="!game.settings.missionProgressLock"
                           ui-sref="lockMissions({courseId: course.id, gameId: game.id})">
                         </div>
                       </div>
@@ -165,24 +151,15 @@
             <span class="gl-students-heading" ng-show="course.isOpen">Screen Name</span>
           </div>
           <div class="col-md-4 text-right">
-            <button class="btn btn-sm gl-btn--blue"
-              ng-if="!showArchived"
-              ng-hide="course.isOpen"
-              ng-disabled="course.studentCount == 0"
+            <button class="btn btn-sm gl-btn--blue" ng-if="!showArchived" ng-hide="course.isOpen" ng-disabled="course.studentCount == 0"
               ui-sref="root.courses.showStudentList({id: course.id})">
               View Student List (<span ng-bind="course.studentCount"></span>)
             </button>
-            <button class="btn btn-sm gl-btn--blue"
-              ng-if="showArchived"
-              ng-hide="course.isOpen"
-              ng-disabled="course.studentCount == 0"
-              ui-sref="root.courses.archived.showStudentList({id: course.id})">
-              View Student List (<span ng-bind="course.studentCount"></span>)
+            <button class="btn btn-sm gl-btn--blue" ng-if="showArchived" ng-hide="course.isOpen" ng-disabled="course.studentCount == 0"
+              ui-sref="root.courses.archived.showStudentList({id: course.id})">View Student List (<span ng-bind="course.studentCount"></span>)
             </button>
-            <button class="btn btn-sm gl-btn--white"
-              ng-show="course.isOpen"
-              ng-click="collapseList()">
-              Close Student List (<span ng-bind="course.studentCount"></span>)
+            <button class="btn btn-sm gl-btn--white" ng-show="course.isOpen" ng-click="collapseList()">
+                Close Student List (<span ng-bind="course.studentCount"></span>)
             </button>
           </div>
           <div ui-view="studentList"></div>

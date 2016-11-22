@@ -99,7 +99,6 @@
                     <!-- TODO: remove ng-if="isAuthenticated()" at a later date -->
                     <div class="btn-group gl-game-btn-group" dropdown is-open="button.isOpen">
                       <button type="button" class="btn gl-btn--blue gl-games-sidebar-btn dropdown-toggle"
-                              ng-click="toggleDropdown($event, button)"
                               dropdown-toggle> {{button.name}}
                         <span class="caret"></span>
                       </button>
@@ -111,8 +110,7 @@
                     </div>
                   </div>
 
-                  <div ng-if="isSingleLinkType(button)"
-                       ng-switch="button.links[0].type">
+                  <div ng-if="isSingleLinkType(button)" ng-switch="button.links[0].type">
                     <!-- app store links now use gameDetails.applink instead of gameDetails.buttons, see below -->
                     <div ng-switch-when="ios-appstore"></div>
                     <button ng-switch-when="play"
@@ -128,9 +126,7 @@
                   </div>
                 </div>
               </div>
-              <div ng-if="gameDetails.applink"
-                   class="gl-game-app-store-download"
-                   ng-click="goToLink(gameDetails.applink, '_blank')">
+              <div ng-if="gameDetails.applink" class="gl-game-app-store-download" ng-click="goToLink(gameDetails.applink, '_blank')">
               </div>
               <div ng-if="isAuthenticated()">
                 <button ng-if="!hasLicense() && !(gameDetails.price==='Free')" type="button"

@@ -712,12 +712,6 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       }
     };
 
-    $scope.toggleDropdown = function($event, btn) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      btn.isOpen = !btn.isOpen;
-    };
-
     $scope.showDeveloperModal = function (gameId) {
       /**
        * We're using a dedicated method instead of ui-sref in the view

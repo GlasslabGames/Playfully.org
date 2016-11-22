@@ -7,16 +7,13 @@
         <button type="button" class="btn btn-default gl-reports-dropdown"
                 ng-click="toggleDropdown($event, 'courses')"
                 ng-bind="courses.selected.title"></button>
-        <button type="button" class="btn gl-btn--blue dropdown-toggle">
+        <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event, 'courses')">
             <span class="caret"></span>
             <span class="sr-only">Split button!</span>
         </button>
         <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="course in courses.options"
-              ng-class="{'gl-reports-dropdown--selected': courses.selectedCourseId == course.id}">
-                <a href="#"
-                   ng-click="courses.selectedCourseId=course.id"
-                   ng-bind="course.title"></a>
+            <li ng-repeat="course in courses.options" ng-class="{'gl-reports-dropdown--selected': courses.selectedCourseId == course.id}">
+                <a href="#" ng-click="courses.selectedCourseId=course.id" ng-bind="course.title"></a>
             </li>
         </ul>
     </div>
@@ -30,17 +27,16 @@
                      ng-click="status.selectedGameId=game.gameId"
                      ng-class="{'gl-dashboard-game-active':status.selectedGameId===game.gameId}"
                      ng-repeat="game in myGames">
-                    <span ng-bind="game.shortName">
-                    </span>
+                    <span ng-bind="game.shortName"></span>
                 </div>
             </div>
             <div class="gl-dashboard-banner">
                 <div class="gl-dashboard-banner-left" ng-click="status.selectedGameId=status.prevGameId">
-                        <i class="fa fa-chevron-left gl-fa-3"></i>
+                    <i class="fa fa-chevron-left gl-fa-3"></i>
                 </div>
                 <img ng-src="{{ status.selectedGame.banners.product }}" />
                 <div class="gl-dashboard-banner-right" ng-click="status.selectedGameId=status.nextGameId">
-                        <i class="fa fa-chevron-right gl-fa-3"></i>
+                    <i class="fa fa-chevron-right gl-fa-3"></i>
                 </div>
             </div>
             <div ng-if="status.selectedGame.assigned" class="gl-dashboard-data-columns">
@@ -91,9 +87,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="watchOuts.length > 3"><a
-                            ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'wo'})">Show
-                        All Watch Outs ({{watchOuts.length}})</a>
+                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="watchOuts.length > 3">
+                        <a ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'wo'})">
+                            Show All Watch Outs ({{watchOuts.length}})
+                        </a>
                     </div>
                 </div>
                 <div class="gl-dashboard-col-so">
@@ -115,14 +112,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="shoutOuts.length > 3"><a
-                            ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'so'})">Show
-                        All Shout Outs ({{shoutOuts.length}})</a>
+                    <div class="gl-dashboard-col-sowo-show-all text-center" ng-if="shoutOuts.length > 3">
+                        <a ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId, groupId:'so'})">
+                            Show All Shout Outs ({{shoutOuts.length}})
+                        </a>
                     </div>
                 </div>
             </div>
-            <div ng-if="status.selectedGame.assigned" class="gl-dashboard-container-footer text-center"><button type="button" class="btn gl-btn--blue gl-margin-Vl"
-                         ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">View All Reports</button>
+            <div ng-if="status.selectedGame.assigned" class="gl-dashboard-container-footer text-center">
+                <button type="button" class="btn gl-btn--blue gl-margin-Vl"
+                        ui-sref="root.reports.details.sowo({courseId:courses.selectedCourseId, gameId: status.selectedGameId})">
+                    View All Reports
+                </button>
             </div>
             <div ng-if="!status.selectedGame.assigned" class="gl-dashboard-container-footer text-center">
                 <div class="text-center gl-pad-Vxxl">
@@ -140,8 +141,7 @@
             <div class="col-md-6 gl-dashboard-col-messages noscroll">
                 <div class="gl-dashboard-container-bottom-header-section">
                     <div class="gl-dashboard-col-header gl-margin--Lxl">
-                        <span ng-class="{'gl-dashboard-title-inactive': !status.showMessages}"
-                              ng-click="status.showMessages=!status.showMessages">
+                        <span ng-class="{'gl-dashboard-title-inactive': !status.showMessages}" ng-click="status.showMessages=!status.showMessages">
                             Message Center
                         </span>
                         <span ng-class="{'gl-dashboard-title-inactive': status.showMessages}"
