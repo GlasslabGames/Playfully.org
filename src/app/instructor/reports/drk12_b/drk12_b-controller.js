@@ -52,13 +52,40 @@ angular.module( 'instructor.reports')
 
         // Report
         var reportId = 'drk12_b';
-        var initialStudents = $scope.courses.selected.users;
-        initialStudents.forEach(function(student) {
-            student.isSelected = true;
-        });
+
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+
+        // students in course grouped by columns and rows to use with _students.html. This is a bit perverse.
+        // NOTE: $scope.students IS NOT what is used for the report. This variable is only used for the _students.html TODO: fix this
+        var initialStudents = [];
+
+        $scope.courses.selected.users.forEach(function(student) { initialStudents.push(student); });
+        initialStudents.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
+
+        var maxRows = 15;
+        var visibleColumns = 7;
+        var columns = Math.floor((initialStudents.length + maxRows - 1) / maxRows);
+        var rows = initialStudents.length > maxRows ? maxRows : initialStudents.length;
+        var students = [];
+
+        for (var i=0;i<rows;i++) {
+            var row = [];
+            for (var j=0;j<columns;j++) {
+                if (i + maxRows * j < initialStudents.length) {
+                    var student = initialStudents[i + maxRows * j];
+                    student.isSelected = true; // set to initially visible
+                    row.push(student);
+                } else {
+                    row.push(null);
+                }
+            }
+            students.push(row);
+        }
+
+        $scope.students = students;
+        $scope.studentAreaWidth = 80 + 120 * Math.min(visibleColumns, columns);
 
         $scope.activeTab = [];
         $scope.selectTab = function(index) {
@@ -89,13 +116,6 @@ angular.module( 'instructor.reports')
         $scope.getSkillClass = function(skill) {
             return usersData.courseSkills[skill].level;
         };
-
-        initialStudents.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
-        // Due to _students.html requiring an array within an array for displaying students, this data structure is perverse.
-        $scope.students = [];
-        initialStudents.forEach(function(student) {
-            $scope.students.push([student]);
-        });
 
         ///// Setup options /////
 
@@ -231,8 +251,7 @@ angular.module( 'instructor.reports')
                 } else {
                     // Populate students in course with report data
 
-                    angular.forEach($scope.students, function (studentWrappedInArray) {
-                        var student = studentWrappedInArray[0];
+                    angular.forEach($scope.courses.selected.users, function (student) {
                         student.results = _findUserByUserId(student.id, usersReportData.students) || {};
                         if (student.results.missions) {
                             student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
@@ -324,8 +343,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.userSortFunction = function (colName) {
-            return function (userWrappedInArray) {
-                var user = userWrappedInArray[0];
+            return function (user) {
                 if (colName === $scope.columns.headers[0].value) {
                     return user.firstName;
                 }

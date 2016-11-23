@@ -107,7 +107,7 @@ angular.module( 'instructor.reports')
             for (var j=0;j<columns;j++) {
                 if (i + maxRows * j < studentsToSort.length) {
                     var student = studentsToSort[i + maxRows * j];
-                    student.isSelected = true; // set to initally visible
+                    student.isSelected = true; // set to initially visible
                     row.push(student);
                 } else {
                     row.push(null);

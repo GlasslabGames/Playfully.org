@@ -88,21 +88,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gl-reports-table-row" ng-repeat="student in students | orderBy:userSortFunction(columns.current):columns.reverseSort" ng-if="student[0].isSelected">
+                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(columns.current):columns.reverseSort" ng-if="student.isSelected">
                                     <td class="gl-drk12_b-table-x-name">
-                                        <span>{{student[0].firstName}} {{student[0].lastName}}</span>
-                                        <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student[0].results.currentProgress"
-                                             ng-click="setCurrentStudent(student[0])"
+                                        <span>{{student.firstName}} {{student.lastName}}</span>
+                                        <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student.results.currentProgress"
+                                             ng-click="setCurrentStudent(student)"
                                              ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})"
                                              type="button">
                                             Performance Over Time
                                             <i class="fa fa-caret-right"></i>
                                         </button>
                                     </td>
-                                    <td>{{student[0].results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
+                                    <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                                     <td ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
-                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student[0].results.currentProgress.skillLevel[header.value].level"
-                                                ng-if="shouldShowTableCellFromSkillLevel(student[0].results.currentProgress.skillLevel[header.value].level)"></div>
+                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student.results.currentProgress.skillLevel[header.value].level"
+                                                ng-if="shouldShowTableCellFromSkillLevel(student.results.currentProgress.skillLevel[header.value].level)"></div>
                                     </td>
                                 </tr>
                             </tbody>
