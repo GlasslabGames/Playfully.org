@@ -85,7 +85,7 @@ angular.module( 'instructor.reports')
         }
 
         $scope.students = students;
-        $scope.studentAreaWidth = 80 + 120 * Math.min(visibleColumns, columns);
+        $scope.studentAreaWidth = students.length === 0 ? 200 : 80 + 120 * Math.min(visibleColumns, columns);
 
         $scope.activeTab = [];
         $scope.selectTab = function(index) {
