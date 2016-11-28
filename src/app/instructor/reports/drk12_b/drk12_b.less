@@ -134,7 +134,7 @@
   background-color: #eee;
   content: '';
   display: block;
-  flex: 1 1 100%;
+  flex: 1 1 10%;
   height: 1px;
 }
 
@@ -275,7 +275,7 @@
 .gl-drk12_b-competencyskills ul {
   display: flex;
   flex-wrap: wrap;
-  flex: 1 1 100%;
+  flex: 1 1 80%;
   margin: 0;
   padding: 0;
 }
@@ -305,6 +305,8 @@
   display: block;
   margin-right: 10px;
   margin-top: 0;
+  width: 30px;
+  height: 16px;
 }
 
 // Table Sort
@@ -609,4 +611,19 @@
 
 .gl-drk12_b-table-modal tbody td:first-child {
   color: #555555;
+}
+
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 25%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
 }

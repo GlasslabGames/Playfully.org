@@ -163,9 +163,9 @@ angular.module( 'instructor.reports')
         Heavily influenced by http://stackoverflow.com/a/24973235/969869
          */
         $scope.doDrawCourseStatusChart = function() {
-            var d3ContainerElem = d3.select("#drk12_bChart");
+            var d3ContainerElem = d3.select("#drk12_bChart").classed("svg-container", true);
 
-            //if ($scope.noUserData) { return; } // TODO: Re-implement this
+            if ($scope.noUserData) { return; }
 
             var margin = {top: 20, right: 0, bottom: 40, left: 40},
                 width = 800 - margin.left - margin.right,
@@ -181,8 +181,9 @@ angular.module( 'instructor.reports')
 
             d3ContainerElem.selectAll("*").remove();
             var svg = d3ContainerElem.append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom);
+                .attr("viewBox", "0 0 800 200")
+                .attr("preserveAspectRatio", "xMinYMin meet")
+                .classed("svg-content-responsive", true);
 
             var chartGroup = svg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
