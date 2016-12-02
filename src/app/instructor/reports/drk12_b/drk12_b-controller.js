@@ -308,10 +308,16 @@ angular.module( 'instructor.reports')
             reverseSort: false
         };
 
+        var buttonTextChange = function(textBase) {
+            var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
+            return "Click button to " + partialReturnString;
+        };
+
         $.each($scope.reports.selected.skills, function(skillKey, skill) {
             var skillHeader = {
                 title: skill.name,
                 description: skill.description,
+                buttonDescription: buttonTextChange(skill.description),
                 value: skillKey,
                 checked: true
             };
