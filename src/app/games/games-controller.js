@@ -808,7 +808,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         if (ENV.game_sdkURI) {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
         }
-        if (gameDetails.gameId === "GEM") {
+        if (gameDetails.gameId.toUpperCase() === "GEM") {
             var classCode = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; }).code;
             if (classCode) {
                 embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "classCode=" + classCode;
