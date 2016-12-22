@@ -215,6 +215,13 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       gameDetails: function($stateParams, GamesService) {
         return GamesService.getDetail($stateParams.gameId);
       },
+      activeCourses: function(CoursesService, $filter) {
+        return CoursesService.getEnrollments()
+            .then(function(response) {
+              var filtered = $filter('filter')(response, {archived: false});
+                return filtered;
+            });
+      },
       validAccess: function($state, $stateParams, GamesService) {
         return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
             .then(function (response) {
@@ -760,7 +767,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     }, 100);
   };
 })
-.controller( 'GamePlayPageCtrl', function ($scope, $sce, $sceDelegate, $state, $location, $rootScope, $log, $timeout, gameDetails, ENV) {
+.controller( 'GamePlayPageCtrl', function ($scope, $state, gameDetails, activeCourses, ENV) {
   $scope.gamePlayInfo = {};
 
   if(gameDetails &&
@@ -800,6 +807,12 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         var embed = $scope.gamePlayInfo.embedSecure ? $scope.gamePlayInfo.embedSecure : $scope.gamePlayInfo.embed;
         if (ENV.game_sdkURI) {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
+        }
+        if (gameDetails.gameId === "GEM") {
+            var classCode = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; }).code;
+            if (classCode) {
+                embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "classCode=" + classCode;
+            }
         }
         console.log(embed);
         var htmlOutput = '' +

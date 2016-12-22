@@ -70,7 +70,7 @@ angular.module( 'student.courses', [
   });
 })
 
-.controller( 'CoursesStudentCtrl', function ( $scope, $log, $window, $state, $modal, ipCookie, activeCourses, games, DetectionSvc) {
+.controller( 'CoursesStudentCtrl', function ( $scope, $window, $state, activeCourses, games, DetectionSvc ) {
   $scope.currentOS = null;
 
   if (DetectionSvc.getOSSupport().supported) {
