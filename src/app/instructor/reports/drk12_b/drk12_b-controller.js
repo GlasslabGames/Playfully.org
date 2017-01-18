@@ -257,21 +257,6 @@ angular.module( 'instructor.reports')
                 return colorOptions[dataIndex];
             };
 
-            // from http://stackoverflow.com/questions/19792552/d3-put-arc-labels-in-a-pie-chart-if-there-is-enough-space
-            function pointIsInArc(pt, ptData, d3Arc) {
-                // Center of the arc is assumed to be 0,0
-                // (pt.x, pt.y) are assumed to be relative to the center
-                var r1 = d3Arc.outerRadius()(ptData),
-                    theta1 = d3Arc.startAngle()(ptData),
-                    theta2 = d3Arc.endAngle()(ptData);
-
-                var dist = pt.x * pt.x + pt.y * pt.y, angle = Math.atan2(pt.x, -pt.y); // Note: different coordinate system.
-
-                angle = (angle < 0) ? (angle + Math.PI * 2) : angle;
-
-                return (dist <= r1 * r1) && (theta1 <= angle) && (angle <= theta2);
-            }
-
             var arc = d3.svg.arc()
                 .outerRadius(radius - 10)
                 .innerRadius(0);
@@ -315,35 +300,6 @@ angular.module( 'instructor.reports')
                     if (d.data.total === 0) { return ""; }
 
                     return d.data.total + " students";
-                })
-                .each(function (d) {
-                    var boundingBox = this.getBBox(),
-                        center = arc.centroid(d);
-
-                    var topLeft = {
-                        x : center[0] + boundingBox.x,
-                        y : center[1] + boundingBox.y
-                    };
-
-                    var topRight = {
-                        x : topLeft.x + boundingBox.width,
-                        y : topLeft.y
-                    };
-
-                    var bottomLeft = {
-                        x : topLeft.x,
-                        y : topLeft.y + boundingBox.height
-                    };
-
-                    var bottomRight = {
-                        x : topLeft.x + boundingBox.width,
-                        y : topLeft.y + boundingBox.height
-                    };
-
-                    d.visible = pointIsInArc(topLeft, d, arc) &&
-                        pointIsInArc(topRight, d, arc) &&
-                        pointIsInArc(bottomLeft, d, arc) &&
-                        pointIsInArc(bottomRight, d, arc);
                 });
         };
 
