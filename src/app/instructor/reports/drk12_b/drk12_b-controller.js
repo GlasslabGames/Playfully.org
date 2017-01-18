@@ -47,7 +47,7 @@ angular.module( 'instructor.reports')
             return this.skills;
         };
     })
-    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
+    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
         ///// Setup selections /////
 
         // Report
@@ -61,7 +61,7 @@ angular.module( 'instructor.reports')
         $scope.selectTab = function(index) {
             // When going to the class tab reset the checkboxes on the student tab
             if (index === 0) {
-                $scope.columns.headers.forEach(function(header) {
+                $scope.columns.headers.forEach(function(header) { // TODO: Rework this. Is this still needed?
                     if (!header.keepUnchecked) {
                         header.checked = true;
                     }
@@ -82,10 +82,6 @@ angular.module( 'instructor.reports')
         ///////////////////////////////////////////////////////////////////////////////////////////
 
         $scope.reportData = usersData;
-
-        $scope.getSkillClass = function(skill) {
-            return usersData.courseSkills[skill].level;
-        };
 
         ///// Setup options /////
 
@@ -214,7 +210,144 @@ angular.module( 'instructor.reports')
                     .text("Missions");
         };
 
-        var _populateStudentLearningData = function(usersReportData) {
+        var populateCharts = function() {
+            if ($scope.noUserData) { return; }
+            angular.forEach(usersData.courseSkills, function(value, key) {
+                var interval = $interval(function() {
+                    console.info('interval firing');
+                    if (jQuery("#courseSkill_" + key).length > 0) {
+                        doDrawCourseSkillPieCharts(key);
+                        $interval.cancel(interval);
+                    }
+                }, 2);
+            });
+        };
+
+        var doDrawCourseSkillPieCharts = function(skillKey) {
+            var courseSkillStats = [];
+            angular.forEach(usersData.courseSkills[skillKey], function(skillValue, skillKey) {
+                courseSkillStats.push({skill: skillKey, total: skillValue});
+            });
+
+            var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("blah", true); // TODO: Change this
+
+            var margin = {top: 0, right: 0, bottom: 0, left: 0},
+                width = 187 - margin.left - margin.right,
+                height = 187 - margin.top - margin.bottom;
+            var radius = Math.min(width, height) / 2;
+
+            // Create the container element with the appropriate height and width
+            d3ContainerElem.selectAll("*").remove();
+            var svg = d3ContainerElem.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            var color = function(data) {
+                var colorOptions = ["#22b473", "#fdd367", "#f0f0f0"];
+
+                var dataIndex = courseSkillStats.reduce(function(previousValue, currentValue, index, array) {
+                    if (data == currentValue) {
+                        return index;
+                    } else {
+                        return previousValue;
+                    }
+                }, 0);
+                return colorOptions[dataIndex];
+            };
+
+            // from http://stackoverflow.com/questions/19792552/d3-put-arc-labels-in-a-pie-chart-if-there-is-enough-space
+            function pointIsInArc(pt, ptData, d3Arc) {
+                // Center of the arc is assumed to be 0,0
+                // (pt.x, pt.y) are assumed to be relative to the center
+                var r1 = d3Arc.outerRadius()(ptData),
+                    theta1 = d3Arc.startAngle()(ptData),
+                    theta2 = d3Arc.endAngle()(ptData);
+
+                var dist = pt.x * pt.x + pt.y * pt.y, angle = Math.atan2(pt.x, -pt.y); // Note: different coordinate system.
+
+                angle = (angle < 0) ? (angle + Math.PI * 2) : angle;
+
+                return (dist <= r1 * r1) && (theta1 <= angle) && (angle <= theta2);
+            }
+
+            var arc = d3.svg.arc()
+                .outerRadius(radius - 10)
+                .innerRadius(0);
+
+            var pie = d3.layout.pie()
+                .sort(null)
+                .value(function(d) { return d.total; });
+
+            var g = svg.selectAll(".arc, .textLabel")
+                .data(pie(courseSkillStats))
+                .enter();
+
+            var circleG = g.append("g")
+                .attr("class", "arc");
+
+            circleG.append("path")
+                .attr("d", arc)
+                .style("fill", function(d) { return color(d.data); });
+
+            var textG = g.append("g")
+                .attr("class", "textLabel");
+
+            textG.append("text")
+                .attr("transform", function(d) {
+                    var dataIndex = 0;
+                    for (var i = 0; i < courseSkillStats.length; i++) {
+                        if (d.data == courseSkillStats[i]) { dataIndex = i; }
+                    }
+                    var c = arc.centroid(d);
+                    var offset = 0.5 + (0.3 * dataIndex);
+
+                    if (isNaN(c[0])) { c[0] = 0; }
+                    if (isNaN(c[1])) { c[1] = 0; }
+
+                    return "translate(" + c[0]*offset +"," + c[1]*offset + ")";
+                })
+                .attr("dy", ".35em")
+                .style("text-anchor", "middle")
+                .style("fill", "white")
+                .text(function(d) {
+                    if (d.data.total === 0) { return ""; }
+
+                    return d.data.total + " students";
+                })
+                .each(function (d) {
+                    var boundingBox = this.getBBox(),
+                        center = arc.centroid(d);
+
+                    var topLeft = {
+                        x : center[0] + boundingBox.x,
+                        y : center[1] + boundingBox.y
+                    };
+
+                    var topRight = {
+                        x : topLeft.x + boundingBox.width,
+                        y : topLeft.y
+                    };
+
+                    var bottomLeft = {
+                        x : topLeft.x,
+                        y : topLeft.y + boundingBox.height
+                    };
+
+                    var bottomRight = {
+                        x : topLeft.x + boundingBox.width,
+                        y : topLeft.y + boundingBox.height
+                    };
+
+                    d.visible = pointIsInArc(topLeft, d, arc) &&
+                        pointIsInArc(topRight, d, arc) &&
+                        pointIsInArc(bottomLeft, d, arc) &&
+                        pointIsInArc(bottomRight, d, arc);
+                });
+        };
+
+        var populateStudentLearningData = function(usersReportData) {
             if (usersReportData) {
                 if (usersReportData.length < 1 ) {
                     $scope.noUserData = true;
@@ -278,7 +411,7 @@ angular.module( 'instructor.reports')
             reverseSort: false
         };
 
-        var buttonTextChange = function(textBase) {
+        var buttonTextChange = function(textBase) { // TODO: Is this still used?
             var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
             return "Click button to " + partialReturnString;
         };
@@ -357,5 +490,7 @@ angular.module( 'instructor.reports')
         };
 
         // populate student objects with report data
-        _populateStudentLearningData(usersData);
+        populateStudentLearningData(usersData);
+
+        populateCharts();
     });
