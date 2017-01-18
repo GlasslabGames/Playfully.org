@@ -46,13 +46,13 @@
                             <ul class="gl-drk12_b-competencyskills">
                                 <li>
                                     <label>
-                                        <input type="radio" ng-model="header.checked"/>
+                                        <input type="radio" ng-model="columns.selected" value="all"/>
                                         All Skills
                                     </label>
                                 </li>
                                 <li ng-repeat="header in columns.headers" ng-if="$index > 1">
                                     <label>
-                                        <input type="radio" ng-model="header.checked"/>
+                                        <input type="radio" ng-model="columns.selected" ng-value="header.value" ng-checked="columns.selected == header.value" />
                                         {{header.title}}
                                     </label>
                                 </li>
@@ -79,7 +79,7 @@
                                 <tr class="gl-drk12_b-table-x-headersecondary">
                                     <!-- first th is covered by previous row -->
                                     <!-- second th is covered by previous row -->
-                                    <th ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
+                                    <th ng-repeat="header in columns.headers" ng-if="$index > 1 && (columns.selected == header.value || columns.selected == 'all')">
                                         <div class="gl-drk12_b-tooltip">
                                             <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button">
                                                 {{header.title}}
@@ -99,9 +99,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(columns.current):columns.reverseSort" ng-if="student.isSelected">
+                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(columns.current):columns.reverseSort">
                                     <td class="gl-drk12_b-table-x-name">
-                                        <span>{{student.firstName}} {{student.lastName}}</span>
+                                        <span><input type="checkbox" ng-value="student.id" />{{student.firstName}} {{student.lastName}}</span>
                                         <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student.results.currentProgress"
                                              ng-click="setCurrentStudent(student)"
                                              ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})"
@@ -111,7 +111,7 @@
                                         </button>
                                     </td>
                                     <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
-                                    <td ng-repeat="header in columns.headers" ng-if="$index > 1 && header.checked">
+                                    <td ng-repeat="header in columns.headers" ng-if="$index > 1 && (columns.selected == header.value || columns.selected == 'all')">
                                         <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student.results.currentProgress.skillLevel[header.value].level"
                                                 ng-if="shouldShowTableCellFromSkillLevel(student.results.currentProgress.skillLevel[header.value].level)"></div>
                                     </td>

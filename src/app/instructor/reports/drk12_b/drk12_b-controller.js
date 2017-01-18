@@ -57,36 +57,6 @@ angular.module( 'instructor.reports')
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-        // students in course grouped by columns and rows to use with _students.html. This is a bit perverse.
-        // NOTE: $scope.students IS NOT what is used for the report. This variable is only used for the _students.html TODO: fix this
-        var initialStudents = [];
-
-        $scope.courses.selected.users.forEach(function(student) { initialStudents.push(student); });
-        initialStudents.sort(function(first,second) { return first.firstName.localeCompare(second.firstName); });
-
-        var maxRows = 15;
-        var visibleColumns = 7;
-        var columns = Math.floor((initialStudents.length + maxRows - 1) / maxRows);
-        var rows = initialStudents.length > maxRows ? maxRows : initialStudents.length;
-        var students = [];
-
-        for (var i=0;i<rows;i++) {
-            var row = [];
-            for (var j=0;j<columns;j++) {
-                if (i + maxRows * j < initialStudents.length) {
-                    var student = initialStudents[i + maxRows * j];
-                    student.isSelected = true; // set to initially visible
-                    row.push(student);
-                } else {
-                    row.push(null);
-                }
-            }
-            students.push(row);
-        }
-
-        $scope.students = students;
-        $scope.studentAreaWidth = students.length === 0 ? 200 : 80 + 120 * Math.min(visibleColumns, columns);
-
         $scope.activeTab = [];
         $scope.selectTab = function(index) {
             // When going to the class tab reset the checkboxes on the student tab
@@ -248,7 +218,6 @@ angular.module( 'instructor.reports')
             if (usersReportData) {
                 if (usersReportData.length < 1 ) {
                     $scope.noUserData = true;
-                    return;
                 } else {
                     // Populate students in course with report data
 
@@ -305,6 +274,7 @@ angular.module( 'instructor.reports')
                 { title: "Current Mission", value: "currentMission", keepUnchecked: true }
             ],
             current: "name",
+            selected: "all",
             reverseSort: false
         };
 
@@ -318,8 +288,7 @@ angular.module( 'instructor.reports')
                 title: skill.name,
                 description: skill.description,
                 buttonDescription: buttonTextChange(skill.description),
-                value: skillKey,
-                checked: true
+                value: skillKey
             };
             $scope.columns.headers.push(skillHeader);
         });
@@ -334,11 +303,11 @@ angular.module( 'instructor.reports')
         };
 
         $scope.numberOfColumnsChecked = function() {
-            var headerCheckedCount = 0;
-            $scope.columns.headers.forEach(function(header) {
-                if(header.checked) { headerCheckedCount++; }
-            });
-            return headerCheckedCount;
+            if ($scope.columns.selected == 'all') {
+                return 4;
+            } else {
+                return 1;
+            }
         };
 
         $scope.sortSelected = function (colName) {
