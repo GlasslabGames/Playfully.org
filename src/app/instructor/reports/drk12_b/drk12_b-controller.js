@@ -50,8 +50,9 @@ angular.module( 'instructor.reports')
     .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
         ///// Setup selections /////
 
-        // Report
+        // basic variable set up
         var reportId = 'drk12_b';
+        $scope.studentFilter = 'all';
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
@@ -214,7 +215,6 @@ angular.module( 'instructor.reports')
             if ($scope.noUserData) { return; }
             angular.forEach(usersData.courseSkills, function(value, key) {
                 var interval = $interval(function() {
-                    console.info('interval firing');
                     if (jQuery("#courseSkill_" + key).length > 0) {
                         doDrawCourseSkillPieCharts(key);
                         $interval.cancel(interval);
