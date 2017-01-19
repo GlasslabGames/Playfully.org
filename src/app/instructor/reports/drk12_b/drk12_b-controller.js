@@ -52,7 +52,6 @@ angular.module( 'instructor.reports')
 
         // basic variable set up
         var reportId = 'drk12_b';
-        $scope.studentFilter = 'all';
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
@@ -60,15 +59,6 @@ angular.module( 'instructor.reports')
 
         $scope.activeTab = [];
         $scope.selectTab = function(index) {
-            // When going to the class tab reset the checkboxes on the student tab
-            if (index === 0) {
-                $scope.columns.headers.forEach(function(header) { // TODO: Rework this. Is this still needed?
-                    if (!header.keepUnchecked) {
-                        header.checked = true;
-                    }
-                });
-            }
-
             $scope.activeTab[index] = true;
         };
 
@@ -295,11 +285,10 @@ angular.module( 'instructor.reports')
                 })
                 .attr("dy", ".35em")
                 .style("text-anchor", "middle")
-                .style("fill", "white")
                 .text(function(d) {
                     if (d.data.total === 0) { return ""; }
 
-                    return d.data.total + " students";
+                    return d.data.total;
                 });
         };
 
@@ -357,13 +346,14 @@ angular.module( 'instructor.reports')
             return null;
         };
 
-        $scope.columns = {
+        $scope.tableStructuralData = {
             headers: [
                 { title: "Name", value: "name", keepUnchecked: true },
                 { title: "Current Mission", value: "currentMission", keepUnchecked: true }
             ],
             current: "name",
-            selected: "all",
+            columnFilter: "all",
+            studentFilter: "all",
             reverseSort: false
         };
 
@@ -379,20 +369,19 @@ angular.module( 'instructor.reports')
                 buttonDescription: buttonTextChange(skill.description),
                 value: skillKey
             };
-            $scope.columns.headers.push(skillHeader);
+            $scope.tableStructuralData.headers.push(skillHeader);
         });
 
-        $scope.goToStudentViewWithSkill = function(skill) {
-            $.each($scope.columns.headers, function(index, header) {
-                if(!header.keepUnchecked) {
-                    header.checked = header.value == skill;
-                }
-            });
-            $scope.selectTab(1);
+        $scope.shouldShowStudentRow = function(skillLevel) {
+            if (!skillLevel) {
+                skillLevel = "NotAttempted";
+            }
+
+            return skillLevel == $scope.tableStructuralData.studentFilter || $scope.tableStructuralData.studentFilter == 'all';
         };
 
         $scope.numberOfColumnsChecked = function() {
-            if ($scope.columns.selected == 'all') {
+            if ($scope.tableStructuralData.columnFilter == 'all') {
                 return 4;
             } else {
                 return 1;
@@ -400,32 +389,32 @@ angular.module( 'instructor.reports')
         };
 
         $scope.sortSelected = function (colName) {
-            if ($scope.columns.current === colName) {
-                $scope.columns.reverseSort = !$scope.columns.reverseSort;
+            if ($scope.tableStructuralData.current === colName) {
+                $scope.tableStructuralData.reverseSort = !$scope.tableStructuralData.reverseSort;
             } else {
-                $scope.columns.current = colName;
+                $scope.tableStructuralData.current = colName;
             }
         };
 
         $scope.userSortFunction = function (colName) {
             return function (user) {
-                if (colName === $scope.columns.headers[0].value) {
+                if (colName === $scope.tableStructuralData.headers[0].value) {
                     return user.firstName;
                 }
-                if (colName === $scope.columns.headers[1].value) {
+                if (colName === $scope.tableStructuralData.headers[1].value) {
                     return user.results.currentProgress.mission;
                 }
 
                 var score = 0;
                 if (!user.results.currentProgress ||
                         !user.results.currentProgress.skillLevel ||
-                        !user.results.currentProgress.skillLevel[$scope.columns.current] ||
-                        !user.results.currentProgress.skillLevel[$scope.columns.current].level) {
+                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current] ||
+                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level) {
                     score = -2;
-                } else if (user.results.currentProgress.skillLevel[$scope.columns.current].level == "NotAvailable") {
+                } else if (user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level == "NotAvailable") {
                     score = -2;
                 } else {
-                    var columnSkill = user.results.currentProgress.skillLevel[$scope.columns.current];
+                    var columnSkill = user.results.currentProgress.skillLevel[$scope.tableStructuralData.current];
 
                     if (columnSkill.score.attempts === 0) { score = 0; }
                     else { score = columnSkill.score.correct / columnSkill.score.attempts; }
@@ -439,10 +428,6 @@ angular.module( 'instructor.reports')
 
         $scope.setCurrentStudent = function (student) {
             drk12_bStore.setCurrentStudent(student);
-        };
-
-        $scope.shouldShowTableCellFromSkillLevel = function (skillLevel) {
-            return skillLevel !== undefined && skillLevel != null && skillLevel != "NotAvailable";
         };
 
         // populate student objects with report data

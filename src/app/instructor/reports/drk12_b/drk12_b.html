@@ -24,7 +24,7 @@
                         </ul>
                         <hr/>
                         <ul class="gl-drk12_b-l-progressicons gl-drk12_b-l-progressicons-large">
-                            <li ng-repeat="header in columns.headers" ng-if="$index > 1">
+                            <li ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
                                 <div>{{header.title}}</div>
                                 <div ng-attr-id="{{'courseSkill_' + header.value}}"></div>
                                 <!--<button class="gl-drk12_b-progressicon gl-drk12_b-progressicon-large" ng-class="getSkillClass(header.value)">{{header.title}}</button>-->
@@ -46,29 +46,29 @@
                         <!--<div class="gl-drk12_b-competencyskills">-->
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
-                                <button ng-disabled="columns.selected == 'all'" ng-click="studentFilter='all'">All Students ({{reportData.students.length}})</button>
+                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'">All Students ({{reportData.students.length}})</button>
                             </li>
-                            <li ng-class="{'visibility-hidden': columns.selected == 'all'}">
-                                <button ng-click="studentFilter='Advancing'">Advancing Students ({{reportData.courseSkills[columns.selected].Advancing}})</button>
+                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
+                                <button ng-click="tableStructuralData.studentFilter='Advancing'">Advancing Students ({{reportData.courseSkills[tableStructuralData.columnFilter].Advancing}})</button>
                             </li>
-                            <li ng-class="{'visibility-hidden': columns.selected == 'all'}">
-                                <button ng-click="studentFilter='NeedSupport'">Students Need Support ({{reportData.courseSkills[columns.selected].NeedSupport}})</button>
+                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
+                                <button ng-click="tableStructuralData.studentFilter='NeedSupport'">Students Need Support ({{reportData.courseSkills[tableStructuralData.columnFilter].NeedSupport}})</button>
                             </li>
-                            <li ng-class="{'visibility-hidden': columns.selected == 'all'}">
-                                <button ng-click="studentFilter='NotAttempted'">Not Enough Data ({{reportData.courseSkills[columns.selected].NotAttempted}})</button>
+                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
+                                <button ng-click="tableStructuralData.studentFilter='NotAttempted'">Not Enough Data ({{reportData.courseSkills[tableStructuralData.columnFilter].NotAttempted}})</button>
                             </li>
                         </ul>
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Select the skill(s) that you want to review for individual students</h3>
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
                                 <label>
-                                    <input type="radio" ng-model="columns.selected" value="all"/>
+                                    <input type="radio" ng-model="tableStructData.columnFilter" value="all"/>
                                     All Skills
                                 </label>
                             </li>
-                            <li ng-repeat="header in columns.headers" ng-if="$index > 1">
+                            <li ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
                                 <label>
-                                    <input type="radio" ng-model="columns.selected" ng-value="header.value" ng-checked="columns.selected == header.value" />
+                                    <input type="radio" ng-model="tableStructuralData.columnFilter" ng-value="header.value" ng-checked="tableStructuralData.columnFilter == header.value" />
                                     {{header.title}}
                                 </label>
                             </li>
@@ -79,15 +79,15 @@
                             <thead>
                                 <tr class="gl-drk12_b-table-x-header">
                                     <th rowspan="2">
-                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(columns.headers[0].value)" type="button">
-                                            {{columns.headers[0].title}}
-                                            <i ng-class="columns.current===columns.headers[0].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[0].value)" type="button">
+                                            {{tableStructuralData.headers[0].title}}
+                                            <i ng-class="tableStructuralData.current===tableStructuralData.headers[0].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                         </button>
                                     </th>
                                     <th rowspan="2">
-                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(columns.headers[1].value)" type="button">
-                                            {{columns.headers[1].title}}
-                                            <i ng-class="columns.current===columns.headers[1].value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[1].value)" type="button">
+                                            {{tableStructuralData.headers[1].title}}
+                                            <i ng-class="tableStructuralData.current===tableStructuralData.headers[1].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                         </button>
                                     </th>
                                     <th colspan="{{numberOfColumnsChecked()}}">Progress for Most Recent Level</th>
@@ -95,11 +95,11 @@
                                 <tr class="gl-drk12_b-table-x-headersecondary">
                                     <!-- first th is covered by previous row -->
                                     <!-- second th is covered by previous row -->
-                                    <th ng-repeat="header in columns.headers" ng-if="$index > 1 && (columns.selected == header.value || columns.selected == 'all')">
+                                    <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
                                         <div class="gl-drk12_b-tooltip">
                                             <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button">
                                                 {{header.title}}
-                                                <i ng-class="columns.current===header.value ? (columns.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
+                                                <i ng-class="tableStructuralData.current===header.value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                             </button>
                                             <span class="gl-drk12_b-tooltip-x-tooltip">{{header.description}}</span>
                                         </div>
@@ -115,8 +115,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(columns.current):columns.reverseSort"
-                                        ng-show="student.results.currentProgress.skillLevel[columns.selected].level == studentFilter || studentFilter == 'all'">
+                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(tableStructuralData.current):tableStructuralData.reverseSort"
+                                        ng-if="shouldShowStudentRow(student.results.currentProgress.skillLevel[tableStructuralData.columnFilter].level)">
                                     <td class="gl-drk12_b-table-x-name">
                                         <span><input type="checkbox" ng-value="student.id" />{{student.firstName}} {{student.lastName}}</span>
                                         <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student.results.currentProgress"
@@ -128,9 +128,8 @@
                                         </button>
                                     </td>
                                     <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
-                                    <td ng-repeat="header in columns.headers" ng-if="$index > 1 && (columns.selected == header.value || columns.selected == 'all')">
-                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student.results.currentProgress.skillLevel[header.value].level"
-                                                ng-if="shouldShowTableCellFromSkillLevel(student.results.currentProgress.skillLevel[header.value].level)"></div>
+                                    <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
+                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="student.results.currentProgress.skillLevel[header.value].level"></div>
                                     </td>
                                 </tr>
                             </tbody>
