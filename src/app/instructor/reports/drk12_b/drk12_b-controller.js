@@ -1,7 +1,7 @@
 angular.module( 'instructor.reports')
     .config(function ( $stateProvider, USER_ROLES) {
         $stateProvider.state('modal-xlg.drk12_bInfo', {
-            url: '/reports/details/drk12_b/game/:type/?:studentId',
+            url: '/reports/details/drk12_b/game/:type/?:studentIds',
             data:{
                 pageTitle: 'Progress Report'
             },
@@ -10,31 +10,38 @@ angular.module( 'instructor.reports')
                     templateUrl: function($stateParams, REPORT_CONSTANTS) {
                         return 'instructor/reports/drk12_b/_modal-' + $stateParams.type + '.html';
                     },
-                    controller: function($scope, $log, $stateParams, drk12_bStore) {
-                        // TODO: Make sure page will work through refresh.
-                        var currentStudent = drk12_bStore.getCurrentStudent();
-                        if (currentStudent) {
-                            $scope.student = currentStudent;
+                    controller: function($scope, $log, $stateParams, drk12_bStore) { // TODO: Get students by URL params to withstand a refresh
+                        $scope.singleUserView = true;
+                        var currentStudentsArray = drk12_bStore.getCurrentStudents();
+                        if (currentStudentsArray) {
+                            $scope.studentsArray = currentStudentsArray;
+                            if (currentStudentsArray.length === 1) {
+                                $scope.singleUserView = true;
+                                $scope.student = currentStudentsArray[0];
+                            } else if (currentStudentsArray.length > 1) {
+                                $scope.singleUserView = false;
+                            }
                         }
 
                         $scope.skills = drk12_bStore.getSkills();
+                        $scope.selectedSkill = drk12_bStore.getSelectedSkill();
                     }
                 }
             }
         });
     })
     .service('drk12_bStore', function() {
-        var currentStudent;
-        var skills;
+        // var currentStudentsArray;
+        // var skills;
 
-        this.setCurrentStudent = function(currentStudent) {
-            if (currentStudent) {
-                this.currentStudent = currentStudent;
+        this.setCurrentStudents = function(currentStudentsArray) {
+            if (currentStudentsArray) {
+                this.currentStudentsArray = currentStudentsArray;
             }
         };
         // Make sure this is pass-by-value
-        this.getCurrentStudent = function() {
-            return angular.copy(this.currentStudent);
+        this.getCurrentStudents = function() {
+            return angular.copy(this.currentStudentsArray);
         };
 
         this.setSkills = function(skills) {
@@ -46,12 +53,21 @@ angular.module( 'instructor.reports')
         this.getSkills = function() {
             return this.skills;
         };
+
+        this.setSelectedSkill = function(selectedSkill) {
+            this.selectedSkill = selectedSkill;
+        };
+
+        this.getSelectedSkill = function() {
+            return this.selectedSkill;
+        };
     })
     .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
         ///// Setup selections /////
 
         // basic variable set up
         var reportId = 'drk12_b';
+        $scope.selectedStudents = [];
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
@@ -114,6 +130,180 @@ angular.module( 'instructor.reports')
         if (gameReports.hasOwnProperty('developer')) { // TODO: This appears to be report agnostic. Why is it placed in each report?
             $scope.developer.logo = gameReports.developer.logo;
         }
+
+        var populateStudentLearningData = function(usersReportData) {
+            if (usersReportData) {
+                if (usersReportData.length < 1 ) {
+                    $scope.noUserData = true;
+                } else {
+                    // Populate students in course with report data
+
+                    angular.forEach($scope.courses.selected.users, function (student) {
+                        student.results = _findUserByUserId(student.id, usersReportData.students) || {};
+                        if (student.results.missions) {
+                            student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
+
+                            student.results.missions.forEach(function(mission) {
+                                if (!student.results.currentProgress) {
+                                    student.results.currentProgress = {};
+                                    student.results.currentProgress.mission = 0;
+                                }
+                                if (mission.mission == student.results.currentProgress.mission) {
+                                    mission.current = true;
+                                } else if (mission.mission > student.results.currentProgress.mission) {
+                                    mission.paddingObject = true;
+                                }
+                                var totalCorrect =
+                                    mission.skillLevel.connectingEvidence.score.correct +
+                                    mission.skillLevel.supportingClaims.score.correct +
+                                    mission.skillLevel.criticalQuestions.score.correct +
+                                    mission.skillLevel.usingBacking.score.correct;
+                                var totalAttempts =
+                                    mission.skillLevel.connectingEvidence.score.attempts +
+                                    mission.skillLevel.supportingClaims.score.attempts +
+                                    mission.skillLevel.criticalQuestions.score.attempts +
+                                    mission.skillLevel.usingBacking.score.attempts;
+                                mission.totalCorrect = totalCorrect;
+                                mission.totalAttempts = totalAttempts;
+                            });
+                        } else {
+                            student.results = { currentProgress: { mission: 0, skillLevel: {} } };
+                        }
+                    });
+                }
+            }
+        };
+
+        var _findUserByUserId = function (userId, reportData) {
+            var found;
+            for (var i = 0; i < reportData.length; i++) {
+                if (reportData[i] && reportData[i].userId == userId) {
+                    found = reportData[i];
+                    return found;
+                }
+            }
+            return null;
+        };
+
+        $scope.toggleStudentCheck = function(student) {
+            if ($scope.selectedStudents.indexOf(student) === -1) {
+                $scope.selectedStudents.push(student);
+            } else {
+                $scope.selectedStudents.splice($scope.selectedStudents.indexOf(student), 1);
+            }
+        };
+
+        $scope.toggleAllStudentChecks = function($event) {
+            $scope.selectedStudents = []; // Clear list first. Then add to it if appropriate
+            if ($event.target.checked) {
+                angular.forEach($scope.courses.selected.users, function (student, i) {
+                    $scope.selectedStudents.push(student);
+                });
+            }
+        };
+
+        $scope.resetStudentSelection = function() {
+            $scope.selectedStudents = [];
+        };
+
+        $scope.isAllSelected = function() {
+            return $scope.selectedStudents.length === $scope.courses.selected.users.length;
+        };
+
+        $scope.tableStructuralData = {
+            headers: [
+                { title: "Name", value: "name", keepUnchecked: true },
+                { title: "Current Mission", value: "currentMission", keepUnchecked: true }
+            ],
+            current: "name",
+            columnFilter: "all",
+            studentFilter: "all",
+            reverseSort: false
+        };
+
+        var buttonTextChange = function(textBase) { // TODO: Is this still used?
+            var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
+            return "Click button to " + partialReturnString;
+        };
+
+        $.each($scope.reports.selected.skills, function(skillKey, skill) {
+            var skillHeader = {
+                title: skill.name,
+                description: skill.description,
+                buttonDescription: buttonTextChange(skill.description),
+                value: skillKey
+            };
+            $scope.tableStructuralData.headers.push(skillHeader);
+        });
+
+        $scope.shouldShowStudentRow = function(skillLevel) {
+            if (!skillLevel) {
+                skillLevel = "NotAttempted";
+            }
+
+            return skillLevel == $scope.tableStructuralData.studentFilter || $scope.tableStructuralData.studentFilter == 'all';
+        };
+
+        $scope.numberOfColumnsChecked = function() {
+            if ($scope.tableStructuralData.columnFilter == 'all') {
+                return 4;
+            } else {
+                return 1;
+            }
+        };
+
+        $scope.sortSelected = function (colName) {
+            if ($scope.tableStructuralData.current === colName) {
+                $scope.tableStructuralData.reverseSort = !$scope.tableStructuralData.reverseSort;
+            } else {
+                $scope.tableStructuralData.current = colName;
+            }
+        };
+
+        $scope.userSortFunction = function (colName) {
+            return function (user) {
+                if (colName === $scope.tableStructuralData.headers[0].value) {
+                    return user.firstName;
+                }
+                if (colName === $scope.tableStructuralData.headers[1].value) {
+                    return user.results.currentProgress.mission;
+                }
+
+                var score = 0;
+                if (!user.results.currentProgress ||
+                        !user.results.currentProgress.skillLevel ||
+                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current] ||
+                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level) {
+                    score = -2;
+                } else if (user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level == "NotAvailable") {
+                    score = -2;
+                } else {
+                    var columnSkill = user.results.currentProgress.skillLevel[$scope.tableStructuralData.current];
+
+                    if (columnSkill.score.attempts === 0) { score = 0; }
+                    else { score = columnSkill.score.correct / columnSkill.score.attempts; }
+
+                    if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
+                }
+
+                return score;
+            };
+        };
+
+        $scope.setCurrentStudent = function (student) {
+            drk12_bStore.setCurrentStudents([student]);
+        };
+
+        $scope.setCurrentStudents = function (studentsArray) {
+            drk12_bStore.setCurrentStudents(studentsArray);
+        };
+
+        $scope.populateSelectedSkillToService = function() {
+            drk12_bStore.setSelectedSkill($scope.tableStructuralData.columnFilter);
+        };
+
+        // populate student objects with report data
+        populateStudentLearningData(usersData);
 
         /*
         Currently this is initialized when the page element is rendered.
@@ -291,147 +481,6 @@ angular.module( 'instructor.reports')
                     return d.data.total;
                 });
         };
-
-        var populateStudentLearningData = function(usersReportData) {
-            if (usersReportData) {
-                if (usersReportData.length < 1 ) {
-                    $scope.noUserData = true;
-                } else {
-                    // Populate students in course with report data
-
-                    angular.forEach($scope.courses.selected.users, function (student) {
-                        student.results = _findUserByUserId(student.id, usersReportData.students) || {};
-                        if (student.results.missions) {
-                            student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
-
-                            student.results.missions.forEach(function(mission) {
-                                if (!student.results.currentProgress) {
-                                    student.results.currentProgress = {};
-                                    student.results.currentProgress.mission = 0;
-                                }
-                                if (mission.mission == student.results.currentProgress.mission) {
-                                    mission.current = true;
-                                } else if (mission.mission > student.results.currentProgress.mission) {
-                                    mission.paddingObject = true;
-                                }
-                                var totalCorrect =
-                                    mission.skillLevel.connectingEvidence.score.correct +
-                                    mission.skillLevel.supportingClaims.score.correct +
-                                    mission.skillLevel.criticalQuestions.score.correct +
-                                    mission.skillLevel.usingBacking.score.correct;
-                                var totalAttempts =
-                                    mission.skillLevel.connectingEvidence.score.attempts +
-                                    mission.skillLevel.supportingClaims.score.attempts +
-                                    mission.skillLevel.criticalQuestions.score.attempts +
-                                    mission.skillLevel.usingBacking.score.attempts;
-                                mission.totalCorrect = totalCorrect;
-                                mission.totalAttempts = totalAttempts;
-                            });
-                        } else {
-                            student.results = { currentProgress: { mission: 0, skillLevel: {} } };
-                        }
-                    });
-                }
-            }
-        };
-
-        var _findUserByUserId = function (userId, reportData) {
-            var found;
-            for (var i = 0; i < reportData.length; i++) {
-                if (reportData[i] && reportData[i].userId == userId) {
-                    found = reportData[i];
-                    return found;
-                }
-            }
-            return null;
-        };
-
-        $scope.tableStructuralData = {
-            headers: [
-                { title: "Name", value: "name", keepUnchecked: true },
-                { title: "Current Mission", value: "currentMission", keepUnchecked: true }
-            ],
-            current: "name",
-            columnFilter: "all",
-            studentFilter: "all",
-            reverseSort: false
-        };
-
-        var buttonTextChange = function(textBase) { // TODO: Is this still used?
-            var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
-            return "Click button to " + partialReturnString;
-        };
-
-        $.each($scope.reports.selected.skills, function(skillKey, skill) {
-            var skillHeader = {
-                title: skill.name,
-                description: skill.description,
-                buttonDescription: buttonTextChange(skill.description),
-                value: skillKey
-            };
-            $scope.tableStructuralData.headers.push(skillHeader);
-        });
-
-        $scope.shouldShowStudentRow = function(skillLevel) {
-            if (!skillLevel) {
-                skillLevel = "NotAttempted";
-            }
-
-            return skillLevel == $scope.tableStructuralData.studentFilter || $scope.tableStructuralData.studentFilter == 'all';
-        };
-
-        $scope.numberOfColumnsChecked = function() {
-            if ($scope.tableStructuralData.columnFilter == 'all') {
-                return 4;
-            } else {
-                return 1;
-            }
-        };
-
-        $scope.sortSelected = function (colName) {
-            if ($scope.tableStructuralData.current === colName) {
-                $scope.tableStructuralData.reverseSort = !$scope.tableStructuralData.reverseSort;
-            } else {
-                $scope.tableStructuralData.current = colName;
-            }
-        };
-
-        $scope.userSortFunction = function (colName) {
-            return function (user) {
-                if (colName === $scope.tableStructuralData.headers[0].value) {
-                    return user.firstName;
-                }
-                if (colName === $scope.tableStructuralData.headers[1].value) {
-                    return user.results.currentProgress.mission;
-                }
-
-                var score = 0;
-                if (!user.results.currentProgress ||
-                        !user.results.currentProgress.skillLevel ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current] ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level) {
-                    score = -2;
-                } else if (user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level == "NotAvailable") {
-                    score = -2;
-                } else {
-                    var columnSkill = user.results.currentProgress.skillLevel[$scope.tableStructuralData.current];
-
-                    if (columnSkill.score.attempts === 0) { score = 0; }
-                    else { score = columnSkill.score.correct / columnSkill.score.attempts; }
-
-                    if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
-                }
-
-                return score;
-            };
-        };
-
-        $scope.setCurrentStudent = function (student) {
-            drk12_bStore.setCurrentStudent(student);
-        };
-
-        // populate student objects with report data
-        populateStudentLearningData(usersData);
 
         populateCharts();
     });
