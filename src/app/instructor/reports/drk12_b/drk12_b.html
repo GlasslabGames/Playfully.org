@@ -4,9 +4,7 @@
 
         <div class="gl-drk12_b-l-container">
 
-            <button class="fa fa-question-circle gl-drk12_b-helpicon"
-                    ui-sref="modal-xlg.drk12_bInfo({type:'info'})"
-                    type="button"></button>
+            <button class="fa fa-question-circle gl-drk12_b-helpicon" ng-click="openModal('info')" type="button"></button>
 
             <h1 class="gl-drk12_b-heading">Progress Report</h1>
 
@@ -112,7 +110,7 @@
                                 <tr>
                                     <th colspan="{{numberOfColumnsChecked() + 2}}">
                                         <label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label> | <a href="javascript:void(0)" ng-click="resetStudentSelection()">Clear All</a>
-                                        <a href="javascript:void(0)" class="floatRight" ng-click="setCurrentStudents(selectedStudents)" ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo'})">
+                                        <a href="javascript:void(0)" class="floatRight" ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-class="{disabled: selectedStudents.length < 1}">
                                             View Selected Students' Performances Over Time
                                         </a>
                                     </th>
@@ -130,8 +128,7 @@
                                             {{student.firstName}} {{student.lastName}}
                                         </label>
                                         <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student.results.currentProgress"
-                                             ng-click="setCurrentStudent(student)"
-                                             ui-sref="modal-xlg.drk12_bInfo({type:'studentInfo', studentId: student.id})"
+                                             ng-click="setCurrentStudent(student); openModal('studentInfo')"
                                              type="button">
                                             Performance Over Time
                                             <i class="fa fa-caret-right"></i>

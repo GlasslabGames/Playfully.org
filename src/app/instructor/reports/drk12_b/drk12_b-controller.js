@@ -1,39 +1,50 @@
 angular.module( 'instructor.reports')
     .config(function ( $stateProvider, USER_ROLES) {
         $stateProvider.state('modal-xlg.drk12_bInfo', {
-            url: '/reports/details/drk12_b/game/:type/?:studentIds',
-            data:{
-                pageTitle: 'Progress Report'
-            },
+            url: '/reports/details/drk12_b/game/:gameId/course/:courseId/:type',
             views: {
                 'modal@': {
                     templateUrl: function($stateParams, REPORT_CONSTANTS) {
                         return 'instructor/reports/drk12_b/_modal-' + $stateParams.type + '.html';
                     },
-                    controller: function($scope, $log, $stateParams, drk12_bStore) { // TODO: Get students by URL params to withstand a refresh
-                        $scope.singleUserView = true;
-                        var currentStudentsArray = drk12_bStore.getCurrentStudents();
-                        if (currentStudentsArray) {
-                            $scope.studentsArray = currentStudentsArray;
-                            if (currentStudentsArray.length === 1) {
-                                $scope.singleUserView = true;
-                                $scope.student = currentStudentsArray[0];
-                            } else if (currentStudentsArray.length > 1) {
-                                $scope.singleUserView = false;
-                            }
+                    controller: function($scope, $stateParams, $state, $previousState, drk12_bStore) {
+                        var navigateBackToReport = function() {
+                            $state.go('root.reports.details.drk12_b', {
+                                gameId: $stateParams.gameId,
+                                courseId: $stateParams.courseId
+                            });
+                        };
+
+                        // Some magic from the parent object
+                        if (!$previousState.get("modalInvoker").state) {
+                            navigateBackToReport();
                         }
 
-                        $scope.skills = drk12_bStore.getSkills();
-                        $scope.selectedSkill = drk12_bStore.getSelectedSkill();
+                        if ($stateParams.type !== "info") {
+                            var currentStudentsArray = drk12_bStore.getCurrentStudents();
+
+                            if (!currentStudentsArray || currentStudentsArray.length < 1) {
+                                navigateBackToReport();
+                            } else {
+                                $scope.singleUserView = true;
+                                $scope.studentsArray = currentStudentsArray;
+                                if (currentStudentsArray.length === 1) {
+                                    $scope.singleUserView = true;
+                                    $scope.student = currentStudentsArray[0];
+                                } else if (currentStudentsArray.length > 1) {
+                                    $scope.singleUserView = false;
+                                }
+
+                                $scope.skills = drk12_bStore.getSkills();
+                                $scope.selectedSkill = drk12_bStore.getSelectedSkill();
+                            }
+                        }
                     }
                 }
             }
         });
     })
     .service('drk12_bStore', function() {
-        // var currentStudentsArray;
-        // var skills;
-
         this.setCurrentStudents = function(currentStudentsArray) {
             if (currentStudentsArray) {
                 this.currentStudentsArray = currentStudentsArray;
@@ -45,9 +56,7 @@ angular.module( 'instructor.reports')
         };
 
         this.setSkills = function(skills) {
-            if (!this.skills) {
-                this.skills = skills;
-            }
+            this.skills = skills;
         };
 
         this.getSkills = function() {
@@ -55,10 +64,18 @@ angular.module( 'instructor.reports')
         };
 
         this.setSelectedSkill = function(selectedSkill) {
+            if ((!selectedSkill || selectedSkill === "all") && this.skills) {
+                selectedSkill = Object.keys(this.skills)[0];
+            }
+
             this.selectedSkill = selectedSkill;
         };
 
         this.getSelectedSkill = function() {
+            if (!this.selectedSkill) {
+                this.selectedSkill = Object.keys(this.skills)[0];
+            }
+
             return this.selectedSkill;
         };
     })
@@ -95,7 +112,7 @@ angular.module( 'instructor.reports')
         // Games
         $scope.games.options = {}; // TODO: This appears to be report agnostic. Why is it placed in each report?
         angular.forEach(myGames, function(game) { // TODO: This appears to be report agnostic. Why is it placed in each report?
-            $scope.games.options[''+game.gameId] = game;
+            $scope.games.options['' + game.gameId] = game;
         });
 
         $scope.games.selectedGameId = defaultGame.gameId; // TODO: This appears to be report agnostic. Why is it placed in each report?
@@ -117,8 +134,8 @@ angular.module( 'instructor.reports')
 
         // Check if selected game has selected report
 
-        if (!ReportsService.isValidReport(reportId,$scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
-            $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId,$scope.reports.options), {
+        if (!ReportsService.isValidReport(reportId, $scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
+            $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId, $scope.reports.options), {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId
             });
@@ -298,8 +315,25 @@ angular.module( 'instructor.reports')
             drk12_bStore.setCurrentStudents(studentsArray);
         };
 
-        $scope.populateSelectedSkillToService = function() {
-            drk12_bStore.setSelectedSkill($scope.tableStructuralData.columnFilter);
+        $scope.$watch(function(currentScope) {
+            return currentScope.tableStructuralData.columnFilter;
+        }, function(newValue, oldValue, currentScope) {
+            if (newValue && newValue !== oldValue) {
+                drk12_bStore.setSelectedSkill(newValue);
+            }
+        });
+
+        $scope.openModal = function(type) {
+            if (type !== "info" && type !== "studentInfo") {
+                // Do nothing
+            }
+            else if (type === "info" || drk12_bStore.getCurrentStudents().length > 0) {
+                $state.go('modal-xlg.drk12_bInfo', {
+                    gameId: $stateParams.gameId,
+                    courseId: $stateParams.courseId,
+                    type: type
+                });
+            }
         };
 
         // populate student objects with report data

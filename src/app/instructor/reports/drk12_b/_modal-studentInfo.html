@@ -1,5 +1,6 @@
 <div class="gl-drk12_b-modalheader">
-    <h1>Performance Over Time: {{student.firstName}} {{student.lastName}}</h1>
+    <h1>Performance Over Time<span ng-if="singleUserView">: {{student.firstName}} {{student.lastName}}</span></h1>
+    <span ng-if="!singleUserView">{{skills[selectedSkill].name}}</span>
     <button type="button" class="close" data-dismiss="modal" ng-click="$close()">
         <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
     </button>
@@ -9,47 +10,44 @@
     <table class="table gl-reports-table gl-drk12_b-table gl-drk12_b-table-modal" ng-class="{'gl-reports-table--ie': isIE}">
         <thead>
             <tr>
-                <th class="bold">Competency Skill</th>
-                <th ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
+                <th class="bold">
+                    <span ng-if="singleUserView">Competency Skill</span>
+                    <span ng-if="!singleUserView">Student</span>
+                </th>
+                <th ng-repeat="mission in studentsArray[0].results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject && singleUserView}">
                     <div ng-if="mission.current">(current)</div>
                     Mission {{mission.mission}}
                 </th>
             </tr>
             <tr>
-                <th colspan="{{student.results.missions.length + 1}}" class="gl-reports-divider--blue"></th>
+                <th colspan="{{studentsArray[0].results.missions.length + 1}}" class="gl-reports-divider--blue"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="gl-reports-table-row">
-                <td>{{skills.connectingEvidence.name}}</td>
+            <!-- When the modal is opened with a single user -->
+
+            <tr class="gl-reports-table-row" ng-repeat="(skillKey, skill) in skills" ng-if="singleUserView">
+                <td>{{skill.name}}</td>
                 <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.connectingEvidence.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.connectingEvidence.level}}': true}"></div>
+                    <div ng-if="mission.skillLevel[skillKey].level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.connectingEvidence.level}}': true}"></div>
                 </td>
             </tr>
-            <tr class="gl-reports-table-row">
-                <td>{{skills.supportingClaims.name}}</td>
+
+            <!-- When the modal is opened with multiple users -->
+
+            <tr class="gl-reports-table-row" ng-repeat="student in studentsArray" ng-if="!singleUserView">
+                <td>{{student.firstName}} {{student.lastName}}</td>
                 <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.supportingClaims.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.supportingClaims.level}}': true}"></div>
+                    <div ng-if="mission.skillLevel[selectedSkill].level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.connectingEvidence.level}}': true}"></div>
                 </td>
             </tr>
-            <tr class="gl-reports-table-row">
-                <td>{{skills.criticalQuestions.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.criticalQuestions.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.criticalQuestions.level}}': true}"></div>
-                </td>
-            </tr>
-            <tr class="gl-reports-table-row">
-                <td>{{skills.usingBacking.name}}</td>
-                <td ng-repeat="mission in student.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
-                    <div ng-if="mission.skillLevel.usingBacking.level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table" ng-class="{'gl-drk12_b-progressicon-is-disabled': mission.paddingObject, '{{mission.skillLevel.usingBacking.level}}': true}"></div>
-                </td>
-            </tr>
+
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="{{student.results.missions.length + 1}}" class="gl-reports-divider--blue"></td>
+                <td colspan="{{studentsArray[0].results.missions.length + 1}}" class="gl-reports-divider--blue"></td>
             </tr>
-            <tr>
+            <tr ng-if="singleUserView">
                 <td>
                     <span class="gl-drk12_b-fraction gl-drk12_b-fraction-legend">
                         <span>Correct</span>
