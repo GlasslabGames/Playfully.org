@@ -49,18 +49,11 @@
                             <li>
                                 <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'">All Students ({{reportData.students.length}})</button>
                             </li>
-                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
-                                <button ng-click="tableStructuralData.studentFilter='Advancing'">Advancing Students ({{reportData.courseSkills[tableStructuralData.columnFilter].Advancing}})</button>
-                            </li>
-                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
-                                <button ng-click="tableStructuralData.studentFilter='NeedSupport'">Students Need Support ({{reportData.courseSkills[tableStructuralData.columnFilter].NeedSupport}})</button>
-                            </li>
-                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}">
-                                <button ng-click="tableStructuralData.studentFilter='NotAttempted'">Not Enough Data ({{reportData.courseSkills[tableStructuralData.columnFilter].NotAttempted}})</button>
+                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}" ng-repeat="(key, value) in progressTypes">
+                                <button ng-click="tableStructuralData.studentFilter = value.class">Advancing Students ({{reportData.courseSkills[tableStructuralData.columnFilter][value.class]}})</button>
                             </li>
                         </ul>
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Select the skill(s) that you want to review for individual students</h3>
-                        tableStructuralData.columnFilter: {{tableStructuralData.columnFilter}}
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
                                 <label>
