@@ -411,6 +411,58 @@ angular.module( 'instructor.courses', [
     }
   })
 
+  .state( 'modal-lg.addStudents', {
+      url: '/classes/:id/students/add',
+      data:{
+          pageTitle: 'Import Students',
+          authorizedRoles: ['instructor','admin']
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/add-students-modal.html',
+              controller: 'AddStudentsModalCtrl'
+          }
+      },
+      resolve: {
+          course: function(CoursesService, $stateParams) {
+              return CoursesService.get($stateParams.id)
+                  .then(function(response) {
+                      if (response.status < 300) {
+                          return response.data;
+                      } else {
+                          return response;
+                      }
+                  });
+          }
+      }
+  })
+
+  .state( 'modal-lg.addStudentsHelp', {
+      url: '/classes/:id/students/add',
+      data:{
+          pageTitle: 'FAQs',
+          authorizedRoles: ['instructor','admin']
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/add-students-help-modal.html',
+              controller: 'AddStudentsHelpModalCtrl'
+          }
+      },
+      resolve: {
+	      course: function(CoursesService, $stateParams) {
+		      return CoursesService.get($stateParams.id)
+			      .then(function(response) {
+				      if (response.status < 300) {
+					      return response.data;
+				      } else {
+					      return response;
+				      }
+			      });
+	      }
+      }
+  })
+
   .state('lockMissions', {
     parent: 'courses',
     url: '/:courseId/games/:gameId/lock',
@@ -807,6 +859,64 @@ angular.module( 'instructor.courses', [
 
 })
 
+.controller('AddStudentsModalCtrl',
+    function($scope, $rootScope, $state, $log, $timeout, course, UserService, AuthService) {
+        $scope.course = course;
+
+	    $scope.studentsUpload = {};
+	    $scope.studentsUpload.src = "";
+
+	    $scope.eula = false;
+
+	    $scope.students = [
+	        {
+                lastname: 'B',
+                firstname: 'Joe',
+                screenname: 'joeb',
+                password: 'fooB1'
+            },
+		    {
+			    lastname: 'C',
+			    firstname: 'Jane',
+			    screenname: 'janec',
+			    password: 'fooB1'
+		    },
+		    {
+			    lastname: 'D',
+			    firstname: 'Jim',
+			    screenname: 'jimd',
+			    password: 'fooB1'
+		    }
+        ];
+
+	    $scope.studentErrors = [];
+
+	    $scope.stages = {
+	        upload: "upload",
+		    preview: "preview",
+		    success: "success",
+		    error: "error"
+        };
+        $scope.stage = $scope.stages.upload;
+
+	    $scope.importStudents = function() {
+		    console.log($scope.studentsUpload.src);
+		    $scope.stage = $scope.stages.preview;
+	    };
+
+	    $scope.uploadStudents = function() {
+		    console.log("uploading...");
+		    $scope.stage = $scope.stages.success;
+	    };
+    }
+)
+
+.controller('AddStudentsHelpModalCtrl',
+    function($scope, $rootScope, $state, $log, $timeout, course, UserService, AuthService) {
+	    $scope.course = course;
+    }
+)
+
 .controller('LockMissionsModalCtrl',
   function($scope, $state, $stateParams, $rootScope, $timeout, $log, $modalInstance, course, CoursesService) {
 
@@ -834,6 +944,25 @@ angular.module( 'instructor.courses', [
         });
     };
 
-});
+})
+
+.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result;
+                    });
+                };
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    };
+}]);
 
 

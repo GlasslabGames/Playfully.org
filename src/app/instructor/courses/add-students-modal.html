@@ -1,0 +1,141 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$dismiss()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title" ng-show="stage == stages.upload">Import Students</h3>
+  <h3 class="modal-title" ng-show="stage == stages.preview">Preview the List</h3>
+  <h3 class="modal-title" ng-show="stage == stages.success">Successfully Uploaded</h3>
+  <h3 class="modal-title" ng-show="stage == stages.error">Oops</h3>
+</div>
+
+<div class="modal-body" style="padding-left: 0; padding-right: 0;">
+  <alert ng-show="error" type="danger"><strong>Error:</strong> {{ error }}</alert>
+
+  <form name="importStudentsForm" id="importStudentsForm" novalidate
+    class="gl-courses-form"
+    ng-show="stage == stages.upload"
+    ng-submit="importStudents()">
+
+    <div class="form-group form-group--labeled blk-form-panel">
+      <label for="template"><span class="blk-title-number">1</span> Download Template</label>
+      <button name="template" class="btn gl-btn--green">
+        Download
+      </button>
+      <a class="blk-help" ui-sref="modal-lg.addStudentsHelp({id: course.id})">?</a>
+    </div>
+
+    <div class="form-group form-group--labeled blk-form-panel"
+         ng-class="{'has-error': importStudentsForm.students.$dirty && importStudentsForm.students.$invalid}">
+      <label for="students"><span class="blk-title-number">2</span> Upload the List</label>
+      <input type="file" name="students" class="form-control"
+        required
+        autofocus="autofocus"
+        fileread="studentsUpload.src">
+    </div>
+
+    <p class="text-center">
+      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" style="width: 6em;" class="btn gl-btn--blue" value="Next">
+    </p>
+  </form>
+  <form name="addStudentsForm" id="addStudentsForm" novalidate
+        class="gl-courses-form"
+        ng-show="stage == stages.preview"
+        ng-submit="uploadStudents()">
+    <div class="gl-course-students row gl-course-students--open" style="padding-bottom: 8px;">
+      <div class="col-md-3">
+        <span class="gl-students-heading">Last Initial</span>
+      </div>
+      <div class="col-md-3">
+        <span class="gl-students-heading">First Name</span>
+      </div>
+      <div class="col-md-3">
+        <span class="gl-students-heading">Screen Name</span>
+      </div>
+      <div class="col-md-3">
+        <span class="gl-students-heading">Password</span>
+      </div>
+    </div>
+    <div class="row gl-students-data"
+         ng-class-even="'gl-students-data-even'"
+         ng-class-odd="'gl-students-data-odd'"
+         ng-repeat="user in students">
+      <div class="col-md-3" ng-bind="user.lastname"></div>
+      <div class="col-md-3" ng-bind="user.firstname"></div>
+      <div class="col-md-3" ng-bind="user.screenname"></div>
+      <div class="col-md-3" ng-bind="user.password"></div>
+    </div>
+    <div class="gl-course-students row gl-course-students--open"></div>
+
+    <div class="form-group form-group--labeled" style="margin-top: 1em;"
+         ng-class="{'has-error': addStudentsForm.eula.$dirty && addStudentsForm.eula.$invalid}">
+      <input type="checkbox" name="eula" class="form-control"
+             required
+             ng-model="eula"
+             style="display: inline-block; width: 24px; height: 24px;">
+      <label for="eula" style="font-weight: normal; top: -4px; position: relative;">My students and I have read and accept the Terms of Service and EULA</label>
+      <div class="form-errors">
+        <div class="form-error" ng-show="addStudentsForm.eula.$dirty && addStudentsForm.eula.$invalid">
+          You and your students must agree to the Terms of Service and EULA to proceed.
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center">
+      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" style="width: 6em;" class="btn gl-btn--blue" value="Add" ng-disabled="addStudentsForm.$invalid">
+    </p>
+  </form>
+  <div ng-show="stage == stages.success">
+    <p class="text-center" style="font-weight: bold; padding: 2em; font-size: 12pt;">
+      {{students.length}} Students were successfully added to {{course.title}}!
+    </p>
+
+    <p class="text-center">
+      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ui-sref="modal-lg.addStudents({id: course.id})">Add more</button>
+      <button type="button" style="width: 6em;" class="btn gl-btn--blue" ng-click="$dismiss()">Done</button>
+    </p>
+  </div>
+  <div ng-show="stage == stages.error">
+    <div ng-show="studentErrors.length == 0">
+      <p>You have exceeded the maximum number of student seats available in your current subscription</p>
+      <p>To add more student seats</p>
+      <button type="button" class="btn gl-btn--green" ng-click="$dismiss()">Upgrade My Account</button>
+    </div>
+    <div ng-show="studentErrors.length > 0">
+      <p>Please check the list to see the error:</p>
+      <ul>
+        <li>A student screenname is already taken.</li>
+        <li>A student password needs to have at least 6 characters, with at least 1 uppercase letter and 1 number.</li>
+      </ul>
+      <div class="gl-course-students row gl-course-students--open">
+        <div class="col-md-3">
+          <span class="gl-students-heading">Last Initial</span>
+        </div>
+        <div class="col-md-3">
+          <span class="gl-students-heading">First Name</span>
+        </div>
+        <div class="col-md-3">
+          <span class="gl-students-heading">Screen Name</span>
+        </div>
+        <div class="col-md-3">
+          <span class="gl-students-heading">Password</span>
+        </div>
+      </div>
+      <div class="row gl-students-data"
+           ng-class-even="'gl-students-data-even'"
+           ng-class-odd="'gl-students-data-odd'"
+           ng-repeat="user in students">
+        <div class="col-md-3" ng-bind="user.lastname"></div>
+        <div class="col-md-3" ng-bind="user.firstname"></div>
+        <div class="col-md-3" ng-bind="user.screenname"></div>
+        <div class="col-md-3" ng-bind="user.password"></div>
+      </div>
+    </div>
+
+    <p class="text-center">
+      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <button type="button" style="width: 6em;" class="btn gl-btn--blue" ng-click="$dismiss()">Reupload</button>
+    </p>
+  </div>
+</div>
+
+

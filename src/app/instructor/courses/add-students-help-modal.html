@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" ng-click="$dismiss()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h3 class="modal-title">FAQs</h3>
+</div>
+
+<div class="modal-body" style="padding-left: 0; padding-right: 0;">
+  <table class="faq-table" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td>Q:</td>
+      <td>What are the student registration requirements?</td>
+    </tr>
+    <tr>
+      <td>A:</td>
+      <td>You need to include First Name, Last Initial, Screen Name, and a Password.</td>
+    </tr>
+
+    <tr>
+      <td>Q:</td>
+      <td>How do I choose a screenname for each of my students?</td>
+    </tr>
+    <tr>
+      <td>A:</td>
+      <td>Students will use their screen names to log in. To make it easy and reduce the risk of choosing a screen
+        name that may be taken by another student on Glasslab Games, however, you can create a special naming convention
+        for your Class. For instance, if your name is Liz Kline and you want to bulk roster your 3rd Period Science
+        students, you can use "LK3Science1, LK3Science2, LK3Science3..." and so on!</td>
+    </tr>
+
+    <tr>
+      <td>Q:</td>
+      <td>How do I choose a password for each of my students?</td>
+    </tr>
+    <tr>
+      <td>A:</td>
+      <td>To ensure your student information is secure and protected, we require all passwords to have a minimum of
+        6 characters, with at least 1 capital letter and 1 number. Please feel free to create a standard password that is
+        easy to write down and remember, like "MsKline123" or "Myscienceclass1", and suggest your students change their
+        own passwords once they've logged in.</td>
+    </tr>
+
+    <tr>
+      <td>Q:</td>
+      <td>What happens if a student forgets their password?</td>
+    </tr>
+    <tr>
+      <td>A:</td>
+      <td>Don't fret! You can help your student by resetting their password information on the Classes page. Click
+        the "View Student List" button beneath each Class to Edit and/or Remove student information.</td>
+    </tr>
+  </table>
+
+  <p class="text-center">
+    <button type="button" class="btn gl-btn--blue" ui-sref="modal-lg.addStudents({id: course.id})">Import Students</button>
+  </p>
+</div>
+
+

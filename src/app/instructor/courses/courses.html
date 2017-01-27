@@ -151,6 +151,14 @@
             <span class="gl-students-heading" ng-show="course.isOpen">Screen Name</span>
           </div>
           <div class="col-md-4 text-right">
+            <button class="btn btn-sm gl-btn--green" ng-hide="course.isOpen"
+                    ui-sref="modal-lg.addStudents({id: course.id})">
+              Add Students
+            </button>
+            <button class="btn btn-sm gl-btn--green-on-white" ng-show="course.isOpen"
+                    ui-sref="modal-lg.addStudents({id: course.id})">
+              Add Students
+            </button>
             <button class="btn btn-sm gl-btn--blue" ng-if="!showArchived" ng-hide="course.isOpen" ng-disabled="course.studentCount == 0"
               ui-sref="root.courses.showStudentList({id: course.id})">
               View Student List (<span ng-bind="course.studentCount"></span>)
