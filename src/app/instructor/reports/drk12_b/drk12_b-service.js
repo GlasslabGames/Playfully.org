@@ -2,7 +2,7 @@ angular.module( 'instructor.reports')
     .service('drk12_bStore', function() {
         this.currentStudentsArray = [];
         this.skills = null;
-        this.selectedSkill = "all";
+        this.selectedSkill = null;
 
         this.setCurrentStudents = function(currentStudentsArray) {
             if (currentStudentsArray) {

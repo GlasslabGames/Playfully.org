@@ -461,16 +461,14 @@ angular.module( 'instructor.reports')
             };
 
             $scope.isLastSkill = function(selectedSkillName) {
-                return Object.keys($scope.skills)[_.size($scope.skills)-1] === selectedSkillName;
+                return Object.keys($scope.skills)[_.size($scope.skills) - 1] === selectedSkillName;
             };
 
             $scope.incrementSkill = function() {
                 var index = 0;
                 for(var skillName in $scope.skills) {
-                    console.info('skillName: ', skillName);
                     if (skillName === $scope.selectedSkill) {
                         $scope.selectedSkill = Object.keys($scope.skills)[index + 1];
-                        console.info('selectedSkill = ', $scope.selectedSkill);
                         break;
                     }
                     index++;
@@ -480,10 +478,8 @@ angular.module( 'instructor.reports')
             $scope.decrementSkill = function() {
                 var index = 0;
                 for(var skillName in $scope.skills) {
-                    console.info('skillName: ', skillName);
                     if (skillName === $scope.selectedSkill) {
                         $scope.selectedSkill = Object.keys($scope.skills)[index - 1];
-                        console.info('selectedSkill = ', $scope.selectedSkill);
                         break;
                     }
                     index++;
