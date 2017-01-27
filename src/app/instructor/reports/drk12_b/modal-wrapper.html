@@ -1,0 +1,13 @@
+<div class="gl-drk12_b-modalheader gl-drk12_b-modalheader-help">
+    <h1><span>{{data[type].title}}</span><span ng-if="singleUserView">: {{student.firstName}} {{student.lastName}}</span></h1>
+    <div ng-if="type === studentInfo && !singleUserView">
+        <a href="javascript:void(0)" ng-click="decrementSkill()" ng-class="{'disabled': isFirstSkill(selectedSkill)}"><i class="fa fa-arrow-left"></i></a>
+        <span>{{skills[selectedSkill].name}}</span>
+        <a href="javascript:void(0)" ng-click="incrementSkill()" ng-class="{'disabled': isLastSkill(selectedSkill)}"><i class="fa fa-arrow-right"></i></a>
+    </div>
+    <button type="button" class="close" data-dismiss="modal" ng-click="$close()">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+</div>
+
+<span ng-include="'instructor/reports/drk12_b/modal-' + type + '.html'"></span>
