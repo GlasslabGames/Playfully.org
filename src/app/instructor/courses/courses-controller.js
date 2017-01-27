@@ -889,7 +889,7 @@ angular.module( 'instructor.courses', [
 		    }
         ];
 
-	    $scope.studentErrors = [];
+	    $scope.studentErrors = {};
 
 	    $scope.stages = {
 	        upload: "upload",
@@ -905,9 +905,57 @@ angular.module( 'instructor.courses', [
 	    };
 
 	    $scope.uploadStudents = function() {
-		    console.log("uploading...");
 		    $scope.stage = $scope.stages.success;
+		    // $scope.studentErrors = {
+			 //    'janec': ['screenname'],
+		    //     'jimd': ['password', 'screenname']
+		    // };
+		    // $scope.stage = $scope.stages.error;
 	    };
+
+	    $scope.nonuniqueError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('screenname') >= 0) {
+				    return true;
+			    }
+		    }
+        };
+
+	    $scope.passwordError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('password') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.resetState = function() {
+		    $scope.stage = $scope.stages.upload;
+		    $scope.studentsUpload = {};
+		    $scope.studentsUpload.src = "";
+		    $scope.eula = false;
+		    $scope.students = [
+			    {
+				    lastname: 'B',
+				    firstname: 'Joe',
+				    screenname: 'joeb',
+				    password: 'fooB1'
+			    },
+			    {
+				    lastname: 'C',
+				    firstname: 'Jane',
+				    screenname: 'janec',
+				    password: 'fooB1'
+			    },
+			    {
+				    lastname: 'D',
+				    firstname: 'Jim',
+				    screenname: 'jimd',
+				    password: 'fooB1'
+			    }
+		    ];
+		    $scope.studentErrors = [];
+        };
     }
 )
 
