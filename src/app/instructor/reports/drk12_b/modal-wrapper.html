@@ -1,5 +1,5 @@
 <div class="gl-drk12_b-modalheader gl-drk12_b-modalheader-help" ng-controller="Drk12bModalStudentInfo">
-    <h1><span>{{data[type].title}}</span><span ng-if="singleUserView">: {{student.firstName}} {{student.lastName}}</span></h1>
+    <h1><span>{{basicDisplayInfo[type].title}}</span><span ng-if="singleUserView">: {{student.firstName}} {{student.lastName}}</span></h1>
     <div ng-if="type === 'studentInfo' && !singleUserView">
         <a href="javascript:void(0)" ng-click="decrementSkill()" ng-class="{'disabled': isFirstSkill(selectedSkill)}"><i class="fa fa-arrow-left"></i></a>
         <span>{{skills[selectedSkill].name}}</span>

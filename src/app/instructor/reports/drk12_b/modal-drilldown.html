@@ -1,2 +1,39 @@
 <div class="gl-drk12_b-l-overflowhorizontal" ng-controller="Drk12bModalDrilldown">
+    <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span> |
+    <span>{{selectedSkill}}</span> |
+    <span>{{selectedMission.mission}}</span> |
+    <span>{{selectedMission.skillLevel[selectedSkill].level}}</span>
+    <table>
+        <tr>
+            <td>
+                <img src="http://lorempixel.com/100/100/">
+            </td>
+            <td>
+                <img src="http://lorempixel.com/99/100/">
+            </td>
+            <td>
+                <img src="http://lorempixel.com/100/99/">
+            </td>
+            <td>
+                <img src="http://lorempixel.com/101/100/">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">This is bogus text</td>
+        </tr>
+        <tr>
+            <td>
+                <strong>AUTHORITRON</strong>
+            </td>
+            <td>
+                <strong>OBSERVATRON</strong>
+            </td>
+            <td>
+                <strong>CONSEBOT</strong>
+            </td>
+            <td>
+                <strong>COMPARADROID</strong>
+            </td>
+        </tr>
+    </table>
 </div>

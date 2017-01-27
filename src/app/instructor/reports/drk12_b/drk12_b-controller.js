@@ -244,10 +244,10 @@ angular.module( 'instructor.reports')
         });
 
         $scope.openModal = function(type) {
-            if (type !== "info" && type !== "studentInfo") {
+            if (!drk12_bStore.isValidModalType(type)) {
                 // Do nothing
             }
-            else if (type === "info" || drk12_bStore.getCurrentStudents().length > 0) {
+            else if (drk12_bStore.hasValidModalData(type)) {
                 $state.go('modal-xlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
                     courseId: $stateParams.courseId,
@@ -438,18 +438,16 @@ angular.module( 'instructor.reports')
 
         populateCharts();
     })
-    .controller('Drk12bModalStudentInfo', function($scope, drk12_bStore) {
-        var currentStudentsArray = drk12_bStore.getCurrentStudents();
-
-        if (!currentStudentsArray || currentStudentsArray.length < 1) {
+    // This controller is always assumed to be within the scope of the modal created in the config
+    .controller('Drk12bModalStudentInfo', function($scope, $state, $stateParams, drk12_bStore) {
+        if (!drk12_bStore.hasValidModalData($scope.type)) {
             $scope.navigateBackToReport();
         } else {
-            $scope.singleUserView = true;
-            $scope.studentsArray = currentStudentsArray;
-            if (currentStudentsArray.length === 1) {
+            $scope.studentsArray = drk12_bStore.getCurrentStudents();
+            if ($scope.studentsArray.length === 1) {
                 $scope.singleUserView = true;
-                $scope.student = currentStudentsArray[0];
-            } else if (currentStudentsArray.length > 1) {
+                $scope.selectedStudent = $scope.studentsArray[0];
+            } else {
                 $scope.singleUserView = false;
             }
 
@@ -485,7 +483,26 @@ angular.module( 'instructor.reports')
                     index++;
                 }
             };
+
+            $scope.navigateToDrilldown = function(student, mission) {
+                drk12_bStore.setSelectedStudent(student);
+                drk12_bStore.setSelectedMission(mission);
+
+                $state.go('modal-xlg.drk12_bInfo', {
+                    gameId: $stateParams.gameId,
+                    courseId: $stateParams.courseId,
+                    type: "drilldown"
+                });
+            };
         }
     })
+    // This controller is always assumed to be within the scope of the modal created in the config
     .controller('Drk12bModalDrilldown', function($scope, drk12_bStore) {
+        if (!drk12_bStore.hasValidModalData($scope.type)) {
+            $scope.navigateBackToReport();
+        } else {
+            $scope.selectedStudent = drk12_bStore.getSelectedStudent();
+            $scope.selectedSkill = drk12_bStore.getSelectedSkill();
+            $scope.selectedMission = drk12_bStore.getSelectedMission();
+        }
     });

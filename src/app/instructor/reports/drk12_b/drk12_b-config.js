@@ -21,7 +21,7 @@ angular.module( 'instructor.reports')
                             $scope.navigateBackToReport();
                         }
 
-                        $scope.data = {
+                        $scope.basicDisplayInfo = {
                             info: {title: "Help"},
                             studentInfo: {title: "Performance Over Time"},
                             drilldown: {title: "Performance Over Time"}
