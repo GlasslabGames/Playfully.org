@@ -7,7 +7,7 @@ angular.module( 'instructor.reports')
                     templateUrl: function() {
                         return 'instructor/reports/drk12_b/modal-wrapper.html';
                     },
-                    controller: function($scope, $stateParams, $state, $previousState) {
+                    controller: function($scope, $stateParams, $state, $previousState, drk12_bStore) {
                         $scope.type = $stateParams.type;
                         $scope.navigateBackToReport = function() {
                             $state.go('root.reports.details.drk12_b', {
@@ -24,8 +24,14 @@ angular.module( 'instructor.reports')
                         $scope.basicDisplayInfo = {
                             info: {title: "Help"},
                             studentInfo: {title: "Performance Over Time"},
-                            drilldown: {title: "Performance Over Time"}
+                            drilldown: {title: "Performance Drilldown"}
                         };
+
+                        $scope.$on('$destroy', function() {
+                            if ($state.current.name !== 'modal-xlg.drk12_bInfo') {
+                                drk12_bStore.reset();
+                            }
+                        });
                     }
                 }
             }

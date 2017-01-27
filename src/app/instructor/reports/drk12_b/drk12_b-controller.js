@@ -256,6 +256,18 @@ angular.module( 'instructor.reports')
             }
         };
 
+        $scope.navigateToDrilldown = function(student, mission, skill) {
+            drk12_bStore.setSelectedStudent(student);
+            drk12_bStore.setSelectedMission(mission);
+            drk12_bStore.setSelectedSkill(skill);
+
+            $state.go('modal-xlg.drk12_bInfo', {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId,
+                type: "drilldown"
+            });
+        };
+
         // populate student objects with report data
         populateStudentLearningData(usersData);
 
@@ -484,9 +496,10 @@ angular.module( 'instructor.reports')
                 }
             };
 
-            $scope.navigateToDrilldown = function(student, mission) {
+            $scope.navigateToDrilldown = function(student, mission, skill) {
                 drk12_bStore.setSelectedStudent(student);
                 drk12_bStore.setSelectedMission(mission);
+                drk12_bStore.setSelectedSkill(skill);
 
                 $state.go('modal-xlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
@@ -497,7 +510,7 @@ angular.module( 'instructor.reports')
         }
     })
     // This controller is always assumed to be within the scope of the modal created in the config
-    .controller('Drk12bModalDrilldown', function($scope, drk12_bStore) {
+    .controller('Drk12bModalDrilldown', function($scope, $state, $stateParams, drk12_bStore) {
         if (!drk12_bStore.hasValidModalData($scope.type)) {
             $scope.navigateBackToReport();
         } else {
@@ -505,4 +518,12 @@ angular.module( 'instructor.reports')
             $scope.selectedSkill = drk12_bStore.getSelectedSkill();
             $scope.selectedMission = drk12_bStore.getSelectedMission();
         }
+
+        $scope.navigateToStudentInfo = function() {
+            $state.go('modal-xlg.drk12_bInfo', {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId,
+                type: "studentInfo"
+            });
+        };
     });

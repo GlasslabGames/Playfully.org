@@ -21,6 +21,13 @@ angular.module( 'instructor.reports')
             }
         };
 
+        this.reset = function() {
+            this.currentStudentsArray = [];
+            this.selectedSkill = null;
+            this.selectedStudent = null;
+            this.selectedMission = null;
+        };
+
         this.setCurrentStudents = function(currentStudentsArray) {
             if (currentStudentsArray) {
                 this.currentStudentsArray = currentStudentsArray;
