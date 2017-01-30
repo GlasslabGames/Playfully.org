@@ -16,12 +16,28 @@
                             This section breaks down the number of students by competency level for each skill
                         </p>
                         <hr/>
-                        <ul class="gl-drk12_b-l-progressicons gl-drk12_b-l-progressicons-large">
-                            <li ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
-                                <div>{{header.title}}</div>
-                                <div ng-attr-id="{{'courseSkill_' + header.value}}"></div>
-                            </li>
-                        </ul>
+                        <table class="gl-drk12_b-piechartsilllevel">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
+                                        {{header.title}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
+                                    <div ng-attr-id="{{'courseSkill_' + header.value}}"></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--<ul class="gl-drk12_b-l-progressicons gl-drk12_b-l-progressicons-large">-->
+                            <!--<li ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">-->
+                                <!--<div>{{header.title}}</div>-->
+                                <!--<div ng-attr-id="{{'courseSkill_' + header.value}}"></div>-->
+                            <!--</li>-->
+                        <!--</ul>-->
                         <h4 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Competency Levels</h4>
                         <ul class="gl-drk12_b-l-progressicons">
                             <li class="gl-drk12_b-progressicon" ng-class="progressType.class" ng-repeat="progressType in progressTypes">{{progressType.title}}</li>
