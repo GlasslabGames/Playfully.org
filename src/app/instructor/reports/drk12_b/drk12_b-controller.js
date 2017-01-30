@@ -526,4 +526,8 @@ angular.module( 'instructor.reports')
                 type: "studentInfo"
             });
         };
+
+        $scope.numberOfSubSkills = function(object) {
+            return Object.keys(object).length;
+        };
     });

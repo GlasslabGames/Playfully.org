@@ -5,66 +5,30 @@
     <span>{{selectedMission.skillLevel[selectedSkill].level}}</span>
     <table>
         <tr>
-            <td>
-                <img src="http://lorempixel.com/100/100/">
-            </td>
-            <td>
-                <img src="http://lorempixel.com/99/100/">
-            </td>
-            <td>
-                <img src="http://lorempixel.com/100/99/">
-            </td>
-            <td>
-                <img src="http://lorempixel.com/101/100/">
+            <td ng-repeat="(skillKey, subSkillDetail) in selectedMission.skillLevel[selectedSkill].detail">
+                <img ng-src="http://lorempixel.com/10{{$index}}/10{{$index}}/">
             </td>
         </tr>
         <tr>
-            <td colspan="4">This is bogus text</td>
+            <td colspan="{{numberOfSubSkills(selectedMission.skillLevel[selectedSkill].detail)}}">This is bogus text</td>
         </tr>
         <tr>
-            <td>
-                <strong>AUTHORITRON</strong>
-            </td>
-            <td>
-                <strong>OBSERVATRON</strong>
-            </td>
-            <td>
-                <strong>CONSEBOT</strong>
-            </td>
-            <td>
-                <strong>COMPARADROID</strong>
+            <td ng-repeat="(skillKey, subSkillDetail) in selectedMission.skillLevel[selectedSkill].detail">
+                <strong>{{skillKey}}</strong>
             </td>
         </tr>
         <tr>
-            <td>
+            <td ng-repeat="(skillKey, subSkillDetail) in selectedMission.skillLevel[selectedSkill].detail">
                 <div>Success Rate</div>
-                <H1>80%</H1>
-            </td>
-            <td>
-                <div>Success Rate</div>
-                <H1>80%</H1>
-            </td>
-            <td>
-                <div>Success Rate</div>
-                <H1>80%</H1>
-            </td>
-            <td>
-                <div>Success Rate</div>
-                <H1>100%</H1>
+                <strong>{{((subSkillDetail.correct/subSkillDetail.attempts)*100).toFixed(0)}} %</strong>
             </td>
         </tr>
         <tr>
-            <td>
-                <H1>4 / 5</H1>
-            </td>
-            <td>
-                <H1>4 / 5</H1>
-            </td>
-            <td>
-                <H1>4 / 5</H1>
-            </td>
-            <td>
-                <H1>5 / 5</H1>
+            <td ng-repeat="(skillKey, subSkillDetail) in selectedMission.skillLevel[selectedSkill].detail">
+                <strong>{{subSkillDetail.correct}} / {{subSkillDetail.attempts}}</strong>
+                <div>
+                    <span>correct Attemps</span> <span>total attempts</span>
+                </div>
             </td>
         </tr>
     </table>
