@@ -63,24 +63,37 @@
 // Container (Student, tab)
 
 .gl-drk12_b-l-containerstudent {
-  padding-top: 20px;
+  padding-top: 55px;
 }
 
 .gl-drk12_b-l-containerstudent > h3:first-of-type {
-  margin-bottom: 10px;
+  margin-bottom: 25px;
 }
 
 .gl-drk12_b-l-containerstudent > ul:first-of-type {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .gl-drk12_b-l-containerstudent > hr:first-of-type {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   margin-top: 0;
 }
 
 .gl-drk12_b-l-containerstudent > div:first-of-type {
   margin-bottom: 20px;
+}
+
+// Filter Buttons (Layout)
+
+.gl-drk12_b-l-filterbuttons {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.gl-drk12_b-l-filterbuttons li {
+  flex: 1 1 100%;
+  list-style: none;
 }
 
 // Progress Icons (Layout)
@@ -112,6 +125,37 @@
   width: 100%;
 }
 
+// Filter Button
+
+.gl-drk12_b-filterbutton {
+  background: none;
+  border: 0;
+  border-bottom: 6px solid #f0f0f0;
+  color: #999999;
+  display: block;
+  font-size: 14px;
+  outline: none;
+  padding: 12px;
+  width: 100%;
+}
+
+.gl-drk12_b-filterbutton.gl-drk12_b-filterbutton-is-active {
+  color: #ccc;
+  border-bottom-color: #1C7EBF;
+}
+
+.gl-drk12_b-filterbutton-advancing.gl-drk12_b-filterbutton-is-active {
+  border-bottom-color: #22B473;
+}
+
+.gl-drk12_b-filterbutton-support.gl-drk12_b-filterbutton-is-active {
+  border-bottom-color: #FDD367;
+}
+
+.gl-drk12_b-filterbutton-notenoughdata.gl-drk12_b-filterbutton-is-active {
+  border-bottom-color: #8e8e8e;
+}
+
 // Headings
 
 .gl-drk12_b-heading {
@@ -126,6 +170,33 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;
   font-weight: bold;
+}
+
+.gl-drk12_b-heading-secondaryalt1 {
+  align-items: center;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.gl-drk12_b-heading-secondaryalt1::after,
+.gl-drk12_b-heading-secondaryalt1::before {
+  background-color: #eee;
+  content: '';
+  display: block;
+  flex: 1 1 auto;
+  height: 1px;
+}
+
+.gl-drk12_b-heading-secondaryalt1::after {
+  margin-left: 20px;
+}
+
+.gl-drk12_b-heading-secondaryalt1::before {
+  margin-right: 20px;
 }
 
 .gl-drk12_b-heading-tertiary {
@@ -433,6 +504,118 @@
   margin-bottom: 20px;
 }
 
+// Table Filter Bar
+
+.gl-drk12_b-tablefilterbar {
+  align-items: center;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  display: flex;
+  font-size: 12px;
+  height: 36px;
+  line-height: 1.2;
+  padding-left: 12px;
+  padding-right: 16px;
+  position: relative;
+  justify-content: space-between;
+
+  &::after {
+    background-color: #1C7EBF;
+    bottom: -10px;
+    content: '';
+    display: block;
+    height: 4px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    padding: 0;
+  }
+
+  label {
+    align-items: center;
+    display: flex;
+    margin: 0;
+
+    input {
+      display: block;
+      margin: 0 12px 0 0;
+    }
+
+  }
+
+  > ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+
+      &:not(:last-child) {
+        margin-right: 12px;
+        padding-right: 13px;
+        position: relative;
+
+        &::after {
+          background-color: #eee;
+          content: '';
+          display: block;
+          height: 100%;
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 1px;
+        }
+
+      }
+
+    }
+
+  }
+
+  .gl-drk12_b-tablefilterbar-x-buttonlink {
+    color: #1C7EBF;
+    text-decoration: underline;
+    outline: none;
+
+    &[disabled] {
+      opacity: .5;
+    }
+
+  }
+
+  &.gl-drk12_b-tablefilterbar-is-advancing {
+
+    &::after {
+      bakground-color: #22B473;
+    }
+
+  }
+
+  &.gl-drk12_b-tablefilterbar-is-support {
+
+    &::after {
+      bakground-color: #FDD367;
+    }
+
+  }
+
+  &.gl-drk12_b-tablefilterbar-is-notenoughdata {
+
+    &::after {
+      bakground-color: #8e8e8e;
+    }
+
+  }
+
+}
+
 // Tooltip
 
 .gl-drk12_b-tooltip {
@@ -591,6 +774,11 @@
   input {
     margin: 0 12px 0 0;
   }
+}
+
+.gl-drk12_b-table .gl-drk12_b-table-x-tablefilterbar {
+  background-color: #fff;
+  padding: 3px 0 13px 0;
 }
 
 .gl-drk12_b-table .gl-drk12_b-table-x-disabled {

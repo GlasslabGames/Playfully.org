@@ -46,15 +46,15 @@
                 </tab>
                 <tab heading="Student View" active="activeTab[1]" ng-click="selectTab(1)">
                     <div class="gl-drk12_b-l-containerstudent">
-                        <ul class="gl-drk12_b-competencyskills">
+                        <ul class="gl-drk12_b-l-filterbuttons">
                             <li>
-                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'">All Students ({{reportData.students.length}})</button>
+                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'" class="gl-drk12_b-filterbutton">All Students ({{reportData.students.length}})</button>
                             </li>
                             <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}" ng-repeat="(key, value) in progressTypes">
-                                <button ng-click="tableStructuralData.studentFilter = value.class">Advancing Students ({{reportData.courseSkills[tableStructuralData.columnFilter][value.class]}})</button>
+                                <button ng-click="tableStructuralData.studentFilter = value.class" class="gl-drk12_b-filterbutton">Advancing Students ({{reportData.courseSkills[tableStructuralData.columnFilter][value.class]}})</button>
                             </li>
                         </ul>
-                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-tertiary">Select the skill(s) that you want to review for individual students</h3>
+                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondaryalt1">Select the skill(s) that you want to review for individual students</h3>
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
                                 <label>
@@ -101,15 +101,17 @@
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colspan="{{numberOfColumnsChecked() + 2}}">
-                                        <label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label> | <a href="javascript:void(0)" ng-click="resetStudentSelection()">Clear All</a>
-                                        <a href="javascript:void(0)" class="floatRight" ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-class="{disabled: selectedStudents.length < 1}">
-                                            View Selected Students' Performances Over Time
-                                        </a>
+                                    <th colspan="{{numberOfColumnsChecked() + 2}}" class="gl-drk12_b-table-x-tablefilterbar">
+                                        <div class="gl-drk12_b-tablefilterbar">
+                                            <ul>
+                                                <li><label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label></li>
+                                                <li><button ng-click="resetStudentSelection()" class="gl-drk12_b-tablefilterbar-x-buttonlink">Clear All</button></li>
+                                            </ul>
+                                            <button ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-class="{disabled: selectedStudents.length < 1}" class="gl-drk12_b-tablefilterbar-x-buttonlink">
+                                                View Selected Students' Performances Over Time
+                                            </button>
+                                        </div>
                                     </th>
-                                </tr>
-                                <tr>
-                                    <th colspan="{{numberOfColumnsChecked() + 2}}" class="gl-reports-divider--blue"></th>
                                 </tr>
                             </thead>
                             <tbody>
