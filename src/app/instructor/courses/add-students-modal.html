@@ -16,19 +16,24 @@
 
     <div class="form-group form-group--labeled blk-form-panel">
       <label for="template"><span class="blk-title-number">1</span> Download Template</label>
-      <button name="template" class="btn gl-btn--green">
+      <button type="button" name="template" class="btn gl-btn--green" ng-click="downloadTemplate()">
         Download
       </button>
       <a class="blk-help" ui-sref="modal-lg.addStudentsHelp({id: course.id})">?</a>
     </div>
 
     <div class="form-group form-group--labeled blk-form-panel"
-         ng-class="{'has-error': importStudentsForm.students.$dirty && importStudentsForm.students.$invalid}">
+         ng-class="{'has-error': invalidInput}">
       <label for="students"><span class="blk-title-number">2</span> Upload the List</label>
       <input type="file" name="students" class="form-control"
         required
         autofocus="autofocus"
         fileread="studentsUpload.src">
+      <div class="form-errors">
+        <div class="form-error" ng-show="invalidInput">
+          Bad input file.
+        </div>
+      </div>
     </div>
 
     <p class="text-center">
@@ -95,7 +100,7 @@
       </p>
       <p class="text-center" style="padding-top: 1em; padding-bottom: 2em;">
         To add more student seats<br/>
-        <button type="button" class="btn gl-btn--green" ng-click="$dismiss()">Upgrade My Account</button>
+        <button type="button" class="btn gl-btn--green" ui-sref="root.subscribe.packages" ng-click="upgradeAccount()">Upgrade My Account</button>
       </p>
     </div>
     <div ng-show="studentErrors" style="padding-bottom: 1em;">

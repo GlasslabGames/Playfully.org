@@ -868,28 +868,9 @@ angular.module( 'instructor.courses', [
 
 	    $scope.eula = false;
 
-	    $scope.students = [
-	        {
-                lastname: 'B',
-                firstname: 'Joe',
-                screenname: 'joeb',
-                password: 'fooB1'
-            },
-		    {
-			    lastname: 'C',
-			    firstname: 'Jane',
-			    screenname: 'janec',
-			    password: 'fooB1'
-		    },
-		    {
-			    lastname: 'D',
-			    firstname: 'Jim',
-			    screenname: 'jimd',
-			    password: 'fooB1'
-		    }
-        ];
+	    $scope.students = [];
 
-	    $scope.studentErrors = {};
+	    $scope.studentErrors = null;
 
 	    $scope.stages = {
 	        upload: "upload",
@@ -899,18 +880,61 @@ angular.module( 'instructor.courses', [
         };
         $scope.stage = $scope.stages.upload;
 
+        $scope.invalidInput = false;
+
+        $scope.downloadTemplate = function() {
+	        var link = document.createElement('a');
+	        link.setAttribute('href', encodeURI("data:text/csv;base64,"+btoa("Last Initial,First Name,Screen Name,Password\n")));
+	        // TODO: fix filename not getting through
+	        link.setAttribute('download', 'bulk-upload-template.csv');
+	        link.click();
+        };
+
 	    $scope.importStudents = function() {
-		    console.log($scope.studentsUpload.src);
+		    var input = $scope.studentsUpload.src;
+		    if (!input.startsWith("data:text/csv;base64,")) {
+			    $scope.invalidInput = true;
+                return;
+		    }
+
+		    // TODO: throw error for invalid format?
+		    var obj = [];
+		    try {
+			    var csvData = atob(input.split("data:text/csv;base64,")[1]);
+			    var rows = csvData.split('\n').slice(1); // Remove header row
+			    angular.forEach(rows, function (val) {
+				    var row = val.split(',');
+				    if (row.length === 4) {
+					    obj.push({
+						    lastname: row[0],
+						    firstname: row[1],
+						    screenname: row[2],
+						    password: row[3]
+					    });
+				    }
+			    });
+		    } catch (err) {
+			    $scope.invalidInput = true;
+			    return;
+            }
+
+		    $scope.invalidInput = false;
+            $scope.students = obj;
 		    $scope.stage = $scope.stages.preview;
 	    };
 
 	    $scope.uploadStudents = function() {
 		    $scope.stage = $scope.stages.success;
-		    // $scope.studentErrors = {
+
+            // If too many subscribers:
+		    //$scope.stage = $scope.stages.error;
+
+            // If data error:
+            // $scope.studentErrors = {
 			 //    'janec': ['screenname'],
 		    //     'jimd': ['password', 'screenname']
 		    // };
-		    // $scope.stage = $scope.stages.error;
+		    //$scope.stage = $scope.stages.error;
 	    };
 
 	    $scope.nonuniqueError = function() {
@@ -929,32 +953,18 @@ angular.module( 'instructor.courses', [
 		    }
 	    };
 
+	    $scope.upgradeAccount = function() {
+		    $scope.close();
+	    };
+
 	    $scope.resetState = function() {
 		    $scope.stage = $scope.stages.upload;
 		    $scope.studentsUpload = {};
 		    $scope.studentsUpload.src = "";
+		    $scope.invalidInput = false;
 		    $scope.eula = false;
-		    $scope.students = [
-			    {
-				    lastname: 'B',
-				    firstname: 'Joe',
-				    screenname: 'joeb',
-				    password: 'fooB1'
-			    },
-			    {
-				    lastname: 'C',
-				    firstname: 'Jane',
-				    screenname: 'janec',
-				    password: 'fooB1'
-			    },
-			    {
-				    lastname: 'D',
-				    firstname: 'Jim',
-				    screenname: 'jimd',
-				    password: 'fooB1'
-			    }
-		    ];
-		    $scope.studentErrors = [];
+		    $scope.students = [];
+		    $scope.studentErrors = null;
         };
     }
 )
