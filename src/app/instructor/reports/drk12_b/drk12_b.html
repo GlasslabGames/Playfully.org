@@ -42,12 +42,13 @@
                     <div class="gl-drk12_b-l-containerstudent">
                         <ul class="gl-drk12_b-l-filterbuttons">
                             <li>
-                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'" class="gl-drk12_b-filterbutton">
+                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'"
+                                        class="gl-drk12_b-filterbutton" ng-class="{'gl-drk12_b-filterbutton-is-active': tableStructuralData.studentFilter == 'all'}">
                                     All Students ({{reportData.students.length}})
                                 </button>
                             </li>
                             <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}" ng-repeat="(key, value) in progressTypes">
-                                <button ng-click="tableStructuralData.studentFilter = value.class" class="gl-drk12_b-filterbutton">
+                                <button ng-click="tableStructuralData.studentFilter = value.class" class="gl-drk12_b-filterbutton" ng-class="['gl-drk12_b-filterbutton-{{value.class}}', {'gl-drk12_b-filterbutton-is-active' : tableStructuralData.studentFilter == value.class}]">
                                     {{value.title}} ({{reportData.courseSkills[tableStructuralData.columnFilter][value.class]}})
                                 </button>
                             </li>
