@@ -262,6 +262,9 @@ angular.module( 'instructor.reports')
         };
 
         $scope.navigateToDrilldown = function(student, mission, skill) {
+            if (!student || !mission || !skill) {
+                return;
+            }
             drk12_bStore.setSelectedStudent(student);
             drk12_bStore.setSelectedMission(mission);
             drk12_bStore.setSelectedSkill(skill);
