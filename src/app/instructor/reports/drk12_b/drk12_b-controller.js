@@ -261,13 +261,13 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.navigateToDrilldown = function(student, mission, skill) {
-            if (!student || !mission || !skill) {
+        $scope.navigateToDrilldown = function(student, mission, skillKey) {
+            if (!student || !mission || !skillKey || mission.skillLevel[skillKey].level === "NotAttempted") {
                 return;
             }
             drk12_bStore.setSelectedStudent(student);
             drk12_bStore.setSelectedMission(mission);
-            drk12_bStore.setSelectedSkill(skill);
+            drk12_bStore.setSelectedSkill(skillKey);
 
             $state.go('modal-xlg.drk12_bInfo', {
                 gameId: $stateParams.gameId,
@@ -504,10 +504,13 @@ angular.module( 'instructor.reports')
                 }
             };
 
-            $scope.navigateToDrilldown = function(student, mission, skill) {
+            $scope.navigateToDrilldown = function(student, mission, skillKey) {
+                if (!student || !mission || !skillKey || mission.skillLevel[skillKey].level === "NotAttempted") {
+                    return;
+                }
                 drk12_bStore.setSelectedStudent(student);
                 drk12_bStore.setSelectedMission(mission);
-                drk12_bStore.setSelectedSkill(skill);
+                drk12_bStore.setSelectedSkill(skillKey);
 
                 $state.go('modal-xlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
