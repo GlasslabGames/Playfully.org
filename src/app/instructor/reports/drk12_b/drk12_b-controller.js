@@ -538,6 +538,10 @@ angular.module( 'instructor.reports')
             });
         };
 
+        $scope.didComeFromStudentInfo = function() {
+            return drk12_bStore.getCurrentStudents().length > 0;
+        };
+
         $scope.numberOfSubSkills = function(object) {
             return Object.keys(object).length;
         };
