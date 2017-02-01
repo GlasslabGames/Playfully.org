@@ -158,6 +158,11 @@ angular.module( 'instructor.reports')
             reverseSort: false
         };
 
+        $scope.selectAllSkills = function() {
+            $scope.tableStructuralData.studentFilter = "all";
+            $scope.tableStructuralData.columnFilter = "all";
+        };
+
         var buttonTextChange = function(textBase) { // TODO: Is this still used?
             var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
             return "Click button to " + partialReturnString;

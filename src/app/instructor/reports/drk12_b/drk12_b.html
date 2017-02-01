@@ -57,7 +57,7 @@
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
                                 <label>
-                                    <input type="radio" ng-model="tableStructuralData.columnFilter" value="all"/>
+                                    <input type="radio" ng-click="selectAllSkills()" value="all"/>
                                     All Skills
                                 </label>
                             </li>
@@ -132,7 +132,7 @@
                                     <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
                                         <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table"
                                              ng-class="student.results.currentProgress.skillLevel[header.value].level"
-                                             ng-click="navigateToDrilldown(student, student.results.missions[student.results.currentProgress.mission - 1], header.value)"></div>
+                                             ng-click="navigateToDrilldown(student, student.results.missions[student.results.currentProgress.skillLevel[header.value].mission - 1], header.value)"></div>
                                     </td>
                                 </tr>
                             </tbody>
