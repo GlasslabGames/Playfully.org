@@ -3,6 +3,7 @@ angular.module( 'instructor.reports')
         this.currentStudentsArray = [];
         this.skills = null;
         this.selectedSkill = null;
+        this.isSingleSKillView = false;
         this.selectedStudent = null;
         this.selectedMission = null;
         this.modalTypes = ['info', 'studentInfo', 'drilldown'];

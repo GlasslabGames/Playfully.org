@@ -253,6 +253,8 @@ angular.module( 'instructor.reports')
                 // Do nothing
             }
             else if (drk12_bStore.hasValidModalData(type)) {
+                drk12_bStore.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
+
                 $state.go('modal-xlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
                     courseId: $stateParams.courseId,
@@ -459,7 +461,7 @@ angular.module( 'instructor.reports')
         populateCharts();
     })
     // This controller is always assumed to be within the scope of the modal created in the config
-    .controller('Drk12bModalStudentInfo', function($scope, $state, $stateParams, drk12_bStore) {
+    .controller('Drk12bModalStudentInfo', function($scope, $state, $stateParams, $rootScope, drk12_bStore) {
         if (!drk12_bStore.hasValidModalData($scope.type)) {
             $scope.navigateBackToReport();
         } else {
@@ -482,11 +484,16 @@ angular.module( 'instructor.reports')
                 return Object.keys($scope.skills)[_.size($scope.skills) - 1] === selectedSkillName;
             };
 
+            $scope.allowSkillNavigation = function() {
+                return !drk12_bStore.isSingleSKillView;
+            };
+
             $scope.incrementSkill = function() {
                 var index = 0;
                 for(var skillName in $scope.skills) {
                     if (skillName === $scope.selectedSkill) {
-                        $scope.selectedSkill = Object.keys($scope.skills)[index + 1];
+                        drk12_bStore.setSelectedSkill(Object.keys($scope.skills)[index + 1]);
+                        $rootScope.$broadcast("SKILL_CHANGE");
                         break;
                     }
                     index++;
@@ -497,7 +504,8 @@ angular.module( 'instructor.reports')
                 var index = 0;
                 for(var skillName in $scope.skills) {
                     if (skillName === $scope.selectedSkill) {
-                        $scope.selectedSkill = Object.keys($scope.skills)[index - 1];
+                        drk12_bStore.setSelectedSkill(Object.keys($scope.skills)[index - 1]);
+                        $rootScope.$broadcast("SKILL_CHANGE");
                         break;
                     }
                     index++;
@@ -518,6 +526,11 @@ angular.module( 'instructor.reports')
                     type: "drilldown"
                 });
             };
+
+
+            $scope.$on("SKILL_CHANGE", function() {
+                $scope.selectedSkill = drk12_bStore.getSelectedSkill();
+            });
         }
     })
     // This controller is always assumed to be within the scope of the modal created in the config
