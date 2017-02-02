@@ -381,7 +381,9 @@ angular.module( 'instructor.reports')
 
         var doDrawCourseSkillPieCharts = function(skillKey) {
             var courseSkillStats = [];
+            var numberOfSlicesWithNonZeroValues = 0;
             angular.forEach(usersData.courseSkills[skillKey], function(skillValue, skillKey) {
+                if (skillValue > 0) {numberOfSlicesWithNonZeroValues++;}
                 courseSkillStats.push({skill: skillKey, total: skillValue});
             });
 
@@ -417,6 +419,11 @@ angular.module( 'instructor.reports')
                 .outerRadius(radius - 10)
                 .innerRadius(0);
 
+            // Hackery to get pie charts with only one "slice" to have label centered
+            var labelArc = d3.svg.arc()
+                .outerRadius(Math.floor(numberOfSlicesWithNonZeroValues / 2) * 50)
+                .innerRadius(Math.floor(numberOfSlicesWithNonZeroValues / 2) * 50);
+
             var pie = d3.layout.pie()
                 .sort(null)
                 .value(function(d) { return d.total; });
@@ -436,19 +443,7 @@ angular.module( 'instructor.reports')
                 .attr("class", "textLabel");
 
             textG.append("text")
-                .attr("transform", function(d) {
-                    var dataIndex = 0;
-                    for (var i = 0; i < courseSkillStats.length; i++) {
-                        if (d.data == courseSkillStats[i]) { dataIndex = i; }
-                    }
-                    var c = arc.centroid(d);
-                    var offset = 0.5 + (0.3 * dataIndex);
-
-                    if (isNaN(c[0])) { c[0] = 0; }
-                    if (isNaN(c[1])) { c[1] = 0; }
-
-                    return "translate(" + c[0]*offset +"," + c[1]*offset + ")";
-                })
+                .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
                 .attr("dy", ".35em")
                 .style("text-anchor", "middle")
                 .text(function(d) {
