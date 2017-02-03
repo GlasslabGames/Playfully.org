@@ -1,6 +1,6 @@
 angular.module( 'instructor.reports')
     .config(function ( $stateProvider, USER_ROLES) { $stateProvider
-        .state('modal-xlg.drk12_bInfo', {
+        .state('modal-xxlg.drk12_bInfo', {
             url: '/reports/details/drk12_b/game/:gameId/course/:courseId/:type',
             views: {
                 'modal@': {
@@ -28,7 +28,7 @@ angular.module( 'instructor.reports')
                         };
 
                         $scope.$on('$destroy', function() {
-                            if ($state.current.name !== 'modal-xlg.drk12_bInfo') {
+                            if ($state.current.name !== 'modal-xxlg.drk12_bInfo') {
                                 drk12_bStore.reset();
                             }
                         });

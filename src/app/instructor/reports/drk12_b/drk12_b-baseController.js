@@ -255,7 +255,7 @@ angular.module( 'instructor.reports')
             else if (drk12_bStore.hasValidModalData(type)) {
                 drk12_bStore.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
 
-                $state.go('modal-xlg.drk12_bInfo', {
+                $state.go('modal-xxlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
                     courseId: $stateParams.courseId,
                     type: type
@@ -271,7 +271,7 @@ angular.module( 'instructor.reports')
             drk12_bStore.setSelectedMission(mission);
             drk12_bStore.setSelectedSkill(skillKey);
 
-            $state.go('modal-xlg.drk12_bInfo', {
+            $state.go('modal-xxlg.drk12_bInfo', {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId,
                 type: "drilldown"

@@ -92,7 +92,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.navigateToStudentInfo = function() {
-            $state.go('modal-xlg.drk12_bInfo', {
+            $state.go('modal-xxlg.drk12_bInfo', {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId,
                 type: "studentInfo"
