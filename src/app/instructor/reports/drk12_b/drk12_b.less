@@ -871,8 +871,11 @@
   width: 290px;
 }
 
-a.gl-drk12_b-arrow--disabled:link,
-a.gl-drk12_b-arrow--disabled:hover {
-  color: #cccccc;
-  cursor: not-allowed;
+a.gl-drk12_b-arrow:link,
+a.gl-drk12_b-arrow:hover {
+  color: #555555;
+  &.disabled {
+    color: #cccccc;
+    cursor: not-allowed;
+  }
 }
