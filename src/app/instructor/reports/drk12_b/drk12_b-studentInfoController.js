@@ -28,6 +28,9 @@ angular.module( 'instructor.reports')
             };
 
             $scope.incrementSkill = function() {
+                if ($scope.isLastSkill(drk12_bStore.getSelectedSkill())) {
+                    return;
+                }
                 var index = 0;
                 for(var skillName in $scope.skills) {
                     if (skillName === $scope.selectedSkill) {
@@ -40,6 +43,9 @@ angular.module( 'instructor.reports')
             };
 
             $scope.decrementSkill = function() {
+                if ($scope.isFirstSkill(drk12_bStore.getSelectedSkill())) {
+                    return;
+                }
                 var index = 0;
                 for(var skillName in $scope.skills) {
                     if (skillName === $scope.selectedSkill) {
