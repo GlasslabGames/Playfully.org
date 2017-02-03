@@ -111,11 +111,11 @@ angular.module( 'instructor.reports')
             return Object.keys(object).length;
         };
 
-        $scope.calculateSuccessRate = function(correct, attempts) {
+        $scope.calculateSuccessRateString = function(correct, attempts) {
             if (!correct || !attempts || correct === 0 || attempts === 0) {
-                return 0;
+                return "-";
             } else {
-                return ((correct/attempts)*100).toFixed(0);
+                return "" + ((correct/attempts)*100).toFixed(0) + " %";
             }
         };
 

@@ -20,7 +20,7 @@
         <tr>
             <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; background-color:#f0f0f0; border-bottom: 6px solid white">
                 <div>Success Rate</div>
-                <strong>{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}} %</strong>
+                <strong>{{calculateSuccessRateString(subSkillDetail.correct, subSkillDetail.attempts)}}</strong>
             </td>
         </tr>
         <tr>

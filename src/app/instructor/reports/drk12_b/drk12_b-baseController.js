@@ -139,10 +139,6 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.resetStudentSelection = function() {
-            $scope.selectedStudents = [];
-        };
-
         $scope.isAllSelected = function() {
             return $scope.selectedStudents.length === $scope.courses.selected.users.length;
         };

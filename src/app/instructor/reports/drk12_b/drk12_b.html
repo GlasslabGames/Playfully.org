@@ -104,7 +104,6 @@
                                         <div class="gl-drk12_b-tablefilterbar gl-drk12_b-tablefilterbar-is-{{tableStructuralData.studentFilter}}">
                                             <ul>
                                                 <li><label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label></li>
-                                                <li><button ng-click="resetStudentSelection()" class="gl-drk12_b-tablefilterbar-x-buttonlink">Clear All</button></li>
                                             </ul>
                                             <button ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-class="{disabled: selectedStudents.length < 1}" class="gl-drk12_b-tablefilterbar-x-buttonlink">
                                                 View Selected Students' Performances Over Time
