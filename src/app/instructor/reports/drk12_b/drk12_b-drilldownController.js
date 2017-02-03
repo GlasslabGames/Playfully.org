@@ -57,71 +57,30 @@ angular.module( 'instructor.reports')
         ];
 
         var getUpdatedMissionDetails = function(mission, skillKey) {
+            var selectedMagicDataSkill = magicData[0];
             switch (skillKey) {
                 case magicData[0].key:
-                    return getConnectingEvidenceData(mission);
+                    selectedMagicDataSkill = magicData[0];
+                    break;
                 case magicData[1].key:
-                    return getSupportingClaimsData(mission);
+                    selectedMagicDataSkill = magicData[1];
+                    break;
                 case magicData[2].key:
-                    return getCriticalQuestionsData(mission);
+                    selectedMagicDataSkill = magicData[2];
+                    break;
                 case magicData[3].key:
-                    return getUsingBackingData(mission);
+                    selectedMagicDataSkill = magicData[3];
+                    break;
             }
-        };
 
-        var getConnectingEvidenceData = function(mission) {
             var returnObject = {};
-            var missionDetails = mission.skillLevel[magicData[0].key].detail;
+            var missionDetails = mission.skillLevel[selectedMagicDataSkill.key].detail;
 
-            magicData[0].skills.forEach(function(subSkill) {
-                if (missionDetails[subSkill.key] === undefined) {
-                    missionDetails[subSkill.key] = { correct: 0, attempts: 0};
-                }
-                missionDetails[subSkill.key].description = subSkill.description;
-                returnObject[subSkill.key] = missionDetails[subSkill.key];
-            });
-
-            return returnObject;
-        };
-
-        var getSupportingClaimsData = function(mission) {
-            var returnObject = {};
-            var missionDetails = mission.skillLevel[magicData[1].key].detail;
-
-            magicData[1].skills.forEach(function(subSkill) {
-                if (subSkill.key === magicData[1].skills[1].key) { // FUSE_CORE
+            selectedMagicDataSkill.skills.forEach(function(subSkill) {
+                // Special one-off horrible hack for FUSE_CORE. Need to show it in skill 2, but it comes from the server as part of skill 1.
+                if (subSkill.key === magicData[1].skills[1].key) {
                     missionDetails[subSkill.key] = mission.skillLevel[magicData[0].key].detail[subSkill.key];
                 }
-                if (missionDetails[subSkill.key] === undefined) {
-                    missionDetails[subSkill.key] = { correct: 0, attempts: 0};
-                }
-                missionDetails[subSkill.key].description = subSkill.description;
-                returnObject[subSkill.key] = missionDetails[subSkill.key];
-            });
-
-            return returnObject;
-        };
-
-        var getCriticalQuestionsData = function(mission) {
-            var returnObject = {};
-            var missionDetails = mission.skillLevel[magicData[2].key].detail;
-
-            magicData[2].skills.forEach(function(subSkill) {
-                if (missionDetails[subSkill.key] === undefined) {
-                    missionDetails[subSkill.key] = { correct: 0, attempts: 0};
-                }
-                missionDetails[subSkill.key].description = subSkill.description;
-                returnObject[subSkill.key] = missionDetails[subSkill.key];
-            });
-
-            return returnObject;
-        };
-
-        var getUsingBackingData = function(mission) {
-            var returnObject = {};
-            var missionDetails = mission.skillLevel[magicData[3].key].detail;
-
-            magicData[3].skills.forEach(function(subSkill) {
                 if (missionDetails[subSkill.key] === undefined) {
                     missionDetails[subSkill.key] = { correct: 0, attempts: 0};
                 }
