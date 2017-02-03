@@ -193,7 +193,7 @@ angular.module( 'playfully', [
                             $previousState.go("modalInvoker"); // return to previous state
                         };
                         $scope.$on("$stateChangeStart", function(evt, toState) {
-                            if (!toState.$$state().includes['modal-xlg']) {
+                            if (!toState.$$state().includes['modal-xxlg']) {
                                 $modalInstance.dismiss('close');
                             }
                         });
