@@ -7,6 +7,7 @@ angular.module( 'instructor.reports')
             $scope.selectedStudent = drk12_bStore.getSelectedStudent();
             $scope.selectedSkill = drk12_bStore.getSelectedSkill();
             $scope.selectedMission = drk12_bStore.getSelectedMission();
+            $scope.skills = drk12_bStore.getSkills();
         }
 
         var magicData = [
@@ -55,6 +56,12 @@ angular.module( 'instructor.reports')
                 ]
             }
         ];
+
+        $scope.progressTypes = { // TODO: This is redundant. Move to service.
+            Advancing: {class:'Advancing', title: 'Advancing'},
+            NeedSupport: {class:'NeedSupport', title: 'Need Support'},
+            NotYetAttempted: {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
+        };
 
         var getUpdatedMissionDetails = function(mission, skillKey) {
             var selectedMagicDataSkill = magicData[0];
