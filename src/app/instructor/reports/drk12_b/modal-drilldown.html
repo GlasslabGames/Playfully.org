@@ -9,7 +9,7 @@
     </div>
     <table width="100%">
         <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center">
+            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" ng-style="{'width': 100/numberOfSubSkills(calculdatedDetails) + '%'}">
                 <img ng-src="/assets/drk_{{skillKey}}.png">
             </td>
         </tr>
@@ -22,17 +22,25 @@
             </td>
         </tr>
         <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; background-color:#f0f0f0; border-bottom: 6px solid white">
-                <div>Success Rate</div>
-                <strong>{{calculateSuccessRateString(subSkillDetail.correct, subSkillDetail.attempts)}}</strong>
+            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:106px; background-color:#f0f0f0; border-bottom: 6px solid white; border-right: 3px solid white; border-left: 3px solid white;">
+                <div style="color: #777">Success Rate</div>
+                <strong style="color: #333; font-size: 32px;">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</strong>
+                <span ng-if="calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts) !== '-'" style="color: #333; font-size: 14px; font-weight: bold;"> %</span>
             </td>
         </tr>
         <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; background-color:#f0f0f0">
-                <strong>{{subSkillDetail.correct}} / {{subSkillDetail.attempts}}</strong>
-                <div>
-                    <span>correct Attemps</span> <span>total attempts</span>
-                </div>
+            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; background-color:#f0f0f0; border-right: 3px solid white; border-left: 3px solid white;">
+                <span style="display: inline-block; width: 55px">
+                    <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.correct}}</div>
+                    <div><span style="color: #777">correct Attempts</span></div>
+                </span>
+                <span style="display: inline-block; width: 55px; vertical-align: top;">
+                    <div style="color: #333; font-size: 32px; font-weight: bold">/</div>
+                </span>
+                <span style="display: inline-block; width: 55px">
+                    <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.attempts}}</div>
+                    <div><span style="color: #777">total attempts</span></div>
+                </span>
             </td>
         </tr>
     </table>
