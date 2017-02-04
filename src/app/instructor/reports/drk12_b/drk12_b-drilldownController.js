@@ -119,7 +119,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.calculateSuccessRate = function(correct, attempts) {
-            if (!correct || !attempts || correct === 0 || attempts === 0) {
+            if (attempts === 0) {
                 return "-";
             } else {
                 return ((correct/attempts)*100).toFixed(0);
