@@ -81,6 +81,9 @@ angular.module( 'instructor.reports')
             }
 
             var returnObject = {};
+            if (!mission.skillLevel[selectedMagicDataSkill.key].detail) {
+                mission.skillLevel[selectedMagicDataSkill.key].detail = {};
+            }
             var missionDetails = mission.skillLevel[selectedMagicDataSkill.key].detail;
 
             selectedMagicDataSkill.skills.forEach(function(subSkill) {
