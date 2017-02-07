@@ -202,11 +202,9 @@ angular.module('user', [])
 	bulkRegister: function(regInfo) {
 		var result = $http.post(API_BASE + '/auth/user/bulkregister', regInfo);
 		result.success(function(data) {
-			console.log("user-service success");
 			return data;
 		});
 		result.error(function(data) {
-			console.log("user-service error");
 			return data;
 		});
 		return result;
