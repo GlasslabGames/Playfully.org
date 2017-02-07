@@ -871,6 +871,7 @@ angular.module( 'instructor.courses', [
 	    $scope.students = [];
 
 	    $scope.studentErrors = null;
+	    $scope.notEnoughSpace = false;
 
 	    $scope.stages = {
 	        upload: "upload",
@@ -906,10 +907,10 @@ angular.module( 'instructor.courses', [
 				    var row = val.split(',');
 				    if (row.length === 4) {
 					    obj.push({
-						    lastname: row[0],
-						    firstname: row[1],
-						    screenname: row[2],
-						    password: row[3]
+						    lastName: row[0].replace(/^"(.+)"$/,'$1'),
+						    firstName: row[1].replace(/^"(.+)"$/,'$1'),
+						    username: row[2].replace(/^"(.+)"$/,'$1'),
+						    password: row[3].replace(/^"(.+)"$/,'$1')
 					    });
 				    }
 			    });
@@ -924,22 +925,27 @@ angular.module( 'instructor.courses', [
 	    };
 
 	    $scope.uploadStudents = function() {
-		    $scope.stage = $scope.stages.success;
-
-            // If too many subscribers:
-		    //$scope.stage = $scope.stages.error;
-
-            // If data error:
-            // $scope.studentErrors = {
-			 //    'janec': ['screenname'],
-		    //     'jimd': ['password', 'screenname']
-		    // };
-		    //$scope.stage = $scope.stages.error;
+		    UserService.bulkRegister({students: $scope.students, courseId: $scope.course.id})
+			    .success(function(data, status, headers, config) {
+				    if (!data.error) {
+					    $scope.stage = $scope.stages.success;
+                    } else {
+					    if (data.error.studentErrors) {
+					        $scope.studentErrors = data.error.studentErrors;
+                        } else if (data.error.notEnoughSpace) {
+						    $scope.notEnoughSpace = data.error.notEnoughSpace;
+                        }
+					    $scope.stage = $scope.stages.error;
+				    }
+			    })
+			    .error(function(data, status, headers, config) {
+				    $scope.stage = $scope.stages.error;
+			    });
 	    };
 
 	    $scope.nonuniqueError = function() {
 		    for(var key in $scope.studentErrors) {
-			    if ($scope.studentErrors[key].indexOf('screenname') >= 0) {
+			    if ($scope.studentErrors[key].indexOf('username') >= 0) {
 				    return true;
 			    }
 		    }
@@ -948,6 +954,22 @@ angular.module( 'instructor.courses', [
 	    $scope.passwordError = function() {
 		    for(var key in $scope.studentErrors) {
 			    if ($scope.studentErrors[key].indexOf('password') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.duplicateError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('duplicate') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.unknownError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('unknown') >= 0) {
 				    return true;
 			    }
 		    }
@@ -965,6 +987,7 @@ angular.module( 'instructor.courses', [
 		    $scope.eula = false;
 		    $scope.students = [];
 		    $scope.studentErrors = null;
+		    $scope.notEnoughSpace = false;
         };
     }
 )
