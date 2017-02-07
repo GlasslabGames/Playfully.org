@@ -14,10 +14,10 @@
             </td>
         </tr>
         <tr ng-if="isConnectedEvidence()">
-            <td colspan="{{numberOfSubSkills(calculdatedDetails)}}" align="center">Attached scheme-appropriate evidence to a claim when using an</td>
+            <td colspan="{{numberOfSubSkills(calculdatedDetails)}}" align="center" class="padding-top-20">Attached scheme-appropriate evidence to a claim when using an</td>
         </tr>
         <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center">
+            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" class="padding-top-20 padding-bottom-20">
                 <strong>{{subSkillDetail.description}}</strong>
             </td>
         </tr>
@@ -30,19 +30,23 @@
         </tr>
         <tr>
             <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; background-color:#f0f0f0; border-right: 3px solid white; border-left: 3px solid white;">
-                <span style="display: inline-block; width: 55px">
+                <div style="display: inline-block; width: 55px">
                     <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.correct}}</div>
                     <div><span style="color: #777">correct Attempts</span></div>
-                </span>
-                <span style="display: inline-block; width: 55px; vertical-align: top;">
+                </div>
+                <div style="display: inline-block; width: 55px; vertical-align: top;">
                     <div style="color: #333; font-size: 32px; font-weight: bold">/</div>
-                </span>
-                <span style="display: inline-block; width: 55px">
+                </div>
+                <div style="display: inline-block; width: 55px">
                     <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.attempts}}</div>
                     <div><span style="color: #777">total attempts</span></div>
-                </span>
+                </div>
             </td>
         </tr>
     </table>
-    <a href="javascript:void(0)" ng-show="didComeFromStudentInfo()" ng-click="navigateToStudentInfo()">Performance Over Time</a>
+    <div class="padding-top-20" ng-show="didComeFromStudentInfo()">
+        <a href="javascript:void(0)" ng-click="navigateToStudentInfo()">
+            <i class="fa fa-caret-left"></i> Performance Over Time
+        </a>
+    </div>
 </div>
