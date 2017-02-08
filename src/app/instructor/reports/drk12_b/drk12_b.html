@@ -91,7 +91,7 @@
                                     <!-- second th is covered by previous row -->
                                     <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
                                         <div class="gl-drk12_b-tooltip">
-                                            <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-click="sortSelected(header.value)" type="button">
+                                            <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-class="{'gl-drk12_b-tablesort-single': tableStructuralData.columnFilter != 'all'}" ng-click="sortSelected(header.value)" type="button">
                                                 {{header.title}}
                                                 <i ng-class="tableStructuralData.current===header.value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                             </button>
