@@ -7,7 +7,7 @@
                     <span ng-if="!singleUserView">Student</span>
                 </th>
                 <th ng-repeat="mission in studentsArray[0].results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject && singleUserView}">
-                    <div ng-if="mission.current">(current)</div>
+                    <div ng-if="mission.current && singleUserView">(current)</div>
                     Mission {{mission.mission}}
                 </th>
             </tr>
