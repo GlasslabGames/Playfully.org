@@ -82,13 +82,16 @@ angular.module( 'instructor.reports')
 
             var returnObject = {};
             if (!mission.skillLevel[selectedMagicDataSkill.key].detail) {
-                mission.skillLevel[selectedMagicDataSkill.key].detail = {};
+                mission.skillLevel[selectedMagicDataSkill.key].detail = {}; // because sometimes I don't get what I need from the back end
             }
             var missionDetails = mission.skillLevel[selectedMagicDataSkill.key].detail;
 
             selectedMagicDataSkill.skills.forEach(function(subSkill) {
                 // Special one-off horrible hack for FUSE_CORE. Need to show it in skill 2, but it comes from the server as part of skill 1.
                 if (subSkill.key === magicData[1].skills[1].key) {
+                    if (!mission.skillLevel[magicData[0].key].detail) { // because sometimes I don't get what I need from the back end
+                        mission.skillLevel[magicData[0].key].detail = {};
+                    }
                     missionDetails[subSkill.key] = mission.skillLevel[magicData[0].key].detail[subSkill.key];
                 }
                 if (missionDetails[subSkill.key] === undefined) {
