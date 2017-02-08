@@ -125,6 +125,11 @@
   width: 100%;
 }
 
+.gl-drk12_b-l-nooverflow {
+  margin-bottom: 30px;
+  width: 100%;
+}
+
 // Filter Button
 
 .gl-drk12_b-filterbutton {
@@ -881,6 +886,25 @@
 
 .padding-bottom-20 {
   padding-bottom: 20px;
+}
+
+table.gl-drk12_b-drillDownTable {
+  table-layout: fixed;
+  width: 710px;
+  border-collapse: separate;
+  border-spacing: 6px;
+}
+
+.gl-drk12_b-blah {
+  &::after {
+    background-color: #000;
+    content: '';
+    border-radius: 2000px; // Something absurdly high makes a pill shape
+    display: block;
+    height: 31px;
+    transform: rotate(45deg);
+    width: 3px;
+  }
 }
 
 .gl-drk12_b-drillDownSubTitle {

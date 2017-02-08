@@ -20,7 +20,7 @@ angular.module( 'instructor.reports')
         $scope.progressTypes = { // TODO: This is redundant. Move to service.
             advancing: {class:'Advancing', title: 'Advancing'},
             needSupport: {class:'NeedSupport', title: 'Need Support'},
-            notYetAttempted: {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
+            notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////
