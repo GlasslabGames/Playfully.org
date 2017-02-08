@@ -199,7 +199,18 @@ angular.module('user', [])
       });
     },
 
-	alterDeveloperStatus: function(userId, status) {
+	bulkRegister: function(regInfo) {
+		var result = $http.post(API_BASE + '/auth/user/bulkregister', regInfo);
+		result.success(function(data) {
+			return data;
+		});
+		result.error(function(data) {
+			return data;
+		});
+		return result;
+	},
+
+	  alterDeveloperStatus: function(userId, status) {
 		var data = { userId: userId, status: status };
 
       return $http({

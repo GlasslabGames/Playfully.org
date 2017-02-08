@@ -411,6 +411,58 @@ angular.module( 'instructor.courses', [
     }
   })
 
+  .state( 'modal-lg.addStudents', {
+      url: '/classes/:id/students/add',
+      data:{
+          pageTitle: 'Import Students',
+          authorizedRoles: ['instructor','admin']
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/add-students-modal.html',
+              controller: 'AddStudentsModalCtrl'
+          }
+      },
+      resolve: {
+          course: function(CoursesService, $stateParams) {
+              return CoursesService.get($stateParams.id)
+                  .then(function(response) {
+                      if (response.status < 300) {
+                          return response.data;
+                      } else {
+                          return response;
+                      }
+                  });
+          }
+      }
+  })
+
+  .state( 'modal-lg.addStudentsHelp', {
+      url: '/classes/:id/students/add',
+      data:{
+          pageTitle: 'FAQs',
+          authorizedRoles: ['instructor','admin']
+      },
+      views: {
+          'modal@': {
+              templateUrl: 'instructor/courses/add-students-help-modal.html',
+              controller: 'AddStudentsHelpModalCtrl'
+          }
+      },
+      resolve: {
+	      course: function(CoursesService, $stateParams) {
+		      return CoursesService.get($stateParams.id)
+			      .then(function(response) {
+				      if (response.status < 300) {
+					      return response.data;
+				      } else {
+					      return response;
+				      }
+			      });
+	      }
+      }
+  })
+
   .state('lockMissions', {
     parent: 'courses',
     url: '/:courseId/games/:gameId/lock',
@@ -807,6 +859,154 @@ angular.module( 'instructor.courses', [
 
 })
 
+.controller('AddStudentsModalCtrl',
+    function($scope, $rootScope, $state, $log, $timeout, course, UserService, AuthService) {
+        $scope.course = course;
+
+	    $scope.studentsUpload = {};
+	    $scope.studentsUpload.src = "";
+
+	    $scope.eula = false;
+
+	    $scope.students = [];
+
+	    $scope.studentErrors = null;
+	    $scope.notEnoughSpace = false;
+
+	    $scope.stages = {
+	        upload: "upload",
+		    preview: "preview",
+		    success: "success",
+		    error: "error"
+        };
+        $scope.stage = $scope.stages.upload;
+
+        $scope.invalidInput = false;
+
+        $scope.downloadTemplate = function() {
+	        var link = document.createElement('a');
+	        link.setAttribute('href', encodeURI("data:text/csv;base64,"+btoa("Last Initial,First Name,Screen Name,Password\n")));
+	        // TODO: fix filename not getting through
+	        link.setAttribute('download', 'bulk-upload-template.csv');
+	        link.click();
+        };
+
+	    $scope.importStudents = function() {
+		    var input = $scope.studentsUpload.src;
+		    if (!input.startsWith("data:text/csv;base64,")) {
+			    $scope.invalidInput = true;
+                return;
+		    }
+
+		    // TODO: throw error for invalid format?
+		    var obj = [];
+		    try {
+			    var csvData = atob(input.split("data:text/csv;base64,")[1]);
+			    var rows = csvData.split('\n').slice(1); // Remove header row
+			    angular.forEach(rows, function (val) {
+				    var row = val.split(',');
+				    if (row.length === 4) {
+					    obj.push({
+						    lastName: row[0].replace(/^"(.+)"$/,'$1'),
+						    firstName: row[1].replace(/^"(.+)"$/,'$1'),
+						    username: row[2].replace(/^"(.+)"$/,'$1'),
+						    password: row[3].replace(/^"(.+)"$/,'$1')
+					    });
+				    }
+			    });
+		    } catch (err) {
+			    $scope.invalidInput = true;
+			    return;
+            }
+
+		    $scope.invalidInput = false;
+            $scope.students = obj;
+		    $scope.stage = $scope.stages.preview;
+	    };
+
+	    $scope.uploadStudents = function() {
+	        try {
+		        UserService.bulkRegister({students: $scope.students, courseId: $scope.course.id})
+			        .success(function (data, status, headers, config) {
+				        if (!data.error) {
+					        $scope.stage = $scope.stages.success;
+				        } else {
+					        if (data.error.studentErrors) {
+						        $scope.studentErrors = data.error.studentErrors;
+					        } else if (data.error.notEnoughSpace) {
+						        $scope.notEnoughSpace = data.error.notEnoughSpace;
+					        }
+					        $scope.stage = $scope.stages.error;
+				        }
+			        })
+			        .error(function (data, status, headers, config) {
+				        $scope.stage = $scope.stages.error;
+			        });
+	        } catch(err) {
+		        $scope.stage = $scope.stages.error;
+            }
+	    };
+
+	    $scope.nonuniqueError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('username') >= 0) {
+				    return true;
+			    }
+		    }
+        };
+
+	    $scope.passwordError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('password') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.duplicateError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('duplicate') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.unknownError = function() {
+		    for(var key in $scope.studentErrors) {
+			    if ($scope.studentErrors[key].indexOf('unknown') >= 0) {
+				    return true;
+			    }
+		    }
+	    };
+
+	    $scope.upgradeAccount = function() {
+		    $scope.close();
+	    };
+
+	    $scope.done = function() {
+		    $rootScope.$broadcast('courses:updated');
+		    $scope.close();
+        };
+
+	    $scope.resetState = function() {
+		    $scope.stage = $scope.stages.upload;
+		    $scope.studentsUpload = {};
+		    $scope.studentsUpload.src = "";
+		    $scope.invalidInput = false;
+		    $scope.eula = false;
+		    $scope.students = [];
+		    $scope.studentErrors = null;
+		    $scope.notEnoughSpace = false;
+        };
+    }
+)
+
+.controller('AddStudentsHelpModalCtrl',
+    function($scope, $rootScope, $state, $log, $timeout, course, UserService, AuthService) {
+	    $scope.course = course;
+    }
+)
+
 .controller('LockMissionsModalCtrl',
   function($scope, $state, $stateParams, $rootScope, $timeout, $log, $modalInstance, course, CoursesService) {
 
@@ -834,6 +1034,25 @@ angular.module( 'instructor.courses', [
         });
     };
 
-});
+})
+
+.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result;
+                    });
+                };
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    };
+}]);
 
 
