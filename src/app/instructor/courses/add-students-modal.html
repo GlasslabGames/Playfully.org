@@ -6,7 +6,7 @@
   <h3 class="modal-title" ng-show="stage == stages.error">Oops</h3>
 </div>
 
-<div class="modal-body" style="padding-left: 0; padding-right: 0;">
+<div class="modal-body blk-modal-body">
   <alert ng-show="error" type="danger"><strong>Error:</strong> {{ error }}</alert>
 
   <form name="importStudentsForm" id="importStudentsForm" novalidate
@@ -37,8 +37,8 @@
     </div>
 
     <p class="text-center">
-      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
-      <input type="submit" style="width: 6em;" class="btn gl-btn--blue" value="Next">
+      <button type="button" class="btn blk-modal-btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" class="btn blk-modal-btn gl-btn--blue" value="Next">
     </p>
   </form>
   <form name="addStudentsForm" id="addStudentsForm" novalidate
@@ -79,8 +79,8 @@
     </div>
 
     <p class="text-center">
-      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
-      <input type="submit" style="width: 6em;" class="btn gl-btn--blue" value="Add" ng-disabled="addStudentsForm.$invalid">
+      <button type="button" class="btn blk-modal-btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <input type="submit" class="btn blk-modal-btn gl-btn--blue" value="Add" ng-disabled="addStudentsForm.$invalid">
     </p>
   </form>
   <div ng-show="stage == stages.success">
@@ -89,18 +89,18 @@
     </p>
 
     <p class="text-center">
-      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="resetState()">Add more</button>
-      <button type="button" style="width: 6em;" class="btn gl-btn--blue" ng-click="$dismiss()">Done</button>
+      <button type="button" class="btn blk-modal-btn gl-btn--grey" ng-click="resetState()">Add more</button>
+      <button type="button" class="btn blk-modal-btn gl-btn--blue" ng-click="done()">Done</button>
     </p>
   </div>
   <div ng-show="stage == stages.error">
     <div ng-show="!notEnoughSpace && !studentErrors">
-      <p class="text-center" style="color: red; font-weight: bold;">
+      <p class="text-center blk-form-error" style="font-weight: bold;">
         An unknown error occurred. Please check the format of your spreadsheet, or try again later.
       </p>
     </div>
     <div ng-show="notEnoughSpace">
-      <p class="text-center" style="color: red; font-weight: bold;">
+      <p class="text-center blk-form-error" style="font-weight: bold;">
 		  You have exceeded the maximum number of student seats available in your current subscription
       </p>
       <p class="text-center" style="padding-top: 1em; padding-bottom: 2em;">
@@ -109,8 +109,8 @@
       </p>
     </div>
     <div ng-show="!notEnoughSpace && studentErrors" style="padding-bottom: 1em;">
-      <p style="color: red;">Please check the list to see the error:</p>
-      <ul style="color: red;">
+      <p class="blk-form-error">Please check the list to see the error:</p>
+      <ul class="blk-form-error">
         <li ng-show="nonuniqueError()">A student screenname is already taken.</li>
         <li ng-show="passwordError()">A student password needs to have at least 6 characters, with at least 1 uppercase letter and 1 number.</li>
         <li ng-show="duplicateError()">A student first name and last initial pair is a duplicate.</li>
@@ -151,8 +151,8 @@
     </div>
 
     <p class="text-center">
-      <button type="button" style="width: 6em;" class="btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
-      <button type="button" style="width: 6em;" class="btn gl-btn--blue" ng-click="resetState()">Reupload</button>
+      <button type="button" class="btn blk-modal-btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
+      <button type="button" class="btn blk-modal-btn gl-btn--blue" ng-click="resetState()">Reupload</button>
     </p>
   </div>
 </div>

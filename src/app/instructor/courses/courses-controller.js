@@ -925,22 +925,26 @@ angular.module( 'instructor.courses', [
 	    };
 
 	    $scope.uploadStudents = function() {
-		    UserService.bulkRegister({students: $scope.students, courseId: $scope.course.id})
-			    .success(function(data, status, headers, config) {
-				    if (!data.error) {
-					    $scope.stage = $scope.stages.success;
-                    } else {
-					    if (data.error.studentErrors) {
-					        $scope.studentErrors = data.error.studentErrors;
-                        } else if (data.error.notEnoughSpace) {
-						    $scope.notEnoughSpace = data.error.notEnoughSpace;
-                        }
-					    $scope.stage = $scope.stages.error;
-				    }
-			    })
-			    .error(function(data, status, headers, config) {
-				    $scope.stage = $scope.stages.error;
-			    });
+	        try {
+		        UserService.bulkRegister({students: $scope.students, courseId: $scope.course.id})
+			        .success(function (data, status, headers, config) {
+				        if (!data.error) {
+					        $scope.stage = $scope.stages.success;
+				        } else {
+					        if (data.error.studentErrors) {
+						        $scope.studentErrors = data.error.studentErrors;
+					        } else if (data.error.notEnoughSpace) {
+						        $scope.notEnoughSpace = data.error.notEnoughSpace;
+					        }
+					        $scope.stage = $scope.stages.error;
+				        }
+			        })
+			        .error(function (data, status, headers, config) {
+				        $scope.stage = $scope.stages.error;
+			        });
+	        } catch(err) {
+		        $scope.stage = $scope.stages.error;
+            }
 	    };
 
 	    $scope.nonuniqueError = function() {
@@ -978,6 +982,11 @@ angular.module( 'instructor.courses', [
 	    $scope.upgradeAccount = function() {
 		    $scope.close();
 	    };
+
+	    $scope.done = function() {
+		    $rootScope.$broadcast('courses:updated');
+		    $scope.close();
+        };
 
 	    $scope.resetState = function() {
 		    $scope.stage = $scope.stages.upload;
