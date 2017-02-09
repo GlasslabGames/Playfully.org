@@ -992,6 +992,7 @@ angular.module( 'instructor.courses', [
 		    $scope.stage = $scope.stages.upload;
 		    $scope.studentsUpload = {};
 		    $scope.studentsUpload.src = "";
+		    angular.element("input[type='file']").val(null);
 		    $scope.invalidInput = false;
 		    $scope.eula = false;
 		    $scope.students = [];
