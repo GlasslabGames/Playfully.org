@@ -16,10 +16,13 @@
 
     <div class="form-group form-group--labeled blk-form-panel" style="float:left;">
       <label for="template"><span class="blk-title-number">1</span> Download Template</label>
-      <button type="button" name="template" class="btn gl-btn--green" ng-click="downloadTemplate()">
-        Download
-      </button>
-      <a class="blk-help" ui-sref="modal-lg.addStudentsHelp({id: course.id})">?</a>
+      <div class="blk-csv-icon"></div>
+      <div>
+        <button type="button" name="template" class="btn gl-btn--green" ng-click="downloadTemplate()">
+          Download
+        </button>
+        <a class="blk-help" ui-sref="modal-lg.addStudentsHelp({id: course.id})">?</a>
+      </div>
     </div>
 
     <div class="form-group form-group--labeled blk-form-panel" style="float:right;"
@@ -113,7 +116,7 @@
       <ul class="blk-form-error">
         <li ng-show="nonuniqueError()">A student screenname is already taken.</li>
         <li ng-show="passwordError()">A student password needs to have at least 6 characters, with at least 1 uppercase letter and 1 number.</li>
-        <li ng-show="duplicateError()">A student first name and last initial pair is a duplicate.</li>
+        <li ng-show="initialError()">A student's last initial cannot be more than one letter.</li>
         <li ng-show="unknownError()">A required field is missing.</li>
       </ul>
       <div class="gl-course-students row gl-course-students--open" style="padding-bottom: 8px;">
@@ -135,10 +138,10 @@
            ng-class-odd="'gl-students-data-odd'"
            ng-repeat="user in students">
         <div class="col-md-3"
-             ng-class="{'blk-form-error': studentErrors[user.username].indexOf('duplicate') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
+             ng-class="{'blk-form-error': studentErrors[user.username].indexOf('initial') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.lastName"></div>
         <div class="col-md-3"
-             ng-class="{'blk-form-error': studentErrors[user.username].indexOf('duplicate') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
+             ng-class="{'blk-form-error': studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.firstName"></div>
         <div class="col-md-3"
              ng-class="{'blk-form-error': studentErrors[user.username].indexOf('username') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"

@@ -963,9 +963,9 @@ angular.module( 'instructor.courses', [
 		    }
 	    };
 
-	    $scope.duplicateError = function() {
+	    $scope.initialError = function() {
 		    for(var key in $scope.studentErrors) {
-			    if ($scope.studentErrors[key].indexOf('duplicate') >= 0) {
+			    if ($scope.studentErrors[key].indexOf('initial') >= 0) {
 				    return true;
 			    }
 		    }
