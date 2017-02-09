@@ -87,7 +87,7 @@
 
     <p class="text-center">
       <button type="button" class="btn blk-modal-btn gl-btn--grey" ng-click="$dismiss()">Cancel</button>
-      <input type="submit" class="btn blk-modal-btn gl-btn--blue" value="Add" ng-disabled="addStudentsForm.$invalid">
+      <input type="submit" class="btn blk-modal-btn gl-btn--blue" value="{{uploadInProgress ? 'Adding...' : 'Add'}}" ng-disabled="uploadInProgress || addStudentsForm.$invalid">
     </p>
   </form>
   <div ng-show="stage == stages.success">

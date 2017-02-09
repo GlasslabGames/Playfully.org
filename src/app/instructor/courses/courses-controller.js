@@ -881,6 +881,7 @@ angular.module( 'instructor.courses', [
         };
         $scope.stage = $scope.stages.upload;
 
+        $scope.uploadInProgress = false;
         $scope.invalidInput = false;
 
         $scope.downloadTemplate = function() {
@@ -893,7 +894,9 @@ angular.module( 'instructor.courses', [
 
 	    $scope.importStudents = function() {
 		    var input = $scope.studentsUpload.src;
-		    if (!input.startsWith("data:text/csv;base64,")) {
+		    if (!input.startsWith("data:text/csv;base64,") &&
+                !input.startsWith("data:text/plain;base64,") &&
+			    !input.startsWith("data:;base64,")) {
 			    $scope.invalidInput = true;
                 return;
 		    }
@@ -901,7 +904,7 @@ angular.module( 'instructor.courses', [
 		    // TODO: throw error for invalid format?
 		    var obj = [];
 		    try {
-			    var csvData = atob(input.split("data:text/csv;base64,")[1]);
+			    var csvData = atob(input.split("base64,")[1]);
 			    var rows = csvData.split('\n').slice(1); // Remove header row
 			    angular.forEach(rows, function (val) {
 				    var row = val.split(',');
@@ -925,6 +928,7 @@ angular.module( 'instructor.courses', [
 	    };
 
 	    $scope.uploadStudents = function() {
+		    $scope.uploadInProgress = true;
 	        try {
 		        UserService.bulkRegister({students: $scope.students, courseId: $scope.course.id})
 			        .success(function (data, status, headers, config) {
@@ -938,12 +942,15 @@ angular.module( 'instructor.courses', [
 					        }
 					        $scope.stage = $scope.stages.error;
 				        }
+				        $scope.uploadInProgress = false;
 			        })
 			        .error(function (data, status, headers, config) {
 				        $scope.stage = $scope.stages.error;
+				        $scope.uploadInProgress = false;
 			        });
 	        } catch(err) {
 		        $scope.stage = $scope.stages.error;
+		        $scope.uploadInProgress = false;
             }
 	    };
 
@@ -998,6 +1005,7 @@ angular.module( 'instructor.courses', [
 		    $scope.students = [];
 		    $scope.studentErrors = null;
 		    $scope.notEnoughSpace = false;
+		    $scope.uploadInProgress = false;
         };
     }
 )
