@@ -121,7 +121,7 @@
     <div ng-show="!notEnoughSpace && studentErrors" style="padding-bottom: 1em;">
       <p class="blk-form-error">Please check the list to see the error:</p>
       <ul class="blk-form-error">
-        <li ng-show="nonuniqueError()">A student screenname is already taken.</li>
+        <li ng-show="nonuniqueError()">A student screenname is blank or already taken.</li>
         <li ng-show="passwordError()">A student password needs to have at least 6 characters, with at least 1 uppercase letter and 1 number.</li>
         <li ng-show="initialError()">A student's last initial cannot be more than one letter.</li>
         <li ng-show="unknownError()">A required field is missing.</li>
