@@ -71,10 +71,10 @@
          ng-class-even="'gl-students-data-even'"
          ng-class-odd="'gl-students-data-odd'"
          ng-repeat="user in students">
-      <div class="col-md-3" ng-bind="user.lastName"></div>
-      <div class="col-md-3" ng-bind="user.firstName"></div>
-      <div class="col-md-3" ng-bind="user.username"></div>
-      <div class="col-md-3" ng-bind="user.password"></div>
+      <div class="col-md-3 blk-student-table-cell" ng-bind="user.lastName"></div>
+      <div class="col-md-3 blk-student-table-cell" ng-bind="user.firstName"></div>
+      <div class="col-md-3 blk-student-table-cell" ng-bind="user.username"></div>
+      <div class="col-md-3 blk-student-table-cell" ng-bind="user.password"></div>
     </div>
     <div class="gl-course-students row gl-course-students--open"></div>
 
@@ -144,16 +144,16 @@
            ng-class-even="'gl-students-data-even'"
            ng-class-odd="'gl-students-data-odd'"
            ng-repeat="user in students">
-        <div class="col-md-3"
+        <div class="col-md-3 blk-student-table-cell"
              ng-class="{'blk-form-error': studentErrors[user.username].indexOf('initial') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.lastName"></div>
-        <div class="col-md-3"
+        <div class="col-md-3 blk-student-table-cell"
              ng-class="{'blk-form-error': studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.firstName"></div>
-        <div class="col-md-3"
+        <div class="col-md-3 blk-student-table-cell"
              ng-class="{'blk-form-error': studentErrors[user.username].indexOf('username') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.username"></div>
-        <div class="col-md-3"
+        <div class="col-md-3 blk-student-table-cell"
              ng-class="{'blk-form-error': studentErrors[user.username].indexOf('password') >= 0 || studentErrors[user.username].indexOf('unknown') >= 0}"
              ng-bind="user.password"></div>
       </div>
