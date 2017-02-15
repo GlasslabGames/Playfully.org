@@ -885,14 +885,30 @@ angular.module( 'instructor.courses', [
         $scope.invalidInput = false;
 
         $scope.downloadTemplate = function() {
-	        var link = document.createElement('a');
-	        link.setAttribute('href', encodeURI("data:text/csv;base64,"+btoa("Last Initial,First Name,Screen Name,Password\n")));
-	        // TODO: fix filename not getting through
-	        link.setAttribute('download', 'bulk-upload-template.csv');
-	        link.click();
+            var filename = 'bulk-upload-template.csv';
+            var contents = "Last Initial,First Name,Screen Name,Password\n";
+
+            // IE does not support downloading files except with Blobs.
+	        if (/MSIE 10/i.test(navigator.userAgent) ||
+                (/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) ||
+		        /Edge\/\d./i.test(navigator.userAgent)) {
+	            window.navigator.msSaveOrOpenBlob(new Blob([contents]), filename);
+            } else {
+	            var link = document.createElement('a');
+	            link.setAttribute('href', encodeURI("data:text/csv;base64," + btoa(contents)));
+	            link.setAttribute('download', filename);
+	            link.click();
+            }
         };
 
 	    $scope.importStudents = function() {
+		    if (!String.prototype.startsWith) {
+			    String.prototype.startsWith = function(searchString, position){
+				    position = position || 0;
+				    return this.substr(position, searchString.length) === searchString;
+			    };
+		    }
+
 		    var input = $scope.studentsUpload.src;
 		    if (!input.startsWith("data:text/csv;base64,") &&
                 !input.startsWith("data:text/plain;base64,") &&
