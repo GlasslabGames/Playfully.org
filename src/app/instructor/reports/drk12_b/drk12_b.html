@@ -103,8 +103,7 @@
                                     <th colspan="{{numberOfColumnsChecked() + 2}}" class="gl-drk12_b-table-x-tablefilterbar">
                                         <div class="gl-drk12_b-tablefilterbar gl-drk12_b-tablefilterbar-is-{{tableStructuralData.studentFilter}}">
                                             <label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label>
-                                            <span class="padding-sides-15">|</span>
-                                            <button ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-class="{disabled: selectedStudents.length < 1}" class="gl-drk12_b-tablefilterbar-x-buttonlink">
+                                            <button ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-disabled="selectedStudents.length < 1" ng-class="{disabled: selectedStudents.length < 1}" class="gl-drk12_b-performancetrigger gl-clickable">
                                                 View Selected Students' Performances Over Time
                                             </button>
                                         </div>
@@ -119,12 +118,6 @@
                                             <input type="checkbox" id="{{student.id}}" ng-checked="selectedStudents.indexOf(student) != -1" ng-click="toggleStudentCheck(student)"/>
                                             {{student.firstName}} {{student.lastName}}
                                         </label>
-                                        <button class="gl-drk12_b-performancetrigger gl-clickable" ng-if="student.results.currentProgress"
-                                             ng-click="setCurrentStudent(student); openModal('studentInfo')"
-                                             type="button">
-                                            Performance Over Time
-                                            <i class="fa fa-caret-right"></i>
-                                        </button>
                                     </td>
                                     <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
                                     <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
