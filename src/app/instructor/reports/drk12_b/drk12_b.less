@@ -848,6 +848,36 @@
   text-align: center;
 }
 
+.gl-drk12_b-drillDownSubTitle {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  & .gl-drk12_b-progressicon::before {
+    border: 3px solid #fff;
+    border-radius: 100%;
+    box-shadow: 0 0 4px 0 rgba(0,0,0, .5);
+    box-sizing: border-box;
+    content: '';
+    display: block;
+    flex: 0 0 40px;
+    height: 30px;
+    margin-right: 20px;
+    max-width: 30px;
+    transition: opacity .3s ease-out;
+    width: 30px;
+  }
+}
+
+a.gl-drk12_b-arrow:link,
+a.gl-drk12_b-arrow:hover {
+  color: #555555;
+  text-decoration: none;
+  &.disabled {
+    color: #cccccc;
+    cursor: not-allowed;
+  }
+}
+
 // TODO: Update this styling to be within the existing system
 .floatRight {
   float: right;
@@ -903,34 +933,5 @@ table.gl-drk12_b-drillDownTable {
     height: 31px;
     transform: rotate(45deg);
     width: 3px;
-  }
-}
-
-.gl-drk12_b-drillDownSubTitle {
-  display: flex;
-  align-items: center;
-  min-height: 32px;
-  & .gl-drk12_b-progressicon::before {
-    border: 3px solid #fff;
-    border-radius: 100%;
-    box-shadow: 0 0 4px 0 rgba(0,0,0, .5);
-    box-sizing: border-box;
-    content: '';
-    display: block;
-    flex: 0 0 40px;
-    height: 30px;
-    margin-right: 20px;
-    max-width: 30px;
-    transition: opacity .3s ease-out;
-    width: 30px;
-  }
-}
-
-a.gl-drk12_b-arrow:link,
-a.gl-drk12_b-arrow:hover {
-  color: #555555;
-  &.disabled {
-    color: #cccccc;
-    cursor: not-allowed;
   }
 }
