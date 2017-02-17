@@ -9,7 +9,7 @@
         <a href="javascript:void(0)" ng-if="allowSkillNavigation()" ng-click="decrementSkill()" ng-class="['gl-drk12_b-arrow', {'disabled': isFirstSkill(selectedSkill)}]">
             <i class="fa fa-arrow-left"></i>
         </a>
-        <a href="javascript:void(0)" ng-if="allowSkillNavigation()" ng-click="incrementSkill()" ng-class="['gl-drk12_b-arrow', {'disabled': isLastSkill(selectedSkill)}]">
+        <a href="javascript:void(0)" ng-if="allowSkillNavigation()" ng-click="incrementSkill()" ng-class="['gl-drk12_b-arrow', 'padding-left-20', {'disabled': isLastSkill(selectedSkill)}]">
             <i class="fa fa-arrow-right"></i>
         </a>
         <span class="width290">{{skills[selectedSkill].name}}</span>
