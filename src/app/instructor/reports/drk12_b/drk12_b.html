@@ -133,8 +133,9 @@
             </tabset>
         </div>
     </div>
-    <div class="gl-drk12_b-footerhelper gl-drk12_b-collapsebar" ng-click="collapse = !collapse">This is some content... that will be hidden
-        <div collapse="collapse">This is some content.</div>
+    <div class="gl-drk12_b-footerhelper" ng-init="collapse = true">
+        <div class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse">Button : {{collapse}}</div>
+        <div class="gl-drk12_b-collapsecontent" ng-class="{'expanded': !collapse}" collapse="collapse">This is some content.</div>
     </div>
     <script type="text/javascript">
         $('#drk12_b-header').on('scroll', function () {
