@@ -133,9 +133,11 @@
             </tabset>
         </div>
     </div>
-    <div class="gl-drk12_b-footerhelper" ng-init="collapse = true">
-        <div class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse">Button : {{collapse}}</div>
-        <div class="gl-drk12_b-collapsecontent" ng-class="{'expanded': !collapse}" collapse="collapse">This is some content.</div>
+    <div class="gl-drk12_b-footerhelper" ng-init="collapse = false">
+        <div class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></div>
+        <div class="gl-drk12_b-collapsecontent" ng-class="{'expanded': !collapse}" collapse="collapse">
+            <div ng-include="'instructor/reports/drk12_b/helperDrawer.html'"></div>
+        </div>
     </div>
     <script type="text/javascript">
         $('#drk12_b-header').on('scroll', function () {

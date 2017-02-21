@@ -853,9 +853,15 @@
   left: 0;
   position: fixed;
   width: 100%;
+  -webkit-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
+  box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
   .gl-drk12_b-collapsebar {
     background-color: #fdd367;
+    font-weight: bold;
     height: 30px;
+    padding: 5px 0;
+    text-align: center;
   }
   .gl-drk12_b-collapsecontent {
     background-color: white;
@@ -892,6 +898,32 @@ a.gl-drk12_b-arrow:hover {
     color: #cccccc;
     cursor: not-allowed;
   }
+}
+
+.gl-drk12_b-helpermenu {
+  display: inline-block;
+  width: 33%;
+  .title_cell {
+    background-color: #67CADA;
+    color: #FFF;
+    height: 60px;
+    padding: 15px 0 0 30px;
+    h3 {
+      margin: 0;
+    }
+    i {
+      padding-right: 10px;
+
+    }
+  }
+  .topLevelOptions {
+    height: 85px;
+    padding: 15px 0 0 30px;
+  }
+}
+
+.gl-drk12_b-helpermaincontent {
+  display: inline-block;
 }
 
 // TODO: Update this styling to be within the existing system
