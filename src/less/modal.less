@@ -129,13 +129,17 @@
       padding-right: 1em;
     }
 
-    td:last-child {
-      color: #909090;
+    tr:nth-child(2n+1) {
+      font-weight: bold;
     }
 
     tr:nth-child(2n) {
       td {
         padding-bottom: 1em;
+      }
+      
+      td:last-child {
+        color: #909090;
       }
     }
   }
