@@ -1,8 +1,8 @@
 <div class="gl-drk12_b-l-nooverflow" ng-controller="Drk12bModalDrilldown">
     <div class="gl-drk12_b-drillDownSubTitle">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span>{{skills[selectedSkill].name}}</span><span class="padding-sides-15">|</span>
-        <span>Mission {{selectedMission.mission}}</span><span class="padding-sides-15">|</span>
+        <span>SKILL: {{skills[selectedSkill].label}}</span><span class="padding-sides-15">|</span>
+        <span><strong>Mission {{selectedMission.mission}}</strong></span><span class="padding-sides-15">|</span>
         <span class="gl-drk12_b-progressicon" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{progressTypes[selectedMission.skillLevel[selectedSkill].level].title}}
         </span>
@@ -18,7 +18,8 @@
         </tr>
         <tr>
             <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" class="padding-top-20 padding-bottom-20">
-                <strong>{{subSkillDetail.description}}</strong>
+                <div><strong>{{subSkillDetail.description}}</strong></div>
+                <div ng-if="subSkillDetail.subDescription" style="font-size: 9pt;">({{subSkillDetail.subDescription}})</div>
             </td>
         </tr>
         <tr>

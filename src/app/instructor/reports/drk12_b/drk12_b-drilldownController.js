@@ -14,22 +14,38 @@ angular.module( 'instructor.reports')
             {
                 key: "connectingEvidence",
                 skills: [
-                    { key: "AUTHORITRON", description: "AUTHORITRON" },
-                    { key: "OBSERVATRON", description: "OBSERVATRON" },
-                    { key: "CONSEBOT", description: "CONSEBOT" },
-                    { key: "COMPARIDROID", description: "COMPARIDROID" }
+                    {
+                        key: "AUTHORITRON",
+                        description: "AUTHORITRON",
+	                    subDescription: "Authority"
+                    },
+                    {
+                        key: "OBSERVATRON",
+                        description: "OBSERVATRON",
+	                    subDescription: "Observation"
+                    },
+                    {
+                        key: "CONSEBOT",
+                        description: "CONSEBOT",
+	                    subDescription: "Consequence"
+                    },
+                    {
+                        key: "COMPARIDROID",
+                        description: "COMPARIDROID",
+	                    subDescription: "Comparison"
+                    }
                 ]
             },
             {
                 key: "supportingClaims",
                 skills: [
+	                {
+		                key: "FUSE_CORE",
+		                description: "Built core arguments using relevant and supporting evidence"
+	                },
                     {
                         key: "CORE_ATTACK",
-                        description: "Identified claims supported by irrelevant pairs and contradictory evidence in battle"
-                    },
-                    {
-                        key: "FUSE_CORE",
-                        description: "Assembled claim-evidence pairs with supporting evidence"
+                        description: "Attacked irrelevant and contradictory evidence in opponent core arguments"
                     }
                 ]
             },
@@ -38,7 +54,7 @@ angular.module( 'instructor.reports')
                 skills: [
                     {
                         key: "CRITICAL_QUESTION_ATTACK",
-                        description: "Used a critical question to attack their opponent's bot in a battle"
+                        description: "Correctly used critical questions"
                     }
                 ]
             },
@@ -47,11 +63,11 @@ angular.module( 'instructor.reports')
                 skills: [
                     {
                         key: "CREATED",
-                        description: "Created claim-cores with appropriate backing"
+                        description: "Chose appropriate backing to strengthen a core argument"
                     },
                     {
                         key: "DEFENDED",
-                        description: "Used backing to defend against a critical question attack"
+                        description: "Correctly used backing to respond to critical questions"
                     }
                 ]
             }
@@ -98,6 +114,7 @@ angular.module( 'instructor.reports')
                     missionDetails[subSkill.key] = { correct: 0, attempts: 0};
                 }
                 missionDetails[subSkill.key].description = subSkill.description;
+	            missionDetails[subSkill.key].subDescription = subSkill.subDescription;
                 returnObject[subSkill.key] = missionDetails[subSkill.key];
             });
 

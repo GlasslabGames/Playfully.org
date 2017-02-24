@@ -167,6 +167,7 @@ angular.module( 'instructor.reports')
         $.each($scope.reports.selected.skills, function(skillKey, skill) {
             var skillHeader = {
                 title: skill.name,
+	            label: "SKILL: "+skill.label,
                 description: skill.description,
                 buttonDescription: buttonTextChange(skill.description),
                 value: skillKey
@@ -351,7 +352,7 @@ angular.module( 'instructor.reports')
                     .attr("x", -10)
                     .attr("text-anchor", "middle")
                     .attr("transform", "rotate(-90 -10 " + height/2 + ")")
-                    .text("# of students");
+                    .text("Number of students");
 
             chartGroup.append("g")
                 .attr("class", "x axis")
