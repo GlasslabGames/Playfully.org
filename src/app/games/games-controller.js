@@ -808,10 +808,10 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         if (ENV.game_sdkURI) {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
         }
-        if (gameDetails.gameId.toUpperCase() === "GEM") {
-            var classCode = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; }).code;
-            if (classCode) {
-                embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "classCode=" + classCode;
+        if (gameDetails.gameId.toUpperCase() === "GEM" || gameDetails.gameId.toUpperCase() === "GEMAUDIO") {
+            var foundCourse = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; });
+            if (foundCourse && foundCourse.code) {
+                embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "classCode=" + foundCourse.code;
             }
         }
         console.log(embed);
