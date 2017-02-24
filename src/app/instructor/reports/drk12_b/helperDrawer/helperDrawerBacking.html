@@ -1,0 +1,12 @@
+<div ng-controller="helperCtrl">
+    <div class="gl-drk12_b-helpermenu">
+        <div class="title_cell" ng-click="changeSection('Report Helper')">
+            <h3><i class="fa fa-caret-left" ng-hide="selectedTitle == 'Report Helper'"></i>{{selectedTitle}}</h3>
+        </div>
+        <div class="topLevelOptions" ng-repeat="cellTitle in data" ng-click="changeSection(cellTitle)">
+            <h1>{{cellTitle}}</h1>
+            <hr/>
+        </div>
+    </div>
+    <div class="gl-drk12_b-helpermaincontent">BACKING</div>
+</div>

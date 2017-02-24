@@ -866,7 +866,7 @@
   .gl-drk12_b-collapsecontent {
     background-color: white;
     &.expanded {
-      height: 400px !important;
+      height: 50vh !important;
     }
   }
 }
@@ -916,6 +916,11 @@ a.gl-drk12_b-arrow:hover {
 
     }
   }
+  .selectedOptionMenuArea {
+    height: calc(~"100% - 60px");
+    padding: 15px 0 0 30px;
+    overflow-y: scroll;
+  }
   .topLevelOptions {
     height: 85px;
     padding: 15px 0 0 30px;
@@ -924,6 +929,7 @@ a.gl-drk12_b-arrow:hover {
 
 .gl-drk12_b-helpermaincontent {
   display: inline-block;
+  vertical-align: top;
 }
 
 // TODO: Update this styling to be within the existing system
