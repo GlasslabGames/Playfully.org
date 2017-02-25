@@ -22,12 +22,16 @@ angular.module( 'instructor.reports')
             }
         });
     })
-    .controller('helperCtrl', function($scope) {
+    .controller('helperCtrl', function($scope, $location, $anchorScroll) {
         $scope.data = ["Argument Schemes", "Claims and Evidence", "Critical Questions", "Backing"];
         $scope.selectedTitle = "Report Helper";
 
         $scope.changeSection = function(newOption) {
             $scope.$emit('CHANGE_PAGE', newOption);
             $scope.selectedTitle = newOption;
+        };
+
+        $scope.gotoLocation = function(locationSuffix) {
+            $anchorScroll('number' + locationSuffix);
         };
     });

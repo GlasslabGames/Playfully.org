@@ -4,7 +4,7 @@
             <h3><i class="fa fa-caret-left"></i>Argument Schemes</h3>
         </div>
         <div class="selectedOptionMenuArea">
-            <h2>Step 1: Where Are We Going?</h2>
+            <h2 ng-click="gotoLocation(1)">Step 1: Where Are We Going?</h2>
             <ul>
                 <li><h4>Deepen your knowledge about this skill</h4></li>
                 <li><h4>What is an argument scheme?</h4></li>
@@ -12,20 +12,31 @@
                 <li><h4>How do players connect evidence to argument schemes in the game?</h4></li>
             </ul>
             <hr/>
-            <h2>STEP 2: Where Are We Now?</h2>
+            <h2 ng-click="gotoLocation(5)">STEP 2: Where Are We Now?</h2>
             <ul>
                 <li><h4>PERFORMANCE OVER TIME REPORT</h4></li>
                 <li><h4>PERFORMANCE DRILL DOWN REPORT</h4></li>
                 <li><h4>GAMEPLAY TRANSCRIPT </h4></li>
             </ul>
             <hr/>
-            <h2>STEP 3: How Do We Get From Here to Where We Need to Go?</h2>
+            <h2 ng-click="gotoLocation(9)">STEP 3: How Do We Get From Here to Where We Need to Go?</h2>
             <ul>
                 <li><h4>Additional Materials for Struggling Students</h4></li>
                 <li><h4>Additional Materials for Advancing Students</h4></li>
-                <li><h4>Your Plans for Changes to Instruction</h4></li>
+                <li ng-click="gotoLocation(10)"><h4>Your Plans for Changes to Instruction</h4></li>
             </ul>
         </div>
     </div>
-    <div class="gl-drk12_b-helpermaincontent">SCHEMES</div>
+    <div class="gl-drk12_b-helpermaincontent">
+        <p style="height: 100px" id="number1">this is some content</p>
+        <p style="height: 100px" id="number2">this is some content123</p>
+        <p style="height: 100px" id="number3">this is some content234</p>
+        <p style="height: 100px" id="number4">this is some content345</p>
+        <p style="height: 100px" id="number5">this is some content456</p>
+        <p style="height: 100px" id="number6">this is some content567</p>
+        <p style="height: 100px" id="number7">this is some content678</p>
+        <p style="height: 100px" id="number8">this is some content789</p>
+        <p style="height: 100px" id="number9">this is some content890</p>
+        <p style="height: 50vh" id="number10">this is some content901</p>
+    </div>
 </div>
