@@ -145,8 +145,8 @@ angular.module( 'instructor.reports')
 
         $scope.tableStructuralData = {
             headers: [
-                { title: "Name", value: "name", keepUnchecked: true },
-                { title: "Current Mission", value: "currentMission", keepUnchecked: true }
+                { label: "Name", value: "name", keepUnchecked: true },
+                { label: "Current Mission", value: "currentMission", keepUnchecked: true }
             ],
             current: "name",
             columnFilter: "all",
