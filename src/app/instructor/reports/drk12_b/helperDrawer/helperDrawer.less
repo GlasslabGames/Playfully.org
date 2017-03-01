@@ -1,9 +1,9 @@
-.gl-drk12_b-l-helpermenuContainer {
+.gl-drk12_b-l-helperMenuContainer {
   align-items: stretch;
   display: flex;
   width: 100%;
 
-  // Can be nested, but utlimately contains gl-drk12_b-helpermenu and gl-drk12_b-helpermaincontent as children
+  // Can be nested, but ultimately contains gl-drk12_b-helpermenu and gl-drk12_b-helpermaincontent as children
 
   > * {
     width: 100%;
@@ -11,41 +11,53 @@
 
 }
 
-.gl-drk12_b-helpermenu {
+.gl-drk12_b-helperMenu {
+  display: flex;
+  flex-direction: column;
   height: calc(~'50vh - 30px');
   width: 33.33%;
 
-  .title_cell {
-    background-color: #67CADA;
-    color: #fff;
-    height: 60px;
-    padding: 15px 0 0 30px;
-
-    h3 {
-      margin: 0;
-    }
-
-    i {
-      padding-right: 10px;
-
-    }
-
-  }
-
-  .selectedOptionMenuArea {
-    height: calc(~"100% - 60px");
-    padding: 15px 0 0 30px;
+  .gl-drk12_b-helperMenu-x-items {
+    flex: 1 1 100%;
     overflow-y: auto;
-  }
-
-  .topLevelOptions {
-    height: 85px;
-    padding: 15px 0 0 30px;
   }
 
 }
 
-.gl-drk12_b-helpermaincontent {
+.gl-drk12_b-helperMenuTitle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #67cada;
+  border: 0;
+  color: #fff;
+  display: block;
+  font-family: 'Bitter', sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  outline: none;
+  padding: 16px 30px;
+  text-align: left;
+}
+
+.gl-drk12_b-helperMenuSection {
+  background: none;
+  border: 0; // Override default button borders
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+  color: #333;
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 28px;
+  padding: 26px 30px;
+  text-align: left;
+  width: 100%;
+
+}
+
+.gl-drk12_b-helperMainContent {
+  background-color: #fafafa;
   height: calc(~'50vh - 30px');
   overflow-y: auto;
   width: 66.66%;

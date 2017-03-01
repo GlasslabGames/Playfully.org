@@ -1,12 +1,9 @@
-<div ng-controller="helperCtrl" class="gl-drk12_b-l-helpermenuContainer">
-    <div class="gl-drk12_b-helpermenu">
-        <div class="title_cell" ng-click="changeSection('Report Helper')">
-            <h3><i class="fa fa-caret-left" ng-hide="selectedTitle == 'Report Helper'"></i>{{selectedTitle}}</h3>
-        </div>
-        <div class="menuBasics topLevelOptions" ng-repeat="cellTitle in data" ng-click="changeSection(cellTitle)">
-            <h1>{{cellTitle}}</h1>
-            <hr/>
+<div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
+    <div class="gl-drk12_b-helperMenu">
+        <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"  type="button"><i class="fa fa-caret-left" ng-hide="selectedTitle == 'Report Helper'"></i>{{selectedTitle}}</button>
+        <div class="gl-drk12_b-helperMenu-x-items">
+            <button ng-repeat="cellTitle in data" ng-click="changeSection(cellTitle)" class="gl-drk12_b-helperMenuSection" type="button">{{cellTitle}}</button>
         </div>
     </div>
-    <div class="gl-drk12_b-helpermaincontent">HELPER PAGE: {{helperPage}}</div>
+    <div class="gl-drk12_b-helperMainContent">HELPER PAGE: {{helperPage}}</div>
 </div>
