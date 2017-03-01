@@ -1,12 +1,152 @@
-<div ng-controller="helperCtrl">
-    <div class="gl-drk12_b-helpermenu">
+<div ng-controller="helperCtrl" style="height: 100%">
+    <div class="gl-drk12_b-helpermenu" style="height: 100%">
         <div class="title_cell" ng-click="changeSection('Report Helper')">
-            <h3><i class="fa fa-caret-left" ng-hide="selectedTitle == 'Report Helper'"></i>{{selectedTitle}}</h3>
+            <h3><i class="fa fa-caret-left"></i>Backing</h3>
         </div>
-        <div class="topLevelOptions" ng-repeat="cellTitle in data" ng-click="changeSection(cellTitle)">
-            <h1>{{cellTitle}}</h1>
+        <div class="selectedOptionMenuArea">
+            <h2 ng-click="gotoLocation(1)">Step 1: Where Are We Going?</h2>
+            <li>In Brief</li>
+            <ul>
+                <li>
+                    <h4>Deepen your knowledge about this skill</h4>
+                    <ul>
+                        <li>What does using backing look like in the real world?</li>
+                    </ul>
+                </li>
+                <li>
+                    <h4>More About Using Backing</h4>
+                    <ul>
+                        <li>What does using backing look like in the game?</li>
+                    </ul>
+                </li>
+            </ul>
             <hr/>
+            <h2 ng-click="gotoLocation(5)">STEP 2: Where Are We Now?</h2>
+            <ul>
+                <li><h4>What Data are Available About This Skill?</h4></li>
+            </ul>
+            <hr/>
+            <h2 ng-click="gotoLocation(9)">STEP 3: How Do We Get From Here to Where We Need to Go?</h2>
+            <ul>
+                <li><h4>Why Might Students Struggle With This skill?</h4></li>
+                <li><h4>Planning for Changes to Instruction</h4></li>
+                <li ng-click="gotoLocation(10)"><h4>Plans for Using Differentiation Materials</h4></li>
+            </ul>
         </div>
     </div>
-    <div class="gl-drk12_b-helpermaincontent">BACKING</div>
+    <div class="gl-drk12_b-helpermaincontent">
+        <h1>STEP 1: Where Are We Going?</h1>
+        <div><strong>Familiarize yourself with how this skill fits into the practice of engaging in argument from evidence, and what it looks like when learners use it in the game and in real life.</strong> It's helpful to know what the learning target looks like in practice, before you review gameplay data, to get a sense of how far a student is from achieving the learning goal.</div>
+        <div style="color:blue">In Brief</div>
+        <div><strong>Backing is “evidence about evidence.”</strong> By ensuring that a piece of evidence is well-backed, an arguer has additional information that strengthens a piece of evidence that supports a claim. Having strong backing enables an arguer to defend her argument against critical questions from an opponent (another skill that students practice in the game).</div>
+        <div style="color:blue">Deepen Your Knowledge About This Skill</div>
+        <a href="#">Link to material 1;</a> <a href="#">Link to material 2;</a> <a href="#">Link to material 3</a>
+        <div style="color:blue">What does using backing look like in the real world?</div>
+        <div><strong>Students who use backing in their arguments understand that arguments are strengthened when they include additional information about the evidence. That information helps to answer critical questions about the evidence.</strong></div>
+        <div>For example:</div>
+        <div>Martin makes the following argument from authority. “The dinosaurs were wiped out 66 million years ago when a giant asteroid smashed into the planet. Dr. Nabila Shaheen recently published an article that made that claim.” Martin knows that there are competing theories about why the dinosaurs went extinct, and he expects that his classmates will ask critical questions about his evidence. So, he includes additional backing about his evidence to support his argument by saying, “Dr. Shaheen is a highly-respected paleontologist, who has studied the question of how dinosaurs went extinct for over 20 years. Also, other researchers have published articles about the same claim with evidence to support the idea that it was an asteroid, and not volcanic activity over a long period of time.”</div>
+        <div style="color:blue">More About Using Backing</div>
+        <div>Backing is related to critical questions because it can be used to anticipate attempts to poke holes in arguments. By asking critical questions about one’s own evidence, an arguer can look for information to use as backing to make the argument stronger. Conversely, an arguer can ask critical questions and then determine that there isn’t enough backing to make it a stronger argument.</div>
+        <div><strong>Using backing</strong>-—another skill that students practice in the game—is closely tied to the activity of asking critical questions. Backing is additional information that strengthens evidence and is a way to respond to critical questions. For example, in response to question #1 above, if a student provides information to show that an expert is world-renowned in a topic, then that student has strengthened her argument.</div>
+        <div style="color:blue">What does using backing look like in the game?</div>
+        <div>Backing is closely related to critical questions. Well-backed evidence makes an arguer’s evidence stronger and will hold up to an opponent’s critical questions.</div>
+        <div>In later missions, players can begin loading pieces of evidence into the “Backing Machine.” The machine resembles a slot machine, and dispenses additional information about the piece of evidence that a player loaded into it. <strong>Having that additional information about the evidence doesn’t necessarily mean that it’s well-backed, however. </strong>The player has to read the information carefully, as some of it will demonstrate that the piece of evidence does not support the claim. So, the player must read the backing information carefully and decide whether it helps to strengthen that piece of evidence for making an argument.</div>
+        <div>When a player uses evidence that has relevant backing, then his or her bot will be “shielded” from critical questions from opponents during duels.</div>
+        <img src="http://placehold.it/100x100"/>
+        <img src="http://placehold.it/100x100"/>
+        <img src="http://placehold.it/100x100"/>
+        <h1>STEP 2: Where Are We Now?</h1>
+        <div><strong>With the learning target for this skill in mind, see how effectively students are using it in the game.</strong></div>
+        <div style="color:blue">What Data are Available About This Skill?</div>
+        <div><strong>PERFORMANCE OVER TIME REPORT</strong></div>
+        <div><strong>What it shows: This report</strong> shows how well students applied this skill on all completed missions in which they had to use it. It also shows how long or how consistently students have been struggling or succeeding with the skill.</div>
+        <div><strong>How you can use it:</strong> The report can help you determine the level of additional support to provide for a student or students. A mix of yellow and green circles could indicate a need to talk with your students to determine why they're struggling.</div>
+        <div><strong>What the icons mean:</strong></div>
+        <ul>
+            <li>Green circle (Advancing) = the student completed the mission with a 70% or higher success rate</li>
+            <li>Yellow circle (Needs Support) = the student completed the mission with a 69% or lower success rate</li>
+            <li>Gray circle (Not Enough Data) = there's not yet enough gameplay data from that mission to report</li>
+            <li>Empty circle (Level Not Yet Attempted)</li>
+        </ul>
+        <div><strong>PERFORMANCE DRILL DOWN REPORT</strong></div>
+        <div><strong>This report shows a student’s success rate at using evidence that is backed with correct information. </strong>The success rate displays as a ratio: total number of correct attempts over total number of attempts. The first ratio is a student’s success rate with fusing claim cores (i.e., constructing an argument) using multiple pieces of additional information that are factually correct. The second ratio is a student’s success rate with correctly identifying when an opponent’s evidence is inadequately backed in a duel.</div>
+        <div><strong>GAMEPLAY TRANSCRIPT</strong></div>
+        ####Text to come later, once transcripts exist—not for spring piloting####
+        <h1>STEP 3: How Do We Get From Here To Where We Need To Go?</h1>
+        <div><strong>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</strong></div>
+        <div style="color:blue">Why Might Students Struggle With This Skill?</div>
+        <ol>
+            <li>They might not anticipate that others will ask questions about the strength of their evidence (or “What makes your evidence true?”).</li>
+            <li>If they do not understand differences among argument schemes, they might choose backing that responds to the wrong critical questions.</li>
+            <li>Students might not read the information from the “evidence generator” carefully, and might use backing that does not support the evidence.</li>
+        </ol>
+        <div style="color:blue">Planning for Changes to Instruction</div>
+        <div><strong>1. Based on your reading of the data, what challenges, if any, do your students seem to be facing with this skill? What's your diagnosis for why they might be struggling?</strong></div>
+        <textarea title="text area">This is a text area</textarea>
+        <div><strong>2. What changes, if any, do you plan to make for students who are struggling?</strong></div>
+        <textarea title="text area">This is a text area</textarea>
+        <div><strong>Additional Materials for Struggling Students</strong></div>
+        <ol>
+            <li>Evaluating Evidence to Build a Stronger Claim: An activity to help students consider what additional information might support their evidence and make their arguments stronger</li>
+        </ol>
+        <div><strong>3. What changes, if any, do you plan to make for students who are advancing?</strong></div>
+        <textarea title="text area">This is a text area</textarea>
+        <div><strong>Additional Materials for Advancing Students</strong></div>
+        <ul>
+            <li>Strengthening Arguments with Critical Questions and Backing: This activity can also be used as an enrichment exercise to help students think about what critical questions they might ask to look for weaknesses in others’ (or their own) arguments, and to include additional backing to strengthen the evidence</li>
+            <li>Evaluating Evidence to Build a Stronger Claim: This activity can also be used as enrichment to encourage students to do additional research and look for information that will back their evidence and make the argument stronger</li>
+        </ul>
+        <div style="color:blue">Plans for Using Differentiation Materials</div>
+        <div><strong>For Struggling Students</strong></div>
+        <table>
+            <tr>
+                <td>Date of entry</td>
+                <td>Students</td>
+                <td>Materials to Use</td>
+                <td>Notes</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    NONE
+                    Student 1
+                    Student 2
+                    Student 3
+                </td>
+                <td>
+                    Material 1
+                        Material 2
+                            Material 3
+                    Other:         _
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div><strong>For Advancing Students</strong></div>
+        <table>
+            <tr>
+                <td>Date of entry</td>
+                <td>Students</td>
+                <td>Materials to Use</td>
+                <td>Notes</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    NONE
+                    Student 1
+                    Student 2
+                    Student 3
+                </td>
+                <td>
+                    Material 1
+                        Material 2
+                            Material 3
+                    Other:         _
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
 </div>
