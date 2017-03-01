@@ -850,25 +850,41 @@
 
 .gl-drk12_b-footerhelper {
   bottom: 0;
-  left: 0;
-  position: fixed;
-  width: 100%;
   -webkit-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
   -moz-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
   box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
-  .gl-drk12_b-collapsebar {
-    background-color: #fdd367;
-    font-weight: bold;
-    height: 30px;
-    padding: 5px 0;
-    text-align: center;
+  left: 0;
+  height: 50vh;
+  position: fixed;
+  transform: translateY(calc(~'50vh - 30px'));
+  transition: transform .3s ease-out;
+  width: 100%;
+
+  &.expanded {
+    transform: none;
   }
-  .gl-drk12_b-collapsecontent {
-    background-color: white;
-    &.expanded {
-      height: 50vh !important;
-    }
-  }
+
+}
+
+.gl-drk12_b-collapsebar {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fdd367;
+  border: 0;
+  box-sizing: border-box;
+  display: block;
+  font-weight: bold;
+  height: 30px;
+  outline: none;
+  padding: 5px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.gl-drk12_b-collapsecontent {
+  background-color: #fff;
+  height: calc(~'50vh - 30px');
 }
 
 .gl-drk12_b-drillDownSubTitle {

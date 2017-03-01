@@ -133,10 +133,10 @@
             </tabset>
         </div>
     </div>
-    <div class="gl-drk12_b-footerhelper" ng-init="collapse = false">
-        <div class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></div>
-        <div class="gl-drk12_b-collapsecontent" ng-class="{'expanded': !collapse}" collapse="collapse">
-            <div ng-include="'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'" style="height: 100%"></div>
+    <div class="gl-drk12_b-footerhelper" ng-init="collapse = false" ng-class="{'expanded': !collapse}" id="reporthelper">
+        <button class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse" type="button" aria-controls="reporthelper">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></button>
+        <div class="gl-drk12_b-collapsecontent">
+            <div ng-include="'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'"></div>
         </div>
     </div>
     <script type="text/javascript">

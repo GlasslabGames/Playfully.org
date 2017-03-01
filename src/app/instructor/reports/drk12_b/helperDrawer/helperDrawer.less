@@ -1,33 +1,52 @@
+.gl-drk12_b-l-helpermenuContainer {
+  align-items: stretch;
+  display: flex;
+  width: 100%;
+
+  // Can be nested, but utlimately contains gl-drk12_b-helpermenu and gl-drk12_b-helpermaincontent as children
+
+  > * {
+    width: 100%;
+  }
+
+}
+
 .gl-drk12_b-helpermenu {
-  display: inline-block;
-  width: 33%;
+  height: calc(~'50vh - 30px');
+  width: 33.33%;
+
   .title_cell {
     background-color: #67CADA;
-    color: #FFF;
+    color: #fff;
     height: 60px;
     padding: 15px 0 0 30px;
+
     h3 {
       margin: 0;
     }
+
     i {
       padding-right: 10px;
 
     }
+
   }
+
   .selectedOptionMenuArea {
     height: calc(~"100% - 60px");
     padding: 15px 0 0 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
+
   .topLevelOptions {
     height: 85px;
     padding: 15px 0 0 30px;
   }
+
 }
 
 .gl-drk12_b-helpermaincontent {
-  display: inline-block;
-  height: 100%;
-  overflow-y: scroll;
-  width: 66%;
+  height: calc(~'50vh - 30px');
+  overflow-y: auto;
+  width: 66.66%;
 }
