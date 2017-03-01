@@ -39,6 +39,16 @@ angular.module('license', [])
                         return response;
                     });
             };
+            this.getRemainingStudentSeats = function () {
+                var apiUrl = API_BASE + '/license/seatsremaining';
+                return $http({method: 'GET', url: apiUrl})
+                    .then(function (response) {
+                        return response.data;
+                    }, function (response) {
+                        console.log(response);
+                        return response;
+                    });
+            };
             this.getPackages = function (params) {
                 var apiUrl = API_BASE + '/license/packages';
                 return $http({method: 'GET', url: apiUrl, params: params})

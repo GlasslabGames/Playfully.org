@@ -4,23 +4,23 @@
         <div class="gl-drk12_b-l-container">
             <button class="fa fa-question-circle gl-drk12_b-helpicon" ng-click="openModal('info')" type="button"></button>
             <h1 class="gl-drk12_b-heading">Progress Report</h1>
-            <p class="gl-drk12_b-text" ng-bind="reports.selected.description"></p>
+            <p class="gl-drk12_b-text" ng-bind-html="reports.selected.description"></p>
 
             <tabset class="gl-drk12_b-tabs" justified="true">
-                <tab heading="Class View" active="activeTab[0]" ng-click="selectTab(0)">
+                <tab heading="Whole Class" active="activeTab[0]" ng-click="selectTab(0)">
                     <div class="gl-drk12_b-l-containerclass">
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">All Students' Current Mission</h3>
                         <div id="drk12_bChart" class="gl-drk12_b-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">Current Class Skill Level</h3>
                         <p class="gl-drk12_b-text">
-                            This section breaks down the number of students by competency level for each skill
+                            The four charts below show how well students performed using each skill during the most recent mission they played.
                         </p>
                         <hr/>
                         <table class="gl-drk12_b-piechartsilllevel">
                             <thead>
                                 <tr>
                                     <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
-                                        {{header.title}}
+                                        {{header.label}}
                                     </th>
                                 </tr>
                             </thead>
@@ -38,9 +38,9 @@
                         </ul>
                     </div>
                 </tab>
-                <tab heading="Student View" active="activeTab[1]" ng-click="selectTab(1)">
+                <tab heading="Student Roster" active="activeTab[1]" ng-click="selectTab(1)">
                     <div class="gl-drk12_b-l-containerstudent">
-                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondaryalt1">Select the skill(s) that you want to review for individual students</h3>
+                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondaryalt1">Select the skill(s) and click skill circles to view students' progress on individual skills across each mission.</h3>
                         <ul class="gl-drk12_b-competencyskills">
                             <li>
                                 <label>
@@ -74,17 +74,17 @@
                                 <tr class="gl-drk12_b-table-x-header">
                                     <th rowspan="2">
                                         <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[0].value)" type="button">
-                                            {{tableStructuralData.headers[0].title}}
+                                            {{tableStructuralData.headers[0].label}}
                                             <i ng-class="tableStructuralData.current===tableStructuralData.headers[0].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                         </button>
                                     </th>
                                     <th rowspan="2">
                                         <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[1].value)" type="button">
-                                            {{tableStructuralData.headers[1].title}}
+                                            {{tableStructuralData.headers[1].label}}
                                             <i ng-class="tableStructuralData.current===tableStructuralData.headers[1].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                         </button>
                                     </th>
-                                    <th colspan="{{numberOfColumnsChecked()}}">Progress for Most Recent Level</th>
+                                    <th colspan="{{numberOfColumnsChecked()}}">Progress for Most Recent Mission Skill Applied</th>
                                 </tr>
                                 <tr class="gl-drk12_b-table-x-headersecondary">
                                     <!-- first th is covered by previous row -->
@@ -92,7 +92,7 @@
                                     <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
                                         <div class="gl-drk12_b-tooltip">
                                             <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-class="{'gl-drk12_b-tablesort-single': tableStructuralData.columnFilter != 'all'}" ng-click="sortSelected(header.value)" type="button">
-                                                {{header.title}}
+                                                {{header.label}}
                                                 <i ng-class="tableStructuralData.current===header.value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
                                             </button>
                                             <span class="gl-drk12_b-tooltip-x-tooltip">{{header.description}}</span>

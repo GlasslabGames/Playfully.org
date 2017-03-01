@@ -19,7 +19,7 @@
             <!-- When the modal is opened with a single user -->
 
             <tr class="gl-reports-table-row" ng-repeat="(skillKey, skill) in skills" ng-if="singleUserView">
-                <td>{{skill.name}}</td>
+                <td>SKILL: {{skill.label}}</td>
                 <td ng-repeat="mission in selectedStudent.results.missions" ng-class="{'gl-drk12_b-table-x-disabled': mission.paddingObject}">
                     <div ng-if="mission.skillLevel[skillKey].level != 'NotAvailable'" class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table"
                          ng-class="[mission.skillLevel[skillKey].level, {'gl-drk12_b-progressicon-is-disabled': mission.paddingObject}]"

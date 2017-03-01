@@ -36,6 +36,9 @@ angular.module( 'instructor.courses', [
       },
       currentPlan: function(LicenseService) {
         return LicenseService.getCurrentPlan();
+      },
+      availableSeats: function(LicenseService) {
+        return LicenseService.getRemainingStudentSeats();
       }
     }
   })
@@ -523,10 +526,11 @@ angular.module( 'instructor.courses', [
 })
 
 .controller( 'CoursesCtrl',
-  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense, currentPlan) {
+  function ($scope, $rootScope, $http, $log, $state, $filter, $timeout, courses, allGames, CoursesService, availableGamesForLicense, currentPlan, availableSeats) {
     $scope.courses = courses;
     $scope.MAX_GAMES_COUNT = allGames.length;
     $scope.currentPlan = currentPlan;
+	$scope.availableSeats = availableSeats;
 
     // Decide whether to show active or archived courses
     $scope.showArchived = !!$state.includes('root.courses.archived');
