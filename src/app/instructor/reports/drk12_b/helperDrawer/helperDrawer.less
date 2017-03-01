@@ -38,6 +38,11 @@
   outline: none;
   padding: 16px 30px;
   text-align: left;
+
+  i {
+    margin-right: 10px;
+  }
+
 }
 
 .gl-drk12_b-helperMenuSection {
@@ -53,6 +58,44 @@
   padding: 26px 30px;
   text-align: left;
   width: 100%;
+}
+
+.gl-drk12_b-helperJumpNav {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 20px 15px 30px;
+
+  button {
+    background: none;
+    border: 0;
+    color: #333;
+    font-size: 16px;
+    line-height: 20px;
+    outline: none;
+    padding: 0;
+    text-align: left;
+  }
+
+  li {
+
+    &:not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+  }
+
+  ul {
+    margin: 20px 0 0 0;
+    padding: 0 0 0 30px;
+
+    ul {
+      margin-top: 15px;
+    }
+
+  }
+
+  > button {
+    font-weight: bold;
+  }
 
 }
 
