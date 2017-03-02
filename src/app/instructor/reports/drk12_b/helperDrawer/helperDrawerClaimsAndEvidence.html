@@ -3,8 +3,8 @@
         <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"><i class="fa fa-caret-left"></i>Claims and Evidence</button>
         <div class="gl-drk12_b-helperMenu-x-items">
             <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="gotoLocation(ids[0])" type="button">Step 1: Where Are We Going?</button>
-                <ul>
+                <button ng-click="step1collapse = !step1collapse" ng-init="step1collapse = false" type="button">Step 1: Where Are We Going?</button>
+                <ul collapse="step1collapse">
                     <li><button ng-click="gotoLocation(ids[1])" type="button">In Brief</button></li>
                     <li>
                         <button ng-click="gotoLocation(ids[2])" type="button">Deepen your knowledge about this skill</button>
@@ -21,14 +21,14 @@
                 </ul>
             </div>
             <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="gotoLocation(ids[6])" type="button">STEP 2: Where Are We Now?</button>
-                <ul>
+                <button ng-click="step2collapse = !step2collapse" ng-init="step2collapse = true" type="button">STEP 2: Where Are We Now?</button>
+                <ul collapse="step2collapse">
                     <li><button ng-click="gotoLocation(ids[7])" type="button">What Data are Available About This Skill?</button></li>
                 </ul>
             </div>
             <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="gotoLocation(ids[8])" type="button">STEP 3: How Do We Get From Here to Where We Need to Go?</button>
-                <ul>
+                <button ng-click="step3collapse = !step3collapse" ng-init="step3collapse = true" type="button">STEP 3: How Do We Get From Here to Where We Need to Go?</button>
+                <ul collapse="step3collapse">
                     <li><button ng-click="gotoLocation(ids[9])" type="button">Why Might Students Struggle With This skill?</button></li>
                     <li><button ng-click="gotoLocation(ids[10])" type="button">Planning for Changes to Instruction</button></li>
                     <li><button ng-click="gotoLocation(ids[11])" type="button">Plans for Using Differentiation Materials</button></li>
