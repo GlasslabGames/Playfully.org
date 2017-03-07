@@ -1,50 +1,80 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope) {
+    .controller('helperWrapperCtrl', function($scope, $anchorScroll, drk12_bStore) {
         $scope.helperPage = "helperDrawerMain";
-        $scope.data = ["Argument Schemes", "Claims and Evidence", "Critical Questions", "Backing"];
-        $scope.selectedTitleWithoutSpaces = $scope.selectedTitle = "Report Helper";
-        $scope.selectedTitleWithoutSpaces = $scope.selectedTitleWithoutSpaces.replace(/\s/g, '');
+        $scope.data = {
+            connectingEvidence: "Argument Schemes",
+            supportingClaims: "Claims and Evidence",
+            criticalQuestions: "Critical Questions",
+            usingBacking: "Backing"
+        };
+        $scope.selectedPage = "reportHelper";
 
-        $scope.$on('CHANGE_PAGE', function(event, newDestination) {
+        var updateLocation = function(newDestination, callback) {
             switch (newDestination) {
-                case "Report Helper":
+                case "reportHelper":
                     $scope.helperPage = "helperDrawerMain";
                     updateVariables(newDestination);
                     break;
-                case "Argument Schemes":
+                case "connectingEvidence":
                     $scope.helperPage = "helperDrawerArgumentSchemes";
                     updateVariables(newDestination);
                     break;
-                case "Claims and Evidence":
+                case "supportingClaims":
                     $scope.helperPage = "helperDrawerClaimsAndEvidence";
                     updateVariables(newDestination);
                     break;
-                case "Critical Questions":
+                case "criticalQuestions":
                     $scope.helperPage = "helperDrawerCriticalQuestions";
                     updateVariables(newDestination);
                     break;
-                case "Backing":
+                case "usingBacking":
                     $scope.helperPage = "helperDrawerBacking";
                     updateVariables(newDestination);
                     break;
             }
+            if (callback) {
+                callback();
+            }
+        };
+
+        $scope.$on("FOOTERHELPER_CLICKED", function(event) {
+            var newDestination = "ERROR!!";
+            var newSubDestination = "ERROR!!";
+            if (drk12_bStore.getSelectedMission()) {
+                newDestination = drk12_bStore.getSelectedSkill();
+                newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+            } else if (drk12_bStore.getCurrentStudents().length >  1) {
+                newDestination = drk12_bStore.getSelectedSkill();
+                newSubDestination = "id" + $scope.selectedPage + "7"; // TODO: Make this less "magical"
+            }
+            else {
+                if ($scope.tableStructuralData.columnFilter === "all" || drk12_bStore.getSelectedStudent()) {
+                    newDestination = "reportHelper";
+                } else {
+                    newDestination = drk12_bStore.getSelectedSkill();
+                }
+            }
+            updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
+        });
+
+        $scope.$on('CHANGE_PAGE', function(event, newDestination) {
+            updateLocation(newDestination);
         });
 
         var updateVariables = function(newLocation) {
-            $scope.selectedTitleWithoutSpaces = $scope.selectedTitle = newLocation;
-            $scope.selectedTitleWithoutSpaces = $scope.selectedTitleWithoutSpaces.replace(/\s/g, '');
-        };
-    })
-    .controller('helperCtrl', function($scope, $location, $anchorScroll) {
-        $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
-            return "id" + $scope.selectedTitleWithoutSpaces + index;
-        });
-
-        $scope.changeSection = function(newOption) {
-            $scope.$emit('CHANGE_PAGE', newOption);
+            $scope.selectedPage = newLocation;
         };
 
         $scope.gotoLocation = function(locationId) {
             $anchorScroll(locationId);
+        };
+    })
+    .controller('helperCtrl', function($scope) {
+        $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
+            return "id" + $scope.selectedPage + index;
+        });
+
+        $scope.changeSection = function(newOption) {
+            $scope.$emit('CHANGE_PAGE', newOption);
         };
     });

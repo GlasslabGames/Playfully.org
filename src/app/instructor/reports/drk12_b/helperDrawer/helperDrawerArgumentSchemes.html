@@ -1,6 +1,6 @@
 <div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
     <div class="gl-drk12_b-helperMenu">
-        <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"><i class="fa fa-caret-left"></i>Argument Schemes</button>
+        <button ng-click="changeSection('reportHelper')" class="gl-drk12_b-helperMenuTitle"><i class="fa fa-caret-left"></i>Argument Schemes</button>
         <div class="gl-drk12_b-helperMenu-x-items">
             <div class="gl-drk12_b-helperJumpNav">
                 <button ng-click="step1collapse = !step1collapse" ng-init="step1collapse = false" class="gl-drk12_b-helperSectionMain">Step 1: Where Are We Going?</button>
@@ -86,12 +86,12 @@
                 <li>Gray circle (Not Enough Data) = there's not yet enough gameplay data from that mission to report</li>
                 <li>Empty circle (Level Not Yet Attempted)</li>
             </ul>
-            <p><strong>PERFORMANCE DRILL DOWN REPORT</strong></p>
+            <p ng-attr-id="{{ids[8]}}"><strong>PERFORMANCE DRILL DOWN REPORT</strong></p>
             <p><strong>What it shows: This report</strong> shows a student's success rate at correctly matching types of evidence to each of the four argument schemes. The success rate is displayed as a ratio: total number of correct attempts/total number of attempts.</p>
             <p><strong>How you can use it:</strong> The report can help you determine the level of additional support to provide for a student or students. Inconsistent success rates across the argument schemes might suggest that students understand some schemes (or at least understand keywords or phrases that match some schemes), but do not understand others.</p>
             <p><strong>GAMEPLAY TRANSCRIPT</strong></p>
             <p>####Text to come later, once transcripts exist—not for spring piloting####</p>
-            <h1 ng-attr-id="{{ids[8]}}">STEP 3: How Do We Get From Here To Where We Need To Go?</h1>
+            <h1>STEP 3: How Do We Get From Here To Where We Need To Go?</h1>
             <p><strong>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</strong></p>
             <h2 ng-attr-id="{{ids[9]}}">Why Might Students Struggle With This Skill?</h2>
             <ol>

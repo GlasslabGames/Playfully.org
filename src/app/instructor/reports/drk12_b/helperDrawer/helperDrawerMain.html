@@ -1,8 +1,8 @@
 <div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
     <div class="gl-drk12_b-helperMenu">
-        <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"  type="button"><i class="fa fa-caret-left" ng-hide="selectedTitle == 'Report Helper'"></i>{{selectedTitle}}</button>
+        <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"  type="button"><i class="fa fa-caret-left" ng-hide="selectedPage == 'reportHelper'"></i>Report Helper</button>
         <div class="gl-drk12_b-helperMenu-x-items">
-            <button ng-repeat="cellTitle in data" ng-click="changeSection(cellTitle)" class="gl-drk12_b-helperMenuSection" type="button">{{cellTitle}}</button>
+            <button ng-repeat="(key, cellTitle) in data" ng-click="changeSection(key)" class="gl-drk12_b-helperMenuSection" type="button">{{cellTitle}}</button>
         </div>
     </div>
     <div class="gl-drk12_b-helperMainContent">

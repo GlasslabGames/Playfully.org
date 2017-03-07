@@ -275,6 +275,10 @@ angular.module( 'instructor.reports')
             });
         };
 
+        $scope.footerHelperClicked = function() {
+            $scope.$broadcast("FOOTERHELPER_CLICKED");
+        };
+
         // populate student objects with report data
         populateStudentLearningData(usersData);
 

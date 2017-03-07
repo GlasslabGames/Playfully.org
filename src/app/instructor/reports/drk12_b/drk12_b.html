@@ -134,7 +134,7 @@
         </div>
     </div>
     <div class="gl-drk12_b-footerhelper" ng-init="collapse = false" ng-class="{'expanded': !collapse}" id="reporthelper">
-        <button class="gl-drk12_b-collapsebar" ng-click="collapse = !collapse" type="button" aria-controls="reporthelper">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></button>
+        <button class="gl-drk12_b-collapsebar" ng-click="footerHelperClicked(); collapse = !collapse" type="button" aria-controls="reporthelper">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></button>
         <div class="gl-drk12_b-collapsecontent">
             <div ng-include="'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'"></div>
         </div>
