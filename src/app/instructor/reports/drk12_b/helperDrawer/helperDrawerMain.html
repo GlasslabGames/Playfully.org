@@ -7,20 +7,12 @@
     </div>
     <div class="gl-drk12_b-helperMainContent">
         <div>Report Helper is a tool to help you review student gameplay, determine progress toward targeted learning skills, and plan next instructional steps based on that progress.</div>
-        <h1>#########ADD CLASS VIEW OR STUDENT ROSTER COPY HERE######</h1>
-        <hr/>
-        <div>For each skill report, the Helper guides you through three steps, which are always visible on the left-hand side:</div>
-        <div>Step 1: Where Are We Going? familiarizes you with what the skill you’re reviewing looks like in practice</div>
-        <div>Step 2: Where Are We Now? helps you to determine student progress on a skill throughout gameplay, and to make preliminary judgments about whether and why students might be struggling</div>
-        <div>Step 3: How Do We Get From Here to Where We Need to Go? helps you plan for any instructional changes to help your students achieve the learning skills</div>
-        <div>Links to additional resources, if available, will always be available at the top of the Step 1 window. The information for this step will change as you select individual skills to review.</div>
-        <div>Please note: the gameplay data for each report refreshes once every 30 minutes.</div>
 
-        <pre><strong>Class View</strong>
+        <pre ng-show="isClassViewActive"><strong>Class View</strong>
         The four pie charts on the Progress Report Summary page display progress for the whole class on their most recent mission for each skill. Students in green are Advancing; students in yellow Need Support; and students in gray do not yet have enough data to make an assessment.
             Click on the “Student Roster” tab above to begin reviewing gameplay data for students.</pre>
 
-        <pre><strong>Student Roster</strong>
+        <pre ng-show="isClassViewActive === false"><strong>Student Roster</strong>
 
         To begin reviewing gameplay data:
         First select the skill you want to review. You can either review one skill at a time or all four at once.
@@ -28,6 +20,14 @@
         If you review All Skills, instead of one, then you won’t have the option to sort by progress level.
         Lastly, choose which students you want to review (or Select All).
             You can also click on any of the colored circles to drill down and see the gameplay data for that student on a specific skill in that mission.</pre>
+
+        <hr/>
+        <div>For each skill report, the Helper guides you through three steps, which are always visible on the left-hand side:</div>
+        <div>Step 1: Where Are We Going? familiarizes you with what the skill you’re reviewing looks like in practice</div>
+        <div>Step 2: Where Are We Now? helps you to determine student progress on a skill throughout gameplay, and to make preliminary judgments about whether and why students might be struggling</div>
+        <div>Step 3: How Do We Get From Here to Where We Need to Go? helps you plan for any instructional changes to help your students achieve the learning skills</div>
+        <div>Links to additional resources, if available, will always be available at the top of the Step 1 window. The information for this step will change as you select individual skills to review.</div>
+        <div>Please note: the gameplay data for each report refreshes once every 30 minutes.</div>
 
     </div>
 </div>

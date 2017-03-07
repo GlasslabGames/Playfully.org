@@ -10,10 +10,7 @@ angular.module( 'instructor.reports')
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-        $scope.activeTab = [];
-        $scope.selectTab = function(index) {
-            $scope.activeTab[index] = true;
-        };
+        $scope.currentView = {isClassViewActive : true};
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
 
@@ -276,7 +273,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.footerHelperClicked = function() {
-            $scope.$broadcast("FOOTERHELPER_CLICKED");
+            $scope.$broadcast("FOOTERHELPER_CLICKED", $scope.currentView.isClassViewActive);
         };
 
         // populate student objects with report data

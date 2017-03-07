@@ -8,6 +8,7 @@ angular.module( 'instructor.reports')
             usingBacking: "Backing"
         };
         $scope.selectedPage = "reportHelper";
+        $scope.isClassViewActive = null;
 
         var updateLocation = function(newDestination, callback) {
             switch (newDestination) {
@@ -37,17 +38,23 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.$on("FOOTERHELPER_CLICKED", function(event) {
-            var newDestination = "ERROR!!";
-            var newSubDestination = "ERROR!!";
-            if (drk12_bStore.getSelectedMission()) {
+        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive) {
+            var newDestination = "";
+            var newSubDestination = "";
+
+            if (isClassViewActive !== null) {
+                $scope.isClassViewActive = isClassViewActive;
+            }
+
+            if (isClassViewActive) {
+                newDestination = "reportHelper";
+            }  else if (drk12_bStore.getSelectedMission()) {
                 newDestination = drk12_bStore.getSelectedSkill();
                 newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
             } else if (drk12_bStore.getCurrentStudents().length >  1) {
                 newDestination = drk12_bStore.getSelectedSkill();
                 newSubDestination = "id" + $scope.selectedPage + "7"; // TODO: Make this less "magical"
-            }
-            else {
+            } else {
                 if ($scope.tableStructuralData.columnFilter === "all" || drk12_bStore.getSelectedStudent()) {
                     newDestination = "reportHelper";
                 } else {

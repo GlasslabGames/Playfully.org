@@ -7,7 +7,7 @@
             <p class="gl-drk12_b-text" ng-bind-html="reports.selected.description"></p>
 
             <tabset class="gl-drk12_b-tabs" justified="true">
-                <tab heading="Whole Class" active="activeTab[0]" ng-click="selectTab(0)">
+                <tab heading="Whole Class" ng-click="currentView.isClassViewActive = true">
                     <div class="gl-drk12_b-l-containerclass">
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">All Students' Current Mission</h3>
                         <div id="drk12_bChart" class="gl-drk12_b-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
@@ -38,7 +38,7 @@
                         </ul>
                     </div>
                 </tab>
-                <tab heading="Student Roster" active="activeTab[1]" ng-click="selectTab(1)">
+                <tab heading="Student Roster" ng-click="currentView.isClassViewActive = false">
                     <div class="gl-drk12_b-l-containerstudent">
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondaryalt1">Select the skill(s) and click skill circles to view students' progress on individual skills across each mission.</h3>
                         <ul class="gl-drk12_b-competencyskills">
@@ -133,7 +133,7 @@
             </tabset>
         </div>
     </div>
-    <div class="gl-drk12_b-footerhelper" ng-init="collapse = false" ng-class="{'expanded': !collapse}" id="reporthelper">
+    <div class="gl-drk12_b-footerhelper" ng-init="collapse = true" ng-class="{'expanded': !collapse}" id="reporthelper">
         <button class="gl-drk12_b-collapsebar" ng-click="footerHelperClicked(); collapse = !collapse" type="button" aria-controls="reporthelper">Report Helper <i class="fa" ng-class="{'fa-toggle-down': collapse, 'fa-toggle-up': !collapse}"></i></button>
         <div class="gl-drk12_b-collapsecontent">
             <div ng-include="'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'"></div>
