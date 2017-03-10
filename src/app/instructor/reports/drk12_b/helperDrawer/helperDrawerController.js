@@ -10,6 +10,12 @@ angular.module( 'instructor.reports')
         $scope.selectedPage = "reportHelper";
         $scope.isClassViewActive = null;
 
+        /*
+         Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
+         We do this craziness to help create that illusion
+        */
+        jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu");
+
         var updateLocation = function(newDestination, callback) {
             switch (newDestination) {
                 case "reportHelper":
@@ -61,6 +67,17 @@ angular.module( 'instructor.reports')
                     newDestination = drk12_bStore.getSelectedSkill();
                 }
             }
+
+            /*
+             Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
+             We do this craziness to help create that illusion
+             */
+            if (jQuery('body.gl-drk12_b-l-hasHelperMenu-is-open').length > 0) {
+                jQuery("body").removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
+            } else {
+                jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu-is-open");
+            }
+
             updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
         });
 
@@ -75,6 +92,12 @@ angular.module( 'instructor.reports')
         $scope.gotoLocation = function(locationId) {
             $anchorScroll(locationId);
         };
+
+        $scope.$on('$destroy', function(event) {
+            var $body = jQuery("body");
+            $body.removeClass("gl-drk12_b-l-hasHelperMenu");
+            $body.removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
+        });
     })
     .controller('helperCtrl', function($scope) {
         $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
