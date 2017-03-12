@@ -1,7 +1,7 @@
 <div class="gl-drk12_b-l-nooverflow" ng-controller="Drk12bModalDrilldown">
     <div class="gl-drk12_b-drillDownSubTitle">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span>SKILL: {{skills[selectedSkill].label}}</span><span class="padding-sides-15">|</span>
+        <span>{{skills[selectedSkill].label}}</span><span class="padding-sides-15">|</span>
         <span><strong>Mission {{selectedMission.mission}}</strong></span><span class="padding-sides-15">|</span>
         <span class="gl-drk12_b-progressicon" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{progressTypes[selectedMission.skillLevel[selectedSkill].level].title}}
