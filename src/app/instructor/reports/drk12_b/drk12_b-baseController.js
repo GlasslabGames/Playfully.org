@@ -253,6 +253,8 @@ angular.module( 'instructor.reports')
                     gameId: $stateParams.gameId,
                     courseId: $stateParams.courseId,
                     type: type
+                }).then(function() {
+                    hackModalStyles(); // TODO: This can be removed after we remove the modals
                 });
             }
         };
@@ -269,7 +271,20 @@ angular.module( 'instructor.reports')
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId,
                 type: "drilldown"
+            }).then(function() {
+                hackModalStyles(); // TODO: This can be removed after we remove the modals
             });
+        };
+
+        var hackModalStyles = function() { // TODO: This can be removed after we remove the modals
+            var interval = $interval(function() {
+                if (jQuery(".modal-backdrop").length > 0) {
+                    jQuery('.modal-backdrop').css("bottom", "30px");
+                    jQuery('.modal-xxlg').css("bottom", "30px");
+
+                    $interval.cancel(interval);
+                }
+            }, 2);
         };
 
         $scope.footerHelperClicked = function() {

@@ -74,8 +74,14 @@ angular.module( 'instructor.reports')
              */
             if (jQuery('body.gl-drk12_b-l-hasHelperMenu-is-open').length > 0) {
                 jQuery("body").removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
+                // TODO: Remove the following 2 hacks after modals are removed
+                jQuery('.modal-backdrop').css("bottom", "30px");
+                jQuery('.modal-xxlg').css("bottom", "30px");
             } else {
                 jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu-is-open");
+                // TODO: Remove the following 2 hacks after modals are removed
+                jQuery('.modal-backdrop').css("bottom", "50vh");
+                jQuery('.modal-xxlg').css("bottom", "50vh");
             }
 
             updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
