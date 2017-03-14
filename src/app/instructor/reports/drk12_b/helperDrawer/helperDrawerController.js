@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $anchorScroll, drk12_bStore) {
+    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, drk12_bStore) {
         $scope.helperPage = "helperDrawerMain";
         $scope.data = {
             connectingEvidence: "Argument Schemes",
@@ -56,9 +56,11 @@ angular.module( 'instructor.reports')
                 newDestination = "reportHelper";
             }  else if (drk12_bStore.getSelectedMission()) {
                 newDestination = drk12_bStore.getSelectedSkill();
+                updateVariables(newDestination); // TODO: See about working this redundancy
                 newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
             } else if (drk12_bStore.getCurrentStudents().length >  1) {
                 newDestination = drk12_bStore.getSelectedSkill();
+                updateVariables(newDestination); // TODO: See about working this redundancy
                 newSubDestination = "id" + $scope.selectedPage + "7"; // TODO: Make this less "magical"
             } else {
                 if ($scope.tableStructuralData.columnFilter === "all" || drk12_bStore.getSelectedStudent()) {
@@ -80,7 +82,12 @@ angular.module( 'instructor.reports')
         };
 
         $scope.gotoLocation = function(locationId) {
-            $anchorScroll(locationId);
+            var interval = $interval(function() {
+                if (jQuery("#" + locationId).length > 0) {
+                    $anchorScroll(locationId);
+                    $interval.cancel(interval);
+                }
+            }, 2);
         };
 
         $scope.someDate = new Date();
