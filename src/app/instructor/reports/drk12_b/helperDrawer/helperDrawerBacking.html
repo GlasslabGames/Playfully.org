@@ -105,7 +105,16 @@
             </ul>
             <h2 ng-attr-id="{{ids[11]}}">Plans for Using Differentiation Materials</h2>
             <p><strong>For Struggling Students</strong></p>
-
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="dateOpen($event)"><i class="fa fa-calendar"></i></button>
+                        </span>
+                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="someDate" is-open="dateOpened" datepicker-options="dateOptions" close-text="Close" />
+                    </p>
+                </div>
+            </div>
             <p>Select Students:</p>
 
             <ul class="gl-drk12_b-l-selectitems">

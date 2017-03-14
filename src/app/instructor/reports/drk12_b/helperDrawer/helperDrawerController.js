@@ -83,7 +83,22 @@ angular.module( 'instructor.reports')
             $anchorScroll(locationId);
         };
 
-        $scope.$on('$destroy', function(event) {
+        $scope.someDate = new Date();
+        $scope.someDate.setHours(0,0,0,0);
+
+        $scope.dateOpen = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.dateOpened = true;
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy'
+        };
+
+        $scope.format = 'yyyy-MM-dd';
+
+        $scope.$on('$destroy', function(event) { // TODO: Remove this when the modals are eliminated
             var $body = jQuery("body");
             $body.removeClass("gl-drk12_b-l-hasHelperMenu");
             $body.removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
