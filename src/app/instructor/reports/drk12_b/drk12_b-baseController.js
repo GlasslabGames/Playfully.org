@@ -18,7 +18,7 @@ angular.module( 'instructor.reports')
 
         $scope.progressTypes = { // TODO: This is redundant. Should probably move to service.
             advancing: {class:'Advancing', title: 'Advancing'},
-            needSupport: {class:'NeedSupport', title: 'Need Support'},
+            needSupport: {class:'NeedSupport', title: 'Needs Support'},
             notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
         };
 
@@ -166,7 +166,7 @@ angular.module( 'instructor.reports')
         $.each($scope.reports.selected.skills, function(skillKey, skill) {
             var skillHeader = {
                 title: skill.name,
-	            label: "SKILL: "+skill.label,
+	            label: skill.label,
                 description: skill.description,
                 buttonDescription: buttonTextChange(skill.description),
                 value: skillKey
