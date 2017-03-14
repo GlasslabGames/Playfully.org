@@ -864,6 +864,10 @@
     transform: none;
   }
 
+  &.fullscreen {
+    height: 100vh;
+  }
+
 }
 
 .gl-drk12_b-collapsebar {
@@ -880,11 +884,22 @@
   padding: 5px 0;
   text-align: center;
   width: 100%;
+  a:link {
+    color: black;
+    float: right;
+    font-size: 12px;
+    font-weight: normal;
+    padding-right: 20px;
+    text-decoration: underline;
+  }
 }
 
 .gl-drk12_b-collapsecontent {
   background-color: #fff;
   height: calc(~'50vh - 30px');
+  &.fullscreen {
+    height: calc(~'100vh - 30px');
+  }
 }
 
 .gl-drk12_b-drillDownSubTitle {
