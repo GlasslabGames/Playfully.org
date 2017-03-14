@@ -1,11 +1,11 @@
 <div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
-    <div class="gl-drk12_b-helperMenu">
+    <div class="gl-drk12_b-helperMenu" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
         <button ng-click="changeSection('Report Helper')" class="gl-drk12_b-helperMenuTitle"  type="button"><i class="fa fa-caret-left" ng-hide="selectedPage == 'reportHelper'"></i>Report Helper</button>
         <div class="gl-drk12_b-helperMenu-x-items">
             <button ng-repeat="(key, cellTitle) in data" ng-click="changeSection(key)" class="gl-drk12_b-helperMenuSection" type="button">{{cellTitle}}</button>
         </div>
     </div>
-    <div class="gl-drk12_b-helperMainContent">
+    <div class="gl-drk12_b-helperMainContent" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
         <p>Report Helper is a tool to help you review student gameplay, determine progress toward targeted learning skills, and plan next instructional steps based on that progress.</p>
 
         <pre ng-show="isClassViewActive"><strong>Class View</strong>

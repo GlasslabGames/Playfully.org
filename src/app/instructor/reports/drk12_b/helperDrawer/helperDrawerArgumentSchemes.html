@@ -1,5 +1,5 @@
 <div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
-    <div class="gl-drk12_b-helperMenu">
+    <div class="gl-drk12_b-helperMenu" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
         <button ng-click="changeSection('reportHelper')" class="gl-drk12_b-helperMenuTitle"><i class="fa fa-caret-left"></i>Argument Schemes</button>
         <div class="gl-drk12_b-helperMenu-x-items">
             <div class="gl-drk12_b-helperJumpNav">
@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="gl-drk12_b-helperMainContent">
+    <div class="gl-drk12_b-helperMainContent" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
         <div class="gl-drk12_b-helperMainContent-x-container">
             <h1 ng-attr-id="{{ids[0]}}">STEP 1: Where Are We Going?</h1>
             <p><strong>Familiarize yourself with how this skill fits into the practice of engaging in argument from evidence, and what it looks like when learners use it in the game and in real life.</strong> It's helpful to know what the learning target looks like in practice, before you review gameplay data, to get a sense of how far a student is from achieving the learning goal.
