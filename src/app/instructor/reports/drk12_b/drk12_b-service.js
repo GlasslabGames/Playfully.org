@@ -23,8 +23,10 @@ angular.module( 'instructor.reports')
         };
 
         this.reset = function() {
+            if (!this.isSingleSKillView) { // Go back to initial skill in case modal is immediately re-opened. Otherwise leave it.
+                this.selectedSkill = Object.keys(this.skills)[0];
+            }
             this.currentStudentsArray = [];
-            this.selectedSkill = null;
             this.selectedStudent = null;
             this.selectedMission = null;
         };
