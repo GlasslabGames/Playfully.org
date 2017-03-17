@@ -366,10 +366,10 @@ angular.module( 'playfully', [
         $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
         dt = new Date(1999, 12, 31);
         $httpProvider.defaults.headers.get['If-Modified-Since'] = dt;
-        $httpProvider.defaults.withCredentials = true;
 
         $httpProvider.interceptors.push('myHttpInterceptor');
         $httpProvider.interceptors.push('myHttpErrorInterceptor');
+
     })
 
     .config(function ($translateProvider) {
