@@ -307,14 +307,25 @@ angular.module( 'instructor.reports')
         };
 
         var hackModalStyles = function() { // TODO: This can be removed after we remove the modals
-            var interval = $interval(function() {
-                if (jQuery(".modal-backdrop").length > 0) {
-                    jQuery('.modal-backdrop').css("bottom", "30px");
-                    jQuery('.modal-xxlg').css("bottom", "30px");
+            if ($scope.isFooterOpened) {
+                var intervalIf = $interval(function() {
+                    if (jQuery(".modal-backdrop").length > 0) {
+                        jQuery('.modal-backdrop').css("bottom", "50vh");
+                        jQuery('.modal-xxlg').css("bottom", "50vh");
 
-                    $interval.cancel(interval);
-                }
-            }, 2);
+                        $interval.cancel(intervalIf);
+                    }
+                }, 2);
+            } else {
+                var intervalElse = $interval(function() {
+                    if (jQuery(".modal-backdrop").length > 0) {
+                        jQuery('.modal-backdrop').css("bottom", "30px");
+                        jQuery('.modal-xxlg').css("bottom", "30px");
+
+                        $interval.cancel(intervalElse);
+                    }
+                }, 2);
+            }
         };
 
         $scope.footerHelperClicked = function() {
