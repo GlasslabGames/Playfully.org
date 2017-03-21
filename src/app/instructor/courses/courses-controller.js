@@ -931,10 +931,10 @@ angular.module( 'instructor.courses', [
 				    var row = val.split(',');
 				    if (row.length === 4) {
 					    obj.push({
-						    lastName: row[0].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
-						    firstName: row[1].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
-						    username: row[2].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
-						    password: row[3].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,"")
+						    lastName: row[0].replace(/^"(.+)"$/,'$1').trim(),
+						    firstName: row[1].replace(/^"(.+)"$/,'$1').trim(),
+						    username: row[2].replace(/^"(.+)"$/,'$1').trim(),
+						    password: row[3].replace(/^"(.+)"$/,'$1').trim()
 					    });
 				    }
 			    });
