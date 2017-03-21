@@ -929,7 +929,7 @@ angular.module( 'instructor.courses', [
 			    var rows = csvData.split('\n').slice(1); // Remove header row
 			    angular.forEach(rows, function (val) {
 				    var row = val.split(',');
-				    if (row.length === 4) {
+				    if (row.length === 4 && (row[0] || row[1] || row[2] || row[3])) {
 					    obj.push({
 						    lastName: row[0].replace(/^"(.+)"$/,'$1').trim(),
 						    firstName: row[1].replace(/^"(.+)"$/,'$1').trim(),
