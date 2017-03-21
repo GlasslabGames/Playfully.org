@@ -916,7 +916,8 @@ angular.module( 'instructor.courses', [
 		    var input = $scope.studentsUpload.src;
 		    if (!input.startsWith("data:text/csv;base64,") &&
                 !input.startsWith("data:text/plain;base64,") &&
-			    !input.startsWith("data:;base64,")) {
+			    !input.startsWith("data:;base64,") &&
+			    !input.startsWith("data:application/octet-stream;base64,")) {
 			    $scope.invalidInput = true;
                 return;
 		    }
@@ -930,10 +931,10 @@ angular.module( 'instructor.courses', [
 				    var row = val.split(',');
 				    if (row.length === 4) {
 					    obj.push({
-						    lastName: row[0].replace(/^"(.+)"$/,'$1'),
-						    firstName: row[1].replace(/^"(.+)"$/,'$1'),
-						    username: row[2].replace(/^"(.+)"$/,'$1'),
-						    password: row[3].replace(/^"(.+)"$/,'$1')
+						    lastName: row[0].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
+						    firstName: row[1].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
+						    username: row[2].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,""),
+						    password: row[3].replace(/^"(.+)"$/,'$1').replace(/[\r]+$/,"")
 					    });
 				    }
 			    });
