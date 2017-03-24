@@ -183,7 +183,6 @@ $stateProvider.state( 'modal.game-user-mismatch', {
             $state.checkLogin = $interval(function () {
                 UserService.retrieveCurrentUser()
                 .success(function(data) {
-                     console.log("retrieveCurrentUser successful. User id: "+ data.id);
                      if ($state.activeUserId != data.id) {
                          if ($state.checkLogin) {
                             $interval.cancel($state.checkLogin);
@@ -192,8 +191,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
                          $state.go('modal.game-user-mismatch', { }, {location: false});
                      }
                 })
-                .error(function(err) {
-	                console.log("retrieveCurrentUser failed: "+err);
+                .error(function() {
                     if ($state.checkLogin) {
                        $interval.cancel($state.checkLogin);
                        $state.checkLogin = null;
