@@ -59,7 +59,6 @@ angular.module('user', [])
     },
 
     retrieveCurrentUser: function() {
-	    console.log("Executing http get to /auth/user/profile");
       return $http.get(API_BASE + '/auth/user/profile');
     },
 
