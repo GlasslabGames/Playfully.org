@@ -242,7 +242,7 @@ angular.module('playfully.manager', [ 'env-config' ])
             url: '/start-trial-subscription',
             data: {
                 pageTitle: 'Start Trial',
-                reloadNextState: 'reload app',
+                reloadNextState: true,
                 ssl: true
             },
             views: {
@@ -258,9 +258,12 @@ angular.module('playfully.manager', [ 'env-config' ])
                             $previousState.forget('modalInvoker');
                             $state.go(state);
                         };
+                        $scope.completeSubscription = function () {
+                            $window.location.href = '/manager/plan';
+                        };
                         $scope.startTrial = function () {
                             UtilService.submitFormRequest($scope.request, function () {
-                                return LicenseService.startTrial();
+	                            return LicenseService.startTrial();
                             }, function () {
                                 UserService.updateUserSession();
                             });
