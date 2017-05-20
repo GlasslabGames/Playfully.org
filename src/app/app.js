@@ -630,16 +630,6 @@ angular.module( 'playfully', [
             if (user.role==='student') {
                 $previousState.forget('modalInvoker');
             }
-	        // An instructor with no license information whatsoever = redirect to the subscription page
-	        if (user &&
-                user.role === 'instructor' &&
-                !user.licenseStatus &&
-                !user.purchaseOrderLicenseStatus &&
-                !user.isUpgradeTrial) {
-		        $previousState.forget('modalInvoker');
-		        $state.go('root.subscribe.packages');
-		        return;
-	        }
             $state.go('root.home.default');
         });
 
