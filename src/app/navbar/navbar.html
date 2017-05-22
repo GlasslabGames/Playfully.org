@@ -92,6 +92,10 @@
           <a class="ng-cloak gl-nav-link" href ui-sref="research.parser" data-ng-bind="'navbar.link.research' | translate"></a>
         </li>
 
+        <li ui-sref-active="active" ng-if="isTrial() || !hasLicense()">
+          <a class="ng-cloak gl-nav-link" href ui-sref="root.subscribe.packages" data-ng-bind="'navbar.link.subscribe' | translate"></a>
+        </li>
+
         <li class="gl-login-button">
           <login-status type="modal"></login-status>
         </li>
