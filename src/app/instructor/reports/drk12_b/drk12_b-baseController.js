@@ -201,7 +201,7 @@ angular.module( 'instructor.reports')
         $scope.userSortFunction = function (colName) {
             return function (user) {
                 if (colName === $scope.tableStructuralData.headers[0].value) {
-                    return user.firstName;
+                    return user.firstName + ' ' + user.lastName;
                 }
                 if (colName === $scope.tableStructuralData.headers[1].value) {
                     return user.results.currentProgress.mission;
