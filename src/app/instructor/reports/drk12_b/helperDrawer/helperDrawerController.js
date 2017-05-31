@@ -90,14 +90,8 @@ angular.module( 'instructor.reports')
             }, 2);
         };
 
-        $scope.someDate = new Date();
-        $scope.someDate.setHours(0,0,0,0);
-
-        $scope.dateOpen = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.dateOpened = true;
-        };
+        $scope.placeholderDate = new Date();
+        $scope.placeholderDate.setHours(0,0,0,0);
 
         $scope.dateOptions = {
             formatYear: 'yy'
@@ -118,5 +112,11 @@ angular.module( 'instructor.reports')
 
         $scope.changeSection = function(newOption) {
             $scope.$emit('CHANGE_PAGE', newOption);
+        };
+
+        $scope.dateOpen = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.dateOpened = true;
         };
     });
