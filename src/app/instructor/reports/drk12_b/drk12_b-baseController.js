@@ -79,28 +79,37 @@ angular.module( 'instructor.reports')
                         if (student.results.missions) {
                             student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
 
-                            student.results.missions.forEach(function(mission) {
+                            student.results.missions.forEach(function(missionRecord) {
                                 if (!student.results.currentProgress) {
                                     student.results.currentProgress = {};
                                     student.results.currentProgress.mission = 0;
                                 }
-                                if (mission.mission == student.results.currentProgress.mission) {
-                                    mission.current = true;
-                                } else if (mission.mission > student.results.currentProgress.mission) {
-                                    mission.paddingObject = true;
+                                if (missionRecord.mission === student.results.currentProgress.mission) {
+                                    missionRecord.current = true;
+                                } else if (missionRecord.mission > student.results.currentProgress.mission) {
+                                    missionRecord.paddingObject = true;
                                 }
                                 var totalCorrect =
-                                    mission.skillLevel.connectingEvidence.score.correct +
-                                    mission.skillLevel.supportingClaims.score.correct +
-                                    mission.skillLevel.criticalQuestions.score.correct +
-                                    mission.skillLevel.usingBacking.score.correct;
+                                    missionRecord.skillLevel.connectingEvidence.score.correct +
+                                    missionRecord.skillLevel.supportingClaims.score.correct +
+                                    missionRecord.skillLevel.criticalQuestions.score.correct +
+                                    missionRecord.skillLevel.usingBacking.score.correct;
                                 var totalAttempts =
-                                    mission.skillLevel.connectingEvidence.score.attempts +
-                                    mission.skillLevel.supportingClaims.score.attempts +
-                                    mission.skillLevel.criticalQuestions.score.attempts +
-                                    mission.skillLevel.usingBacking.score.attempts;
-                                mission.totalCorrect = totalCorrect;
-                                mission.totalAttempts = totalAttempts;
+                                    missionRecord.skillLevel.connectingEvidence.score.attempts +
+                                    missionRecord.skillLevel.supportingClaims.score.attempts +
+                                    missionRecord.skillLevel.criticalQuestions.score.attempts +
+                                    missionRecord.skillLevel.usingBacking.score.attempts;
+                                var correctPercentage = missionRecord.correctPercentage = "-";
+                                missionRecord.stylingHint = "NotAvailable";
+                                if (totalAttempts > 0) {
+                                    correctPercentage = (totalCorrect / totalAttempts) * 100;
+                                    if (correctPercentage < 70) {
+                                        missionRecord.stylingHint = "NeedSupport";
+                                    } else {
+                                        missionRecord.stylingHint = "Advancing";
+                                    }
+                                    missionRecord.correctPercentage = "" + correctPercentage.toFixed(0) + "%";
+                                }
                             });
                         } else {
                             student.results = { currentProgress: { mission: 0, skillLevel: {} } };
@@ -113,7 +122,7 @@ angular.module( 'instructor.reports')
         var _findUserByUserId = function (userId, reportData) {
             var found;
             for (var i = 0; i < reportData.length; i++) {
-                if (reportData[i] && reportData[i].userId == userId) {
+                if (reportData[i] && reportData[i].userId === userId) {
                     found = reportData[i];
                     return found;
                 }
@@ -129,102 +138,56 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.toggleAllStudentChecks = function($event) {
-            $scope.selectedStudents = []; // Clear list first. Then add to it if appropriate
-            if ($event.target.checked) {
-                angular.forEach($scope.courses.selected.users, function (student, i) {
-                    $scope.selectedStudents.push(student);
-                });
+        $scope.skills = {
+            isOpen: false,
+            options: {
+                connectingEvidence: 'Argument Schemes',
+                supportingClaims: 'Claims and Evidence',
+                criticalQuestions: 'Critical Questions',
+                usingBacking: 'Using Backing'
             }
         };
 
-        $scope.isAllSelected = function() {
-            return $scope.selectedStudents.length === $scope.courses.selected.users.length;
+        $scope.selectedSkill = 'connectingEvidence';
+
+        $scope.toggleDropdown = function($event) {
+            $event.stopPropagation();
+            $scope.skills.isOpen = ! $scope.skills.isOpen;
         };
 
-        $scope.tableStructuralData = {
-            headers: [
-                { label: "Name", value: "name", keepUnchecked: true },
-                { label: "Current Mission", value: "currentMission", keepUnchecked: true }
-            ],
-            current: "name",
-            columnFilter: "all",
-            studentFilter: "all",
-            reverseSort: false
+        $scope.selectSkill = function($event, skillKey) {
+            $event.stopPropagation();
+            $scope.selectedSkill = skillKey;
+            $scope.skills.isOpen = false;
         };
 
-        $scope.selectAllSkills = function() {
-            $scope.tableStructuralData.studentFilter = "all";
-            $scope.tableStructuralData.columnFilter = "all";
-        };
-
-        var buttonTextChange = function(textBase) { // TODO: Is this still used?
-            var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
-            return "Click button to " + partialReturnString;
-        };
-
-        $.each($scope.reports.selected.skills, function(skillKey, skill) {
-            var skillHeader = {
-                title: skill.name,
-	            label: skill.label,
-                description: skill.description,
-                buttonDescription: buttonTextChange(skill.description),
-                value: skillKey
-            };
-            $scope.tableStructuralData.headers.push(skillHeader);
-        });
-
-        $scope.shouldShowStudentRow = function(skillLevel) {
-            if (!skillLevel) {
-                skillLevel = "NotAttempted";
-            }
-
-            return skillLevel == $scope.tableStructuralData.studentFilter || $scope.tableStructuralData.studentFilter == 'all';
-        };
-
-        $scope.numberOfColumnsChecked = function() {
-            if ($scope.tableStructuralData.columnFilter == 'all') {
-                return 4;
-            } else {
-                return 1;
-            }
+        $scope.sortingData = {
+            current: 'student',
+            isReverseSort: false
         };
 
         $scope.sortSelected = function (colName) {
-            if ($scope.tableStructuralData.current === colName) {
-                $scope.tableStructuralData.reverseSort = !$scope.tableStructuralData.reverseSort;
+            if ($scope.sortingData.current === colName) {
+                $scope.sortingData.isReverseSort = !$scope.sortingData.isReverseSort;
             } else {
-                $scope.tableStructuralData.current = colName;
+                $scope.sortingData.current = colName;
             }
+        };
+
+        $scope.isStudentTableReverseSort = false;
+
+        $scope.createTempArray = function(integer) {
+            return new Array(integer);
         };
 
         $scope.userSortFunction = function (colName) {
             return function (user) {
-                if (colName === $scope.tableStructuralData.headers[0].value) {
+                if (colName === 'student') { // TODO: Deal with these magic values
                     return user.firstName + ' ' + user.lastName;
                 }
-                if (colName === $scope.tableStructuralData.headers[1].value) {
+                if (colName === 'average') { // TODO: Deal with these magic values
                     return user.results.currentProgress.mission;
                 }
-
-                var score = 0;
-                if (!user.results.currentProgress ||
-                        !user.results.currentProgress.skillLevel ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current] ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level) {
-                    score = -2;
-                } else if (user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level == "NotAvailable") {
-                    score = -2;
-                } else {
-                    var columnSkill = user.results.currentProgress.skillLevel[$scope.tableStructuralData.current];
-
-                    if (columnSkill.score.attempts === 0) { score = 0; }
-                    else { score = columnSkill.score.correct / columnSkill.score.attempts; }
-
-                    if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
-                }
-
-                return score;
             };
         };
 
@@ -235,14 +198,6 @@ angular.module( 'instructor.reports')
         $scope.setCurrentStudents = function (studentsArray) {
             drk12_bStore.setCurrentStudents(studentsArray);
         };
-
-        $scope.$watch(function(currentScope) {
-            return currentScope.tableStructuralData.columnFilter;
-        }, function(newValue, oldValue, currentScope) {
-            if (newValue && newValue !== oldValue) {
-                drk12_bStore.setSelectedSkill(newValue);
-            }
-        });
 
         $scope.openModal = function(type) {
             if (!drk12_bStore.isValidModalType(type)) {
@@ -289,13 +244,13 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.navigateToDrilldown = function(student, mission, skillKey) {
-            if (!student || !mission || !skillKey || mission.skillLevel[skillKey].level === "NotAttempted") {
+        $scope.navigateToDrilldown = function(student, mission) {
+            if (!student || !mission || mission.skillLevel[$scope.selectedSkill].level === "NotAttempted") {
                 return;
             }
             drk12_bStore.setSelectedStudent(student);
             drk12_bStore.setSelectedMission(mission);
-            drk12_bStore.setSelectedSkill(skillKey);
+            drk12_bStore.setSelectedSkill($scope.selectedSkill);
 
             $state.go('modal-xxlg.drk12_bInfo', {
                 gameId: $stateParams.gameId,
@@ -492,7 +447,7 @@ angular.module( 'instructor.reports')
                 var colorOptions = ["#22b473", "#fdd367", "#f0f0f0"];
 
                 var dataIndex = courseSkillStats.reduce(function(previousValue, currentValue, index, array) {
-                    if (data == currentValue) {
+                    if (data === currentValue) {
                         return index;
                     } else {
                         return previousValue;

@@ -1,6 +1,6 @@
 <div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
 
-    <div class="report-body gl-pad-Al" style="min-height: 623px">
+    <div class="report-body gl-pad-Al" style="min-height: 623px"> <!-- TODO: add class here -->
         <div class="gl-drk12_b-l-container">
             <button class="fa fa-question-circle gl-drk12_b-helpicon" ng-click="openModal('info')" type="button"></button>
             <h1 class="gl-drk12_b-heading">Progress Report</h1>
@@ -19,16 +19,12 @@
                         <table class="gl-drk12_b-piechartsilllevel">
                             <thead>
                                 <tr>
-                                    <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
-                                        {{header.label}}
-                                    </th>
+                                    <th ng-repeat="(key, skill) in skills.options">{{skill}}</th>
                                 </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
-                                    <div ng-attr-id="{{'courseSkill_' + header.value}}"></div>
-                                </td>
+                                <td ng-repeat="(key, skill) in skills.options"><div ng-attr-id="{{'courseSkill_' + key}}"></div></td>
                             </tr>
                             </tbody>
                         </table>
@@ -40,90 +36,62 @@
                 </tab>
                 <tab heading="Student Roster" ng-click="currentView.isClassViewActive = false">
                     <div class="gl-drk12_b-l-containerstudent">
-                        <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondaryalt1">Select the skill(s) and click skill circles to view students' progress on individual skills across each mission.</h3>
-                        <ul class="gl-drk12_b-competencyskills">
-                            <li>
-                                <label>
-                                    <input type="radio" ng-model="tableStructuralData.columnFilter" ng-click="selectAllSkills()" value="all"/>
-                                    All Skills
-                                </label>
-                            </li>
-                            <li ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1">
-                                <label>
-                                    <input type="radio" ng-model="tableStructuralData.columnFilter" ng-value="header.value" ng-checked="tableStructuralData.columnFilter == header.value" />
-                                    {{header.title}}
-                                </label>
-                            </li>
-                        </ul>
-                        <ul class="gl-drk12_b-l-filterbuttons">
-                            <li>
-                                <button ng-disabled="tableStructuralData.columnFilter == 'all'" ng-click="tableStructuralData.studentFilter='all'"
-                                        class="gl-drk12_b-filterbutton" ng-class="{'gl-drk12_b-filterbutton-is-active': tableStructuralData.studentFilter == 'all'}">
-                                    All Students ({{reportData.students.length}})
+                        <h2>Skills</h2>
+                        <div style="position: relative"> <!-- TODO: add class here -->
+                            <div class="btn-group gl-drk12-dropdown" dropdown is-open="skills.isOpen">
+                                <button type="button" class="btn btn-default"
+                                        ng-click="toggleDropdown($event)"
+                                        ng-bind="skills.options[selectedSkill]">
                                 </button>
-                            </li>
-                            <li ng-class="{'visibility-hidden': tableStructuralData.columnFilter == 'all'}" ng-repeat="(key, value) in progressTypes">
-                                <button ng-click="tableStructuralData.studentFilter = value.class" class="gl-drk12_b-filterbutton" ng-class="['gl-drk12_b-filterbutton-{{value.class}}', {'gl-drk12_b-filterbutton-is-active' : tableStructuralData.studentFilter == value.class}]">
-                                    {{value.title}} ({{reportData.courseSkills[tableStructuralData.columnFilter][value.class]}})
+                                <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event)">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Split button!</span>
                                 </button>
-                            </li>
-                        </ul>
-                        <hr/>
-                        <table class="table gl-reports-table gl-drk12_b-table" ng-class="{'gl-reports-table--ie': isIE}">
+                                <ul class="dropdown-menu" role="menu">
+                                    <li ng-repeat="(key, skill) in skills.options"
+                                        ng-class="{'gl-reports-dropdown--selected': skills.selectedSkill == key }">
+                                        <a href="#" ng-click="selectSkill($event, key)" ng-bind="skill">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="display:inline-block; position: absolute; bottom: 0; right: 8px"> <!-- TODO: add class here -->
+                                <span style="color: #22B473; font-weight: bold; font-size: 12px">Green:</span> <!-- TODO: add class here -->
+                                <span style="color: #e9e6ea; font-weight: bold; font-size: 12px">&ge; 70%</span> <!-- TODO: add class here -->
+                                <span style="color: #F4A422; font-weight: bold; font-size: 12px">Yellow:</span> <!-- TODO: add class here -->
+                                <span style="color: #e9e6ea; font-weight: bold; font-size: 12px">< 70%</span> <!-- TODO: add class here -->
+                                <span style="color: #8e8e8e; font-weight: bold; font-size: 12px">Gray:</span> <!-- TODO: add class here -->
+                                <span style="color: #e9e6ea; font-weight: bold; font-size: 12px">No Data</span> <!-- TODO: add class here -->
+                            </div>
+                        </div>
+                        <table class="table gl-drk12_b-table" ng-class="{'gl-reports-table--ie': isIE}">
                             <thead>
-                                <tr class="gl-drk12_b-table-x-header">
-                                    <th rowspan="2">
-                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[0].value)" type="button">
-                                            {{tableStructuralData.headers[0].label}}
-                                            <i ng-class="tableStructuralData.current===tableStructuralData.headers[0].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                        </button>
-                                    </th>
-                                    <th rowspan="2">
-                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected(tableStructuralData.headers[1].value)" type="button">
-                                            {{tableStructuralData.headers[1].label}}
-                                            <i ng-class="tableStructuralData.current===tableStructuralData.headers[1].value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                        </button>
-                                    </th>
-                                    <th colspan="{{numberOfColumnsChecked()}}">Progress for Most Recent Mission Skill Applied</th>
-                                </tr>
-                                <tr class="gl-drk12_b-table-x-headersecondary">
-                                    <!-- first th is covered by previous row -->
-                                    <!-- second th is covered by previous row -->
-                                    <th ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
-                                        <div class="gl-drk12_b-tooltip">
-                                            <button class="gl-drk12_b-tablesort gl-drk12_b-tablesort-secondary" ng-class="{'gl-drk12_b-tablesort-single': tableStructuralData.columnFilter != 'all'}" ng-click="sortSelected(header.value)" type="button">
-                                                {{header.label}}
-                                                <i ng-class="tableStructuralData.current===header.value ? (tableStructuralData.reverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down' ) : 'fa fa-sort-down'"></i>
-                                            </button>
-                                            <span class="gl-drk12_b-tooltip-x-tooltip">{{header.description}}</span>
-                                        </div>
-                                    </th>
-                                </tr>
                                 <tr>
-                                    <th colspan="{{numberOfColumnsChecked() + 2}}" class="gl-drk12_b-table-x-tablefilterbar">
-                                        <div class="gl-drk12_b-tablefilterbar gl-drk12_b-tablefilterbar-is-{{tableStructuralData.studentFilter}}">
-                                            <label><input type="checkbox" ng-click="toggleAllStudentChecks($event)" ng-checked="isAllSelected()"/> Select All</label>
-                                            <button ng-click="setCurrentStudents(selectedStudents); openModal('studentInfo');" ng-disabled="selectedStudents.length < 1" ng-class="{disabled: selectedStudents.length < 1}" class="gl-drk12_b-performancetrigger gl-clickable">
-                                                View Selected Students' Performances Over Time
-                                            </button>
-                                        </div>
+                                    <th class="gl-drk12_b-first-table-column">
+                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected('student')" type="button">
+                                            Student
+                                            <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
+                                        </button>
+                                    </th>
+                                    <th ng-repeat="i in createTempArray(reportData.totalMissions) track by $index">
+                                        {{$index + 1}}
+                                    </th>
+                                    <th>ST</th>
+                                    <th>BT</th>
+                                    <th>
+                                        <button class="gl-drk12_b-tablesort" ng-click="sortSelected('average')" type="button">AVG
+                                            <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
+                                        </button>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="gl-reports-table-row" ng-repeat="student in courses.selected.users | orderBy:userSortFunction(tableStructuralData.current):tableStructuralData.reverseSort"
-                                        ng-if="shouldShowStudentRow(student.results.currentProgress.skillLevel[tableStructuralData.columnFilter].level)">
-                                    <td class="gl-drk12_b-table-x-name">
-                                        <label for="{{student.id}}">
-                                            <input type="checkbox" id="{{student.id}}" ng-checked="selectedStudents.indexOf(student) != -1" ng-click="toggleStudentCheck(student)"/>
-                                            {{student.firstName}} {{student.lastName}}
-                                        </label>
-                                    </td>
-                                    <td>{{student.results.currentProgress.mission}} / {{reportData.totalMissions}}</td>
-                                    <td ng-repeat="header in tableStructuralData.headers" ng-if="$index > 1 && (tableStructuralData.columnFilter == header.value || tableStructuralData.columnFilter == 'all')">
-                                        <div class="gl-drk12_b-progressicon gl-drk12_b-progressicon-table"
-                                             ng-class="student.results.currentProgress.skillLevel[header.value].level"
-                                             ng-click="navigateToDrilldown(student, student.results.missions[student.results.currentProgress.skillLevel[header.value].mission - 1], header.value)"></div>
+                                <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
+                                    <td class="gl-drk12_b-table-x-name">{{student.firstName}} {{student.lastName}}</td>
+                                    <td ng-repeat="mission in student.results.missions" ng-click="navigateToDrilldown(student, student.results.missions[$index])">
+                                        <div class="{{mission.stylingHint}}">
+                                            {{mission.correctPercentage}}
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
