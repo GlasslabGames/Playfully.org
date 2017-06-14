@@ -22,9 +22,44 @@ angular.module( 'instructor.reports')
             notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
         };
 
+        $scope.skills = {
+            isOpen: false,
+            options: {
+                connectingEvidence: 'Argument Schemes',
+                supportingClaims: 'Claims and Evidence',
+                criticalQuestions: 'Critical Questions',
+                usingBacking: 'Using Backing'
+            }
+        };
+
         ///////////////////////////////////////////////////////////////////////////////////////////
 
+        var sortStringsAndNumbers = function(first, second) {
+            if (typeof first.mission === 'number') {
+                if (typeof second.mission === 'number') {
+                    return first.mission - second.mission;
+                } else if (typeof second.mission === 'string') {
+                    return -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number');
+                    return 0;
+                }
+            } else if (typeof first.mission === 'string') {
+                if (typeof second.mission === 'number') {
+                    return 1;
+                } else if (typeof second.mission === 'string') {
+                    return first.mission < second.mission ? 1 : -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number');
+                    return 0;
+                }
+            }
+        };
+
         $scope.reportData = usersData;
+        usersData.courseProgress.sort(function(first,second) {
+            return sortStringsAndNumbers(first, second);
+        });
 
         ///// Setup options /////
 
@@ -77,40 +112,47 @@ angular.module( 'instructor.reports')
                     angular.forEach($scope.courses.selected.users, function (student) {
                         student.results = _findUserByUserId(student.id, usersReportData.students) || {};
                         if (student.results.missions) {
-                            student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
+                            student.results.missions.sort(function(first, second) {
+                                return sortStringsAndNumbers(first, second);
+                            });
+
+                            var skill1Name = Object.keys($scope.skills.options)[0]; var skill1Correct = 0; var skill1Attempts = 0;
+                            var skill2Name = Object.keys($scope.skills.options)[1]; var skill2Correct = 0; var skill2Attempts = 0;
+                            var skill3Name = Object.keys($scope.skills.options)[2]; var skill3Correct = 0; var skill3Attempts = 0;
+                            var skill4Name = Object.keys($scope.skills.options)[3]; var skill4Correct = 0; var skill4Attempts = 0;
 
                             student.results.missions.forEach(function(missionRecord) {
-                                if (!student.results.currentProgress) {
-                                    student.results.currentProgress = {};
-                                    student.results.currentProgress.mission = 0;
+                                if (missionRecord.skillLevel[skill1Name].score.attempts > 0) {
+                                    skill1Correct += missionRecord.skillLevel[skill1Name].score.correct;
+                                    skill1Attempts += missionRecord.skillLevel[skill1Name].score.attempts;
                                 }
-                                if (missionRecord.mission === student.results.currentProgress.mission) {
-                                    missionRecord.current = true;
-                                } else if (missionRecord.mission > student.results.currentProgress.mission) {
-                                    missionRecord.paddingObject = true;
+                                if (missionRecord.skillLevel[skill2Name].score.attempts > 0) {
+                                    skill2Correct += missionRecord.skillLevel[skill2Name].score.correct;
+                                    skill2Attempts += missionRecord.skillLevel[skill2Name].score.attempts;
                                 }
-                                var totalCorrect =
-                                    missionRecord.skillLevel.connectingEvidence.score.correct +
-                                    missionRecord.skillLevel.supportingClaims.score.correct +
-                                    missionRecord.skillLevel.criticalQuestions.score.correct +
-                                    missionRecord.skillLevel.usingBacking.score.correct;
-                                var totalAttempts =
-                                    missionRecord.skillLevel.connectingEvidence.score.attempts +
-                                    missionRecord.skillLevel.supportingClaims.score.attempts +
-                                    missionRecord.skillLevel.criticalQuestions.score.attempts +
-                                    missionRecord.skillLevel.usingBacking.score.attempts;
-                                var correctPercentage = missionRecord.correctPercentage = "-";
-                                missionRecord.stylingHint = "NotAvailable";
-                                if (totalAttempts > 0) {
-                                    correctPercentage = (totalCorrect / totalAttempts) * 100;
-                                    if (correctPercentage < 70) {
-                                        missionRecord.stylingHint = "NeedSupport";
-                                    } else {
-                                        missionRecord.stylingHint = "Advancing";
-                                    }
-                                    missionRecord.correctPercentage = "" + correctPercentage.toFixed(0) + "%";
+                                if (missionRecord.skillLevel[skill3Name].score.attempts > 0) {
+                                    skill3Correct += missionRecord.skillLevel[skill3Name].score.correct;
+                                    skill3Attempts += missionRecord.skillLevel[skill3Name].score.attempts;
+                                }
+                                if (missionRecord.skillLevel[skill4Name].score.attempts > 0) {
+                                    skill4Correct += missionRecord.skillLevel[skill4Name].score.correct;
+                                    skill4Attempts += missionRecord.skillLevel[skill4Name].score.attempts;
                                 }
                             });
+
+                            if (student.results.currentProgress.skillLevel[skill1Name]) {
+                                student.results.currentProgress.skillLevel[skill1Name].average = (skill1Correct / skill1Attempts) * 100;
+                            }
+                            if (student.results.currentProgress.skillLevel[skill2Name]) {
+                                student.results.currentProgress.skillLevel[skill2Name].average = (skill2Correct / skill2Attempts) * 100;
+                            }
+                            if (student.results.currentProgress.skillLevel[skill3Name]) {
+                                student.results.currentProgress.skillLevel[skill3Name].average = (skill3Correct / skill3Attempts) * 100;
+                            }
+                            if (student.results.currentProgress.skillLevel[skill4Name]) {
+                                student.results.currentProgress.skillLevel[skill4Name].average = (skill4Correct / skill4Attempts) * 100;
+                            }
+
                         } else {
                             student.results = { currentProgress: { mission: 0, skillLevel: {} } };
                         }
@@ -135,16 +177,6 @@ angular.module( 'instructor.reports')
                 $scope.selectedStudents.push(student);
             } else {
                 $scope.selectedStudents.splice($scope.selectedStudents.indexOf(student), 1);
-            }
-        };
-
-        $scope.skills = {
-            isOpen: false,
-            options: {
-                connectingEvidence: 'Argument Schemes',
-                supportingClaims: 'Claims and Evidence',
-                criticalQuestions: 'Critical Questions',
-                usingBacking: 'Using Backing'
             }
         };
 
@@ -175,10 +207,6 @@ angular.module( 'instructor.reports')
         };
 
         $scope.isStudentTableReverseSort = false;
-
-        $scope.createTempArray = function(integer) {
-            return new Array(integer);
-        };
 
         $scope.userSortFunction = function (colName) {
             return function (user) {

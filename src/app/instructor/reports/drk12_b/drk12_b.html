@@ -73,11 +73,7 @@
                                             <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
                                         </button>
                                     </th>
-                                    <th ng-repeat="i in createTempArray(reportData.totalMissions) track by $index">
-                                        {{$index + 1}}
-                                    </th>
-                                    <th>ST</th>
-                                    <th>BT</th>
+                                    <th ng-repeat="missionObject in reportData.courseProgress">{{missionObject.mission}}</th>
                                     <th>
                                         <button class="gl-drk12_b-tablesort" ng-click="sortSelected('average')" type="button">AVG
                                             <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
@@ -89,8 +85,13 @@
                                 <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
                                     <td class="gl-drk12_b-table-x-name">{{student.firstName}} {{student.lastName}}</td>
                                     <td ng-repeat="mission in student.results.missions" ng-click="navigateToDrilldown(student, student.results.missions[$index])">
-                                        <div class="{{mission.stylingHint}}">
-                                            {{mission.correctPercentage}}
+                                        <div class="{{mission.skillLevel[selectedSkill].level}}">
+                                            {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}">
+                                            {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}<span ng-if="student.results.currentProgress.skillLevel[selectedSkill].score.attempts > 0">%</span>
                                         </div>
                                     </td>
                                 </tr>
