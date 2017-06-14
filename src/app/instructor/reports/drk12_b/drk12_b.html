@@ -50,7 +50,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li ng-repeat="(key, skill) in skills.options"
                                         ng-class="{'gl-reports-dropdown--selected': skills.selectedSkill == key }">
-                                        <a href="#" ng-click="selectSkill($event, key)" ng-bind="skill">
+                                        <a href="javascript:void(0)" ng-click="selectSkill($event, key)" ng-bind="skill">
                                         </a>
                                     </li>
                                 </ul>
