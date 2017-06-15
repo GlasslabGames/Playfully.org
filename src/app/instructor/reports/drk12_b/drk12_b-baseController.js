@@ -81,6 +81,24 @@ angular.module( 'instructor.reports')
                 // select report that matches this state
                 if (reportId === report.id) {
                     $scope.reports.selected = report;
+
+                    usersData.courseProgress.forEach(function(missionObject) {
+                        if ($scope.reports.selected.skills) {
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[0]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[0]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[1]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[1]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[2]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[2]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[3]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[3]] = {disabled: true};
+                            }
+                        }
+                    });
+
                     drk12_bStore.setSkills($scope.reports.selected.skills);
                 }
             }
@@ -273,7 +291,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.navigateToDrilldown = function(student, mission) {
-            if (!student || !mission || mission.skillLevel[$scope.selectedSkill].level === "NotAttempted") {
+            if (!student || !mission || mission.skillLevel[$scope.selectedSkill].level === "NotAttempted" || mission.skillLevel[$scope.selectedSkill].level === "NotAvailable") { // TODO: Fix magic strings
                 return;
             }
             drk12_bStore.setSelectedStudent(student);

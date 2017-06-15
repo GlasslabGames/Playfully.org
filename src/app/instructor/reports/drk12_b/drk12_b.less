@@ -20,7 +20,7 @@
 
 .gl-drk12_b-l-container > p {
   margin-bottom: 40px;
-  text-align: center;
+  text-align: left;
 }
 
 // Container (Class, tab)
@@ -174,7 +174,7 @@
   font-family: 'Bitter', sans-serif;
   font-size: 28px;
   margin: 0;
-  text-align: center;
+  text-align: left;
 }
 
 .gl-drk12_b-heading-secondary {
@@ -255,10 +255,7 @@
 
 .gl-drk12_b-text {
   color:  @grey1;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 700px;
-  text-align: center;
+  text-align: left;
 }
 
 // Progress Icons
@@ -725,7 +722,6 @@
 }
 
 // Table (Override of .gl-reports-table)
-
 .table.gl-drk12_b-table {
   tr th:first-child, tr td:first-child {
     width: 165px;
@@ -740,6 +736,10 @@
     &:first-child {
       border-left: 1px solid @grey4;
     }
+  }
+  td.disabled, th.disabled {
+    background-color: @grey8;
+    color: @grey5;
   }
   td {
     border-top: 0;
