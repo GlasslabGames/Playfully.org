@@ -1,5 +1,20 @@
 angular.module( 'instructor.reports')
-    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, usersData) {
+    .config(function ( $stateProvider, USER_ROLES) {
+        $stateProvider.state('modal-xxlg.drk12_bInfo', {
+            url: '/reports/details/drk12_b/game/:gameId/course/:courseId',
+            data:{
+                pageTitle: 'Progress Report'
+            },
+            views: {
+                'modal@': {
+                    templateUrl: function($stateParams, REPORT_CONSTANTS) {
+                        return 'instructor/reports/drk12_b/modal-info.html';
+                    }
+                }
+            }
+        });
+    })
+    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, usersData, previousState) {
         ///// Setup selections /////
 
         // basic variable set up
@@ -12,7 +27,11 @@ angular.module( 'instructor.reports')
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-        $scope.currentView = {isClassViewActive : true};
+        $scope.tabs = [{active: true}, {active: false}];
+
+        if (previousState.name === 'root.reports.details.drk12_b_drilldown') {
+            $scope.tabs[0].active = false; $scope.tabs[1].active = true;
+        }
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
 
@@ -34,7 +53,7 @@ angular.module( 'instructor.reports')
                 } else if (typeof second.mission === 'string') {
                     return -1;
                 } else { // We should never hit this case
-                    console.warn('Mission sorting discovered a mission key that is not a string or number');
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
                     return 0;
                 }
             } else if (typeof first.mission === 'string') {
@@ -43,9 +62,12 @@ angular.module( 'instructor.reports')
                 } else if (typeof second.mission === 'string') {
                     return first.mission < second.mission ? 1 : -1;
                 } else { // We should never hit this case
-                    console.warn('Mission sorting discovered a mission key that is not a string or number');
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
                     return 0;
                 }
+            } else {
+                console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', first);
+                return 0;
             }
         };
 
@@ -230,28 +252,11 @@ angular.module( 'instructor.reports')
             };
         };
 
-        // $scope.setCurrentStudent = function (student) {
-        //     Drk12Service.setCurrentStudents([student]);
-        // };
-
-        // $scope.setCurrentStudents = function (studentsArray) {
-        //     Drk12Service.setCurrentStudents(studentsArray);
-        // };
-
-        $scope.openModal = function(type) {
-            if (!Drk12Service.isValidModalType(type)) {
-                // Do nothing
-            }
-            else if (Drk12Service.hasValidModalData(type)) {
-                Drk12Service.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
-
-                $state.go('modal-xxlg.drk12_bInfo', {
-                    gameId: $stateParams.gameId,
-                    courseId: $stateParams.courseId,
-                    type: type
-                }).then(function() {
-                });
-            }
+        $scope.openModal = function() {
+            $state.go('modal-xxlg.drk12_bInfo', {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId
+            });
         };
 
         // TODO: For the love of all that's holy, remove this when the modals have been removed. Hacky as F*ck!
@@ -298,7 +303,7 @@ angular.module( 'instructor.reports')
 
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED", $scope.currentView.isClassViewActive);
+            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active);
 
             /*
              Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible

@@ -7,7 +7,7 @@
             <p class="gl-drk12_b-text" ng-bind-html="reports.selected.description"></p>
 
             <tabset class="gl-drk12_b-tabs" justified="true">
-                <tab heading="Whole Class" ng-click="currentView.isClassViewActive = true">
+                <tab heading="Whole Class" ng-attr-active="tabs[0].active">
                     <div class="gl-drk12_b-l-containerclass">
                         <h3 class="gl-drk12_b-heading gl-drk12_b-heading-secondary">All Students' Current Mission</h3>
                         <div id="drk12_bChart" class="gl-drk12_b-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                 </tab>
-                <tab heading="Student Roster" ng-click="currentView.isClassViewActive = false">
+                <tab heading="Student Roster" ng-attr-active="tabs[1].active">
                     <div class="gl-drk12_b-l-containerstudent">
                         <h2>Skills</h2>
                         <div style="position: relative"> <!-- TODO: add class here -->

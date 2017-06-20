@@ -292,6 +292,10 @@ angular.module( 'instructor.reports', [
                             Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
                         }
                         return Drk12Service.reportDataFromServer;
+                    },
+                    // Added to check if coming from drilldown. Inspired from https://stackoverflow.com/a/25945003/969869
+                    previousState: function($state) {
+                        return { name: $state.current.name };
                     }
                 }
             })
