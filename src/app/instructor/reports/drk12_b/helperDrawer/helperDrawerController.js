@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, drk12_bStore) {
+    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, Drk12Service) {
         $scope.helperPage = "helperDrawerMain";
         $scope.data = {
             connectingEvidence: "Argument Schemes",
@@ -54,19 +54,19 @@ angular.module( 'instructor.reports')
 
             if (isClassViewActive) {
                 newDestination = "reportHelper";
-            }  else if (drk12_bStore.getSelectedMission()) {
-                newDestination = drk12_bStore.getSelectedSkill();
+            }  else if (Drk12Service.getSelectedMission()) {
+                newDestination = Drk12Service.getSelectedSkill();
                 updateVariables(newDestination); // TODO: See about working this redundancy
                 newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
-            } else if (drk12_bStore.getCurrentStudents().length >  1) {
-                newDestination = drk12_bStore.getSelectedSkill();
+            } else if (Drk12Service.getCurrentStudents().length >  1) {
+                newDestination = Drk12Service.getSelectedSkill();
                 updateVariables(newDestination); // TODO: See about working this redundancy
                 newSubDestination = "id" + $scope.selectedPage + "7"; // TODO: Make this less "magical"
             } else {
-                if ($scope.tableStructuralData.columnFilter === "all" || drk12_bStore.getSelectedStudent()) {
+                if ($scope.tableStructuralData.columnFilter === "all" || Drk12Service.getSelectedStudent()) {
                     newDestination = "reportHelper";
                 } else {
-                    newDestination = drk12_bStore.getSelectedSkill();
+                    newDestination = Drk12Service.getSelectedSkill();
                 }
             }
 

@@ -1,12 +1,13 @@
-<div class="gl-drk12_b-l-nooverflow" ng-controller="Drk12bModalDrilldown">
-    <div class="gl-drk12_b-drillDownSubTitle">
+<div class="report-body gl-pad-Al">
+    <h1>{{skills.options[selectedSkill]}} : Mission {{selectedMission.mission}}</h1>
+    <div>
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span>{{skills[selectedSkill].label}}</span><span class="padding-sides-15">|</span>
-        <span><strong>Mission {{selectedMission.mission}}</strong></span><span class="padding-sides-15">|</span>
         <span class="gl-drk12_b-progressicon" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{progressTypes[selectedMission.skillLevel[selectedSkill].level].title}}
         </span>
     </div>
+
+    <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
     <table class="gl-drk12_b-drillDownTable" width="100%">
         <tr>
             <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" ng-style="{'width': 100/numberOfSubSkills(calculdatedDetails) + '%'}">
@@ -45,9 +46,4 @@
             </td>
         </tr>
     </table>
-    <div class="padding-top-20" ng-show="didComeFromStudentInfo()">
-        <a href="javascript:void(0)" ng-click="navigateToStudentInfo()">
-            <i class="fa fa-caret-left"></i> Performance Over Time
-        </a>
-    </div>
 </div>

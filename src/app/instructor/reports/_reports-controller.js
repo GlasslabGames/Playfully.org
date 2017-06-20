@@ -264,7 +264,7 @@ angular.module( 'instructor.reports', [
                 }
             })
             .state('root.reports.details.drk12_b', {
-                url: '/drk12_b/game/:gameId/course/:courseId?skillsId&stdntIds',
+                url: '/drk12_b/game/:gameId/course/:courseId',
                 templateUrl: 'instructor/reports/drk12_b/drk12_b.html',
                 controller: 'Drk12_bCtrl',
                 parameters: ['gameId','courseId'],
@@ -286,9 +286,44 @@ angular.module( 'instructor.reports', [
                         }
                         return reports;
                     },
-                    usersData: function (ReportsService, $stateParams) {
+                    usersData: function (ReportsService, Drk12Service, $stateParams) {
                         var reportId = 'drk12_b';
-                        return ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                        if (Drk12Service.reportDataFromServer === null) {
+                            Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                        }
+                        return Drk12Service.reportDataFromServer;
+                    }
+                }
+            })
+            .state('root.reports.details.drk12_b_drilldown', {
+                url: '/drk12_b/game/:gameId/course/:courseId/drilldown/student/:studentId/skill/:skill/mission/:mission',
+                templateUrl: 'instructor/reports/drk12_b/drk12_b-drilldown.html',
+                controller: 'Drk12Drilldown',
+                parameters: ['gameId','courseId'],
+                resolve: {
+                    defaultCourse: function ($stateParams, coursesInfo) {
+                        return coursesInfo[$stateParams.courseId];
+                    },
+                    myGames: function (defaultCourse) {
+                        return defaultCourse.games;
+                    },
+                    defaultGame: function (defaultCourse, myGames, $stateParams) {
+                        return _.findWhere(myGames, { 'id': $stateParams.gameId }) || myGames[0];
+                    },
+                    gameReports: function (defaultGame) {
+                        // set game report for default game
+                        var reports = {};
+                        if (defaultGame) {
+                            return defaultGame.reports;
+                        }
+                        return reports;
+                    },
+                    usersData: function (ReportsService, Drk12Service, $stateParams) {
+                        var reportId = 'drk12_b';
+                        if (Drk12Service.reportDataFromServer === null) {
+                            Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                        }
+                        return Drk12Service.reportDataFromServer;
                     }
                 }
             })

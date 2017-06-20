@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
+    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, usersData) {
         ///// Setup selections /////
 
         // basic variable set up
@@ -22,15 +22,8 @@ angular.module( 'instructor.reports')
             notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
         };
 
-        $scope.skills = {
-            isOpen: false,
-            options: {
-                connectingEvidence: 'Argument Schemes',
-                supportingClaims: 'Claims and Evidence',
-                criticalQuestions: 'Critical Questions',
-                usingBacking: 'Using Backing'
-            }
-        };
+        $scope.skills = Drk12Service.skills;
+        $scope.skills.isDropdownOpen = false;
 
         ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,7 +92,7 @@ angular.module( 'instructor.reports')
                         }
                     });
 
-                    drk12_bStore.setSkills($scope.reports.selected.skills);
+                    // Drk12Service.setSkills($scope.reports.selected.skills);
                 }
             }
         });
@@ -202,13 +195,13 @@ angular.module( 'instructor.reports')
 
         $scope.toggleDropdown = function($event) {
             $event.stopPropagation();
-            $scope.skills.isOpen = ! $scope.skills.isOpen;
+            $scope.skills.isDropdownOpen = ! $scope.skills.isDropdownOpen;
         };
 
         $scope.selectSkill = function($event, skillKey) {
             $event.stopPropagation();
             $scope.selectedSkill = skillKey;
-            $scope.skills.isOpen = false;
+            $scope.skills.isDropdownOpen = false;
         };
 
         $scope.sortingData = {
@@ -237,27 +230,26 @@ angular.module( 'instructor.reports')
             };
         };
 
-        $scope.setCurrentStudent = function (student) {
-            drk12_bStore.setCurrentStudents([student]);
-        };
+        // $scope.setCurrentStudent = function (student) {
+        //     Drk12Service.setCurrentStudents([student]);
+        // };
 
-        $scope.setCurrentStudents = function (studentsArray) {
-            drk12_bStore.setCurrentStudents(studentsArray);
-        };
+        // $scope.setCurrentStudents = function (studentsArray) {
+        //     Drk12Service.setCurrentStudents(studentsArray);
+        // };
 
         $scope.openModal = function(type) {
-            if (!drk12_bStore.isValidModalType(type)) {
+            if (!Drk12Service.isValidModalType(type)) {
                 // Do nothing
             }
-            else if (drk12_bStore.hasValidModalData(type)) {
-                drk12_bStore.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
+            else if (Drk12Service.hasValidModalData(type)) {
+                Drk12Service.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
 
                 $state.go('modal-xxlg.drk12_bInfo', {
                     gameId: $stateParams.gameId,
                     courseId: $stateParams.courseId,
                     type: type
                 }).then(function() {
-                    hackModalStyles(); // TODO: This can be removed after we remove the modals
                 });
             }
         };
@@ -294,39 +286,14 @@ angular.module( 'instructor.reports')
             if (!student || !mission || mission.skillLevel[$scope.selectedSkill].level === "NotAttempted" || mission.skillLevel[$scope.selectedSkill].level === "NotAvailable") { // TODO: Fix magic strings
                 return;
             }
-            drk12_bStore.setSelectedStudent(student);
-            drk12_bStore.setSelectedMission(mission);
-            drk12_bStore.setSelectedSkill($scope.selectedSkill);
 
-            $state.go('modal-xxlg.drk12_bInfo', {
+            $state.go('root.reports.details.drk12_b_drilldown', {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId,
-                type: "drilldown"
-            }).then(function() {
-                hackModalStyles(); // TODO: This can be removed after we remove the modals
+                studentId: student.id,
+                skill: $scope.selectedSkill,
+                mission: mission.mission
             });
-        };
-
-        var hackModalStyles = function() { // TODO: This can be removed after we remove the modals
-            if ($scope.isFooterOpened) {
-                var intervalIf = $interval(function() {
-                    if (jQuery(".modal-backdrop").length > 0) {
-                        jQuery('.modal-backdrop').css("bottom", "50vh");
-                        jQuery('.modal-xxlg').css("bottom", "50vh");
-
-                        $interval.cancel(intervalIf);
-                    }
-                }, 2);
-            } else {
-                var intervalElse = $interval(function() {
-                    if (jQuery(".modal-backdrop").length > 0) {
-                        jQuery('.modal-backdrop').css("bottom", "30px");
-                        jQuery('.modal-xxlg').css("bottom", "30px");
-
-                        $interval.cancel(intervalElse);
-                    }
-                }, 2);
-            }
         };
 
         $scope.footerHelperClicked = function() {

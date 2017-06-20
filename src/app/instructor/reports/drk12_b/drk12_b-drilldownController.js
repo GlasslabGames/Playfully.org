@@ -1,14 +1,23 @@
 angular.module( 'instructor.reports')
-    // This controller is always assumed to be within the scope of the modal created in the config
-    .controller('Drk12bModalDrilldown', function($scope, $state, $stateParams, drk12_bStore) {
-        if (!drk12_bStore.hasValidModalData($scope.type)) {
-            $scope.navigateBackToReport();
-        } else {
-            $scope.selectedStudent = drk12_bStore.getSelectedStudent();
-            $scope.selectedSkill = drk12_bStore.getSelectedSkill();
-            $scope.selectedMission = drk12_bStore.getSelectedMission();
-            $scope.skills = drk12_bStore.getSkills();
-        }
+    .controller('Drk12Drilldown', function($scope, $state, $stateParams, myGames, defaultGame, gameReports, ReportsService, Drk12Service, usersData) {
+        $scope.skills = Drk12Service.skills;
+        $scope.missionNumber = $stateParams.mission;
+
+        ////////////////////// Get Initially Needed Values/Variables
+        $scope.selectedSkill = $stateParams.skill;
+
+        $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
+        $scope.selectedStudent = $scope.courses.selected.users.find(function(student) { return student.id === Number($stateParams.studentId); });
+
+        var selectedStudentData = usersData.students.find(function(student) { return student.userId === Number($stateParams.studentId); });
+
+        $scope.selectedMission = selectedStudentData.missions.find(function(missionObject) { return "" + missionObject.mission === "" + $stateParams.mission; });
+
+        ////////////////////////////////////////////////////////////
+
+        $scope.someFunct = function() {
+            console.info('somefunct hit');
+        };
 
         var magicData = [
             {
@@ -121,20 +130,8 @@ angular.module( 'instructor.reports')
             return returnObject;
         };
 
-        $scope.navigateToStudentInfo = function() {
-            $state.go('modal-xxlg.drk12_bInfo', {
-                gameId: $stateParams.gameId,
-                courseId: $stateParams.courseId,
-                type: "studentInfo"
-            });
-        };
-
         $scope.isConnectedEvidence = function() {
             return $scope.selectedSkill === magicData[0].key;
-        };
-
-        $scope.didComeFromStudentInfo = function() {
-            return drk12_bStore.getCurrentStudents().length > 0;
         };
 
         $scope.numberOfSubSkills = function(object) {
@@ -150,4 +147,48 @@ angular.module( 'instructor.reports')
         };
 
         $scope.calculdatedDetails = getUpdatedMissionDetails($scope.selectedMission, $scope.selectedSkill);
+
+        ///////////////////////// Necessary stuff for parent drop-downs
+        var reportId = 'drk12_b';
+
+        // Games
+        $scope.games.options = {}; // TODO: This appears to be report agnostic. Why is it placed in each report?
+        angular.forEach(myGames, function(game) { // TODO: This appears to be report agnostic. Why is it placed in each report?
+            $scope.games.options['' + game.gameId] = game;
+        });
+
+        $scope.games.selectedGameId = defaultGame.gameId; // TODO: This appears to be report agnostic. Why is it placed in each report?
+
+
+        // Reports
+        $scope.reports.options = [];  // TODO: This appears to be report agnostic. Why is it placed in each report?
+
+        angular.forEach(gameReports.list, function(report) { // TODO: This appears to be report agnostic. Why is it placed in each report?
+            if(report.enabled) {
+                $scope.reports.options.push( angular.copy(report) );
+                // select report that matches this state
+                if (reportId === report.id) {
+                    $scope.reports.selected = report;
+                }
+            }
+        });
+
+        // Check if selected game has selected report
+
+        if (!ReportsService.isValidReport(reportId, $scope.reports.options))  { // TODO: This appears to be report agnostic. Why is it placed in each report?
+            $state.go('root.reports.details.' + ReportsService.getDefaultReportId(reportId, $scope.reports.options), {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId
+            });
+            return;
+        }
+
+        // Set parent scope developer info
+
+        if (gameReports.hasOwnProperty('developer')) { // TODO: This appears to be report agnostic. Why is it placed in each report?
+            $scope.developer.logo = gameReports.developer.logo;
+        }
+
+        ////////////////// End Necessary stuff for parent drop-downs
+
     });
