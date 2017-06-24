@@ -2,48 +2,35 @@
     <h1>{{skills.options[selectedSkill]}} : Mission {{selectedMission.mission}}</h1>
     <div>
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span class="gl-drk12_b-progressicon" ng-class="selectedMission.skillLevel[selectedSkill].level">
-            {{progressTypes[selectedMission.skillLevel[selectedSkill].level].title}}
+        <span class="gl-drk12_b-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
+            {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
         </span>
     </div>
 
     <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
-    <table class="gl-drk12_b-drillDownTable" width="100%">
-        <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" ng-style="{'width': 100/numberOfSubSkills(calculdatedDetails) + '%'}">
-                <img ng-src="/assets/drk_{{skillKey}}.png">
-            </td>
-        </tr>
-        <tr ng-if="isConnectedEvidence()">
-            <td colspan="{{numberOfSubSkills(calculdatedDetails)}}" align="center" class="padding-top-20">Attached scheme-appropriate evidence to a claim when using an</td>
-        </tr>
-        <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" class="padding-top-20 padding-bottom-20">
-                <div><strong>{{subSkillDetail.description}}</strong></div>
-                <div ng-if="subSkillDetail.subDescription" style="font-size: 9pt;">({{subSkillDetail.subDescription}})</div>
-            </td>
-        </tr>
-        <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; max-width:170px; background-color:#f0f0f0;">
-                <div style="color: #777">Success Rate</div>
-                <strong style="color: #333; font-size: 32px;">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</strong>
-                <span ng-if="calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts) !== '-'" style="color: #333; font-size: 14px; font-weight: bold;"> %</span>
-            </td>
-        </tr>
-        <tr>
-            <td ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails" align="center" style="height:100px; max-width:170px; background-color:#f0f0f0;">
-                <div style="display: inline-block; width: 68px">
-                    <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.correct}}</div>
+
+
+    <div class="gl-drk12_b-drillDown-skillcard-container">
+        <span class="gl-drk12_b-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
+            <div class="gl-drk12_b-drillDown-skillcard-skillSummary">
+                <div class="gl-drk12_b-drillDown-skillcard-skill">{{subSkillDetail.description}}</div>
+                <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
+                <div>Success Rate:</div>
+                <div class="gl-drk12_b-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
+            </div>
+            <div class="gl-drk12_b-drillDown-skillcard-skillDetail">
+                <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
+                <div style="display: inline-block">
+                    <div style="color: #333">{{subSkillDetail.correct}}</div>
                     <div><span style="color: #777">correct Attempts</span></div>
                 </div>
-                <div class="gl-drk12_b-blah" style="display: inline-block; width: 26px; vertical-align: top; padding-top: 8px;">
-                    <!--<div style="color: #333; font-size: 32px; font-weight: bold; -ms-transform: rotate(7deg); /* IE 9 */ -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */ transform: rotate(7deg);">&setmn;</div>-->
+                <div class="gl-drk12_b-blah" style="display: inline-block; vertical-align: top">
                 </div>
-                <div style="display: inline-block; width: 68px">
-                    <div style="color: #333; font-size: 32px; font-weight: bold">{{subSkillDetail.attempts}}</div>
+                <div style="display: inline-block">
+                    <div style="color: #333">{{subSkillDetail.attempts}}</div>
                     <div><span style="color: #777">total attempts</span></div>
                 </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </span>
+    </div>
 </div>

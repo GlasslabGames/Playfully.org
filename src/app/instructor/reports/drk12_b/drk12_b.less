@@ -996,6 +996,48 @@ table.gl-drk12_b-drillDownTable {
   border-spacing: 6px;
 }
 
+.gl-drk12_b-drillDown-status {
+  &.Advancing {
+    color: @competency-green;
+    font-size: 16px;
+  }
+  &.NeedSupport {
+    color: @yellow;
+    font-size: 16px;
+  }
+}
+
+.gl-drk12_b-drillDown-skillcard-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  .gl-drk12_b-drillDown-skillcard {
+    color:  @grey2;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    height: 130px;
+    width: 410px;
+    .gl-drk12_b-drillDown-skillcard-skillSummary {
+      background-color: @grey8;
+      display: inline-block;
+      height: 100%;
+      width: 160px;
+      .gl-drk12_b-drillDown-skillcard-skill {
+        font-size: 16px;
+      }
+      .gl-drk12_b-drillDown-skillcard-successRate {
+        font-size: 20px;
+      }
+    }
+    .gl-drk12_b-drillDown-skillcard-skillDetail {
+      display: inline-block;
+      height: 100%
+    }
+  }
+}
+
 .gl-drk12_b-blah {
   &::after {
     background-color: #000;

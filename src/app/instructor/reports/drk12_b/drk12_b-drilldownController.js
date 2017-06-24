@@ -142,7 +142,7 @@ angular.module( 'instructor.reports')
             if (attempts === 0) {
                 return "-";
             } else {
-                return ((correct/attempts)*100).toFixed(0);
+                return "" + ((correct/attempts)*100).toFixed(0) + "%";
             }
         };
 
