@@ -989,6 +989,19 @@ a.gl-drk12_b-arrow:hover {
   padding-bottom: 20px;
 }
 
+.gl-drk12-drillDown-container {
+  color: @grey2;
+  font-size: 16px;
+  padding: 30px 45px 45px 45px;
+  h1 {
+    font-size: 32px;
+    padding-bottom: 10px;
+  }
+  .bold {
+    font-weight: bold;
+  }
+}
+
 table.gl-drk12_b-drillDownTable {
   table-layout: fixed;
   width: 710px;
@@ -1012,28 +1025,48 @@ table.gl-drk12_b-drillDownTable {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-top: 15px;
   width: 100%;
   .gl-drk12_b-drillDown-skillcard {
+    border: 1px solid @grey6;
     color:  @grey2;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    display: inherit;
     font-size: 12px;
+    font-weight: bold;
     height: 130px;
+    margin-bottom: 25px;
     width: 410px;
     .gl-drk12_b-drillDown-skillcard-skillSummary {
       background-color: @grey8;
+      border-right: 1px solid @grey6;
       display: inline-block;
       height: 100%;
+      padding: 15px 0 15px 15px;
+      position: relative;
       width: 160px;
       .gl-drk12_b-drillDown-skillcard-skill {
         font-size: 16px;
       }
+      .gl-drk12_b-drillDown-skillcard-successTitle {
+        bottom: 35px;
+        position: absolute;
+      }
       .gl-drk12_b-drillDown-skillcard-successRate {
+        bottom: 10px;
         font-size: 20px;
+        position: absolute;
       }
     }
     .gl-drk12_b-drillDown-skillcard-skillDetail {
       display: inline-block;
-      height: 100%
+      height: 100%;
+      padding: 25px 0 0 15px;
+      .gl-drk12_b-drillDown-skillcard-skillDetail-detail {
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        width: 120px;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
-<div class="report-body gl-pad-Al">
-    <h1>{{skills.options[selectedSkill]}} : Mission {{selectedMission.mission}}</h1>
-    <div>
+<div class="report-body gl-drk12-drillDown-container">
+    <h1>{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
+    <div class="bold">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
         <span class="gl-drk12_b-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
@@ -11,26 +11,28 @@
 
 
     <div class="gl-drk12_b-drillDown-skillcard-container">
-        <span class="gl-drk12_b-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
+        <div class="gl-drk12_b-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
             <div class="gl-drk12_b-drillDown-skillcard-skillSummary">
                 <div class="gl-drk12_b-drillDown-skillcard-skill">{{subSkillDetail.description}}</div>
                 <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
-                <div>Success Rate:</div>
+                <div class="gl-drk12_b-drillDown-skillcard-successTitle">Success Rate:</div>
                 <div class="gl-drk12_b-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
             <div class="gl-drk12_b-drillDown-skillcard-skillDetail">
                 <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
-                <div style="display: inline-block">
-                    <div style="color: #333">{{subSkillDetail.correct}}</div>
-                    <div><span style="color: #777">correct Attempts</span></div>
-                </div>
-                <div class="gl-drk12_b-blah" style="display: inline-block; vertical-align: top">
-                </div>
-                <div style="display: inline-block">
-                    <div style="color: #333">{{subSkillDetail.attempts}}</div>
-                    <div><span style="color: #777">total attempts</span></div>
+                <div class="gl-drk12_b-drillDown-skillcard-skillDetail-detail">
+                    Attempts:
+                    <div>
+                        {{subSkillDetail.correct}}
+                        <div style="display: inline-block" class="padding-sides-15">/</div>
+                        {{subSkillDetail.attempts}}
+                    </div>
+                    <div>
+                        <div style="display: inline-block">Correct</div>
+                        <div style="display: inline-block">Total</div>
+                    </div>
                 </div>
             </div>
-        </span>
+        </div>
     </div>
 </div>
