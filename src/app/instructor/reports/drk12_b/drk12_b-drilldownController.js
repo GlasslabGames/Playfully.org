@@ -14,11 +14,6 @@ angular.module( 'instructor.reports')
         $scope.selectedMission = selectedStudentData.missions.find(function(missionObject) { return "" + missionObject.mission === "" + $stateParams.mission; });
 
         ////////////////////////////////////////////////////////////
-
-        $scope.someFunct = function() {
-            console.info('somefunct hit');
-        };
-
         var magicData = [
             {
                 key: "connectingEvidence",
@@ -129,6 +124,22 @@ angular.module( 'instructor.reports')
                 }
                 missionDetails[subSkill.key].description = subSkill.description;
 	            missionDetails[subSkill.key].subDescription = subSkill.subDescription;
+	            missionDetails[subSkill.key].locked = true;
+	            if (typeof selectedStudentData.argubotsUnlocked[subSkill.key] === "string") {
+	                if (selectedStudentData.argubotsUnlocked[subSkill.key] === "ST") {
+                        missionDetails[subSkill.key].locked = false;
+                    } else if (selectedStudentData.argubotsUnlocked[subSkill.key] === "BT" && (mission.mission === "BT" || mission.mission > 6)) { // TODO: Better magic number solution
+                        missionDetails[subSkill.key].locked = false;
+                    }
+                } else if (typeof selectedStudentData.argubotsUnlocked[subSkill.key] === "number") {
+	                if (mission.mission === "BT" && selectedStudentData.argubotsUnlocked[subSkill.key] > 6) { // TODO: Better magic number solution
+                        missionDetails[subSkill.key].locked = false;
+                    } else if (mission.mission !== "ST" && mission.mission >= selectedStudentData.argubotsUnlocked[subSkill.key]) {
+                        missionDetails[subSkill.key].locked = false;
+                    }
+                } else {
+                    console.error('argubotsUnlocked invalid state. Mission: ', mission.mission, " Unlocked: ", selectedStudentData.argubotsUnlocked[subSkill.key]);
+                }
                 returnObject[subSkill.key] = missionDetails[subSkill.key];
             });
 
