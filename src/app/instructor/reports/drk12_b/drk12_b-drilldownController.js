@@ -50,11 +50,13 @@ angular.module( 'instructor.reports')
                 skills: [
 	                {
 		                key: "FUSE_CORE",
-		                description: "Built core arguments using relevant and supporting evidence"
+		                description: "Evidence",
+                        subDescription: "Built core arguments using relevant and supporting evidence"
 	                },
                     {
                         key: "CORE_ATTACK",
-                        description: "Attacked irrelevant and contradictory evidence in opponent core arguments"
+                        description: "Contradictory",
+                        subDescription: "Attacked irrelevant and contradictory evidence in opponent core arguments"
                     }
                 ]
             },
@@ -63,7 +65,8 @@ angular.module( 'instructor.reports')
                 skills: [
                     {
                         key: "CRITICAL_QUESTION_ATTACK",
-                        description: "Correctly used critical questions"
+                        description: "Attack",
+                        subDescription: "Correctly used critical questions"
                     }
                 ]
             },
@@ -72,11 +75,13 @@ angular.module( 'instructor.reports')
                 skills: [
                     {
                         key: "CREATED",
-                        description: "Chose appropriate backing to strengthen a core argument"
+                        description: "Created",
+                        subDescription: "Chose appropriate backing to strengthen a core argument"
                     },
                     {
                         key: "DEFENDED",
-                        description: "Correctly used backing to respond to critical questions"
+                        description: "Defended",
+                        subDescription: "Correctly used backing to respond to critical questions"
                     }
                 ]
             }
