@@ -84,8 +84,11 @@
                             <tbody>
                                 <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
                                     <td class="gl-drk12_b-table-x-name">{{student.firstName}} {{student.lastName}}</td>
-                                    <td ng-repeat="mission in student.results.missions" ng-click="navigateToDrilldown(student, student.results.missions[$index])" ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
-                                        <div class="{{mission.skillLevel[selectedSkill].level}}">
+                                    <td ng-repeat="mission in student.results.missions"
+                                        ng-click="navigateToDrilldown(student, student.results.missions[$index])"
+                                        class="{{mission.skillLevel[selectedSkill].level}}"
+                                        ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
+                                        <div>
                                             {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
                                         </div>
                                     </td>

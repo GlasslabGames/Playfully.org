@@ -749,15 +749,27 @@
       border-left: 1px solid @grey5;
     }
     padding: 15px 6px;
-    .Advancing {
+    &.Advancing {
+      background-color: #fff;
       color: @competency-green;
+      cursor: pointer;
       font-size: 12px;
       font-weight: bold;
+      &:hover {
+        background-color: @competency-green;
+        color: #fff;
+      }
     }
-    .NeedSupport {
+    &.NeedSupport {
+      background-color: #fff;
       color: @competency-drkYellow;
+      cursor: pointer;
       font-size: 12px;
       font-weight: bold;
+      &:hover {
+        background-color: @competency-drkYellow;
+        color: #fff;
+      }
     }
   }
   margin-bottom: 0;
