@@ -962,6 +962,16 @@ a.gl-drk12_b-arrow:hover {
   float: right;
 }
 
+tr.no-repeated-tr-content {
+  td {
+    width: 100vw;
+  }
+}
+
+tr + tr.no-repeated-tr-content {
+  display: none;
+}
+
 // http://stackoverflow.com/questions/30479105/angularjs-ng-disabled-not-working-for-anchor-tag
 .disabled {
   cursor: not-allowed;
