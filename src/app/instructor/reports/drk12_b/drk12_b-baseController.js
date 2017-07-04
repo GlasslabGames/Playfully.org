@@ -22,6 +22,7 @@ angular.module( 'instructor.reports')
         $scope.selectedStudents = [];
         $scope.isFooterOpened = false;
         $scope.isFooterFullScreen = false;
+        $scope.selectedSkill = 'connectingEvidence';
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
@@ -31,6 +32,7 @@ angular.module( 'instructor.reports')
 
         if (previousState.name === 'root.reports.details.drk12_b_drilldown') {
             $scope.tabs[0].active = false; $scope.tabs[1].active = true;
+            $scope.selectedSkill = previousState.selectedSkill;
         }
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
@@ -212,8 +214,6 @@ angular.module( 'instructor.reports')
                 $scope.selectedStudents.splice($scope.selectedStudents.indexOf(student), 1);
             }
         };
-
-        $scope.selectedSkill = 'connectingEvidence';
 
         $scope.toggleDropdown = function($event) {
             $event.stopPropagation();

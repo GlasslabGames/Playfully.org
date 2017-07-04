@@ -295,7 +295,7 @@ angular.module( 'instructor.reports', [
                     },
                     // Added to check if coming from drilldown. Inspired from https://stackoverflow.com/a/25945003/969869
                     previousState: function($state) {
-                        return { name: $state.current.name };
+                        return { name: $state.current.name, selectedSkill: $state.params.skill };
                     }
                 }
             })

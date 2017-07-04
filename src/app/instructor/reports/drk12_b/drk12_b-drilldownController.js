@@ -3,7 +3,7 @@ angular.module( 'instructor.reports')
         $scope.skills = Drk12Service.skills;
         $scope.missionNumber = $stateParams.mission;
 
-        ////////////////////// Get Initially Needed Values/Variables
+        ////////////////////// Get Initially Needed Values/Variables ////////////////////////////
         $scope.selectedSkill = $stateParams.skill;
 
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
