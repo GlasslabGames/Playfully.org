@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('Drk12Drilldown', function($scope, $state, $stateParams, myGames, defaultGame, gameReports, ReportsService, Drk12Service, usersData) {
+    .controller('Drk12Drilldown', function($scope, $state, $window, $stateParams, myGames, defaultGame, gameReports, ReportsService, Drk12Service, usersData) {
         $scope.skills = Drk12Service.skills;
         $scope.missionNumber = $stateParams.mission;
 
@@ -602,6 +602,8 @@ angular.module( 'instructor.reports')
             });
             return;
         }
+
+        $window.scrollTo(0, 0);
 
         // Set parent scope developer info
 
