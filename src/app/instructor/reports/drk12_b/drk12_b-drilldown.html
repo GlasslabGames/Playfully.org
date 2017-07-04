@@ -12,7 +12,10 @@
     <div class="gl-drk12_b-drillDown-skillcard-container">
         <div class="gl-drk12_b-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
             <div class="gl-drk12-tableHeader-background gl-drk12_b-drillDown-skillcard-skillSummary">
-                <div class="gl-drk12_b-drillDown-skillcard-skill">{{subSkillDetail.description}}</div>
+                <div class="gl-drk12_b-drillDown-skillcard-skill">
+                    {{subSkillDetail.description}}
+                    <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                </div>
                 <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
                 <div class="gl-drk12_b-drillDown-skillcard-successTitle">Success Rate:</div>
                 <div class="gl-drk12_b-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
