@@ -458,13 +458,8 @@
   padding-right: 5px;
 }
 
-.gl-drk12_b-fraction-legend {
-  font-weight: bold;
-}
-
-.gl-drk12_b-fraction-legend :last-child {
-  padding-left: 0;
-  padding-right: 0;
+.gl-drk12-bold {
+  font-weight: 500;
 }
 
 // Modal Header
@@ -1017,9 +1012,6 @@ a.gl-drk12_b-arrow:hover {
       font-size: 22px;
     }
   }
-  .bold {
-    font-weight: bold;
-  }
 }
 
 table.gl-drk12_b-drillDownTable {
@@ -1040,6 +1032,10 @@ table.gl-drk12_b-drillDownTable {
   }
 }
 
+.gl-drk12-tableHeader-background {
+  background-color: @grey8;
+}
+
 .gl-drk12_b-drillDown-skillcard-container {
   align-items: center;
   display: flex;
@@ -1057,7 +1053,6 @@ table.gl-drk12_b-drillDownTable {
     margin-bottom: 25px;
     width: 410px;
     .gl-drk12_b-drillDown-skillcard-skillSummary {
-      background-color: @grey8;
       border-right: 1px solid @grey6;
       display: flex;
       flex-direction: column;
@@ -1092,15 +1087,24 @@ table.gl-drk12_b-drillDownTable {
   }
 }
 
-.gl-drk12_b-blah {
-  &::after {
-    background-color: #000;
-    content: '';
-    border-radius: 2000px; // Something absurdly high makes a pill shape
-    display: block;
-    height: 31px;
-    transform: rotate(45deg);
-    width: 3px;
+.gl-drk12-transcript {
+  table {
+    border-collapse: collapse;
+    &.gl-drk12-singleTable {
+      width: 100%;
+    }
+    &.gl-drk12-doubleTable {
+      display: inline-block;
+      vertical-align: top;
+      width: 410px;
+      &:first-child {
+        margin-right: 23px;
+      }
+    }
+    td, th {
+      border: 1px solid @grey6;
+      font-size: 12px;
+    }
   }
 }
 
