@@ -74,7 +74,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
+                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
                     <td>{{claimIdToMagicString(attempt.claimId)}}</td>
                     <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                     <td>{{attempt.success}}</td>
@@ -91,7 +91,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
+                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                     <td>
                         <div>ClaimID: {{claimIdToMagicString(attempt.opponentClaimId)}}</div>
                         <div>{{dataIdToMagicString(attempt.opponentBot1DataId)}}</div>
@@ -149,7 +149,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
+                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
                     <td>{{attempt.botType}}</td>
                     <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                     <td>{{attempt.success}}</td>
@@ -166,7 +166,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
+                <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                     <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                     <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                     <td>{{attempt.success}}</td>
