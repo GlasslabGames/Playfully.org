@@ -44,7 +44,7 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive) {
+        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill, selectedMission) {
             var newDestination = "";
             var newSubDestination = "";
 

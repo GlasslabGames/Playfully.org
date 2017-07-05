@@ -2,41 +2,41 @@
     <h1>{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
     <div class="gl-drk12-bold">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span class="gl-drk12_b-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
+        <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
         </span>
     </div>
 
     <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
 
-    <div class="gl-drk12_b-drillDown-skillcard-container">
-        <div class="gl-drk12_b-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
-            <div class="gl-drk12-tableHeader-background gl-drk12_b-drillDown-skillcard-skillSummary">
-                <div class="gl-drk12_b-drillDown-skillcard-skill">
+    <div class="gl-drk12-drillDown-skillcard-container">
+        <div class="gl-drk12-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
+            <div class="gl-drk12-tableHeader-background gl-drk12-drillDown-skillcard-skillSummary">
+                <div class="gl-drk12-drillDown-skillcard-skill">
                     {{subSkillDetail.description}}
                     <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                 </div>
                 <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
-                <div class="gl-drk12_b-drillDown-skillcard-successTitle">Success Rate:</div>
-                <div class="gl-drk12_b-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
+                <div class="gl-drk12-drillDown-skillcard-successTitle">Success Rate:</div>
+                <div class="gl-drk12-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
-            <div class="gl-drk12_b-drillDown-skillcard-skillDetail">
+            <div class="gl-drk12-drillDown-skillcard-skillDetail">
                 <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
-                <div class="gl-drk12_b-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
+                <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
                     Attempts:
-                    <div class="largeText" style="margin: 6px 0;">
+                    <div style="margin: 6px 0;">
                         {{subSkillDetail.correct}}
-                        <div style="display: inline-block" class="padding-sides-15">/</div>
+                        <div class="padding-sides-15">/</div>
                         {{subSkillDetail.attempts}}
                     </div>
                     <div>
-                        <div style="display: inline-block">Correct</div>
-                        <div style="margin-left: 14px; display: inline-block">Total</div>
+                        <div>Correct</div>
+                        <div style="margin-left: 14px">Total</div>
                     </div>
                 </div>
-                <div class="gl-drk12_b-drillDown-skillcard-skillDetail-detail" ng-if="subSkillDetail.locked">
+                <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="subSkillDetail.locked">
                     <img src="/assets/icon-lock-small.svg" height="32px" width="32px">
-                    <div class="largeText">
+                    <div>
                         Locked
                     </div>
                 </div>

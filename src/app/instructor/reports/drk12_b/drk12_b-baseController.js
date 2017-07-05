@@ -271,16 +271,16 @@ angular.module( 'instructor.reports')
             if ($scope.isFooterFullScreen) {
                 $modalBackdrop.addClass("ng-hide");
                 $modal.addClass("ng-hide");
-                jQuery('.gl-drk12_b-footerhelper').addClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').addClass("fullscreen");
+                jQuery('.gl-drk12-footerhelper').addClass("fullscreen");
+                jQuery('.gl-drk12-collapsecontent').addClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').addClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').addClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 1);
             } else {
                 $modalBackdrop.removeClass("ng-hide");
                 $modal.removeClass("ng-hide");
-                jQuery('.gl-drk12_b-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').removeClass("fullscreen");
+                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
+                jQuery('.gl-drk12-collapsecontent').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 10);
@@ -303,7 +303,7 @@ angular.module( 'instructor.reports')
 
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active);
+            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill, null);
 
             /*
              Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
@@ -319,8 +319,8 @@ angular.module( 'instructor.reports')
                 $modalBackdrop.css("bottom", "30px");
                 $modal.css("bottom", "30px");
                 $scope.isFooterFullScreen = false;
-                jQuery('.gl-drk12_b-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').removeClass("fullscreen");
+                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
+                jQuery('.gl-drk12-collapsecontent').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 10);
