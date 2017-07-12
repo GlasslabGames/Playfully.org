@@ -88,7 +88,7 @@
                                         ng-click="navigateToDrilldown(student, student.results.missions[$index])"
                                         class="{{mission.skillLevel[selectedSkill].level}}"
                                         ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
-                                        <div>
+                                        <div ng-if="mission.skillLevel[selectedSkill].level !== 'NotAvailable'">
                                             {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
                                         </div>
                                     </td>
