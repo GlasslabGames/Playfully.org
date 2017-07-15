@@ -259,28 +259,19 @@ angular.module( 'instructor.reports')
             });
         };
 
-        // TODO: For the love of all that's holy, remove this when the modals have been removed. Hacky as F*ck!
         $scope.toggleHelperFullScreen = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
 
             $scope.isFooterFullScreen = !$scope.isFooterFullScreen;
 
-            $modalBackdrop = jQuery('.modal-backdrop');
-            $modal = jQuery('.modal-xxlg');
             if ($scope.isFooterFullScreen) {
-                $modalBackdrop.addClass("ng-hide");
-                $modal.addClass("ng-hide");
                 jQuery('.gl-drk12-footerhelper').addClass("fullscreen");
-                jQuery('.gl-drk12-collapsecontent').addClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').addClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').addClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 1);
             } else {
-                $modalBackdrop.removeClass("ng-hide");
-                $modal.removeClass("ng-hide");
                 jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12-collapsecontent').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 10);
@@ -303,39 +294,20 @@ angular.module( 'instructor.reports')
 
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill, null);
+            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill);
 
             /*
              Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
              We do this craziness to help create that illusion
              */
-            $modalBackdrop = jQuery('.modal-backdrop');
-            $modal = jQuery('.modal-xxlg');
-            $modalBackdrop.removeClass("ng-hide");
-            $modal.removeClass("ng-hide");
             if (!$scope.isFooterOpened) {
-                jQuery("body").removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
-                // TODO: Remove the following 2 hacks after modals are removed
-                $modalBackdrop.css("bottom", "30px");
-                $modal.css("bottom", "30px");
                 $scope.isFooterFullScreen = false;
                 jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12-collapsecontent').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 10);
-            } else {
-                jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu-is-open");
-                // TODO: Remove the following 2 hacks after modals are removed
-                $modalBackdrop.css("bottom", "50vh");
-                $modal.css("bottom", "50vh");
             }
         };
-
-        // Just in case. TODO: Remove this when the modals are gone.
-        $scope.$on('$destroy', function(event) {
-            jQuery('.gl-navbar--top').css("z-index", 10);
-        });
 
         // populate student objects with report data
         populateStudentLearningData(usersData);

@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, Drk12Service) {
+    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, $state) {
         $scope.helperPage = "helperDrawerMain";
         $scope.data = {
             connectingEvidence: "Argument Schemes",
@@ -9,12 +9,6 @@ angular.module( 'instructor.reports')
         };
         $scope.selectedPage = "reportHelper";
         $scope.isClassViewActive = null;
-
-        /*
-         Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
-         We do this craziness to help create that illusion
-        */
-        jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu");
 
         var updateLocation = function(newDestination, callback) {
             switch (newDestination) {
@@ -44,30 +38,26 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill, selectedMission) {
+        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill) {
             var newDestination = "";
             var newSubDestination = "";
 
-            if (isClassViewActive !== null) {
-                $scope.isClassViewActive = isClassViewActive;
-            }
+            if ($state.current.name === "root.reports.details.drk12_b") {
+                if (isClassViewActive !== null) {
+                    $scope.isClassViewActive = isClassViewActive;
+                }
 
-            if (isClassViewActive) {
-                newDestination = "reportHelper";
-            }  else if (Drk12Service.getSelectedMission()) {
-                newDestination = Drk12Service.getSelectedSkill();
-                updateVariables(newDestination); // TODO: See about working this redundancy
-                newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
-            } else if (Drk12Service.getCurrentStudents().length >  1) {
-                newDestination = Drk12Service.getSelectedSkill();
-                updateVariables(newDestination); // TODO: See about working this redundancy
-                newSubDestination = "id" + $scope.selectedPage + "7"; // TODO: Make this less "magical"
-            } else {
-                if ($scope.tableStructuralData.columnFilter === "all" || Drk12Service.getSelectedStudent()) {
+                if (isClassViewActive) {
                     newDestination = "reportHelper";
                 } else {
-                    newDestination = Drk12Service.getSelectedSkill();
+                    newDestination = selectedSkill;
                 }
+            } else if ($state.current.name === "root.reports.details.drk12_b_drilldown") {
+                newDestination = selectedSkill;
+                updateVariables(newDestination); // TODO: See about working this redundancy
+                newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+            } else {
+                console.error("Footer opened from unexpected page. This will surely go badly.");
             }
 
             updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
@@ -98,12 +88,6 @@ angular.module( 'instructor.reports')
         };
 
         $scope.format = 'yyyy-MM-dd';
-
-        $scope.$on('$destroy', function(event) { // TODO: Remove this when the modals are eliminated
-            var $body = jQuery("body");
-            $body.removeClass("gl-drk12_b-l-hasHelperMenu");
-            $body.removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
-        });
     })
     .controller('helperCtrl', function($scope) {
         $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {

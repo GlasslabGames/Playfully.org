@@ -2,6 +2,8 @@ angular.module( 'instructor.reports')
     .controller('Drk12Drilldown', function($scope, $state, $window, $stateParams, myGames, defaultGame, gameReports, ReportsService, Drk12Service, usersData) {
         $scope.skills = Drk12Service.skills;
         $scope.missionNumber = $stateParams.mission;
+        $scope.isFooterOpened = false;
+        $scope.isFooterFullScreen = false;
 
         ////////////////////// Get Initially Needed Values/Variables ////////////////////////////
         $scope.selectedSkill = $stateParams.skill;
@@ -567,6 +569,23 @@ angular.module( 'instructor.reports')
         };
 
         $scope.calculdatedDetails = getUpdatedMissionDetails($scope.selectedMission, $scope.selectedSkill);
+
+        $scope.footerHelperClicked = function() {
+            $scope.isFooterOpened = !$scope.isFooterOpened;
+            $scope.$broadcast("FOOTERHELPER_CLICKED",  null, $stateParams.skill);
+
+            /*
+             Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
+             We do this craziness to help create that illusion
+             */
+            if (!$scope.isFooterOpened) {
+                $scope.isFooterFullScreen = false;
+                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
+                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
+                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
+                jQuery('.gl-navbar--top').css("z-index", 10);
+            }
+        };
 
         ///////////////////////// Necessary stuff for parent drop-downs
         var reportId = 'drk12_b';

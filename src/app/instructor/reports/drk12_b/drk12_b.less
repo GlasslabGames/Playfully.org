@@ -470,6 +470,7 @@
   border: 0;
   box-sizing: border-box;
   display: block;
+  font-size: 14px;
   font-weight: bold;
   height: 30px;
   outline: none;
@@ -488,10 +489,7 @@
 
 .gl-drk12-collapsecontent {
   background-color: #fff;
-  height: calc(~'50vh - 30px');
-  &.fullscreen {
-    height: calc(~'100vh - 30px');
-  }
+  height: 100%;
 }
 
 // TODO: Update this styling to be within the existing system
@@ -538,7 +536,7 @@ tr + tr.no-repeated-tr-content {
     font-size: 32px;
     padding-bottom: 10px;
   }
-  button {
+  button.collapse {
     background: none;
     border: none;
     span:first-child {
