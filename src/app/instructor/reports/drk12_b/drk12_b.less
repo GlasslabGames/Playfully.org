@@ -334,9 +334,10 @@
   thead:first-child > tr:first-child > th {
     border-top: 1px solid @grey6;
     border-bottom: 1px solid @grey6;
-    border-right: 1px solid @grey6;
-    &:first-child {
-      border-left: 1px solid @grey6;
+    border-left: 1px solid @grey6;
+    &:last-child {
+      border-left: 1px solid @grey5;
+      border-right: 1px solid @grey6;
     }
   }
   td.disabled, th.disabled {
@@ -346,10 +347,11 @@
   td {
     border-top: 0;
     border-bottom: 1px solid @grey7;
-    border-right: 1px solid @grey7;
+    border-left: 1px solid @grey7;
     font-weight: 500;
-    &:first-child {
-      border-left: 1px solid @grey7;
+    &:last-child {
+      border-left: 1px solid @grey5;
+      border-right: 1px solid @grey7;
     }
     padding: 15px 6px;
     &.Advancing, .Advancing {
