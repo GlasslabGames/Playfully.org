@@ -1,14 +1,16 @@
 <p class="gl-drk12-bold">Mission 3: More Training!</p>
-<div>Match claim-evidence pairs that are related and not contradicting.</div>
-<div>Select <span class="gl-drk12-bold">evidence</span> and make a <span class="gl-drk12-bold">strong argument</span> for one of the following claims:
-    <ul>
-        <li>Students should be able to graduate in two years instead of three</li>
-        <li>Teens should stay in the Academy as long as it takes to master argubot engineering</li>
-        <li>or Students should be able to choose what they study in Brackett City.</li>
-    </ul>
+<div class="font14px">
+    <div>Match claim-evidence pairs that are related and not contradicting.</div>
+    <div>Select <span class="gl-drk12-bold">evidence</span> and make a <span class="gl-drk12-bold">strong argument</span> for one of the following claims:
+        <ul>
+            <li>Students should be able to graduate in two years instead of three</li>
+            <li>Teens should stay in the Academy as long as it takes to master argubot engineering</li>
+            <li>or Students should be able to choose what they study in Brackett City.</li>
+        </ul>
+    </div>
 </div>
 <div>
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
     <span class="floatRight">

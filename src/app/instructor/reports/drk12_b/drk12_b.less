@@ -93,6 +93,7 @@
 
 .gl-drk12-heading {
   color: @grey2;
+  font-family: bitter, serif;
   font-size: 32px;
   margin: 0;
   text-align: left;
@@ -150,6 +151,9 @@
 .gl-drk12-text {
   color:  @grey1;
   text-align: left;
+  &.partialWidth {
+    width: 660px;
+  }
 }
 
 // Progress Icons
@@ -321,6 +325,7 @@
     text-align: center;
   }
   tr th:first-child, tr td:first-child {
+    padding-left: 16px;
     text-align: left;
     width: 165px;
   }
@@ -331,9 +336,11 @@
   thead:first-child > tr:first-child > th {
     border-top: 1px solid @grey6;
     border-bottom: 1px solid @grey6;
-    border-right: 1px solid @grey6;
-    &:first-child {
-      border-left: 1px solid @grey6;
+    border-left: 1px solid @grey6;
+    line-height: 28px;
+    &:last-child {
+      border-left: 1px solid @grey5;
+      border-right: 1px solid @grey6;
     }
   }
   td.disabled, th.disabled {
@@ -343,12 +350,14 @@
   td {
     border-top: 0;
     border-bottom: 1px solid @grey7;
-    border-right: 1px solid @grey7;
+    border-left: 1px solid @grey7;
     font-weight: 500;
-    &:first-child {
-      border-left: 1px solid @grey7;
+    &:last-child {
+      border-left: 1px solid @grey5;
+      border-right: 1px solid @grey7;
     }
-    padding: 15px 6px;
+    line-height: 45px;
+    padding: 0 6px;
     &.Advancing, .Advancing {
       background-color: #fff;
       color: @competency-green;
@@ -470,6 +479,7 @@
   border: 0;
   box-sizing: border-box;
   display: block;
+  font-size: 14px;
   font-weight: bold;
   height: 30px;
   outline: none;
@@ -488,15 +498,17 @@
 
 .gl-drk12-collapsecontent {
   background-color: #fff;
-  height: calc(~'50vh - 30px');
-  &.fullscreen {
-    height: calc(~'100vh - 30px');
-  }
+  height: 100%;
 }
 
 // TODO: Update this styling to be within the existing system
 .floatRight {
   float: right;
+}
+
+.font14px {
+  font-size: 14px;
+  line-height: 24px;
 }
 
 tr.no-repeated-tr-content {
@@ -538,7 +550,7 @@ tr + tr.no-repeated-tr-content {
     font-size: 32px;
     padding-bottom: 10px;
   }
-  button {
+  button.collapseButton {
     background: none;
     border: none;
     span:first-child {

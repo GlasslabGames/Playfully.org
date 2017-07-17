@@ -1097,6 +1097,6 @@ angular.module( 'instructor.courses', [
 			element.bind('change', onChangeHandler);
 		}
 	};
-});;
+});
 
 
