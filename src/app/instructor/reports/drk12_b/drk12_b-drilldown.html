@@ -17,8 +17,8 @@
                     <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                 </div>
                 <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
-                <div class="gl-drk12-drillDown-skillcard-successTitle">Success Rate:</div>
-                <div class="gl-drk12-drillDown-skillcard-successRate">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
+                <div class="gl-drk12-drillDown-skillcard-successTitle" ng-if="!subSkillDetail.locked">Success Rate:</div>
+                <div class="gl-drk12-drillDown-skillcard-successRate" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
             <div class="gl-drk12-drillDown-skillcard-skillDetail">
                 <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
