@@ -2,7 +2,7 @@
 @import "../../../../less/variables.less";
 
 // == Variables
-@competency-drkYellow: #f4a422;
+@competency-drkYellow: #f5a623;
 
 // Container (Layout)
 
@@ -506,6 +506,25 @@
   float: right;
 }
 
+.advancingColor {
+  color: @competency-green;
+  font-weight: bold;
+}
+
+.supportColor {
+  color: @competency-drkYellow;
+  font-weight: bold;
+}
+
+.notAttemptedColor {
+  color: @grey4;
+  font-weight: bold;
+}
+
+.fontGrey2 {
+  color: @grey2;
+}
+
 .font16px {
   font-size: 16px;
 }
@@ -674,6 +693,10 @@ tr + tr.no-repeated-tr-content {
 
 .gl-drk12-flexrow {
   align-items: baseline;
-  justify-content: space-between;
   display: flex;
+  justify-content: space-between;
+  &.legend {
+    padding-right: 6px;
+    width: 280px;
+  }
 }

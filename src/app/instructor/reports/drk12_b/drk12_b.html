@@ -37,7 +37,7 @@
                 <tab heading="Student Roster" ng-attr-active="tabs[1].active">
                     <div class="gl-drk12-l-containerstudent">
                         <h2>Skill</h2>
-                        <div>
+                        <div class="gl-drk12-flexrow">
                             <div class="btn-group gl-drk12-dropdown" dropdown is-open="skills.isDropdownOpen">
                                 <button type="button" class="btn btn-default"
                                         ng-click="toggleDropdown($event)"
@@ -55,13 +55,19 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div style="display:inline-block; position: absolute; bottom: 0; right: 8px"> <!-- TODO: add class here -->
-                                <span style="color: #22B473; font-weight: bold; font-size: 12px">Green:</span> <!-- TODO: add class here -->
-                                <span style="color: #ccc; font-weight: bold; font-size: 12px">&ge; 70%</span> <!-- TODO: add class here -->
-                                <span style="color: #F4A422; font-weight: bold; font-size: 12px">Yellow:</span> <!-- TODO: add class here -->
-                                <span style="color: #ccc; font-weight: bold; font-size: 12px">< 70%</span> <!-- TODO: add class here -->
-                                <span style="color: #8e8e8e; font-weight: bold; font-size: 12px">Gray:</span> <!-- TODO: add class here -->
-                                <span style="color: #ccc; font-weight: bold; font-size: 12px">No Data</span> <!-- TODO: add class here -->
+                            <div class="gl-drk12-flexrow font12px legend">
+                                <span>
+                                    <span class="advancingColor">Green:</span>
+                                    <span class="fontGrey2">&ge; 70%</span>
+                                </span>
+                                <span>
+                                    <span class="supportColor">Yellow:</span>
+                                    <span class="fontGrey2">< 70%</span>
+                                </span>
+                                <span>
+                                    <span class="notAttemptedColor">Gray:</span>
+                                    <span class="fontGrey2">No Data</span>
+                                </span>
                             </div>
                         </div>
                         <table class="table gl-drk12-table" ng-class="{'gl-reports-table--ie': isIE}">
