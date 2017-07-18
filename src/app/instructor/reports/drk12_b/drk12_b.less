@@ -635,7 +635,7 @@ tr + tr.no-repeated-tr-content {
     font-size: 12px;
     font-weight: 500;
     min-height: 130px;
-    margin-bottom: 25px;
+    margin-bottom: 32px;
     width: 410px;
     .gl-drk12-drillDown-skillcard-skillSummary {
       border-right: 1px solid @grey6;
@@ -680,19 +680,28 @@ tr + tr.no-repeated-tr-content {
 }
 
 .gl-drk12-transcript {
-  table {
-    border-collapse: collapse;
-    &.gl-drk12-singleTable {
+  .gl-drk12-singleTable {
+    width: 100%;
+    >div {
+      margin-bottom: 16px;
+    }
+    table {
       width: 100%;
     }
-    &.gl-drk12-doubleTable {
-      display: inline-block;
-      vertical-align: top;
-      width: 410px;
-      &:first-child {
-        margin-right: 23px;
-      }
+  }
+  .gl-drk12-doubleTable {
+    display: inline-block;
+    vertical-align: top;
+    width: 410px;
+    &:first-of-type {
+      margin-right: 23px;
     }
+    >div {
+      margin-bottom: 16px;
+    }
+  }
+  table {
+    border-collapse: collapse;
     td, th {
       border: 1px solid @grey6;
       font-size: 12px;
