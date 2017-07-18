@@ -1,6 +1,6 @@
 <div class="report-body gl-drk12-drillDown-container">
     <h1>{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
-    <div class="gl-drk12-bold">
+    <div class="gl-drk12-bold padding-bottom-16">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
         <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
