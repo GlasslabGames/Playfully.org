@@ -2,7 +2,7 @@
 @import "../../../../less/variables.less";
 
 // == Variables
-@competency-drkYellow: #f4a422;
+@competency-drkYellow: #f5a623;
 
 // Container (Layout)
 
@@ -330,8 +330,10 @@
     width: 165px;
   }
   tr th:last-child, tr td:last-child {
-    text-align: left;
     width: 80px;
+  }
+  tr th:last-child {
+    text-align: left;
   }
   thead:first-child > tr:first-child > th {
     border-top: 1px solid @grey6;
@@ -341,6 +343,7 @@
     &:last-child {
       border-left: 1px solid @grey5;
       border-right: 1px solid @grey6;
+      padding: 8px 16px;
     }
   }
   td.disabled, th.disabled {
@@ -506,9 +509,48 @@
   float: right;
 }
 
+.advancingColor {
+  color: @competency-green;
+  font-weight: bold;
+}
+
+.supportColor {
+  color: @competency-drkYellow;
+  font-weight: bold;
+}
+
+.notAttemptedColor {
+  color: @grey4;
+  font-weight: bold;
+}
+
+.fontGrey2 {
+  color: @grey2;
+}
+
+.font16px {
+  font-size: 16px;
+}
+
 .font14px {
   font-size: 14px;
   line-height: 24px;
+}
+
+.font12px {
+  font-size: 12px;
+}
+
+.sort-up {
+  background-image: url("/assets/active.svg");
+  height: 24px;
+  width: 24px;
+}
+
+.sort-down {
+  background-image: url("/assets/inactive.svg");
+  height: 24px;
+  width: 24px;
 }
 
 tr.no-repeated-tr-content {
@@ -536,6 +578,10 @@ tr + tr.no-repeated-tr-content {
 
 .padding-left-20 {
   padding-left: 20px;
+}
+
+.padding-bottom-16 {
+  padding-bottom: 16px;
 }
 
 .padding-bottom-20 {
@@ -589,7 +635,7 @@ tr + tr.no-repeated-tr-content {
     font-size: 12px;
     font-weight: 500;
     min-height: 130px;
-    margin-bottom: 25px;
+    margin-bottom: 32px;
     width: 410px;
     .gl-drk12-drillDown-skillcard-skillSummary {
       border-right: 1px solid @grey6;
@@ -599,6 +645,10 @@ tr + tr.no-repeated-tr-content {
       width: 175px;
       .gl-drk12-drillDown-skillcard-skill {
         font-size: 16px;
+        text-transform: lowercase;
+      }
+      .gl-drk12-drillDown-skillcard-skill::first-letter {
+        text-transform: uppercase;
       }
       .gl-drk12-drillDown-skillcard-successTitle {
         margin-top: 25px;
@@ -618,9 +668,6 @@ tr + tr.no-repeated-tr-content {
         padding-top: 16px;
         vertical-align: middle;
         width: 120px;
-        div:first-of-type {
-          font-size: 16px;
-        }
         div div {
           display: inline-block;
         }
@@ -633,23 +680,33 @@ tr + tr.no-repeated-tr-content {
 }
 
 .gl-drk12-transcript {
-  table {
-    border-collapse: collapse;
-    &.gl-drk12-singleTable {
+  .gl-drk12-singleTable {
+    width: 100%;
+    >div {
+      margin-bottom: 16px;
+    }
+    table {
       width: 100%;
     }
-    &.gl-drk12-doubleTable {
-      display: inline-block;
-      vertical-align: top;
-      width: 410px;
-      &:first-child {
-        margin-right: 23px;
-      }
+  }
+  .gl-drk12-doubleTable {
+    display: inline-block;
+    vertical-align: top;
+    width: 410px;
+    &:first-of-type {
+      margin-right: 23px;
     }
+    >div {
+      margin-bottom: 16px;
+    }
+  }
+  table {
+    border-collapse: collapse;
     td, th {
       border: 1px solid @grey6;
       font-size: 12px;
       padding: 16px;
+      vertical-align: text-top;
     }
   }
 }
@@ -665,4 +722,29 @@ tr + tr.no-repeated-tr-content {
   ul {
     width: 96%;
   }
+}
+
+.gl-drk12-flexrow {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  &.legend {
+    padding-right: 6px;
+    width: 280px;
+  }
+}
+
+// Override for popovers
+h3.popover-title {
+  background-color: white;
+  border-bottom: 0;
+  color: @grey2;
+  font-weight: 300;
+  padding: 16px 16px 0 16px;
+  font-size: 16px;
+}
+
+div.popover-content {
+  color: @grey2;
+  padding: 0 16px 16px 16px;
 }

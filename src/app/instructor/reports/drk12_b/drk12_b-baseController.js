@@ -247,7 +247,11 @@ angular.module( 'instructor.reports')
                     return user.firstName + ' ' + user.lastName;
                 }
                 if (colName === 'average') { // TODO: Deal with these magic values
-                    return user.results.currentProgress.mission;
+                    if (user.results.currentProgress.skillLevel && user.results.currentProgress.skillLevel[$scope.selectedSkill]) {
+                        return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                    } else {
+                        return -1;
+                    }
                 }
             };
         };
@@ -257,6 +261,22 @@ angular.module( 'instructor.reports')
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId
             });
+        };
+
+        $scope.getPopoverTitle = function(missionName) {
+            if (missionName === 'BT') {
+                return "BT - Bot Trainer";
+            } else if (missionName === 'ST') {
+                return "ST - Scheme Trainer";
+            }
+        };
+
+        $scope.getPopoverText = function(missionName) {
+            if (missionName === 'BT') {
+                return "Bot Trainer 5000 helps students practice critiquing skills.";
+            } else if (missionName === 'ST') {
+                return "Scheme Trainer helps students practice their argument scheme identification and critical questions.";
+            }
         };
 
         $scope.toggleHelperFullScreen = function($event) {
