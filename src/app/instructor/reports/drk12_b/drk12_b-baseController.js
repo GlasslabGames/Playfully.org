@@ -263,6 +263,22 @@ angular.module( 'instructor.reports')
             });
         };
 
+        $scope.getPopoverTitle = function(missionName) {
+            if (missionName === 'BT') {
+                return "BT - Bot Trainer";
+            } else if (missionName === 'ST') {
+                return "ST - Scheme Trainer";
+            }
+        };
+
+        $scope.getPopoverText = function(missionName) {
+            if (missionName === 'BT') {
+                return "Bot Trainer 5000 helps students practice critiquing skills.";
+            } else if (missionName === 'ST') {
+                return "Scheme Trainer helps students practice their argument scheme identification and critical questions.";
+            }
+        };
+
         $scope.toggleHelperFullScreen = function($event) {
             $event.preventDefault();
             $event.stopPropagation();

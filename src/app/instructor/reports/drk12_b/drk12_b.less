@@ -343,6 +343,7 @@
     &:last-child {
       border-left: 1px solid @grey5;
       border-right: 1px solid @grey6;
+      padding: 8px 16px;
     }
   }
   td.disabled, th.disabled {
@@ -714,4 +715,19 @@ tr + tr.no-repeated-tr-content {
     padding-right: 6px;
     width: 280px;
   }
+}
+
+// Override for popovers
+h3.popover-title {
+  background-color: white;
+  border-bottom: 0;
+  color: @grey2;
+  font-weight: 300;
+  padding: 16px 16px 0 16px;
+  font-size: 16px;
+}
+
+div.popover-content {
+  color: @grey2;
+  padding: 0 16px 16px 16px;
 }

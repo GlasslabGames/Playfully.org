@@ -79,9 +79,20 @@
                                             <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
                                         </button>
                                     </th>
-                                    <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">{{missionObject.mission}}</th>
+                                    <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">
+                                        <span ng-if="missionObject.mission === 'BT' || missionObject.mission === 'ST'"
+                                              popover="{{getPopoverText(missionObject.mission)}}"
+                                              popover-title="{{getPopoverTitle(missionObject.mission)}}"
+                                              popover-trigger="mouseenter"
+                                              popover-placement="bottom"
+                                              popover-append-to-body="true">
+                                            {{missionObject.mission}}
+                                        </span>
+                                        <span ng-if="missionObject.mission !== 'BT' && missionObject.mission !== 'ST'">{{missionObject.mission}}</span>
+                                    </th>
                                     <th>
-                                        <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">AVG
+                                        <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">
+                                            <span popover="TEXT NEEDED!!" popover-title="AVG - Average" popover-trigger="mouseenter" popover-placement="bottom" popover-append-to-body="true">AVG</span>
                                             <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
                                         </button>
                                     </th>
