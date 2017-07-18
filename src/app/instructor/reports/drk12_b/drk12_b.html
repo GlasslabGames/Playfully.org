@@ -76,13 +76,13 @@
                                     <th class="gl-drk12_b-first-table-column">
                                         <button class="gl-drk12-tablesort" ng-click="sortSelected('student')" type="button">
                                             Student
-                                            <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
+                                            <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
                                         </button>
                                     </th>
                                     <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">{{missionObject.mission}}</th>
                                     <th>
                                         <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">AVG
-                                            <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'highlight fa fa-sort-up' : 'highlight fa fa-sort-down') : 'fa fa-sort-down'"></i>
+                                            <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
                                         </button>
                                     </th>
                                 </tr>

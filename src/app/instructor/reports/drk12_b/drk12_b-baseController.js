@@ -247,7 +247,11 @@ angular.module( 'instructor.reports')
                     return user.firstName + ' ' + user.lastName;
                 }
                 if (colName === 'average') { // TODO: Deal with these magic values
-                    return user.results.currentProgress.mission;
+                    if (user.results.currentProgress.skillLevel && user.results.currentProgress.skillLevel[$scope.selectedSkill]) {
+                        return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                    } else {
+                        return -1;
+                    }
                 }
             };
         };
