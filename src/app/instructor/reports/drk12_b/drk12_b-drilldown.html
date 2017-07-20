@@ -109,11 +109,11 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
-                        <td>
-                            <div>ClaimID: {{claimIdToMagicString(attempt.opponentClaimId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot1DataId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot2DataId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot3DataId)}}</div>
+                        <td class="gl-drk12-opponent-claim-info">
+                            <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot1DataId)">{{dataIdToMagicString(attempt.opponentBot1DataId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot2DataId)">{{dataIdToMagicString(attempt.opponentBot2DataId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot3DataId)">{{dataIdToMagicString(attempt.opponentBot3DataId)}}</p>
                         </td>
                         <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                         <td>{{attempt.success}}</td>
@@ -147,14 +147,14 @@
                             <div>{{attempt.opponentBot2Name}}</div>
                             <div>{{attempt.opponentBot3Name}}</div>
                         </td>
-                        <td>
-                            <div>ClaimID: {{claimIdToMagicString(attempt.opponentClaimId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot1DataId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot2DataId)}}</div>
-                            <div>{{dataIdToMagicString(attempt.opponentBot3DataId)}}</div>
+                        <td class="gl-drk12-opponent-claim-info">
+                            <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot1DataId)">{{dataIdToMagicString(attempt.opponentBot1DataId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot2DataId)">{{dataIdToMagicString(attempt.opponentBot2DataId)}}</p>
+                            <p ng-if="dataIdToMagicString(attempt.opponentBot3DataId)">{{dataIdToMagicString(attempt.opponentBot3DataId)}}</p>
                         </td>
                         <td>{{attempt.criticalQuestionsEnabled}}</td>
-                        <td>{{attempt.attackId}}</td>
+                        <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                         <td>{{attempt.success}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
