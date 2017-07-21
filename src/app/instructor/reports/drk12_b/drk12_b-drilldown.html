@@ -49,13 +49,13 @@
     <!-- If skill 1 (Argument Schemes) -->
     <div class="gl-drk12-transcript" ng-if="isFirstSkill()">
         <div class="gl-drk12-singleTable">
-            <div>Attempts</div>
+            <div>Scheme-Evidence Matches</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Argubot Type Used</th>
                         <th class="gl-drk12-bold">Evidence Used</th>
-                        <th class="gl-drk12-bold">Success</th>
+                        <th class="gl-drk12-bold">Scheme Match</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,7 +75,7 @@
     <!-- If skill 2 (Claims and Evidence) -->
     <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
         <div  class="gl-drk12-doubleTable">
-            <div>Defense Attempts</div>
+            <div>Claim Cores Generated</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
                     <tr>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div>Offense Attempts</div>
+            <div>"Claim Cores Critiqued</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -127,15 +127,15 @@
     <!-- If skill 3 (Critical Questions) -->
     <div class="gl-drk12-transcript" ng-if="isThirdSkill()">
         <div class="gl-drk12-singleTable">
-            <div>Attempts</div>
+            <div>Critical Questions Used</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Opposing Argubot</th>
                         <th class="gl-drk12-bold">Opposing Argubot's Claim Core</th>
-                        <th class="gl-drk12-bold">Does player have access to matching critical questions?</th>
-                        <th class="gl-drk12-bold">Critical Questions Used in Battle</th>
-                        <th class="gl-drk12-bold">Success</th>
+                        <th class="gl-drk12-bold">Correct Critical Questions Enabled?</th>
+                        <th class="gl-drk12-bold">Critical Question Used</th>
+                        <th class="gl-drk12-bold">Correct Use of Critical Questions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -162,7 +162,7 @@
     <!-- If skill 4 (Backing) -->
     <div class="gl-drk12-transcript" ng-if="isFourthSkill()">
         <div class="gl-drk12-doubleTable">
-            <div>Defense Attempts</div>
+            <div>Backing Chosen</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div>Offense Attempts</div>
+            <div>Backing Used</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
