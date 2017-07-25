@@ -1,7 +1,7 @@
-<p class="gl-drk12-bold">Mission 11: What to do about Lucas</p>
-<div class="font14px">
+<p class="gl-drk12-heading-secondary-small">Mission 11: What to do about Lucas</p>
+<div class="gl-drk12-paragraphtext">
     <div>At Argubot Academy, decisions are made through argubot battles. Lucas goes against the rules and chooses to save a helpbot's life! Help Dean Ochoa figure out if Lucas should stay on Mars or get sent back to Earth.</div>
-    <div>Find <span class="gl-drk12-bold">evidence</span> and make a <span class="gl-drk12-bold">strong argument</span> for one of the following claims:
+    <div>Find <span class="emphasis">evidence</span> and make a <span class="emphasis">strong argument</span> for one of the following claims:
         <ul>
             <li>Lucas should stay on Mars</li>
             <li>Lucas should be change position</li>
@@ -10,10 +10,10 @@
     </div>
 </div>
 <div class="gl-drk12-flexrow">
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
-    <span class="font12px" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+    <span class="gl-drk12-text-small" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
         <img src="/assets/icon-flag.svg"> Critical Question Enabled
         <img src="/assets/icon-lock-small.svg"> Locked
     </span>

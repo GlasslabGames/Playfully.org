@@ -1,13 +1,13 @@
-<p class="gl-drk12-bold">Bot Workshop</p>
-<div class="font14px">
-    <div>Talk to Lucas in the Workshop. </div>
+<p class="gl-drk12-heading-secondary-small">Bot Workshop</p>
+<div class="gl-drk12-paragraphtext">
+    <div>Talk to Lucas in the Workshop.</div>
     <div>Find evidence pieces that match your chosen argument scheme OR ask critical questions that correctly critique the opponent's argument.</div>
 </div>
 <div class="gl-drk12-flexrow">
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
-    <span class="font12px" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+    <span class="gl-drk12-text-small" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
         <img src="/assets/icon-flag.svg"> Critical Question Enabled
         <img src="/assets/icon-lock-small.svg"> Locked
     </span>

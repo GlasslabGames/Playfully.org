@@ -1,12 +1,12 @@
-<p class="gl-drk12-bold">Bot Trainer 5000</p>
-<div class="font14px">
+<p class="gl-drk12-heading-secondary-small">Bot Trainer 5000</p>
+<div class="gl-drk12-paragraphtext">
     <div>Practice your critiquing skills!</div>
 </div>
 <div class="gl-drk12-flexrow">
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
-    <span class="font12px" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+    <span class="gl-drk12-text-small" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
         <img src="/assets/icon-flag.svg"> Critical Question Enabled
         <img src="/assets/icon-lock-small.svg"> Locked
     </span>

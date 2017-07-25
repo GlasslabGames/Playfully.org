@@ -4,6 +4,16 @@
 // == Variables
 @competency-drkYellow: #f5a623;
 
+// Base
+
+.gl-drk12-base {
+  color: @grey2;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  p {
+    margin: 0;
+  }
+}
+
 // Container (Layout)
 
 .gl-drk12-l-container {
@@ -21,6 +31,11 @@
 .gl-drk12-l-container > p {
   margin-bottom: 20px;
   text-align: left;
+}
+
+
+.gl-drk12-l-container > p:first-of-type {
+  width: 660px;
 }
 
 // Container (Class, tab)
@@ -60,24 +75,101 @@
 
 .gl-drk12-l-containerclass > table {
   margin-bottom: 40px;
+  width: 100%;
 }
 
 // Container (Student, tab)
 
 .gl-drk12-l-containerstudent {
-  div:first-of-type {
-    position: relative;
-  }
-  h2 {
-    color: @grey2;
-    font-size: 16px;
-    margin: 10px 0 5px 0;
-  }
   padding-top: 10px;
 }
 
+.gl-drk12-l-containerstudent > h2 {
+  margin: 10px 0 5px 0;
+}
+
 .gl-drk12-l-containerstudent > div:first-of-type {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 15px;
+}
+
+// Container (Drilldown)
+
+.gl-drk12-drillDown-container {
+  color: @grey2;
+  font-size: 16px;
+  padding: 30px 45px 45px 45px;
+}
+
+.gl-drk12-drillDown-container > h1 {
+  margin-bottom: 16px;
+}
+
+.gl-drk12-drillDown-container > div:first-of-type {
+  margin: 16px 0;
+}
+
+.gl-drk12-drillDown-container > span:first-of-type p:first-of-type {
+  margin-bottom: 8px;
+}
+
+// Container Drilldown Skillcards (Layout)
+
+.gl-drk12-drillDown-skillcard-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.gl-drk12-drillDown-skillcard-container > div {
+  align-items: center;
+  border: 1px solid @grey6;
+  display: inherit;
+  min-height: 130px;
+  margin-bottom: 32px;
+  position: relative;
+  width: 410px;
+}
+
+.gl-drk12-drillDown-skillcard-container > div > div:first-child {
+  border-right: 1px solid @grey6;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px 0 15px 15px;
+  position: absolute;
+  width: 175px;
+  .gl-drk12-drillDown-skillcard-successTitle {
+    margin-top: 25px;
+  }
+  .gl-drk12-drillDown-skillcard-successRate {
+    font-size: 20px;
+  }
+}
+
+.gl-drk12-drillDown-skillcard-container > div > div:last-child {
+  display: inline-block;
+  height: 100%;
+  margin: auto 16px auto auto;
+  .gl-drk12-drillDown-skillcard-skillDetail-detail {
+    display: inline-block;
+    text-align: center;
+    height: 98px;
+    padding-top: 16px;
+    vertical-align: middle;
+    width: 120px;
+    div div {
+      display: inline-block;
+    }
+    .largeText {
+      font-size: 16px;
+    }
+  }
 }
 
 // Progress Icons (Layout)
@@ -87,6 +179,34 @@
   justify-content: space-around;
   margin: 0;
   padding: 0;
+}
+
+// Dropdown selector (Layout)
+.gl-drk12-l-dropdown {
+  max-width: 49%;
+  width: 49%;
+  button:first-child {
+    width: 90%;
+  }
+  ul {
+    width: 96%;
+  }
+}
+
+// Misc layout items
+
+.gl-drk12-legend {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 6px;
+  width: 280px;
+}
+
+.gl-drk12-flexrow { // TODO: can this be put into a better layout item?
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
 }
 
 // Headings
@@ -102,7 +222,13 @@
 .gl-drk12-heading-secondary {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 400;
+}
+
+.gl-drk12-heading-secondary-small {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .gl-drk12-heading-tertiary {
@@ -151,9 +277,6 @@
 .gl-drk12-text {
   color:  @grey1;
   text-align: left;
-  &.partialWidth {
-    width: 660px;
-  }
 }
 
 // Progress Icons
@@ -452,6 +575,8 @@
   text-align: center;
 }
 
+// Footer helper
+
 .gl-drk12-footerhelper {
   bottom: 0;
   -webkit-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
@@ -509,36 +634,12 @@
   float: right;
 }
 
-.advancingColor {
-  color: @competency-green;
-  font-weight: bold;
-}
-
-.supportColor {
-  color: @competency-drkYellow;
-  font-weight: bold;
-}
-
-.notAttemptedColor {
-  color: @grey4;
-  font-weight: bold;
-}
-
 .fontGrey2 {
   color: @grey2;
 }
 
 .font16px {
   font-size: 16px;
-}
-
-.font14px {
-  font-size: 14px;
-  line-height: 24px;
-}
-
-.font12px {
-  font-size: 12px;
 }
 
 .sort-up {
@@ -588,24 +689,6 @@ tr + tr.no-repeated-tr-content {
   padding-bottom: 20px;
 }
 
-.gl-drk12-drillDown-container {
-  color: @grey2;
-  font-size: 16px;
-  padding: 30px 45px 45px 45px;
-  h1 {
-    font-size: 32px;
-    padding-bottom: 10px;
-  }
-  button.collapseButton {
-    background: none;
-    border: none;
-    span:first-child {
-      color: #6CCAD9;
-      font-size: 22px;
-    }
-  }
-}
-
 .gl-drk12-drillDown-status {
   &.Advancing {
     color: @competency-green;
@@ -619,64 +702,6 @@ tr + tr.no-repeated-tr-content {
 
 .gl-drk12-tableHeader-background {
   background-color: @grey8;
-}
-
-.gl-drk12-drillDown-skillcard-container {
-  align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 15px;
-  width: 100%;
-  .gl-drk12-drillDown-skillcard {
-    border: 1px solid @grey6;
-    color:  @grey2;
-    display: inherit;
-    font-size: 12px;
-    font-weight: 500;
-    min-height: 130px;
-    margin-bottom: 32px;
-    width: 410px;
-    .gl-drk12-drillDown-skillcard-skillSummary {
-      border-right: 1px solid @grey6;
-      display: flex;
-      flex-direction: column;
-      padding: 15px 0 15px 15px;
-      width: 175px;
-      .gl-drk12-drillDown-skillcard-skill {
-        font-size: 16px;
-        text-transform: lowercase;
-      }
-      .gl-drk12-drillDown-skillcard-skill::first-letter {
-        text-transform: uppercase;
-      }
-      .gl-drk12-drillDown-skillcard-successTitle {
-        margin-top: 25px;
-      }
-      .gl-drk12-drillDown-skillcard-successRate {
-        font-size: 20px;
-      }
-    }
-    .gl-drk12-drillDown-skillcard-skillDetail {
-      display: inline-block;
-      height: 100%;
-      margin: auto 16px auto auto;
-      .gl-drk12-drillDown-skillcard-skillDetail-detail {
-        display: inline-block;
-        text-align: center;
-        height: 98px;
-        padding-top: 16px;
-        vertical-align: middle;
-        width: 120px;
-        div div {
-          display: inline-block;
-        }
-        .largeText {
-          font-size: 16px;
-        }
-      }
-    }
-  }
 }
 
 .gl-drk12-transcript {
@@ -717,26 +742,20 @@ tr + tr.no-repeated-tr-content {
   }
 }
 
-.gl-drk12-dropdown {
-  width: 49%;
-  max-width: 49%;
-  button:first-child {
-    text-align: left;
-    .text-overflow;
-    width: 90%;
+.gl-drk12-legenditem {
+  font-size: 12px;
+  span:first-of-type {
+    color: #999999;
+    font-weight: bold;
+    &.advancing {
+      color: @competency-green;
+    }
+    &.needssupport {
+      color: @competency-drkYellow;
+    }
   }
-  ul {
-    width: 96%;
-  }
-}
-
-.gl-drk12-flexrow {
-  align-items: baseline;
-  display: flex;
-  justify-content: space-between;
-  &.legend {
-    padding-right: 6px;
-    width: 280px;
+  span:last-of-type {
+    color: @grey2;
   }
 }
 
@@ -753,4 +772,39 @@ h3.popover-title {
 div.popover-content {
   color: @grey2;
   padding: 0 16px 16px 16px;
+}
+
+.gl-drk12-dropdowntextbutton {
+  text-align: left;
+}
+
+.gl-drk12-paragraphtext {
+  font-size: 14px;
+  line-height: 24px;
+  .emphasis {
+    font-weight: 400;
+  }
+}
+
+.gl-drk12-collapsebutton {
+  background: none;
+  border: none;
+  span:first-child {
+    color: #6CCAD9;
+    font-size: 22px;
+    display: inline-block;
+    width: 15px;
+  }
+}
+
+.gl-drk12-titlecasesingleword {
+  font-size: 16px;
+  text-transform: lowercase;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.gl-drk12-text-small {
+  font-size: 12px;
 }

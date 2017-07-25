@@ -1,6 +1,6 @@
-<div class="report-body gl-drk12-drillDown-container">
-    <h1>{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
-    <div class="gl-drk12-bold padding-bottom-16">
+<div class="report-body gl-drk12-drillDown-container gl-drk12-base">
+    <h1 class="gl-drk12-heading">{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
+    <div class="gl-drk12-heading-secondary-small">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
         <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
             {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
@@ -12,24 +12,24 @@
     <div class="gl-drk12-drillDown-skillcard-container">
         <div class="gl-drk12-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
             <div class="gl-drk12-tableHeader-background gl-drk12-drillDown-skillcard-skillSummary">
-                <div class="gl-drk12-drillDown-skillcard-skill">
+                <div  class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
                     {{subSkillDetail.description}}
                     <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                 </div>
-                <div ng-if="subSkillDetail.subDescription">({{subSkillDetail.subDescription}})</div>
-                <div class="gl-drk12-drillDown-skillcard-successTitle" ng-if="!subSkillDetail.locked">Success Rate:</div>
-                <div class="gl-drk12-drillDown-skillcard-successRate" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
+                <div ng-if="subSkillDetail.subDescription" class="gl-drk12-text-small">({{subSkillDetail.subDescription}})</div>
+                <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
+                <div class="gl-drk12-heading-secondary" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
             <div class="gl-drk12-drillDown-skillcard-skillDetail">
                 <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
                 <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
-                    Attempts:
+                    <span class="gl-drk12-text-small">Attempts:</span>
                     <div style="margin: 6px 0;">
                         {{subSkillDetail.correct}}
                         <div class="padding-sides-15">/</div>
                         {{subSkillDetail.attempts}}
                     </div>
-                    <div>
+                    <div class="gl-drk12-text-small">
                         <div>Correct</div>
                         <div style="margin-left: 14px">Total</div>
                     </div>
@@ -49,7 +49,7 @@
     <!-- If skill 1 (Argument Schemes) -->
     <div class="gl-drk12-transcript" ng-if="isFirstSkill()">
         <div class="gl-drk12-singleTable">
-            <div>Scheme-Evidence Matches</div>
+            <div class="gl-drk12-heading-secondary-small">Scheme-Evidence Matches</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -75,7 +75,7 @@
     <!-- If skill 2 (Claims and Evidence) -->
     <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
         <div  class="gl-drk12-doubleTable">
-            <div>Claim Cores Generated</div>
+            <div class="gl-drk12-heading-secondary-small">Claim Cores Generated</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
                     <tr>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div>Claim Cores Critiqued</div>
+            <div class="gl-drk12-heading-secondary-small">Claim Cores Critiqued</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -127,7 +127,7 @@
     <!-- If skill 3 (Critical Questions) -->
     <div class="gl-drk12-transcript" ng-if="isThirdSkill()">
         <div class="gl-drk12-singleTable">
-            <div>Critical Questions Used</div>
+            <div class="gl-drk12-heading-secondary-small">Critical Questions Used</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -162,7 +162,7 @@
     <!-- If skill 4 (Backing) -->
     <div class="gl-drk12-transcript" ng-if="isFourthSkill()">
         <div class="gl-drk12-doubleTable">
-            <div>Backing Chosen</div>
+            <div class="gl-drk12-heading-secondary-small">Backing Chosen</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div>Backing Used</div>
+            <div class="gl-drk12-heading-secondary-small">Backing Used</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>

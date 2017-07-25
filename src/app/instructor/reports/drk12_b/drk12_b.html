@@ -1,10 +1,10 @@
-<div class="report-container--wide gl-margin--Txl gl-margin--Bxl">
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl gl-drk12-base">
 
     <div class="report-body gl-pad-Al" style="min-height: 623px"> <!-- TODO: add class here -->
         <div class="gl-drk12-l-container">
             <button class="fa fa-question-circle gl-drk12-helpicon" ng-click="openModal('info')" type="button"></button>
             <h1 class="gl-drk12-heading">Progress Report</h1>
-            <p class="gl-drk12-text partialWidth" ng-bind-html="reports.selected.description"></p>
+            <p class="gl-drk12-text" ng-bind-html="reports.selected.description"></p>
 
             <tabset class="gl-drk12-tabs" justified="true">
                 <tab heading="Whole Class" ng-attr-active="tabs[0].active">
@@ -36,10 +36,10 @@
                 </tab>
                 <tab heading="Student Roster" ng-attr-active="tabs[1].active">
                     <div class="gl-drk12-l-containerstudent">
-                        <h2>Skill</h2>
-                        <div class="gl-drk12-flexrow">
-                            <div class="btn-group gl-drk12-dropdown" dropdown is-open="skills.isDropdownOpen">
-                                <button type="button" class="btn btn-default"
+                        <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Skill</h2>
+                        <div>
+                            <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
+                                <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"
                                         ng-click="toggleDropdown($event)"
                                         ng-bind="skills.options[selectedSkill]">
                                 </button>
@@ -55,18 +55,18 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="gl-drk12-flexrow font12px legend">
-                                <span>
-                                    <span class="advancingColor">Green:</span>
-                                    <span class="fontGrey2">&ge; 70%</span>
+                            <div class="gl-drk12-legend">
+                                <span class="gl-drk12-legenditem">
+                                    <span class="advancing">Green:</span>
+                                    <span>&ge; 70%</span>
                                 </span>
-                                <span>
-                                    <span class="supportColor">Yellow:</span>
-                                    <span class="fontGrey2">< 70%</span>
+                                <span class="gl-drk12-legenditem">
+                                    <span class="needssupport">Yellow:</span>
+                                    <span>< 70%</span>
                                 </span>
-                                <span>
-                                    <span class="notAttemptedColor">Gray:</span>
-                                    <span class="fontGrey2">No Data</span>
+                                <span class="gl-drk12-legenditem">
+                                    <span>Gray:</span>
+                                    <span>No Data</span>
                                 </span>
                             </div>
                         </div>

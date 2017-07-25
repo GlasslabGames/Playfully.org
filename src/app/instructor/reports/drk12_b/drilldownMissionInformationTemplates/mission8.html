@@ -1,13 +1,13 @@
-<p class="gl-drk12-bold">Mission 8: Let's Evo-2</p>
-<div class="font14px">
+<p class="gl-drk12-heading-secondary-small">Mission 8: Let's Evo-2</p>
+<div class="gl-drk12-paragraphtext">
     <div>Talk to Lucas in the Workshop to learn about how to level up your argubots to Evo-2.</div>
     <div>Learn how to use critical questions to critique an opponent's argument.</div>
 </div>
 <div class="gl-drk12-flexrow">
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
-    <span class="font12px" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+    <span class="gl-drk12-text-small" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
         <img src="/assets/icon-flag.svg"> Critical Question Enabled
         <img src="/assets/icon-lock-small.svg"> Locked
     </span>

@@ -1,7 +1,7 @@
-<p class="gl-drk12-bold">Mission 1: Build a Bot</p>
-<div class="font14px">
+<p class="gl-drk12-heading-secondary-small">Mission 1: Build a Bot</p>
+<div class="gl-drk12-paragraphtext">
     <div>Build your first claim core and challenge Lucas!</div>
-    <div>Find <spans class="gl-drk12-bold">evidence</spans> and make a <span class="gl-drk12-bold">strong argument</span> for one of the following claims:
+    <div>Find <spans class="emphasis">evidence</spans> and make a <span class="emphasis">strong argument</span> for one of the following claims:
         <ul>
             <li>SimCityEDU is the best classic video game of all time!</li>
             <li>Temple Run is the best classic video game of all time!</li>
@@ -10,10 +10,10 @@
     </div>
 </div>
 <div class="gl-drk12-flexrow">
-    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="collapseButton">
+    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
         <span ng-if="!collapse">-</span><span ng-if="collapse">+</span> <span>Evidence Pieces Available</span>
     </button>
-    <span class="font12px" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+    <span class="gl-drk12-text-small" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
         <img src="/assets/icon-flag.svg"> Critical Question Enabled
         <img src="/assets/icon-lock-small.svg"> Locked
     </span>
