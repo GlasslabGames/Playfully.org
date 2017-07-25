@@ -273,9 +273,9 @@ angular.module( 'instructor.reports')
 
         $scope.getPopoverText = function(missionName) {
             if (missionName === 'BT') {
-                return "Bot Trainer 5000 helps students practice critiquing skills.";
+                return "Bot Trainer 5000 helps students practice critiquing skills";
             } else if (missionName === 'ST') {
-                return "Scheme Trainer helps students practice their argument scheme identification and critical questions.";
+                return "Scheme Trainer helps students practice their argument scheme identification and critical questions";
             }
         };
 
