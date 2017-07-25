@@ -62,7 +62,7 @@
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
                         <td>{{attempt.botType}}</td>
                         <td>{{dataIdToMagicString(attempt.dataId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
@@ -88,7 +88,7 @@
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
                         <td>{{claimIdToMagicString(attempt.claimId)}}</td>
                         <td>{{dataIdToMagicString(attempt.dataId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
@@ -114,7 +114,7 @@
                             <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                         </td>
                         <td>{{attackIdToMagicString(attempt.attackId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
@@ -147,9 +147,9 @@
                             <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
                             <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                         </td>
-                        <td>{{attempt.criticalQuestionsEnabled}}</td>
+                        <td>{{attempt.criticalQuestionsEnabled  ? 'Yes' : 'No'}}</td>
                         <td>{{attackIdToMagicString(attempt.attackId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
@@ -175,7 +175,7 @@
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
                         <td>{{attempt.botType}}</td>
                         <td>{{dataIdToMagicString(attempt.dataId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
@@ -198,7 +198,7 @@
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                         <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                         <td>{{dataIdToMagicString(attempt.dataId)}}</td>
-                        <td>{{attempt.success}}</td>
+                        <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
                         <td colspan="3">No transcript to show</td>
