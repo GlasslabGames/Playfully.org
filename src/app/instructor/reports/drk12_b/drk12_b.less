@@ -135,12 +135,10 @@
 }
 
 .gl-drk12-drillDown-skillcard-container > div {
-  align-items: center;
   border: 1px solid @grey6;
-  display: inherit;
+  display: flex;
   min-height: 130px;
   margin-bottom: 32px;
-  position: relative;
   width: 410px;
 }
 
@@ -148,9 +146,7 @@
   border-right: 1px solid @grey6;
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 15px 0 15px 15px;
-  position: absolute;
   width: 175px;
   .gl-drk12-drillDown-skillcard-successTitle {
     margin-top: 25px;
@@ -161,8 +157,6 @@
 }
 
 .gl-drk12-drillDown-skillcard-container > div > div:last-child {
-  display: inline-block;
-  height: 100%;
   margin: auto 16px auto auto;
   .gl-drk12-drillDown-skillcard-skillDetail-detail {
     display: inline-block;
@@ -208,7 +202,6 @@
   display: flex;
   justify-content: space-between;
   padding-right: 6px;
-  width: 280px;
 }
 
 .gl-drk12-flexrow { // TODO: can this be put into a better layout item?
@@ -745,6 +738,10 @@ tr + tr.no-repeated-tr-content {
 
 .gl-drk12-legenditem {
   font-size: 12px;
+  margin-right: 16px;
+  &:last-child {
+    margin-right: 0;
+  }
   span:first-of-type {
     color: #999999;
     font-weight: bold;
