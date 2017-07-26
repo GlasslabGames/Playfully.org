@@ -115,6 +115,14 @@
   margin-bottom: 8px;
 }
 
+.gl-drk12-drillDown-container > span:first-of-type div:first-of-type {
+  width: 660px;
+}
+
+.gl-drk12-drillDown-container > span:first-of-type ul:first-of-type {
+  width: 660px;
+}
+
 // Container Drilldown Skillcards (Layout)
 
 .gl-drk12-drillDown-skillcard-container {
@@ -270,13 +278,6 @@
   position: absolute;
   right: 20px;
   top: 20px;
-}
-
-// Generic Text Area
-
-.gl-drk12-text {
-  color:  @grey1;
-  text-align: left;
 }
 
 // Progress Icons
@@ -779,14 +780,6 @@ div.popover-content {
   text-align: left;
 }
 
-.gl-drk12-paragraphtext {
-  font-size: 14px;
-  line-height: 24px;
-  .emphasis {
-    font-weight: 400;
-  }
-}
-
 .gl-drk12-collapsebutton {
   background: none;
   border: none;
@@ -803,6 +796,18 @@ div.popover-content {
   text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
+  }
+}
+
+// Generic Text Area
+
+.gl-drk12-text {
+  color: @grey2;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: left;
+  .emphasis {
+    font-weight: 400;
   }
 }
 
