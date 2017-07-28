@@ -98,35 +98,35 @@
 
 // Container (Drilldown)
 
-.gl-drk12-drillDown-container {
+.gl-drk12-l-drillDown-container {
   color: @grey2;
   font-size: 16px;
   padding: 30px 45px 45px 45px;
 }
 
-.gl-drk12-drillDown-container > h1 {
+.gl-drk12-l-drillDown-container > h1 {
   margin-bottom: 16px;
 }
 
-.gl-drk12-drillDown-container > div:first-of-type {
+.gl-drk12-l-drillDown-container > div:first-of-type {
   margin: 16px 0;
 }
 
-.gl-drk12-drillDown-container > span:first-of-type p:first-of-type {
+.gl-drk12-l-drillDown-container > span:first-of-type p:first-of-type {
   margin-bottom: 8px;
 }
 
-.gl-drk12-drillDown-container > span:first-of-type div:first-of-type {
+.gl-drk12-l-drillDown-container > span:first-of-type div:first-of-type {
   width: 660px;
 }
 
-.gl-drk12-drillDown-container > span:first-of-type ul:first-of-type {
+.gl-drk12-l-drillDown-container > span:first-of-type ul:first-of-type {
   width: 660px;
 }
 
 // Container Drilldown Skillcards (Layout)
 
-.gl-drk12-drillDown-skillcard-container {
+.gl-drk12-l-drillDown-skillcard-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -134,7 +134,7 @@
   width: 100%;
 }
 
-.gl-drk12-drillDown-skillcard-container > div {
+.gl-drk12-l-drillDown-skillcard-container > div {
   border: 1px solid @grey6;
   display: flex;
   min-height: 130px;
@@ -142,7 +142,7 @@
   width: 410px;
 }
 
-.gl-drk12-drillDown-skillcard-container > div > div:first-child {
+.gl-drk12-l-drillDown-skillcard-container > div > div:first-child {
   border-right: 1px solid @grey6;
   display: flex;
   flex-direction: column;
@@ -156,7 +156,7 @@
   }
 }
 
-.gl-drk12-drillDown-skillcard-container > div > div:last-child {
+.gl-drk12-l-drillDown-skillcard-container > div > div:last-child {
   margin: auto 16px auto auto;
   .gl-drk12-drillDown-skillcard-skillDetail-detail {
     display: inline-block;
@@ -812,4 +812,10 @@ div.popover-content {
 
 .gl-drk12-text-small {
   font-size: 12px;
+  &.emphasis {
+    font-weight: 500;
+    > li {
+      margin-bottom: 8px;
+    }
+  }
 }

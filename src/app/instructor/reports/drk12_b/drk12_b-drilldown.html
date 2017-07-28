@@ -1,4 +1,4 @@
-<div class="report-body gl-drk12-drillDown-container gl-drk12-base">
+<div class="report-body gl-drk12-l-drillDown-container gl-drk12-base">
     <h1 class="gl-drk12-heading">{{skills.options[selectedSkill]}}: Mission {{selectedMission.mission}}</h1>
     <div class="gl-drk12-heading-secondary-small">
         <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
@@ -9,7 +9,7 @@
 
     <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
 
-    <div class="gl-drk12-drillDown-skillcard-container">
+    <div class="gl-drk12-l-drillDown-skillcard-container">
         <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
             <div class="gl-drk12-tableHeader-background">
                 <div  class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
