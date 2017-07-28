@@ -10,8 +10,8 @@
     <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
 
     <div class="gl-drk12-drillDown-skillcard-container">
-        <div class="gl-drk12-drillDown-skillcard" ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
-            <div class="gl-drk12-tableHeader-background gl-drk12-drillDown-skillcard-skillSummary">
+        <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
+            <div class="gl-drk12-tableHeader-background">
                 <div  class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
                     {{subSkillDetail.description}}
                     <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
@@ -20,7 +20,7 @@
                 <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
                 <div class="gl-drk12-heading-secondary" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
-            <div class="gl-drk12-drillDown-skillcard-skillDetail">
+            <div>
                 <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
                 <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
                     <span class="gl-drk12-text-small">Attempts:</span>

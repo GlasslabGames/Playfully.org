@@ -284,7 +284,7 @@ angular.module( 'instructor.reports')
             4818: "Our AUTHORITY on fun says SimCityEDU is the ONLY vintage game that kids will enjoy.",
             4819: "Betty White, an AUTHORITY on entertainment, says television can be an art.",
             4820: "One game AUTHORITY - DR. S. Hoyle - says Temple Run puts people to sleep.",
-            4821: "!!NEED DATA!!",
+            4821: "We OBSERVED that people on Earth thought Temple Run was better than any other vintage game.",
             4827: "OBSERVATIONS of the robot's records SHOW it acted like a hero to save the engineers' lives.",
             4828: "OBSERVATIONS SHOW the robot knowingly faced dangerous radiation so he could save the engineers.",
             4829: "Al Clive is an AUTHORITY on robots and says we should treat robot Ike like a hero.",
