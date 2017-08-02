@@ -503,6 +503,10 @@ angular.module( 'instructor.reports')
 	            missionDetails[subSkill.key].locked = true;
 
 	            if (selectedStudentData.argubotsUnlocked[subSkill.key]) {
+	                // DRK-358 per Paula's instructions, if an argubot has been unlocked in any mission, it should appear unlocked in ST and BT missions also.
+	                if (mission.mission === "ST" || mission.mission === "BT") {
+                        missionDetails[subSkill.key].locked = false;
+                    }
                     if (typeof selectedStudentData.argubotsUnlocked[subSkill.key] === "string") {
                         if (selectedStudentData.argubotsUnlocked[subSkill.key] === "ST") {
                             missionDetails[subSkill.key].locked = false;
