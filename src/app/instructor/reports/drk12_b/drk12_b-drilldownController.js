@@ -258,6 +258,7 @@ angular.module( 'instructor.reports')
             4771: "A result of not creating more electricity will be that we can no longer let people run their lights at night.",
             4776: "Workers saw that the solar panels make only a fraction of the electricity the city needs during certain months of the year.",
             4777: "With new sources of electricity, the city would be able to grow.",
+            4778: "Many well respected city planners and engineers are worried that we still depend only on solar power for electricity.",
             4779: "During dust storms mechanics saw the solar panels generate only half the electricity they usually make.",
             4780: "Life in Brackett City will be more secure with many sources of electricity.",
             4781: "Our equipment manager is well respected and believes city residents do not spend enough time maintaining equipment.",
