@@ -264,6 +264,7 @@ angular.module( 'instructor.reports')
             4781: "Our equipment manager is well respected and believes city residents do not spend enough time maintaining equipment.",
             4782: "Several engineers have seen equipment failures that could have been avoided with the right maintenance.",
             4784: "The most experienced mechanics believe we need to double the time spent caring for Brackett City's equipment.",
+            4786: "With more time spent maintaining them, the city's equipment will last longer.",
             4787: "Our most respected engineers claim the city's equipment will need at least 1,000 hours of work to get them back into top condition.",
             4789: "When more care is taken to fix the city's equipment, then people will feel safer.",
             4791: "A student group was OBSERVED protesting to be able to visit Earth.",
