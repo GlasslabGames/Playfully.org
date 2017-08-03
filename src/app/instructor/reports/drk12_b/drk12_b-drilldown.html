@@ -132,7 +132,8 @@
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Opposing Argubot</th>
-                        <th class="gl-drk12-bold">Opposing Argubot's Claim Core</th>
+                        <th ng-if="selectedMission.mission == 8" class="gl-drk12-bold">Opponent's Evidence Piece</th>
+                        <th ng-if="selectedMission.mission != 8" class="gl-drk12-bold">Opposing Argubot's Claim Core</th>
                         <th class="gl-drk12-bold">Correct Critical Questions Enabled?</th>
                         <th class="gl-drk12-bold">Critical Question Used</th>
                         <th class="gl-drk12-bold">Correct Use of Critical Questions</th>
