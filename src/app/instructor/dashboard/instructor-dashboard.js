@@ -49,7 +49,7 @@ angular.module( 'instructor.dashboard', [
       }
     },
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'instructor/dashboard/_instructor-dashboard.html',
         controller: function ($scope, $rootScope, $state, $timeout, $log, myGames,currentUser, UserService, CHECKLIST) {
           $scope.ftue = parseInt(currentUser.data.ftue);

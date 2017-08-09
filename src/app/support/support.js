@@ -14,7 +14,7 @@ angular.module( 'playfully.support', ['ui.router'])
   .state('root.privacy', {
     url: 'privacy',
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'support/privacy.html'
       }
     },
@@ -23,7 +23,7 @@ angular.module( 'playfully.support', ['ui.router'])
   .state('root.terms-of-service', {
     url: 'terms-of-service',
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'support/terms-of-service.html'
       }
     },
@@ -32,7 +32,7 @@ angular.module( 'playfully.support', ['ui.router'])
   .state('root.eula', {
     url: 'eula',
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'support/eula.html'
       }
     },

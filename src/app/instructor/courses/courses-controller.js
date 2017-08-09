@@ -15,7 +15,7 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor','developer','admin']
     },
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'instructor/courses/courses.html',
         controller: 'CoursesCtrl'
       }
@@ -49,7 +49,7 @@ angular.module( 'instructor.courses', [
       authorizedRoles: ['instructor','developer','admin']
     },
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'instructor/courses/courses.html',
         controller: 'CoursesCtrl'
       }

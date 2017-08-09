@@ -5,7 +5,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
         url: '/admin',
         abstract: true,
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'admin/admin.html'
             }
         },
@@ -124,7 +124,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.developer-approval', {
         url: '/developer-approval',
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-developer-approval.html',
             controller: 'AdminDeveloperApprovalCtrl'
           }
@@ -142,7 +142,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.developer-approval.approved', {
         url: '/approved',
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-developer-approval.html',
             controller: 'AdminDeveloperApprovalCtrl'
           }
@@ -160,7 +160,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.developer-approval.revoked', {
         url: '/revoked',
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'admin/admin-developer-approval.html',
                 controller: 'AdminDeveloperApprovalCtrl'
             }
@@ -178,7 +178,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.developer-approval.sent', {
         url: '/sent',
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'admin/admin-developer-approval.html',
                 controller: 'AdminDeveloperApprovalCtrl'
             }
@@ -281,7 +281,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             }
         },
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'admin/admin-game-access.html',
                 controller: 'AdminGameAccessCtrl'
             }
@@ -302,7 +302,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             }
         },
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'admin/admin-game-access.html',
                 controller: 'AdminGameAccessCtrl'
             }
@@ -326,7 +326,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             }
         },
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-game-approval.html',
             controller: 'AdminGameApprovalCtrl'
           }
@@ -339,7 +339,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.game-approval.pending', {
         url: '/game-approval/pending',
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-game-approval.html',
             controller: 'AdminGameApprovalCtrl'
           }
@@ -352,7 +352,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
     .state('admin.game-approval.rejected', {
         url: '/game-approval/rejected',
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-game-approval.html',
             controller: 'AdminGameApprovalCtrl'
           }
@@ -389,7 +389,7 @@ angular.module('playfully.admin', ['dash','data','games','license','gl-popover-u
             }
         },
         views: {
-          'main@': {
+          'main': {
             templateUrl: 'admin/admin-games-edit.html',
             controller: 'AdminGamesEditCtrl'
           }
