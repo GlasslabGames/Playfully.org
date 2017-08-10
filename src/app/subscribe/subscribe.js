@@ -130,7 +130,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                 views: {
                     'modal@': {
                         templateUrl: 'subscribe/confirm-subscribe-cc-modal.html',
-                        controller: function ($scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
+                        controller: function ($rootScope, $scope, $log, $stateParams, $previousState, LicenseStore, UtilService, LicenseService, UserService) {
                             $scope.request = {
                                 success: false,
                                 errors: [],
@@ -140,7 +140,11 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                             $scope.purchaseInfo = LicenseStore.getData();
                             $scope.submitPayment = function () {
                                 UtilService.submitFormRequest($scope.request, function () {
-                                    return LicenseService.subscribeToLicense($scope.purchaseInfo);
+                                    if ($rootScope.currentUser.isTrial) {
+                                        return LicenseService.upgradeFromTrial($scope.purchaseInfo);
+                                    } else {
+                                        return LicenseService.subscribeToLicense($scope.purchaseInfo);
+                                    }
                                 }, function () {
                                     UserService.updateUserSession();
                                     $previousState.forget('modalInvoker');
