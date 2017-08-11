@@ -1,21 +1,34 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $interval, $anchorScroll, $state) {
-        $scope.helperPage = "helperDrawerMain";
+    .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams) {
+        ////////////////////// Initialization /////////////////////////
+
+        $scope.selectedPage = $stateParams.location;
+        $scope.selectedAnchor = $stateParams.anchor;
+
+        $scope.helperPage = "helperDrawerArgumentSchemes";
         $scope.data = {
             connectingEvidence: "Argument Schemes",
             supportingClaims: "Claims and Evidence",
             criticalQuestions: "Critical Questions",
             usingBacking: "Backing"
         };
-        $scope.selectedPage = "reportHelper";
         $scope.isClassViewActive = null;
+
+        //// Date stuff
+
+        $scope.placeholderDate = new Date();
+        $scope.placeholderDate.setHours(0,0,0,0);
+
+        $scope.dateOptions = {
+            formatYear: 'yy'
+        };
+
+        $scope.format = 'yyyy-MM-dd';
+
+        ///////////////////////////////////////////////////////////////
 
         var updateLocation = function(newDestination, callback) {
             switch (newDestination) {
-                case "reportHelper":
-                    $scope.helperPage = "helperDrawerMain";
-                    updateVariables(newDestination);
-                    break;
                 case "connectingEvidence":
                     $scope.helperPage = "helperDrawerArgumentSchemes";
                     updateVariables(newDestination);
@@ -80,14 +93,24 @@ angular.module( 'instructor.reports')
             }, 2);
         };
 
-        $scope.placeholderDate = new Date();
-        $scope.placeholderDate.setHours(0,0,0,0);
+        var anchorToId = function(anchorString) {
+            var returnString = "";
+            switch (anchorString) {
+                case "drilldown":
+                    returnString = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+                    break;
+                default:
+                    console.error("Was not able to find an id for the anchor " + anchorString);
+            }
 
-        $scope.dateOptions = {
-            formatYear: 'yy'
+            return returnString;
         };
 
-        $scope.format = 'yyyy-MM-dd';
+        $timeout(function() { // make sure the page is loaded before doing this
+            if ($scope.selectedAnchor) {
+                $anchorScroll(anchorToId($scope.selectedAnchor));
+            }
+        });
     })
     .controller('helperCtrl', function($scope) {
         $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {

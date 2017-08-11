@@ -333,7 +333,7 @@ angular.module( 'instructor.reports', [
             })
             .state('cleanRoot.drk12ReportHelper', {
                 controller: 'helperWrapperCtrl',
-                url: 'drk12_b_helper/location/:location',
+                url: 'drk12_b_helper/location/:location?anchor',
                 views: {
                     'main': {
                         templateUrl: 'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'
