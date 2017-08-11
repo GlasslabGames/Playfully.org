@@ -1,3 +1,11 @@
-<div ng-controller="helperWrapperCtrl">
-    <div ng-include="'instructor/reports/drk12_b/helperDrawer/' + helperPage + '.html'"></div>
+<div class="gl-drk12-base drk-l-overallPageLayout">
+    <div class="gl-navbar--top ng-scope">
+        <div class="container">
+            <div class="drk-mainlogo-small"></div>
+        </div>
+    </div>
+
+    <div class="container report-body" ng-controller="helperWrapperCtrl">
+        <div ng-include="'instructor/reports/drk12_b/helperDrawer/' + helperPage + '.html'"></div>
+    </div>
 </div>
