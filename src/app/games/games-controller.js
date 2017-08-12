@@ -46,7 +46,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
 
     },
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'games/game-catalog.html',
         controller: 'GameCatalogCtrl'
       }
@@ -70,7 +70,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     abstract: true,
     url: '/:gameId?scrollTo',
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'games/game-detail.html',
         controller: 'GameDetailCtrl'
       }
@@ -169,7 +169,7 @@ $stateProvider.state( 'modal.game-user-mismatch', {
       pageTitle: 'Play'
     },
     views: {
-      'main@': {
+      'main': {
         templateUrl: 'games/game-play-page.html',
         controller: 'GamePlayPageCtrl'
       }

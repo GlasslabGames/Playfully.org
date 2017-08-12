@@ -15,7 +15,7 @@ angular.module('playfully.password-reset', [])
     .state('sdk.sdkPasswordReset', {
       url: '/forgot-password?type',
       views: {
-        'main@': {
+        'main': {
           templateUrl: 'password-reset/password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }
@@ -25,7 +25,7 @@ angular.module('playfully.password-reset', [])
     .state('sdk.sdkv2PasswordReset', {
       url: '/v2/forgot-password?type',
       views: {
-        'main@': {
+        'main': {
           templateUrl: 'password-reset/v2/sdk-password-reset.html',
           controller: 'PasswordResetModalCtrl'
         }

@@ -5,7 +5,7 @@ angular.module('developer.tools', [])
         url: 'developer/tools',
         abstract:true,
         views: {
-            'main@': {
+            'main': {
                 templateUrl: 'developer/tools/developer-tools.html'
             }
         },

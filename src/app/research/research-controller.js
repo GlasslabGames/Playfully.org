@@ -5,7 +5,7 @@ angular.module('playfully.research', ['research'])
         url: '/research/:gameId',
         abstract:true,
         views: {
-            'main@': {
+            'main': {
                 controller: "ResearchCtrl",
                 templateUrl: 'research/research.html'
             }

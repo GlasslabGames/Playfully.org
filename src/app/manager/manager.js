@@ -7,7 +7,7 @@ angular.module('playfully.manager', [ 'env-config' ])
                 ssl: true
             },
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'manager/manager.html',
                     controller: 'ManagerCtrl'
                 }

@@ -5,7 +5,7 @@ angular.module( 'student.courses', [
   $stateProvider.state('root.studentCourses', {
     url: 'courses',
     views: {
-      'main@': {
+      'main': {
         controller: 'CoursesStudentCtrl',
         templateUrl: 'student/courses/student-courses.html'
       }
@@ -58,7 +58,7 @@ angular.module( 'student.courses', [
       }
     },
     views: {
-      'main@': {
+      'main': {
         controller: 'EnrollInCourseModalCtrl',
         templateUrl: 'student/courses/sdk-course-enroll.html'
       }

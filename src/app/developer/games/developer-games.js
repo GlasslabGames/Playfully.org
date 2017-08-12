@@ -35,7 +35,7 @@ angular.module('developer.games', [
         .state('root.developerGames.default', {
             url: '',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-games.html',
                     controller: 'DevGamesCtrl'
                 }
@@ -48,7 +48,7 @@ angular.module('developer.games', [
         .state('root.developerGames.editor-old', {
             url: '/:gameId/editor/old',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-editor-old.html',
                     controller: 'DevGameOldEditorCtrl'
                 }
@@ -71,7 +71,7 @@ angular.module('developer.games', [
         .state('root.developerGames.editor', {
             url: '/:gameId/editor',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-editor-new.html',
                     controller: 'DevGameEditorCtrl'
                 }
@@ -91,7 +91,7 @@ angular.module('developer.games', [
         .state('root.developerGames.advanced-editor', {
             url: '/:gameId/editor/advanced',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-editor-advanced.html',
                     controller: 'DevGameAdvancedEditorCtrl'
                 }
@@ -113,7 +113,7 @@ angular.module('developer.games', [
         .state('root.developerGames.raw-editor', {
             url: '/:gameId/editor/raw',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-editor-raw.html',
                     controller: 'DevGameAdvancedEditorCtrl'
                 }
@@ -138,7 +138,7 @@ angular.module('developer.games', [
         .state('root.developerGames.sowo-editor', {
             url: '/:gameId/sowo-editor',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-sowo-editor.html',
                     controller: 'DevGameSoWoEditorCtrl'
                 }
@@ -164,7 +164,7 @@ angular.module('developer.games', [
             abstract: true,
             url: '/:gameId?scrollTo',
             views: {
-                'main@': {
+                'main': {
                     templateUrl: 'developer/games/developer-game-detail.html',
                     controller: 'DevGameDetailCtrl'
                 }

@@ -13,7 +13,7 @@ angular.module( 'instructor.reports', [
                 abstract: true,
                 url: 'reports',
                 views: {
-                    'main@': {
+                    'main': {
                         templateUrl: 'instructor/reports/reports.html',
                         controller: 'ReportsCtrl'
                     }
@@ -328,6 +328,15 @@ angular.module( 'instructor.reports', [
                             Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
                         }
                         return Drk12Service.reportDataFromServer;
+                    }
+                }
+            })
+            .state('cleanRoot.drk12ReportHelper', {
+                controller: 'helperWrapperCtrl',
+                url: 'drk12_b_helper/location/:location?anchor',
+                views: {
+                    'main': {
+                        templateUrl: 'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'
                     }
                 }
             })

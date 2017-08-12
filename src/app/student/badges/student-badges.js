@@ -4,7 +4,7 @@ angular.module('student.badges', [])
         $stateProvider.state('root.studentBadges', {
             url: 'badges',
             views: {
-                'main@': {
+                'main': {
                     controller: 'BadgesStudentCtrl',
                     templateUrl: 'student/badges/student-badges.html'
                 }
