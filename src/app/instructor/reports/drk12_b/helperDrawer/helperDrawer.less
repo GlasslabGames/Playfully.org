@@ -6,23 +6,34 @@
   }
 }
 
-.gl-drk12_b-l-helperMenuContainer {
-  align-items: stretch;
+.drk-l-subpageLayout {
   display: flex;
-  width: 100%;
-
-  // Can be nested, but ultimately contains gl-drk12_b-helpermenu and gl-drk12_b-helpermaincontent as children
-
-  > * {
-    width: 100%;
+  div:first-child { // Menu
+    div {
+      margin: 12px 0;
+    }
   }
 }
 
-.drk-mainlogo-small {
+// End Layout
+
+.drk-helper-logo {
   .image-2x('gl-games-logo.png', 150px, 53px);
+  font-family: bitter, serif;
+  font-size: 18px;
   height: 53px;
+  line-height: 53px;
   margin: 28px 0;
-  width: 150px;
+  padding-left: 182px;
+}
+
+.drk-button-primary {
+  background-color: @aquaBlue;
+  border-color: @aquaBlue;
+  color: #fff;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 8px 18px;
 }
 
 .gl-drk12_b-l-selectitems {
@@ -92,43 +103,27 @@
     &:nth-child(even) {
       padding-left: 5px;
     }
-
   }
-
 }
 
 .gl-drk12_b-helperMenu {
   display: flex;
   flex-direction: column;
-  width: 33.33%;
-
-  .gl-drk12_b-helperMenu-x-items {
-    flex: 1 1 100%;
-  }
-
+  margin: 64px 48px 0 33px;
+  padding-right: 32px;
+  width: 220px;
 }
 
 // Modules (are placed into layouts, typically)
 
 .gl-drk12_b-helperMenuTitle {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #67cada;
-  border: 0;
-  color: #fff;
   display: block;
-  font-family: 'Bitter', sans-serif;
-  font-size: 20px;
-  line-height: 28px;
-  outline: none;
-  padding: 16px 30px;
+  font-size: 14px;
+  font-weight: bold;
   text-align: left;
-
-  i {
-    margin-right: 10px;
+  &.selected {
+    color: @aquaBlueDark;
   }
-
 }
 
 .gl-drk12_b-helperMenuSection {
@@ -147,71 +142,50 @@
 }
 
 .gl-drk12_b-helperJumpNav {
-  border-bottom: 1px solid #ddd;
-  padding: 15px 20px 15px 30px;
+  padding-left: 8px;
 
-  button {
+  > button {
     background: none;
     border: 0;
-    color: #333;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 12px;
     outline: none;
     padding: 0;
     text-align: left;
-  }
-
-  li {
-
-    &:not(:last-child) {
-      margin-bottom: 15px;
+    span:first-child {
+      display: inline-block;
+      width: 44px;
     }
-
-  }
-
-  ul {
-    margin: 20px 0 0 0;
-    padding: 0 0 0 30px;
-
-    ul {
-      margin-top: 15px;
+    .emphasis {
+      font-weight: 500;
     }
-
   }
-
-  > button {
-    font-weight: bold;
-  }
-
 }
 
 .gl-drk12_b-helperMainContent {
-  background-color: #fafafa;
-  padding: 20px 70px 20px 30px;
-  width: 66.66%;
+  margin: 64px 33px 48px 0;
+  width: 576px;
 
   a {
     color: #1c7ebf;
   }
 
-  h1 {
-    color: #333;
-    font-size: 20px;
+  h2 {
+    font-family: bitter, serif;
+    font-size: 32px;
     font-weight: bold;
-    line-height: 28px;
+    line-height: 40px;
   }
 
-  h2 {
-    color: #333;
-    font-size: 16px;
+  h3 {
+    font-family: bitter, serif;
+    font-size: 24px;
     font-weight: bold;
-    line-height: 20px;
+    line-height: 32px;
   }
 
   p {
-    color: #333;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 24px;
   }
 
   textarea {
@@ -225,7 +199,6 @@
 
   .gl-drk12_b-helperMainContent-x-container {
     max-width: 800px;
-    padding-bottom: 50vh;
 
     > *:not(:last-child) {
       padding-top: 15px;
