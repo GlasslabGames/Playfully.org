@@ -13,7 +13,11 @@
     <div class="gl-drk12-l-drillDown-skillcard-container">
         <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
             <div class="gl-drk12-tableHeader-background">
-                <div  class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
+                <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
+                    {{subSkillDetail.description}}
+                    <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                </div>
+                <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
                     {{subSkillDetail.description}}
                     <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                 </div>
@@ -50,7 +54,7 @@
     <!-- If skill 1 (Argument Schemes) -->
     <div class="gl-drk12-transcript" ng-if="isFirstSkill()">
         <div class="gl-drk12-singleTable">
-            <div class="gl-drk12-heading-secondary-small">Scheme-Evidence Matches</div>
+            <div class="gl-drk12-heading-secondary-small">Player Scheme-Evidence Matches</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -76,7 +80,7 @@
     <!-- If skill 2 (Claims and Evidence) -->
     <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
         <div  class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Claim Cores Generated</div>
+            <div class="gl-drk12-heading-secondary-small">Player Claim Cores Generated</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
                     <tr>
@@ -99,7 +103,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Claim Cores Critiqued</div>
+            <div class="gl-drk12-heading-secondary-small">Opponent Claim Cores Critiqued</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -135,9 +139,8 @@
                         <th class="gl-drk12-bold">Opposing Argubot</th>
                         <th ng-if="selectedMission.mission == 8" class="gl-drk12-bold">Opponent's Evidence Piece</th>
                         <th ng-if="selectedMission.mission != 8" class="gl-drk12-bold">Opposing Argubot's Claim Core</th>
-                        <th class="gl-drk12-bold">Correct Critical Questions Enabled?</th>
-                        <th class="gl-drk12-bold">Critical Question Used</th>
-                        <th class="gl-drk12-bold">Correct Use of Critical Questions</th>
+                        <th class="gl-drk12-bold">Critical Questions Used by Player</th>
+                        <th class="gl-drk12-bold">Correct Use of Critical Questions by Player?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,7 +152,6 @@
                             <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
                             <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                         </td>
-                        <td>{{attempt.criticalQuestionsEnabled  ? 'Yes' : 'No'}}</td>
                         <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
@@ -164,11 +166,11 @@
     <!-- If skill 4 (Backing) -->
     <div class="gl-drk12-transcript" ng-if="isFourthSkill()">
         <div class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Backing Chosen</div>
+            <div class="gl-drk12-heading-secondary-small">Backing Chosen by Player</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
-                        <th class="gl-drk12-bold">Argubot</th>
+                        <th class="gl-drk12-bold">Player's Argubot</th>
                         <th class="gl-drk12-bold">Evidence</th>
                         <th class="gl-drk12-bold">Backing Generated</th>
                     </tr>
@@ -187,13 +189,13 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Backing Used</div>
+            <div class="gl-drk12-heading-secondary-small">Backing Used by Player</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Opponent's Critical Question</th>
-                        <th class="gl-drk12-bold">Student Backing Used</th>
-                        <th class="gl-drk12-bold">Success</th>
+                        <th class="gl-drk12-bold">Backing Used by Player</th>
+                        <th class="gl-drk12-bold">Successfully Defended?</th>
                     </tr>
                 </thead>
                 <tbody>
