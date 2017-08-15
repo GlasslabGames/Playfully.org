@@ -1,54 +1,47 @@
-<div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
+<div ng-controller="helperCtrl" class="drk-l-subpageLayout">
     <div class="gl-drk12_b-helperMenu">
-        <button ng-click="changeSection('reportHelper')" class="gl-drk12_b-helperMenuTitle"><i class="fa fa-caret-left"></i>Argument Schemes</button>
-        <div class="gl-drk12_b-helperMenu-x-items">
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step1collapse = !step1collapse" ng-init="step1collapse = false" class="gl-drk12_b-helperSectionMain">Step 1: Where Are We Going?</button>
-                <ul collapse="step1collapse">
-                    <li><button ng-click="gotoLocation(ids[1])" type="button">In Brief</button></li>
-                    <li>
-                        <button ng-click="gotoLocation(ids[2])" type="button">Deepen Your Knowledge About This Skill</button>
-                        <ul>
-                            <li><button ng-click="gotoLocation(ids[3])" type="button">What does connecting evidence to argument schemes look like in the real world?</button></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <button ng-click="gotoLocation(ids[4])" type="button">More About Argument Schemes</button>
-                        <ul>
-                            <li><button ng-click="gotoLocation(ids[5])" type="button">What does it look like in the game?</button></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step2collapse = !step2collapse" ng-init="step2collapse = true" type="button">STEP 2: Where Are We Now?</button>
-                <ul collapse="step2collapse">
-                    <li><button ng-click="gotoLocation(ids[7])" type="button">What Data are Available About This Skill?</button></li>
-                </ul>
-            </div>
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step3collapse = !step3collapse" ng-init="step3collapse = true" type="button">STEP 3: How Do We Get From Here to Where We Need to Go?</button>
-                <ul collapse="step3collapse">
-                    <li><button ng-click="gotoLocation(ids[9])" type="button">Why Might Students Struggle With This Skill?</button></li>
-                    <li><button ng-click="gotoLocation(ids[10])" type="button">Planning for Changes to Instruction</button></li>
-                    <li><button ng-click="gotoLocation(ids[11])" type="button">Plans for Using Differentiation Materials</button></li>
-                </ul>
-            </div>
+        <h2 class="gl-drk12_b-helperMenuTitle selected" aria-label="Index of argument schemes topics">Argument Schemes</h2>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[0])">
+                <span class="emphasis">Step 1</span>
+                <span>Where Are We Going?</span>
+            </button>
         </div>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[6])">
+                <span class="emphasis">Step 2</span>
+                <span>Where Are We Now?</span>
+            </button>
+        </div>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[9])">
+                <span class="emphasis">Step 3</span>
+                <span>How Do We Get From Here to Where We Need to Go?</span>
+            </button>
+        </div>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[11])">
+                <span></span>
+                <span class="emphasis">Instruction Plan</span>
+            </button>
+        </div>
+        <div class="gl-drk12_b-helperMenuTitle">Claims and Evidence</div>
+        <div class="gl-drk12_b-helperMenuTitle">Critical Questions</div>
+        <div class="gl-drk12_b-helperMenuTitle">Backing</div>
     </div>
     <div class="gl-drk12_b-helperMainContent">
         <div class="gl-drk12_b-helperMainContent-x-container">
-            <h1 ng-attr-id="{{ids[0]}}">STEP 1: Where Are We Going?</h1>
+            <h2 ng-attr-id="{{ids[0]}}">STEP 1: Where Are We Going?</h2>
             <p><strong>Familiarize yourself with how this skill fits into the practice of engaging in argument from evidence, and what it looks like when learners use it in the game and in real life.</strong> It's helpful to know what the learning target looks like in practice, before you review gameplay data, to get a sense of how far a student is from achieving the learning goal.
-            <h2 ng-attr-id="{{ids[1]}}">In Brief</h2>
+            <h3 ng-attr-id="{{ids[1]}}">In Brief</h3>
             <p>Argument schemes are the underlying premises for common types of arguments, such as an “argument from authority.” When these premises are true, arguments are stronger because the logical connections among claim, evidence, and reasoning are clear and justified. Being able to identify argument schemes is valuable because all argument schemes have their own set of critical questions that help an arguer to evaluate the strength of an argument.</p>
-            <h2 ng-attr-id="{{ids[2]}}">Deepen Your Knowledge About This Skill</h2>
+            <h3 ng-attr-id="{{ids[2]}}">Deepen Your Knowledge About This Skill</h3>
             <p><a href="/assets/pdfs/drk12_deepenknowledge_argschemes.pdf" target="_blank">Deepen Your Knowledge About: Argument Schemes</a></p>
-            <h2 ng-attr-id="{{ids[3]}}">What does connecting evidence to argument schemes look like in the real world?</h2>
+            <h3 ng-attr-id="{{ids[3]}}">What does connecting evidence to argument schemes look like in the real world?</h3>
             <p><strong>A student who is familiar with argument schemes is able to look at the evidence that someone uses to support a claim and determine what argument scheme that person is using.</strong></p>
             <p>For example:</p>
             <p>Eric listens to his classmate Lauren make the following argument. “Global climate change will lead to lots of extinctions. Professor Deandra Sager says that Earth will lose one-sixth of all its species if climate change keeps going at this rate.” Eric knows that this as an “argument from authority” because Lauren used a piece of evidence based on what someone who seems to be an expert said. Knowing that, he can ask critical questions related to arguments from authority to determine how strong the evidence is, and therefore how strong the argument is. For example, he might ask, “Is Professor Sager actually an expert in this area?” Or, “Do other experts agree with her?”</p>
-            <h2 ng-attr-id="{{ids[4]}}">More About Argument Schemes</h2>
+            <h3 ng-attr-id="{{ids[4]}}">More About Argument Schemes</h3>
             <p><strong>The type of evidence used to support a claim determines what type of argument scheme someone is using.</strong> There are many types of argument schemes, but in the game players use four:</p>
             <ol>
                 <li>Using evidence from an expert to support a claim leads to <strong>argument from authority</strong></li>
@@ -58,7 +51,7 @@
             </ol>
             <p>Every argument scheme has its own unwritten rules for making inferences from data to arrive at a conclusion (i.e., a claim). For example, in any “argument from authority,” one premise (usually implied) is that an expert is in a position to know about something. So, if someone uses a piece of evidence that's based on an expert's statement, then it's understood that this piece of evidence supports the claim because an expert is in a position to know.</p>
             <p><strong>Being able to identify argument schemes is useful because it helps when evaluating the strength of an argument. A strong argument is a persuasive argument.</strong> A student who can identify the argument scheme she is using (or that an opponent is using in a debate) can ask critical questions about how well the evidence supports the claim, which affects how persuasive it is. In the example above, the student asked whether the expert was the right kind of expert to be using as support for this claim. If the answer is yes, then the evidence is stronger, but if the answer is no, then the evidence is weaker. Asking critical questions is another skill that students practice in the game, and it is tied to argument schemes. When a student asks critical questions that are appropriate to an argument scheme, he or she can make an argument stronger, or can weaken that of an opponent.</p>
-            <h2 ng-attr-id="{{ids[5]}}">What does connecting evidence to argument schemes look like in the game?</h2>
+            <h3 ng-attr-id="{{ids[5]}}">What does connecting evidence to argument schemes look like in the game?</h3>
             <p>Each of the four argument schemes matches a type of argubot. Evidence that players use generally includes keywords or phrases that help to identify the argument scheme.</p>
             <p>To match evidence to an argument scheme, students must consistently select evidence that matches the argubot type that they plan to use in a duel. There are two ways to do that:</p>
             <strong>1. Giving Lucas evidence that matches an argubot type to “unlock” or “level up” that bot</strong>
@@ -72,9 +65,9 @@
             <div><img src="/assets/ReportHelper_Image3.png" height="256px" width="341px"></div>
             <p><strong>An incorrect match.</strong> In this core, the evidence from consequence does not match the bot’s argument scheme (authority—seen at the top of the screen). The red lines mean that there’s a mismatch between argument scheme and the type of evidence.</p>
 
-            <h1 ng-attr-id="{{ids[6]}}">STEP 2: Where Are We Now?</h1>
+            <h2 ng-attr-id="{{ids[6]}}">STEP 2: Where Are We Now?</h2>
             <p><strong>With the learning target for this skill in mind, see how effectively students are using it in the game.</strong><p>
-            <h2 ng-attr-id="{{ids[7]}}">What Data are Available About This Skill?</h2>
+            <h3 ng-attr-id="{{ids[7]}}">What Data are Available About This Skill?</h3>
             <p><strong>PERFORMANCE OVER TIME REPORT</strong></p>
             <p><strong>What it shows: This report</strong> shows how well students applied this skill on all completed missions in which they had to use it. It also shows how long or how consistently students have been struggling or succeeding with the skill.</p>
             <p><strong>How you can use it:</strong> The report can help you determine the level of additional support to provide for a student or students. A mix of yellow and green circles could indicate a need to talk with your students to determine why they're struggling.</p>
@@ -90,71 +83,21 @@
             <p><strong>How you can use it:</strong> The report can help you determine the level of additional support to provide for a student or students. Inconsistent success rates across the argument schemes might suggest that students understand some schemes (or at least understand keywords or phrases that match some schemes), but do not understand others.</p>
             <p><strong>GAMEPLAY TRANSCRIPT</strong></p>
             <p>This report is currently being designed! Stay tuned</p>
-            <h1>STEP 3: How Do We Get From Here To Where We Need To Go?</h1>
+            <h2 ng-attr-id="{{ids[9]}}">STEP 3: How Do We Get From Here To Where We Need To Go?</h2>
             <p><strong>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</strong></p>
-            <h2 ng-attr-id="{{ids[9]}}">Why Might Students Struggle With This Skill?</h2>
+            <h3>Why Might Students Struggle With This Skill?</h3>
             <ol>
                 <li>Although students might understand the basic concept of an argument scheme, they might have difficulty recognizing keywords or phrases that align with each scheme.</li>
                 <li>While students might recognize the keywords or phrases associated with an argument scheme, they might not have a conceptual understanding of what an argument scheme is.</li>
             </ol>
-            <h2 ng-attr-id="{{ids[10]}}">Planning for Changes to Instruction</h2>
-            <p><strong>1. Based on your reading of the data, what challenges, if any, do your students seem to be facing with this skill? What's your diagnosis for why they might be struggling?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>2. What changes, if any, do you plan to make for students who are struggling?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>Additional Materials for Struggling Students</strong></p>
-            <ol>
-                <li>Matching Evidence with Argument Schemes Card Sort and Argument Schemes Fill-in-the-Blank: When students are having a hard time connecting keywords and phrases to argument schemes</li>
-                <li>Evidence Card Sort (Basic): When students are having a hard time distinguishing between the types of argument schemes</li>
-            </ol>
-            <p><strong>3. What changes, if any, do you plan to make for students who are advancing?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>Additional Materials for Advancing Students</strong></p>
-            <ul>
-                <li>Evidence Card Sort (Advanced): A second version of this activity with keywords and phrases removed</li>
-                <li>My Winning Battle Strategy: An enrichment activity for students to create arguments that include more than one argument scheme</li>
-            </ul>
-            <h2 ng-attr-id="{{ids[11]}}">Plans for Using Differentiation Materials</h2>
-            <p><strong>For Struggling Students</strong></p>
+            <h2 ng-attr-id="{{ids[11]}}">Instruction Plan</h2>
+            <p>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="dateOpen($event)"><i class="fa fa-calendar"></i></button>
-                        </span>
-                        <input type="date" class="form-control" datepicker-popup="{{format}}" ng-model="placeholderDate" is-open="dateOpened" datepicker-options="dateOptions" close-text="Close" />
-                    </p>
-                </div>
+            <div>
+                <button class="btn drk-button-primary">Add New Plan</button>
             </div>
 
-            <p>Select Students:</p>
-
-            <ul class="gl-drk12_b-l-selectitems">
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-is-checked"><input type="checkbox" name="student1" id="student1" checked>Student 1</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student2" id="student2">Student 2</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student3" id="student3">Student 3</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student4" id="student4">Student 4</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student5" id="student5">Student 5</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student6" id="student6">Student 6</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student7" id="student7">Student 7</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student8" id="student8">Student 8</label></li>
-            </ul>
-
-            <p>Materials to Use:</p>
-
-            <ul class="gl-drk12_b-l-selectitems gl-drk12_b-l-selectitems-twoup">
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary gl-drk12_b-selectitem-is-checked"><input type="checkbox" name="material1" id="material1" checked>Material 1</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material2" id="material2">Material 2</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material3" id="material3">Material 3</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material4" id="material4">Material 4</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material5" id="material5">Material 5</label></li>
-            </ul>
-
-            <p>Notes:</p>
-
-            <textarea name="notes" id="notes"></textarea>
-
+            <h3 aria-label="List of current plans">Current Plans</h3>
         </div>
     </div>
 </div>

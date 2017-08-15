@@ -5,7 +5,7 @@ angular.module( 'instructor.reports')
         $scope.selectedPage = $stateParams.location;
         $scope.selectedAnchor = $stateParams.anchor;
 
-        $scope.helperPage = "helperDrawerArgumentSchemes";
+        $scope.helperPage = "";
         $scope.data = {
             connectingEvidence: "Argument Schemes",
             supportingClaims: "Claims and Evidence",
@@ -27,31 +27,53 @@ angular.module( 'instructor.reports')
 
         ///////////////////////////////////////////////////////////////
 
-        var updateLocation = function(newDestination, callback) {
-            switch (newDestination) {
+        var locationToSubPageFilename = function(location) {
+            var returnString = "helperDrawerArgumentSchemes";
+
+            switch (location) {
                 case "connectingEvidence":
-                    $scope.helperPage = "helperDrawerArgumentSchemes";
-                    updateVariables(newDestination);
+                    returnString = "helperDrawerArgumentSchemes";
                     break;
                 case "supportingClaims":
-                    $scope.helperPage = "helperDrawerClaimsAndEvidence";
-                    updateVariables(newDestination);
+                    returnString = "helperDrawerClaimsAndEvidence";
                     break;
                 case "criticalQuestions":
-                    $scope.helperPage = "helperDrawerCriticalQuestions";
-                    updateVariables(newDestination);
+                    returnString = "helperDrawerCriticalQuestions";
                     break;
                 case "usingBacking":
-                    $scope.helperPage = "helperDrawerBacking";
-                    updateVariables(newDestination);
+                    returnString = "helperDrawerBacking";
                     break;
+                default:
+                    alert('Given an invalid skill. Defaulting to Connecting Evidence / Argument Schemes');
             }
+
+            return returnString;
+        };
+
+        $scope.helperPage = locationToSubPageFilename($stateParams.location);
+
+        var anchorToId = function(anchorString) {
+            var returnString = "";
+            switch (anchorString) {
+                case "drilldown":
+                    returnString = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+                    break;
+                default:
+                    console.error("Was not able to find an id for the anchor " + anchorString);
+            }
+
+            return returnString;
+        };
+
+        var updateLocation = function(newDestination, callback) { // TODO: This can probably be removed
+            $scope.helperPage = locationToSubPageFilename(newDestination);
+            updateVariables(newDestination);
             if (callback) {
                 callback();
             }
         };
 
-        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill) {
+        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill) { // TODO: This can probably be removed
             var newDestination = "";
             var newSubDestination = "";
 
@@ -76,11 +98,11 @@ angular.module( 'instructor.reports')
             updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
         });
 
-        $scope.$on('CHANGE_PAGE', function(event, newDestination) {
+        $scope.$on('CHANGE_PAGE', function(event, newDestination) { // TODO: This can probably be removed
             updateLocation(newDestination);
         });
 
-        var updateVariables = function(newLocation) {
+        var updateVariables = function(newLocation) { // TODO: This can probably be removed
             $scope.selectedPage = newLocation;
         };
 
@@ -91,19 +113,6 @@ angular.module( 'instructor.reports')
                     $interval.cancel(interval);
                 }
             }, 2);
-        };
-
-        var anchorToId = function(anchorString) {
-            var returnString = "";
-            switch (anchorString) {
-                case "drilldown":
-                    returnString = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
-                    break;
-                default:
-                    console.error("Was not able to find an id for the anchor " + anchorString);
-            }
-
-            return returnString;
         };
 
         $timeout(function() { // make sure the page is loaded before doing this
