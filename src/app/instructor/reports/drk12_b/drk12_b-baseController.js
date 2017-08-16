@@ -115,8 +115,6 @@ angular.module( 'instructor.reports')
                             }
                         }
                     });
-
-                    // Drk12Service.setSkills($scope.reports.selected.skills);
                 }
             }
         });
@@ -441,8 +439,8 @@ angular.module( 'instructor.reports')
             var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("blah", true); // TODO: Change this
 
             var margin = {top: 0, right: 0, bottom: 0, left: 0},
-                width = 187 - margin.left - margin.right,
-                height = 187 - margin.top - margin.bottom;
+                width = 148 - margin.left - margin.right,
+                height = 148 - margin.top - margin.bottom;
             var radius = Math.min(width, height) / 2;
 
             // Create the container element with the appropriate height and width
@@ -454,7 +452,7 @@ angular.module( 'instructor.reports')
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
             var color = function(data) {
-                var colorOptions = ["#22b473", "#fdd367", "#f0f0f0"];
+                var colorOptions = ["#22b473", "#fdd367", "#cccccc"];
 
                 var dataIndex = courseSkillStats.reduce(function(previousValue, currentValue, index, array) {
                     if (data === currentValue) {

@@ -40,32 +40,22 @@
 // Container (Class, tab)
 
 .gl-drk12-l-containerclass {
-  padding-top: 60px;
-}
-
-.gl-drk12-l-containerclass > h3:first-of-type {
-  margin-bottom: 20px;
+  padding-top: 40px;
 }
 
 .gl-drk12-l-containerclass > div:first-of-type {
-  margin-bottom: 60px;
+  margin-bottom: 24px;
 }
 
-.gl-drk12-l-containerclass > h3:last-of-type {
-  margin-bottom: 20px;
-}
-
-.gl-drk12-l-containerclass > h4 {
-  margin-bottom: 10px;
+.gl-drk12-l-containerclass .drk-emphasized-background {
+  padding: 48px 48px 0 48px;
+  margin-left: -48px;
+  height: 339px;
+  width: 940px;
 }
 
 .gl-drk12-l-containerclass > ul {
   margin-bottom: 20px;
-}
-
-.gl-drk12-l-containerclass > hr {
-  margin-bottom: 30px;
-  margin-top: 0;
 }
 
 .gl-drk12-l-containerclass > p {
@@ -75,6 +65,17 @@
 .gl-drk12-l-containerclass > table {
   margin-bottom: 40px;
   width: 100%;
+}
+
+.drk-l-piecharts {
+  height: 231px;
+  > div {
+    position: relative;
+    > button {
+      position: absolute;
+      bottom: 0;
+    }
+  }
 }
 
 // Container (Student, tab)
@@ -88,7 +89,7 @@
   margin: 10px 0 5px 0;
 }
 
-.gl-drk12-l-containerstudent > div:first-of-type {
+.gl-drk12-l-containerstudent > div {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
@@ -173,15 +174,6 @@
   }
 }
 
-// Progress Icons (Layout)
-
-.gl-drk12-l-progressicons {
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
-}
-
 // Dropdown selector (Layout)
 .gl-drk12-l-dropdown {
   max-width: 49%;
@@ -231,30 +223,30 @@
   font-weight: 400;
 }
 
-.gl-drk12-heading-tertiary {
-  align-items: center;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: normal;
+.drk-emphasized-background {
+  background-color: fade(@aquaBlue, 10%);
+  border: 1px solid @grey5;
+}
+
+.drk-text-button-group {
   display: flex;
-  white-space: nowrap;
+  button {
+    margin-left: 8px;
+    &:first-of-type {
+      margin-left: 60px;
+    }
+  }
 }
 
-.gl-drk12-heading-tertiary::after,
-.gl-drk12-heading-tertiary::before {
-  background-color: #eee;
-  content: '';
-  display: block;
-  flex: 1 1 10%;
-  height: 1px;
-}
-
-.gl-drk12-heading-tertiary::after {
-  margin-left: 10px;
-}
-
-.gl-drk12-heading-tertiary::before {
-  margin-right: 10px;
+.drk-button-as-tab {
+  background-color: white;
+  border-top: 1px solid @grey6;
+  border-right: 1px solid @grey6;
+  border-left: 1px solid @grey6;
+  border-bottom: 0;
+  border-radius: 4px 4px 0 0;
+  height: 51px;
+  width: 100%;
 }
 
 // Help Icon
@@ -404,35 +396,6 @@
   }
 }
 
-// Tab (Overrides of .nav-tabs)
-
-.gl-drk12-tabs > ul.nav-tabs.nav-justified > li > a {
-  color: @aquaBlue;
-  cursor: pointer;
-  background-color: white;
-  border: 1px solid @aquaBlue;
-  border-radius: 0;
-  font-size: 16px;
-}
-
-.gl-drk12-tabs > ul.nav-tabs.nav-justified > li:first-child > a {
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
-.gl-drk12-tabs > ul.nav-tabs.nav-justified > li:last-child > a {
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.gl-drk12-tabs > ul.nav-tabs.nav-justified > li.active > a,
-.gl-drk12-tabs > ul.nav-tabs.nav-justified > li.active > a:hover {
-  color: #fff;
-  cursor: pointer;
-  background-color: @aquaBlue;
-  border: 1px solid @aquaBlue;
-}
-
 // Table (Override of .gl-reports-table)
 .table.gl-drk12-table {
   font-size: 12px;
@@ -553,20 +516,9 @@
 
 // Pie Chart Table
 
-.gl-drk12-piechartsilllevel {
-  table-layout: fixed;
-}
-
-.gl-drk12-piechartsilllevel th {
-  font-size: 16px;
-  padding-bottom: 20px;
-  text-align: center; // Override
-  vertical-align: top;
-}
-
-.gl-drk12-piechartsilllevel td {
-  width: 25%;
-  text-align: center;
+.drk-piechartskilllevel {
+  display: flex;
+  justify-content: space-around;
 }
 
 // Footer helper

@@ -3,124 +3,115 @@
     <div class="report-body">
         <div class="gl-drk12-l-container">
             <button class="fa fa-question-circle gl-drk12-helpicon" ng-click="openModal('info')" type="button"></button>
-            <h1 class="gl-drk12-heading">Progress Report</h1>
-            <p class="gl-drk12-text" ng-bind-html="reports.selected.description"></p>
+            <h1 class="gl-drk12-heading">Current Mission</h1>
+            <p class="gl-drk12-text">Summary of student distribution on their current mission.</p>
 
-            <tabset class="gl-drk12-tabs" justified="true">
-                <tab heading="Whole Class" ng-attr-active="tabs[0].active">
-                    <div class="gl-drk12-l-containerclass">
-                        <h3 class="gl-drk12-heading gl-drk12-heading-secondary">All Students' Current Mission</h3>
-                        <div id="drk12_bChart" class="gl-drk12-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
-                        <h3 class="gl-drk12-heading gl-drk12-heading-secondary">Current Class Skill Level</h3>
-                        <p class="gl-drk12-text">
-                            The four charts below show how well students performed using each skill during the most recent mission they played.
-                        </p>
-                        <hr/>
-                        <table class="gl-drk12-piechartsilllevel">
-                            <thead>
-                                <tr>
-                                    <th ng-repeat="(key, skill) in skills.options">{{skill}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td ng-repeat="(key, skill) in skills.options"><div ng-attr-id="{{'courseSkill_' + key}}"></div></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <h4 class="gl-drk12-heading gl-drk12-heading-tertiary">Competency Levels</h4>
-                        <ul class="gl-drk12-l-progressicons">
-                            <li class="gl-drk12-progressicon" ng-class="progressType.class" ng-repeat="progressType in progressTypes">{{progressType.title}}</li>
+            <div class="gl-drk12-l-containerclass">
+                <div id="drk12_bChart" class="gl-drk12-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
+                <div class="drk-emphasized-background">
+                    <h1 class="gl-drk12-heading">Skill</h1>
+                    <p class="gl-drk12-text">
+                        A skill determines one of four types of educational content within Argubot Academy.
+                    </p>
+                    <div class="drk-piechartskilllevel drk-l-piecharts">
+                        <div ng-repeat="(key, skill) in skills.options">
+                            <div ng-attr-id="{{'courseSkill_' + key}}"></div>
+                            <button class="drk-button-as-tab" ng-click="selectSkill($event, key)">{{skill}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gl-drk12-l-containerstudent">
+                <div class="drk-text-button-group">
+                    <p class="gl-drk12-text" ng-bind-html="reports.selected.skills[selectedSkill].description"></p>
+                    <button class="btn drk-button-primary">Report Helper</button>
+                    <button class="btn drk-button-primary">Instruction Plan</button>
+                    <button class="btn btn-primary">Print</button>
+                </div>
+                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Skill</h2>
+                <div>
+                    <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
+                        <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"
+                                ng-click="toggleDropdown($event)"
+                                ng-bind="skills.options[selectedSkill]">
+                        </button>
+                        <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event)">
+                            <span class="caret"></span>
+                            <span class="sr-only">Split button!</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="(key, skill) in skills.options"
+                                ng-class="{'gl-reports-dropdown--selected': skills.selectedSkill == key }">
+                                <a href="javascript:void(0)" ng-click="selectSkill($event, key)" ng-bind="skill">
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                </tab>
-                <tab heading="Student Roster" ng-attr-active="tabs[1].active">
-                    <div class="gl-drk12-l-containerstudent">
-                        <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Skill</h2>
-                        <div>
-                            <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
-                                <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"
-                                        ng-click="toggleDropdown($event)"
-                                        ng-bind="skills.options[selectedSkill]">
-                                </button>
-                                <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event)">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Split button!</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li ng-repeat="(key, skill) in skills.options"
-                                        ng-class="{'gl-reports-dropdown--selected': skills.selectedSkill == key }">
-                                        <a href="javascript:void(0)" ng-click="selectSkill($event, key)" ng-bind="skill">
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="gl-drk12-legend">
-                                <span class="gl-drk12-legenditem">
-                                    <span class="advancing">Green:</span>
-                                    <span>&ge; 70%</span>
-                                </span>
-                                <span class="gl-drk12-legenditem">
-                                    <span class="needssupport">Yellow:</span>
-                                    <span>< 70%</span>
-                                </span>
-                                <span class="gl-drk12-legenditem">
-                                    <span>Gray:</span>
-                                    <span>No Data</span>
-                                </span>
-                            </div>
-                        </div>
-                        <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" target="_blank">Report Helper</a>
-                        <table class="table gl-drk12-table" ng-class="{'gl-reports-table--ie': isIE}">
-                            <thead>
-                                <tr>
-                                    <th class="gl-drk12_b-first-table-column">
-                                        <button class="gl-drk12-tablesort" ng-click="sortSelected('student')" type="button">
-                                            Student
-                                            <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
-                                        </button>
-                                    </th>
-                                    <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">
-                                        <span ng-if="missionObject.mission === 'BT' || missionObject.mission === 'ST'"
-                                              popover="{{getPopoverText(missionObject.mission)}}"
-                                              popover-title="{{getPopoverTitle(missionObject.mission)}}"
-                                              popover-trigger="mouseenter"
-                                              popover-placement="bottom"
-                                              popover-append-to-body="true">
-                                            {{missionObject.mission}}
-                                        </span>
-                                        <span ng-if="missionObject.mission !== 'BT' && missionObject.mission !== 'ST'">{{missionObject.mission}}</span>
-                                    </th>
-                                    <th>
-                                        <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">
-                                            <span popover="Successful attempts across all missions with gameplay data for this skill" popover-title="AVG - Average" popover-trigger="mouseenter" popover-placement="bottom" popover-append-to-body="true">AVG</span>
-                                            <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
-                                        </button>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
-                                    <td class="gl-drk12-table-x-name">{{student.firstName}} {{student.lastName}}</td>
-                                    <td ng-repeat="mission in student.results.missions"
-                                        ng-click="navigateToDrilldown(student, student.results.missions[$index])"
-                                        class="{{mission.skillLevel[selectedSkill].level}}"
-                                        ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
-                                        <div ng-if="mission.skillLevel[selectedSkill].level !== 'NotAvailable'">
-                                            {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}-average">
-                                            {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}<span ng-if="student.results.currentProgress.skillLevel[selectedSkill].score.attempts > 0">%</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="gl-drk12-legend">
+                        <span class="gl-drk12-legenditem">
+                            <span class="advancing">Green:</span>
+                            <span>&ge; 70%</span>
+                        </span>
+                        <span class="gl-drk12-legenditem">
+                            <span class="needssupport">Yellow:</span>
+                            <span>< 70%</span>
+                        </span>
+                        <span class="gl-drk12-legenditem">
+                            <span>Gray:</span>
+                            <span>No Data</span>
+                        </span>
                     </div>
-                </tab>
-            </tabset>
+                </div>
+                <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" target="_blank">Report Helper</a>
+                <table class="table gl-drk12-table" ng-class="{'gl-reports-table--ie': isIE}">
+                    <thead>
+                        <tr>
+                            <th class="gl-drk12_b-first-table-column">
+                                <button class="gl-drk12-tablesort" ng-click="sortSelected('student')" type="button">
+                                    Student
+                                    <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
+                                </button>
+                            </th>
+                            <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">
+                                <span ng-if="missionObject.mission === 'BT' || missionObject.mission === 'ST'"
+                                      popover="{{getPopoverText(missionObject.mission)}}"
+                                      popover-title="{{getPopoverTitle(missionObject.mission)}}"
+                                      popover-trigger="mouseenter"
+                                      popover-placement="bottom"
+                                      popover-append-to-body="true">
+                                    {{missionObject.mission}}
+                                </span>
+                                <span ng-if="missionObject.mission !== 'BT' && missionObject.mission !== 'ST'">{{missionObject.mission}}</span>
+                            </th>
+                            <th>
+                                <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">
+                                    <span popover="Successful attempts across all missions with gameplay data for this skill" popover-title="AVG - Average" popover-trigger="mouseenter" popover-placement="bottom" popover-append-to-body="true">AVG</span>
+                                    <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
+                            <td class="gl-drk12-table-x-name">{{student.firstName}} {{student.lastName}}</td>
+                            <td ng-repeat="mission in student.results.missions"
+                                ng-click="navigateToDrilldown(student, student.results.missions[$index])"
+                                class="{{mission.skillLevel[selectedSkill].level}}"
+                                ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
+                                <div ng-if="mission.skillLevel[selectedSkill].level !== 'NotAvailable'">
+                                    {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}-average">
+                                    {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}<span ng-if="student.results.currentProgress.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script type="text/javascript">
