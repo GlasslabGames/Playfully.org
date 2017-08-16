@@ -65,7 +65,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
-                        <td>{{attempt.botType}}</td>
+                        <td class="gl-drk12-bottype-casesingleword">{{attempt.botType}}</td>
                         <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
@@ -171,14 +171,17 @@
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Player's Argubot</th>
-                        <th class="gl-drk12-bold">Evidence</th>
-                        <th class="gl-drk12-bold">Backing Generated</th>
+                        <th class="gl-drk12-bold">Evidence Chosen and Backing Generated</th>
+                        <th class="gl-drk12-bold">Strong Backing Selected?</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
-                        <td>{{attempt.botType}}</td>
-                        <td>{{dataIdToMagicString(attempt.dataId)}}</td>
+                        <td class="gl-drk12-bottype-casesingleword">{{attempt.botType}}</td>
+                        <td class="gl-drk12-backing-generated-info">
+                            <p>{{dataIdToMagicString(attempt.dataId)}}</p>
+                            <p ng-repeat="backing in dataIdToMagicBackingString(attempt.dataId)">{{backing}}</p>
+                        </td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">

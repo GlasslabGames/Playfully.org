@@ -699,12 +699,20 @@ tr + tr.no-repeated-tr-content {
 }
 
 .gl-drk12-transcript {
-  .gl-drk12-opponent-claim-info {
+  .gl-drk12-opponent-claim-info,
+  .gl-drk12-backing-generated-info {
     p {
       margin-bottom: 1em;
     }
     p:last-child {
       margin-bottom: 0 !important;
+    }
+  }
+
+  .gl-drk12-bottype-casesingleword {
+    text-transform: lowercase;
+    &::first-letter {
+      text-transform: uppercase;
     }
   }
 
