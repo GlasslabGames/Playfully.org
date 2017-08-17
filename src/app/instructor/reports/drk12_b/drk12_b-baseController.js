@@ -23,6 +23,7 @@ angular.module( 'instructor.reports')
         $scope.isFooterOpened = false;
         $scope.isFooterFullScreen = false;
         $scope.selectedSkill = 'connectingEvidence';
+        $scope.selectedSubSkill = 'all';
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
@@ -221,7 +222,14 @@ angular.module( 'instructor.reports')
         $scope.selectSkill = function($event, skillKey) {
             $event.stopPropagation();
             $scope.selectedSkill = skillKey;
+            $scope.selectedSubSkill = 'all';
+        };
+
+        $scope.selectSubSkill = function($event, subSkillKey) {
+            $event.stopPropagation();
+            $scope.selectedSubSkill = subSkillKey;
             $scope.skills.isDropdownOpen = false;
+            alert('not implemented yet');
         };
 
         $scope.sortingData = {
