@@ -16,7 +16,7 @@
                     <div class="drk-piechartskilllevel drk-l-piecharts">
                         <div ng-repeat="(key, skill) in skills.options">
                             <div ng-attr-id="{{'courseSkill_' + key}}"></div>
-                            <button class="drk-button-as-tab" ng-click="selectSkill($event, key)">{{skill}}</button>
+                            <button class="drk-button-as-tab" ng-class="{'selected': key === selectedSkill}" ng-click="selectSkill($event, key)">{{skill.displayLabel}}</button>
                         </div>
                     </div>
                 </div>
@@ -25,16 +25,16 @@
             <div class="gl-drk12-l-containerstudent">
                 <div class="drk-text-button-group">
                     <p class="gl-drk12-text" ng-bind-html="reports.selected.skills[selectedSkill].description"></p>
-                    <button class="btn drk-button-primary">Report Helper</button>
-                    <button class="btn drk-button-primary">Instruction Plan</button>
+                    <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Report Helper</a>
+                    <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan</a>
                     <button class="btn btn-primary">Print</button>
                 </div>
-                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Skill</h2>
+                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Sub Skill</h2>
                 <div>
                     <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
                         <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"
                                 ng-click="toggleDropdown($event)"
-                                ng-bind="skills.options[selectedSkill]">
+                                ng-bind="skills.options[selectedSkill].displayLabel">
                         </button>
                         <button type="button" class="btn gl-btn--blue dropdown-toggle" ng-click="toggleDropdown($event)">
                             <span class="caret"></span>
@@ -43,7 +43,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="(key, skill) in skills.options"
                                 ng-class="{'gl-reports-dropdown--selected': skills.selectedSkill == key }">
-                                <a href="javascript:void(0)" ng-click="selectSkill($event, key)" ng-bind="skill">
+                                <a href="javascript:void(0)" ng-click="selectSkill($event, key)" ng-bind="skill.displayLabel">
                                 </a>
                             </li>
                         </ul>

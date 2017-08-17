@@ -40,7 +40,6 @@
 // Container (Class, tab)
 
 .gl-drk12-l-containerclass {
-  padding-top: 40px;
 }
 
 .gl-drk12-l-containerclass > div:first-of-type {
@@ -81,8 +80,7 @@
 // Container (Student, tab)
 
 .gl-drk12-l-containerstudent {
-  overflow-x: hidden;
-  padding-top: 10px;
+  padding-top: 25px;
 }
 
 .gl-drk12-l-containerstudent > h2 {
@@ -206,9 +204,12 @@
 .gl-drk12-heading {
   color: @grey2;
   font-family: bitter, serif;
-  font-size: 32px;
   margin: 0;
   text-align: left;
+  &.h1 {
+    font-size: 32px;
+    line-height: 40px;
+  }
 }
 
 .gl-drk12-heading-secondary {
@@ -230,23 +231,37 @@
 
 .drk-text-button-group {
   display: flex;
-  button {
+  a {
     margin-left: 8px;
     &:first-of-type {
       margin-left: 60px;
     }
   }
+  button {
+    margin-left: 8px;
+  }
 }
 
 .drk-button-as-tab {
-  background-color: white;
-  border-top: 1px solid @grey6;
-  border-right: 1px solid @grey6;
-  border-left: 1px solid @grey6;
-  border-bottom: 0;
-  border-radius: 4px 4px 0 0;
+  background-color: Transparent;
+  border: none;
+  color: @oceanBlue;
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: -15%;
   height: 51px;
-  width: 100%;
+  width: 214px;
+  &.selected {
+    background-color: white;
+    border-top: 1px solid @grey6;
+    border-right: 1px solid @grey6;
+    border-left: 1px solid @grey6;
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+    color: @grey2;
+    font-size: 16px;
+    height: 51px;
+  }
 }
 
 // Help Icon
@@ -518,7 +533,7 @@
 
 .drk-piechartskilllevel {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 // Footer helper

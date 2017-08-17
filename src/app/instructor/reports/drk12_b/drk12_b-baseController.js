@@ -339,7 +339,7 @@ angular.module( 'instructor.reports')
 
             if ($scope.noUserData) { return; }
 
-            var margin = {top: 20, right: 0, bottom: 40, left: 40},
+            var margin = {top: 20, right: 0, bottom: 40, left: 10},
                 width = 800 - margin.left - margin.right,
                 height = 200 - margin.top - margin.bottom;
 
@@ -386,7 +386,7 @@ angular.module( 'instructor.reports')
 
             chartGroup.append("path")
                 .attr("class", "axis-bar")
-                .attr("d", ["M", 0, 0, "v", height, "h", width].join(" "));
+                .attr("d", ["M", 35, 140, "v", 0, "h", width-70].join(" "));
 
             chartGroup.append("g")
                 .attr("class", "x axis")
@@ -395,25 +395,7 @@ angular.module( 'instructor.reports')
 
             chartGroup.selectAll("g.x.axis g.tick")
                 .append("circle")
-                .attr("r", 5);
-
-            chartGroup.append("g")
-                .attr("class", "y axis")
-                .append("text")
-                    .attr("y", height / 2)
-                    .attr("x", -10)
-                    .attr("text-anchor", "middle")
-                    .attr("transform", "rotate(-90 -10 " + height/2 + ")")
-                    .text("Number of students");
-
-            chartGroup.append("g")
-                .attr("class", "x axis")
-                .append("text")
-                    .attr("y", height + 9)
-                    .attr("x", -16)
-                    .attr("dy", ".71em")
-                    .attr("text-anchor", "middle")
-                    .text("Missions");
+                .attr("r", 8);
         };
 
         var populateCharts = function() {
