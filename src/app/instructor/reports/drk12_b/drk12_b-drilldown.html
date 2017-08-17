@@ -204,7 +204,7 @@
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                         <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
-                        <td ng-bind-html="dataIdToMagicString(attempt.dataId)"></td>
+                        <td ng-bind-html="backingIdToMagicString(attempt.backingId)"></td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
