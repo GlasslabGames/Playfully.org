@@ -3,8 +3,9 @@
     <div class="report-body">
         <div class="gl-drk12-l-container">
             <button class="fa fa-question-circle gl-drk12-helpicon" ng-click="openModal('info')" type="button"></button>
-            <h1 class="gl-drk12-heading">Current Mission</h1>
-            <p class="gl-drk12-text">Summary of student distribution on their current mission.</p>
+            <h1 class="gl-drk12-heading hide-for-printing">Current Mission</h1>
+            <h1 class="gl-drk12-heading gl-drk12-heading-secondary show-for-printing">{{skills.options[selectedSkill].displayLabel}}</h1>
+            <p class="gl-drk12-text hide-for-printing">Summary of student distribution on their current mission.</p>
 
             <div class="gl-drk12-l-containerclass">
                 <div id="drk12_bChart" class="gl-drk12-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
@@ -27,9 +28,9 @@
                     <p class="gl-drk12-text" ng-bind-html="reports.selected.skills[selectedSkill].description"></p>
                     <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
                     <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan (Not Completed)</a>
-                    <button class="btn btn-primary">Print</button>
+                    <button class="btn btn-primary hide-for-printing">Print</button>
                 </div>
-                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small">Sub Skill</h2>
+                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small hide-for-printing">Sub Skill</h2>
                 <div>
                     <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
                         <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"

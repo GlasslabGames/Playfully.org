@@ -7,7 +7,7 @@ angular.module( 'instructor.reports')
                 connectingEvidence: {
                     displayLabel: 'Argument Schemes',
                     subSkills: {
-                        all: "All Skills",
+                        all: "All Sub Skills",
                         AUTHORITRON: "Authoritron",
                         OBSERVATRON: "Observatron",
                         CONSEBOT: "Consebot",
@@ -17,7 +17,7 @@ angular.module( 'instructor.reports')
                 supportingClaims: {
                     displayLabel: 'Claims and Evidence',
                     subSkills: {
-                        all: "All Skills",
+                        all: "All Sub Skills",
                         FUSE_CORE: "Evidence",
                         CORE_ATTACK: "Contradictory"
                     }
@@ -25,7 +25,7 @@ angular.module( 'instructor.reports')
                 criticalQuestions: {
                     displayLabel: 'Critical Questions',
                     subSkills: {
-                        all: "All Skills",
+                        all: "All Sub Skills",
                         AUTHORITRON: "Authoritron",
                         OBSERVATRON: "Observatron",
                         CONSEBOT: "Consebot",
@@ -35,7 +35,7 @@ angular.module( 'instructor.reports')
                 usingBacking: {
                     displayLabel: 'Using Backing',
                     subSkills: {
-                        all: "All Skills",
+                        all: "All Sub Skills",
                         CREATED: "Backing to Support Evidence",
                         DEFENDED: "Backing to Defend"
                     }

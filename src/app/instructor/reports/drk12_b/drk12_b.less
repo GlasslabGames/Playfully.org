@@ -20,6 +20,7 @@
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
+  overflow-x: hidden;
   padding: 38px 47px 60px 47px;
 }
 
@@ -466,8 +467,8 @@
     }
   }
   td.disabled, th.disabled {
-    background-color: @grey8;
-    color: @grey5;
+    background-color: @grey8 !important; // important to preserve through printing
+    color: @grey5 !important; // important to preserve through printing
   }
   td {
     border-top: 0;
@@ -749,14 +750,14 @@ tr + tr.no-repeated-tr-content {
     color: #999999;
     font-weight: bold;
     &.advancing {
-      color: @competency-green;
+      color: @competency-green !important; // important to withstand default printing styles
     }
     &.needssupport {
-      color: @competency-drkYellow;
+      color: @competency-drkYellow !important; // important to withstand default printing styles
     }
   }
   span:last-of-type {
-    color: @grey2;
+    color: @grey2 !important; // important to withstand default printing styles
     font-weight: 500;
   }
 }
@@ -822,5 +823,63 @@ div.popover-content {
     > li {
       margin-bottom: 8px;
     }
+  }
+}
+
+/////////////////// Screen styles /////////////////
+@media screen {
+  .show-for-printing {
+    display: none;
+  }
+}
+
+/////////////////// Print styles //////////////////
+@media print {
+  a {
+    display: none !important;
+  }
+
+  h1 {
+    font-weight: bold;
+  }
+
+  .btn {
+    border: 0;
+  }
+
+  .gl-drk12-l-container > h1 {
+    margin: 0;
+  }
+
+  .gl-drk12-l-containerstudent {
+    padding-top: 8px;
+  }
+
+  .table.gl-drk12-table td.disabled, .table.gl-drk12-table th.disabled {
+    * {
+      color: @grey5 !important; // important to withstand default printing styles
+    }
+  }
+
+  .Advancing, .Advancing-average {
+    color: @competency-green !important;
+    * {
+      color: @competency-green !important;
+    }
+  }
+
+  .NeedSupport, .NeedSupport-average {
+    color: @competency-drkYellow !important;
+    * {
+      color: @competency-drkYellow !important;
+    }
+  }
+
+  .gl-drk12-l-containerclass, .gl-drk12-helpicon, .dropdown-toggle {
+    display: none;
+  }
+
+  .hide-for-printing {
+    display: none !important;
   }
 }
