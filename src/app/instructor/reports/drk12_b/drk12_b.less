@@ -22,6 +22,9 @@
   margin-right: auto;
   overflow-x: hidden;
   padding: 38px 47px 60px 47px;
+  @media print {
+    padding: 38px 20px 60px 20px;
+  }
 }
 
 .gl-drk12-l-container > h1 {
@@ -439,18 +442,31 @@
 // Table (Override of .gl-reports-table)
 .table.gl-drk12-table {
   font-size: 12px;
+  @media print {
+    font-size: 8px;
+  }
   tr th {
     font-weight: 500;
     text-align: center;
     width: 39px;
+    @media print {
+      width: 27px;
+    }
   }
   tr th:first-child, tr td:first-child {
     padding-left: 16px;
     text-align: left;
     width: 165px;
+    @media print {
+      padding-left: 8px;
+      width: 50px;
+    }
   }
   tr th:last-child, tr td:last-child {
     width: 80px;
+    @media print {
+      width: 25px;
+    }
   }
   tr th:last-child {
     text-align: left;
@@ -464,6 +480,9 @@
       border-left: 1px solid @grey5;
       border-right: 1px solid @grey6;
       padding: 8px 16px;
+      @media print {
+        padding: 8px;
+      }
     }
   }
   td.disabled, th.disabled {
@@ -485,7 +504,6 @@
       background-color: #fff;
       color: @competency-green;
       cursor: pointer;
-      font-size: 12px;
       font-weight: bold;
       &:hover {
         background-color: @competency-green;
@@ -496,7 +514,6 @@
       background-color: #fff;
       color: @competency-drkYellow;
       cursor: pointer;
-      font-size: 12px;
       font-weight: bold;
       &:hover {
         background-color: @competency-drkYellow;
@@ -506,13 +523,11 @@
     &.Advancing-average, .Advancing-average {
       background-color: #fff;
       color: @competency-green;
-      font-size: 12px;
       font-weight: bold;
     }
     &.NeedSupport-average, .NeedSupport-average {
       background-color: #fff;
       color: @competency-drkYellow;
-      font-size: 12px;
       font-weight: bold;
     }
   }

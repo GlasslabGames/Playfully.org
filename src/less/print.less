@@ -1,5 +1,5 @@
 @media print {
-  @page {size: landscape}
+  @page {size: portrait}
 
   hr {
     display: none;
@@ -7,7 +7,9 @@
 
   .container {
     margin: 0;
-    width: 940px !important;
+    min-width: 670px !important;
+    max-width: 670px !important;
+    width: 670px !important;
   }
 
   .gl-navbar--top {
