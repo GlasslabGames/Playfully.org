@@ -792,6 +792,9 @@ tr + tr.no-repeated-tr-content {
     width: 100%;
     >div {
       margin-bottom: 16px;
+      @media print {
+        margin-bottom: 8px;
+      }
     }
     table {
       width: 100%;
@@ -801,11 +804,20 @@ tr + tr.no-repeated-tr-content {
     display: inline-block;
     vertical-align: top;
     width: 408px;
+    @media print {
+      width: 48%;
+    }
     &:first-of-type {
       margin-right: 23px;
+      @media print {
+        margin-right: 2%;
+      }
     }
     >div {
       margin-bottom: 16px;
+      @media print {
+        margin-bottom: 8px;
+      }
     }
   }
   table {
@@ -815,6 +827,10 @@ tr + tr.no-repeated-tr-content {
       font-size: 12px;
       padding: 16px;
       vertical-align: text-top;
+      @media print {
+        font-size: 8px;
+        padding: 8px;
+      }
     }
   }
 }
