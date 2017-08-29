@@ -1,48 +1,81 @@
 <div class="report-body gl-drk12-l-drillDown-container gl-drk12-base">
     <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill, anchor: 'drilldown'})" target="_reportHelper">Report Helper</a>
-    <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
-    <div class="gl-drk12-heading-secondary-small">
-        <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-        <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
-            {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
-        </span>
+    <div class="drk-l-drilldown-header-container">
+        <div>
+            <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
+        </div>
+        <div>
+            <div class="gl-drk12-heading-secondary-small">
+                <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
+                <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
+                    {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                </span>
+            </div>
+        </div>
     </div>
 
-    <span ng-include="'instructor/reports/drk12_b/drilldownMissionInformationTemplates/mission' + selectedMission.mission + '.html'"></span>
-
-    <div class="gl-drk12-l-drillDown-skillcard-container">
-        <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
-            <div class="gl-drk12-tableHeader-background">
-                <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
-                    {{subSkillDetail.description}}
-                    <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+    <div class="drk-l-drilldown-main-container">
+        <div>
+            <p class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].title}}</p>
+            <div class="gl-drk12-text">
+                <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
+                <div>{{magicMissionDetails[selectedMission.mission].objectiveString}}
+                    <ul>
+                        <li ng-repeat="claim in magicMissionDetails[selectedMission.mission].objectiveClaims">{{claim}}</li>
+                    </ul>
                 </div>
-                <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
-                    {{subSkillDetail.description}}
-                    <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
-                </div>
-                <div ng-if="subSkillDetail.subDescription" class="gl-drk12-text-small">({{subSkillDetail.subDescription}})</div>
-                <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
-                <div class="gl-drk12-heading-secondary" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
             </div>
-            <div>
-                <img ng-src="/assets/drk_{{skillKey}}.png" height="82px" width="82px">
-                <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
-                    <span class="gl-drk12-text-small">Attempts:</span>
-                    <div style="margin: 6px 0;">
-                        {{subSkillDetail.correct}}
-                        <div class="padding-sides-15">/</div>
-                        {{subSkillDetail.attempts}}
+            <div class="gl-drk12-flexrow">
+                <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
+                    <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
+                </button>
+                <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+            <span class="gl-drk12-legenditem">
+                <img src="/assets/icon-flag.svg">
+                <span>Critical Question Enabled</span>
+            </span>
+        </span>
+            </div>
+            <ul collapse="collapse" class="gl-drk12-text-small">
+                <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces">{{evidencePiece}}</li>
+            </ul>
+        </div>
+        <div>
+            <div class="gl-drk12-l-drillDown-skillcard-container">
+                <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
+                    <div class="gl-drk12-tableHeader-background">
+                        <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
+                            {{subSkillDetail.description}}
+                            <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                        </div>
+                        <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
+                            {{subSkillDetail.description}}
+                            <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                        </div>
+                        <div ng-if="subSkillDetail.subDescription" class="gl-drk12-text-small">({{subSkillDetail.subDescription}})</div>
+                        <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
+                        <div class="drk-successRateText" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
                     </div>
-                    <div class="gl-drk12-text-small">
-                        <div>Correct</div>
-                        <div style="margin-left: 14px">Total</div>
-                    </div>
-                </div>
-                <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="subSkillDetail.locked">
-                    <img src="/assets/icon-lock-small.svg" height="32px" width="32px">
-                    <div class="font16px">
-                        Locked
+                    <div>
+                        <img ng-src="/assets/drk_{{skillKey}}.png" class="drk-skill-icon">
+                        <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
+                            <span class="gl-drk12-text-small">Attempts:</span>
+                            <div style="margin: 6px 0;">
+                                {{subSkillDetail.correct}}
+                                <div class="padding-sides-15">/</div>
+                                {{subSkillDetail.attempts}}
+                            </div>
+                            <div class="gl-drk12-text-small">
+                                <div>Correct</div>
+                                <div style="margin-left: 14px">Total</div>
+                            </div>
+                        </div>
+                        <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="subSkillDetail.locked">
+                            <img src="/assets/icon-lock-small.svg" height="32px" width="32px">
+                            <div class="font16px">
+                                Locked
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

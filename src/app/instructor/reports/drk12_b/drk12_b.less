@@ -104,14 +104,24 @@
   color: @grey2;
   font-size: 16px;
   padding: 30px 47px 45px 47px;
+  @media print {
+    font-size: 10px;
+    padding: 40px;
+  }
 }
 
 .gl-drk12-l-drillDown-container > h1 {
   margin-bottom: 16px;
+  @media print {
+    margin-bottom: 0;
+  }
 }
 
 .gl-drk12-l-drillDown-container > div:first-of-type {
   margin: 16px 0;
+  @media print {
+    margin: 0 0 16px 0;
+  }
 }
 
 .gl-drk12-l-drillDown-container > span:first-of-type p:first-of-type {
@@ -126,6 +136,29 @@
   width: 660px;
 }
 
+.drk-l-drilldown-header-container {
+  display: flex;
+  flex-direction: column;
+  @media print {
+    flex-direction: column-reverse;
+  }
+}
+
+.drk-l-drilldown-main-container {
+  display: flex;
+  flex-direction: column;
+  @media print {
+    flex-direction: row;
+    > div:first-of-type {
+      flex-basis: 66%;
+      padding-right: 40px;
+    }
+    > div:last-of-type {
+      flex-basis: 33%;
+    }
+  }
+}
+
 // Container Drilldown Skillcards (Layout)
 
 .gl-drk12-l-drillDown-skillcard-container {
@@ -134,6 +167,9 @@
   justify-content: space-between;
   margin-top: 15px;
   width: 100%;
+  @media print {
+    flex-direction: column;
+  }
 }
 
 .gl-drk12-l-drillDown-skillcard-container > div {
@@ -142,6 +178,10 @@
   min-height: 130px;
   margin-bottom: 24px;
   width: 410px;
+  @media print {
+    min-height: 0;
+    width: auto;
+  }
 }
 
 .gl-drk12-l-drillDown-skillcard-container > div > div:first-child {
@@ -155,6 +195,10 @@
   }
   .gl-drk12-drillDown-skillcard-successRate {
     font-size: 20px;
+  }
+  @media print {
+    width: 33%;
+    padding: 15px 0;
   }
 }
 
@@ -173,6 +217,15 @@
     .largeText {
       font-size: 16px;
     }
+    @media print {
+      height: inherit;
+      padding-top: 0;
+      width: 66%;
+    }
+  }
+  @media print {
+    margin: auto 8px;
+    width: 66%;
   }
 }
 
@@ -210,9 +263,13 @@
   font-family: bitter, serif;
   margin: 0;
   text-align: left;
-  &.h1 {
+  h1& {
     font-size: 32px;
     line-height: 40px;
+    @media print {
+      font-size: 20px;
+      line-height: 24px;
+    }
   }
 }
 
@@ -226,6 +283,9 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
+  @media print {
+    font-size: 14px;
+  }
 }
 
 .drk-emphasized-background {
@@ -630,9 +690,13 @@
   height: 100%;
 }
 
-// TODO: Update this styling to be within the existing system
-.floatRight {
-  float: right;
+.drk-skill-icon {
+  height: 82px;
+  width: 82px;
+  @media print {
+    height: 40px;
+    width: 40px;
+  }
 }
 
 .fontGrey2 {
@@ -792,6 +856,8 @@ div.popover-content {
   padding: 0 16px 16px 16px;
 }
 
+// End overrides
+
 .gl-drk12-dropdowntextbutton {
   text-align: left;
 }
@@ -807,6 +873,16 @@ div.popover-content {
   }
 }
 
+.drk-successRateText {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  @media print {
+    font-size: 10px;
+    font-weight: normal;
+  }
+}
+
 .gl-drk12-title {
   font-size: 16px;
 }
@@ -816,6 +892,9 @@ div.popover-content {
   text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
+  }
+  @media print {
+    font-size: inherit;
   }
 }
 
@@ -829,6 +908,10 @@ div.popover-content {
   .emphasis {
     font-weight: 400;
   }
+  @media print {
+    font-size: 10px;
+    line-height: 16px;
+  }
 }
 
 .gl-drk12-text-small {
@@ -838,6 +921,10 @@ div.popover-content {
     > li {
       margin-bottom: 8px;
     }
+  }
+  @media print {
+    font-size: 8px;
+    font-weight: normal;
   }
 }
 
@@ -860,6 +947,11 @@ div.popover-content {
 
   .btn {
     border: 0;
+  }
+
+  .collapse { // override for bootstrap accordion/collapse
+    display: block !important;
+    height: auto !important;
   }
 
   .gl-drk12-l-container > h1 {
