@@ -10,10 +10,7 @@
             <div class="gl-drk12-l-containerclass">
                 <div id="drk12_bChart" class="gl-drk12-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
                 <div class="drk-emphasized-background">
-                    <h1 class="gl-drk12-heading">Skill</h1>
-                    <p class="gl-drk12-text">
-                        A skill determines one of four types of educational content within Argubot Academy.
-                    </p>
+                    <h1 class="gl-drk12-heading" style="padding-bottom: 1em;">Performance on Most Recent Mission</h1>
                     <div class="drk-piechartskilllevel drk-l-piecharts">
                         <div ng-repeat="(key, skill) in skills.options">
                             <div ng-attr-id="{{'courseSkill_' + key}}"></div>
@@ -30,7 +27,7 @@
                     <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan (Not Completed)</a>
                     <button class="btn btn-primary hide-for-printing">Print</button>
                 </div>
-                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small hide-for-printing">Sub Skill</h2>
+                <h2 class="gl-drk12-heading gl-drk12-heading-secondary-small hide-for-printing">Filter data by:</h2>
                 <div>
                     <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
                         <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"

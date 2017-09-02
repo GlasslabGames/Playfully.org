@@ -47,12 +47,12 @@ angular.module( 'instructor.reports')
                 skills: [
 	                {
 		                key: "FUSE_CORE",
-		                description: "Evidence",
+		                description: "Built",
                         subDescription: "Built core arguments using relevant and supporting evidence"
 	                },
                     {
                         key: "CORE_ATTACK",
-                        description: "Contradictory",
+                        description: "Attacked",
                         subDescription: "Attacked irrelevant and contradictory evidence in opponent core arguments"
                     }
                 ]

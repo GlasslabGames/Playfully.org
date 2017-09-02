@@ -30,11 +30,11 @@
                     <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
                 </button>
                 <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
-            <span class="gl-drk12-legenditem">
-                <img src="/assets/icon-flag.svg">
-                <span>Critical Question Enabled</span>
-            </span>
-        </span>
+                    <span class="gl-drk12-legenditem">
+                        <img src="/assets/icon-flag.svg">
+                        <span>Critical Question Enabled</span>
+                    </span>
+                </span>
             </div>
             <ul collapse="collapse" class="gl-drk12-text-small">
                 <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces">{{evidencePiece}}</li>
@@ -113,7 +113,7 @@
     <!-- If skill 2 (Claims and Evidence) -->
     <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
         <div  class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Player Claim Cores Generated</div>
+            <div class="gl-drk12-heading-secondary-small">Player Claim Cores Built</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
                     <tr>
@@ -136,7 +136,7 @@
         </div>
 
         <div class="gl-drk12-doubleTable">
-            <div class="gl-drk12-heading-secondary-small">Opponent Claim Cores Critiqued</div>
+            <div class="gl-drk12-heading-secondary-small">Opponent Claim Cores Attacked</div>
             <table>
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
@@ -230,6 +230,7 @@
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Opponent's Critical Question</th>
+                        <th class="gl-drk12-bold">Evidence Chosen by Player</th>
                         <th class="gl-drk12-bold">Backing Used by Player</th>
                         <th class="gl-drk12-bold">Successfully Defended?</th>
                     </tr>
@@ -237,6 +238,7 @@
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                         <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
+                        <td ng-bind-html="dataIdToMagicString(attempt.dataId)"></td>
                         <td ng-bind-html="backingIdToMagicString(attempt.backingId)"></td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
