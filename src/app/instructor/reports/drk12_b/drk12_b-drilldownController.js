@@ -199,7 +199,7 @@ angular.module( 'instructor.reports')
                     "Our AUTHORITY on fun says SimCityEDU is the ONLY vintage game that kids will enjoy.",
                     "Betty White, an AUTHORITY on entertainment, says television can be an art.",
                     "One game AUTHORITY - DR. S. Hoyle - says Temple Run puts people to sleep.",
-                    "[[ DATA NEEDED ]]", // TODO
+                    "We OBSERVED that people on Earth thought Temple Run was better than any other vintage game.",
                     "A big improvement in your reaction time is a CONSEQUENCE of playing Temple Run.",
                     "As a CONSEQUENCE of playing Minecraft, many kids develop creativity and tenacity.",
                     "A CONSEQUENCE of playing SimCityEDU is improved understanding of how cities work.",
