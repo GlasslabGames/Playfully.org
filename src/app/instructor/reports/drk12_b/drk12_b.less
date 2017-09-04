@@ -545,7 +545,7 @@
       }
     }
   }
-  td.disabled, th.disabled {
+  td.disabled, td.NotAvailable, th.disabled, th.NotAvailable {
     background-color: @grey8 !important; // important to preserve through printing
     color: @grey5 !important; // important to preserve through printing
   }
@@ -730,7 +730,7 @@ tr + tr.no-repeated-tr-content {
 }
 
 // http://stackoverflow.com/questions/30479105/angularjs-ng-disabled-not-working-for-anchor-tag
-.disabled {
+.disabled, .NotAvailable {
   cursor: not-allowed;
 }
 
@@ -978,7 +978,7 @@ div.popover-content {
     padding-top: 8px;
   }
 
-  .table.gl-drk12-table td.disabled, .table.gl-drk12-table th.disabled {
+  .table.gl-drk12-table td.disabled, .table.gl-drk12-table td.NotAvailable, .table.gl-drk12-table th.disabled, .table.gl-drk12-table th.NotAvailable {
     * {
       color: @grey5 !important; // important to withstand default printing styles
     }
