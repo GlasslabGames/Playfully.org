@@ -295,11 +295,12 @@
 
 .drk-text-button-group {
   display: flex;
+  justify-content: space-between;
+  > :last-child {
+    flex-shrink: 0;
+  }
   a {
     margin-left: 8px;
-    &:first-of-type {
-      margin-left: 60px;
-    }
   }
   button {
     margin-left: 8px;
@@ -767,6 +768,18 @@ tr + tr.no-repeated-tr-content {
 
 .gl-drk12-tableHeader-background {
   background-color: @grey8;
+}
+
+.drk-skill-selector {
+  background-color: @aquaBlue;
+  color: white;
+  cursor: pointer;
+  &.disabled {
+    background-color: @grey5;
+    border-color: @grey5;
+    cursor: not-allowed;
+    pointer-events: initial;
+  }
 }
 
 .gl-drk12-transcript {

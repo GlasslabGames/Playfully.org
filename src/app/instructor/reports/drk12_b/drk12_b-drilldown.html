@@ -1,8 +1,17 @@
 <div class="report-body gl-drk12-l-drillDown-container gl-drk12-base">
-    <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill, anchor: 'drilldown'})" target="_reportHelper">Report Helper</a>
     <div class="drk-l-drilldown-header-container">
         <div>
-            <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
+            <div class="drk-text-button-group">
+                <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
+                <div>
+                    <button class="btn drk-button-primary drk-skill-selector previous" ng-class="{'disabled': missionNumber == missionList[0]}" ng-click="navigateToMission(false)">
+                        <span class="fa fa-caret-left"></span> {{calculateMissionNavigationButtonText(false)}}
+                    </button>
+                    <button class="btn drk-button-primary drk-skill-selector next" ng-class="{'disabled': missionNumber == nextMission}" ng-click="navigateToMission(true)">
+                        {{calculateMissionNavigationButtonText(true)}} <span class="fa fa-caret-right"></span>
+                    </button>
+                </div>
+            </div>
         </div>
         <div>
             <div class="gl-drk12-heading-secondary-small">
@@ -15,10 +24,17 @@
     </div>
 
     <div class="drk-l-drilldown-main-container">
-        <div>
-            <p class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].title}}</p>
+        <div> <!-- empty div for flexbox -->
+            <h2 class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].title}}</h2>
             <div class="gl-drk12-text">
-                <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
+                <div class="drk-text-button-group">
+                    <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
+                    <div>
+                        <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
+                        <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan (Not Completed)</a>
+                        <button class="btn btn-primary hide-for-printing">Print</button>
+                    </div>
+                </div>
                 <div>{{magicMissionDetails[selectedMission.mission].objectiveString}}
                     <ul>
                         <li ng-repeat="claim in magicMissionDetails[selectedMission.mission].objectiveClaims">{{claim}}</li>
