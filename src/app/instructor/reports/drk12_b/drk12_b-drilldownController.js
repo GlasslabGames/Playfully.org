@@ -17,6 +17,35 @@ angular.module( 'instructor.reports')
 
         $scope.selectedMission = selectedStudentData.missions.find(function(missionObject) { return "" + missionObject.mission === "" + $stateParams.mission; });
 
+        var sortStringsAndNumbers = function(first, second) {
+            if (typeof first.mission === 'number') {
+                if (typeof second.mission === 'number') {
+                    return first.mission - second.mission;
+                } else if (typeof second.mission === 'string') {
+                    return -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else if (typeof first.mission === 'string') {
+                if (typeof second.mission === 'number') {
+                    return 1;
+                } else if (typeof second.mission === 'string') {
+                    return first.mission < second.mission ? 1 : -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else {
+                console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', first);
+                return 0;
+            }
+        };
+
+        selectedStudentData.missions.sort(function(first, second) {
+            return sortStringsAndNumbers(first, second);
+        });
+
         //////////////////// Magic Data of Various Sorts ////////////////////////////////////////
         var magicSkillValues = [
             {
@@ -100,8 +129,6 @@ angular.module( 'instructor.reports')
                 ]
             }
         ];
-
-        $scope.missionList = ["ST", "1", "2", "3", "4", "5", "6", "BT", "7", "8", "9", "10", "11", "12", "13"];
 
         $scope.magicMissionDetails = {
             ST: {
@@ -1609,55 +1636,21 @@ angular.module( 'instructor.reports')
         };
 
         $scope.navigateToMission = function(shouldIncrement) {
-            // Relies on calculateMissionNavigationButtonText() to populate nextMission and previousMission
+            if (($scope.selectedMission.mission === 1 && !shouldIncrement) || ($scope.selectedMission.mission === "BT" && shouldIncrement)) {
+                return;
+            }
+
+            var indexOfMission = selectedStudentData.missions.findIndex(function(missionObject) {
+                return missionObject.mission === $scope.selectedMission.mission;
+            });
+
             $state.go('root.reports.details.drk12_b_drilldown', {
                 gameId: $stateParams.gameId,
                 courseId: $stateParams.courseId,
                 studentId: $stateParams.studentId,
                 skill: $stateParams.skill,
-                mission: shouldIncrement ? "" + $scope.nextMission : "" + $scope.previousMission
+                mission: selectedStudentData.missions[shouldIncrement ? ++indexOfMission : --indexOfMission].mission
             });
-        };
-
-        $scope.calculateMissionNavigationButtonText = function(shouldIncrement, previousMissionArrayIndex) {
-            if (!previousMissionArrayIndex) {
-                previousMissionArrayIndex = $scope.missionList.indexOf($stateParams.mission);
-            }
-            var missionArrayIndexToTest = modifyMissionNumber(shouldIncrement, previousMissionArrayIndex);
-
-            if (missionArrayIndexToTest === 'fail') {
-                if (shouldIncrement) {
-                    $scope.nextMission = $scope.missionNumber;
-                } else {
-                    $scope.previousMission = $scope.missionNumber;
-                }
-                return shouldIncrement ? 'Next' : 'Previous';
-            } else {
-                // Test if there is real data in this new mission
-                if (!selectedStudentData.missions[missionArrayIndexToTest] || !selectedStudentData.missions[missionArrayIndexToTest].skillLevel || !selectedStudentData.missions[missionArrayIndexToTest].skillLevel[$scope.selectedSkill]) {
-                    return $scope.calculateMissionNavigationButtonText(shouldIncrement, missionArrayIndexToTest);
-                }
-
-                var missionData = selectedStudentData.missions[missionArrayIndexToTest].skillLevel[$scope.selectedSkill];
-                if (missionData.level === 'NotAttempted' || missionData.level === 'NotAvailable') {
-                    return $scope.calculateMissionNavigationButtonText(shouldIncrement, missionArrayIndexToTest);
-                } else {
-                    if (shouldIncrement) {
-                        $scope.nextMission = selectedStudentData.missions[missionArrayIndexToTest].mission;
-                    } else {
-                        $scope.previousMission = selectedStudentData.missions[missionArrayIndexToTest].mission;
-                    }
-                    return 'mission ' + selectedStudentData.missions[missionArrayIndexToTest].mission;
-                }
-            }
-        };
-
-        var modifyMissionNumber = function(shouldIncrement, previousMissionArrayIndex) {
-            if ((previousMissionArrayIndex <= 0 && !shouldIncrement) || (previousMissionArrayIndex >= $scope.highestMissionAttempted && shouldIncrement)) {
-                return 'fail';
-            }
-
-            return shouldIncrement ? ++previousMissionArrayIndex : --previousMissionArrayIndex;
         };
 
         ////////////////////////////////////////////////////////////
@@ -1711,7 +1704,7 @@ angular.module( 'instructor.reports')
                             missionDetails[subSkill.key].locked = false;
                         }
                     } else {
-                        console.error('argubotsUnlocked invalid state. Mission: ', mission.mission, " Unlocked: ", selectedStudentData.argubotsUnlocked[subSkill.key]);
+                        console.error('Argubots Unlocked invalid state. Mission: ', mission.mission, " Unlocked: ", selectedStudentData.argubotsUnlocked[subSkill.key]);
                     }
                 } else {
                     missionDetails[subSkill.key].locked = false;
