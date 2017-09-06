@@ -270,7 +270,7 @@ angular.module( 'instructor.reports')
 
             var average = 0;
             if ($scope.selectedSubSkill === 'all') {
-                if (skill.score.attempts === 0) {
+                if (!skill.score || !skill.score.attempts || skill.score.attempts === 0) {
                     return "-";
                 } else {
                     average = skill.average;
