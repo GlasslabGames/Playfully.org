@@ -63,11 +63,11 @@
                         <div class="gl-drk12-tableHeader-background">
                             <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
                                 {{subSkillDetail.description}}
-                                <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                                <img src="/assets/icon-flag.svg" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                             </div>
                             <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
                                 {{subSkillDetail.description}}
-                                <img src="/assets/icon-flag.svg" height="16px" width="16px" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
+                                <img src="/assets/icon-flag.svg" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                             </div>
                             <div ng-if="subSkillDetail.subDescription" class="gl-drk12-text-small">({{subSkillDetail.subDescription}})</div>
                             <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
