@@ -1765,6 +1765,10 @@ angular.module( 'instructor.reports')
 
         $scope.calculdatedDetails = getUpdatedMissionDetails($scope.selectedMission, $scope.selectedSkill);
 
+        $scope.printPage = function() {
+            window.print();
+        };
+
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
             $scope.$broadcast("FOOTERHELPER_CLICKED",  null, $stateParams.skill);
