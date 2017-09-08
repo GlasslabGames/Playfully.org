@@ -321,6 +321,10 @@ angular.module( 'instructor.reports')
             });
         };
 
+        $scope.printPage = function() {
+            window.print();
+        };
+
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
             $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill);
