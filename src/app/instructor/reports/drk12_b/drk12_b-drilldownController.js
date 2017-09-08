@@ -13,7 +13,38 @@ angular.module( 'instructor.reports')
 
         var selectedStudentData = usersData.students.find(function(student) { return student.userId === Number($stateParams.studentId); });
 
+        $scope.highestMissionAttempted = selectedStudentData.currentProgress.mission;
+
         $scope.selectedMission = selectedStudentData.missions.find(function(missionObject) { return "" + missionObject.mission === "" + $stateParams.mission; });
+
+        var sortStringsAndNumbers = function(first, second) {
+            if (typeof first.mission === 'number') {
+                if (typeof second.mission === 'number') {
+                    return first.mission - second.mission;
+                } else if (typeof second.mission === 'string') {
+                    return -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else if (typeof first.mission === 'string') {
+                if (typeof second.mission === 'number') {
+                    return 1;
+                } else if (typeof second.mission === 'string') {
+                    return first.mission < second.mission ? 1 : -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else {
+                console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', first);
+                return 0;
+            }
+        };
+
+        selectedStudentData.missions.sort(function(first, second) {
+            return sortStringsAndNumbers(first, second);
+        });
 
         //////////////////// Magic Data of Various Sorts ////////////////////////////////////////
         var magicSkillValues = [
@@ -1604,10 +1635,22 @@ angular.module( 'instructor.reports')
             108: "Are there important differences between the things you're comparing?"
         };
 
-        $scope.progressTypes = { // TODO: This is redundant. Move to service.
-            Advancing: {class:'Advancing', title: 'Advancing'},
-            NeedSupport: {class:'NeedSupport', title: 'Needs Support'},
-            NotYetAttempted: {class:'NotAttempted', title: 'Not yet attempted / Not enough data'}
+        $scope.navigateToMission = function(shouldIncrement) {
+            if (($scope.selectedMission.mission === 1 && !shouldIncrement) || ($scope.selectedMission.mission === "BT" && shouldIncrement)) {
+                return;
+            }
+
+            var indexOfMission = selectedStudentData.missions.findIndex(function(missionObject) {
+                return missionObject.mission === $scope.selectedMission.mission;
+            });
+
+            $state.go('root.reports.details.drk12_b_drilldown', {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId,
+                studentId: $stateParams.studentId,
+                skill: $stateParams.skill,
+                mission: selectedStudentData.missions[shouldIncrement ? ++indexOfMission : --indexOfMission].mission
+            });
         };
 
         ////////////////////////////////////////////////////////////
@@ -1661,7 +1704,7 @@ angular.module( 'instructor.reports')
                             missionDetails[subSkill.key].locked = false;
                         }
                     } else {
-                        console.error('argubotsUnlocked invalid state. Mission: ', mission.mission, " Unlocked: ", selectedStudentData.argubotsUnlocked[subSkill.key]);
+                        console.error('Argubots Unlocked invalid state. Mission: ', mission.mission, " Unlocked: ", selectedStudentData.argubotsUnlocked[subSkill.key]);
                     }
                 } else {
                     missionDetails[subSkill.key].locked = false;

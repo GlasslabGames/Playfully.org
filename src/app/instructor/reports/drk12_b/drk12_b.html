@@ -65,7 +65,6 @@
                         </span>
                     </div>
                 </div>
-                <a ui-sref="cleanRoot.drk12ReportHelper({location: selectedSkill})" target="_blank">Report Helper</a>
                 <table class="table gl-drk12-table" ng-class="{'gl-reports-table--ie': isIE}">
                     <thead>
                         <tr>
@@ -99,15 +98,15 @@
                             <td class="gl-drk12-table-x-name">{{student.firstName}} {{student.lastName}}</td>
                             <td ng-repeat="mission in student.results.missions"
                                 ng-click="navigateToDrilldown(student, student.results.missions[$index])"
-                                class="{{mission.skillLevel[selectedSkill].level}}"
+                                ng-class="(selectedSubSkill === 'all' ? mission.skillLevel[selectedSkill].level : subSkillPercentToLevel(mission.skillLevel[selectedSkill].detail[selectedSubSkill].correct / mission.skillLevel[selectedSkill].detail[selectedSubSkill].attempts, mission.skillLevel[selectedSkill].level))"
                                 ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
                                 <div ng-if="mission.skillLevel[selectedSkill].level !== 'NotAvailable'">
-                                    {{(mission.skillLevel[selectedSkill].score.correct / mission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="mission.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                                    {{getSkillPercentForSelectedSkill(mission.skillLevel[selectedSkill])}}
                                 </div>
                             </td>
                             <td>
-                                <div class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}-average">
-                                    {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}<span ng-if="student.results.currentProgress.skillLevel[selectedSkill].score.attempts > 0">%</span>
+                                <div ng-class="(selectedSubSkill === 'all' ? student.results.currentProgress.skillLevel[selectedSkill].level + '-average' : subSkillPercentToLevel(student.results.currentProgress.skillLevel[selectedSkill].detail[selectedSubSkill].average / 100, $index) + '-average')">
+                                    {{getSkillAverageForSelectedSkill(student.results.currentProgress.skillLevel[selectedSkill])}}
                                 </div>
                             </td>
                         </tr>

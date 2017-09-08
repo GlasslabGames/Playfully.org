@@ -89,7 +89,6 @@ angular.module( 'instructor.reports')
 
         $scope.games.selectedGameId = defaultGame.gameId; // TODO: This appears to be report agnostic. Why is it placed in each report?
 
-
         // Reports
         $scope.reports.options = [];  // TODO: This appears to be report agnostic. Why is it placed in each report?
 
@@ -100,7 +99,7 @@ angular.module( 'instructor.reports')
                 if (reportId === report.id) {
                     $scope.reports.selected = report;
 
-                    usersData.courseProgress.forEach(function(missionObject) {
+                    usersData.courseProgress.forEach(function(missionObject) { // This is somewhat perverse logic using info.json
                         if ($scope.reports.selected.skills) {
                             if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[0]].missions.indexOf(missionObject.mission) === -1) {
                                 missionObject[Object.keys($scope.skills.options)[0]] = {disabled: true};
@@ -149,44 +148,6 @@ angular.module( 'instructor.reports')
                             student.results.missions.sort(function(first, second) {
                                 return sortStringsAndNumbers(first, second);
                             });
-
-                            var skill1Name = Object.keys($scope.skills.options)[0]; var skill1Correct = 0; var skill1Attempts = 0;
-                            var skill2Name = Object.keys($scope.skills.options)[1]; var skill2Correct = 0; var skill2Attempts = 0;
-                            var skill3Name = Object.keys($scope.skills.options)[2]; var skill3Correct = 0; var skill3Attempts = 0;
-                            var skill4Name = Object.keys($scope.skills.options)[3]; var skill4Correct = 0; var skill4Attempts = 0;
-
-                            student.results.missions.forEach(function(missionRecord) {
-                                if (missionRecord.skillLevel[skill1Name].score.attempts > 0) {
-                                    skill1Correct += missionRecord.skillLevel[skill1Name].score.correct;
-                                    skill1Attempts += missionRecord.skillLevel[skill1Name].score.attempts;
-                                }
-                                if (missionRecord.skillLevel[skill2Name].score.attempts > 0) {
-                                    skill2Correct += missionRecord.skillLevel[skill2Name].score.correct;
-                                    skill2Attempts += missionRecord.skillLevel[skill2Name].score.attempts;
-                                }
-                                if (missionRecord.skillLevel[skill3Name].score.attempts > 0) {
-                                    skill3Correct += missionRecord.skillLevel[skill3Name].score.correct;
-                                    skill3Attempts += missionRecord.skillLevel[skill3Name].score.attempts;
-                                }
-                                if (missionRecord.skillLevel[skill4Name].score.attempts > 0) {
-                                    skill4Correct += missionRecord.skillLevel[skill4Name].score.correct;
-                                    skill4Attempts += missionRecord.skillLevel[skill4Name].score.attempts;
-                                }
-                            });
-
-                            if (student.results.currentProgress.skillLevel[skill1Name]) {
-                                student.results.currentProgress.skillLevel[skill1Name].average = (skill1Correct / skill1Attempts) * 100;
-                            }
-                            if (student.results.currentProgress.skillLevel[skill2Name]) {
-                                student.results.currentProgress.skillLevel[skill2Name].average = (skill2Correct / skill2Attempts) * 100;
-                            }
-                            if (student.results.currentProgress.skillLevel[skill3Name]) {
-                                student.results.currentProgress.skillLevel[skill3Name].average = (skill3Correct / skill3Attempts) * 100;
-                            }
-                            if (student.results.currentProgress.skillLevel[skill4Name]) {
-                                student.results.currentProgress.skillLevel[skill4Name].average = (skill4Correct / skill4Attempts) * 100;
-                            }
-
                         } else {
                             student.results = { currentProgress: { mission: 0, skillLevel: {} } };
                         }
@@ -229,7 +190,6 @@ angular.module( 'instructor.reports')
             $event.stopPropagation();
             $scope.selectedSubSkill = subSkillKey;
             $scope.skills.isDropdownOpen = false;
-            alert('not implemented yet');
         };
 
         $scope.sortingData = {
@@ -277,30 +237,73 @@ angular.module( 'instructor.reports')
             }
         };
 
+        $scope.getSkillPercentForSelectedSkill = function(skill) {
+            if (!skill || skill.level === "NotAvailable") {
+                return "";
+            } else if (skill.level === "NotAttempted") {
+                return "-";
+            }
+
+            var score = 0;
+            if ($scope.selectedSubSkill === 'all') {
+                if (skill.score.attempts === 0) {
+                    return "-";
+                } else {
+                    score = (skill.score.correct / skill.score.attempts) * 100;
+                }
+            } else {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                    return "-";
+                } else {
+                    score = (skill.detail[$scope.selectedSubSkill].correct / skill.detail[$scope.selectedSubSkill].attempts) * 100;
+                }
+            }
+            return score.toFixed(0) + "%";
+        };
+
+        $scope.getSkillAverageForSelectedSkill = function(skill) {
+            if (!skill || skill.level === "NotAvailable") {
+                return "-";
+            } else if (skill.level === "NotAttempted") {
+                return "-";
+            }
+
+            var average = 0;
+            if ($scope.selectedSubSkill === 'all') {
+                if (!skill.score || !skill.score.attempts || skill.score.attempts === 0) {
+                    return "-";
+                } else {
+                    average = skill.average;
+                }
+            } else {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                    return "-";
+                } else {
+                    average = skill.detail[$scope.selectedSubSkill].average;
+                }
+            }
+            return average.toFixed(0) + "%";
+        };
+
+        $scope.subSkillPercentToLevel = function(percent, parentSkillLevel) {
+            if (parentSkillLevel === 'NotAvailable') {
+                return "NotAvailable";
+            } else if (percent < 0.7) {
+                return "NeedSupport";
+            } else if (percent >= 0.7) {
+                return "Advancing";
+            } else if (isNaN(percent) && parentSkillLevel !== "NotAvailable") {
+                return "NotAttempted";
+            } else if (isNaN(percent)) {
+                return "NotAvailable";
+            }
+        };
+
         $scope.getPopoverText = function(missionName) {
             if (missionName === 'BT') {
                 return "Bot Trainer 5000 helps students practice critiquing skills";
             } else if (missionName === 'ST') {
                 return "Scheme Trainer helps students practice their argument scheme identification and critical questions";
-            }
-        };
-
-        $scope.toggleHelperFullScreen = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            $scope.isFooterFullScreen = !$scope.isFooterFullScreen;
-
-            if ($scope.isFooterFullScreen) {
-                jQuery('.gl-drk12-footerhelper').addClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').addClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').addClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 1);
-            } else {
-                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 10);
             }
         };
 
