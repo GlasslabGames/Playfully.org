@@ -230,16 +230,17 @@
                 <thead class="gl-drk12-tableHeader-background">
                     <tr>
                         <th class="gl-drk12-bold">Opponent's Critical Question</th>
-                        <th class="gl-drk12-bold">Evidence Chosen by Player</th>
-                        <th class="gl-drk12-bold">Backing Used by Player</th>
+                        <th class="gl-drk12-bold">Evidence Chosen and Backing Used by Player</th>
                         <th class="gl-drk12-bold">Successfully Defended?</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                         <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
-                        <td ng-bind-html="dataIdToMagicString(attempt.dataId)"></td>
-                        <td ng-bind-html="backingIdToMagicString(attempt.backingId)"></td>
+                        <td class="gl-drk12-backing-generated-info">
+                            <p ng-bind-html="dataIdToMagicString(attempt.dataId)"></p>
+                            <p ng-bind-html="backingIdToMagicString(attempt.backingId)"></p>
+                        </td>
                         <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                     </tr>
                     <tr class="no-repeated-tr-content">
