@@ -118,12 +118,12 @@ angular.module( 'instructor.reports')
                 skills: [
                     {
                         key: "CREATED",
-                        description: "Backing to Support Evidence",
+                        description: "Backing Attached",
                         subDescription: "Chose appropriate backing to strengthen a core argument"
                     },
                     {
                         key: "DEFENDED",
-                        description: "Backing to Defend",
+                        description: "Backing Used",
                         subDescription: "Correctly used backing to respond to critical questions"
                     }
                 ]

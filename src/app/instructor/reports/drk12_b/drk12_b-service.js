@@ -18,8 +18,8 @@ angular.module( 'instructor.reports')
                     displayLabel: 'Claims and Evidence',
                     subSkills: {
                         all: "All Sub Skills",
-                        FUSE_CORE: "Evidence",
-                        CORE_ATTACK: "Contradictory"
+                        FUSE_CORE: "Claim Cores Built",
+                        CORE_ATTACK: "Claim Cores Attacked"
                     }
                 },
                 criticalQuestions: {
@@ -36,8 +36,8 @@ angular.module( 'instructor.reports')
                     displayLabel: 'Using Backing',
                     subSkills: {
                         all: "All Sub Skills",
-                        CREATED: "Backing to Support Evidence",
-                        DEFENDED: "Backing to Defend"
+                        CREATED: "Backing Attached Before Battle",
+                        DEFENDED: "Backing Used in Battle"
                     }
                 }
             }
