@@ -13,7 +13,7 @@ angular.module( 'instructor.reports', [
                 abstract: true,
                 url: 'reports',
                 views: {
-                    'main': {
+                    'main@': {
                         templateUrl: 'instructor/reports/reports.html',
                         controller: 'ReportsCtrl'
                     }
