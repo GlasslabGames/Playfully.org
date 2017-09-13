@@ -5,7 +5,7 @@ angular.module( 'playfully.home', ['ui.router'])
   $stateProvider.state( 'root.home', {
     abstract: true,
     views: {
-      'main': {
+      'main@': {
         controller: 'HomeCtrl',
         templateUrl: 'home/home.html'
       }

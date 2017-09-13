@@ -6,7 +6,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/game/:gameId/login',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-login.html',
                     controller: 'sdkv2LoginCtrl'
                 }
@@ -16,7 +16,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/game/:gameId/login/instructor',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-login-instructor.html',
                     controller: 'sdkv2LoginCtrl'
                 }
@@ -26,7 +26,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/game/:gameId/login/student-success',
             data: {hideWrapper: true, authorizedRoles: ['student']},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-login-student-success.html',
                     controller: 'sdkv2LoginStudentSuccessCtrl'
                 }
@@ -41,7 +41,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/game/:gameId/login/instructor-success',
             data: {hideWrapper: true, authorizedRoles: ['instructor', 'admin', 'reseller']},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-login-instructor-success.html',
                     controller: 'sdkv2LoginInstructorSuccessCtrl'
                 }
@@ -51,7 +51,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/login/confirm',
             data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin', 'reseller']},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-password-prompt.html',
                     controller: 'sdkv2LoginConfirmCtrl'
                 }
@@ -66,7 +66,7 @@ angular.module('playfully.login-sdk', ['sdk-js-support'])
             url: '/v2/login/resetdata',
             data: {hideWrapper: true, authorizedRoles: ['student', 'instructor', 'admin', 'reseller']},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'login/v2/sdk-resetdata-prompt.html',
                     controller: 'sdkv2LoginConfirmCtrl'
                 }

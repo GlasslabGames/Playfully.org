@@ -6,7 +6,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/game/:gameId/register',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-register-options.html',
                     controller: 'sdkv2RegisterOptionsModalCtrl'
                 }
@@ -16,7 +16,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/game/:gameId/register/instructor',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-register-instructor.html',
                     controller: 'sdkv2RegisterInstructorCtrl'
                 }
@@ -26,7 +26,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/game/:gameId/register/student',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-register-student.html',
                     controller: 'sdkv2RegisterStudentModalCtrl'
                 }
@@ -36,7 +36,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/register/student/success',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-register-student-success.html',
                     controller: 'sdkv2RegisterStudentModalCtrl'
                 }
@@ -46,7 +46,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/sdk/privacy',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-privacy.html',
                     controller: function ($scope, $stateParams, $window, $previousState) {
                         $scope.goBackState = function () {
@@ -61,7 +61,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/sdk/eula',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-eula.html',
                     controller: function ($scope, $stateParams, $window, $previousState) {
                         $scope.gameId = $stateParams.gameId;
@@ -76,7 +76,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/sdk/terms',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-terms-of-service.html',
                     controller: function ($scope, $stateParams, $window, $previousState) {
                         $scope.gameId = $stateParams.gameId;
@@ -91,7 +91,7 @@ angular.module('playfully.register-sdk', ['register.const','sdk-js-support'])
             url: '/v2/game/:gameId/register/playfully/info',
             data: {hideWrapper: true},
             views: {
-                'main': {
+                'main@': {
                     templateUrl: 'register/v2/sdk-register-playfully-info.html',
                     controller: function ($scope, $stateParams, $window) {
                         $scope.gameId = $stateParams.gameId;

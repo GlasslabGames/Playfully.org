@@ -6,7 +6,7 @@ angular.module('playfully.error', ['ui.router'])
 .config(function config( $stateProvider ) {
     $stateProvider.state('serverError', {
         views: {
-            'main': {
+            'main@': {
                 controller: 'ErrorCtrl',
                 templateUrl: 'error/error.html'
             }

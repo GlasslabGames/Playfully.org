@@ -19,10 +19,9 @@ angular.module('playfully.login', [])
     url: '/login',
     parent: 'sdk',
     data: { hideWrapper: true },
-    views: {
-      'main': {
-        templateUrl: 'login/v1/sdk-login.html',
-          controller: 'sdkLoginCtrl'
+    views: { 'main@': {
+      templateUrl: 'login/v1/sdk-login.html',
+      controller: 'sdkLoginCtrl'
       }
     }
   });
@@ -51,7 +50,7 @@ angular.module('playfully.login', [])
   .state('sdk.sdkLoginStudent', {
     url: '/login/student',
     data: { hideWrapper: true },
-    views: { 'main': loginStudentConfig }
+    views: { 'main@': loginStudentConfig }
   });
 
   // Developer Login
@@ -67,7 +66,7 @@ angular.module('playfully.login', [])
   .state('sdk.sdkLoginDeveloper', {
     url: '/login/developer',
     data: { hideWrapper: true },
-    views: { 'main': loginDeveloperConfig }
+    views: { 'main@': loginDeveloperConfig }
   });
 
   // Edomodo Login
@@ -103,7 +102,7 @@ angular.module('playfully.login', [])
   .state('sdk.sdkAuthEdmodo', {
     url: '/auth/edmodo',
     data: { authorizedRoles: ['student','instructor','developer','admin'], hideWrapper: true },
-    views: { 'main': authEdmodoConfig },
+    views: { 'main@': authEdmodoConfig },
     resolve:  {
       currentUser: function(UserService) {
         return UserService.currentUser();
@@ -117,7 +116,7 @@ angular.module('playfully.login', [])
       url: '/wwf/login',
       data: {hideWrapper: true},
       views: {
-          'main': {
+          'main@': {
               templateUrl: 'login/v1/sdk-wwf-login.html'
           }
       }
@@ -128,7 +127,7 @@ angular.module('playfully.login', [])
     url: '/login/confirm',
     data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin','reseller'] },
     views: {
-      'main': {
+      'main@': {
         templateUrl: 'login/v1/sdk-password-prompt.html',
         controller: 'sdkLoginConfirmCtrl'
       }
@@ -145,7 +144,7 @@ angular.module('playfully.login', [])
     url: '/login/success',
     data: { hideWrapper: true, authorizedRoles: ['student','instructor','admin','reseller'] },
     views: {
-      'main': {
+      'main@': {
         templateUrl: 'login/v1/sdk-login-success.html',
         controller: function($scope, $window, $log, courses) {
           $scope.courses = courses;
@@ -167,7 +166,7 @@ angular.module('playfully.login', [])
     url: '/login/resetdata',
     data: { hideWrapper: true, authorizedRoles: ['student', 'instructor','admin','reseller'] },
     views: {
-      'main': {
+      'main@': {
         templateUrl: 'login/v1/sdk-resetdata-prompt.html',
         controller: 'sdkLoginConfirmCtrl'
       }

@@ -5,7 +5,7 @@ angular.module('developer.reports', ['nvd3'])
         url: 'developer/reports',
         abstract:true,
         views: {
-            'main': {
+            'main@': {
                 templateUrl: 'developer/reports/developer-reports.html'
             }
         },
@@ -32,7 +32,7 @@ angular.module('developer.reports', ['nvd3'])
     .state('root.developerReports.detail', {
         url: '/:gameId/reports',
         views: {
-            'main': {
+            'main@': {
                 templateUrl: 'developer/reports/developer-reports-detail.html',
                 controller: 'DeveloperDetailsCtrl'
             }

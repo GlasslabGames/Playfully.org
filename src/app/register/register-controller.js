@@ -26,7 +26,7 @@ angular.module('playfully.register', ['register.const'])
   .state('sdk.sdkRegisterInstructor', {
     url: '/register/instructor',
     data: { hideWrapper: true },
-    views: { 'main': registerInstructorConfig }
+    views: { 'main@': registerInstructorConfig }
   });
 
 
@@ -41,13 +41,13 @@ angular.module('playfully.register', ['register.const'])
   .state('sdk.sdkRegisterStudent', {
     url: '/register/student',
     data: { hideWrapper: true },
-    views: { 'main': registerStudentConfig }
+    views: { 'main@': registerStudentConfig }
   })
 
   .state('sdk.sdkRegisterStudentSuccess', {
     url: '/register/student/success',
     data: { hideWrapper: true },
-    views: { 'main': {
+    views: { 'main@': {
         templateUrl: 'register/v2/sdk-register-student-success.html',
         controller: 'RegisterStudentModalCtrl'
     } }
@@ -65,7 +65,7 @@ angular.module('playfully.register', ['register.const'])
   .state('sdk.sdkRegisterReseller', {
     url: '/register/reseller',
     data: { hideWrapper: true },
-    views: { 'main': registerResellerConfig }
+    views: { 'main@': registerResellerConfig }
   });
 
 

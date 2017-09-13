@@ -9,7 +9,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             .state('root.subscribe.payment', {
                 url: '/payment',
                 views: {
-                    'main': {
+                    'main@': {
                         templateUrl: 'subscribe/subscribe.html'
                     }
                 },
@@ -188,7 +188,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
                     }
                 } ,
                 views: {
-                    'main': {
+                    'main@': {
                         templateUrl: 'subscribe/packages.html',
                         controller: 'SubscribePackagesCtrl'
                     }

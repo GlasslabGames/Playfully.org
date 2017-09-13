@@ -15,7 +15,7 @@ angular.module('student.courses-sdk', [
             }
         },
         views: {
-            'main': {
+            'main@': {
                 controller: 'sdkv2EnrollInCourseModalCtrl',
                 templateUrl: 'student/courses/v2/sdk-course-enroll.html'
             }

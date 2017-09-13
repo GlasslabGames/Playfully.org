@@ -4,7 +4,7 @@ angular.module('student.messages', [])
         $stateProvider.state('root.studentMessages', {
             url: 'messages',
             views: {
-                'main': {
+                'main@': {
                     controller: 'MessagesStudentCtrl',
                     templateUrl: 'student/messages/student-messages.html'
                 }

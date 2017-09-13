@@ -81,23 +81,7 @@ angular.module( 'playfully', [
         $stateProvider.state('root', {
             url: '/',
             abstract: true,
-            sticky: true,
-            views: {
-                'root@': {
-                    templateUrl: 'mainTemplate.html'
-                }
-            }
-        });
-
-        $stateProvider.state('cleanRoot', {
-            abstract: true,
-            sticky: true,
-            url: '/',
-            views: {
-                'root@': {
-                    template: '<div ui-view="main"></div>'
-                }
-            }
+            sticky: true
         });
 
         $stateProvider.state('modal', {
@@ -284,7 +268,7 @@ angular.module( 'playfully', [
                     authorizedRoles: ['student','instructor']
                 },
                 views: {
-                    'main': {
+                    'main@': {
                         controller: function( $state, $window, currentUser ) {
                             var linkMap = {
                                 "prea": "http://www.surveygizmo.com/s3/2067433/Prima-Beta-Pre-Test-FormA",
