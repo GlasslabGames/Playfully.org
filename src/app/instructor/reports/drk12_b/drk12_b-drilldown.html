@@ -54,15 +54,16 @@
                 </span>
                 </div>
                 <ul collapse="collapse" class="gl-drk12-text-small">
-                    <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces">{{evidencePiece}}</li>
+                    <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces" ng-bind-html="evidencePiece"></li>
                 </ul>
             </div>
             <div>
                 <div class="gl-drk12-l-drillDown-skillcard-container">
                     <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
                         <div class="gl-drk12-tableHeader-background">
-                            <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-titlecasesingleword">
-                                {{subSkillDetail.description}}
+                            <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small">
+                                <i class="{{'drk-badge-'+subSkillDetail.description}}"></i>
+                                <div class="gl-drk12-titlecasesingleword">{{subSkillDetail.description}}</div>
                                 <img src="/assets/icon-flag.svg" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                             </div>
                             <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
@@ -98,6 +99,7 @@
                 </div>
             </div>
         </div>
+        <hr/>
 
         <!---------------------------------------------- Tables ---------------------------------------------->
 
@@ -115,8 +117,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
-                            <td class="gl-drk12-bottype-casesingleword">{{attempt.botType}}</td>
-                            <td ng-bind-html="dataIdToMagicString(attempt.dataId)"></td>
+                            <td class="drk-nowrap">
+                                <i class="drk-skill-badge {{'drk-badge-'+attempt.botType}}"></i>
+                                <div class="gl-drk12-titlecasesingleword">{{attempt.botType}}</div>
+                            </td>
+                            <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
@@ -141,8 +146,8 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
-                            <td ng-bind-html="claimIdToMagicString(attempt.claimId)"></td>
-                            <td ng-bind-html="dataIdToMagicString(attempt.dataId)"></td>
+                            <td>{{claimIdToMagicString(attempt.claimId)}}</td>
+                            <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
@@ -165,10 +170,10 @@
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                             <td class="gl-drk12-opponent-claim-info">
-                                <p ng-if="claimIdToMagicString(attempt.opponentClaimId)" ng-bind-html="claimIdToMagicString(attempt.opponentClaimId)"></p>
-                                <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)" ng-bind-html="dataIdToMagicString(attempt.opponentBotDataId)"></p>
+                                <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
+                                <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                             </td>
-                            <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
+                            <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
@@ -195,14 +200,15 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
-                            <td>
-                                <div>{{attempt.opponentBotName}}</div>
+                            <td class="drk-nowrap">
+                                <i class="drk-skill-badge {{'drk-badge-'+attempt.opponentBotName}}"></i>
+                                <div class="gl-drk12-titlecasesingleword">{{attempt.opponentBotName}}</div>
                             </td>
                             <td class="gl-drk12-opponent-claim-info">
-                                <p ng-if="claimIdToMagicString(attempt.opponentClaimId)" ng-bind-html="claimIdToMagicString(attempt.opponentClaimId)"></p>
-                                <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)" ng-bind-html="dataIdToMagicString(attempt.opponentBotDataId)"></p>
+                                <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
+                                <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                             </td>
-                            <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
+                            <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
@@ -227,10 +233,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
-                            <td class="gl-drk12-bottype-casesingleword">{{attempt.botType}}</td>
+                            <td class="drk-nowrap">
+                                <i class="drk-skill-badge {{'drk-badge-'+attempt.botType}}"></i>
+                                <div class="gl-drk12-titlecasesingleword">{{attempt.botType}}</div>
+                            </td>
                             <td class="gl-drk12-backing-generated-info">
-                                <p ng-bind-html="dataIdToMagicString(attempt.dataId)"></p>
-                                <p ng-repeat="backing in dataIdToMagicBackingString(attempt.dataId)" ng-bind-html="backing"></p>
+                                <p>{{dataIdToMagicString(attempt.dataId)}}</p>
+                                <p ng-repeat="backing in dataIdToMagicBackingString(attempt.dataId)">{{backing}}</p>
                             </td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
@@ -253,10 +262,10 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
-                            <td ng-bind-html="attackIdToMagicString(attempt.attackId)"></td>
+                            <td>{{attackIdToMagicString(attempt.attackId)}}</td>
                             <td class="gl-drk12-backing-generated-info">
-                                <p ng-bind-html="dataIdToMagicString(attempt.dataId)"></p>
-                                <p ng-bind-html="backingIdToMagicString(attempt.backingId)"></p>
+                                <p>{{dataIdToMagicString(attempt.dataId)}}</p>
+                                <p>{{backingIdToMagicString(attempt.backingId)}}</p>
                             </td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>

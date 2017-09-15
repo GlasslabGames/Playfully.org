@@ -147,6 +147,9 @@
 .drk-l-drilldown-main-container {
   display: flex;
   flex-direction: column;
+  >div >ul li {
+    padding-bottom: 10px;
+  }
   @media print {
     flex-direction: row;
     > div:first-of-type {
@@ -802,13 +805,6 @@ tr + tr.no-repeated-tr-content {
     }
   }
 
-  .gl-drk12-bottype-casesingleword {
-    text-transform: lowercase;
-    &::first-letter {
-      text-transform: uppercase;
-    }
-  }
-
   .gl-drk12-singleTable {
     margin-top: 8px;
     width: 100%;
@@ -855,6 +851,39 @@ tr + tr.no-repeated-tr-content {
       }
     }
   }
+}
+
+.drk-badge-AUTHORITRON:before, &.drk-badge-Authoritron:before {
+  color: @oceanBlue;
+  content: ' \25CF';
+  font-size: 16px;
+  line-height: 12px;
+  padding-right: 2px;
+}
+.drk-badge-OBSERVATRON:before, &.drk-badge-Observatron:before {
+  color: @pink;
+  content: ' \25CF';
+  font-size: 16px;
+  line-height: 12px;
+  padding-right: 2px;
+}
+.drk-badge-CONSEBOT:before, &.drk-badge-Consebot:before {
+  color: @grassGreen;
+  content: ' \25CF';
+  font-size: 16px;
+  line-height: 12px;
+  padding-right: 2px;
+}
+.drk-badge-COMPARIDROID:before, &.drk-badge-Comparidroid:before {
+  color: @competency-orange;
+  content: ' \25CF';
+  font-size: 16px;
+  line-height: 12px;
+  padding-right: 2px;
+}
+
+.drk-nowrap {
+  white-space: nowrap;
 }
 
 .gl-drk12-legenditem {
@@ -926,7 +955,7 @@ div.popover-content {
 }
 
 .gl-drk12-titlecasesingleword {
-  font-size: 16px;
+  display: inline-block;
   text-transform: lowercase;
   &::first-letter {
     text-transform: uppercase;
