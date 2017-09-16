@@ -115,6 +115,9 @@
   &.selected {
     color: @aquaBlueDark;
   }
+  & a {
+    color: @grey2;
+  }
 }
 
 .gl-drk12_b-helperMenuSection {
@@ -142,10 +145,6 @@
     outline: none;
     padding: 0;
     text-align: left;
-    span:first-child {
-      display: inline-block;
-      width: 44px;
-    }
     .emphasis {
       font-weight: 500;
     }
@@ -155,6 +154,9 @@
 .gl-drk12_b-helperMainContent {
   margin: 64px 33px 48px 0;
   width: 576px;
+
+  font-size: 14px;
+  line-height: 24px;
 
   a {
     color: #1c7ebf;
@@ -174,8 +176,9 @@
     line-height: 32px;
   }
 
-  p {
-    font-size: 14px;
+  h4 {
+    font-family: bitter, serif;
+    font-size: 16px;
     line-height: 24px;
   }
 
@@ -229,5 +232,4 @@
   &.gl-drk12_b-selectitem-is-checked {
     background-color: #8cc34a;
   }
-
 }
