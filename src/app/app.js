@@ -496,7 +496,8 @@ angular.module( 'playfully', [
         $rootScope.emailValidationPattern = EMAIL_VALIDATION_PATTERN[ENV.emailPlus];
         $rootScope.features = FEATURES;
 
-
+        // DRK-402 Fix Report Helper bug
+        $scope.isReportHelper = $location.$$path.startsWith("/drk12_b_helper");
 
         if (!$rootScope.allGames) {
             GamesService.all().then(function(data) {

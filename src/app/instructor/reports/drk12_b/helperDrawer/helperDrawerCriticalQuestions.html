@@ -1,150 +1,181 @@
-<div ng-controller="helperCtrl" class="gl-drk12_b-l-helperMenuContainer">
-    <div class="gl-drk12_b-helperMenu" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
-        <button ng-click="changeSection('reportHelper')" class="gl-drk12_b-helperMenuTitle" type="button"><i class="fa fa-caret-left"></i>Critical Questions</button>
-        <div class="gl-drk12_b-helperMenu-x-items">
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step1collapse = !step1collapse" ng-init="step1collapse = false" type="button">Step 1: Where Are We Going?</button>
-                <ul collapse="step1collapse">
-                    <li><button ng-click="gotoLocation(ids[1])" type="button">In Brief</button></li>
-                    <li>
-                        <button ng-click="gotoLocation(ids[2])" type="button">Deepen your knowledge about this skill</button>
-                        <ul>
-                            <li><button ng-click="gotoLocation(ids[3])">What does asking critical questions look like in the real world?</button></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <button ng-click="gotoLocation(ids[4])" type="button">More About Critical Questions</button>
-                        <ul>
-                            <li><button ng-click="gotoLocation(ids[5])" type="button">What does asking critical questions look like in the game?</button></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step2collapse = !step2collapse" ng-init="step2collapse = true" type="button">STEP 2: Where Are We Now?</button>
-                <ul collapse="step2collapse">
-                    <li><button ng-click="gotoLocation(ids[7])" type="button">What Data are Available About This Skill?</button></li>
-                </ul>
-            </div>
-            <div class="gl-drk12_b-helperJumpNav">
-                <button ng-click="step3collapse = !step3collapse" ng-init="step3collapse = true" type="button">STEP 3: How Do We Get From Here to Where We Need to Go?</button>
-                <ul collapse="step3collapse">
-                    <li><button ng-click="gotoLocation(ids[9])" type="button">Why Might Students Struggle With This skill?</button></li>
-                    <li><button ng-click="gotoLocation(ids[10])" type="button">Planning for Changes to Instruction</button></li>
-                    <li><button ng-click="gotoLocation(ids[11])" type="button">Plans for Using Differentiation Materials</button></li>
-                </ul>
-            </div>
+<div ng-controller="helperCtrl" class="drk-l-subpageLayout">
+    <div class="gl-drk12_b-helperMenu">
+        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'connectingEvidence'})">Argument Schemes</a></div>
+        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'supportingClaims'})">Claims and Evidence</a></div>
+        <h2 class="gl-drk12_b-helperMenuTitle selected" aria-label="Index of critical question topics">Critical Questions</h2>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[0])">
+                <span class="emphasis">I. Focus on the learning goals for this skill</span>
+            </button>
         </div>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[6])">
+                <span class="emphasis">II. Check on student progress with this skill</span>
+            </button>
+        </div>
+        <div class="gl-drk12_b-helperJumpNav">
+            <button type="button" ng-click="gotoLocation(ids[11])">
+                <span class="emphasis">Instruction Plan</span>
+            </button>
+        </div>
+        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'usingBacking'})">Backing</a></div>
     </div>
-    <div class="gl-drk12_b-helperMainContent" ng-class="{'fullscreen': isFooterFullScreen}"> <!-- TODO: Remove when modals are removed -->
+    <div class="gl-drk12_b-helperMainContent">
         <div class="gl-drk12_b-helperMainContent-x-container">
-            <h1 ng-attr-id="{{ids[0]}}">STEP 1: Where Are We Going?</h1>
-            <p><strong>Familiarize yourself with how this skill fits into the practice of engaging in argument from evidence, and what it looks like when learners use it in the game and in real life.</strong> It's helpful to know what the learning target looks like in practice, before you review gameplay data, to get a sense of how far a student is from achieving the learning goal.</p>
-            <h2 ng-attr-id="{{ids[1]}}">In Brief</h2>
-            <p><strong>Critical questions help arguers evaluate the strength of an argument—either their own or an opponent’s.</strong> The questions are often specific to an argument scheme and help an arguer look for weaknesses and poke holes in arguments by seeing if the evidence is well-supported. By asking critical questions, an arguer can determine exactly how justified a claim really is.</p>
-            <h2 ng-attr-id="{{ids[2]}}">Deepen Your Knowledge About This Skill</h2>
-            <p><a href="/assets/pdfs/drk12_deepenknowledge_critquestions.pdf" target="_blank">Deepen Your Knowledge About: Critical Questions</a></p>
-            <h2 ng-attr-id="{{ids[3]}}">What does asking critical questions look like in the real world?</h2>
-            <p><strong>A student who asks appropriate critical questions understands the argument scheme behind an argument and is aware that the answers to critical questions will either strengthen or weaken the argument.</strong></p>
-            <p>For example:</p>
-            <p>Rhonda listens to her classmate Evelyn make the following argument from observation about a shell inside of a classroom terrarium. “This is the shell of a tortoise. I know that because I can see that the tank is filled mostly with water and some logs and plants.” Rhonda knows that there’s a difference between tortoises and turtles, however. She also realizes that Evelyn is making an argument using evidence based on her observation of the contents of the tank. So, she asks the following critical questions about Evelyn’s evidence (i.e., a shell inside a tank with mostly water): “Could this be the shell of another animal?” “Isn’t the water really more of a sign that this is a turtle shell, because tortoises don’t live in water?” The answers to those critical questions weaken Rhonda’s claim that it’s a tortoise shell.</p>
-            <h2 ng-attr-id="{{ids[4]}}">More About Critical Questions</h2>
-            <p>Students can ask critical questions about the evidence that an arguer uses. As another example, below are four critical questions that a student might ask about the evidence used in an argument from authority.</p>
-            <ol>
-                <li>Is the expert whose statement you’re using as evidence really in a position to know whether your claim is true?</li>
-                <li>Is the expert a trustworthy source?</li>
-                <li>Did the expert assert that your claim is true?</li>
-                <li>Do other experts agree with your expert?</li>
-            </ol>
-            <p>If any of the answers to questions 1–4 is “No,” then an argument is weakened because the evidence is not well-supported. If any of the answers is “Yes,” however, then an argument is strengthened because the evidence is backed up.</p>
-            <p><strong>Using backing</strong>-—another skill that students practice in the game—is closely tied to the activity of asking critical questions. Backing is additional information that strengthens evidence and is a way to respond to critical questions. For example, in response to question #1 above, if a student provides information to show that an expert is world-renowned in a topic, then that student has strengthened her argument.</p>
-            <h2 ng-attr-id="{{ids[5]}}">What does asking critical questions look like in the game?</h2>
-            <p><strong>What does it look like in the game?</strong></p>
-            <p>Players use critical questions in duels. To begin using them, a player must “level up” an argubot by seeing Lucas several times and going through several challenges that involve matching evidence to the appropriate argument scheme. The only way to have access to all critical questions is for the player to level up all four argubots and unlock the corresponding critical questions.</p>
-            <p>Before beginning a duel, the player selects the critical questions he or she wants to use against an opponent. The player should be aware of the opponent’s robot types, as he or she will have to be prepared with the appropriate critical questions if they are to attack the argument and look for weaknesses.</p>
-            <div><img src="/assets/ReportHelper_Image7.png" height="256px" width="341px"></div>
-            <p><strong>Asking critical questions.</strong> When an opponent’s evidence supports and is relevant to their claim, students can use <strong>critical questions</strong> to look for weaknesses in an argument. The critical question they use <strong>must match the argument scheme of the bot they’re attacking.</strong> In this example, the opponent (on the right) is using an “argument from comparison” and either of the critical questions on the left are appropriate.</p>
-            <h1 ng-attr-id="{{ids[6]}}">STEP 2: Where Are We Now?</h1>
-            <p><strong>With the learning target for this skill in mind, see how effectively students are using it in the game.</strong></p>
-            <h2 ng-attr-id="{{ids[7]}}">What Data are Available About This Skill?</h2>
-            <p><strong>PERFORMANCE OVER TIME REPORT</strong></p>
-            <p><strong>What it shows: This report</strong> shows how well students applied this skill on all completed missions in which they had to use it. It also shows how long or how consistently students have been struggling or succeeding with the skill.</p>
-            <p><strong>How you can use it:</strong> The report can help you determine the level of additional support to provide for a student or students. A mix of yellow and green circles could indicate a need to talk with your students to determine why they're struggling.</p>
-            <p><strong>What the icons mean:</strong></p>
+            <h2 ng-attr-id="{{ids[0]}}">I. Focus on the learning goals for this skill</h2>
+            <h3>What are the learning goals for "asking critical questions"?</h3>
             <ul>
-                <li>Green circle (Advancing) = the student completed the mission with a 70% or higher success rate</li>
-                <li>Yellow circle (Needs Support) = the student completed the mission with a 69% or lower success rate</li>
-                <li>Gray circle (Not Enough Data) = there's not yet enough gameplay data from that mission to report</li>
-                <li>Empty circle (Level Not Yet Attempted)</li>
+                <li>Students are able to ask appropriate critical questions based on an opponent's argument scheme</li>
+                <li>Students are able to ask critical questions to look for weaknesses in an argument based on the use of poorly-backed evidence</li>
             </ul>
-            <p ng-attr-id="{{ids[8]}}"><strong>PERFORMANCE DRILL DOWN REPORT</strong></p>
-            <p><strong>This report shows a student’s success rate at asking critical questions that are appropriate to argument schemes. </strong>The success rate displays as a ratio: total number of correct attempts over total number of attempts. The report does not break out success rates by argument scheme. For that reason, you might need to do some follow-up with your students to determine whether they’re struggling with thinking about which questions are appropriate to specific argument schemes. There are materials in Step 3 to help with this.</p>
-            <p><strong>GAMEPLAY TRANSCRIPT</strong></p>
-            <p>This report is currently being designed! Stay tuned</p>
-            <h1>STEP 3: How Do We Get From Here To Where We Need To Go?</h1>
-            <p><strong>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</strong></p>
-            <h2 ng-attr-id="{{ids[9]}}">Why Might Students Struggle With This Skill?</h2>
+            <h3>What are critical questions and why ask them?</h3>
+            <p>Just because an argument uses evidence that's relevant and supports a claim (i.e., it's "good" evidence), it doesn't necessarily mean that it's <em>strong evidence</em>. Asking critical questions helps to evaluate the strength of an argument—either your own or someone else's. Every argument scheme has its own related critical questions. By asking critical questions (and getting answers), an arguer can determine how well justified a claim is by looking for weaknesses. Here are some examples of critical questions for the four argument schemes in the game:</p>
             <ol>
-                <li>They might not understand that critical questions are meant to evaluate evidence, because they do not understand that the quality of evidence is what weakens or strengthens an argument.</li>
-                <li>They might not understand that critical questions are specific to each argument scheme.</li>
-                <li>Students must level-up an argubot type before having access to the corresponding critical questions. Students do not always level-up their bots, however, and in that case they simply won’t have access to the critical questions during a duel.</li>
+                <li>
+                    <strong>Argument from Authority:</strong>
+                    Is this person really an expert? Do other experts agree with this expert?
+                </li>
+                <li>
+                    <strong>Argument from Consequence:</strong>
+                    Are there possible consequences other than the ones you're using as evidence? How likely is it that these consequences will occur?
+                </li>
+                <li>
+                    <strong>Argument from Observation:</strong>
+                    Are there other ways to interpret the observation? How certain is the observation?
+                </li>
+                <li>
+                    <strong>Argument from Comparison:</strong>
+                    Are the two things you're comparing really that similar?
+                </li>
             </ol>
-            <h2 ng-attr-id="{{ids[10]}}">Planning for Changes to Instruction</h2>
-            <p><strong>1. Based on your reading of the data, what challenges, if any, do your students seem to be facing with this skill? What's your diagnosis for why they might be struggling?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>2. What changes, if any, do you plan to make for students who are struggling?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>Additional Materials for Struggling Students</strong></p>
-            <ol>
-                <li>Critical Questions by Scheme Scaffold: When students are having a hard time matching critical questions to argument schemes</li>
-                <li>Strengthening Arguments with Critical Questions and Backing: An activity to help students think about what critical questions they might ask to look for weaknesses in others’ (or their own) arguments</li>
-            </ol>
-            <p><strong>3. What changes, if any, do you plan to make for students who are advancing?</strong></p>
-            <textarea title="text area"></textarea>
-            <p><strong>Additional Materials for Advancing Students</strong></p>
+            <h3>How will being able to ask critical questions help my students?</h3>
+            <p>Kids who can ask appropriate critical questions about an argument are more likely to:</p>
             <ul>
-                <li>Evaluating Evidence 2: Which Protein? and Evaluating Evidence 2: Which Videogame? Activities to help students anticipate critical questions about the evidence they use, as well as for organizing critical questions under different argument schemes</li>
-                <li>Strengthening Arguments with Critical Questions and Backing: This activity can also be used as an enrichment exercise to help students think about what critical questions they might ask to look for weaknesses in others’ (or their own) arguments</li>
+                <li>Identify weak evidence</li>
+                <li>Find holes in others' arguments</li>
+                <li>Try to strengthen evidence to support a claim</li>
+                <li>Anticipate using <em>Backing</em> to help evidence hold up against critical questions</li>
             </ul>
-            <h2 ng-attr-id="{{ids[11]}}">Plans for Using Differentiation Materials</h2>
-            <p><strong>For Struggling Students</strong></p>
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="dateOpen($event)"><i class="fa fa-calendar"></i></button>
-                        </span>
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="someDate" is-open="dateOpened" datepicker-options="dateOptions" close-text="Close" />
-                    </p>
-                </div>
+            <h3>How do players ask critical questions in the game?</h3>
+            <p>
+                Players use critical questions against opponents in duels. To have access to them, a player must "level up" an argubot by seeing Lucas several times and going through challenges that involve matching evidence to the appropriate argument scheme.
+                <strong>The only way to have access to all critical questions is for the player to level up all four argubots and unlock the corresponding critical questions.</strong>
+                For that reason, you should remind your students to level up all of their bots if they can. If they don't level up, they won't have access to the critical questions.
+            </p>
+            <h3>What does asking critical questions look like in the game?</h3>
+            <p>Before beginning a duel, the player selects the critical questions he or she wants to use against an opponent. The player needs to know what robots the opponent is using (i.e., know what types of arguments they're making) so that he or she can ask the appropriate critical questions to attack the argument and look for weaknesses. In the image below, the opponent (on the right) is using an "argument from comparison" and either of the critical questions on the left are appropriate.</p>
+            <div><img src="http://placekitten.com/341/256" alt="need a real image"></div>
+            <h3>What does asking critical questions look like in the real world?</h3>
+            <p>
+                <strong>Here's an example you can use with the class:</strong>
+            </p>
+            <p>Evelyn listens to Roy make an argument from observation about the type of rock that he's holding. Roy says, "This rock is a metamorphic rock. I observed that it's brittle and that it's also hard to scratch. Those are two characteristics of metamorphic rocks, and so I claim that it's a metamorphic rock."</p>
+            <p>Evelyn takes the rock from Roy, looks at it for a minute, and then asks him the following critical question: "<em>How sure are you about this observation</em>?" Then she says (without really waiting for an answer), "First of all, the rock is black. That means that it could be basalt. And basalt is an igneous rock. Also, I can see that the rock has layers. Metamorphic rocks definitely don't have layers. And one more thing—it can't be a sedimentary rock because those are soft and scratch easily. This one is hard and doesn't scratch. This is an igneous rock."</p>
+            <p>By asking that question, Evelyn found a weakness in Roy's argument. Although his observation wasn't wrong, it was incomplete and therefore weakened the argument.</p>
+            <h3>What's the relationship between asking critical questions and using backing?</h3>
+            <p>Students should get in the habit of asking critical questions of their own arguments. If the answers to critical questions are negative an argument is weakened because the evidence is not well-supported. In the example above, the answer to Evelyn's critical question about "How sure are you about this observation" was "not very" because Roy's observation was incomplete. Therefore, the argument was weakened. If the answers to critical questions are positive, however, then an argument is strengthened because the evidence is backed up.</p>
+            <p>
+                <strong>Using backing,</strong>
+                another skill that students practice in the game, is closely tied to asking critical questions. Backing is additional information that strengthens evidence and is a way to respond to critical questions positively, so long as the backing is accurate. Using backing strengthens arguments.
+            </p>
+            <h3>Deepen your knowledge about critical questions</h3>
+            <p>More About this Skill</p>
+            <p>Classroom Modeling Activities for Asking Critical Questions</p>
+            <h2 ng-attr-id="{{ids[6]}}">II. Check on student progress with this skill</h2>
+            <ol>
+                <li>
+                    <h3>How to identify struggling and advancing students</h3>
+                    <ul>
+                        <li>
+                            <strong>Progress on Most Recent Mission:</strong>
+                            A snapshot of how students are doing with asking critical questions on the most recent mission they've played. Don't make too much of it—like many games, students have multiple opportunities to use skills across missions.
+                            <strong>The pie charts only display data about how students did on the most recent relevant mission.</strong>
+                        </li>
+                        <li>
+                            <strong>Performance over Time:</strong>
+                            To see how well students have been doing with asking critical questions in all relevant game missions.
+                            <strong>Remember, students don't necessarily use all skills in all missions.</strong>
+                            <ul>
+                                <li>Use the AVG column (on the right side) to sort student performance by the average success rates from low to high/high to low.</li>
+                                <li>You might start seeing groups of students here—for example, students who seem to be consistently advancing or struggling across multiple missions.</li>
+                                <li>
+                                    <strong>Break it up:</strong>
+                                    Use the "Filter data by" menu (right under the Performance Over Time title) to see how students are doing with asking critical questions
+                                    <strong>for each argument scheme.</strong>
+                                    This is especially helpful with struggling students: you'll be able to see if students are struggling with asking critical questions for just one argument scheme, or multiple schemes.
+                                    <div><img src="http://placekitten.com/345/250" alt="need a real image"></div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 ng-attr-id="{{ids[7]}}">How to look at the data more closely</h3>
+                    <ul>
+                        <li>
+                            <strong>Drill Down:</strong>
+                            Click on a percentage under any mission to see the details on student gameplay for that mission. The first half of the report shows a student's success rate with asking critical questions for each of the four argument schemes.
+                            <ul>
+                                <li>When added together, these success rates equal the percentage displayed in Performance Over Time for this mission.</li>
+                                <li>The success rates for each argument scheme are the same as when you viewed them using the "Filter data by" menu in Performance Over Time, only here you're seeing them for just one student.</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Gameplay Transcript: </strong>
+                            The second half of the Drill Down report shows you each attempt that a student made to ask critical questions of an opponent's argument. Each row in the table represents one attempt during a duel in that mission. For each attempt, the table shows the opponent's argubot (i.e., the argument scheme), the evidence about which the student asked a critical question, the text of the critical question, and whether there was a match between the question and the argument scheme.
+                            <div><img src="http://placekitten.com/300/260" alt="need a real image"></div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Why might students struggle with this skill?</h3>
+                    <ol>
+                        <li>
+                            <strong>They're unable to evaluate the quality of evidence.</strong>
+                            If students don't understand that evidence can be evaluated for purposes other than being "right or wrong" or "relevant or irrelevant," then they might not understand the purpose of asking critical questions. By understanding that evidence can be evaluated (as strong or weak, for example), students are in a better position to recognize that asking critical questions is a way to determine how well the evidence supports the claim.
+                        </li>
+                        <li>
+                            <strong>They have trouble distinguishing among argument schemes.</strong>
+                            If students are unable to tell the difference among the four argument schemes (perhaps because of the keywords for each), then it is unlikely that they will be able to use critical questions that relate to specific schemes.
+                        </li>
+                        <li>
+                            <strong>(In the game only.)</strong>
+                            Students have to level-up their argubots to get access to the corresponding critical questions. Students don't always remember to level-up their bots, however, and so they won't have access to the critical questions for those bots during a duel. They will have access to critical questions for any bot they leveled up.
+                            <ol type="a">
+                                <li>The yellow flag in the Drill Down report shows you whether students have leveled up their argubots and have access to critical questions.</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <h3>How to make inferences about student progress using the data</h3>
+                    <ul>
+                        <li>If a majority of a student's incorrect attempts seem to be from one argubot, then a student might be struggling with the language of the evidence for that argument scheme, or with the language of the critical questions for that argument scheme.</li>
+                        <li>If a student has multiple incorrect attempts with more than one argubot, then a student might be struggling at a conceptual level with the differences between the argument schemes. Or, a student might also be struggling with the language for more than one argument scheme.</li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Take action</h3>
+                    <ul>
+                        <li>
+                            <strong>Use the Instruction Plan tool</strong>
+                            to create groups and assign different materials or activities depending on a student's needs (for students who are struggling or advancing).
+                        </li>
+                        <li>
+                            <strong>Print out the Gameplay Transcript</strong>
+                            for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with asking critical questions because of language, concepts, or both.
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+            <h2 ng-attr-id="{{ids[11]}}">Instruction Plan</h2>
+            <p>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
+
+            <div>
+                <button class="btn drk-button-primary larger">Add New Plan</button>
             </div>
-            <p>Select Students:</p>
 
-            <ul class="gl-drk12_b-l-selectitems">
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-is-checked"><input type="checkbox" name="student1" id="student1" checked>Student 1</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student2" id="student2">Student 2</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student3" id="student3">Student 3</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student4" id="student4">Student 4</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student5" id="student5">Student 5</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student6" id="student6">Student 6</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student7" id="student7">Student 7</label></li>
-                <li><label class="gl-drk12_b-selectitem"><input type="checkbox" name="student8" id="student8">Student 8</label></li>
-            </ul>
-
-            <p>Materials to Use:</p>
-
-            <ul class="gl-drk12_b-l-selectitems gl-drk12_b-l-selectitems-twoup">
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary gl-drk12_b-selectitem-is-checked"><input type="checkbox" name="material1" id="material1" checked>Material 1</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material2" id="material2">Material 2</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material3" id="material3">Material 3</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material4" id="material4">Material 4</label></li>
-                <li><label class="gl-drk12_b-selectitem gl-drk12_b-selectitem-secondary"><input type="checkbox" name="material5" id="material5">Material 5</label></li>
-            </ul>
-
-            <p>Notes:</p>
-
-            <textarea name="notes" id="notes"></textarea>
-
+            <h3 aria-label="List of current plans">Current Plans</h3>
         </div>
     </div>
 </div>

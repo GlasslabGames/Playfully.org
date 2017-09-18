@@ -1,5 +1,20 @@
 angular.module( 'instructor.reports')
-    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, drk12_bStore, usersData) {
+    .config(function ( $stateProvider, USER_ROLES) {
+        $stateProvider.state('modal-xxlg.drk12_bInfo', {
+            url: '/reports/details/drk12_b/game/:gameId/course/:courseId',
+            data:{
+                pageTitle: 'Progress Report'
+            },
+            views: {
+                'modal@': {
+                    templateUrl: function($stateParams, REPORT_CONSTANTS) {
+                        return 'instructor/reports/drk12_b/modal-info.html';
+                    }
+                }
+            }
+        });
+    })
+    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, usersData, previousState) {
         ///// Setup selections /////
 
         // basic variable set up
@@ -7,12 +22,19 @@ angular.module( 'instructor.reports')
         $scope.selectedStudents = [];
         $scope.isFooterOpened = false;
         $scope.isFooterFullScreen = false;
+        $scope.selectedSkill = 'connectingEvidence';
+        $scope.selectedSubSkill = 'all';
 
         // Courses
         $scope.courses.selectedCourseId = $stateParams.courseId;
         $scope.courses.selected = $scope.courses.options[$stateParams.courseId];
 
-        $scope.currentView = {isClassViewActive : true};
+        $scope.tabs = [{active: true}, {active: false}];
+
+        if (previousState.name === 'root.reports.details.drk12_b_drilldown') {
+            $scope.tabs[0].active = false; $scope.tabs[1].active = true;
+            $scope.selectedSkill = previousState.selectedSkill;
+        }
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
 
@@ -22,9 +44,40 @@ angular.module( 'instructor.reports')
             notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
         };
 
+        $scope.skills = Drk12Service.skills;
+        $scope.skills.isDropdownOpen = false;
+
         ///////////////////////////////////////////////////////////////////////////////////////////
 
+        var sortStringsAndNumbers = function(first, second) {
+            if (typeof first.mission === 'number') {
+                if (typeof second.mission === 'number') {
+                    return first.mission - second.mission;
+                } else if (typeof second.mission === 'string') {
+                    return -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else if (typeof first.mission === 'string') {
+                if (typeof second.mission === 'number') {
+                    return 1;
+                } else if (typeof second.mission === 'string') {
+                    return first.mission < second.mission ? 1 : -1;
+                } else { // We should never hit this case
+                    console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', second);
+                    return 0;
+                }
+            } else {
+                console.warn('Mission sorting discovered a mission key that is not a string or number. Mission: ', first);
+                return 0;
+            }
+        };
+
         $scope.reportData = usersData;
+        usersData.courseProgress.sort(function(first,second) {
+            return sortStringsAndNumbers(first, second);
+        });
 
         ///// Setup options /////
 
@@ -36,7 +89,6 @@ angular.module( 'instructor.reports')
 
         $scope.games.selectedGameId = defaultGame.gameId; // TODO: This appears to be report agnostic. Why is it placed in each report?
 
-
         // Reports
         $scope.reports.options = [];  // TODO: This appears to be report agnostic. Why is it placed in each report?
 
@@ -46,7 +98,23 @@ angular.module( 'instructor.reports')
                 // select report that matches this state
                 if (reportId === report.id) {
                     $scope.reports.selected = report;
-                    drk12_bStore.setSkills($scope.reports.selected.skills);
+
+                    usersData.courseProgress.forEach(function(missionObject) { // This is somewhat perverse logic using info.json
+                        if ($scope.reports.selected.skills) {
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[0]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[0]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[1]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[1]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[2]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[2]] = {disabled: true};
+                            }
+                            if ($scope.reports.selected.skills[Object.keys($scope.skills.options)[3]].missions.indexOf(missionObject.mission) === -1) {
+                                missionObject[Object.keys($scope.skills.options)[3]] = {disabled: true};
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -77,30 +145,8 @@ angular.module( 'instructor.reports')
                     angular.forEach($scope.courses.selected.users, function (student) {
                         student.results = _findUserByUserId(student.id, usersReportData.students) || {};
                         if (student.results.missions) {
-                            student.results.missions.sort(function(first,second) { return first.mission - second.mission; });
-
-                            student.results.missions.forEach(function(mission) {
-                                if (!student.results.currentProgress) {
-                                    student.results.currentProgress = {};
-                                    student.results.currentProgress.mission = 0;
-                                }
-                                if (mission.mission == student.results.currentProgress.mission) {
-                                    mission.current = true;
-                                } else if (mission.mission > student.results.currentProgress.mission) {
-                                    mission.paddingObject = true;
-                                }
-                                var totalCorrect =
-                                    mission.skillLevel.connectingEvidence.score.correct +
-                                    mission.skillLevel.supportingClaims.score.correct +
-                                    mission.skillLevel.criticalQuestions.score.correct +
-                                    mission.skillLevel.usingBacking.score.correct;
-                                var totalAttempts =
-                                    mission.skillLevel.connectingEvidence.score.attempts +
-                                    mission.skillLevel.supportingClaims.score.attempts +
-                                    mission.skillLevel.criticalQuestions.score.attempts +
-                                    mission.skillLevel.usingBacking.score.attempts;
-                                mission.totalCorrect = totalCorrect;
-                                mission.totalAttempts = totalAttempts;
+                            student.results.missions.sort(function(first, second) {
+                                return sortStringsAndNumbers(first, second);
                             });
                         } else {
                             student.results = { currentProgress: { mission: 0, skillLevel: {} } };
@@ -113,7 +159,7 @@ angular.module( 'instructor.reports')
         var _findUserByUserId = function (userId, reportData) {
             var found;
             for (var i = 0; i < reportData.length; i++) {
-                if (reportData[i] && reportData[i].userId == userId) {
+                if (reportData[i] && reportData[i].userId === userId) {
                     found = reportData[i];
                     return found;
                 }
@@ -129,240 +175,172 @@ angular.module( 'instructor.reports')
             }
         };
 
-        $scope.toggleAllStudentChecks = function($event) {
-            $scope.selectedStudents = []; // Clear list first. Then add to it if appropriate
-            if ($event.target.checked) {
-                angular.forEach($scope.courses.selected.users, function (student, i) {
-                    $scope.selectedStudents.push(student);
-                });
-            }
+        $scope.toggleDropdown = function($event) {
+            $event.stopPropagation();
+            $scope.skills.isDropdownOpen = ! $scope.skills.isDropdownOpen;
         };
 
-        $scope.isAllSelected = function() {
-            return $scope.selectedStudents.length === $scope.courses.selected.users.length;
+        $scope.selectSkill = function($event, skillKey) {
+            $event.stopPropagation();
+            $scope.selectedSkill = skillKey;
+            $scope.selectedSubSkill = 'all';
         };
 
-        $scope.tableStructuralData = {
-            headers: [
-                { label: "Name", value: "name", keepUnchecked: true },
-                { label: "Current Mission", value: "currentMission", keepUnchecked: true }
-            ],
-            current: "name",
-            columnFilter: "all",
-            studentFilter: "all",
-            reverseSort: false
+        $scope.selectSubSkill = function($event, subSkillKey) {
+            $event.stopPropagation();
+            $scope.selectedSubSkill = subSkillKey;
+            $scope.skills.isDropdownOpen = false;
         };
 
-        $scope.selectAllSkills = function() {
-            $scope.tableStructuralData.studentFilter = "all";
-            $scope.tableStructuralData.columnFilter = "all";
-        };
-
-        var buttonTextChange = function(textBase) { // TODO: Is this still used?
-            var partialReturnString = textBase.charAt(0).toLowerCase() + textBase.slice(1);
-            return "Click button to " + partialReturnString;
-        };
-
-        $.each($scope.reports.selected.skills, function(skillKey, skill) {
-            var skillHeader = {
-                title: skill.name,
-	            label: skill.label,
-                description: skill.description,
-                buttonDescription: buttonTextChange(skill.description),
-                value: skillKey
-            };
-            $scope.tableStructuralData.headers.push(skillHeader);
-        });
-
-        $scope.shouldShowStudentRow = function(skillLevel) {
-            if (!skillLevel) {
-                skillLevel = "NotAttempted";
-            }
-
-            return skillLevel == $scope.tableStructuralData.studentFilter || $scope.tableStructuralData.studentFilter == 'all';
-        };
-
-        $scope.numberOfColumnsChecked = function() {
-            if ($scope.tableStructuralData.columnFilter == 'all') {
-                return 4;
-            } else {
-                return 1;
-            }
+        $scope.sortingData = {
+            current: 'student',
+            isReverseSort: false
         };
 
         $scope.sortSelected = function (colName) {
-            if ($scope.tableStructuralData.current === colName) {
-                $scope.tableStructuralData.reverseSort = !$scope.tableStructuralData.reverseSort;
+            if ($scope.sortingData.current === colName) {
+                $scope.sortingData.isReverseSort = !$scope.sortingData.isReverseSort;
             } else {
-                $scope.tableStructuralData.current = colName;
+                $scope.sortingData.current = colName;
             }
         };
+
+        $scope.isStudentTableReverseSort = false;
 
         $scope.userSortFunction = function (colName) {
             return function (user) {
-                if (colName === $scope.tableStructuralData.headers[0].value) {
-                    return user.firstName;
+                if (colName === 'student') { // TODO: Deal with these magic values
+                    return user.firstName + ' ' + user.lastName;
                 }
-                if (colName === $scope.tableStructuralData.headers[1].value) {
-                    return user.results.currentProgress.mission;
+                if (colName === 'average') { // TODO: Deal with these magic values
+                    if (user.results.currentProgress.skillLevel && user.results.currentProgress.skillLevel[$scope.selectedSkill]) {
+                        return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                    } else {
+                        return -1;
+                    }
                 }
-
-                var score = 0;
-                if (!user.results.currentProgress ||
-                        !user.results.currentProgress.skillLevel ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current] ||
-                        !user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level) {
-                    score = -2;
-                } else if (user.results.currentProgress.skillLevel[$scope.tableStructuralData.current].level == "NotAvailable") {
-                    score = -2;
-                } else {
-                    var columnSkill = user.results.currentProgress.skillLevel[$scope.tableStructuralData.current];
-
-                    if (columnSkill.score.attempts === 0) { score = 0; }
-                    else { score = columnSkill.score.correct / columnSkill.score.attempts; }
-
-                    if (columnSkill.level == $scope.progressTypes.notYetAttempted.class) { score--; }
-                }
-
-                return score;
             };
         };
 
-        $scope.setCurrentStudent = function (student) {
-            drk12_bStore.setCurrentStudents([student]);
-        };
-
-        $scope.setCurrentStudents = function (studentsArray) {
-            drk12_bStore.setCurrentStudents(studentsArray);
-        };
-
-        $scope.$watch(function(currentScope) {
-            return currentScope.tableStructuralData.columnFilter;
-        }, function(newValue, oldValue, currentScope) {
-            if (newValue && newValue !== oldValue) {
-                drk12_bStore.setSelectedSkill(newValue);
-            }
-        });
-
-        $scope.openModal = function(type) {
-            if (!drk12_bStore.isValidModalType(type)) {
-                // Do nothing
-            }
-            else if (drk12_bStore.hasValidModalData(type)) {
-                drk12_bStore.isSingleSKillView = $scope.tableStructuralData.columnFilter !== "all";
-
-                $state.go('modal-xxlg.drk12_bInfo', {
-                    gameId: $stateParams.gameId,
-                    courseId: $stateParams.courseId,
-                    type: type
-                }).then(function() {
-                    hackModalStyles(); // TODO: This can be removed after we remove the modals
-                });
-            }
-        };
-
-        // TODO: For the love of all that's holy, remove this when the modals have been removed. Hacky as F*ck!
-        $scope.toggleHelperFullScreen = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            $scope.isFooterFullScreen = !$scope.isFooterFullScreen;
-
-            $modalBackdrop = jQuery('.modal-backdrop');
-            $modal = jQuery('.modal-xxlg');
-            if ($scope.isFooterFullScreen) {
-                $modalBackdrop.addClass("ng-hide");
-                $modal.addClass("ng-hide");
-                jQuery('.gl-drk12_b-footerhelper').addClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').addClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').addClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').addClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 1);
-            } else {
-                $modalBackdrop.removeClass("ng-hide");
-                $modal.removeClass("ng-hide");
-                jQuery('.gl-drk12_b-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 10);
-            }
-        };
-
-        $scope.navigateToDrilldown = function(student, mission, skillKey) {
-            if (!student || !mission || !skillKey || mission.skillLevel[skillKey].level === "NotAttempted") {
-                return;
-            }
-            drk12_bStore.setSelectedStudent(student);
-            drk12_bStore.setSelectedMission(mission);
-            drk12_bStore.setSelectedSkill(skillKey);
-
+        $scope.openModal = function() {
             $state.go('modal-xxlg.drk12_bInfo', {
                 gameId: $stateParams.gameId,
-                courseId: $stateParams.courseId,
-                type: "drilldown"
-            }).then(function() {
-                hackModalStyles(); // TODO: This can be removed after we remove the modals
+                courseId: $stateParams.courseId
             });
         };
 
-        var hackModalStyles = function() { // TODO: This can be removed after we remove the modals
-            if ($scope.isFooterOpened) {
-                var intervalIf = $interval(function() {
-                    if (jQuery(".modal-backdrop").length > 0) {
-                        jQuery('.modal-backdrop').css("bottom", "50vh");
-                        jQuery('.modal-xxlg').css("bottom", "50vh");
-
-                        $interval.cancel(intervalIf);
-                    }
-                }, 2);
-            } else {
-                var intervalElse = $interval(function() {
-                    if (jQuery(".modal-backdrop").length > 0) {
-                        jQuery('.modal-backdrop').css("bottom", "30px");
-                        jQuery('.modal-xxlg').css("bottom", "30px");
-
-                        $interval.cancel(intervalElse);
-                    }
-                }, 2);
+        $scope.getPopoverTitle = function(missionName) {
+            if (missionName === 'BT') {
+                return "BT - Bot Trainer";
+            } else if (missionName === 'ST') {
+                return "ST - Scheme Trainer";
             }
+        };
+
+        $scope.getSkillPercentForSelectedSkill = function(skill) {
+            if (!skill || skill.level === "NotAvailable") {
+                return "";
+            } else if (skill.level === "NotAttempted") {
+                return "-";
+            }
+
+            var score = 0;
+            if ($scope.selectedSubSkill === 'all') {
+                if (skill.score.attempts === 0) {
+                    return "-";
+                } else {
+                    score = (skill.score.correct / skill.score.attempts) * 100;
+                }
+            } else {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                    return "-";
+                } else {
+                    score = (skill.detail[$scope.selectedSubSkill].correct / skill.detail[$scope.selectedSubSkill].attempts) * 100;
+                }
+            }
+            return score.toFixed(0) + "%";
+        };
+
+        $scope.getSkillAverageForSelectedSkill = function(skill) {
+            if (!skill || skill.level === "NotAvailable") {
+                return "-";
+            } else if (skill.level === "NotAttempted") {
+                return "-";
+            }
+
+            var average = 0;
+            if ($scope.selectedSubSkill === 'all') {
+                if (!skill.score || !skill.score.attempts || skill.score.attempts === 0) {
+                    return "-";
+                } else {
+                    average = skill.average;
+                }
+            } else {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                    return "-";
+                } else {
+                    average = skill.detail[$scope.selectedSubSkill].average;
+                }
+            }
+            return average.toFixed(0) + "%";
+        };
+
+        $scope.subSkillPercentToLevel = function(percent, parentSkillLevel) {
+            if (parentSkillLevel === 'NotAvailable') {
+                return "NotAvailable";
+            } else if (percent < 0.7) {
+                return "NeedSupport";
+            } else if (percent >= 0.7) {
+                return "Advancing";
+            } else if (isNaN(percent) && parentSkillLevel !== "NotAvailable") {
+                return "NotAttempted";
+            } else if (isNaN(percent)) {
+                return "NotAvailable";
+            }
+        };
+
+        $scope.getPopoverText = function(missionName) {
+            if (missionName === 'BT') {
+                return "Bot Trainer 5000 helps students practice critiquing skills";
+            } else if (missionName === 'ST') {
+                return "Scheme Trainer helps students practice their argument scheme identification and critical questions";
+            }
+        };
+
+        $scope.navigateToDrilldown = function(student, mission) {
+            if (!student || !mission || mission.skillLevel[$scope.selectedSkill].level === "NotAttempted" || mission.skillLevel[$scope.selectedSkill].level === "NotAvailable") { // TODO: Fix magic strings
+                return;
+            }
+
+            $state.go('root.reports.details.drk12_b_drilldown', {
+                gameId: $stateParams.gameId,
+                courseId: $stateParams.courseId,
+                studentId: student.id,
+                skill: $scope.selectedSkill,
+                mission: mission.mission
+            });
+        };
+
+        $scope.printPage = function() {
+            window.print();
         };
 
         $scope.footerHelperClicked = function() {
             $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED", $scope.currentView.isClassViewActive);
+            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill);
 
             /*
              Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
              We do this craziness to help create that illusion
              */
-            $modalBackdrop = jQuery('.modal-backdrop');
-            $modal = jQuery('.modal-xxlg');
-            $modalBackdrop.removeClass("ng-hide");
-            $modal.removeClass("ng-hide");
             if (!$scope.isFooterOpened) {
-                jQuery("body").removeClass("gl-drk12_b-l-hasHelperMenu-is-open");
-                // TODO: Remove the following 2 hacks after modals are removed
-                $modalBackdrop.css("bottom", "30px");
-                $modal.css("bottom", "30px");
                 $scope.isFooterFullScreen = false;
-                jQuery('.gl-drk12_b-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-collapsecontent').removeClass("fullscreen");
+                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
                 jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
                 jQuery('.gl-navbar--top').css("z-index", 10);
-            } else {
-                jQuery("body").addClass("gl-drk12_b-l-hasHelperMenu-is-open");
-                // TODO: Remove the following 2 hacks after modals are removed
-                $modalBackdrop.css("bottom", "50vh");
-                $modal.css("bottom", "50vh");
             }
         };
-
-        // Just in case. TODO: Remove this when the modals are gone.
-        $scope.$on('$destroy', function(event) {
-            jQuery('.gl-navbar--top').css("z-index", 10);
-        });
 
         // populate student objects with report data
         populateStudentLearningData(usersData);
@@ -376,7 +354,7 @@ angular.module( 'instructor.reports')
 
             if ($scope.noUserData) { return; }
 
-            var margin = {top: 20, right: 0, bottom: 40, left: 40},
+            var margin = {top: 20, right: 0, bottom: 40, left: 10},
                 width = 800 - margin.left - margin.right,
                 height = 200 - margin.top - margin.bottom;
 
@@ -423,7 +401,7 @@ angular.module( 'instructor.reports')
 
             chartGroup.append("path")
                 .attr("class", "axis-bar")
-                .attr("d", ["M", 0, 0, "v", height, "h", width].join(" "));
+                .attr("d", ["M", 35, 140, "v", 0, "h", width-70].join(" "));
 
             chartGroup.append("g")
                 .attr("class", "x axis")
@@ -432,25 +410,7 @@ angular.module( 'instructor.reports')
 
             chartGroup.selectAll("g.x.axis g.tick")
                 .append("circle")
-                .attr("r", 5);
-
-            chartGroup.append("g")
-                .attr("class", "y axis")
-                .append("text")
-                    .attr("y", height / 2)
-                    .attr("x", -10)
-                    .attr("text-anchor", "middle")
-                    .attr("transform", "rotate(-90 -10 " + height/2 + ")")
-                    .text("Number of students");
-
-            chartGroup.append("g")
-                .attr("class", "x axis")
-                .append("text")
-                    .attr("y", height + 9)
-                    .attr("x", -16)
-                    .attr("dy", ".71em")
-                    .attr("text-anchor", "middle")
-                    .text("Missions");
+                .attr("r", 8);
         };
 
         var populateCharts = function() {
@@ -476,8 +436,8 @@ angular.module( 'instructor.reports')
             var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("blah", true); // TODO: Change this
 
             var margin = {top: 0, right: 0, bottom: 0, left: 0},
-                width = 187 - margin.left - margin.right,
-                height = 187 - margin.top - margin.bottom;
+                width = 148 - margin.left - margin.right,
+                height = 148 - margin.top - margin.bottom;
             var radius = Math.min(width, height) / 2;
 
             // Create the container element with the appropriate height and width
@@ -489,10 +449,10 @@ angular.module( 'instructor.reports')
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
             var color = function(data) {
-                var colorOptions = ["#22b473", "#fdd367", "#f0f0f0"];
+                var colorOptions = ["#22b473", "#fdd367", "#cccccc"];
 
                 var dataIndex = courseSkillStats.reduce(function(previousValue, currentValue, index, array) {
-                    if (data == currentValue) {
+                    if (data === currentValue) {
                         return index;
                     } else {
                         return previousValue;

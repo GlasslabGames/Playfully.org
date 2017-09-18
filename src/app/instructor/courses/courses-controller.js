@@ -1028,6 +1028,10 @@ angular.module( 'instructor.courses', [
 		    $scope.notEnoughSpace = false;
 		    $scope.uploadInProgress = false;
         };
+
+	    $scope.clearFileInput = function() {
+		    $scope.invalidInput = false;
+        };
     }
 )
 
@@ -1083,6 +1087,16 @@ angular.module( 'instructor.courses', [
             });
         }
     };
-}]);
+}])
+
+.directive('customOnChange', function() {
+	return {
+		restrict: 'A',
+		link: function (scope, element, attrs) {
+			var onChangeHandler = scope.$eval(attrs.customOnChange);
+			element.bind('change', onChangeHandler);
+		}
+	};
+});
 
 
