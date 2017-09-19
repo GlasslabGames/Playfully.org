@@ -1,0 +1,51 @@
+<div class="gl-drk12-base drk-l-instruction-overall">
+    <div class="gl-navbar--top ng-scope">
+        <div class="container">
+            <h1 class="drk-helper-logo">Instruction Plan</h1>
+        </div>
+    </div>
+
+    <div class="container report-body" ng-controller="instructionPlanCtrl">
+        <h1>Next steps for {{data[selectedPage]}}</h1>
+        <p>Plan your next steps to help students meet the learning goals for this skill.</p>
+        <div class="form-group">
+            <input type="text" placeholder="Name your plan" ng-model="planName"/>
+        </div>
+        <label>Nickname for this plan (optional)</label>
+        <div>Students to Group:</div>
+        <div class="form-group">
+            <input id="group_all" type="checkbox" ng-model="all"> <label for="group_all">Whole Class</label>
+        </div>
+        <div class="form-group">
+            <input id="group_advance" type="checkbox" ng-model="Advancing"> <label for="group_advance">Advancing</label>
+        </div>
+        <div class="form-group">
+            <input id="group_support" type="checkbox" ng-model="NeedSupport"> <label for="group_support">Need Support</label>
+        </div>
+        <div class="form-group">
+            <input id="group_custom" type="checkbox" ng-model="custom"> <label for="group_custom">Custom</label>
+        </div>
+
+        <div>
+            <label for="challenges">What challenges do these students have applying this skill, if any?</label>
+            <textarea id="challenges" ng-model="challengesText" placeholder="Add challenges"></textarea>
+        </div>
+
+        <div>
+            <label for="struggles">Why might they be struggling?</label>
+            <textarea id="struggles" ng-model="strugglesText" placeholder="Enter the 'why's"></textarea>
+        </div>
+
+        <div>
+            <label for="changes">What instructional changes will you make for these students?</label>
+            <textarea id="changes" ng-model="changesText" placeholder="Add your proposed changes"></textarea>
+        </div>
+
+        <h2>Optional Differentiation Materials</h2>
+        <div ng-include="'instructor/reports/drk12_b/instructionPlan/' + planPage + '.html'"></div>
+
+        <label for="follow">Follow Up</label>
+        <p>How did it go? Notes on the implementation.</p>
+        <textarea id="follow" ng-model="followText" placeholder="How did it go?"></textarea>
+    </div>
+</div>

@@ -331,12 +331,25 @@ angular.module( 'instructor.reports', [
                     }
                 }
             })
-            .state('root.drk12ReportHelper', {
+            .state('root.cleanChrome', {
+                abstract: true,
+                url: 'clean'
+            })
+            .state('root.cleanChrome.drk12ReportHelper', {
                 controller: 'helperWrapperCtrl',
-                url: 'drk12_b_helper/location/:location?anchor',
+                url: '/reportHelper/location/:location?anchor',
                 views: {
                     'main@': {
                         templateUrl: 'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'
+                    }
+                }
+            })
+            .state('root.cleanChrome.drk12InstructionPlan', {
+                controller: 'instructionPlanCtrl',
+                url: '/instructionPlan/location/:location',
+                views: {
+                    'main@': {
+                        templateUrl: 'instructor/reports/drk12_b/instructionPlan/instructionPlanWrapper.html'
                     }
                 }
             })

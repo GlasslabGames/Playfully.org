@@ -31,8 +31,8 @@
                     <div class="drk-text-button-group">
                         <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
                         <div>
-                            <a ui-sref="root.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
-                            <a ui-sref="root.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan (Not Completed)</a>
+                            <a ui-sref="root.cleanChrome.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
+                            <a ui-sref="root.cleanChrome.drk12InstructionPlan({location: selectedSkill})" class="btn drk-button-primary" target="_instructionPlan">Instruction Plan</a>
                             <button class="btn btn-primary hide-for-printing" ng-click="printPage()">Print</button>
                         </div>
                     </div>
