@@ -345,11 +345,23 @@ angular.module( 'instructor.reports', [
                 }
             })
             .state('root.cleanChrome.drk12InstructionPlan', {
-                controller: 'instructionPlanCtrl',
-                url: '/instructionPlan/location/:location',
+                url: '/instructionPlan/game/:gameId/course/:courseId/location/:location',
                 views: {
                     'main@': {
+                        controller: 'instructionPlanCtrl',
                         templateUrl: 'instructor/reports/drk12_b/instructionPlan/instructionPlanWrapper.html'
+                    }
+                },
+                resolve: {
+                    courseData: function(CoursesService, $stateParams) {
+                        return CoursesService.getWithStudents($stateParams.courseId);
+                    },
+                    reportData: function (ReportsService, Drk12Service, $stateParams) {
+                        var reportId = 'drk12_b';
+                        if (Drk12Service.reportDataFromServer === null) {
+                            Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                        }
+                        return Drk12Service.reportDataFromServer;
                     }
                 }
             })

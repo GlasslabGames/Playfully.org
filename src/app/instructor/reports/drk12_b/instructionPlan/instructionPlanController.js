@@ -1,8 +1,9 @@
 angular.module( 'instructor.reports')
-    .controller('instructionPlanCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams) {
+    .controller('instructionPlanCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, courseData, reportData) {
         ////////////////////// Initialization /////////////////////////
-
-        $scope.selectedPage = $stateParams.location;
+        $scope.selectedSkill = $stateParams.location;
+        $scope.reportData = reportData;
+        $scope.courseData = courseData;
 
         $scope.planPage = "";
         $scope.data = {
@@ -47,6 +48,28 @@ angular.module( 'instructor.reports')
 
             return returnString;
         };
+
+        var findUserByUserId = function (userId, reportData) {
+            var found;
+            for (var i = 0; i < reportData.length; i++) {
+                if (reportData[i] && reportData[i].userId === userId) {
+                    found = reportData[i];
+                    return found;
+                }
+            }
+            return null;
+        };
+
+        var populateStudentLearningData = function(usersReportData) {
+            if (usersReportData) {
+                angular.forEach(courseData.users, function (student) {
+                    student.results = findUserByUserId(student.id, usersReportData.students) || {};
+                });
+            }
+        };
+
+        // populate student objects with report data
+        populateStudentLearningData(reportData);
 
         $scope.planPage = locationToSubPageFilename($stateParams.location);
     });

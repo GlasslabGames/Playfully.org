@@ -5,7 +5,7 @@
         </div>
     </div>
 
-    <div class="container report-body" ng-controller="instructionPlanCtrl">
+    <div class="container report-body">
         <h1>Next steps for {{data[selectedPage]}}</h1>
         <p>Plan your next steps to help students meet the learning goals for this skill.</p>
         <div class="form-group">
@@ -14,16 +14,20 @@
         <label>Nickname for this plan (optional)</label>
         <div>Students to Group:</div>
         <div class="form-group">
-            <input id="group_all" type="checkbox" ng-model="all"> <label for="group_all">Whole Class</label>
+            <input id="group_all" type="radio" ng-model="data.students" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
         </div>
         <div class="form-group">
-            <input id="group_advance" type="checkbox" ng-model="Advancing"> <label for="group_advance">Advancing</label>
+            <input id="group_advance" type="radio" ng-model="data.students" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
         </div>
         <div class="form-group">
-            <input id="group_support" type="checkbox" ng-model="NeedSupport"> <label for="group_support">Need Support</label>
+            <input id="group_support" type="radio" ng-model="data.students" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
         </div>
         <div class="form-group">
-            <input id="group_custom" type="checkbox" ng-model="custom"> <label for="group_custom">Custom</label>
+            <input id="group_custom" type="radio" ng-model="data.students" value="custom"> <label for="group_custom">Custom</label>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between" ng-show="data.students === 'custom'">
+            <div style="width: 176px; border: 1px solid grey" ng-repeat="student in courseData.users">{{student.firstName}} {{student.lastName}} {{student.results.currentProgress.skillLevel[selectedSkill].average}}</div>
         </div>
 
         <div>
