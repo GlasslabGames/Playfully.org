@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('instructionPlanCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service, courseData, reportData) {
+    .controller('instructionPlanCtrl', function($scope, $window, $stateParams, Drk12Service, courseData, reportData) {
         ////////////////////// Initialization /////////////////////////
         $scope.selectedSkill = $stateParams.location;
         $scope.reportData = reportData;
@@ -42,7 +42,7 @@ angular.module( 'instructor.reports')
         }
 
         $scope.cancelPlan = function () {
-            console.info('cancelling.... ');
+            $window.close();
         };
 
         $scope.savePlan = function () {
