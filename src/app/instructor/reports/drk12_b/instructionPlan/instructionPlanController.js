@@ -46,7 +46,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.savePlan = function () {
-            if ($scope.submissionData.studentGroup === 'custom' && $scope.temporaryData.selectedStudents) {
+            if ($scope.submissionData.student_group === 'custom' && $scope.temporaryData.selectedStudents) {
                 $scope.submissionData.students = Object.keys($scope.temporaryData.selectedStudents);
             }
             Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
