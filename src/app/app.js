@@ -497,9 +497,10 @@ angular.module( 'playfully', [
         $rootScope.features = FEATURES;
 
         // DRK-402 Fix Report Helper bug
-        $timeout(function(){
-            $scope.isReportHelper = $state.current.name.toString().startsWith("root.cleanChrome");
-        }, 0);
+        $scope.isReportHelper = $location.$$path.startsWith("/clean");
+        // $timeout(function(){
+        //     $scope.isReportHelper = $state.current.name.toString().startsWith("root.cleanChrome");
+        // }, 0);
 
         if (!$rootScope.allGames) {
             GamesService.all().then(function(data) {
