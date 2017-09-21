@@ -169,6 +169,11 @@
             </div>
 
             <h3 aria-label="List of current plans">Current Plans</h3>
+
+            <a class="btn btn-default" ng-repeat="plan in instructionPlans" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill, noteId: plan.id})">
+                <h4>{{plan.note.name}}</h4>
+                {{plan.date}}
+            </a>
         </div>
     </div>
 </div>

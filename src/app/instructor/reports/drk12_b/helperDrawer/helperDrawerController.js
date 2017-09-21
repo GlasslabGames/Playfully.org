@@ -2,7 +2,9 @@ angular.module( 'instructor.reports')
     .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service) {
         ////////////////////// Initialization /////////////////////////
 
-        $scope.selectedPage = $stateParams.location;
+        $scope.courseId = $stateParams.courseId;
+        $scope.gameId = $stateParams.gameId;
+        $scope.selectedSkill = $stateParams.location;
         $scope.selectedAnchor = $stateParams.anchor;
 
         $scope.helperPage = "";
@@ -25,7 +27,9 @@ angular.module( 'instructor.reports')
 
         $scope.format = 'yyyy-MM-dd';
 
-        $scope.instructionPlans = Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location );
+        Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location ).then(function(result) {
+            $scope.instructionPlans = result.data;
+        });
 
         ///////////////////////////////////////////////////////////////
 
@@ -58,7 +62,7 @@ angular.module( 'instructor.reports')
             var returnString = "";
             switch (anchorString) {
                 case "drilldown":
-                    returnString = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+                    returnString = "id" + $scope.selectedSkill + "8"; // TODO: Make this less "magical"
                     break;
                 default:
                     console.error("Was not able to find an id for the anchor " + anchorString);
@@ -92,7 +96,7 @@ angular.module( 'instructor.reports')
             } else if ($state.current.name === "root.reports.details.drk12_b_drilldown") {
                 newDestination = selectedSkill;
                 updateVariables(newDestination); // TODO: See about working this redundancy
-                newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+                newSubDestination = "id" + $scope.selectedSkill + "8"; // TODO: Make this less "magical"
             } else {
                 console.error("Footer opened from unexpected page. This will surely go badly.");
             }
@@ -105,7 +109,7 @@ angular.module( 'instructor.reports')
         });
 
         var updateVariables = function(newLocation) { // TODO: This can probably be removed
-            $scope.selectedPage = newLocation;
+            $scope.selectedSkill = newLocation;
         };
 
         $scope.gotoLocation = function(locationId) {
@@ -125,7 +129,7 @@ angular.module( 'instructor.reports')
     })
     .controller('helperCtrl', function($scope) {
         $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
-            return "id" + $scope.selectedPage + index;
+            return "id" + $scope.selectedSkill + index;
         });
 
         $scope.changeSection = function(newOption) {
