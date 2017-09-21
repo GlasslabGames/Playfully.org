@@ -337,7 +337,7 @@ angular.module( 'instructor.reports', [
             })
             .state('root.cleanChrome.drk12ReportHelper', {
                 controller: 'helperWrapperCtrl',
-                url: '/reportHelper/location/:location?anchor',
+                url: '/reportHelper/game/:gameId/course/:courseId/location/:location?anchor',
                 views: {
                     'main@': {
                         templateUrl: 'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'
