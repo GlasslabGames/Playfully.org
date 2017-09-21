@@ -33,7 +33,7 @@ angular.module( 'instructor.reports')
 
         $scope.savePlan = function () {
             console.info('submissionData: ', $scope.submissionData);
-            // Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
+            Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
         };
 
         var locationToSubPageFilename = function(location) {
