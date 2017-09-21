@@ -1,11 +1,12 @@
 angular.module( 'instructor.reports')
-    .controller('instructionPlanCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, courseData, reportData) {
+    .controller('instructionPlanCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service, courseData, reportData) {
         ////////////////////// Initialization /////////////////////////
         $scope.selectedSkill = $stateParams.location;
         $scope.reportData = reportData;
         $scope.courseData = courseData;
 
         $scope.planPage = "";
+        $scope.submissionData = {};
         $scope.data = {
             connectingEvidence: "Argument Schemes",
             supportingClaims: "Claims and Evidence",
@@ -25,6 +26,15 @@ angular.module( 'instructor.reports')
         $scope.format = 'yyyy-MM-dd';
 
         ///////////////////////////////////////////////////////////////
+
+        $scope.cancelPlan = function () {
+            console.info('cancelling.... ');
+        };
+
+        $scope.savePlan = function () {
+            console.info('submissionData: ', $scope.submissionData);
+            // Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
+        };
 
         var locationToSubPageFilename = function(location) {
             var returnString = "helperDrawerArgumentSchemes";

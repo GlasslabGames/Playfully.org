@@ -6,50 +6,60 @@
     </div>
 
     <div class="container report-body">
-        <h1>Next steps for {{data[selectedPage]}}</h1>
-        <p>Plan your next steps to help students meet the learning goals for this skill.</p>
-        <div class="form-group">
-            <input type="text" placeholder="Name your plan" ng-model="planName"/>
-        </div>
-        <label>Nickname for this plan (optional)</label>
-        <div>Students to Group:</div>
-        <div class="form-group">
-            <input id="group_all" type="radio" ng-model="data.students" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
-        </div>
-        <div class="form-group">
-            <input id="group_advance" type="radio" ng-model="data.students" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
-        </div>
-        <div class="form-group">
-            <input id="group_support" type="radio" ng-model="data.students" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
-        </div>
-        <div class="form-group">
-            <input id="group_custom" type="radio" ng-model="data.students" value="custom"> <label for="group_custom">Custom</label>
-        </div>
+        <form>
+            <h1>Next steps for {{data[selectedPage]}}</h1>
+            <p>Plan your next steps to help students meet the learning goals for this skill.</p>
+            <div class="form-group">
+                <input type="text" placeholder="Name your plan" ng-model="submissionData.planName"/>
+            </div>
+            <label>Nickname for this plan (optional)</label>
+            <div>Students to Group:</div>
+            <div class="form-group">
+                <input id="group_all" type="radio" ng-model="submissionData.students" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
+            </div>
+            <div class="form-group">
+                <input id="group_advance" type="radio" ng-model="submissionData.students" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
+            </div>
+            <div class="form-group">
+                <input id="group_support" type="radio" ng-model="submissionData.students" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
+            </div>
+            <div class="form-group">
+                <input id="group_custom" type="radio" ng-model="submissionData.students" value="custom"> <label for="group_custom">Custom</label>
+            </div>
 
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between" ng-show="data.students === 'custom'">
-            <div style="width: 176px; border: 1px solid grey" ng-repeat="student in courseData.users">{{student.firstName}} {{student.lastName}} {{student.results.currentProgress.skillLevel[selectedSkill].average}}</div>
-        </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between" ng-show="submissionData.students === 'custom'">
+                <div style="width: 176px; border: 1px solid grey" ng-repeat="student in courseData.users">
+                    <label><input type="checkbox" ng-model="submissionData.selectedStudents[student.id]">{{student.firstName}} {{student.lastName}}</label>
+                    {{student.results.currentProgress.skillLevel[selectedSkill].average}}
+                </div>
+            </div>
 
-        <div>
-            <label for="challenges">What challenges do these students have applying this skill, if any?</label>
-            <textarea id="challenges" ng-model="challengesText" placeholder="Add challenges"></textarea>
-        </div>
+            <div>
+                <label for="challenges">What challenges do these students have applying this skill, if any?</label>
+                <textarea id="challenges" ng-model="submissionData.challengesText" placeholder="Add challenges"></textarea>
+            </div>
 
-        <div>
-            <label for="struggles">Why might they be struggling?</label>
-            <textarea id="struggles" ng-model="strugglesText" placeholder="Enter the 'why's"></textarea>
-        </div>
+            <div>
+                <label for="struggles">Why might they be struggling?</label>
+                <textarea id="struggles" ng-model="submissionData.strugglesText" placeholder="Enter the 'why's"></textarea>
+            </div>
 
-        <div>
-            <label for="changes">What instructional changes will you make for these students?</label>
-            <textarea id="changes" ng-model="changesText" placeholder="Add your proposed changes"></textarea>
-        </div>
+            <div>
+                <label for="changes">What instructional changes will you make for these students?</label>
+                <textarea id="changes" ng-model="submissionData.changesText" placeholder="Add your proposed changes"></textarea>
+            </div>
 
-        <h2>Optional Differentiation Materials</h2>
-        <div ng-include="'instructor/reports/drk12_b/instructionPlan/' + planPage + '.html'"></div>
+            <h2>Optional Differentiation Materials</h2>
+            <div ng-include="'instructor/reports/drk12_b/instructionPlan/' + planPage + '.html'"></div>
 
-        <label for="follow">Follow Up</label>
-        <p>How did it go? Notes on the implementation.</p>
-        <textarea id="follow" ng-model="followText" placeholder="How did it go?"></textarea>
+            <label for="follow">Follow Up</label>
+            <p>How did it go? Notes on the implementation.</p>
+            <textarea id="follow" ng-model="submissionData.followText" placeholder="How did it go?"></textarea>
+
+            <div>
+                <button class="btn btn-default" ng-click="cancelPlan()">Cancel</button>
+                <button class="btn btn-primary" ng-click="savePlan()">Save Plan</button>
+            </div>
+        </form>
     </div>
 </div>

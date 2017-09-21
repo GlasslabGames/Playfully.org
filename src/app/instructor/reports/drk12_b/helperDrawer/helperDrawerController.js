@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams) {
+    .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service) {
         ////////////////////// Initialization /////////////////////////
 
         $scope.selectedPage = $stateParams.location;
@@ -24,6 +24,8 @@ angular.module( 'instructor.reports')
         };
 
         $scope.format = 'yyyy-MM-dd';
+
+        $scope.instructionPlans = Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location );
 
         ///////////////////////////////////////////////////////////////
 
