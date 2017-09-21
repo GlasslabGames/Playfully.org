@@ -6,6 +6,7 @@ angular.module( 'instructor.reports')
         $scope.courseData = courseData;
 
         $scope.planPage = "";
+        $scope.temporaryData = {selectedStudents: {}};
         $scope.submissionData = {};
         $scope.data = {
             connectingEvidence: "Argument Schemes",
@@ -27,13 +28,28 @@ angular.module( 'instructor.reports')
 
         ///////////////////////////////////////////////////////////////
 
+        if ($stateParams.noteId) {
+            Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location ).then(function(result) {
+                var note = $.grep(result.data, function(e){ return e.id == $stateParams.noteId; });
+                $scope.submissionData = note[0];
+
+                if ($scope.submissionData.student_group === 'custom') {
+                    $scope.submissionData.students.forEach(function(studentId) {
+                        $scope.temporaryData.selectedStudents[studentId] = true;
+                    });
+                }
+            });
+        }
+
         $scope.cancelPlan = function () {
             console.info('cancelling.... ');
         };
 
         $scope.savePlan = function () {
-            console.info('submissionData: ', $scope.submissionData);
-            // Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
+            if ($scope.submissionData.studentGroup === 'custom' && $scope.temporaryData.selectedStudents) {
+                $scope.submissionData.students = Object.keys($scope.temporaryData.selectedStudents);
+            }
+            Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
         };
 
         var locationToSubPageFilename = function(location) {

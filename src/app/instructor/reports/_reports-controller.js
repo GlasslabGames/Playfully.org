@@ -345,7 +345,7 @@ angular.module( 'instructor.reports', [
                 }
             })
             .state('root.cleanChrome.drk12InstructionPlan', {
-                url: '/instructionPlan/game/:gameId/course/:courseId/location/:location',
+                url: '/instructionPlan/game/:gameId/course/:courseId/location/:location?noteId',
                 views: {
                     'main@': {
                         controller: 'instructionPlanCtrl',
