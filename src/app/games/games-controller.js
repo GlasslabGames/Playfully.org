@@ -808,7 +808,13 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         if (ENV.game_sdkURI) {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
         }
-        if (gameDetails.gameId.toUpperCase() === "GEM" || gameDetails.gameId.toUpperCase() === "GEMAUDIO" || gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPR" || gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPRTEST") {
+        if (gameDetails.gameId.toUpperCase() === "GEM" ||
+            gameDetails.gameId.toUpperCase() === "GEMAUDIO" ||
+            gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPR" ||
+            gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPRTEST" ||
+            gameDetails.gameId.toUpperCase() === "CIS" ||
+            gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSGJ" ||
+            gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSGJTEST") {
             var foundCourse = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; });
             if (foundCourse && foundCourse.code) {
                 embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "classCode=" + foundCourse.code;
