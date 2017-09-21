@@ -345,10 +345,10 @@ angular.module( 'instructor.reports', [
                 }
             })
             .state('root.cleanChrome.drk12InstructionPlan', {
-                controller: 'instructionPlanCtrl',
                 url: '/instructionPlan/game/:gameId/course/:courseId/location/:location',
                 views: {
                     'main@': {
+                        controller: 'instructionPlanCtrl',
                         templateUrl: 'instructor/reports/drk12_b/instructionPlan/instructionPlanWrapper.html'
                     }
                 },
