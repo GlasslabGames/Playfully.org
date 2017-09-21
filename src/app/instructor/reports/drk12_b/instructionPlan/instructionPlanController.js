@@ -46,10 +46,23 @@ angular.module( 'instructor.reports')
         };
 
         $scope.savePlan = function () {
+            if (!$scope.submissionData.student_group) {
+                alert("Some group of students must be chosen.");
+                return;
+            } else if (!$scope.submissionData.note) {
+                alert("Something must be added to at least one of the notes fields.");
+                return;
+            }
+
             if ($scope.submissionData.student_group === 'custom' && $scope.temporaryData.selectedStudents) {
                 $scope.submissionData.students = Object.keys($scope.temporaryData.selectedStudents);
             }
-            Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData );
+
+            $scope.submissionData.date = moment().format();
+
+            Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData ).then(function() {
+                // $window.close();
+            });
         };
 
         var locationToSubPageFilename = function(location) {
