@@ -61,7 +61,7 @@ angular.module( 'instructor.reports')
             $scope.submissionData.date = moment().format();
 
             Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData ).then(function() {
-                // $window.close();
+                $window.close();
             });
         };
 
