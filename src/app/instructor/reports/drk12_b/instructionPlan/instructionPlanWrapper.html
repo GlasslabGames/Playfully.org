@@ -7,28 +7,28 @@
 
     <div class="container report-body">
         <form>
-            <h1>Next steps for {{data[selectedSkill]}}</h1>
-            <p>Plan your next steps to help students meet the learning goals for this skill.</p>
+            <h2>Next steps for {{data[selectedSkill]}}</h2>
+            <p class="font16px">Plan your next steps to help students meet the learning goals for this skill.</p>
+            <label for="name">Nickname for this plan (optional)</label>
             <div class="form-group">
-                <input type="text" placeholder="Name your plan" ng-model="submissionData.note.name"/>
+                <input type="text" id="name" placeholder="Name your plan" ng-model="submissionData.note.name"/>
             </div>
-            <label>Nickname for this plan (optional)</label>
-            <div>Students to Group:</div>
-            <div class="form-group">
+            <label>Students to Group:</label>
+            <div class="drk-instructionPlan-radio-label">
                 <input id="group_all" type="radio" ng-model="submissionData.student_group" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
             </div>
-            <div class="form-group">
+            <div class="drk-instructionPlan-radio-label">
                 <input id="group_advance" type="radio" ng-model="submissionData.student_group" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
             </div>
-            <div class="form-group">
+            <div class="drk-instructionPlan-radio-label">
                 <input id="group_support" type="radio" ng-model="submissionData.student_group" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
             </div>
-            <div class="form-group">
+            <div class="drk-instructionPlan-radio-label">
                 <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom">Custom</label>
             </div>
 
-            <div style="display: flex; flex-wrap: wrap; justify-content: space-between" ng-show="submissionData.student_group === 'custom'">
-                <div style="width: 176px; border: 1px solid grey" ng-repeat="student in courseData.users">
+            <div class="drk-plan-student-card-container" collapse="submissionData.student_group !== 'custom'">
+                <div class="drk-plan-student-card" ng-repeat="student in courseData.users">
                     <label><input type="checkbox" ng-model="temporaryData.selectedStudents[student.id]">{{student.firstName}} {{student.lastName}}</label>
                     {{student.results.currentProgress.skillLevel[selectedSkill].average}}
                 </div>
@@ -49,7 +49,7 @@
                 <textarea id="changes" ng-model="submissionData.note.changes" placeholder="Add your proposed changes"></textarea>
             </div>
 
-            <h2>Optional Differentiation Materials</h2>
+            <h3>Optional Differentiation Materials</h3>
             <div ng-include="'instructor/reports/drk12_b/instructionPlan/' + planPage + '.html'"></div>
 
             <label for="follow">Follow Up</label>

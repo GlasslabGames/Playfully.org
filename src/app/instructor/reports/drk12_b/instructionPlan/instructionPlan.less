@@ -1,0 +1,56 @@
+///////////////////// Layouts (contain modules)
+
+.drk-l-instruction-overall {
+  > div {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  label {
+    margin: 24px 0 0 0;
+  }
+
+  textarea, input[type=text] {
+    margin-top: 16px;
+  }
+
+  .report-body {
+    padding: 48px;
+  }
+}
+
+///////////////////// End Layouts
+
+.drk-instructionPlan-radio-label {
+  input[type=radio] {
+    margin-right: 16px;
+  }
+
+  label {
+    font-weight: normal;
+    margin-top: 16px;
+    &:first-of-type {
+      margin-top: 8px;
+    }
+  }
+}
+
+.drk-plan-student-card {
+  width: 176px;
+  border: 1px solid grey;
+}
+
+.drk-plan-student-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  &.collapse {
+    display: none;
+    &.in {
+      display: flex;
+    }
+  }
+}
