@@ -1,4 +1,9 @@
 angular.module( 'instructor.reports')
+    .filter('objectLength', function() {
+        return function(object) {
+            return Object.keys(object).length;
+        };
+    })
     .controller('instructionPlanCtrl', function($scope, $window, $stateParams, Drk12Service, courseData, reportData) {
         ////////////////////// Initialization /////////////////////////
         $scope.selectedSkill = $stateParams.location;

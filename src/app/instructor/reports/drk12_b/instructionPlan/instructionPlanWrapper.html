@@ -23,14 +23,35 @@
             <div class="drk-instructionPlan-radio-label">
                 <input id="group_support" type="radio" ng-model="submissionData.student_group" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
             </div>
-            <div class="drk-instructionPlan-radio-label">
-                <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom">Custom</label>
+            <div class="drk-l-custom-radio">
+                <div class="drk-instructionPlan-radio-label">
+                    <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom">Custom ({{temporaryData.selectedStudents | objectLength}})</label>
+                </div>
+                <div class="gl-drk12-legend" ng-if="submissionData.student_group === 'custom'">
+                    <span class="gl-drk12-legenditem">
+                        <span class="advancing">Green:</span>
+                        <span>&ge; 70%</span>
+                    </span>
+                    <span class="gl-drk12-legenditem">
+                        <span class="needssupport">Yellow:</span>
+                        <span>< 70%</span>
+                    </span>
+                    <span class="gl-drk12-legenditem">
+                        <span>Gray:</span>
+                        <span>No Data</span>
+                    </span>
+                </div>
             </div>
 
-            <div class="drk-plan-student-card-container" collapse="submissionData.student_group !== 'custom'">
-                <div class="drk-plan-student-card" ng-repeat="student in courseData.users">
-                    <label><input type="checkbox" ng-model="temporaryData.selectedStudents[student.id]">{{student.firstName}} {{student.lastName}}</label>
-                    {{student.results.currentProgress.skillLevel[selectedSkill].average}}
+            <div collapse="submissionData.student_group !== 'custom'">
+                <div class="drk-plan-student-card-container">
+                    <div class="drk-plan-student-card" ng-repeat="student in courseData.users">
+                        <label><input type="checkbox" ng-model="temporaryData.selectedStudents[student.id]">{{student.firstName}} {{student.lastName}}</label>
+                        <span class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}" ng-if="student.results.currentProgress.skillLevel[selectedSkill].average">
+                        {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}%
+                    </span>
+                        <span class="NotAttempted" ng-if="!student.results.currentProgress.skillLevel[selectedSkill].average">-</span>
+                    </div>
                 </div>
             </div>
 
@@ -56,9 +77,9 @@
             <p>How did it go? Notes on the implementation.</p>
             <textarea id="follow" ng-model="submissionData.note.followup" placeholder="How did it go?"></textarea>
 
-            <div>
-                <button class="btn btn-default" ng-click="cancelPlan()">Cancel</button>
-                <button class="btn btn-primary" ng-click="savePlan()">Save Plan</button>
+            <div class="drk-l-plan-footer-buttons">
+                <button class="btn drk-button-secondary" ng-click="cancelPlan()">Cancel</button>
+                <button class="btn drk-button-primary" ng-click="savePlan()">Save Plan</button>
             </div>
         </form>
     </div>
