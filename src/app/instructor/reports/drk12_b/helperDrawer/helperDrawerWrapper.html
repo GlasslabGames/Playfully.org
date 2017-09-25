@@ -6,6 +6,32 @@
     </div>
 
     <div class="container report-body" ng-controller="helperWrapperCtrl">
-        <div ng-include="'instructor/reports/drk12_b/helperDrawer/' + helperPage + '.html'"></div>
+        <div class="drk-l-subpageLayout">
+            <div class="gl-drk12_b-helperMenu">
+                <div>
+                    <div class="gl-drk12_b-helperMenuTitle">
+                        <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: gameId, courseId: courseId, location: 'connectingEvidence'})" ng-class="{selected: selectedSkill === skills[0]}">Argument Schemes</a>
+                        <div ng-if="selectedSkill === skills[0]" drk-helper-sub-menu></div>
+                    </div>
+                    <div class="gl-drk12_b-helperMenuTitle">
+                        <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: gameId, courseId: courseId, location: 'supportingClaims'})"  ng-class="{selected: selectedSkill === skills[1]}">Claims and Evidence</a>
+                        <div ng-if="selectedSkill === skills[1]" drk-helper-sub-menu></div>
+                    </div>
+                    <div class="gl-drk12_b-helperMenuTitle">
+                        <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: gameId, courseId: courseId, location: 'criticalQuestions'})" ng-class="{selected: selectedSkill === skills[2]}">Critical Questions</a>
+                        <div ng-if="selectedSkill === skills[2]" drk-helper-sub-menu></div>
+                    </div>
+                    <div class="gl-drk12_b-helperMenuTitle">
+                        <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: gameId, courseId: courseId, location: 'usingBacking'})" ng-class="{selected: selectedSkill === skills[3]}">Backing</a>
+                        <div ng-if="selectedSkill === skills[3]" drk-helper-sub-menu></div>
+                    </div>
+                </div>
+            </div>
+            <div class="gl-drk12_b-helperMainContent">
+                <div class="gl-drk12_b-helperMainContent-x-container">
+                    <div ng-include="'instructor/reports/drk12_b/helperDrawer/' + helperPage + '.html'"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

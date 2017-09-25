@@ -325,23 +325,6 @@ angular.module( 'instructor.reports')
             window.print();
         };
 
-        $scope.footerHelperClicked = function() {
-            $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill);
-
-            /*
-             Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
-             We do this craziness to help create that illusion
-             */
-            if (!$scope.isFooterOpened) {
-                $scope.isFooterFullScreen = false;
-                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 10);
-            }
-        };
-
         // populate student objects with report data
         populateStudentLearningData(usersData);
 

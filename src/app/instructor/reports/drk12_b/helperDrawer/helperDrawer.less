@@ -103,6 +103,9 @@
   margin: 64px 48px 0 33px;
   padding-right: 32px;
   width: 220px;
+  > div {
+    position: fixed;
+  }
 }
 
 // Modules (are placed into layouts, typically)
@@ -112,11 +115,14 @@
   font-size: 14px;
   font-weight: bold;
   text-align: left;
-  &.selected {
-    color: @aquaBlueDark;
-  }
-  & a {
+  & a:link, a {
     color: @grey2;
+    cursor: pointer;
+    text-decoration: none;
+    &.selected {
+      color: @aquaBlueDark;
+      pointer-events: none;
+    }
   }
 }
 

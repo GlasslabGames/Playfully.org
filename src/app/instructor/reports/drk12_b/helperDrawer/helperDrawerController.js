@@ -1,4 +1,24 @@
 angular.module( 'instructor.reports')
+    .directive('drkHelperSubMenu', function () {
+        return {
+            restrict: 'A',
+            template: '<div class="gl-drk12_b-helperJumpNav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[0])">' +
+                               '<span class="emphasis">I. Focus on the learning goals for this skill</span>' +
+                          '</button>' +
+                      '</div>' +
+                      '<div class="gl-drk12_b-helperJumpNav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[1])">' +
+                              '<span class="emphasis">II. Check on student progress with this skill</span>' +
+                          '</button>' +
+                      '</div>' +
+                      '<div class="gl-drk12_b-helperJumpNav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[3])">' +
+                              '<span class="emphasis">Instruction Plan</span>' +
+                          '</button>' +
+                      '</div>'
+        };
+    })
     .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service) {
         ////////////////////// Initialization /////////////////////////
 
@@ -7,13 +27,20 @@ angular.module( 'instructor.reports')
         $scope.selectedSkill = $stateParams.location;
         $scope.selectedAnchor = $stateParams.anchor;
 
+        $scope.ids = [
+            "id" + $scope.selectedSkill + 0,
+            "id" + $scope.selectedSkill + 1,
+            "id" + $scope.selectedSkill + 2,
+            "id" + $scope.selectedSkill + 3
+        ];
+
         $scope.helperPage = "";
-        $scope.data = {
-            connectingEvidence: "Argument Schemes",
-            supportingClaims: "Claims and Evidence",
-            criticalQuestions: "Critical Questions",
-            usingBacking: "Backing"
-        };
+        $scope.skills = [
+            'connectingEvidence',
+            'supportingClaims',
+            'criticalQuestions',
+            'usingBacking'
+        ];
         $scope.isClassViewActive = null;
 
         //// Date stuff
@@ -71,47 +98,6 @@ angular.module( 'instructor.reports')
             return returnString;
         };
 
-        var updateLocation = function(newDestination, callback) { // TODO: This can probably be removed
-            $scope.helperPage = locationToSubPageFilename(newDestination);
-            updateVariables(newDestination);
-            if (callback) {
-                callback();
-            }
-        };
-
-        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill) { // TODO: This can probably be removed
-            var newDestination = "";
-            var newSubDestination = "";
-
-            if ($state.current.name === "root.reports.details.drk12_b") {
-                if (isClassViewActive !== null) {
-                    $scope.isClassViewActive = isClassViewActive;
-                }
-
-                if (isClassViewActive) {
-                    newDestination = "reportHelper";
-                } else {
-                    newDestination = selectedSkill;
-                }
-            } else if ($state.current.name === "root.reports.details.drk12_b_drilldown") {
-                newDestination = selectedSkill;
-                updateVariables(newDestination); // TODO: See about working this redundancy
-                newSubDestination = "id" + $scope.selectedSkill + "8"; // TODO: Make this less "magical"
-            } else {
-                console.error("Footer opened from unexpected page. This will surely go badly.");
-            }
-
-            updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
-        });
-
-        $scope.$on('CHANGE_PAGE', function(event, newDestination) { // TODO: This can probably be removed
-            updateLocation(newDestination);
-        });
-
-        var updateVariables = function(newLocation) { // TODO: This can probably be removed
-            $scope.selectedSkill = newLocation;
-        };
-
         $scope.gotoLocation = function(locationId) {
             var interval = $interval(function() {
                 if (jQuery("#" + locationId).length > 0) {
@@ -126,19 +112,4 @@ angular.module( 'instructor.reports')
                 $anchorScroll(anchorToId($scope.selectedAnchor));
             }
         });
-    })
-    .controller('helperCtrl', function($scope) {
-        $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
-            return "id" + $scope.selectedSkill + index;
-        });
-
-        $scope.changeSection = function(newOption) {
-            $scope.$emit('CHANGE_PAGE', newOption);
-        };
-
-        $scope.dateOpen = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.dateOpened = true;
-        };
     });
