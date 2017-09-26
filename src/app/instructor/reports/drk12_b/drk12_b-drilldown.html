@@ -1,4 +1,8 @@
-<div class="report-body gl-drk12-l-drillDown-container gl-drk12-base">
+<div class="report-body gl-drk12-base drk-l-top">
+    <a ui-sref="root.reports.details.drk12_b({gameId: games.selectedGameId, courseId: courses.selectedCourseId})">
+        <i class="fa fa-reply"></i>
+        Back to Group Progress
+    </a>
     <div class="drk-l-drilldown-header-container">
         <div>
             <div class="drk-text-button-group">
@@ -23,17 +27,17 @@
         </div>
     </div>
 
-    <div ng-if="selectedMission.skillLevel[selectedSkill].level != 'NotAvailable'">
+    <div class="gl-drk12-l-drillDown-container">
         <div class="drk-l-drilldown-main-container">
             <div> <!-- empty div for flexbox -->
-                <h2 class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].title}}</h2>
+                <h2>{{magicMissionDetails[selectedMission.mission].title}}</h2>
                 <div class="gl-drk12-text">
                     <div class="drk-text-button-group">
                         <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
                         <div>
-                            <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
-                            <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-primary" target="_instructionPlan">Instruction Plan</a>
-                            <button class="btn btn-primary hide-for-printing" ng-click="printPage()">Print</button>
+                            <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_reportHelper">Report Helper</a>
+                            <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_instructionPlan">Instruction Plan</a>
+                            <button class="btn drk-button-secondary hide-for-printing" ng-click="printPage()">Print</button>
                         </div>
                     </div>
                     <div>{{magicMissionDetails[selectedMission.mission].objectiveString}}
@@ -42,23 +46,25 @@
                         </ul>
                     </div>
                 </div>
-                <div class="gl-drk12-flexrow">
-                    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
-                        <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
-                    </button>
-                    <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
-                    <span class="gl-drk12-legenditem">
-                        <img src="/assets/icon-flag.svg">
-                        <span>Critical Question Enabled</span>
-                    </span>
-                </span>
-                </div>
+                <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
+                    <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
+                </button>
                 <ul collapse="collapse" class="gl-drk12-text-small">
                     <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces" ng-bind-html="evidencePiece"></li>
                 </ul>
+                <hr/>
             </div>
             <div>
-                <div class="gl-drk12-l-drillDown-skillcard-container">
+                <div class="gl-drk12-flexrow">
+                    <h3>Performance Drilldown</h3>
+                    <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+                        <span class="gl-drk12-legenditem">
+                            <img src="/assets/icon-flag.svg">
+                            <span>Critical Question Enabled</span>
+                        </span>
+                    </span>
+                </div>
+                <div class="gl-drk12-l-drillDown-skillcard-container" ng-if="selectedMission.skillLevel[selectedSkill].level != 'NotAvailable' && selectedMission.skillLevel[selectedSkill].level != 'NotAttempted'">
                     <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
                         <div class="gl-drk12-tableHeader-background">
                             <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small">
@@ -97,9 +103,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="drk-drilldown-skillcards-unavailable" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable' || selectedMission.skillLevel[selectedSkill].level == 'NotAttempted'">
+                    <div class="gl-drk12-text" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable'">
+                        <div class="emphasis">Not Available</div>
+                        <div>No performance metrics to display.</div>
+                    </div>
+                    <div class="gl-drk12-text" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAttempted'">
+                        <div class="emphasis">Not Started</div>
+                        <div>No performance metrics to display until student has completed mission.</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr/>
+        <h3>Gameplay Transcript</h3>
 
         <!---------------------------------------------- Tables ---------------------------------------------->
 
@@ -125,7 +141,9 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -151,7 +169,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -177,7 +195,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -212,7 +230,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -244,7 +262,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -270,14 +288,11 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-    <div ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable'">
-        There is no data for this mission / skill combination
     </div>
 </div>
