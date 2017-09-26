@@ -123,16 +123,3 @@
         for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with asking critical questions because of language, concepts, or both.
     </li>
 </ul>
-<h2 ng-attr-id="{{ids[3]}}">Instruction Plan</h2>
-<p>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
-
-<div>
-    <a class="btn drk-button-primary larger" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill})">Add New Plan</a>
-</div>
-
-<h3 aria-label="List of current plans">Current Plans</h3>
-
-<a class="btn btn-default" ng-repeat="plan in instructionPlans" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill, noteId: plan.id})">
-    <h4>{{plan.note.name}}</h4>
-    {{plan.date}}
-</a>

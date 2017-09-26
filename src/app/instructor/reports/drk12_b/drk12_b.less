@@ -344,7 +344,7 @@
 .drk-button-as-tab {
   background-color: Transparent;
   border: none;
-  color: @oceanBlue;
+  color: @aquaBlue;
   font-size: 16px;
   font-weight: 400;
   margin-left: -15%;
@@ -363,27 +363,25 @@
   }
 }
 
-.drk-button-primary {
+.drk-button-primary, a.drk-button-primary, a:link.drk-button-primary {
   background-color: @aquaBlue;
   border-color: @aquaBlue;
   color: #fff;
   font-size: 12px;
-  padding: 8px 16px;
-  &.larger {
-    font-size: 16px;
-    line-height: 20px;
+  padding: 12px 16px;
+  &:hover, &:focus {
+    color: #fff;
   }
 }
 
-.drk-button-secondary {
+.drk-button-secondary, a.drk-button-secondary, a:link.drk-button-secondary {
   background-color: #fff;
   border-color: @aquaBlue;
   color: @aquaBlue;
   font-size: 12px;
-  padding: 8px 16px;
-  &.larger {
-    font-size: 16px;
-    line-height: 20px;
+  padding: 12px 16px;
+  &:hover, &:focus {
+    color: @aquaBlue;
   }
 }
 
