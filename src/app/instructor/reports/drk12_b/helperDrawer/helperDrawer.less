@@ -8,10 +8,10 @@
 
 .drk-l-subpageLayout {
   display: flex;
-  div:first-child { // Menu
-    div {
-      margin: 12px 0;
-    }
+  > div:first-child { // Menu
+     div {
+       margin: 12px 0;
+     }
   }
   hr {
     margin: 24px 0 48px 0;
@@ -19,8 +19,11 @@
 }
 
 .gl-drk-l-helperMainContent {
-  margin: 64px 33px 48px 0;
+  margin: 64px 33px 0 0;
   width: 576px;
+  .drk-helperSection {
+    margin-bottom: 48px;
+  }
 }
 
 
@@ -104,6 +107,7 @@
     font-family: bitter, serif;
     font-size: 16px;
     line-height: 24px;
+    margin-bottom: 24px;
   }
 
   textarea {
@@ -113,5 +117,25 @@
     min-height: 130px;
     resize: vertical;
     width: 100%;
+  }
+}
+
+.drk-currentPlansList {
+  display: flex;
+  flex-direction: column;
+}
+
+a.drk-currentPlanItem {
+  margin-bottom: 16px;
+  padding: 16px;
+  > div {
+    color: @grey2;
+    margin: 0;
+    text-align: left;
+  }
+  > div:first-of-type {
+    color: @comparidroid;
+    font-weight: bold;
+    margin-bottom: 8px;
   }
 }
