@@ -33,7 +33,7 @@
                 <h2>{{magicMissionDetails[selectedMission.mission].title}}</h2>
                 <div class="gl-drk12-text">
                     <div class="drk-text-button-group">
-                        <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
+                        <div class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
                         <div>
                             <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_reportHelper">Report Helper</a>
                             <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_instructionPlan">Instruction Plan</a>
