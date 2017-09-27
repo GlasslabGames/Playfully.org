@@ -7,14 +7,35 @@
 // Base
 
 .gl-drk12-base {
-  color: @grey2;
-  h2 {
-    color: @grey2; // Overriding a style in main.less
+  h1, .h1 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
   }
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  h2, .h2 {
+    color: @grey2; // Overriding a style in main.less
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 32px;
+  }
+  h3, .h3 {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+    &.emphasis {
+      font-weight: bold;
+    }
+  }
+  h4, .h4 {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+
   p {
     margin: 0;
   }
+
   textarea, input[type=text] {
     border: 1px solid @grey4;
     border-radius: 6px;
@@ -34,6 +55,8 @@
     height: 160px;
     width: 508px;
   }
+  color: @grey2;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 // Container (Layout)
@@ -347,6 +370,7 @@
   text-align: left;
   h1& {
     font-size: 32px;
+    font-weight: bold;
     line-height: 40px;
     @media print {
       font-size: 20px;

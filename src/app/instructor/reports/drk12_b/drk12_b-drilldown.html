@@ -6,7 +6,7 @@
     <div class="drk-l-drilldown-header-container">
         <div>
             <div class="drk-text-button-group">
-                <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
+                <h2 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h2>
                 <div>
                     <button class="btn drk-button-primary drk-skill-selector previous" ng-class="{'disabled': selectedMission.mission == 1}" ng-click="navigateToMission(false)">
                         <span class="fa fa-caret-left"></span> Previous
@@ -30,7 +30,7 @@
     <div class="gl-drk12-l-drillDown-container">
         <div class="drk-l-drilldown-main-container">
             <div> <!-- empty div for flexbox -->
-                <h2 class="gl-drk12-heading">{{magicMissionDetails[selectedMission.mission].title}}</h2>
+                <h1 class="gl-drk12-heading">{{magicMissionDetails[selectedMission.mission].title}}</h1>
                 <div class="gl-drk12-text">
                     <div class="drk-text-button-group">
                         <div class="gl-drk12-heading-secondary-small gl-drk12-heading">{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
@@ -56,7 +56,7 @@
             </div>
             <div>
                 <div class="gl-drk12-flexrow">
-                    <h3 class="gl-drk12-heading">Performance Drilldown</h3>
+                    <h2 class="gl-drk12-heading">Performance Drilldown</h2>
                     <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
                         <span class="gl-drk12-legenditem">
                             <img src="/assets/icon-flag.svg">
@@ -115,14 +115,14 @@
                 </div>
             </div>
         </div>
-        <h3 class="gl-drk12-heading">Gameplay Transcript</h3>
+        <h2 class="gl-drk12-heading">Gameplay Transcript</h2>
 
         <!---------------------------------------------- Tables ---------------------------------------------->
 
         <!-- If skill 1 (Argument Schemes) -->
         <div class="gl-drk12-transcript" ng-if="isFirstSkill()">
             <div class="gl-drk12-singleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Player Scheme-Evidence Matches</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Player Scheme-Evidence Matches</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background">
                         <tr>
@@ -153,7 +153,7 @@
         <!-- If skill 2 (Claims and Evidence) -->
         <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
             <div  class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Player Claim Cores Built</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Player Claim Cores Built</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
                         <tr>
@@ -176,7 +176,7 @@
             </div>
 
             <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Opponent Claim Cores Attacked</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Opponent Claim Cores Attacked</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background">
                         <tr>
@@ -205,7 +205,7 @@
         <!-- If skill 3 (Critical Questions) -->
         <div class="gl-drk12-transcript" ng-if="isThirdSkill()">
             <div class="gl-drk12-singleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Critical Questions Used</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Critical Questions Used</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background">
                         <tr>
@@ -240,7 +240,7 @@
         <!-- If skill 4 (Backing) -->
         <div class="gl-drk12-transcript" ng-if="isFourthSkill()">
             <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Backing Attached Before Battle</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Backing Attached Before Battle</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background">
                         <tr>
@@ -269,7 +269,7 @@
             </div>
 
             <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading gl-drk12-heading-secondary-small">Backing Used in Battle</div>
+                <div class="h4 gl-drk12-heading gl-drk12-heading-secondary-small">Backing Used in Battle</div>
                 <table>
                     <thead class="gl-drk12-tableHeader-background">
                         <tr>

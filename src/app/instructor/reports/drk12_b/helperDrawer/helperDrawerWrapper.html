@@ -1,7 +1,7 @@
-<div class="gl-drk12-base drk-l-overallPageLayout">
+<div class="gl-drk12-base drk-l-helper-overall">
     <div class="gl-navbar--top ng-scope">
         <div class="container">
-            <h1 class="drk-helper-logo">Report Helper</h1>
+            <h1 class="h4 drk-helper-logo">Report Helper</h1>
         </div>
     </div>
 
@@ -39,7 +39,7 @@
 
                     <h3 aria-label="List of current plans">Current Plans</h3>
 
-                    <div class="drk-currentPlansList">
+                    <div class="drk-l-currentPlansList">
                         <a class="btn btn-default drk-currentPlanItem" ng-repeat="plan in instructionPlans" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill, noteId: plan.id})">
                             <div>{{plan.note.name}}</div>
                             <div>{{plan.date | date:'MMMM d, y'}}</div>
