@@ -1,16 +1,16 @@
-<div class="report-container--wide gl-margin--Txl gl-margin--Bxl gl-drk12-base">
+<div class="report-container--wide gl-margin--Txl gl-margin--Bxl drk-base">
 
     <div class="report-body">
-        <div class="gl-drk12-l-container">
-            <button class="fa fa-question-circle gl-drk12-helpicon" ng-click="openModal('info')" type="button"></button>
-            <h1 class="gl-drk12-heading hide-for-printing">Current Mission</h1>
-            <h1 class="gl-drk12-heading gl-drk12-heading-secondary show-for-printing">{{skills.options[selectedSkill].displayLabel}}</h1>
-            <p class="gl-drk12-text hide-for-printing">Summary of student distribution on their current mission.</p>
+        <div class="drk-l-container">
+            <button class="fa fa-question-circle drk-helpicon" ng-click="openModal('info')" type="button"></button>
+            <h1 class="drk-heading hide-for-printing">Current Mission</h1>
+            <h1 class="drk-heading drk-heading-secondary show-for-printing">{{skills.options[selectedSkill].displayLabel}}</h1>
+            <p class="drk-text hide-for-printing">Summary of student distribution on their current mission.</p>
 
-            <div class="gl-drk12-l-containerclass">
-                <div id="drk12_bChart" class="gl-drk12-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
+            <div class="drk-l-containerclass">
+                <div id="drk12_bChart" class="drk-chart" ng-init="doDrawCourseStatusChart()"></div> <!-- TODO: Refine this -->
                 <div class="drk-emphasized-background">
-                    <h1 class="gl-drk12-heading" style="padding-bottom: 1em;">Performance on Most Recent Mission</h1>
+                    <h1 class="drk-heading" style="padding-bottom: 1em;">Performance on Most Recent Mission</h1>
                     <div class="drk-piechartskilllevel drk-l-piecharts">
                         <div ng-repeat="(key, skill) in skills.options">
                             <div ng-attr-id="{{'courseSkill_' + key}}"></div>
@@ -20,19 +20,19 @@
                 </div>
             </div>
 
-            <div class="gl-drk12-l-containerstudent">
+            <div class="drk-l-containerstudent">
                 <div class="drk-text-button-group">
-                    <h1 class="gl-drk12-heading">Performance Over Time</h1>
+                    <h1 class="drk-heading">Performance Over Time</h1>
                     <div style="transform: translate(0, -6px);">
                         <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_reportHelper">Report Helper</a>
                         <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_instructionPlan">Instruction Plan</a>
                         <button class="btn drk-button-secondary hide-for-printing" ng-click="printPage()">Print</button>
                     </div>
                 </div>
-                <div class="gl-drk12-heading-secondary-small hide-for-printing">Filter data by:</div>
+                <div class="drk-heading-secondary-small hide-for-printing">Filter data by:</div>
                 <div>
-                    <div class="btn-group gl-drk12-l-dropdown" dropdown is-open="skills.isDropdownOpen">
-                        <button type="button" class="btn btn-default gl-drk12-dropdowntextbutton"
+                    <div class="btn-group drk-l-dropdown" dropdown is-open="skills.isDropdownOpen">
+                        <button type="button" class="btn btn-default drk-dropdown-text-button"
                                 ng-click="toggleDropdown($event)"
                                 ng-bind="skills.options[selectedSkill].subSkills[selectedSubSkill]">
                         </button>
@@ -50,28 +50,28 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="gl-drk12-legend">
-                        <span class="gl-drk12-legenditem">
+                    <div class="drk-legend">
+                        <span class="drk-legend-item">
                             <span class="advancing">Green:</span>
                             <span>&ge; 70%</span>
                         </span>
-                        <span class="gl-drk12-legenditem">
+                        <span class="drk-legend-item">
                             <span class="needssupport">Yellow:</span>
                             <span>< 70%</span>
                         </span>
-                        <span class="gl-drk12-legenditem">
+                        <span class="drk-legend-item">
                             <span>Gray:</span>
                             <span>No Data</span>
                         </span>
                     </div>
                 </div>
-                <table class="table gl-drk12-table" ng-class="{'gl-reports-table--ie': isIE}">
+                <table class="table drk-table" ng-class="{'gl-reports-table--ie': isIE}">
                     <thead>
                         <tr>
-                            <th class="gl-drk12_b-first-table-column">
-                                <button class="gl-drk12-tablesort" ng-click="sortSelected('student')" type="button">
+                            <th>
+                                <button class="drk-tablesort" ng-click="sortSelected('student')" type="button">
                                     Student
-                                    <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
+                                    <i ng-class="sortingData.current === 'student' ? (sortingData.isReverseSort ? 'drk-sort-up' : 'drk-sort-down') : 'drk-sort-down'"></i>
                                 </button>
                             </th>
                             <th ng-repeat="missionObject in reportData.courseProgress" ng-class="{'disabled': missionObject[selectedSkill].disabled}">
@@ -86,16 +86,16 @@
                                 <span ng-if="missionObject.mission !== 'BT' && missionObject.mission !== 'ST'">{{missionObject.mission}}</span>
                             </th>
                             <th>
-                                <button class="gl-drk12-tablesort" ng-click="sortSelected('average')" type="button">
+                                <button class="drk-tablesort" ng-click="sortSelected('average')" type="button">
                                     <span popover="Successful attempts across all missions with gameplay data for this skill" popover-title="AVG - Average" popover-trigger="mouseenter" popover-placement="bottom" popover-append-to-body="true">AVG</span>
-                                    <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'sort-up' : 'sort-down') : 'sort-down'"></i>
+                                    <i ng-class="sortingData.current === 'average' ? (sortingData.isReverseSort ? 'drk-sort-up' : 'drk-sort-down') : 'drk-sort-down'"></i>
                                 </button>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="student in courses.selected.users | orderBy:userSortFunction(sortingData.current):sortingData.isReverseSort">
-                            <td class="gl-drk12-table-x-name">{{student.firstName}} {{student.lastName}}</td>
+                            <td class="drk-table-x-name">{{student.firstName}} {{student.lastName}}</td>
                             <td ng-repeat="mission in student.results.missions"
                                 ng-click="navigateToDrilldown(student, student.results.missions[$index])"
                                 ng-class="(selectedSubSkill === 'all' ? mission.skillLevel[selectedSkill].level : subSkillPercentToLevel(mission.skillLevel[selectedSkill].detail[selectedSubSkill].correct / mission.skillLevel[selectedSkill].detail[selectedSubSkill].attempts, mission.skillLevel[selectedSkill].level))"
@@ -115,7 +115,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+    <script type="text/javascript"> // TODO: is this still needed/used?
         $('#drk12_b-header').on('scroll', function () {
             $('#drk12_b-body').scrollLeft($(this).scrollLeft());
         });

@@ -2,17 +2,17 @@ angular.module( 'instructor.reports')
     .directive('drkHelperSubMenu', function () {
         return {
             restrict: 'A',
-            template: '<div class="gl-drk-helperJumpNav">' +
+            template: '<div class="drk-helper-jump-nav">' +
                           '<button type="button" ng-click="gotoLocation(ids[0])">' +
                                '<span class="emphasis">I. Focus on the learning goals for this skill</span>' +
                           '</button>' +
                       '</div>' +
-                      '<div class="gl-drk-helperJumpNav">' +
+                      '<div class="drk-helper-jump-nav">' +
                           '<button type="button" ng-click="gotoLocation(ids[1])">' +
                               '<span class="emphasis">II. Check on student progress with this skill</span>' +
                           '</button>' +
                       '</div>' +
-                      '<div class="gl-drk-helperJumpNav">' +
+                      '<div class="drk-helper-jump-nav">' +
                           '<button type="button" ng-click="gotoLocation(ids[3])">' +
                               '<span class="emphasis">Instruction Plan</span>' +
                           '</button>' +

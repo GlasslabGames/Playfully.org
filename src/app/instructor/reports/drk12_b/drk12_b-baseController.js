@@ -37,13 +37,6 @@ angular.module( 'instructor.reports')
         }
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
-
-        $scope.progressTypes = { // TODO: This is redundant. Should probably move to service.
-            advancing: {class:'Advancing', title: 'Advancing'},
-            needSupport: {class:'NeedSupport', title: 'Needs Support'},
-            notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
-        };
-
         $scope.skills = Drk12Service.skills;
         $scope.skills.isDropdownOpen = false;
 
@@ -333,7 +326,7 @@ angular.module( 'instructor.reports')
         Heavily influenced by http://stackoverflow.com/a/24973235/969869
          */
         $scope.doDrawCourseStatusChart = function() {
-            var d3ContainerElem = d3.select("#drk12_bChart").classed("svg-container", true);
+            var d3ContainerElem = d3.select("#drk12_bChart").classed("drk-svg-container", true);
 
             if ($scope.noUserData) { return; }
 
@@ -353,7 +346,7 @@ angular.module( 'instructor.reports')
             var svg = d3ContainerElem.append("svg")
                 .attr("viewBox", "0 0 800 200")
                 .attr("preserveAspectRatio", "xMinYMin meet")
-                .classed("svg-content-responsive", true);
+                .classed("drk-svg-content-responsive", true);
 
             var chartGroup = svg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

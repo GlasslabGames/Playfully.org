@@ -1,42 +1,42 @@
-<div class="gl-drk12-base drk-l-instruction-overall">
+<div class="drk-base drk-l-instruction-overall">
     <div class="gl-navbar--top ng-scope">
         <div class="container">
             <h1 class="h4 drk-helper-logo">Instruction Plan</h1>
         </div>
     </div>
 
-    <div class="container report-body drk-instructionMainContent">
+    <div class="container report-body drk-instruction-main-content">
         <form>
             <h2>Next steps for {{data[selectedSkill]}}</h2>
             <p class="sub-header">Plan your next steps to help students meet the learning goals for this skill.</p>
-            <label class="h4 gl-drk12-heading" for="name">Nickname for this plan (optional)</label>
+            <label class="h4 drk-heading" for="name">Nickname for this plan (optional)</label>
             <div class="form-group">
                 <input type="text" id="name" placeholder="Name your plan" ng-model="submissionData.note.name"/>
             </div>
-            <div class="h4 gl-drk12-heading">Students to Group:</div>
-            <div class="drk-instructionPlan-radio-label">
+            <div class="h4 drk-heading">Students to Group:</div>
+            <div class="drk-instruction-plan-radio-label">
                 <input id="group_all" type="radio" ng-model="submissionData.student_group" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
             </div>
-            <div class="drk-instructionPlan-radio-label">
+            <div class="drk-instruction-plan-radio-label">
                 <input id="group_advance" type="radio" ng-model="submissionData.student_group" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
             </div>
-            <div class="drk-instructionPlan-radio-label">
+            <div class="drk-instruction-plan-radio-label">
                 <input id="group_support" type="radio" ng-model="submissionData.student_group" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
             </div>
             <div class="drk-l-custom-radio">
-                <div class="drk-instructionPlan-radio-label">
+                <div class="drk-instruction-plan-radio-label">
                     <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom">Custom ({{temporaryData.selectedStudents | objectLength}})</label>
                 </div>
-                <div class="gl-drk12-legend" ng-if="submissionData.student_group === 'custom'">
-                    <span class="gl-drk12-legenditem">
+                <div class="drk-legend" ng-if="submissionData.student_group === 'custom'">
+                    <span class="drk-legend-item">
                         <span class="advancing">Green:</span>
                         <span>&ge; 70%</span>
                     </span>
-                    <span class="gl-drk12-legenditem">
+                    <span class="drk-legend-item">
                         <span class="needssupport">Yellow:</span>
                         <span>< 70%</span>
                     </span>
-                    <span class="gl-drk12-legenditem">
+                    <span class="drk-legend-item">
                         <span>Gray:</span>
                         <span>No Data</span>
                     </span>
@@ -56,24 +56,24 @@
             </div>
 
             <div>
-                <label class="h4 gl-drk12-heading" for="challenges">What challenges do these students have applying this skill, if any?</label>
+                <label class="h4 drk-heading" for="challenges">What challenges do these students have applying this skill, if any?</label>
                 <textarea id="challenges" ng-model="submissionData.note.challenges" placeholder="Add challenges"></textarea>
             </div>
 
             <div>
-                <label class="h4 gl-drk12-heading" for="struggles">Why might they be struggling?</label>
+                <label class="h4 drk-heading" for="struggles">Why might they be struggling?</label>
                 <textarea id="struggles" ng-model="submissionData.note.struggles" placeholder="Enter the 'why's"></textarea>
             </div>
 
             <div>
-                <label class="h4 gl-drk12-heading" for="changes">What instructional changes will you make for these students?</label>
+                <label class="h4 drk-heading" for="changes">What instructional changes will you make for these students?</label>
                 <textarea id="changes" ng-model="submissionData.note.changes" placeholder="Add your proposed changes"></textarea>
             </div>
 
-            <label class="h4 gl-drk12-heading">Optional Differentiation Materials</label>
+            <label class="h4 drk-heading">Optional Differentiation Materials</label>
             <div ng-include="'instructor/reports/drk12_b/instructionPlan/' + planPage + '.html'"></div>
 
-            <label class="h4 gl-drk12-heading" for="follow">Follow Up</label>
+            <label class="h4 drk-heading" for="follow">Follow Up</label>
             <p>How did it go? Notes on the implementation.</p>
             <textarea id="follow" ng-model="submissionData.note.followup" placeholder="How did it go?"></textarea>
 
