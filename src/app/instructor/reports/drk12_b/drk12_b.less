@@ -55,6 +55,24 @@
     height: 160px;
     width: 508px;
   }
+
+  // Bolding ordered lists. Gotten from https://stackoverflow.com/a/21369918/3806842
+  ol {
+    counter-reset: item;
+  }
+
+  ol > li {
+    counter-increment: item;
+    list-style-type: none;
+    text-indent: -1em;
+  }
+
+  ol > li:before {
+    content: counter(item) ".";
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
   color: @grey2;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
