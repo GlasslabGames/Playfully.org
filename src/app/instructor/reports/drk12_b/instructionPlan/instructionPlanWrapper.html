@@ -45,8 +45,12 @@
 
             <div collapse="submissionData.student_group !== 'custom'">
                 <div class="drk-plan-student-card-container">
-                    <div class="drk-plan-student-card" ng-repeat="student in courseData.users">
-                        <label><input type="checkbox" ng-model="temporaryData.selectedStudents[student.id]">{{student.firstName}} {{student.lastName}}</label>
+                    <div class="drk-plan-student-card" ng-class="{'is-selected': temporaryData.selectedStudents[student.id]}" ng-repeat="student in courseData.users">
+                        <div class="drk-custom-checkbox">
+                            <input id="{{student.id}}" type="checkbox" ng-model="temporaryData.selectedStudents[student.id]">
+                            <label for="{{student.id}}"></label>
+                        </div>
+                        <label for="{{student.id}}">{{student.firstName}} {{student.lastName}}</label>
                         <span class="{{student.results.currentProgress.skillLevel[selectedSkill].level}}" ng-if="student.results.currentProgress.skillLevel[selectedSkill].average">
                         {{student.results.currentProgress.skillLevel[selectedSkill].average | number:0}}%
                     </span>

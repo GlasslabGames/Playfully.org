@@ -103,13 +103,11 @@
   display: flex; align-items: center;
   height: 40px;
   margin-top: 16px;
+  padding-left: 12px;
   position: relative;
   width: 176px;
-  label {
+  > label {
     margin: 0 0 0 12px;
-    input {
-      margin: 0 12px 0 0;
-    }
   }
   span {
     font-weight: bold;
@@ -124,6 +122,13 @@
     }
     &.NotAttempted {
       color: @grey4;
+    }
+  }
+  &.is-selected {
+    background-color: @aquaBlueDark;
+    color: white;
+    .Advancing, .NeedSupport, .NotAttempted {
+      color: white;
     }
   }
 }
