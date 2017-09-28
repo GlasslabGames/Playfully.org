@@ -15,17 +15,31 @@
             </div>
             <div class="h4 drk-heading">Students to Group:</div>
             <div class="drk-instruction-plan-radio-label">
-                <input id="group_all" type="radio" ng-model="submissionData.student_group" value="all"> <label for="group_all">Whole Class ({{reportData.students.length}})</label>
+                <span class="drk-custom-radio">
+                    <input id="group_all" type="radio" ng-model="submissionData.student_group" value="all"> <label for="group_all"></label>
+                </span>
+                <label for="group_all">Whole Class ({{reportData.students.length}})</label>
+            </div>
+
+            <div class="drk-instruction-plan-radio-label">
+                <span class="drk-custom-radio">
+                    <input id="group_advance" type="radio" ng-model="submissionData.student_group" value="Advancing"> <label for="group_advance"></label>
+                </span>
+                <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
             </div>
             <div class="drk-instruction-plan-radio-label">
-                <input id="group_advance" type="radio" ng-model="submissionData.student_group" value="Advancing"> <label for="group_advance">Advancing ({{reportData.courseSkills[selectedSkill].Advancing}})</label>
+                <span class="drk-custom-radio">
+                    <input id="group_support" type="radio" ng-model="submissionData.student_group" value="NeedSupport"> <label for="group_support"></label>
+                </span>
+                <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
             </div>
-            <div class="drk-instruction-plan-radio-label">
-                <input id="group_support" type="radio" ng-model="submissionData.student_group" value="NeedSupport"> <label for="group_support">Need Support ({{reportData.courseSkills[selectedSkill].NeedSupport}})</label>
-            </div>
+
             <div class="drk-l-custom-radio">
                 <div class="drk-instruction-plan-radio-label">
-                    <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom">Custom ({{temporaryData.selectedStudents | objectLength}})</label>
+                    <span class="drk-custom-radio">
+                        <input id="group_custom" type="radio" ng-model="submissionData.student_group" value="custom"> <label for="group_custom"></label>
+                    </span>
+                    <label for="group_custom">Custom ({{temporaryData.selectedStudents | objectLength}})</label>
                 </div>
                 <div class="drk-legend" ng-if="submissionData.student_group === 'custom'">
                     <span class="drk-legend-item">
