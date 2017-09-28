@@ -67,16 +67,20 @@
   padding-left: 182px;
 }
 
-.drk-helper-menu {
+.drk-helper-menu-container {
   display: flex;
   flex-direction: column;
   margin: 64px 48px 0 33px;
   width: 220px;
-  > div {
+  .drk-helper-menu {
     border-right: 1px solid @grey6;
     padding-right: 40px;
-    position: fixed;
+    position: absolute;
     width: 220px;
+    &.fixed {
+      position: fixed;
+      top: 64px;
+    }
   }
 }
 

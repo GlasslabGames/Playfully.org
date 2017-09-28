@@ -7,8 +7,8 @@
 
     <div class="container report-body" ng-controller="helperWrapperCtrl">
         <div class="drk-l-subpageLayout">
-            <div class="drk-helper-menu">
-                <div>
+            <div class="drk-helper-menu-container">
+                <div class="drk-helper-menu" sticky-menu>
                     <div class="drk-helper-menu-title">
                         <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: gameId, courseId: courseId, location: 'connectingEvidence'})" ng-class="{selected: selectedSkill === skills[0]}">Argument Schemes</a>
                         <div ng-if="selectedSkill === skills[0]" drk-helper-sub-menu></div>

@@ -19,6 +19,22 @@ angular.module( 'instructor.reports')
                       '</div>'
         };
     })
+    .directive('stickyMenu', function($document) { // Starting inspiration from https://css-tricks.com/scroll-fix-content/
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                $document.unbind('scroll');
+
+                $document.bind("scroll", function(event) {
+                    if ($document.scrollTop() > 152) {
+                        element.addClass("fixed");
+                    } else {
+                        element.removeClass("fixed");
+                    }
+                });
+            }
+        };
+    })
     .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service) {
         ////////////////////// Initialization /////////////////////////
 
