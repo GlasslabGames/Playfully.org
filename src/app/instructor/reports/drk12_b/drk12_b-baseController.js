@@ -367,7 +367,7 @@ angular.module( 'instructor.reports')
                 .append("rect")
                 .attr("class", "bar")
                 .attr("x", function(d) { return x(d.mission); })
-                .attr("width", x.rangeBand())
+                .attr("width", 39)
                 .attr("y", function(d) { return y(d.studentCount); })
                 .attr("height", function(d) { return height - y(d.studentCount); });
 
@@ -393,6 +393,9 @@ angular.module( 'instructor.reports')
             chartGroup.selectAll("g.x.axis g.tick")
                 .append("circle")
                 .attr("r", 8);
+
+            chartGroup.selectAll("g.x.axis g.tick text")
+                .attr("y", 19);
         };
 
         var populateCharts = function() {
