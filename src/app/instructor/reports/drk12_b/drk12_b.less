@@ -476,6 +476,7 @@
   background-color: @aquaBlue;
   border-color: @aquaBlue;
   color: #fff;
+  cursor: pointer;
   font-size: 12px;
   padding: 12px 16px;
   &:hover, &:focus {
@@ -489,12 +490,23 @@
     color: #fff;
     outline:0;
   }
+  &.disabled {
+    background-color: @grey5;
+    border-color: @grey5;
+    pointer-events: initial;
+    &:hover, &:focus, &:active, &:active:focus {
+      background-color: @grey5;
+      border-color: @grey5;
+      color: white;
+    }
+  }
 }
 
 .drk-button-secondary, a.drk-button-secondary, a:link.drk-button-secondary {
   background-color: #fff;
   border-color: @aquaBlue;
   color: @aquaBlue;
+  cursor: pointer;
   font-size: 12px;
   padding: 12px 16px;
   &:hover, &:focus {
@@ -815,18 +827,6 @@ tr + tr.no-repeated-tr-content {
 
 .drk-table-header-background {
   background-color: @grey8;
-}
-
-.drk-skill-selector {
-  background-color: @aquaBlue;
-  color: white;
-  cursor: pointer;
-  &.disabled {
-    background-color: @grey5;
-    border-color: @grey5;
-    cursor: not-allowed;
-    pointer-events: initial;
-  }
 }
 
 .drk-transcript {
