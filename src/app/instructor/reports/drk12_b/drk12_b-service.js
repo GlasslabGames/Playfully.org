@@ -1,5 +1,6 @@
 angular.module( 'instructor.reports')
     .service('Drk12Service', function($http, API_BASE) {
+        this.currentReportCourseId = null;
         this.reportDataFromServer = null;
 
         this.getInstructionPlans = function( courseId, gameId, skill ) {
