@@ -36,6 +36,19 @@
     margin: 0;
   }
 
+  a {
+    color: @comparidroid;
+    text-decoration: none;
+    &:hover, &:focus {
+      color: @aquaBlue;
+      outline:0;
+    }
+    &:active, &:active:focus {
+      color: @aquaBlueDark;
+      outline:0;
+    }
+  }
+
   textarea, input[type=text] {
     border: 1px solid @grey4;
     border-radius: 6px;
