@@ -251,8 +251,9 @@
 .drk-l-drilldown-main-container {
   display: flex;
   flex-direction: column;
-  >div >ul li {
-    padding-bottom: 10px;
+  > div > ul li {
+    margin-bottom: 10px;
+    max-width: 460px;
   }
   @media print {
     flex-direction: row;
@@ -266,12 +267,28 @@
   }
 }
 
+.drk-l-drilldown-main-container h1 {
+  margin-bottom: 8px;
+}
+
 .drk-l-drilldown-main-container h2 {
   margin-bottom: 8px;
 }
 
 .drk-l-drilldown-main-container hr {
-  margin-top: 16px;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.drk-l-drilldown-main-container .drk-text-button-group {
+  margin-bottom: 8px;
+  div:first-child {
+    padding-right: 60px;
+  }
+}
+
+.drk-l-drilldown-main-container .drk-collapse-button {
+  margin-bottom: 8px;
 }
 
 // Container Drilldown Skillcards (Layout)
@@ -967,7 +984,7 @@ div.popover-content {
 .drk-collapse-button {
   background: none;
   border: none;
-  font-weight: 400;
+  font-weight: 500;
   span:first-child {
     color: #6CCAD9;
     font-size: 22px;

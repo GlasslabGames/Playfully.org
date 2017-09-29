@@ -49,7 +49,7 @@
                 <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="drk-collapse-button">
                     <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
                 </button>
-                <ul collapse="collapse" class="drk-text-small">
+                <ul collapse="collapse" class="drk-text-small emphasis">
                     <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces" ng-bind-html="evidencePiece"></li>
                 </ul>
                 <hr/>
