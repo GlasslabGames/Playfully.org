@@ -394,7 +394,7 @@ angular.module( 'instructor.reports')
                 .append("circle")
                 .attr("r", 8);
 
-            chartGroup.selectAll("g.x.axis g.tick text")
+            chartGroup.selectAll("g.x.axis g.tick text") // Positioning the lower text
                 .attr("y", 19);
         };
 
@@ -418,7 +418,7 @@ angular.module( 'instructor.reports')
                 courseSkillStats.push({skill: skillKey, total: skillValue});
             });
 
-            var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("blah", true); // TODO: Change this
+            var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("drk-pie-chart", true);
 
             var margin = {top: 0, right: 0, bottom: 0, left: 0},
                 width = 148 - margin.left - margin.right,
@@ -476,6 +476,7 @@ angular.module( 'instructor.reports')
             textG.append("text")
                 .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
                 .attr("dy", ".35em")
+                .attr("fill", "white")
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     if (d.data.total === 0) { return ""; }
