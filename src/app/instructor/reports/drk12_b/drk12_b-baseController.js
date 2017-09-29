@@ -207,7 +207,13 @@ angular.module( 'instructor.reports')
                 }
                 if (colName === 'average') { // TODO: Deal with these magic values
                     if (user.results.currentProgress.skillLevel && user.results.currentProgress.skillLevel[$scope.selectedSkill]) {
-                        return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                        if ($scope.selectedSubSkill === 'all') {
+                            return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                        } else if (user.results.currentProgress.skillLevel[$scope.selectedSkill].detail && user.results.currentProgress.skillLevel[$scope.selectedSkill].detail[$scope.selectedSubSkill]) {
+                            return user.results.currentProgress.skillLevel[$scope.selectedSkill].detail[$scope.selectedSubSkill].average;
+                        } else {
+                            return -1;
+                        }
                     } else {
                         return -1;
                     }
@@ -263,13 +269,13 @@ angular.module( 'instructor.reports')
 
             var average = 0;
             if ($scope.selectedSubSkill === 'all') {
-                if (!skill.score || !skill.score.attempts || skill.score.attempts === 0) {
+                if (!skill.score || !skill.score.attempts || (skill.score.attempts === 0 && skill.score.average === 0)) {
                     return "-";
                 } else {
                     average = skill.average;
                 }
             } else {
-                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || (skill.detail[$scope.selectedSubSkill].attempts === 0 && skill.detail[$scope.selectedSubSkill].average === 0)) {
                     return "-";
                 } else {
                     average = skill.detail[$scope.selectedSubSkill].average;
