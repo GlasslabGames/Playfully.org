@@ -41,9 +41,12 @@
     color: @grey6;
   }
 
-  a {
+  a, a:link {
     color: @comparidroid;
     text-decoration: none;
+    &:visited {
+      color: @comparidroid;
+    }
     &:hover, &:focus {
       color: @aquaBlue;
       outline:0;
