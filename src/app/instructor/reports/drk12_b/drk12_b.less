@@ -447,12 +447,15 @@
 .drk-button-as-tab {
   background-color: Transparent;
   border: none;
-  color: @aquaBlue;
+  color: @comparidroid;
   font-size: 16px;
   font-weight: 400;
   margin-left: -15%;
   height: 51px;
   width: 214px;
+  &:hover {
+    color: @aquaBlue;
+  }
   &.selected {
     background-color: white;
     border-top: 1px solid @grey6;
@@ -463,6 +466,9 @@
     color: @grey2;
     font-size: 16px;
     height: 51px;
+    &:hover {
+      color: @grey2;
+    }
   }
 }
 
