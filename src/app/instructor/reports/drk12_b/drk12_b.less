@@ -459,7 +459,15 @@
   font-size: 12px;
   padding: 12px 16px;
   &:hover, &:focus {
+    background-color: #fff;
+    color: @aquaBlue;
+    outline:0;
+  }
+  &:active, &:active:focus {
+    background-color: @aquaBlueDark;
+    border-color: @aquaBlueDark;
     color: #fff;
+    outline:0;
   }
 }
 
@@ -470,7 +478,15 @@
   font-size: 12px;
   padding: 12px 16px;
   &:hover, &:focus {
-    color: @aquaBlue;
+    background-color: @aquaBlue;
+    color: #fff;
+    outline:0;
+  }
+  &:active, &:active:focus {
+    background-color: #fff;
+    border-color: @aquaBlueDark;
+    color: @aquaBlueDark;
+    outline:0;
   }
 }
 
