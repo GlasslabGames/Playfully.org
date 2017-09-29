@@ -990,11 +990,20 @@ div.popover-content {
   border: none;
   font-weight: 500;
   span:first-child {
-    color: #6CCAD9;
+    color: @aquaBlue;
     font-size: 22px;
     font-weight: normal;
     display: inline-block;
     width: 15px;
+    &:active {
+      color: @aquaBlueDark;
+    }
+  }
+  &:hover {
+    color: @aquaBlue;
+  }
+  &:active {
+    color: @aquaBlueDark;
   }
 }
 
