@@ -288,7 +288,10 @@ angular.module( 'instructor.reports', [
                     },
                     usersData: function (ReportsService, Drk12Service, $stateParams) {
                         var reportId = 'drk12_b';
-                        if (Drk12Service.reportDataFromServer === null) {
+                        if (Drk12Service.reportDataFromServer === null ||
+                            Drk12Service.currentReportCourseId === null ||
+                            Drk12Service.currentReportCourseId !== $stateParams.courseId) {
+                            Drk12Service.currentReportCourseId = $stateParams.courseId;
                             Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
                         }
                         return Drk12Service.reportDataFromServer;
@@ -324,19 +327,50 @@ angular.module( 'instructor.reports', [
                     },
                     usersData: function (ReportsService, Drk12Service, $stateParams) {
                         var reportId = 'drk12_b';
-                        if (Drk12Service.reportDataFromServer === null) {
+                        if (Drk12Service.reportDataFromServer === null ||
+                            Drk12Service.currentReportCourseId === null ||
+                            Drk12Service.currentReportCourseId !== $stateParams.courseId) {
+                            Drk12Service.currentReportCourseId = $stateParams.courseId;
                             Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
                         }
                         return Drk12Service.reportDataFromServer;
                     }
                 }
             })
-            .state('root.drk12ReportHelper', {
+            .state('root.cleanChrome', {
+                abstract: true,
+                url: 'clean'
+            })
+            .state('root.cleanChrome.drk12ReportHelper', {
                 controller: 'helperWrapperCtrl',
-                url: 'drk12_b_helper/location/:location?anchor',
+                url: '/reportHelper/game/:gameId/course/:courseId/location/:location?anchor',
                 views: {
                     'main@': {
                         templateUrl: 'instructor/reports/drk12_b/helperDrawer/helperDrawerWrapper.html'
+                    }
+                }
+            })
+            .state('root.cleanChrome.drk12InstructionPlan', {
+                url: '/instructionPlan/game/:gameId/course/:courseId/location/:location?noteId',
+                views: {
+                    'main@': {
+                        controller: 'instructionPlanCtrl',
+                        templateUrl: 'instructor/reports/drk12_b/instructionPlan/instructionPlanWrapper.html'
+                    }
+                },
+                resolve: {
+                    courseData: function(CoursesService, $stateParams) {
+                        return CoursesService.getWithStudents($stateParams.courseId);
+                    },
+                    reportData: function (ReportsService, Drk12Service, $stateParams) {
+                        var reportId = 'drk12_b';
+                        if (Drk12Service.reportDataFromServer === null ||
+                            Drk12Service.currentReportCourseId === null ||
+                            Drk12Service.currentReportCourseId !== $stateParams.courseId) {
+                            Drk12Service.currentReportCourseId = $stateParams.courseId;
+                            Drk12Service.reportDataFromServer = ReportsService.get(reportId, $stateParams.gameId, $stateParams.courseId);
+                        }
+                        return Drk12Service.reportDataFromServer;
                     }
                 }
             })
@@ -470,35 +504,66 @@ angular.module( 'instructor.reports', [
             var targetCourse = _.find($scope.courses.options, {id: parseInt(courseId)});
             var freeGame = null;
             var foundGame = null;
+
+            $scope.games.options = {};
+            $scope.games.hasGames = targetCourse.games.length > 0;
+
             angular.forEach(targetCourse.games, function (game) {
+                $scope.games.options['' + game.gameId] = game;
+
                 // collect at least one free game
                 if (game.price === 'Free') {
                     freeGame = game;
                 }
                 // find out if selected game is available for selected course
                 if (game.gameId === $scope.games.selectedGameId) {
-                    foundGame = game;
                     if (game.price === 'Premium' && !game.assigned && freeGame) {
+                        foundGame = freeGame;
                         // use free game instead if premium game is unassigned
                         newState.gameId = freeGame.id;
                     } else {
+                        foundGame = game;
                         newState.gameId = $scope.games.selectedGameId;
                     }
                 }
             });
+
             if (!newState.gameId && foundGame) {
                 if (freeGame) {
+                    foundGame = freeGame;
                     newState.gameId = freeGame.gameId;
                 } else {
                     // if no free game, use premium unassigned game anyways
-                    newState.gameId = foundGame;
+                    newState.gameId = foundGame.gameId;
                 }
             } else {
+                foundGame = targetCourse.games[0];
                 // if game is not available, use first available game for this course
                 newState.gameId = targetCourse.games[0].gameId;
             }
 
             _clearOtherCourses(courseId);
+
+            $scope.games.selectedGameId = newState.gameId;
+
+            $scope.reports.options = [];
+
+            var exists = false;
+            angular.forEach(foundGame.reports.list, function (report) {
+                // only add enabled reports
+                if (report.enabled) {
+                    if (report.id === $scope.reports.selected.id) {
+                        exists = true;
+                    }
+                    $scope.reports.options.push(angular.copy(report));
+                }
+            });
+
+            // select first if on exists
+            if (!exists && $scope.reports.options.length) {
+                $scope.reports.selected = $scope.reports.options[0];
+            }
+
             $state.go('root.reports.details.' + $scope.reports.selected.id, newState);
         };
         // Reset all classes and their students except for the id passed in

@@ -1,39 +1,43 @@
-<div class="report-body gl-drk12-l-drillDown-container gl-drk12-base">
+<div class="report-body drk-base drk-l-top">
+    <a ui-sref="root.reports.details.drk12_b({gameId: games.selectedGameId, courseId: courses.selectedCourseId})">
+        <i class="fa fa-reply"></i>
+        Return to Class Overview
+    </a>
     <div class="drk-l-drilldown-header-container">
         <div>
             <div class="drk-text-button-group">
-                <h1 class="gl-drk12-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h1>
+                <h2 class="drk-heading">{{skills.options[selectedSkill].displayLabel}}: Mission {{selectedMission.mission}}</h2>
                 <div>
-                    <button class="btn drk-button-primary drk-skill-selector previous" ng-class="{'disabled': selectedMission.mission == 1}" ng-click="navigateToMission(false)">
+                    <button class="btn drk-button-primary" ng-class="{'disabled': selectedMission.mission == 1}" ng-click="navigateToMission(false)">
                         <span class="fa fa-caret-left"></span> Previous
                     </button>
-                    <button class="btn drk-button-primary drk-skill-selector next" ng-class="{'disabled': selectedMission.mission == 'BT'}" ng-click="navigateToMission(true)">
+                    <button class="btn drk-button-primary" ng-class="{'disabled': selectedMission.mission == 'BT'}" ng-click="navigateToMission(true)">
                         Next <span class="fa fa-caret-right"></span>
                     </button>
                 </div>
             </div>
         </div>
         <div>
-            <div class="gl-drk12-heading-secondary-small">
+            <div class="drk-heading-secondary-small">
                 <span>{{selectedStudent.firstName}} {{selectedStudent.lastName}}</span><span class="padding-sides-15">|</span>
-                <span class="gl-drk12-drillDown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
+                <span class="drk-drilldown-status" ng-class="selectedMission.skillLevel[selectedSkill].level">
                     {{(selectedMission.skillLevel[selectedSkill].score.correct / selectedMission.skillLevel[selectedSkill].score.attempts) * 100 | number:0}}<span ng-if="selectedMission.skillLevel[selectedSkill].score.attempts > 0">%</span>
                 </span>
             </div>
         </div>
     </div>
 
-    <div ng-if="selectedMission.skillLevel[selectedSkill].level != 'NotAvailable'">
+    <div class="drk-l-drilldown-container">
         <div class="drk-l-drilldown-main-container">
             <div> <!-- empty div for flexbox -->
-                <h2 class="gl-drk12-heading-secondary-small">{{magicMissionDetails[selectedMission.mission].title}}</h2>
-                <div class="gl-drk12-text">
+                <h1 class="drk-heading">{{magicMissionDetails[selectedMission.mission].title}}</h1>
+                <div class="drk-text">
                     <div class="drk-text-button-group">
-                        <div>{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
+                        <div class="drk-heading-secondary-small drk-heading">{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
                         <div>
-                            <a ui-sref="root.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_reportHelper">Report Helper</a>
-                            <a ui-sref="root.drk12ReportHelper({location: selectedSkill})" class="btn drk-button-primary" target="_blank">Instruction Plan (Not Completed)</a>
-                            <button class="btn btn-primary hide-for-printing" ng-click="printPage()">Print</button>
+                            <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_reportHelper">Report Helper</a>
+                            <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_instructionPlan">Instruction Plan</a>
+                            <button class="btn drk-button-secondary hide-for-printing" ng-click="printPage()">Print</button>
                         </div>
                     </div>
                     <div>{{magicMissionDetails[selectedMission.mission].objectiveString}}
@@ -42,53 +46,55 @@
                         </ul>
                     </div>
                 </div>
-                <div class="gl-drk12-flexrow">
-                    <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="gl-drk12-collapsebutton">
-                        <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
-                    </button>
-                    <span class="gl-drk12-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
-                    <span class="gl-drk12-legenditem">
-                        <img src="/assets/icon-flag.svg">
-                        <span>Critical Question Enabled</span>
-                    </span>
-                </span>
-                </div>
-                <ul collapse="collapse" class="gl-drk12-text-small">
+                <button ng-click="collapse = !collapse" ng-init="collapse = true" type="button" class="drk-collapse-button">
+                    <span ng-if="!collapse" class="hide-for-printing">-</span><span ng-if="collapse" class="hide-for-printing">+</span> <span>All Evidence Pieces Available</span>
+                </button>
+                <ul collapse="collapse" class="drk-text-small emphasis">
                     <li ng-repeat="evidencePiece in magicMissionDetails[selectedMission.mission].availableEvidencePieces" ng-bind-html="evidencePiece"></li>
                 </ul>
+                <hr/>
             </div>
             <div>
-                <div class="gl-drk12-l-drillDown-skillcard-container">
+                <div class="drk-flexrow">
+                    <h2 class="drk-heading">Performance Drilldown</h2>
+                    <span class="drk-legend hide-for-printing" ng-if="selectedSkill === 'connectingEvidence' || selectedSkill === 'criticalQuestions'">
+                        <span class="drk-legend-item">
+                            <img src="/assets/icon-flag.svg">
+                            <span>Critical Question Enabled</span>
+                        </span>
+                    </span>
+                </div>
+                <div class="drk-l-drilldown-skillcard-container" ng-if="selectedMission.skillLevel[selectedSkill].level != 'NotAvailable' && selectedMission.skillLevel[selectedSkill].level != 'NotAttempted'">
                     <div ng-repeat="(skillKey, subSkillDetail) in calculdatedDetails">
-                        <div class="gl-drk12-tableHeader-background">
-                            <div ng-if="!isFourthSkill()" class="gl-drk12-heading-secondary-small">
+                        <div class="drk-table-header-background">
+                            <div ng-if="!isFourthSkill()" class="drk-heading-secondary-small">
                                 <i class="{{'drk-badge-'+subSkillDetail.description}}"></i>
-                                <div class="gl-drk12-titlecasesingleword">{{subSkillDetail.description}}</div>
+                                <div class="drk-titlecase-single-word">{{subSkillDetail.description}}</div>
                                 <img src="/assets/icon-flag.svg" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                             </div>
-                            <div ng-if="isFourthSkill()" class="gl-drk12-heading-secondary-small gl-drk12-title">
+                            <div ng-if="isFourthSkill()" class="drk-heading-secondary-small drk-title">
                                 {{subSkillDetail.description}}
                                 <img src="/assets/icon-flag.svg" ng-if="subSkillDetail.criticalQuestionsEnabled === true">
                             </div>
-                            <div ng-if="subSkillDetail.subDescription" class="gl-drk12-text-small">({{subSkillDetail.subDescription}})</div>
-                            <div class="gl-drk12-drillDown-skillcard-successTitle gl-drk12-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
+                            <div ng-if="subSkillDetail.subDescription" class="drk-text-small">({{subSkillDetail.subDescription}})</div>
+                            <div class="drk-drilldown-skillcard-success-title drk-text-small" ng-if="!subSkillDetail.locked">Success Rate:</div>
                             <div class="drk-successRateText" ng-if="!subSkillDetail.locked">{{calculateSuccessRate(subSkillDetail.correct, subSkillDetail.attempts)}}</div>
                         </div>
                         <div>
                             <img ng-src="/assets/drk_{{skillKey}}.png" class="drk-skill-icon">
-                            <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="!subSkillDetail.locked">
-                                <span class="gl-drk12-text-small">Attempts:</span>
+                            <div class="drk-drilldown-skillcard-skillDetail" ng-if="!subSkillDetail.locked">
+                                <span class="drk-text-small">Attempts:</span>
                                 <div style="margin: 6px 0;">
                                     {{subSkillDetail.correct}}
                                     <div class="padding-sides-15">/</div>
                                     {{subSkillDetail.attempts}}
                                 </div>
-                                <div class="gl-drk12-text-small">
+                                <div class="drk-text-small">
                                     <div>Correct</div>
                                     <div style="margin-left: 14px">Total</div>
                                 </div>
                             </div>
-                            <div class="gl-drk12-drillDown-skillcard-skillDetail-detail" ng-if="subSkillDetail.locked">
+                            <div class="drk-drilldown-skillcard-skillDetail" ng-if="subSkillDetail.locked">
                                 <img src="/assets/icon-lock-small.svg" height="32px" width="32px">
                                 <div class="font16px">
                                     Locked
@@ -97,35 +103,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="drk-drilldown-skillcards-unavailable" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable' || selectedMission.skillLevel[selectedSkill].level == 'NotAttempted'">
+                    <div class="drk-text" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable'">
+                        <div class="emphasis">Not Available</div>
+                        <div>No performance metrics to display.</div>
+                    </div>
+                    <div class="drk-text" ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAttempted'">
+                        <div class="emphasis">Not Started</div>
+                        <div>No performance metrics to display until student has completed mission.</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr/>
+        <h2 class="drk-heading">Gameplay Transcript</h2>
 
         <!---------------------------------------------- Tables ---------------------------------------------->
 
         <!-- If skill 1 (Argument Schemes) -->
-        <div class="gl-drk12-transcript" ng-if="isFirstSkill()">
-            <div class="gl-drk12-singleTable">
-                <div class="gl-drk12-heading-secondary-small">Player Scheme-Evidence Matches</div>
+        <div class="drk-transcript" ng-if="isFirstSkill()">
+            <div class="drk-single-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Player Scheme-Evidence Matches</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background">
+                    <thead class="drk-table-header-background">
                         <tr>
-                            <th class="gl-drk12-bold">Argubot Type Used</th>
-                            <th class="gl-drk12-bold">Evidence Used</th>
-                            <th class="gl-drk12-bold">Scheme Match</th>
+                            <th class="drk-light-bold">Argubot Type Used</th>
+                            <th class="drk-light-bold">Evidence Used</th>
+                            <th class="drk-light-bold">Scheme Match</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
                             <td class="drk-nowrap">
                                 <i class="drk-skill-badge {{'drk-badge-'+attempt.botType}}"></i>
-                                <div class="gl-drk12-titlecasesingleword">{{attempt.botType}}</div>
+                                <div class="drk-titlecase-single-word">{{attempt.botType}}</div>
                             </td>
                             <td>{{dataIdToMagicString(attempt.dataId)}}</td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -133,15 +151,15 @@
         </div>
 
         <!-- If skill 2 (Claims and Evidence) -->
-        <div class="gl-drk12-transcript" ng-if="isSecondSkill()">
-            <div  class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading-secondary-small">Player Claim Cores Built</div>
+        <div class="drk-transcript" ng-if="isSecondSkill()">
+            <div  class="drk-double-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Player Claim Cores Built</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background gl-drk12-bold">
+                    <thead class="drk-table-header-background drk-light-bold">
                         <tr>
-                            <th class="gl-drk12-bold">Claim Chosen</th>
-                            <th class="gl-drk12-bold">Evidence Chosen</th>
-                            <th class="gl-drk12-bold">Success</th>
+                            <th class="drk-light-bold">Claim Chosen</th>
+                            <th class="drk-light-bold">Evidence Chosen</th>
+                            <th class="drk-light-bold">Success</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -151,25 +169,25 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading-secondary-small">Opponent Claim Cores Attacked</div>
+            <div class="drk-double-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Opponent Claim Cores Attacked</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background">
+                    <thead class="drk-table-header-background">
                         <tr>
-                            <th class="gl-drk12-bold">Opponent's Claim Core</th>
-                            <th class="gl-drk12-bold">Student Response</th>
-                            <th class="gl-drk12-bold">Success</th>
+                            <th class="drk-light-bold">Opponent's Claim Core</th>
+                            <th class="drk-light-bold">Student Response</th>
+                            <th class="drk-light-bold">Success</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
-                            <td class="gl-drk12-opponent-claim-info">
+                            <td class="drk-opponent-claim-info">
                                 <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
                                 <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                             </td>
@@ -177,7 +195,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -185,26 +203,26 @@
         </div>
 
         <!-- If skill 3 (Critical Questions) -->
-        <div class="gl-drk12-transcript" ng-if="isThirdSkill()">
-            <div class="gl-drk12-singleTable">
-                <div class="gl-drk12-heading-secondary-small">Critical Questions Used</div>
+        <div class="drk-transcript" ng-if="isThirdSkill()">
+            <div class="drk-single-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Critical Questions Used</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background">
+                    <thead class="drk-table-header-background">
                         <tr>
-                            <th class="gl-drk12-bold">Opposing Argubot</th>
-                            <th ng-if="selectedMission.mission == 8" class="gl-drk12-bold">Opponent's Evidence Piece</th>
-                            <th ng-if="selectedMission.mission != 8" class="gl-drk12-bold">Opposing Argubot's Claim Core</th>
-                            <th class="gl-drk12-bold">Critical Questions Used by Player</th>
-                            <th class="gl-drk12-bold">Correct Use of Critical Questions by Player?</th>
+                            <th class="drk-light-bold">Opposing Argubot</th>
+                            <th ng-if="selectedMission.mission == 8" class="drk-light-bold">Opponent's Evidence Piece</th>
+                            <th ng-if="selectedMission.mission != 8" class="drk-light-bold">Opposing Argubot's Claim Core</th>
+                            <th class="drk-light-bold">Critical Questions Used by Player</th>
+                            <th class="drk-light-bold">Correct Use of Critical Questions by Player?</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList">
                             <td class="drk-nowrap">
                                 <i class="drk-skill-badge {{'drk-badge-'+attempt.opponentBotName}}"></i>
-                                <div class="gl-drk12-titlecasesingleword">{{attempt.opponentBotName}}</div>
+                                <div class="drk-titlecase-single-word">{{attempt.opponentBotName}}</div>
                             </td>
-                            <td class="gl-drk12-opponent-claim-info">
+                            <td class="drk-opponent-claim-info">
                                 <p ng-if="claimIdToMagicString(attempt.opponentClaimId)">{{claimIdToMagicString(attempt.opponentClaimId)}}</p>
                                 <p ng-if="dataIdToMagicString(attempt.opponentBotDataId)">{{dataIdToMagicString(attempt.opponentBotDataId)}}</p>
                             </td>
@@ -212,7 +230,7 @@
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -220,64 +238,61 @@
         </div>
 
         <!-- If skill 4 (Backing) -->
-        <div class="gl-drk12-transcript" ng-if="isFourthSkill()">
-            <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading-secondary-small">Backing Attached Before Battle</div>
+        <div class="drk-transcript" ng-if="isFourthSkill()">
+            <div class="drk-double-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Backing Attached Before Battle</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background">
+                    <thead class="drk-table-header-background">
                         <tr>
-                            <th class="gl-drk12-bold">Player's Argubot</th>
-                            <th class="gl-drk12-bold">Evidence Chosen and Backing Generated</th>
-                            <th class="gl-drk12-bold">Strong Backing Selected?</th>
+                            <th class="drk-light-bold">Player's Argubot</th>
+                            <th class="drk-light-bold">Evidence Chosen and Backing Generated</th>
+                            <th class="drk-light-bold">Strong Backing Selected?</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'DEFENSE'">
                             <td class="drk-nowrap">
                                 <i class="drk-skill-badge {{'drk-badge-'+attempt.botType}}"></i>
-                                <div class="gl-drk12-titlecasesingleword">{{attempt.botType}}</div>
+                                <div class="drk-titlecase-single-word">{{attempt.botType}}</div>
                             </td>
-                            <td class="gl-drk12-backing-generated-info">
+                            <td class="drk-backing-generated-info">
                                 <p>{{dataIdToMagicString(attempt.dataId)}}</p>
                                 <p ng-repeat="backing in dataIdToMagicBackingString(attempt.dataId)">{{backing}}</p>
                             </td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="gl-drk12-doubleTable">
-                <div class="gl-drk12-heading-secondary-small">Backing Used in Battle</div>
+            <div class="drk-double-table">
+                <div class="h4 drk-heading drk-heading-secondary-small">Backing Used in Battle</div>
                 <table>
-                    <thead class="gl-drk12-tableHeader-background">
+                    <thead class="drk-table-header-background">
                         <tr>
-                            <th class="gl-drk12-bold">Opponent's Critical Question</th>
-                            <th class="gl-drk12-bold">Evidence Chosen and Backing Used by Player</th>
-                            <th class="gl-drk12-bold">Successfully Defended?</th>
+                            <th class="drk-light-bold">Opponent's Critical Question</th>
+                            <th class="drk-light-bold">Evidence Chosen and Backing Used by Player</th>
+                            <th class="drk-light-bold">Successfully Defended?</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="attempt in selectedMission.skillLevel[selectedSkill].attemptList" ng-if="attempt.attemptType === 'OFFENSE'">
                             <td>{{attackIdToMagicString(attempt.attackId)}}</td>
-                            <td class="gl-drk12-backing-generated-info">
+                            <td class="drk-backing-generated-info">
                                 <p>{{dataIdToMagicString(attempt.dataId)}}</p>
                                 <p>{{backingIdToMagicString(attempt.backingId)}}</p>
                             </td>
                             <td>{{attempt.success ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr class="no-repeated-tr-content">
-                            <td colspan="3">No transcript to show</td>
+                            <td>-</td><td>-</td><td>-</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-    <div ng-if="selectedMission.skillLevel[selectedSkill].level == 'NotAvailable'">
-        There is no data for this mission / skill combination
     </div>
 </div>

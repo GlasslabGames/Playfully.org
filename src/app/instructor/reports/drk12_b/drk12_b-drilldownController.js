@@ -216,7 +216,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             1: {
-                title: 'Mission Title: Build a Bot',
+                title: 'Build a Bot',
                 subTitle: 'Build your first claim core and challenge Lucas!',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -239,7 +239,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             2: {
-                title: 'Mission Title: Which Protein?',
+                title: 'Which Protein?',
                 subTitle: 'Dara needs help figuring out what protein people should eat on Mars.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -266,7 +266,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             3: {
-                title: 'Mission Title: More Training!',
+                title: 'More Training!',
                 subTitle: 'Help Lucas repair the Argumech.',
                 objectiveString: 'Objective: Select evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -293,7 +293,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             4: {
-                title: 'Mission Title: Missing Evidence',
+                title: 'Missing Evidence',
                 subTitle: 'Help Maya find her lost evidence!',
                 objectiveString: 'Objective: Find evidence of observation that supports the claim that humans should not live forever.',
                 objectiveClaims: [],
@@ -309,7 +309,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             5: {
-                title: 'Mission Title: Level Up!',
+                title: 'Level Up!',
                 subTitle: 'Time to train your argubot for the first time!',
                 objectiveString: 'Objective: Practice matching evidence to argument schemes to level up one of your argubots',
                 objectiveClaims: [],
@@ -324,7 +324,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             6: {
-                title: 'Mission Title: Helpbots',
+                title: 'Helpbots',
                 subTitle: 'Help Lucas find out whether or not Helpbots can understand the human language.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -406,7 +406,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             7: {
-                title: 'Mission Title: Hero or Zero',
+                title: 'Hero or Zero',
                 subTitle: 'Lucas asks for your help to save the life of a helpbot that broke outside its programming and saved an engineer\'s life.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -434,14 +434,14 @@ angular.module( 'instructor.reports')
                 ]
             },
             8: {
-                title: 'Mission Title: Let\'s Evo-2',
+                title: 'Let\'s Evo-2',
                 subTitle: 'Talk to Lucas in the Workshop to learn about how to level up your argubots to Evo-2.',
                 objectiveString: 'Objective: Learn how to use critical questions to critique an opponent\'s argument.',
                 objectiveClaims: [],
                 availableEvidencePieces: [ 'Random evidence from other missions! See the Gameplay Transcript below for more information.' ]
             },
             9: {
-                title: 'Mission Title: All About Backing',
+                title: 'All About Backing',
                 subTitle: 'Talk to Lucas in the Workshop to learn how to increase the strength of your claim cores using the Backing Generator.',
                 objectiveString: 'Objective: Learn how to use backing to strengthen your argument.',
                 objectiveClaims: [],
@@ -454,7 +454,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             10: {
-                title: 'Mission Title: Brackett City Objectives',
+                title: 'Brackett City Objectives',
                 subTitle: 'Help Dara decide what Brackett City needs to prioritize next: community, maintenance, or research.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -486,7 +486,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             11: {
-                title: 'Mission Title: What to do about Lucas',
+                title: 'What to do about Lucas',
                 subTitle: 'At Argubot Academy, decisions are made through argubot battles. Lucas goes against the rules and chooses to save a helpbot\'s life! Help Dean Ochoa figure out if Lucas should stay on Mars or get sent back to Earth.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -515,7 +515,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             12: {
-                title: 'Mission Title: Adrian\'s Project',
+                title: 'Adrian\'s Project',
                 subTitle: 'Help Adrian learn how to use Backing and finally form a truce with your argubot rival!',
                 objectiveString: 'Objective: Find evidence with strong backing and give it to Adrian.',
                 objectiveClaims: [],
@@ -528,7 +528,7 @@ angular.module( 'instructor.reports')
                 ]
             },
             13: {
-                title: 'Mission Title: Pet Decision',
+                title: 'Pet Decision',
                 subTitle: 'It\'s your final exam! Help Dean Ochoa decide what pet should live on Mars.',
                 objectiveString: 'Objective: Find evidence and make a strong argument for one of the following claims:',
                 objectiveClaims: [
@@ -1767,23 +1767,6 @@ angular.module( 'instructor.reports')
 
         $scope.printPage = function() {
             window.print();
-        };
-
-        $scope.footerHelperClicked = function() {
-            $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED",  null, $stateParams.skill);
-
-            /*
-             Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
-             We do this craziness to help create that illusion
-             */
-            if (!$scope.isFooterOpened) {
-                $scope.isFooterFullScreen = false;
-                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 10);
-            }
         };
 
         ///////////////////////// Necessary stuff for parent drop-downs

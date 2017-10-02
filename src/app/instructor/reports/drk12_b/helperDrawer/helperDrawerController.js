@@ -1,17 +1,62 @@
 angular.module( 'instructor.reports')
-    .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams) {
+    .directive('drkHelperSubMenu', function () {
+        return {
+            restrict: 'A',
+            template: '<div class="drk-helper-jump-nav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[0])">' +
+                               '<span class="emphasis">I. Focus on the learning goals for this skill</span>' +
+                          '</button>' +
+                      '</div>' +
+                      '<div class="drk-helper-jump-nav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[1])">' +
+                              '<span class="emphasis">II. Check on student progress with this skill</span>' +
+                          '</button>' +
+                      '</div>' +
+                      '<div class="drk-helper-jump-nav">' +
+                          '<button type="button" ng-click="gotoLocation(ids[3])">' +
+                              '<span class="emphasis">Instruction Plan</span>' +
+                          '</button>' +
+                      '</div>'
+        };
+    })
+    .directive('stickyMenu', function($document) { // Starting inspiration from https://css-tricks.com/scroll-fix-content/
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                $document.unbind('scroll');
+
+                $document.bind("scroll", function(event) {
+                    if ($document.scrollTop() > 152) {
+                        element.addClass("fixed");
+                    } else {
+                        element.removeClass("fixed");
+                    }
+                });
+            }
+        };
+    })
+    .controller('helperWrapperCtrl', function($scope, $timeout, $interval, $anchorScroll, $state, $stateParams, Drk12Service) {
         ////////////////////// Initialization /////////////////////////
 
-        $scope.selectedPage = $stateParams.location;
+        $scope.courseId = $stateParams.courseId;
+        $scope.gameId = $stateParams.gameId;
+        $scope.selectedSkill = $stateParams.location;
         $scope.selectedAnchor = $stateParams.anchor;
 
+        $scope.ids = [
+            "id" + $scope.selectedSkill + 0,
+            "id" + $scope.selectedSkill + 1,
+            "id" + $scope.selectedSkill + 2,
+            "id" + $scope.selectedSkill + 3
+        ];
+
         $scope.helperPage = "";
-        $scope.data = {
-            connectingEvidence: "Argument Schemes",
-            supportingClaims: "Claims and Evidence",
-            criticalQuestions: "Critical Questions",
-            usingBacking: "Backing"
-        };
+        $scope.skills = [
+            'connectingEvidence',
+            'supportingClaims',
+            'criticalQuestions',
+            'usingBacking'
+        ];
         $scope.isClassViewActive = null;
 
         //// Date stuff
@@ -24,6 +69,10 @@ angular.module( 'instructor.reports')
         };
 
         $scope.format = 'yyyy-MM-dd';
+
+        Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location ).then(function(result) {
+            $scope.instructionPlans = result.data;
+        });
 
         ///////////////////////////////////////////////////////////////
 
@@ -56,54 +105,13 @@ angular.module( 'instructor.reports')
             var returnString = "";
             switch (anchorString) {
                 case "drilldown":
-                    returnString = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
+                    returnString = "id" + $scope.selectedSkill + "8"; // TODO: Make this less "magical"
                     break;
                 default:
                     console.error("Was not able to find an id for the anchor " + anchorString);
             }
 
             return returnString;
-        };
-
-        var updateLocation = function(newDestination, callback) { // TODO: This can probably be removed
-            $scope.helperPage = locationToSubPageFilename(newDestination);
-            updateVariables(newDestination);
-            if (callback) {
-                callback();
-            }
-        };
-
-        $scope.$on("FOOTERHELPER_CLICKED", function(event, isClassViewActive, selectedSkill) { // TODO: This can probably be removed
-            var newDestination = "";
-            var newSubDestination = "";
-
-            if ($state.current.name === "root.reports.details.drk12_b") {
-                if (isClassViewActive !== null) {
-                    $scope.isClassViewActive = isClassViewActive;
-                }
-
-                if (isClassViewActive) {
-                    newDestination = "reportHelper";
-                } else {
-                    newDestination = selectedSkill;
-                }
-            } else if ($state.current.name === "root.reports.details.drk12_b_drilldown") {
-                newDestination = selectedSkill;
-                updateVariables(newDestination); // TODO: See about working this redundancy
-                newSubDestination = "id" + $scope.selectedPage + "8"; // TODO: Make this less "magical"
-            } else {
-                console.error("Footer opened from unexpected page. This will surely go badly.");
-            }
-
-            updateLocation(newDestination, function(){ $scope.gotoLocation(newSubDestination); });
-        });
-
-        $scope.$on('CHANGE_PAGE', function(event, newDestination) { // TODO: This can probably be removed
-            updateLocation(newDestination);
-        });
-
-        var updateVariables = function(newLocation) { // TODO: This can probably be removed
-            $scope.selectedPage = newLocation;
         };
 
         $scope.gotoLocation = function(locationId) {
@@ -120,19 +128,4 @@ angular.module( 'instructor.reports')
                 $anchorScroll(anchorToId($scope.selectedAnchor));
             }
         });
-    })
-    .controller('helperCtrl', function($scope) {
-        $scope.ids = Array.apply(null, {length: 12}).map(function(callback, index) {
-            return "id" + $scope.selectedPage + index;
-        });
-
-        $scope.changeSection = function(newOption) {
-            $scope.$emit('CHANGE_PAGE', newOption);
-        };
-
-        $scope.dateOpen = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-            $scope.dateOpened = true;
-        };
     });

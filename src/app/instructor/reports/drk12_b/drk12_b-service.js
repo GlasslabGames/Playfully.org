@@ -1,6 +1,15 @@
 angular.module( 'instructor.reports')
-    .service('Drk12Service', function() {
+    .service('Drk12Service', function($http, API_BASE) {
+        this.currentReportCourseId = null;
         this.reportDataFromServer = null;
+
+        this.getInstructionPlans = function( courseId, gameId, skill ) {
+            return $http.get(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/skill/' + skill + '/notes' );
+        };
+
+        this.uploadInstructionPlan = function( courseId, gameId, skill, submissionData ) {
+            return $http.post(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/skill/' + skill + '/notes', submissionData );
+        };
 
         this.skills = {
             options: {

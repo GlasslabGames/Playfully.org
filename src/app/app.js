@@ -497,7 +497,15 @@ angular.module( 'playfully', [
         $rootScope.features = FEATURES;
 
         // DRK-402 Fix Report Helper bug
-        $scope.isReportHelper = $location.$$path.startsWith("/drk12_b_helper");
+        if (!String.prototype.startsWith) {
+            String.prototype.startsWith = function(searchString, position){
+                return this.substr(position || 0, searchString.length) === searchString;
+            };
+        }
+        $scope.isReportHelper = $location.$$path.startsWith("/clean");
+        // $timeout(function(){
+        //     $scope.isReportHelper = $state.current.name.toString().startsWith("root.cleanChrome");
+        // }, 0);
 
         if (!$rootScope.allGames) {
             GamesService.all().then(function(data) {

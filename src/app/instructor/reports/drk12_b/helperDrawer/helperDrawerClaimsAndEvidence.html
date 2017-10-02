@@ -1,211 +1,167 @@
-<div ng-controller="helperCtrl" class="drk-l-subpageLayout">
-    <div class="gl-drk12_b-helperMenu">
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'connectingEvidence'})">Argument Schemes</a></div>
-        <h2 class="gl-drk12_b-helperMenuTitle selected" aria-label="Index of claims and evidence topics">Claims and Evidence</h2>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[0])">
-                <span class="emphasis">I. Focus on the learning goals for this skill</span>
-            </button>
-        </div>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[6])">
-                <span class="emphasis">II. Check on student progress with this skill</span>
-            </button>
-        </div>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[11])">
-                <span class="emphasis">Instruction Plan</span>
-            </button>
-        </div>
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'criticalQuestions'})">Critical Questions</a></div>
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'usingBacking'})">Backing</a></div>
-    </div>
-    <div class="gl-drk12_b-helperMainContent">
-        <div class="gl-drk12_b-helperMainContent-x-container">
-            <h2 ng-attr-id="{{ids[0]}}">I: Focus on the learning goals for this skill</h2>
-            <h3>What are the learning goals for "supporting claims with evidence"?</h3>
-            <ul>
-                <li>Students are able to explain that arguments consist of claims supported by evidence</li>
-                <li>Students are able to identify evidence that does not support a claim because it is either irrelevant or contradictory to the claim</li>
-                <li>Students are able to construct a claim that uses evidence that is relevant and that supports a claim</li>
-            </ul>
-            <h3>What does it mean to use evidence to support a claim?</h3>
-            <p>
-                For any argument to be valid, the evidence that's used to support it must be appropriate. That means that a piece of evidence should be
-                <strong>relevant</strong>
-                to the claim (i.e., it's on the same topic) and it
-                <strong>shouldn't contradict the claim</strong>
-                (i.e., it shouldn't undermine the claim). While they might have an opinion, students don't have a valid argument if they don't meet these criteria for supportive evidence
-            </p>
-            <div><img src="/assets/ReportHelper_Image4.png" height="256px" width="341px"></div>
-            <h3>How will supporting claims with evidence help my students?</h3>
-            <p>Kids who can use evidence appropriately to support a claim are more likely to:</p>
-            <ul>
-                <li>Make stronger arguments because the evidence supports the claim</li>
-                <li>Consider whether and how a piece of evidence supports the claim</li>
-            </ul>
-            <h3>How do players support claims with evidence in the game?</h3>
-            <p>A claim core (i.e., a claim "fused" with evidence) is the way that students bring working argubots (i.e., argument schemes) into duels. To enter a duel, players must equip each of their argubots with a claim core. To win a duel, players need to identify weaknesses in their opponent's claim cores.</p>
-            <h3>What does using backing look like in the game?</h3>
-            <p>Students practice this skill in two different ways during gameplay:</p>
-            <ol>
-                <li>
-                    <strong>Core building before a duel:</strong>
-                    Before entering a duel, players gather evidence and then fuse it with one of three claims (which already exist) to create a claim core.
-                    <ol type="a">
-                        <li>
-                            <strong>a. Successful attempts:</strong>
-                            Recorded each time a player fuses a claim with supporting evidence.
-                            <div><img src="/assets/ReportHelper_Image5.png" height="256px" width="341px"></div>
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <strong>Attacking opponents' cores during a duel:</strong>
-                    During each duel, players must attack their opponent's arguments by identifying whether the evidence is either irrelevant to or contradicts the claim.
-                    <ol type="a">
-                        <li>
-                            <strong>Successful attempts:</strong>
-                            Each attack round where a player successfully identifies an opponent's evidence as either irrelevant or contradictory.
-                            <div><img src="/assets/ReportHelper_Image6.png" height="256px" width="341px"></div>
-                        </li>
-                    </ol>
-                </li>
-            </ol>
-            <h3>What does irrelevant or contradictory evidence look like in the game?</h3>
-            <p>
-                <strong>Understanding what makes evidence irrelevant or contradictory can be very tricky.</strong>
-                As a rule of thumb: evidence that isn't related to a claim (e.g., it's off-topic) is irrelevant and evidence that undermines a claim contradicts is.
-            </p>
-            <p>
-                <strong>For example:</strong>
-                If a student decides to build a core to support a claim that states, "<em>Temple Run</em> is the best video game of all time," then:
-            </p>
+<div class="drk-helperSection">
+    <h2 ng-attr-id="{{ids[0]}}">I: Focus on the learning goals for this skill</h2>
+    <h3>What are the learning goals for "supporting claims with evidence"?</h3>
+    <ul>
+        <li>Students are able to explain that arguments consist of claims supported by evidence</li>
+        <li>Students are able to identify evidence that does not support a claim because it is either irrelevant or contradictory to the claim</li>
+        <li>Students are able to construct a claim that uses evidence that is relevant and that supports a claim</li>
+    </ul>
+    <h3>What does it mean to use evidence to support a claim?</h3>
+    <p>
+        For any argument to be valid, the claim must be accompanied by evidence that is both
+        <strong>relevant</strong>
+        and supportive. While students may have an opinion about a topic, they won't have a valid argument if it doesn't meet these criteria.
+    </p>
+    <div><img src="/assets/ReportHelper_Image4.png" width="100%"></div>
+    <h3>How will supporting claims with evidence help my students?</h3>
+    <p>Students who can use evidence appropriately to support a claim are more likely to</p>
+    <ul>
+        <li>make stronger arguments because the evidence supports the claim, and</li>
+        <li>consider whether and how a piece of evidence supports the claim so they can critique the others' arguments.</li>
+    </ul>
+    <h3>How do players support claims with evidence in the game?</h3>
+    <p>Students battle their opponents by equipping their own argubots with claim cores—a claim matched, or "fused," with evidence. To win a battle, players must have equipped their argubot with a strong claim core, and they have to identify weaknesses in their opponent's claim cores.</p>
+    <h3>What does supporting claims and evidence look like in the game?</h3>
+    <p>Students practice this skill in two different ways during gameplay.</p>
+    <ol>
+        <li>
+            <strong>Core building before a battle.</strong>
+            In the game, students are given three possible claims, and they gather evidence for those claims. Before entering a battle, they choose one of the claims and a corresponding piece of evidence, and fuse the two to create their claim core.
             <ul>
                 <li>
-                    Evidence that says "A big improvement in your reaction time is a consequence of playing <em>Temple Run</em>"
-                    <strong>supports the claim.</strong>
-                </li>
-                <li>
-                    Evidence that says "One game authority, Dr. S. Hoyle, says <em>Temple Run</em> puts people to sleep"
-                    <strong>contradicts the claim.</strong>
-                </li>
-                <li>
-                    Evidence that says "One consequence of brushing your teeth is that you get fewer cavities" is
-                    <strong>not relevant to the claim.</strong>
+                    <strong>Successful attempts:</strong>
+                    Recorded each time a player fuses a claim with evidence that is both supportive and relevant.
+                    <div><img src="/assets/ReportHelper_Image5.png" width="100%"></div>
                 </li>
             </ul>
-            <h3>What does successfully supporting a claim with evidence look like in the real world?</h3>
-            <p><strong>Here's an example you can use with the class:</strong></p>
-            <p>Lauren listens to Eric make an argument from authority. His claim is that "It's wrong to plant genetically modified seeds." He then uses two pieces of evidence to support his claim: "Experts say that people in Europe don't eat many fruits and vegetables that come from genetically modified seeds. And, a consequence of eating food from genetically modified seeds is that people will be healthier."</p>
-            <p>After listening to the argument, Lauren says that this is a weak argument. Erik has used irrelevant and contradictory evidence. While the topic of the claim is about "planting genetically modified food," the first piece of evidence is about "eating food from genetically modified seeds"—the evidence is irrelevant because it's on a different topic. For it to be relevant, the evidence needs to be about the same topic as the claim.</p>
-            <p>The second piece of evidence that Erik used contradicts the claim: “a consequence of eating food from genetically modified seeds is that people will be healthier" means that planting genetically modified seeds is a good thing. That's not what Erik is claiming!</p>
-            <h3>Deepen your knowledge about supporting claims with evidence</h3>
-            <p>More About this Skill</p>
-            <p>Classroom Modeling Activities for Supporting Claims with Evidence</p>
-            <h2 ng-attr-id="{{ids[6]}}">II. Check on student progress with this skill</h2>
-            <ol>
+        </li>
+        <li>
+            <strong>Attacking opponents' cores during a battle.</strong>
+            During each battle, players must attack their opponent's arguments by identifying whether the evidence is either irrelevant to the claim, or contradictory to it.
+            <ul>
                 <li>
-                    <h3>How to identify struggling and advancing students</h3>
+                    <strong>Successful attempts:</strong>
+                    Each attack round where a player successfully identifies an opponent's evidence as either irrelevant or contradictory.
+                    <div><img src="/assets/ReportHelper_Image6.png" width="100%"></div>
+                </li>
+            </ul>
+        </li>
+    </ol>
+    <h3>What does irrelevant or contradictory evidence look like in the game?</h3>
+    <p>
+        <strong>Understanding what makes evidence irrelevant or contradictory can be very tricky.</strong>
+        As a rule of thumb, evidence that isn't related to the topic of a claim is irrelevant, and evidence that undermines a claim is contradictory.
+    </p>
+    <p>
+        <strong>For example:</strong>
+        If a student decides to build a core to support a claim that states, "<em>Temple Run</em> is the best video game of all time," then
+    </p>
+    <ul>
+        <li>
+            evidence that says "A big improvement in your reaction time is a consequence of playing <em>Temple Run</em>"
+            <strong>supports the claim;</strong>
+        </li>
+        <li>
+            evidence that says "One game authority, Dr. S. Hoyle, says <em>Temple Run</em> puts people to sleep"
+            <strong>contradicts the claim;</strong>
+        </li>
+        <li>
+            evidence that says "One consequence of brushing your teeth is that you get fewer cavities" is
+            <strong>not relevant to the claim.</strong>
+        </li>
+    </ul>
+    <h3>What does successfully supporting a claim with evidence look like in the real world?</h3>
+    <p><strong>Here's an example you can use with the class.</strong><br/>Lauren listens to Eric make an argument from authority. His claim is that "It's wrong to plant genetically modified seeds." He then uses two pieces of evidence to support his claim: (1) "Experts say that people in Europe don't eat many fruits and vegetables" and (2) "A consequence of eating food from genetically modified seeds is that people will be healthier."</p>
+    <p>After listening to the argument, Lauren says that this is a weak argument. Erik has used irrelevant and contradictory evidence. While the topic of the claim is about "planting genetically modified seeds," the first piece of evidence is about "eating fruits and vegetables"—the evidence is irrelevant because it's on a different topic. For it to be relevant, the evidence has to be about the same topic as the claim.</p>
+    <p>The second piece of evidence that Erik used contradicts the claim: "A consequence of eating food from genetically modified seeds is that people will be healthier" means that planting genetically modified seeds is a good thing. That's not what Erik is claiming!</p>
+    <h3>Deepen your knowledge about supporting claims with evidence</h3>
+    <p>More About this Skill</p>
+    <p>Classroom Modeling Activities for Supporting Claims with Evidence</p>
+</div>
+<div class="drk-helperSection">
+    <h2 ng-attr-id="{{ids[1]}}">II. Check on student progress with this skill</h2>
+    <div><img src="/assets/drk_POT_Claims_and_Evidence.png" alt="Performance Over Time screen" width="100%"></div>
+    <h3>How to identify struggling and advancing students</h3>
+    <ul>
+        <li>
+            <strong>Progress on Most Recent Mission:</strong>
+            A snapshot of how students are doing with identifying argument schemes on the most recent mission they've played. The pie charts display only data about how students did on the most recent mission. Keep in mind that, as in many games, students have multiple opportunities to use skills across missions
+        </li>
+        <li>
+            <strong>Performance over Time:</strong>
+            Allows you to see how well students have been doing with supporting claims with evidence in all game missions.
+            <ul>
+                <li>Use the AVG column (on the right side) to sort student performance by the average success rates. Click the column header once to sort from low to high, and click twice to sort from high to low.</li>
+                <li>You may start seeing possible groupings of students here—for example, students who seem to be either consistently advancing or struggling across multiple missions.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>"Filter data by" Dropdown Menu:</strong>
+            Allows you to see student success for supporting claims with evidence in two ways: first, how well students are  constructing their own arguments by using evidence that is relevant and supportive of their claim, and second, how well students are attacking their opponent's claims in battles by pointing out whether opponents are using irrelevant or contradictory evidence.
+            <ul>
+                <li>While it's unlikely, it's possible that students might be successful in one situation while being unsuccessful in the other because they are guessing. If a student knows how to determine whether evidence is irrelevant or contradictory, she or he should be able to do so in both situations.</li>
+            </ul>
+        </li>
+    </ul>
+    <h3 ng-attr-id="{{ids[2]}}">How to look at the data more closely</h3>
+    <div><img src="/assets/drk_DD_Claims_and_Evidence.png" alt="Drill down screen" width="100%"></div>
+    <ul>
+        <li>
+            <strong>Drill Down:</strong>
+            Click on a percentage under any mission to see the details on student gameplay for that mission. The first half of the report shows a student's success rate with supporting claims with evidence in two ways: (1) Fusing claims with relevant and supporting evidence to make their own arguments; and (2) Identifying irrelevant or contradictory evidence in their opponents' arguments during battles.
+            <ul>
+                <li>The Performance Over Time report shows one overall success rate. In the Drill Down, that success rate has been separated into its component parts to show how students have performed when building their own claim cores, and how they've performed attacking the validity of opponents' claim cores.</li>
+                <li>The success rates for each argument scheme are the same data you see when using the "Filter data by" menu in Performance Over Time.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Gameplay Transcript:</strong>
+            The second half of the Drill Down report shows you each attempt that a student made at this skill. The Gameplay Transcript is broken into two charts, one for claim cores that students built, and another for opponent claim cores that students attacked.
+            <ul>
+                <li>
+                    <strong>Built:</strong>
+                    Each row in the table represents one attempt to fuse a claim core. For each attempt, the table shows the player's claim, the evidence the student chose to support the claim, and whether the evidence is relevant <em>and</em> supportive.
                     <ul>
-                        <li>
-                            <strong>Progress on Most Recent Mission: </strong>
-                            A snapshot of how students are doing with supporting claims with evidence on the most recent mission they've played. Don't make too much of it—like many games, students have multiple opportunities to use skills across missions.
-                            <strong>The pie charts only display data about how students did on the most recent mission.</strong>
-                        </li>
-                        <li>
-                            <strong>Performance over Time:</strong>
-                            To see how well students have been doing with supporting claims with evidence in all game missions.
-                            <ul>
-                                <li>Use the AVG column (on the right side) to sort student performance by the average success rates from low to high/high to low.</li>
-                                <li>You might start seeing groups of students here—for example, students who seem to be consistently advancing or struggling across multiple missions.</li>
-                                <li>
-                                    <strong>Break it up:</strong>
-                                    Use the “Filter data by" menu (right under the Performance Over Time title) to see how students are doing with supporting claims with evidence in two ways: First, with using evidence that is relevant and does not contradict the claim when creating their own claim cores (i.e., constructing their own argument by linking a claim to evidence). Second, you can see how students are doing with correctly pointing out irrelevant or contradictory evidence that their opponents are using in duels.
-                                    <ul>
-                                        <li>While it's unlikely, it's possible that students might be successful in one case while being unsuccessful in the other because they are guessing. If a student knows how to determine whether evidence is irrelevant or contradictory, she or he should be able to do it in both cases.</li>
-                                        <img src="http://placekitten.com/500/600" alt="need a real image">
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                        <li>Because the language that distinguishes irrelevant from contradictory evidence can be tricky, the data does not distinguish between incorrect attempts for either type of evidence.</li>
                     </ul>
                 </li>
                 <li>
-                    <h3 ng-attr-id="{{ids[7]}}">How to look at the data more closely</h3>
-                    <ul>
-                        <li>
-                            <strong>Drill Down:</strong>
-                            Click on a percentage under any mission to see the details on student gameplay for that mission. The first half of the report shows a student's success rate with supporting claims with evidence in two ways: (1) Fusing claims with relevant and supporting evidence to make their own arguments; and (2) Identifying irrelevant or contradictory evidence in their opponents' arguments during duels.
-                            <ul>
-                                <li>When added together, these success rates equal the percentage displayed in Performance Over Time for this mission.</li>
-                                <li>The success rates for both activities are the same as when you viewed them using the “Filter data by" menu in Performance Over Time, only here you're seeing them for just one student.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Gameplay Transcript:</strong>
-                            The second half of the Drill Down report shows you each attempt that a student made to create an argument by supporting a claim with evidence (the table on the left) or to identify evidence that is irrelevant or contradictory in their opponents' arguments during duels (the table on the right)
-                            <ul>
-                                <li>
-                                    For “Built": Each row in the table represents one attempt to fuse a claim core. For each attempt, the table shows the player's claim, the evidence the student chose to support the claim, and whether the evidence is relevant <em>and</em> non-contradictory.
-                                    <ul>
-                                        <li>Because the language that distinguishes irrelevant from contradictory can be tricky, the data does not distinguish between incorrect attempts for either.</li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    For “Opponent Claim Cores Attached": Each row in the table represents one attempt to attack an opponent's argument during a duel. Each row in the table represents an opponent's claim core (i.e., the claim and the evidence), the student's determination as to whether the evidence is irrelevant or contradictory, and whether that determination was correct.
-                                    <img src="http://placekitten.com/500/600" alt="need a real image">
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <strong>Opponent Claim Cores Attacked:</strong>
+                    Each row in the table represents one attack on an opponent's argument during a battle. For each attack, the table displays the opponent's claim core, including the claim and evidence used, whether the student marked the evidence as irrelevant or contradictory, and whether the student's determination was correct.
                 </li>
-                <li>
-                    <h3>Why might students struggle with this skill?</h3>
-                    <ol>
-                        <li>
-                            <strong>The language is tricky.</strong>
-                            The language of the evidence that students collect can sometimes be subtle, which makes it difficult to distinguish between evidence that is contradictory and evidence that is irrelevant.
-                        </li>
-                        <li>
-                            <strong>It's hard to keep the topic in mind.</strong>
-                            Students might have a hard time keeping the topic of the claim and the topic of the evidence topic in mind at the same time, which then makes it difficult to judge whether the evidence is relevant.
-                        </li>
-                        <li>
-                            <strong>They don't understand the claim.</strong>
-                            If students do not fully understand what a claim is about, then they might find it difficult to determine whether a piece of evidence supports it (i.e., is non-contradictory) or undermines it (i.e., contradicts it).
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <h3>How to make inferences about student progress using the data</h3>
-                    <ul>
-                        <li>If the evidence is clearly contradictory or irrelevant to the claim, then students might be having trouble keeping the claim in mind as they attach evidence</li>
-                        <li>If the claim cores students are creating and critiquing are more nuanced, then students may be struggling with language. It can be hard to distinguish what is evidence that is relevant and non-contradictory at times</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3>Take action</h3>
-                    <ul>
-                        <li>
-                            <strong>Use the Instruction Plan tool</strong>
-                            to create groups and assign different materials or activities depending on a student's needs (for students who are struggling or advancing).
-                        </li>
-                        <li>
-                            <strong>Print out the Gameplay Transcript</strong>
-                            for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with using evidence to support a claim because they are struggling with the language of the claims and evidence, they are having a hard time keeping the topic of the argument in mind, or because they do not understand the claims they are using.
-                        </li>
-                    </ul>
-                </li>
-            </ol>
-            <h2 ng-attr-id="{{ids[11]}}">Instruction Plan</h2>
-            <p>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
-
-            <div>
-                <button class="btn drk-button-primary larger">Add New Plan</button>
-            </div>
-
-            <h3 aria-label="List of current plans">Current Plans</h3>
-        </div>
-    </div>
+            </ul>
+        </li>
+    </ul>
+    <h3>Why might students struggle with this skill?</h3>
+    <ol>
+        <li>
+            <strong>The language is tricky.</strong>
+            The language of the evidence that students collect can sometimes be subtle, which makes it difficult to distinguish between evidence that is contradictory and evidence that is irrelevant.
+        </li>
+        <li>
+            <strong>It's hard to keep the topic in mind.</strong>
+            Students may have a hard time keeping the topic of the claim and the topic of the evidence in mind at the same time, which then makes it difficult to judge whether the evidence is relevant.
+        </li>
+        <li>
+            <strong>They don't understand the claim.</strong>
+            If students do not fully understand what a claim is about, then they may find it difficult to determine whether a piece of evidence supports it or undermines it.
+        </li>
+    </ol>
+    <h3>How to make inferences about student progress using the data</h3>
+    <ul>
+        <li>If the evidence is clearly contradictory or irrelevant to the claim, then students may be having trouble keeping the claim in mind as they attach evidence.</li>
+        <li>If the claim cores that students are creating and critiquing are more nuanced, then students may be struggling with language.</li>
+    </ul>
+    <h3>Take action</h3>
+    <ul>
+        <li>
+            <strong>Use the Instruction Planning tool</strong>
+            to create groups and assign different materials or activities depending on a student's needs (for students who are struggling or advancing).
+        </li>
+        <li>
+            <strong>Print out the Gameplay Transcript</strong>
+            for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with using evidence to support a claim because they are struggling with the language of the claims and evidence, whether they are having a hard time keeping the topic of the argument in mind, or whether they do not understand the claims they are using.
+        </li>
+    </ul>
+    <hr/>
 </div>

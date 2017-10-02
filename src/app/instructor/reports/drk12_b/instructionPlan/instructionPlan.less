@@ -1,0 +1,144 @@
+///////////////////// Layouts (contain modules)
+
+.drk-l-instruction-overall {
+  > div {
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    margin-bottom: 8px;
+  }
+
+  label {
+    margin: 24px 0 0 0;
+  }
+
+  textarea, input[type=text] {
+    margin-top: 16px;
+  }
+
+  table {
+    margin-top: 8px;
+  }
+
+  .drk-helper-logo {
+    line-height: 53px;
+  }
+
+  .report-body {
+    padding: 48px;
+  }
+}
+
+.drk-l-custom-radio {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.drk-l-plan-footer-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  > button {
+    margin-right: 16px;
+  }
+}
+
+///////////////////// End Layouts
+
+.drk-instruction-main-content {
+  font-size: 14px;
+  line-height: 24px;
+
+  h2 {
+    font-family: bitter, serif;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+
+  table {
+    td, th {
+      border: 1px solid #dddddd;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 16px;
+      vertical-align: text-top;
+    }
+    a {
+      display: block;
+      margin-bottom: 8px;
+      padding-right: 12px;
+      position: relative;
+    }
+  }
+
+  .sub-header {
+    font-family: bitter, serif;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.drk-instruction-plan-radio-label {
+  .drk-custom-radio {
+    margin-right: 16px;
+  }
+
+  label {
+    font-weight: normal;
+    margin-top: 16px;
+    &:first-of-type {
+      margin-top: 8px;
+    }
+  }
+}
+
+.drk-plan-student-card {
+  border: 1px solid @grey6;
+  border-radius: 4px;
+  display: flex; align-items: center;
+  height: 40px;
+  margin-top: 16px;
+  padding-left: 12px;
+  position: relative;
+  width: 176px;
+  > label {
+    margin: 0 0 0 12px;
+  }
+  span {
+    font-weight: bold;
+    margin: 0 12px 0 0;
+    position: absolute;
+    right: 0;
+    &.Advancing {
+      color: @competency-green;
+    }
+    &.NeedSupport {
+      color: @yellow;
+    }
+    &.NotAttempted {
+      color: @grey4;
+    }
+  }
+  &.is-selected {
+    background-color: @aquaBlueDark;
+    color: white;
+    .Advancing, .NeedSupport, .NotAttempted {
+      color: white;
+    }
+  }
+}
+
+.drk-plan-student-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  &.collapse {
+    display: none;
+    &.in {
+      display: flex;
+    }
+  }
+}

@@ -37,13 +37,6 @@ angular.module( 'instructor.reports')
         }
 
         /////////////////////////////////////////// Static Report data ////////////////////////////
-
-        $scope.progressTypes = { // TODO: This is redundant. Should probably move to service.
-            advancing: {class:'Advancing', title: 'Advancing'},
-            needSupport: {class:'NeedSupport', title: 'Needs Support'},
-            notYetAttempted: {class:'NotAttempted', title: 'Not enough data'}
-        };
-
         $scope.skills = Drk12Service.skills;
         $scope.skills.isDropdownOpen = false;
 
@@ -214,7 +207,13 @@ angular.module( 'instructor.reports')
                 }
                 if (colName === 'average') { // TODO: Deal with these magic values
                     if (user.results.currentProgress.skillLevel && user.results.currentProgress.skillLevel[$scope.selectedSkill]) {
-                        return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                        if ($scope.selectedSubSkill === 'all') {
+                            return user.results.currentProgress.skillLevel[$scope.selectedSkill].average;
+                        } else if (user.results.currentProgress.skillLevel[$scope.selectedSkill].detail && user.results.currentProgress.skillLevel[$scope.selectedSkill].detail[$scope.selectedSubSkill]) {
+                            return user.results.currentProgress.skillLevel[$scope.selectedSkill].detail[$scope.selectedSubSkill].average;
+                        } else {
+                            return -1;
+                        }
                     } else {
                         return -1;
                     }
@@ -270,13 +269,13 @@ angular.module( 'instructor.reports')
 
             var average = 0;
             if ($scope.selectedSubSkill === 'all') {
-                if (!skill.score || !skill.score.attempts || skill.score.attempts === 0) {
+                if (!skill.score || !skill.score.attempts || (skill.score.attempts === 0 && skill.score.average === 0)) {
                     return "-";
                 } else {
                     average = skill.average;
                 }
             } else {
-                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || skill.detail[$scope.selectedSubSkill].attempts === 0) {
+                if (!skill.detail || !skill.detail[$scope.selectedSubSkill] || (skill.detail[$scope.selectedSubSkill].attempts === 0 && skill.detail[$scope.selectedSubSkill].average === 0)) {
                     return "-";
                 } else {
                     average = skill.detail[$scope.selectedSubSkill].average;
@@ -325,23 +324,6 @@ angular.module( 'instructor.reports')
             window.print();
         };
 
-        $scope.footerHelperClicked = function() {
-            $scope.isFooterOpened = !$scope.isFooterOpened;
-            $scope.$broadcast("FOOTERHELPER_CLICKED",  $scope.tabs[0].active, $scope.selectedSkill);
-
-            /*
-             Ideally the reportHelper html element would be a direct child of the body tag. Since this isn't possible
-             We do this craziness to help create that illusion
-             */
-            if (!$scope.isFooterOpened) {
-                $scope.isFooterFullScreen = false;
-                jQuery('.gl-drk12-footerhelper').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMenu').removeClass("fullscreen");
-                jQuery('.gl-drk12_b-helperMainContent').removeClass("fullscreen");
-                jQuery('.gl-navbar--top').css("z-index", 10);
-            }
-        };
-
         // populate student objects with report data
         populateStudentLearningData(usersData);
 
@@ -350,7 +332,7 @@ angular.module( 'instructor.reports')
         Heavily influenced by http://stackoverflow.com/a/24973235/969869
          */
         $scope.doDrawCourseStatusChart = function() {
-            var d3ContainerElem = d3.select("#drk12_bChart").classed("svg-container", true);
+            var d3ContainerElem = d3.select("#drk12_bChart").classed("drk-svg-container", true);
 
             if ($scope.noUserData) { return; }
 
@@ -370,7 +352,7 @@ angular.module( 'instructor.reports')
             var svg = d3ContainerElem.append("svg")
                 .attr("viewBox", "0 0 800 200")
                 .attr("preserveAspectRatio", "xMinYMin meet")
-                .classed("svg-content-responsive", true);
+                .classed("drk-svg-content-responsive", true);
 
             var chartGroup = svg.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -385,7 +367,7 @@ angular.module( 'instructor.reports')
                 .append("rect")
                 .attr("class", "bar")
                 .attr("x", function(d) { return x(d.mission); })
-                .attr("width", x.rangeBand())
+                .attr("width", 39)
                 .attr("y", function(d) { return y(d.studentCount); })
                 .attr("height", function(d) { return height - y(d.studentCount); });
 
@@ -411,6 +393,9 @@ angular.module( 'instructor.reports')
             chartGroup.selectAll("g.x.axis g.tick")
                 .append("circle")
                 .attr("r", 8);
+
+            chartGroup.selectAll("g.x.axis g.tick text") // Positioning the lower text
+                .attr("y", 19);
         };
 
         var populateCharts = function() {
@@ -433,7 +418,7 @@ angular.module( 'instructor.reports')
                 courseSkillStats.push({skill: skillKey, total: skillValue});
             });
 
-            var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("blah", true); // TODO: Change this
+            var d3ContainerElem = d3.select("#courseSkill_" + skillKey).classed("drk-pie-chart", true);
 
             var margin = {top: 0, right: 0, bottom: 0, left: 0},
                 width = 148 - margin.left - margin.right,
@@ -491,6 +476,7 @@ angular.module( 'instructor.reports')
             textG.append("text")
                 .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
                 .attr("dy", ".35em")
+                .attr("fill", "white")
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     if (d.data.total === 0) { return ""; }

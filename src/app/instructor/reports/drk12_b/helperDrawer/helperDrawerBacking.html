@@ -1,176 +1,130 @@
-<div ng-controller="helperCtrl" class="drk-l-subpageLayout">
-    <div class="gl-drk12_b-helperMenu">
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'connectingEvidence'})">Argument Schemes</a></div>
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'supportingClaims'})">Claims and Evidence</a></div>
-        <div class="gl-drk12_b-helperMenuTitle"><a ui-sref="root.drk12ReportHelper({location: 'criticalQuestions'})">Critical Questions</a></div>
-        <h2 class="gl-drk12_b-helperMenuTitle selected" aria-label="Index of backing topics">Backing</h2>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[0])">
-                <span class="emphasis">I. Focus on the learning goals for this skill</span>
-            </button>
-        </div>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[6])">
-                <span class="emphasis">II. Check on student progress with this skill</span>
-            </button>
-        </div>
-        <div class="gl-drk12_b-helperJumpNav">
-            <button type="button" ng-click="gotoLocation(ids[11])">
-                <span class="emphasis">Instruction Plan</span>
-            </button>
-        </div>
-    </div>
-    <div class="gl-drk12_b-helperMainContent">
-        <div class="gl-drk12_b-helperMainContent-x-container">
-            <h2 ng-attr-id="{{ids[0]}}">I. Focus on the learning goals for this skill</h2>
-            <h3>What are the learning goals for "using backing"?</h3>
+<div class="drk-helperSection">
+    <h2 ng-attr-id="{{ids[0]}}">I. Focus on the learning goals for this skill</h2>
+    <h3>What are the learning goals for "using backing"?</h3>
+    <ul>
+        <li>Students are able to use backing that is relevant to evidence and that strengthens the claim in an argument</li>
+        <li>Students are able to explain how appropriate backing strengthens evidence and therefore strengthens an argument</li>
+        <li>Students are able to explain how backing provides responses to critical questions</li>
+    </ul>
+    <h3>What is using backing about?</h3>
+    <p>
+        <strong>Backing is "information that supports evidence."</strong>
+        By ensuring that a piece of evidence is well-backed, an arguer has additional information that explains how a piece of evidence supports the claim. For example, if someone makes an argument from authority, they may use backing to provide extra information that explains how we know the person cited is an authority on the subject.
+    </p>
+    <p>Using backing is related to asking critical questions: Good backing "defends against" critical questions by ensuring that the evidence used to support a claim is strong. Students can use critical questions as a self-assessment by asking themselves a critical question to decide whether there is strong backing to support their argument, or they can pose critical questions to an opponent. If that opponent can't use backing to make a stronger connection between their evidence and the claim they're supporting, then it's likely the opponent's argument is not strong.</p>
+    <h3>How will using backing help my students?</h3>
+    <p>Students who can use backing appropriately to strengthen a piece of evidence are more likely to</p>
+    <ul>
+        <li>defend their arguments against critical questions;</li>
+        <li>anticipate critical questions that others may ask about their own arguments;</li>
+        <li>try to strengthen evidence to support a claim.</li>
+    </ul>
+    <h3>How do players use backing in the game?</h3>
+    <p>Using backing is considered an advanced skill, and students don't use it until later in gameplay. In later missions, players can begin loading pieces of evidence into the "Backing Machine." If students take a claim core for which they've discovered the backing into battle, then they can defend against critical questions launched by their opponents. Students must make sure the backing for their evidence is good, though. While most evidence has backing, not all of the backing is supportive or relevant to the evidence.</p>
+    <h3>What does using backing look like in the game?</h3>
+    <p>When a player uses evidence that has backing that supports the evidence, then his or her bot will be "shielded" from critical questions from opponents during battles.</p>
+    <div><img src="/assets/drk_helper_Backing_1.png" width="100%" alt="gameplay image"></div>
+    <p>
+        <strong>Backing the evidence up.</strong>
+        Students use the "Backing Machine" to add backing to a piece of evidence. While most evidence that students put in the machine will have backing, not all backing will be good backing. Good backing must support the evidence, which enables students to defend against critical questions. Players have to read backing text carefully to make sure it's good backing! Once they've confirmed that it's good backing, they can use the evidence to fuse their claim core and take it into a battle.
+    </p>
+    <div><img src="/assets/drk_helper_Backing_2.png" width="100%" alt="gameplay image"></div>
+    <p>
+        <strong>Defending against critical questions.</strong>
+        Backing allows students to defend against critical question attacks. Using evidence with several pieces of valid backing allows students to defend against critical question attacks, because the argument is made stronger by well-backed evidence.
+    </p>
+    <div><img src="/assets/drk_helper_Backing_3.png" width="100%" alt="gameplay image"></div>
+    <h3>What does using backing look like in the real world?</h3>
+    <p><strong>Here's an example you can use with the class.</strong><br/>Martin makes the following argument from authority: "The dinosaurs were wiped out 66 million years ago when a giant asteroid smashed into Earth. Dr. Nabila Shaheen recently published an article in a scientific journal that made that claim."</p>
+    <p>Martin knows that there are other theories about why the dinosaurs went extinct, and he's sure that his classmates are going to ask critical questions about the evidence that he used to support his claim. So, he adds two pieces of backing (that is, additional information) about his evidence to support his argument.</p>
+    <p>He says, "Dr. Shaheen is a highly-respected paleontologist. She has studied the question of how dinosaurs went extinct for over 20 years." And then he adds, "Also, other researchers have published articles making the same claim and using evidence to support the idea that it was an asteroid, and not volcanic activity over a long period of time."</p>
+    <p>By including that additional information, Martin was able to defend against at least two critical questions: "Is this person really an authority on the topic?" "Do other experts agree with this expert?" Using this backing strengthened his argument.</p>
+    <h3>Deepen your knowledge about using backing</h3>
+    <p>More About this Skill</p>
+    <p>Classroom Modeling Activities for Using Backing</p>
+</div>
+<div class="drk-helperSection">
+    <h2 ng-attr-id="{{ids[1]}}">II. Check on student progress with this skill</h2>
+    <h3>How to identify struggling and advancing students</h3>
+    <div><img src="/assets/drk_POT_Backing.png" alt="Performance Over Time screen" width="100%"></div>
+    <ul>
+        <li>
+            <strong>Progress on most recent mission:</strong>
+            A snapshot of how students are doing with identifying argument schemes on the most recent mission they've played. The pie charts display only data about how students did on the most recent mission. Keep in mind that, as in many games, students have multiple opportunities to use skills across missions.
+        </li>
+        <li>
+            <strong>Performance over Time:</strong>
+            To see how well students have been doing with using backing in all relevant game missions. Remember, students don't necessarily use all skills in all missions.
             <ul>
-                <li>Students are able to use backing that is relevant to evidence and that strengthens the claim in an argument</li>
-                <li>Students are able to explain how appropriate backing strengthens evidence and therefore strengthens an argument</li>
-                <li>Students are able to explain how backing provides responses to critical questions</li>
+                <li>Use the AVG column on the right side to sort student performance by the average success rates. Click the column header once to sort from low to high, and click twice to sort from high to low.</li>
+                <li>You may start seeing possible groupings of students here—for example, students who seem to be consistently advancing or consistently struggling across multiple missions.</li>
             </ul>
-            <h3>What is using backing about?</h3>
-            <p>
-                <strong>Backing is "information that supports evidence."</strong>
-                By ensuring that a piece of evidence is well-backed, an arguer has additional information that strengthens a piece of evidence that's being used to support a claim. Having strong backing enables an arguer to defend her argument against critical questions from an opponent (another skill that students practice in the game).
-            </p>
-            <p>Using backing is related to asking critical questions: good backing "defends against" critical questions by ensuring that the evidence used to support a claim is strong. By asking critical questions about his or her own evidence, a student can look for additional information to use as backing to make the argument stronger. Similarly, a student can ask critical questions and then determine that there isn't enough backing to make it a stronger argument.</p>
-            <h3>How will using backing help my students?</h3>
-            <p>Kids who can use backing appropriately to strengthen a piece of evidence are more likely to:</p>
+        </li>
+        <li>
+            <strong>"Filter data by" Dropdown Menu:</strong>
+            Allows you to see how students are doing with using backing in two ways: First, with using well-backed evidence when they create their claim cores (i.e., constructing their own argument with well-backed evidence), and second, with using backing to defend against an opponent's critical questions during a battle.
+        </li>
+    </ul>
+    <h3 ng-attr-id="{{ids[2]}}">How to look at the data more closely</h3>
+    <div><img src="/assets/drk_DD_Backing.png" alt="Drill down screen" width="100%"></div>
+    <ul>
+        <li>
+            <strong>Drill Down:</strong>
+            Click on a percentage under any mission to see the details on student gameplay for that mission. The first half of the report shows a student's success rate with using backing in two ways: (1) choosing well-backed evidence to support their own claims, and (2) using backing to defend against an opponent's critical questions during a battle.
             <ul>
-                <li>Defend their arguments against critical questions</li>
-                <li>Anticipate critical questions that others might ask about their own arguments</li>
-                <li>Try to strengthen evidence to support a claim</li>
+                <li>The Performance Over Time report shows one overall success rate. In the Drill Down, that success rate has been separated into its component parts  to show how students have performed in selecting evidence that has good backing (Backing Attached), and how they've performed using backing to defend against critical questions (Backing Used).</li>
+                <li>The success rates for each argument scheme are the same data you see when using the "Filter data by" menu in Performance Over Time.</li>
             </ul>
-            <h3>How do players use backing in the game?</h3>
-            <p>Using backing is considered an advanced skills and students don't use it until later in gameplay.</p>
-            <p>In later missions, players can begin loading pieces of evidence into the "Backing Machine." The machine resembles a slot machine, and dispenses additional information about the piece of evidence that a player loaded into it. Having that additional information about the evidence doesn't necessarily mean that it's well-backed, however.</p>
-            <p>
-                <strong>The player has to read the information carefully,</strong>
-                as some of it will demonstrate that the piece of evidence does not support the claim. The player must read the backing information carefully and decide whether it helps strengthen that piece of evidence for making an argument.
-            </p>
-            <p>In the real world, students need to do research to find additional information to support a piece of evidence. In the game, each piece of evidence that a student collects already has backing associated with it (unless it has no backing, by design).</p>
-            <h3>What does using backing look like in the game?</h3>
-            <p>When a player uses evidence that has relevant backing, then his or her bot will be "shielded" from critical questions from opponents during duels.</p>
-            <img src="http://placekitten.com/600/500" alt="need a real image">
-            <p>
-                <strong>Backing the evidence up.</strong>
-                Students use the "Backing Machine" to add backing to a piece of evidence. While most evidence that students put in the machine will have backing, not all backing will be good backing. Good backing must support the evidence, which enables students to defend against critical questions. Players need to read backing text carefully to make sure it's good backing! Once they've confirmed that it's good backing, they can use the evidence to fuse their claim core and take it into a duel.
-            </p>
-            <img src="http://placekitten.com/600/600" alt="need a real image">
-            <p>
-                <strong>Defending against critical questions.</strong>
-                Backing allows students to defend against critical question attacks. Using evidence with several pieces of valid backing allows students to defend against critical question attacks because the argument is made stronger by well-backed evidence.
-            </p>
-            <img src="http://placekitten.com/600/700" alt="need a real image">
-            <h3>What does using backing look like in the real world?</h3>
-            <p><strong>Here's an example you can use with the class:</strong></p>
-            <p>Martin makes the following argument from authority: "The dinosaurs were wiped out 66 million years ago when a giant asteroid smashed into Earth. Dr. Nabila Shaheen recently published an article in a scientific journal that made that claim."</p>
-            <p>Martin knows that there are other theories about why the dinosaurs went extinct, and he's sure that his classmates are going to ask critical questions about the evidence that he used to support his claim. So, he adds two pieces of backing (that is, additional information) about his evidence to support his argument.</p>
-            <p>He says, "Dr. Shaheen is a highly-respected paleontologist. She has studied the question of how dinosaurs went extinct for over 20 years." And then he adds, "Also, other researchers have published articles making the same claim and using evidence to support the idea that it was an asteroid, and not volcanic activity over a long period of time."</p>
-            <p>By including that additional information, Martin was able to defend against at least two critical questions: "Is this person really an authority on the topic?" "Do other experts agree with this expert?" Using this backing strengthened his argument.</p>
-            <h3>Deepen your knowledge about using backing</h3>
-            <p>More About this Skill</p>
-            <p>Classroom Modeling Activities for Using Backing</p>
-
-            <h2 ng-attr-id="{{ids[6]}}">II. Check on student progress with this skill</h2>
-            <ol>
+        </li>
+        <li>
+            <strong>Gameplay Transcript:</strong>
+            The second half of the Drill Down report shows each attempt that a student made to create arguments using evidence with backing (the table on the left) or to use backing to defend against critical questions (the table on the right).
+            <ul>
                 <li>
-                    <h3>How to identify struggling and advancing students</h3>
-                    <ul>
-                        <li>
-                            <strong>Progress on Most Recent Mission:</strong>
-                            A snapshot of how students are doing with using backing on the most recent mission they've played. Don't make too much of it—like many games, students have multiple opportunities to use skills across missions.
-                            <strong>The pie charts only display data about how students did on the most recent relevant mission.</strong>
-                        </li>
-                        <li>
-                            <strong>Performance over Time:</strong>
-                            To see how well students have been doing with using backing in all relevant game missions.
-                            <strong>Remember, students don't necessarily use all skills in all missions.</strong>
-                            <ul>
-                                <li>Use the AVG column (on the right side) to sort student performance by the average success rates from low to high/high to low.</li>
-                                <li>You might start seeing groups of students here—for example, students who seem to be consistently advancing or struggling across multiple missions.</li>
-                                <li>
-                                    <strong>Break it up:</strong>
-                                    Use the "Filter data by" menu (right under the Performance Over Time title) to see how students are doing with using backing in two ways: First, with using well-backed evidence when they create their claim cores (i.e., constructing their own argument with well-backed evidence). Second, you can see how students are doing with using backing to defend against an opponent's critical questions during a duel.
-                                    <div><img src="http://placekitten.com/340/250" alt="need a real image"></div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <strong>Backing Attached Before Battle:</strong>
+                    Each row in the table represents a claim core that students fused using evidence for which backing had been discovered. For each attempt, the table shows the player's argubot (i.e., the argument scheme), the evidence used and the associated backing, and whether the evidence is well-backed (i.e., that there is no irrelevant or contradictory backing).
                 </li>
                 <li>
-                    <h3>How to look at the data more closely</h3>
-                    <ul>
-                        <li>
-                            <strong>Drill Down:</strong>
-                            Click on a percentage under any mission to see the details on student gameplay for that mission. The first half of the report shows a student's success rate with using backing in two ways: (1) Choosing well-backed evidence to support their own claims; and (2) Using backing to defend against an opponent's critical questions during a duel.
-                            <ul>
-                                <li>When added together, these success rates equal the percentage displayed in Performance Over Time for this mission.</li>
-                                <li>The success rates for each argument scheme are the same as when you viewed them using the "Filter data by" menu in Performance Over Time, only here you're seeing them for just one student.</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>Gameplay Transcript:</strong>
-                            The second half of the Drill Down report shows you each attempt that a student made to use backing to support their own claim (the table on the left) or to defend against critical questions (the table on the right).
-                            <ul>
-                                <li>For "Backing Chosen by Player": Each row in the table represents one attempt to fuse a claim core. For each attempt, the table shows the player's argubot (i.e., the argument scheme), the evidence and the backing associated with it, and whether the evidence is well-backed (i.e., there is no irrelevant or contradictory backing).</li>
-                                <li>For "Backing Used by Player": Each row in the table represents one attempt to defend against an opponent's critical question during the duel. Each row in the table represents an opponent's critical question, the evidence and backing used by the player to defend against the question, and whether the player successfully defended against the attack.</li>
-                                <img src="http://placekitten.com/600/750" alt="need a real image">
-                            </ul>
-                        </li>
-                    </ul>
+                    <strong>Backing Used in Battle:</strong>
+                    Each row in the table represents one attempt to use backing in a battle to defend against an opponent's critical question. Each row in the table represents an opponent's critical question, the evidence and backing used by the player to defend against the question, and whether the player successfully defended against the attack.
                 </li>
-                <li>
-                    <h3>Why might students struggle with this skill?</h3>
-                    <ol>
-                        <li>
-                            <strong>They don't expect critical questions from others.</strong>
-                            If students don't expect that others will ask critical questions about their evidence (or understand that evidence can be evaluated beyond being "right" or "wrong"), then they might not understand the need to use backing as a way to make evidence stronger.
-                        </li>
-                        <li>
-                            <strong>They don't ask critical questions about their own arguments.</strong>
-                            If students don't ask critical questions about their own evidence they might not stop to think about what kind of information would strengthen their argument (which might even mean making a different argument because the evidence is weak).
-                        </li>
-                        <li>
-                            <strong>They have trouble distinguishing among argument schemes (and the critical questions that go with them).</strong>
-                            If students are unable to tell the difference among the four argument schemes (perhaps based on the keywords for each of them) and the critical questions associated with them, then it is unlikely that they will be able to use backing that responds to specific critical questions.
-                        </li>
-                        <li>
-                            <strong>They struggle with the language of the backing.</strong>
-                            Students might be unable to determine whether a piece of backing strengthens the evidence if they struggle with deciphering the words in the backing.
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    <h3>How to make inferences about student progress using the data</h3>
-                    <ul>
-                        <li>If a majority of a student's incorrect attempts seem to be from one argubot (for both "Backing Chosen" and "Backing Used"), then a student might be struggling with the language of the evidence for that argument scheme, or with the language of the backing for the evidence.</li>
-                        <li>If a student has multiple incorrect attempts with more than one argubot (for both "Backing Chosen" and "Backing Used"), then a student might be struggling at a conceptual level with the differences between the argument schemes. Or, a student might also be struggling with the language for more than one argument scheme.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3>Take action</h3>
-                    <ul>
-                        <li>
-                            <strong>Use the Instruction Plan tool</strong>
-                            to create groups and assign different materials or activities depending on a student's needs (for students who are struggling or advancing).
-                        </li>
-                        <li>
-                            <strong>Print out the Gameplay Transcript</strong>
-                            for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with using backing questions because of language, concepts, or both.
-                        </li>
-                    </ul>
-                </li>
-            </ol>
-            <h2 ng-attr-id="{{ids[11]}}">Instruction Plan</h2>
-            <p>After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
-
-            <div>
-                <button class="btn drk-button-primary larger">Add New Plan</button>
-            </div>
-
-            <h3 aria-label="List of current plans">Current Plans</h3>
-        </div>
-    </div>
+            </ul>
+        </li>
+    </ul>
+    <h3>Why might students struggle with this skill?</h3>
+    <ol>
+        <li>
+            <strong>They don't expect critical questions from others.</strong>
+            If students don't expect that others will ask critical questions about their evidence (or understand that evidence can be evaluated beyond being "right" or "wrong"), then they may not understand the need to use backing as a way to make evidence stronger.
+        </li>
+        <li>
+            <strong>They don't ask critical questions about their own arguments.</strong>
+            If students don't ask critical questions about their own evidence, they may not stop to think about what kind of information would strengthen their argument (or even that they should make a different argument because their evidence is weak).
+        </li>
+        <li>
+            <strong>They have trouble distinguishing among argument schemes (and the critical questions that go with them).</strong>
+            If students are unable to tell the difference among the four argument schemes (perhaps based on the keywords for each of them) and the critical questions associated with them, then it is unlikely that they will be able to use backing that responds to specific critical questions.
+        </li>
+        <li>
+            <strong>They struggle with the language of the backing.</strong>
+            Students may be unable to determine whether a piece of backing strengthens the evidence if they struggle with deciphering the words in the backing.
+        </li>
+    </ol>
+    <h3>How to make inferences about student progress using the data</h3>
+    <ul>
+        <li>If a majority of a student's incorrect attempts seem to be from one argubot (for both "Backing Chosen" and "Backing Used"), then a student may be struggling with the language of the evidence for that argument scheme, or with the language of the backing for the evidence.</li>
+        <li>If a student has multiple incorrect attempts with more than one argubot (for both "Backing Chosen" and "Backing Used"), then a student may be struggling at a conceptual level with the differences between the argument schemes. Or, a student may also be struggling with the language for more than one argument scheme.</li>
+    </ul>
+    <h3>Take action</h3>
+    <ul>
+        <li>
+            <strong>Use the Instruction Planning tool</strong>
+            to create groups and assign different materials or activities, depending on a student's needs (for students who are struggling or advancing).
+        </li>
+        <li>
+            <strong>Print out the Gameplay Transcript</strong>
+            for conferencing with students. By reviewing several gameplay attempts with them, and asking them to explain their choices, you'll get more insight into whether students are struggling with using backing questions because of language, concepts, or both.
+        </li>
+    </ul>
+    <hr/>
 </div>

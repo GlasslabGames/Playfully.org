@@ -6,17 +6,101 @@
 
 // Base
 
-.gl-drk12-base {
-  color: @grey2;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.drk-base {
+  font-weight: normal;
+  h1, .h1 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 40px;
+  }
+  h2, .h2 {
+    color: @grey2; // Overriding a style in main.less
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 32px;
+  }
+  h3, .h3 {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+    &.emphasis {
+      font-weight: bold;
+    }
+  }
+  h4, .h4 {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+
   p {
     margin: 0;
   }
+
+  hr {
+    color: @grey6;
+  }
+
+  a, a:link {
+    color: @comparidroid;
+    text-decoration: none;
+    &:visited {
+      color: @comparidroid;
+    }
+    &:hover, &:focus {
+      color: @aquaBlue;
+      outline:0;
+    }
+    &:active, &:active:focus {
+      color: @aquaBlueDark;
+      outline:0;
+    }
+  }
+
+  textarea, input[type=text] {
+    border: 1px solid @grey4;
+    border-radius: 6px;
+    padding: 12px 16px 12px 16px;
+    &:focus::placeholder {
+      color: transparent;
+    }
+  }
+
+  input[type=text] {
+    height: 48px;
+    width: 508px;
+  }
+
+  textarea {
+    display: block;
+    height: 160px;
+    width: 508px;
+  }
+
+  // Bolding ordered lists. Gotten from https://stackoverflow.com/a/21369918/3806842
+  ol {
+    counter-reset: item;
+  }
+
+  ol > li {
+    counter-increment: item;
+    list-style-type: none;
+    text-indent: -1em;
+  }
+
+  ol > li:before {
+    content: counter(item) ".";
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  color: @grey2;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 // Container (Layout)
 
-.gl-drk12-l-container {
+.drk-l-container {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
@@ -27,45 +111,45 @@
   }
 }
 
-.gl-drk12-l-container > h1 {
+.drk-l-container > h1 {
   margin-bottom: 20px;
 }
 
-.gl-drk12-l-container > p {
+.drk-l-container > p {
   margin-bottom: 20px;
   text-align: left;
 }
 
 
-.gl-drk12-l-container > p:first-of-type {
+.drk-l-container > p:first-of-type {
   width: 660px;
 }
 
 // Container (Class, tab)
 
-.gl-drk12-l-containerclass {
+.drk-l-containerclass {
 }
 
-.gl-drk12-l-containerclass > div:first-of-type {
+.drk-l-containerclass > div:first-of-type {
   margin-bottom: 24px;
 }
 
-.gl-drk12-l-containerclass .drk-emphasized-background {
+.drk-l-containerclass .drk-emphasized-background {
   padding: 48px 48px 0 48px;
   margin-left: -48px;
   height: 339px;
   width: 940px;
 }
 
-.gl-drk12-l-containerclass > ul {
+.drk-l-containerclass > ul {
   margin-bottom: 20px;
 }
 
-.gl-drk12-l-containerclass > p {
+.drk-l-containerclass > p {
   margin-bottom: 20px;
 }
 
-.gl-drk12-l-containerclass > table {
+.drk-l-containerclass > table {
   margin-bottom: 40px;
   width: 100%;
 }
@@ -76,22 +160,22 @@
     position: relative;
     > button {
       position: absolute;
-      bottom: 0;
+      bottom: 13px;
     }
   }
 }
 
 // Container (Student, tab)
 
-.gl-drk12-l-containerstudent {
+.drk-l-containerstudent {
   padding-top: 25px;
 }
 
-.gl-drk12-l-containerstudent > h2 {
+.drk-l-containerstudent > h2 {
   margin: 10px 0 5px 0;
 }
 
-.gl-drk12-l-containerstudent > div {
+.drk-l-containerstudent > div {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
@@ -100,45 +184,73 @@
 
 // Container (Drilldown)
 
-.gl-drk12-l-drillDown-container {
+.drk-l-top {
+  margin-top: 36px;
+  > a, > a:link {
+    color: @comparidroid;
+    font-weight: bold;
+    margin-top: -30px;
+    position: absolute;
+    text-decoration: none;
+    i {
+      margin-right: 8px;
+    }
+    @media print {
+      display: none;
+    }
+  }
+}
+
+.drk-l-drilldown-container {
   color: @grey2;
   font-size: 16px;
-  padding: 30px 47px 45px 47px;
+  padding: 12px 47px 45px 47px;
   @media print {
     font-size: 10px;
     padding: 40px;
   }
 }
 
-.gl-drk12-l-drillDown-container > h1 {
+.drk-l-drilldown-container > h1 {
   margin-bottom: 16px;
+  max-width: 480px;
   @media print {
     margin-bottom: 0;
   }
 }
 
-.gl-drk12-l-drillDown-container > div:first-of-type {
+.drk-l-drilldown-container h2 {
+  margin-bottom: 24px;
+  @media print {
+    margin-bottom: 0;
+  }
+}
+
+.drk-l-drilldown-container > div:first-of-type {
   margin: 16px 0;
   @media print {
     margin: 0 0 16px 0;
   }
 }
 
-.gl-drk12-l-drillDown-container > span:first-of-type p:first-of-type {
+.drk-l-drilldown-container > span:first-of-type p:first-of-type {
   margin-bottom: 8px;
 }
 
-.gl-drk12-l-drillDown-container > span:first-of-type div:first-of-type {
+.drk-l-drilldown-container > span:first-of-type div:first-of-type {
   width: 660px;
 }
 
-.gl-drk12-l-drillDown-container > span:first-of-type ul:first-of-type {
+.drk-l-drilldown-container > span:first-of-type ul:first-of-type {
   width: 660px;
 }
 
 .drk-l-drilldown-header-container {
+  background-color: rgba(103,202,218,0.1);
+  border-bottom: 1px solid @grey5;
   display: flex;
   flex-direction: column;
+  padding: 48px;
   @media print {
     flex-direction: column-reverse;
   }
@@ -147,8 +259,9 @@
 .drk-l-drilldown-main-container {
   display: flex;
   flex-direction: column;
-  >div >ul li {
-    padding-bottom: 10px;
+  > div > ul li {
+    margin-bottom: 10px;
+    max-width: 460px;
   }
   @media print {
     flex-direction: row;
@@ -162,9 +275,50 @@
   }
 }
 
+.drk-l-drilldown-main-container h1 {
+  margin-bottom: 8px;
+}
+
+.drk-l-drilldown-main-container h2 {
+  margin-bottom: 8px;
+}
+
+.drk-l-drilldown-main-container hr {
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.drk-l-drilldown-main-container .drk-text-button-group {
+  margin-bottom: 8px;
+  div:first-child {
+    padding-right: 60px;
+  }
+}
+
+.drk-l-drilldown-main-container .drk-collapse-button {
+  margin-bottom: 8px;
+}
+
+.drk-l-drilldown-main-container > div > div > div:last-child {
+  max-width: 480px;
+}
+
 // Container Drilldown Skillcards (Layout)
 
-.gl-drk12-l-drillDown-skillcard-container {
+.drk-drilldown-skillcards-unavailable {
+  align-items: center;
+  background-color: @grey8;
+  border: 1px solid @grey6;
+  display: flex;
+  flex-direction: column;
+  height: 284px;
+  > div {
+    margin: auto 0;
+    text-align: center;
+  }
+}
+
+.drk-l-drilldown-skillcard-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -175,7 +329,7 @@
   }
 }
 
-.gl-drk12-l-drillDown-skillcard-container > div {
+.drk-l-drilldown-skillcard-container > div {
   border: 1px solid @grey6;
   display: flex;
   min-height: 130px;
@@ -187,7 +341,7 @@
   }
 }
 
-.gl-drk12-l-drillDown-skillcard-container > div > div:first-child {
+.drk-l-drilldown-skillcard-container > div > div:first-child {
   border-right: 1px solid @grey6;
   display: flex;
   flex-direction: column;
@@ -197,10 +351,10 @@
   }
   padding: 15px 0 15px 15px;
   width: 175px;
-  .gl-drk12-drillDown-skillcard-successTitle {
+  .drk-drilldown-skillcard-success-title {
     margin-top: 25px;
   }
-  .gl-drk12-drillDown-skillcard-successRate {
+  .drk-drilldown-skillcard-success-rate {
     font-size: 20px;
   }
   @media print {
@@ -214,9 +368,9 @@
   }
 }
 
-.gl-drk12-l-drillDown-skillcard-container > div > div:last-child {
+.drk-l-drilldown-skillcard-container > div > div:last-child {
   margin: auto 16px auto auto;
-  .gl-drk12-drillDown-skillcard-skillDetail-detail {
+  .drk-drilldown-skillcard-skillDetail {
     display: inline-block;
     text-align: center;
     height: 98px;
@@ -242,7 +396,7 @@
 }
 
 // Dropdown selector (Layout)
-.gl-drk12-l-dropdown {
+.drk-l-dropdown {
   max-width: 49%;
   width: 49%;
   button:first-child {
@@ -255,14 +409,14 @@
 
 // Misc layout items
 
-.gl-drk12-legend {
+.drk-legend {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
   padding-right: 6px;
 }
 
-.gl-drk12-flexrow { // TODO: can this be put into a better layout item?
+.drk-flexrow { // TODO: can this be put into a better layout item?
   align-items: baseline;
   display: flex;
   justify-content: space-between;
@@ -270,13 +424,14 @@
 
 // Headings
 
-.gl-drk12-heading {
+.drk-heading {
   color: @grey2;
   font-family: bitter, serif;
   margin: 0;
   text-align: left;
   h1& {
     font-size: 32px;
+    font-weight: bold;
     line-height: 40px;
     @media print {
       font-size: 20px;
@@ -285,14 +440,13 @@
   }
 }
 
-.gl-drk12-heading-secondary {
+.drk-heading-secondary {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;
   font-weight: 400;
 }
 
-.gl-drk12-heading-secondary-small {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.drk-heading-secondary-small {
   font-size: 16px;
   font-weight: 400;
   @media print {
@@ -322,12 +476,15 @@
 .drk-button-as-tab {
   background-color: Transparent;
   border: none;
-  color: @oceanBlue;
+  color: @comparidroid;
   font-size: 16px;
   font-weight: 400;
   margin-left: -15%;
   height: 51px;
   width: 214px;
+  &:hover {
+    color: @aquaBlue;
+  }
   &.selected {
     background-color: white;
     border-top: 1px solid @grey6;
@@ -338,36 +495,71 @@
     color: @grey2;
     font-size: 16px;
     height: 51px;
+    &:hover {
+      color: @grey2;
+    }
   }
 }
 
-.drk-button-primary {
+.drk-button-primary, a.drk-button-primary, a:link.drk-button-primary {
   background-color: @aquaBlue;
   border-color: @aquaBlue;
   color: #fff;
+  cursor: pointer;
   font-size: 12px;
-  padding: 8px 16px;
-  &.larger {
-    font-size: 16px;
-    line-height: 20px;
+  padding: 12px 16px;
+  &:visited {
+    color: #fff;
+  }
+  &:hover, &:focus {
+    background-color: #fff;
+    color: @aquaBlue;
+    outline:0;
+  }
+  &:active, &:active:focus {
+    background-color: @aquaBlueDark;
+    border-color: @aquaBlueDark;
+    color: #fff;
+    outline:0;
+  }
+  &.disabled {
+    background-color: @grey5;
+    border-color: @grey5;
+    pointer-events: initial;
+    &:hover, &:focus, &:active, &:active:focus {
+      background-color: @grey5;
+      border-color: @grey5;
+      color: white;
+    }
   }
 }
 
-.drk-button-secondary {
+.drk-button-secondary, a.drk-button-secondary, a:link.drk-button-secondary {
   background-color: #fff;
   border-color: @aquaBlue;
   color: @aquaBlue;
+  cursor: pointer;
   font-size: 12px;
-  padding: 8px 16px;
-  &.larger {
-    font-size: 16px;
-    line-height: 20px;
+  padding: 12px 16px;
+  &:visited {
+    color: @aquaBlue;
+  }
+  &:hover, &:focus {
+    background-color: @aquaBlue;
+    color: #fff;
+    outline:0;
+  }
+  &:active, &:active:focus {
+    background-color: #fff;
+    border-color: @aquaBlueDark;
+    color: @aquaBlueDark;
+    outline:0;
   }
 }
 
 // Help Icon
 
-.gl-drk12-helpicon {
+.drk-helpicon {
   appearance: none;
   background: none;
   border: 0;
@@ -380,49 +572,9 @@
   top: 20px;
 }
 
-// Progress Icons
-
-.gl-drk12-progressicon {
-  align-items: center;
-  appearance: none;
-  background: none;
-  border: 0;
-  display: flex;
-  outline: none;
-  padding: 0;
-}
-
-.gl-drk12-progressicon::before {
-  background-color: @grey7;
-  border: 5px solid #fff;
-  border-radius: 100%;
-  box-shadow: 0 0 4px 0 rgba(0,0,0, .5);
-  box-sizing: border-box;
-  content: '';
-  display: block;
-  flex: 0 0 40px;
-  height: 40px;
-  margin-right: 20px;
-  max-width: 40px;
-  transition: opacity .3s ease-out;
-  width: 40px;
-}
-
-.gl-drk12-progressicon.Advancing::before {
-  background-color: @competency-green;
-}
-
-.gl-drk12-progressicon.NeedSupport::before {
-  background-color: @yellow;
-}
-
-.gl-drk12-progressicon.NotAttempted::before {
-  background-color: @grey7;
-}
-
 // Table Sort
 
-.gl-drk12-tablesort {
+.drk-tablesort {
   align-items: center;
   appearance: none;
   background: none;
@@ -439,14 +591,14 @@
 
 // Modal Header
 
-.gl-drk12-modalheader {
+.drk-modalheader {
   align-items: flex-start;
   display: flex;
   justify-content: space-between;
   padding: 30px 30px 5px 0;
 }
 
-.gl-drk12-modalheader h1 {
+.drk-modalheader h1 {
   color:  @grey1;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;
@@ -455,11 +607,11 @@
   text-align: left;
 }
 
-.gl-drk12-modalheader button {
+.drk-modalheader button {
   position: relative;
 }
 
-.gl-drk12-modalheader-help h1 {
+.drk-modalheader-help h1 {
   color: @grey2;
   flex: 1 1 100%;
   font-family: 'Bitter', sans-serif;
@@ -470,24 +622,24 @@
 
 // Help
 
-.gl-drk12-help {
+.drk-l-help {
   padding: 10px 30px 40px;
 }
 
-.gl-drk12-help h2 {
+.drk-l-help h2 {
   color:  @grey1;
   font-size: 14px;
   font-weight: bold;
   margin: 0;
 }
 
-.gl-drk12-help p:not(:last-child) {
+.drk-l-help p:not(:last-child) {
   margin-bottom: 20px;
 }
 
 // Chart
 
-.gl-drk12-chart {
+.drk-chart {
   svg {
     overflow: visible;
   }
@@ -513,7 +665,7 @@
 }
 
 // Table (Override of .gl-reports-table)
-.table.gl-drk12-table {
+.table.drk-table {
   font-size: 12px;
   @media print {
     font-size: 8px;
@@ -572,7 +724,7 @@
       border-right: 1px solid @grey7;
     }
     line-height: 45px;
-    padding: 0 6px;
+    padding: 0;
     &.Advancing, .Advancing {
       background-color: #fff;
       color: @competency-green;
@@ -609,17 +761,17 @@
   text-align: center;
 }
 
-.gl-drk12-table th:last-child,
-.gl-drk12-table td:last-child {
+.drk-table th:last-child,
+.drk-table td:last-child {
   border-left-width: 1px;
 }
 
-.gl-drk12-table .gl-drk12-table-x-name {
+.drk-table .drk-table-x-name {
   padding: 0 10px 0 0;
   text-align: left;
 }
 
-.gl-drk12-table .gl-drk12-table-x-name span {
+.drk-table .drk-table-x-name span {
   display: block;
   padding: 20px 0 20px 12px;
   input {
@@ -627,7 +779,7 @@
   }
 }
 
-.svg-container {
+.drk-svg-container {
   display: inline-block;
   position: relative;
   width: 100%;
@@ -635,7 +787,7 @@
   vertical-align: top;
   overflow: hidden;
 }
-.svg-content-responsive {
+.drk-svg-content-responsive {
   display: inline-block;
   position: absolute;
   top: 10px;
@@ -643,65 +795,17 @@
 }
 
 // Pie Chart Table
+.drk-pie-chart {
+  font-size: 12px;
+  font-weight: bold;
+}
 
 .drk-piechartskilllevel {
   display: flex;
   justify-content: space-between;
 }
 
-// Footer helper
-
-.gl-drk12-footerhelper {
-  bottom: 0;
-  -webkit-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
-  -moz-box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
-  box-shadow: 0 -1px 4px 0 rgba(0,0,0,.2);
-  left: 0;
-  height: 50vh;
-  position: fixed;
-  transform: translateY(calc(~'50vh - 30px'));
-  transition: transform .3s ease-out;
-  width: 100%;
-
-  &.expanded {
-    transform: none;
-  }
-
-  &.fullscreen {
-    height: 100vh;
-  }
-
-}
-
-.gl-drk12-collapsebar {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: @yellow;
-  border: 0;
-  box-sizing: border-box;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  height: 30px;
-  outline: none;
-  padding: 5px 0;
-  text-align: center;
-  width: 100%;
-  a:link {
-    color: black;
-    float: right;
-    font-size: 12px;
-    font-weight: normal;
-    padding-right: 20px;
-    text-decoration: underline;
-  }
-}
-
-.gl-drk12-collapsecontent {
-  background-color: #fff;
-  height: 100%;
-}
+// end pie chart
 
 .drk-skill-icon {
   height: 82px;
@@ -712,21 +816,17 @@
   }
 }
 
-.fontGrey2 {
-  color: @grey2;
-}
-
 .font16px {
   font-size: 16px;
 }
 
-.sort-up {
+.drk-sort-up {
   background-image: url("/assets/active.svg");
   height: 24px;
   width: 24px;
 }
 
-.sort-down {
+.drk-sort-down {
   background-image: url("/assets/inactive.svg");
   height: 24px;
   width: 24px;
@@ -747,27 +847,15 @@ tr + tr.no-repeated-tr-content {
   cursor: not-allowed;
 }
 
-.gl-drk12-bold {
+.drk-light-bold {
   font-weight: 500;
 }
 
-.padding-sides-15 {
+.padding-sides-15 { // TODO This can be done better
   padding: 0 15px 0 15px;
 }
 
-.padding-left-20 {
-  padding-left: 20px;
-}
-
-.padding-bottom-16 {
-  padding-bottom: 16px;
-}
-
-.padding-bottom-20 {
-  padding-bottom: 20px;
-}
-
-.gl-drk12-drillDown-status {
+.drk-drilldown-status {
   &.Advancing {
     color: @competency-green;
     font-size: 16px;
@@ -778,25 +866,13 @@ tr + tr.no-repeated-tr-content {
   }
 }
 
-.gl-drk12-tableHeader-background {
+.drk-table-header-background {
   background-color: @grey8;
 }
 
-.drk-skill-selector {
-  background-color: @aquaBlue;
-  color: white;
-  cursor: pointer;
-  &.disabled {
-    background-color: @grey5;
-    border-color: @grey5;
-    cursor: not-allowed;
-    pointer-events: initial;
-  }
-}
-
-.gl-drk12-transcript {
-  .gl-drk12-opponent-claim-info,
-  .gl-drk12-backing-generated-info {
+.drk-transcript {
+  .drk-opponent-claim-info,
+  .drk-backing-generated-info {
     p {
       margin-bottom: 1em;
     }
@@ -805,7 +881,7 @@ tr + tr.no-repeated-tr-content {
     }
   }
 
-  .gl-drk12-singleTable {
+  .drk-single-table {
     margin-top: 8px;
     width: 100%;
     >div {
@@ -818,7 +894,7 @@ tr + tr.no-repeated-tr-content {
       width: 100%;
     }
   }
-  .gl-drk12-doubleTable {
+  .drk-double-table {
     display: inline-block;
     vertical-align: top;
     width: 408px;
@@ -886,7 +962,7 @@ tr + tr.no-repeated-tr-content {
   white-space: nowrap;
 }
 
-.gl-drk12-legenditem {
+.drk-legend-item {
   font-size: 12px;
   margin-right: 16px;
   &:last-child {
@@ -925,18 +1001,29 @@ div.popover-content {
 
 // End overrides
 
-.gl-drk12-dropdowntextbutton {
+.drk-dropdown-text-button {
   text-align: left;
 }
 
-.gl-drk12-collapsebutton {
+.drk-collapse-button {
   background: none;
   border: none;
+  font-weight: 500;
   span:first-child {
-    color: #6CCAD9;
+    color: @aquaBlue;
     font-size: 22px;
+    font-weight: normal;
     display: inline-block;
     width: 15px;
+    &:active {
+      color: @aquaBlueDark;
+    }
+  }
+  &:hover {
+    color: @aquaBlue;
+  }
+  &:active {
+    color: @aquaBlueDark;
   }
 }
 
@@ -950,11 +1037,11 @@ div.popover-content {
   }
 }
 
-.gl-drk12-title {
+.drk-title {
   font-size: 16px;
 }
 
-.gl-drk12-titlecasesingleword {
+.drk-titlecase-single-word {
   display: inline-block;
   text-transform: lowercase;
   &::first-letter {
@@ -967,7 +1054,7 @@ div.popover-content {
 
 // Generic Text Area
 
-.gl-drk12-text {
+.drk-text {
   color: @grey2;
   font-size: 14px;
   line-height: 24px;
@@ -981,7 +1068,7 @@ div.popover-content {
   }
 }
 
-.gl-drk12-text-small {
+.drk-text-small {
   font-size: 12px;
   &.emphasis {
     font-weight: 500;
@@ -994,6 +1081,127 @@ div.popover-content {
     font-weight: normal;
   }
 }
+
+//////////////////// Re-styling the wheel /////////
+
+// Used http://cssdeck.com/labs/css-checkbox-styles as a starting spot
+.drk-custom-checkbox {
+  width: 16px;
+  position: relative;
+  input[type=checkbox] {
+    opacity: 0;
+  }
+  label:first-of-type {
+    background-color: #fff;
+    border: 2px solid @grey5;
+    cursor: pointer;
+    height: 20px;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    width: 20px;
+  }
+  label:after { // this creates the check mark
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 11px;
+    height: 5px;
+    background: transparent;
+    top: 5px;
+    left: 3px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-right: none;
+
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+
+  input[type=checkbox]:checked + label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+
+  input[type=checkbox]:checked + label {
+    border: 2px solid @aquaBlueDark;
+  }
+
+  input[type=checkbox]:checked + label:after {
+    border-color: @aquaBlueDark;
+  }
+
+  input[type=checkbox]:focus + label {
+    border: 2px solid @grey2;
+  }
+
+  input[type=checkbox]:checked:focus + label {
+    border: 2px solid @grey2;
+  }
+}
+
+// End custom checkbox
+
+// Custom radiobutton based on custom checkbox
+.drk-custom-radio {
+  width: 16px;
+  position: relative;
+  input[type=radio] {
+    opacity: 0;
+  }
+  label:first-of-type {
+    background-color: #fff;
+    border: 2px solid @grey5;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    width: 20px;
+  }
+  label:after { // this creates the check mark
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    content: '';
+    position: absolute;
+    background: transparent;
+    top: 3px;
+    left: 3px;
+    border: 5px solid @aquaBlue;
+    border-radius: 50%;
+  }
+
+  input[type=radio]:checked + label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+  }
+
+  input[type=radio]:checked + label {
+    border: 2px solid @aquaBlueDark;
+  }
+
+  input[type=radio]:checked + label:after {
+    border-color: @aquaBlueDark;
+  }
+
+  input[type=radio]:focus + label {
+    border: 2px solid @grey2;
+  }
+
+  input[type=radio]:checked:focus + label {
+    border: 2px solid @grey2;
+  }
+}
+
 
 /////////////////// Screen styles /////////////////
 @media screen {
@@ -1021,15 +1229,15 @@ div.popover-content {
     height: auto !important;
   }
 
-  .gl-drk12-l-container > h1 {
+  .drk-l-container > h1 {
     margin: 0;
   }
 
-  .gl-drk12-l-containerstudent {
+  .drk-l-containerstudent {
     padding-top: 8px;
   }
 
-  .table.gl-drk12-table td.disabled, .table.gl-drk12-table td.NotAvailable, .table.gl-drk12-table th.disabled, .table.gl-drk12-table th.NotAvailable {
+  .table.drk-table td.disabled, .table.drk-table td.NotAvailable, .table.drk-table th.disabled, .table.drk-table th.NotAvailable {
     * {
       color: @grey5 !important; // important to withstand default printing styles
     }
@@ -1049,7 +1257,7 @@ div.popover-content {
     }
   }
 
-  .gl-drk12-l-containerclass, .gl-drk12-helpicon, .dropdown-toggle {
+  .drk-l-containerclass, .drk-helpicon, .dropdown-toggle {
     display: none;
   }
 
