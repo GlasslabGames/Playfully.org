@@ -72,7 +72,7 @@ angular.module( 'instructor.reports')
             return sortStringsAndNumbers(first, second);
         });
 
-        ///// Setup options /////
+        /////////////////////////////////////////// Setup stuff ////////////////////////////
 
         // Games
         $scope.games.options = {}; // TODO: This appears to be report agnostic. Why is it placed in each report?
@@ -127,6 +127,20 @@ angular.module( 'instructor.reports')
         if (gameReports.hasOwnProperty('developer')) { // TODO: This appears to be report agnostic. Why is it placed in each report?
             $scope.developer.logo = gameReports.developer.logo;
         }
+
+        /////////////////////////////////////////// Child page stuff ////////////////////////////
+
+        $scope.openReportHelperView = function() {
+            var url = $state.href('root.cleanChrome.drk12ReportHelper', {gameId: $scope.games.selectedGameId, courseId: $scope.courses.selectedCourseId, location: $scope.selectedSkill});
+            window.open(url, '_child');
+        };
+
+        $scope.openInstructionPlanView = function() {
+            var url = $state.href('root.cleanChrome.drk12InstructionPlan', {gameId: $scope.games.selectedGameId, courseId: $scope.courses.selectedCourseId, location: $scope.selectedSkill});
+            window.open(url, '_child');
+        };
+
+        ///////////////////////////////////////////////////////////////////////////////////////////
 
         var populateStudentLearningData = function(usersReportData) {
             if (usersReportData) {

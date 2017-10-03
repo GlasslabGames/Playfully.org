@@ -46,6 +46,16 @@ angular.module( 'instructor.reports')
             return sortStringsAndNumbers(first, second);
         });
 
+        $scope.openReportHelperView = function() {
+            var url = $state.href('root.cleanChrome.drk12ReportHelper', {gameId: $scope.games.selectedGameId, courseId: $scope.courses.selectedCourseId, location: $scope.selectedSkill});
+            window.open(url, '_child');
+        };
+
+        $scope.openInstructionPlanView = function() {
+            var url = $state.href('root.cleanChrome.drk12InstructionPlan', {gameId: $scope.games.selectedGameId, courseId: $scope.courses.selectedCourseId, location: $scope.selectedSkill});
+            window.open(url, '_child');
+        };
+
         //////////////////// Magic Data of Various Sorts ////////////////////////////////////////
         var magicSkillValues = [
             {

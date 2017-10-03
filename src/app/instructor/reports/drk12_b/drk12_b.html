@@ -24,8 +24,8 @@
                 <div class="drk-text-button-group">
                     <h1 class="drk-heading">Performance Over Time</h1>
                     <div style="transform: translate(0, -6px);">
-                        <a ui-sref="root.cleanChrome.drk12ReportHelper({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_reportHelper">Report Helper</a>
-                        <a ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: games.selectedGameId, courseId: courses.selectedCourseId, location: selectedSkill})" class="btn drk-button-secondary" target="_instructionPlan">Instruction Plan</a>
+                        <button ng-click="openReportHelperView()" class="btn drk-button-secondary">Report Helper</button>
+                        <button ng-click="openInstructionPlanView()"  class="btn drk-button-secondary">Instruction Plan</button>
                         <button class="btn drk-button-secondary hide-for-printing" ng-click="printPage()">Print</button>
                     </div>
                 </div>

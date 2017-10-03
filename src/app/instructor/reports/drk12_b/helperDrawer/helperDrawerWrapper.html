@@ -34,16 +34,16 @@
                     <p class="sub-header">After reviewing the student data, make a plan to help students move toward the learning target for this skill.</p>
 
                     <div>
-                        <a class="btn drk-button-primary" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill})">Add New Plan</a>
+                        <button ng-click="openInstructionPlanView()" class="btn drk-button-secondary">Add New Plan</button>
                     </div>
 
                     <h3 aria-label="List of current plans">Current Plans</h3>
 
                     <div class="drk-l-current-plans-list">
-                        <a class="btn btn-default drk-currentPlanItem" ng-repeat="plan in instructionPlans" target="_instructionPlan" ui-sref="root.cleanChrome.drk12InstructionPlan({gameId: gameId, courseId: courseId, location: selectedSkill, noteId: plan.id})">
-                            <div>{{plan.note.name}}</div>
-                            <div>{{plan.date | date:'MMMM d, y'}}</div>
-                        </a>
+                        <button class="btn btn-default drk-currentPlanItem" ng-repeat="plan in instructionPlans" ng-click="openInstructionPlanView(plan.id)">
+                            <span>{{plan.note.name}}</span>
+                            <span>{{plan.date | date:'MMMM d, y'}}</span>
+                        </button>
                     </div>
                 </div>
             </div>

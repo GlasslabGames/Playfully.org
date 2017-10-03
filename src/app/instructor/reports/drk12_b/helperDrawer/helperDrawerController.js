@@ -70,9 +70,13 @@ angular.module( 'instructor.reports')
 
         $scope.format = 'yyyy-MM-dd';
 
-        Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location ).then(function(result) {
-            $scope.instructionPlans = result.data;
-        });
+        var retrieveInstructionPlans = function() {
+            Drk12Service.getInstructionPlans( $stateParams.courseId, $stateParams.gameId, $stateParams.location ).then(function(result) {
+                $scope.instructionPlans = result.data;
+            });
+        };
+
+        retrieveInstructionPlans();
 
         ///////////////////////////////////////////////////////////////
 
@@ -121,6 +125,20 @@ angular.module( 'instructor.reports')
                     $interval.cancel(interval);
                 }
             }, 2);
+        };
+
+        $scope.openInstructionPlanView = function(planId) {
+            var url = "";
+            if (planId) {
+                url = $state.href('root.cleanChrome.drk12InstructionPlan', {gameId: $scope.gameId, courseId: $scope.courseId, location: $scope.selectedSkill, noteId: planId});
+            } else {
+                url = $state.href('root.cleanChrome.drk12InstructionPlan', {gameId: $scope.gameId, courseId: $scope.courseId, location: $scope.selectedSkill});
+            }
+            window.open(url, '_instPlan');
+        };
+
+        window.instructionPlanSaved = function() {
+            retrieveInstructionPlans();
         };
 
         $timeout(function() { // make sure the page is loaded before doing this
