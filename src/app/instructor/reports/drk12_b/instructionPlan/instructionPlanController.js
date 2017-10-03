@@ -20,10 +20,12 @@ angular.module( 'instructor.reports')
             usingBacking: "Backing"
         };
 
-        window.addEventListener("beforeunload", function(event) { // Created to deal with having so many possible open tabs/windows
+        var beforeUnload = function(event) {
             event.returnValue = "Are you sure you want to leave this page?";
             return "Are you sure you want to leave this page?";
-        });
+        };
+
+        window.addEventListener("beforeunload", beforeUnload);
 
         //// Date stuff
 
@@ -70,9 +72,12 @@ angular.module( 'instructor.reports')
 
             $scope.submissionData.date = moment().format();
 
-            window.opener.instructionPlanSaved(); // Intended to let the Report Helper know a plan has been saved.
+            if (window.opener.instructionPlanSaved) {
+                window.opener.instructionPlanSaved(); // Intended to let the Report Helper know a plan has been saved.
+            }
 
             Drk12Service.uploadInstructionPlan( $stateParams.courseId, $stateParams.gameId, $stateParams.location, $scope.submissionData ).then(function() {
+                window.removeEventListener("beforeunload", beforeUnload);
                 $window.close();
             });
         };
