@@ -38,6 +38,10 @@ angular.module('user', [])
     	return _currentUser.id;
     },
 
+    currentUserEmail: function() {
+      return _currentUser.email;
+    },
+
     isAuthenticated: function() {
       return !!_currentUser;
     },

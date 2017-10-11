@@ -14,7 +14,7 @@ angular.module( 'instructor.reports')
             }
         });
     })
-    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, usersData, previousState) {
+    .controller('Drk12_bCtrl', function($scope, $state, $stateParams, $interval, myGames, defaultGame, gameReports, REPORT_CONSTANTS, ReportsService, Drk12Service, UserService, usersData, previousState) {
         ///// Setup selections /////
 
         // basic variable set up
@@ -172,6 +172,15 @@ angular.module( 'instructor.reports')
                 }
             }
             return null;
+        };
+
+        $scope.isReportHelperAllowed = function() {
+            var forbiddenUsers = [
+                "louis@concentricsky.com",
+                "raudette@nmrsd.org",
+                "carrieflagg@norton.k12.ma.us"
+            ];
+            return forbiddenUsers.indexOf(UserService.currentUserEmail()) < 0;
         };
 
         $scope.toggleStudentCheck = function(student) {
