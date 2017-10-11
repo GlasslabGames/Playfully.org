@@ -98,14 +98,14 @@
                             <td class="drk-table-x-name">{{student.firstName}} {{student.lastName}}</td>
                             <td ng-repeat="mission in student.results.missions"
                                 ng-click="navigateToDrilldown(student, student.results.missions[$index])"
-                                ng-class="(selectedSubSkill === 'all' ? mission.skillLevel[selectedSkill].level : subSkillPercentToLevel(mission.skillLevel[selectedSkill].detail[selectedSubSkill].correct / mission.skillLevel[selectedSkill].detail[selectedSubSkill].attempts, mission.skillLevel[selectedSkill].level))"
+                                ng-class="(selectedSubSkill === 'all' ? mission.skillLevel[selectedSkill].level : skillPercentToLevel(mission.skillLevel[selectedSkill].detail[selectedSubSkill].correct / mission.skillLevel[selectedSkill].detail[selectedSubSkill].attempts, mission.skillLevel[selectedSkill].level))"
                                 ng-class="{'disabled': mission.skillLevel[selectedSkill].level === 'NotAvailable'}">
                                 <div ng-if="mission.skillLevel[selectedSkill].level !== 'NotAvailable'">
                                     {{getSkillPercentForSelectedSkill(mission.skillLevel[selectedSkill])}}
                                 </div>
                             </td>
                             <td>
-                                <div ng-class="(selectedSubSkill === 'all' ? student.results.currentProgress.skillLevel[selectedSkill].level + '-average' : subSkillPercentToLevel(student.results.currentProgress.skillLevel[selectedSkill].detail[selectedSubSkill].average / 100, $index) + '-average')">
+                                <div ng-class="(selectedSubSkill === 'all' ? skillPercentToLevel(student.results.currentProgress.skillLevel[selectedSkill].average / 100, student.results.currentProgress.skillLevel[selectedSkill]) + '-average' : skillPercentToLevel(student.results.currentProgress.skillLevel[selectedSkill].detail[selectedSubSkill].average / 100, $index) + '-average')">
                                     {{getSkillAverageForSelectedSkill(student.results.currentProgress.skillLevel[selectedSkill])}}
                                 </div>
                             </td>

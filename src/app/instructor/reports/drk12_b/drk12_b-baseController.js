@@ -298,7 +298,7 @@ angular.module( 'instructor.reports')
             return average.toFixed(0) + "%";
         };
 
-        $scope.subSkillPercentToLevel = function(percent, parentSkillLevel) {
+        $scope.skillPercentToLevel = function(percent, parentSkillLevel) {
             if (parentSkillLevel === 'NotAvailable') {
                 return "NotAvailable";
             } else if (percent < 0.7) {
