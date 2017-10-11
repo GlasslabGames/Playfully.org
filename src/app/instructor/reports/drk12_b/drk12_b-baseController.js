@@ -180,7 +180,7 @@ angular.module( 'instructor.reports')
                 "raudette@nmrsd.org",
                 "carrieflagg@norton.k12.ma.us"
             ];
-            return forbiddenUsers.indexOf(UserService.currentUserEmail()) < 0;
+            return forbiddenUsers.indexOf(UserService.currentUserEmail().toLowerCase()) < 0;
         };
 
         $scope.toggleStudentCheck = function(student) {
