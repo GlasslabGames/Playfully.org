@@ -1633,8 +1633,8 @@ angular.module( 'instructor.reports')
         };
 
         var magicAttackIdValues = {
-            1: 'Contradictory',
-            2: 'Irrelevant',
+            1: 'Irrelevant',
+            2: 'Contradictory',
             101: 'How do you know that person is an authority?',
             102: 'Do other authorities agree?',
             103: 'Are there other interpretations of the observations?',
