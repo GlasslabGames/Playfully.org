@@ -185,7 +185,7 @@ angular.module( 'instructor.reports')
                 "mmcclain@sthelenaunified.org",
                 "estoloff@winthrop.k12.ma.us",
                 "jmathai@tywlsqueens.org",
-                "candacemiller691@gmail.com
+                "candacemiller691@gmail.com"
             ];
             return forbiddenUsers.indexOf(UserService.currentUserEmail().toLowerCase()) < 0;
         };
