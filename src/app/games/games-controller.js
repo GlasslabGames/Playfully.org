@@ -809,10 +809,12 @@ $stateProvider.state( 'modal.game-user-mismatch', {
         	embed = embed + (embed.indexOf('?') === -1 ? "?" : "&") + "sdkURI=" + ENV.game_sdkURI;
         }
         if (gameDetails.gameId.toUpperCase() === "GEM" ||
+            gameDetails.gameId.toUpperCase() === "GEMBW" ||
             gameDetails.gameId.toUpperCase() === "GEMAUDIO" ||
             gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPR" ||
             gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSPRTEST" ||
             gameDetails.gameId.toUpperCase() === "CIS" ||
+            gameDetails.gameId.toUpperCase() === "CISBW" ||
             gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSGJ" ||
             gameDetails.gameId.toUpperCase() === "TEACHABLEAGENTSGJTEST") {
             var foundCourse = _.find(activeCourses, function(course) { return course.id == $state.params.courseId; });
