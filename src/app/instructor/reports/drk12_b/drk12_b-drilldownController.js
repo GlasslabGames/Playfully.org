@@ -1,5 +1,5 @@
 angular.module( 'instructor.reports')
-    .controller('Drk12Drilldown', function($scope, $state, $window, $stateParams, myGames, defaultGame, gameReports, ReportsService, Drk12Service, usersData) {
+    .controller('Drk12Drilldown', function($scope, $state, $window, $stateParams, myGames, defaultGame, gameReports, UserService, ReportsService, Drk12Service, usersData) {
         $scope.skills = Drk12Service.skills;
         $scope.missionNumber = $stateParams.mission;
         $scope.isFooterOpened = false;
@@ -54,6 +54,10 @@ angular.module( 'instructor.reports')
         $scope.openInstructionPlanView = function() {
             var url = $state.href('root.cleanChrome.drk12InstructionPlan', {gameId: $scope.games.selectedGameId, courseId: $scope.courses.selectedCourseId, location: $scope.selectedSkill});
             window.open(url, '_child');
+        };
+
+        $scope.isReportHelperAllowed = function() {
+            return Drk12Service.reportHelperBlacklist.indexOf(UserService.currentUserEmail().toLowerCase()) < 0;
         };
 
         //////////////////// Magic Data of Various Sorts ////////////////////////////////////////

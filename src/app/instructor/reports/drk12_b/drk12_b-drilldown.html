@@ -34,7 +34,7 @@
                 <div class="drk-text">
                     <div class="drk-text-button-group">
                         <div class="drk-heading-secondary-small drk-heading">{{magicMissionDetails[selectedMission.mission].subTitle}}</div>
-                        <div>
+                        <div ng-if="isReportHelperAllowed()">
                             <button ng-click="openReportHelperView()" class="btn drk-button-secondary">Report Helper</button>
                             <button ng-click="openInstructionPlanView()" class="btn drk-button-secondary">Instruction Plan</button>
                             <button class="btn drk-button-secondary hide-for-printing" ng-click="printPage()">Print</button>

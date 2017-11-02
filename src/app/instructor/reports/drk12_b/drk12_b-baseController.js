@@ -175,19 +175,7 @@ angular.module( 'instructor.reports')
         };
 
         $scope.isReportHelperAllowed = function() {
-            var forbiddenUsers = [
-                "louis@concentricsky.com",
-                "raudette@nmrsd.org",
-                "carrieflagg@norton.k12.ma.us",
-                "brian.mcdowell@mason.kyschools.us",
-                "tlhuenink@sheboyganfalls.k12.wi.us",
-                "kbarteaux@yorkschools.org",
-                "mmcclain@sthelenaunified.org",
-                "estoloff@winthrop.k12.ma.us",
-                "jmathai@tywlsqueens.org",
-                "candacemiller691@gmail.com
-            ];
-            return forbiddenUsers.indexOf(UserService.currentUserEmail().toLowerCase()) < 0;
+            return Drk12Service.reportHelperBlacklist.indexOf(UserService.currentUserEmail().toLowerCase()) < 0;
         };
 
         $scope.toggleStudentCheck = function(student) {

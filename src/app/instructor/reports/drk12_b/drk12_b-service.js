@@ -11,6 +11,19 @@ angular.module( 'instructor.reports')
             return $http.post(API_BASE + '/lms/course/' + courseId + '/game/' + gameId + '/skill/' + skill + '/notes', submissionData );
         };
 
+        this.reportHelperBlacklist = [
+            "louis@concentricsky.com",
+            "raudette@nmrsd.org",
+            "carrieflagg@norton.k12.ma.us",
+            "brian.mcdowell@mason.kyschools.us",
+            "tlhuenink@sheboyganfalls.k12.wi.us",
+            "kbarteaux@yorkschools.org",
+            "mmcclain@sthelenaunified.org",
+            "estoloff@winthrop.k12.ma.us",
+            "jmathai@tywlsqueens.org",
+            "candacemiller691@gmail.com"
+        ];
+
         this.skills = {
             options: {
                 connectingEvidence: {
