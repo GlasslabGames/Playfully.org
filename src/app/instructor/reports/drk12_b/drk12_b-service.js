@@ -21,7 +21,9 @@ angular.module( 'instructor.reports')
             "mmcclain@sthelenaunified.org",
             "estoloff@winthrop.k12.ma.us",
             "jmathai@tywlsqueens.org",
-            "candacemiller691@gmail.com"
+            "candacemiller691@gmail.com",
+            "knelson@mvyps.org",
+            "llewis@nvusd.org"
         ];
 
         this.skills = {
