@@ -310,6 +310,7 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         };
 
         $scope.calculateTotal = function (price, seatChoice) {
+            /*
             var targetSeatTier = _.find($scope.choices.seats, {studentSeats: parseInt(seatChoice)});
             var result = {total: seatChoice * price};
 
@@ -328,6 +329,13 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
             $scope.info.CC.payment = parseFloat($scope.info.CC.payment);
             // Return the final and discounted total
             return result;
+            */
+
+            // GLAS-516 Prices are always zero
+            return {
+                total: 0,
+                discountedTotal: 0
+            };
         };
         $scope.requestPurchaseOrder = function (studentSeats,packageName, info) {
             var targetSeat = _.find($scope.choices.seats, {studentSeats: parseInt(studentSeats)});
@@ -420,9 +428,14 @@ angular.module('playfully.subscribe', ['subscribe.const','register.const'])
         });
 
         $scope.calculateTotal = function(price,seatChoice) {
+            /*
             var targetPackage = _.find(packages.seats, {studentSeats: seatChoice});
             var total = seatChoice * price;
             return total - (total* (targetPackage.discount/100));
+            */
+
+            // GLAS-516 Prices are always zero
+            return 0;
         };
                 
         $scope.impressionPackage = function(packageName, seatChoice) {
