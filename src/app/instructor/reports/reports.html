@@ -21,7 +21,7 @@
     <hr class="rule rule--aqua" />
 
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-12">
         Class:
         <div class="btn-group" dropdown is-open="courses.isOpen">
           <button type="button" class="btn btn-default gl-reports-dropdown--course"
@@ -40,6 +40,7 @@
             </li>
           </ul>
         </div>
+        &nbsp;
         Game:
         <div class="btn-group gl-reports-game-selector" dropdown is-open="games.isOpen">
           <button type="button" class="btn btn-default gl-reports-dropdown--game"
@@ -77,6 +78,15 @@
                  ng-bind="report.name"></a>
             </li>
           </ul>
+        </div>
+        &nbsp;
+        &nbsp;
+        <div class="gl-map-viewer-link"
+             ng-click="goToMapViewer(courses.selectedCourseId)"
+             ng-show="courses.selectedCourseId && games.selectedGameId && isStanfordGameId(games.selectedGameId)">
+          <span class="gl-map-viewer-logo"></span>
+          &nbsp;
+          Map Viewer
         </div>
       </div>
 

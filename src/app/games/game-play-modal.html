@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body">
-    <div ng-if="gamePlayInfo.embed && gamePlayInfo.format=='html'" class="gl-gamePlayInfo-embedded">
+    <div ng-if="gamePlayInfo.embed && gamePlayInfo.format=='swf'" class="gl-gamePlayInfo-embedded">
         <object name="flashObj" type="application/x-shockwave-flash" data="{{gamePlayInfo.embed}}" width="{{gamePlayInfo.size.width}}" height="{{gamePlayInfo.size.height}}" style="float: none; vertical-align:middle">
             <param name="movie" value="{{gamePlayInfo.embed}}" />
             <param name="quality" value="high" />

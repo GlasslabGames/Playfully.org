@@ -67,6 +67,77 @@ angular.module( 'instructor.reports', [
                     pageTitle: 'Reports'
                 }
             })
+            .state('modal-xxxlg.map-viewer', {
+                url: '/reports/mapviewer/game/:gameId/course/:courseId',
+                data:{
+                    pageTitle: 'Map Viewer',
+                    authorizedRoles: ['instructor','admin']
+                },
+                onEnter: function($state, $interval, $timeout, UserService){
+                    $state.checkLogin = null;
+
+                    UserService.retrieveCurrentUser()
+                        .success(function(data) {
+                            $state.activeUserId = data.id;
+                            $state.checkLogin = $interval(function () {
+                                UserService.retrieveCurrentUser()
+                                    .success(function(data) {
+                                        if ($state.activeUserId != data.id) {
+                                            if ($state.checkLogin) {
+                                                $interval.cancel($state.checkLogin);
+                                                $state.checkLogin = null;
+                                            }
+                                            $state.go('modal.game-user-mismatch', { }, {location: false});
+                                        }
+                                    })
+                                    .error(function() {
+                                        if ($state.checkLogin) {
+                                            $interval.cancel($state.checkLogin);
+                                            $state.checkLogin = null;
+                                        }
+                                        $state.go('modal.game-user-mismatch', { }, {location: false});
+                                    });
+                            }, 5000); // poll every 5 seconds to see if user changed/logged-out
+                        })
+                        .error(function() {
+                            // failed -- abort game load
+                            $state.go('modal.game-user-mismatch', { }, {location: false});
+                        });
+                },
+                onExit: function($state, $interval){
+                    if ($state.checkLogin) {
+                        $interval.cancel($state.checkLogin);
+                        $state.checkLogin = null;
+                    }
+                },
+                resolve: {
+                    gameDetails: function($stateParams, GamesService) {
+                        return GamesService.getDetail($stateParams.gameId);
+                    },
+                    activeCourses: function(CoursesService, $filter) {
+                        return CoursesService.getEnrollments()
+                            .then(function(response) {
+                                var filtered = $filter('filter')(response, {archived: false});
+                                return filtered;
+                            });
+                    },
+                    validAccess: function($state, $stateParams, GamesService) {
+                        return GamesService.hasAccessToGameInCourse($stateParams.gameId, $stateParams.courseId)
+                            .then(function (response) {
+                                return response.data;
+                            }, function (response) {
+                                $state.go('root.home.default');
+                                return response;
+                            });
+                    }
+                },
+                views: {
+                    'modal@': {
+                        templateUrl: 'games/game-play-modal.html',
+                        controller: 'MapViewerModalCtrl'
+                    }
+                }
+            })
 
             /**
              * If the user navigates the default Reports route, we need to choose
@@ -407,7 +478,7 @@ angular.module( 'instructor.reports', [
             });
     })
 
-    .controller('ReportsCtrl', function ($scope, $log, $state, $stateParams, myGames, activeCourses, gameReports) {
+    .controller('ReportsCtrl', function ($scope, $window, $log, $state, $stateParams, myGames, activeCourses, gameReports) {
 
         $scope.reportDisplayType = 'wide';
         $scope.isStudentListVisible = false;
@@ -596,10 +667,28 @@ angular.module( 'instructor.reports', [
         $scope.isIE = function () {
             return $window.navigator.userAgent.test(/trident/i);
         };
+
+        $scope.isStanfordGameId = function (gameId) {
+            return $scope.games.options[gameId] && $scope.games.options[gameId].isStanford && $scope.games.options[gameId].isStanford === true;
+        };
+
+        $scope.goToMapViewer = function (courseId) {
+            $state.go('modal-xxxlg.map-viewer', {gameId: 'TAMAP', courseId: courseId});
+        };
     })
 
     .controller('ReportsDetailCtrl', function($scope, $log, $state, $stateParams, gameReports, myGames, ReportsService, REPORT_CONSTANTS,localStorageService) {
         // TODO: Not sure why this is here and empty. Boilerplate that was going to be used but never was?
+    })
+
+    .controller('MapViewerModalCtrl', function ($scope, $state, gameDetails, activeCourses) {
+        $scope.gamePlayInfo = {};
+        if(gameDetails &&
+            gameDetails.play &&
+            gameDetails.play.page ) {
+            $scope.gamePlayInfo = gameDetails.play.page;
+            $scope.gamePlayInfo.title = gameDetails.longName;
+        }
     });
 
 
