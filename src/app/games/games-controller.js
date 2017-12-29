@@ -176,6 +176,8 @@ $stateProvider.state( 'modal.game-user-mismatch', {
     },
     onEnter: function($state, $interval, $timeout, UserService){
          $state.checkLogin = null;
+
+         var userLookupError = false;
          
          UserService.retrieveCurrentUser()
          .success(function(data) {
@@ -183,22 +185,27 @@ $stateProvider.state( 'modal.game-user-mismatch', {
             $state.checkLogin = $interval(function () {
                 UserService.retrieveCurrentUser()
                 .success(function(data) {
-                     if ($state.activeUserId != data.id) {
-                         if ($state.checkLogin) {
+                    userLookupError = false;
+                    if ($state.activeUserId != data.id) {
+                        if ($state.checkLogin) {
                             $interval.cancel($state.checkLogin);
                             $state.checkLogin = null;
-                         }
-                         $state.go('modal.game-user-mismatch', { }, {location: false});
-                     }
+                        }
+                        $state.go('modal.game-user-mismatch', { }, {location: false});
+                    }
                 })
                 .error(function() {
-                    if ($state.checkLogin) {
-                       $interval.cancel($state.checkLogin);
-                       $state.checkLogin = null;
+                    if (!userLookupError) {
+                        userLookupError = true;
+                    } else {
+                        if ($state.checkLogin) {
+                            $interval.cancel($state.checkLogin);
+                            $state.checkLogin = null;
+                        }
+                        $state.go('modal.game-user-mismatch', {}, {location: false});
                     }
-                    $state.go('modal.game-user-mismatch', { }, {location: false});
                 });
-            }, 5000); // poll every 5 seconds to see if user changed/logged-out
+            }, 10000); // poll every 10 seconds to see if user changed/logged-out
          })
          .error(function() {
             // failed -- abort game load
